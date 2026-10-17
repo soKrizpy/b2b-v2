@@ -239,8 +239,9 @@ class SmartAdminQueryBuilder {
       const res = await this.replayOn(realClient as unknown as { from: (t: string) => unknown });
       if (res?.error) {
         const err = res.error as { code?: string; message?: string };
-        // Only fallback to mock if the table itself doesn't exist in Supabase schema (PGRST205)
-        if (err?.code === 'PGRST205') {
+        // Fallback to mock if the table or column doesn't exist in the Supabase schema
+        // PGRST205 = relationship not found, 42703 = column not found, 42P01 = table not found
+        if (err?.code === 'PGRST205' || err?.code === '42703' || err?.code === '42P01') {
           return this.replayOn(mockClient);
         }
       }

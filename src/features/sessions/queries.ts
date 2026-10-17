@@ -246,7 +246,7 @@ export async function getTeacherOptions(): Promise<TeacherOption[]> {
 
   const { data: profiles, error } = await db
     .from('profiles')
-    .select('*')
+    .select('id, role, full_name, created_at')
     .eq('role', 'teacher')
     .order('full_name', { ascending: true });
 
@@ -258,13 +258,11 @@ export async function getTeacherOptions(): Promise<TeacherOption[]> {
   const rows = (profiles ?? []) as unknown as Array<{
     id: string;
     full_name: string | null;
-    email?: string | null;
   }>;
 
-  const needsAuthLookup = rows.some((r) => !r.email);
+  // Always fetch emails from auth.admin since profiles table doesn't have an email column
   let emailMap = new Map<string, string>();
-
-  if (needsAuthLookup && rows.length > 0) {
+  if (rows.length > 0) {
     const { data: authList } = await db.auth.admin.listUsers({ perPage: 1000 });
     emailMap = new Map<string, string>(
       (authList?.users ?? []).map((u) => [u.id, u.email ?? ''])
@@ -274,7 +272,7 @@ export async function getTeacherOptions(): Promise<TeacherOption[]> {
   return rows.map((row) => ({
     id:        row.id,
     full_name: row.full_name,
-    email:     row.email ?? emailMap.get(row.id) ?? null,
+    email:     emailMap.get(row.id) ?? null,
   }));
 }
 

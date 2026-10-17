@@ -219,7 +219,7 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
   ] = await Promise.all([
     db
       .from('profiles')
-      .select('*')
+      .select('id, role, full_name, created_at')
       .eq('role', 'teacher')
       .order('full_name', { ascending: true }),
     db.from('meetings').select('id, teacher_id'),
@@ -235,12 +235,12 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
   const profileRows = (profiles ?? []) as unknown as Array<{
     id: string;
     full_name: string | null;
-    email?: string | null;
     created_at: string | null;
   }>;
 
+  // Always fetch emails from auth.admin since profiles table doesn't have an email column
   let emailMap = new Map<string, string>();
-  if (profileRows.some((p) => !p.email) && profileRows.length > 0) {
+  if (profileRows.length > 0) {
     const { data: authList } = await db.auth.admin.listUsers({ perPage: 1000 });
     emailMap = new Map<string, string>(
       (authList?.users ?? []).map((u) => [u.id, u.email ?? ''])
@@ -299,7 +299,7 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
     return {
       id:                row.id,
       full_name:         row.full_name,
-      email:             row.email ?? emailMap.get(row.id) ?? null,
+      email:             emailMap.get(row.id) ?? null,
       created_at:        row.created_at,
       session_count:     sessionMap.get(row.id) ?? 0,
       student_count:     enrolled_students.length,
