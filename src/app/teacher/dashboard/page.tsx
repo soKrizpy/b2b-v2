@@ -1,15 +1,15 @@
 // src/app/teacher/dashboard/page.tsx
-// Teacher dashboard — shows greeting hero with atmosphere, mentored students, and tabbed 3-column schedule.
+// Teacher dashboard — shows greeting hero with atmosphere and tabbed 3-column schedule.
 import type { Metadata } from "next";
 import { getSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getSessionsForTeacher } from "@/features/sessions/queries";
 import { getStudentsForTeacher } from "@/features/users/queries";
-import { TeacherStudentsWidget } from "@/features/dashboard/teacher/TeacherStudentsWidget";
 import { TeacherScheduleCards } from "@/features/dashboard/teacher/TeacherScheduleCards";
 import { isUpcoming, isLive, formatDateTime } from "@/lib/formatDate";
 import { AnnouncementBanner } from "@/features/announcements/components/AnnouncementBanner";
 import { HeroAtmosphere } from "@/components/common/HeroAtmosphere";
+import Link from "next/link";
 
 export const metadata: Metadata = { title: "Dasbor Guru — Bits2Bytes" };
 export const dynamic = "force-dynamic";
@@ -79,8 +79,27 @@ export default async function TeacherDashboardPage() {
         </div>
       </div>
 
-      {/* ── Mentored Students Widget ────────────────────────── */}
-      <TeacherStudentsWidget students={mentoredStudents} />
+      {/* ── Mentored Students Quick Link ─────────────────────── */}
+      <Link
+        href="/teacher/students"
+        className="flex items-center gap-4 rounded-2xl px-5 py-4
+          bg-white dark:bg-zinc-900/80 border border-blue-200/60 dark:border-purple-500/30
+          hover:border-blue-400 dark:hover:border-purple-500/60 hover:shadow-md
+          transition-all duration-200 group"
+      >
+        <div className="w-10 h-10 rounded-2xl bg-blue-500/10 dark:bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+          <i className="fa-solid fa-user-graduate text-blue-600 dark:text-purple-300" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-extrabold text-sm text-slate-900 dark:text-white">
+            Siswa Bimbingan Saya
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {mentoredStudents.length} siswa — lihat detail modul, badge, sertifikat & tugas
+          </p>
+        </div>
+        <i className="fa-solid fa-chevron-right text-slate-400 dark:text-slate-600 group-hover:text-blue-500 dark:group-hover:text-purple-400 transition-colors" />
+      </Link>
 
       {/* ── Jadwal Kelas (Tabbed 3-Column Grid) ─────────────── */}
       <section>

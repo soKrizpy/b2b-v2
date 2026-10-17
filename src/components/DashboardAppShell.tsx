@@ -22,6 +22,7 @@ import {
   Map,
   Trophy,
   HeartHandshake,
+  GraduationCap,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -56,7 +57,8 @@ const ROLE_NAV: Record<
   ],
   teacher: [
     { href: '/teacher/dashboard',   label: 'Dasbor',      icon: LayoutDashboard },
-    { href: '/teacher/submissions', label: 'Submissions', icon: FileCheck2 },
+    { href: '/teacher/students',    label: 'Siswa Saya',  icon: GraduationCap },
+    { href: '/teacher/submissions', label: 'Tugas Siswa', icon: FileCheck2 },
   ],
   student: [
     { href: '/student/dashboard',    label: 'Town Square',      icon: Sparkles },
