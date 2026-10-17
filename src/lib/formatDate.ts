@@ -47,3 +47,15 @@ export function isToday(iso: string): boolean {
     d.getDate() === now.getDate()
   );
 }
+
+/** Returns true when the meeting date is tomorrow. */
+export function isTomorrow(iso: string): boolean {
+  const d = new Date(iso);
+  const tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+  return (
+    d.getFullYear() === tmr.getFullYear() &&
+    d.getMonth() === tmr.getMonth() &&
+    d.getDate() === tmr.getDate()
+  );
+}
