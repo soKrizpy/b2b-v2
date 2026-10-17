@@ -1,6 +1,11 @@
 'use client';
 // src/features/dashboard/teacher/TeacherScheduleCards.tsx
-// Tabbed schedule view for teacher: Today / Tomorrow / Past / Unreported
+// Redesigned 3-Column Schedule Card Grid for Teacher Dashboard.
+// Features:
+//   - Tab bar: Hari Ini (today), Besok (tomorrow), Riwayat (past), Laporan Belum Selesai (unreported)
+//   - 3-Column balanced responsive card grid (matching Student Dashboard layout)
+//   - Zero color leaks: strict light/dark mode pairings with neon accents
+//   - Progress report draft & completion actions
 
 import { useState, useMemo } from 'react';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
@@ -11,7 +16,6 @@ import {
   isUpcoming,
   formatDate,
   formatTime,
-  formatDateTime,
 } from '@/lib/formatDate';
 import { TeacherCompleteAction } from '@/features/sessions/components/TeacherCompleteAction';
 
@@ -21,192 +25,251 @@ interface Props {
   meetings: MeetingWithStudents[];
 }
 
-// ── Tab config ────────────────────────────────────────────────────────────────
-
 interface TabConfig {
   key: Tab;
   label: string;
-  badgeColor: string;
+  icon: string;
 }
 
 const TABS: TabConfig[] = [
-  { key: 'today',      label: 'Hari Ini',       badgeColor: 'bg-amber-500 text-white' },
-  { key: 'tomorrow',   label: 'Besok',           badgeColor: 'bg-sky-500 text-white' },
-  { key: 'past',       label: 'Sebelumnya',      badgeColor: 'bg-slate-400 text-white dark:bg-slate-600' },
-  { key: 'unreported', label: 'Belum Laporan',   badgeColor: '' /* dynamic */ },
+  { key: 'today',      label: 'Hari Ini',                icon: 'fa-solid fa-calendar-day' },
+  { key: 'tomorrow',   label: 'Besok',                   icon: 'fa-solid fa-calendar-plus' },
+  { key: 'past',       label: 'Riwayat Kelas',           icon: 'fa-solid fa-clock-rotate-left' },
+  { key: 'unreported', label: 'Laporan Belum Selesai',   icon: 'fa-solid fa-clipboard-question' },
 ];
 
 // ── Empty state ───────────────────────────────────────────────────────────────
 
 function EmptyState({ tab }: { tab: Tab }) {
-  const map: Record<Tab, { icon: string; text: string }> = {
-    today:      { icon: 'fa-solid fa-calendar-day',    text: 'Tidak ada kelas hari ini.' },
-    tomorrow:   { icon: 'fa-solid fa-calendar-plus',   text: 'Tidak ada kelas besok.' },
-    past:       { icon: 'fa-solid fa-calendar-xmark',  text: 'Belum ada riwayat kelas.' },
-    unreported: { icon: 'fa-solid fa-clipboard-check', text: 'Semua kelas sudah dilaporkan. ✓' },
+  const map: Record<Tab, { icon: string; title: string; subtitle: string }> = {
+    today: {
+      icon: 'fa-solid fa-calendar-check text-cyan-500 dark:text-cyan-400',
+      title: 'Tidak Ada Kelas Hari Ini',
+      subtitle: 'Semua jadwal hari ini telah tuntas atau belum ada sesi yang dijadwalkan.',
+    },
+    tomorrow: {
+      icon: 'fa-solid fa-calendar-plus text-sky-500 dark:text-sky-400',
+      title: 'Tidak Ada Kelas Besok',
+      subtitle: 'Nikmati waktu persiapan atau cek riwayat kelas sebelumnya.',
+    },
+    past: {
+      icon: 'fa-solid fa-calendar-xmark text-slate-400 dark:text-slate-500',
+      title: 'Belum Ada Riwayat Kelas',
+      subtitle: 'Sesi yang telah selesai akan otomatis diarsipkan di sini.',
+    },
+    unreported: {
+      icon: 'fa-solid fa-circle-check text-emerald-500 dark:text-emerald-400',
+      title: 'Semua Laporan Telah Selesai! ✓',
+      subtitle: 'Hebat! Seluruh sesi kelas telah memiliki catatan progress siswa yang lengkap.',
+    },
   };
-  const { icon, text } = map[tab];
+
+  const { icon, title, subtitle } = map[tab];
+
   return (
-    <div className="py-12 flex flex-col items-center gap-3 text-slate-400 dark:text-slate-500">
-      <i className={`${icon} text-3xl`} />
-      <p className="text-sm font-semibold">{text}</p>
+    <div className="py-14 px-6 rounded-3xl border-2 border-dashed border-blue-400/30 dark:border-purple-500/30
+      bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm flex flex-col items-center text-center gap-3 animate-fade-in-up">
+      <div className="w-14 h-14 rounded-2xl bg-blue-500/10 dark:bg-purple-500/15 border border-blue-400/20 dark:border-purple-400/20
+        flex items-center justify-center text-2xl mb-1 shadow-sm">
+        <i className={icon} />
+      </div>
+      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
+        {title}
+      </h3>
+      <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm">
+        {subtitle}
+      </p>
     </div>
   );
 }
 
-// ── Single meeting card ───────────────────────────────────────────────────────
+// ── Single Meeting Card (3-Column Grid Layout) ────────────────────────────────
 
-function MeetingCard({ m, showUnreportedWarning }: { m: MeetingWithStudents; showUnreportedWarning?: boolean }) {
+function MeetingCard({
+  m,
+  showUnreportedWarning,
+}: {
+  m: MeetingWithStudents;
+  showUnreportedWarning?: boolean;
+}) {
   const live      = isLive(m.meeting_date);
   const completed = m.is_completed;
+  const hasReport = Boolean(m.progress_report && m.progress_report.trim().length > 0);
 
   const studentNames = m.meeting_students
     .map((ms) => ms.students?.full_name ?? '')
     .filter(Boolean)
     .join(', ');
 
-  const ringClass = completed
-    ? 'border-l-4 border-l-emerald-500 ring-1 ring-slate-200/80 dark:ring-white/10'
-    : live
-    ? 'ring-2 ring-rose-400 dark:ring-rose-500/60'
+  const ringStyle = live
+    ? 'border-2 border-rose-500 shadow-rose-500/20 ring-2 ring-rose-400/50'
+    : completed
+    ? 'border border-emerald-500/40 dark:border-emerald-500/30 shadow-emerald-500/5'
     : showUnreportedWarning
-    ? 'ring-2 ring-amber-400 dark:ring-amber-500/50'
-    : 'ring-1 ring-slate-200/80 dark:ring-white/10';
+    ? 'border-2 border-amber-400/80 dark:border-amber-500/60 shadow-amber-500/10'
+    : 'border border-blue-400/35 dark:border-purple-500/35 hover:border-blue-500 dark:hover:border-purple-400';
 
   return (
     <div
-      className={`bg-white dark:bg-[var(--surface)] rounded-3xl shadow-sm overflow-hidden
-        transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 animate-fade-in-up
-        ${ringClass}`}
+      className={`h-full flex flex-col justify-between rounded-3xl bg-white dark:bg-zinc-900/90
+        p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5
+        transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden
+        ${ringStyle}`}
     >
-      {/* Live banner */}
-      {live && !completed && (
-        <div className="bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-black px-5 py-2.5 flex items-center gap-2.5">
-          <i className="fa-solid fa-tower-broadcast fa-beat-fade text-rose-200 text-base" />
-          <i className="fa-solid fa-video me-1" /> KELAS SEDANG BERLANGSUNG
-        </div>
-      )}
+      {/* Top ambient color bar indicator */}
+      <div
+        className={`absolute top-0 inset-x-0 h-1.5 ${
+          live
+            ? 'bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 animate-pulse'
+            : completed
+            ? 'bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500'
+            : showUnreportedWarning
+            ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500'
+            : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500'
+        }`}
+      />
 
-      {/* Top accent bar (upcoming, not live) */}
-      {!live && !completed && (
-        <div className={`h-1.5 bg-gradient-to-r ${showUnreportedWarning
-          ? 'from-amber-400 via-orange-500 to-rose-500'
-          : 'from-sky-400 via-indigo-500 to-violet-500'
-        }`} />
-      )}
-
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          {/* Info */}
-          <div className="min-w-0 flex-1 space-y-1.5">
-            {/* Badge row */}
-            <div className="flex items-center gap-2 flex-wrap">
-              {m.session_count > 1 && (
-                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-                  Sesi {m.session_number}/{m.session_count}
-                </span>
-              )}
-              {live && !completed && (
-                <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-rose-500 text-white uppercase tracking-wide">
-                  ● LIVE
-                </span>
-              )}
-              {completed && (
-                <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">
-                  ✓ Selesai
-                </span>
-              )}
-            </div>
-
-            {/* Title */}
-            <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug">
-              {m.title}
-            </h3>
-
-            {/* Date & time */}
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-3">
-              <span className="flex items-center gap-1.5">
-                <i className="fa-solid fa-calendar text-indigo-500" />
-                {formatDate(m.meeting_date)}
+      <div className="space-y-3.5 pt-1">
+        {/* Row 1: Session Tag & Status Badges */}
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {m.session_count > 1 ? (
+              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
+                bg-blue-500/10 text-blue-700 dark:bg-purple-500/15 dark:text-purple-300
+                border border-blue-400/30 dark:border-purple-500/30">
+                Sesi {m.session_number}/{m.session_count}
               </span>
-              <span className="text-slate-300 dark:text-white/20">•</span>
-              <span className="flex items-center gap-1.5">
-                <i className="fa-solid fa-clock text-indigo-500" />
-                {formatTime(m.meeting_date)}
+            ) : (
+              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
+                bg-blue-500/10 text-blue-700 dark:bg-purple-500/15 dark:text-purple-300
+                border border-blue-400/30 dark:border-purple-500/30">
+                Sesi Tunggal
               </span>
-            </p>
-
-            {/* Students */}
-            {m.meeting_students.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-1">
-                {m.meeting_students.map((ms) => (
-                  <span
-                    key={ms.student_id}
-                    className="inline-flex items-center gap-1.5 text-xs
-                      bg-indigo-500/10 text-indigo-900 dark:text-indigo-300 px-3 py-1.5 rounded-2xl font-bold
-                      border border-indigo-500/20"
-                  >
-                    <i className="fa-solid fa-user-graduate text-indigo-500 text-[11px]" />
-                    {ms.students?.full_name ?? '–'}
-                  </span>
-                ))}
-              </div>
             )}
 
-            {/* Progress report snippet (completed) */}
-            {completed && m.progress_report && (
-              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 italic line-clamp-2 bg-slate-50 dark:bg-white/5 rounded-xl px-3 py-2">
-                &ldquo;{m.progress_report.slice(0, 100)}{m.progress_report.length > 100 ? '…' : ''}&rdquo;
-              </p>
+            {live && !completed && (
+              <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full
+                bg-rose-500 text-white shadow-sm shadow-rose-500/40 animate-pulse font-mono">
+                <i className="fa-solid fa-tower-broadcast text-[9px] fa-beat-fade" />
+                LIVE
+              </span>
             )}
 
-            {/* Unreported warning chip */}
-            {showUnreportedWarning && !completed && (
-              <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold
-                bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400
-                border border-amber-200 dark:border-amber-500/30 px-3 py-1.5 rounded-xl">
-                <i className="fa-solid fa-triangle-exclamation" />
-                Belum ada laporan
-              </div>
+            {completed && (
+              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full
+                bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 font-mono">
+                <i className="fa-solid fa-check text-[9px]" />
+                Selesai
+              </span>
             )}
           </div>
 
-          {/* Actions */}
-          {!completed && (
-            <div className="flex items-center gap-2.5 flex-shrink-0 flex-wrap">
-              {m.link_url && (
-                <a
-                  href={m.link_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`group inline-flex items-center gap-2 rounded-2xl px-4 py-2.5
-                    text-xs font-black transition-all duration-150 shadow-md
-                    hover:shadow-lg active:scale-95 hover:-translate-y-0.5
-                    ${live
-                      ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 text-white shadow-rose-500/20'
-                      : 'bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 text-white shadow-indigo-500/20'
-                    }`}
+          <div className="text-[11px] font-extrabold text-slate-500 dark:text-slate-400 flex items-center gap-1 font-mono">
+            <i className="fa-solid fa-clock text-blue-500 dark:text-purple-400 text-[10px]" />
+            <span>{formatTime(m.meeting_date)}</span>
+          </div>
+        </div>
+
+        {/* Row 2: Title */}
+        <div>
+          <h3 className="font-black text-slate-900 dark:text-white text-sm sm:text-base leading-snug line-clamp-2
+            group-hover:text-blue-600 dark:group-hover:text-purple-300 transition-colors">
+            {m.title}
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1 flex items-center gap-2">
+            <i className="fa-solid fa-calendar-day text-blue-500 dark:text-purple-400 text-[11px]" />
+            <span>{formatDate(m.meeting_date)}</span>
+          </p>
+        </div>
+
+        {/* Row 3: Enrolled Students */}
+        {m.meeting_students.length > 0 && (
+          <div className="space-y-1.5 pt-1">
+            <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
+              <i className="fa-solid fa-user-group text-[9px]" />
+              Siswa Terdaftar ({m.meeting_students.length})
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {m.meeting_students.map((ms) => (
+                <span
+                  key={ms.student_id}
+                  className="inline-flex items-center gap-1 text-xs font-bold
+                    bg-slate-100 dark:bg-zinc-800/80 text-slate-700 dark:text-zinc-200 px-2.5 py-1 rounded-xl
+                    border border-slate-200/80 dark:border-zinc-700/60 transition-colors"
                 >
-                  <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
-                  {live ? 'Masuk Kelas' : 'Buka Meeting'}
-                </a>
-              )}
-              <TeacherCompleteAction
-                meetingId={m.id}
-                meetingTitle={m.title}
-                studentNames={studentNames}
-              />
+                  <i className="fa-solid fa-user-graduate text-[10px] text-blue-500 dark:text-purple-400" />
+                  <span className="truncate max-w-[130px]">
+                    {ms.students?.full_name?.split(' ')[0] ?? 'Siswa'}
+                  </span>
+                </span>
+              ))}
             </div>
-          )}
+          </div>
+        )}
+
+        {/* Row 4: Progress Report Note or Unreported Warning */}
+        {completed && hasReport && (
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/60 dark:border-zinc-800 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+            <p className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+              <i className="fa-solid fa-clipboard-check text-[10px]" /> Catatan Progress:
+            </p>
+            <p className="italic line-clamp-2 leading-relaxed">
+              &ldquo;{m.progress_report}&rdquo;
+            </p>
+          </div>
+        )}
+
+        {showUnreportedWarning && !hasReport && (
+          <div className="p-3 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-400/40 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-2">
+            <i className="fa-solid fa-triangle-exclamation text-amber-500 dark:text-amber-400 text-sm flex-shrink-0" />
+            <span className="leading-snug">
+              Belum ada laporan progress siswa untuk sesi ini.
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Row 5: Action Buttons */}
+      <div className="pt-4 mt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-2.5 flex-wrap">
+        {m.link_url && !completed && (
+          <a
+            href={m.link_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+              text-xs font-black transition-all duration-200 shadow-md active:scale-95
+              ${
+                live
+                  ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/50'
+                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 dark:from-purple-600 dark:to-indigo-600 dark:hover:from-purple-500 dark:hover:to-indigo-500 text-white shadow-blue-500/20 dark:shadow-purple-500/20'
+              }`}
+          >
+            <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
+            <span>{live ? 'Masuk Kelas' : 'Buka Meeting'}</span>
+          </a>
+        )}
+
+        <div className={m.link_url && !completed ? 'flex-shrink-0' : 'w-full'}>
+          <TeacherCompleteAction
+            meetingId={m.id}
+            meetingTitle={m.title}
+            studentNames={studentNames}
+            buttonText={completed ? '✏️ Edit Laporan' : '✓ Tandai & Lapor'}
+            variant={completed ? 'secondary' : 'primary'}
+            className={m.link_url && !completed ? '' : 'w-full justify-center'}
+            initialReport={m.progress_report}
+          />
         </div>
       </div>
     </div>
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export function TeacherScheduleCards({ meetings }: Props) {
+  const nowMs = Date.now();
+
   // Derive tab buckets
   const todayMeetings = useMemo(
     () => meetings.filter((m) => isToday(m.meeting_date)),
@@ -231,34 +294,35 @@ export function TeacherScheduleCards({ meetings }: Props) {
           (a, b) =>
             new Date(b.meeting_date).getTime() -
             new Date(a.meeting_date).getTime()
-        )
-        .slice(0, 20),
+        ),
     [meetings]
   );
 
+  // Unreported: past sessions or today's sessions that have ended or completed without a report
   const unreportedMeetings = useMemo(
     () =>
       meetings
-        .filter(
-          (m) =>
-            !m.is_completed &&
-            !isUpcoming(m.meeting_date) &&
-            !isToday(m.meeting_date)
-        )
+        .filter((m) => {
+          const mTime = new Date(m.meeting_date).getTime();
+          const isPassedOrEnded = mTime < nowMs;
+          const isMissingReport = !m.progress_report || m.progress_report.trim().length === 0;
+          return isPassedOrEnded && (!m.is_completed || isMissingReport);
+        })
         .sort(
           (a, b) =>
             new Date(b.meeting_date).getTime() -
             new Date(a.meeting_date).getTime()
         ),
-    [meetings]
+    [meetings, nowMs]
   );
 
-  // Default active tab
+  // Default active tab: prioritize Today, then Tomorrow, then Unreported (if any), then Past
   const defaultTab: Tab = useMemo(() => {
     if (todayMeetings.length > 0) return 'today';
     if (tomorrowMeetings.length > 0) return 'tomorrow';
+    if (unreportedMeetings.length > 0) return 'unreported';
     return 'past';
-  }, [todayMeetings.length, tomorrowMeetings.length]);
+  }, [todayMeetings.length, tomorrowMeetings.length, unreportedMeetings.length]);
 
   const [activeTab, setActiveTab] = useState<Tab>(defaultTab);
 
@@ -277,38 +341,42 @@ export function TeacherScheduleCards({ meetings }: Props) {
   }[activeTab];
 
   return (
-    <div className="space-y-5">
-      {/* ── Tab bar ─────────────────────────────────────────── */}
+    <div className="space-y-6">
+      {/* ── Modern Tabs Navigation with Counts ──────────────── */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
         {TABS.map((tab) => {
-          const isActive  = activeTab === tab.key;
-          const count     = countMap[tab.key];
-          const isUnrep   = tab.key === 'unreported';
-          const badgeColor = isUnrep
-            ? count > 0
-              ? 'bg-rose-500 text-white'
-              : 'bg-slate-400 text-white dark:bg-slate-600'
-            : tab.badgeColor;
+          const isActive = activeTab === tab.key;
+          const count = countMap[tab.key];
+          const isUnrep = tab.key === 'unreported';
 
           return (
             <button
               key={tab.key}
+              type="button"
               onClick={() => setActiveTab(tab.key)}
               className={`
-                flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black
-                transition-all duration-150 whitespace-nowrap
-                ${isActive
-                  ? isUnrep && count > 0
-                    ? 'bg-rose-600 text-white shadow-md shadow-rose-500/25'
-                    : 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25'
-                  : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10'
+                flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black
+                transition-all duration-200 whitespace-nowrap cursor-pointer select-none
+                ${
+                  isActive
+                    ? isUnrep && count > 0
+                      ? 'bg-rose-600 text-white shadow-lg shadow-rose-500/25 ring-2 ring-rose-400/40'
+                      : 'bg-blue-600 text-white shadow-lg shadow-blue-500/25 dark:bg-purple-600 dark:shadow-purple-500/25 ring-2 ring-blue-400/40 dark:ring-purple-400/40'
+                    : 'bg-white dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-blue-400/25 dark:border-purple-500/25'
                 }
               `}
             >
-              {tab.label}
-              <span className={`inline-flex items-center justify-center w-4.5 h-4.5 min-w-[1.1rem] px-1.5 rounded-full text-[10px] font-black ${
-                isActive ? 'bg-white/25 text-white' : badgeColor
-              }`}>
+              <i className={`${tab.icon} text-[11px] ${isActive ? 'text-white' : 'text-blue-500 dark:text-purple-400'}`} />
+              <span>{tab.label}</span>
+              <span
+                className={`inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-[10px] font-black ${
+                  isActive
+                    ? 'bg-white/20 text-white'
+                    : isUnrep && count > 0
+                    ? 'bg-rose-500 text-white animate-pulse'
+                    : 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+                }`}
+              >
                 {count}
               </span>
             </button>
@@ -316,16 +384,16 @@ export function TeacherScheduleCards({ meetings }: Props) {
         })}
       </div>
 
-      {/* ── Cards ────────────────────────────────────────────── */}
+      {/* ── Schedule Cards Grid (3 Columns Like Student Dashboard) ──── */}
       {activeList.length === 0 ? (
         <EmptyState tab={activeTab} />
       ) : (
-        <div className="space-y-4 stagger">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
           {activeList.map((m) => (
             <MeetingCard
               key={m.id}
               m={m}
-              showUnreportedWarning={activeTab === 'unreported'}
+              showUnreportedWarning={activeTab === 'unreported' || (!m.is_completed && new Date(m.meeting_date).getTime() < nowMs)}
             />
           ))}
         </div>

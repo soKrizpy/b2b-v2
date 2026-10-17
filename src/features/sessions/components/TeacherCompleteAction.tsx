@@ -10,16 +10,40 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Input";
 
-interface Props { meetingId: number; meetingTitle: string; studentNames?: string }
+interface Props {
+  meetingId: number;
+  meetingTitle: string;
+  studentNames?: string;
+  buttonText?: string;
+  variant?: "primary" | "secondary" | "danger" | "ghost";
+  className?: string;
+  initialReport?: string | null;
+}
 
-export function TeacherCompleteAction({ meetingId, meetingTitle, studentNames }: Props) {
+export function TeacherCompleteAction({
+  meetingId,
+  meetingTitle,
+  studentNames,
+  buttonText = "✓ Tandai Selesai",
+  variant = "secondary",
+  className,
+  initialReport,
+}: Props) {
   const router   = useRouter();
   const [open,      setOpen]      = useState(false);
-  const [report,    setReport]    = useState("");
+  const [report,    setReport]    = useState(initialReport ?? "");
   const [error,     setError]     = useState<string | null>(null);
   const [pending,   start]        = useTransition();
   const [aiPending, startAi]      = useTransition();
   const [aiError,   setAiError]   = useState<string | null>(null);
+
+  // Sync initialReport when modal opens
+  function handleOpen() {
+    setReport(initialReport ?? "");
+    setError(null);
+    setAiError(null);
+    setOpen(true);
+  }
 
   async function handleSubmit() {
     setError(null);
@@ -49,8 +73,8 @@ export function TeacherCompleteAction({ meetingId, meetingTitle, studentNames }:
 
   return (
     <>
-      <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
-        ✓ Tandai Selesai
+      <Button variant={variant} size="sm" className={className} onClick={handleOpen}>
+        {buttonText}
       </Button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)} title="Laporan Kelas">
