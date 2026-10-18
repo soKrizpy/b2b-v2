@@ -1,6 +1,6 @@
 'use client';
 // Module-scoped Import/Export toolbar + per-topic Preview & Edit panel.
-import { useState, useTransition, useCallback, useActionState, useEffect } from 'react';
+import { useState, useTransition, useRef, useActionState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   exportCurriculumJson,
@@ -375,8 +375,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
   const [exporting, startExport]    = useTransition();
   const [importPending, startImport]= useTransition();
   const [delPending, startDel]      = useTransition();
-  const fileRef                     = useCallback((el: HTMLInputElement | null) => { fileInputEl = el; }, []);
-  let fileInputEl: HTMLInputElement | null = null;
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Per-topic panel state: topicId → 'preview' | 'edit' | null
   const [activePanel, setActivePanel] = useState<Record<number, PanelMode | null>>({});
@@ -701,9 +700,9 @@ export function ModuleBuilderClient({ module: mod }: Props) {
               </details>
 
               <div className="flex items-center gap-3">
-                <input ref={fileRef} type="file" accept=".json" onChange={onFile}
+                <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onFile}
                   className="sr-only" id="builder-file-input" disabled={isImporting} />
-                <button type="button" onClick={() => fileInputEl?.click()} disabled={isImporting}
+                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isImporting}
                   className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-white/15
                     rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                     text-slate-700 dark:text-slate-300 transition-colors">
