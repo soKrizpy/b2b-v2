@@ -1,4 +1,4 @@
-// src/features/sessions/actions.ts
+﻿// src/features/sessions/actions.ts
 // Server Actions for meeting CRUD operations.
 // Most mutations are admin-only; markSessionComplete additionally accepts 'teacher'.
 // Role is verified via requireAdmin() or requireAdminOrTeacher() before
@@ -29,6 +29,7 @@ const REVALIDATE_PATHS = [
   '/admin/sessions',
   '/teacher/dashboard',
   '/student/dashboard',
+  '/student/parent-hub',
 ] as const;
 
 function revalidateAll() {
@@ -37,7 +38,7 @@ function revalidateAll() {
   }
 }
 
-// ── createSession ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€ createSession â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function createSession(
   _prevState: ActionResult | null,
@@ -73,7 +74,7 @@ export async function createSession(
     const sessionDate = new Date(baseDate);
     sessionDate.setDate(sessionDate.getDate() + i * 7);
 
-    // Cast through unknown — hand-authored Database generic doesn't resolve
+    // Cast through unknown â€” hand-authored Database generic doesn't resolve
     // MeetingInsert through the Supabase client generic perfectly at compile time.
     const insertResult = await (db
       .from('meetings')
@@ -122,7 +123,7 @@ export async function createSession(
   return { success: true, message: `Berhasil membuat ${label} kelas.` };
 }
 
-// ── updateSession ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€ updateSession â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function updateSession(
   _prevState: ActionResult | null,
@@ -158,7 +159,7 @@ export async function updateSession(
   if (!v.success) return { success: false, error: v.error, fields: v.fields };
 
   const patch = v.data as UpdateInput;
-  // Merge teacher_id into the patch (not part of Zod schema — handled separately)
+  // Merge teacher_id into the patch (not part of Zod schema â€” handled separately)
   const patchWithTeacher = { ...patch, teacher_id: teacherId } as Record<string, unknown>;
   const db    = createSupabaseAdminClient();
 
@@ -219,7 +220,7 @@ export async function updateSession(
   return { success: true, message: 'Jadwal berhasil diperbarui.' };
 }
 
-// ── deleteSession ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€ deleteSession â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function deleteSession(
   _prevState: ActionResult | null,
@@ -277,7 +278,7 @@ export async function deleteSession(
   return { success: true, message: 'Jadwal berhasil dihapus.' };
 }
 
-// ── markSessionComplete ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€ markSessionComplete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function markSessionComplete(
   _prevState: ActionResult | null,

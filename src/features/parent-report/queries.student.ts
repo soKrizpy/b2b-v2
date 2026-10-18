@@ -332,57 +332,22 @@ export async function getStudentHubBundle(
       };
     });
 
-    const moduleGroups = new Map<number, { title: string; sessions: RiwayatSession[] }>();
-    for (const en of enrollments ?? []) {
-      if (en.modules) {
-        moduleGroups.set(en.module_id, { title: en.modules.title, sessions: [] });
-      }
-    }
-
-    const ungrouped: RiwayatSession[] = [];
-    for (const s of sessions) {
-      let placed = false;
-      for (const [, group] of moduleGroups) {
-        const modTitleLower = group.title.toLowerCase();
-        if (
-          s.title.toLowerCase().includes(modTitleLower) ||
-          modTitleLower.split(' ').some((word) => word.length > 3 && s.title.toLowerCase().includes(word))
-        ) {
-          group.sessions.push(s);
-          placed = true;
-          break;
-        }
-      }
-      if (!placed) ungrouped.push(s);
-    }
-
-    for (const modId of sortedModIds) {
-      const group = moduleGroups.get(modId);
-      if (group && group.sessions.length > 0) {
-        riwayat.push({
-          module_id:       modId,
-          module_title:    group.title,
-          completed_count: group.sessions.filter((s) => s.has_joined).length,
-          sessions:        group.sessions,
-        });
-      }
-    }
-
-    if (ungrouped.length > 0) {
-      const activeGroup = activeEnrollment
-        ? riwayat.find((r) => r.module_id === activeEnrollment.module_id)
-        : null;
-      if (activeGroup) {
-        activeGroup.sessions.push(...ungrouped);
-        activeGroup.completed_count = activeGroup.sessions.filter((s) => s.has_joined).length;
-      } else {
-        riwayat.push({
-          module_id:       null,
-          module_title:    'Sesi Lainnya',
-          completed_count: ungrouped.filter((s) => s.has_joined).length,
-          sessions:        ungrouped,
-        });
-      }
+    // Group all completed sessions under the active module (or "Sesi Lainnya" if none).
+    // We deliberately avoid fuzzy title matching which silently drops sessions.
+    if (activeEnrollment?.modules) {
+      riwayat.push({
+        module_id:       activeEnrollment.module_id,
+        module_title:    activeEnrollment.modules.title,
+        completed_count: sessions.filter((s) => s.has_joined).length,
+        sessions,
+      });
+    } else if (sessions.length > 0) {
+      riwayat.push({
+        module_id:       null,
+        module_title:    'Sesi Lainnya',
+        completed_count: sessions.filter((s) => s.has_joined).length,
+        sessions,
+      });
     }
   }
 
