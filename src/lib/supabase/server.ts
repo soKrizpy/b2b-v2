@@ -1,4 +1,4 @@
-// src/lib/supabase/server.ts
+﻿// src/lib/supabase/server.ts
 // SSR Supabase client — reads/writes session cookies via next/headers.
 // Use inside Server Components, Server Actions, and Route Handlers.
 
@@ -18,15 +18,19 @@ import {
 } from './mock';
 import { createSupabaseAdminClient } from './admin';
 
+// Cookie options only used for the Kiro preview iframe mock sessions.
+// Do NOT apply these to real Supabase auth-token cookies — partitioned: true
+// breaks session reads in Server Actions on production first-party domains.
+const MOCK_COOKIE_OPTS = {
+  path: '/',
+  sameSite: 'none' as const,
+  secure: true,
+  partitioned: true,
+  httpOnly: false,
+};
+
 export async function createSupabaseServerClient(options?: { forceRealIfConfigured?: boolean }) {
   const cookieStore = await cookies();
-
-  const iframeCookieOpts = {
-    path: '/',
-    sameSite: 'none' as const,
-    secure: true,
-    partitioned: true,
-  };
 
   const mockUserId = cookieStore.get(MOCK_SESSION_COOKIE)?.value;
   const hasMockSession = Boolean(
@@ -50,7 +54,7 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
             name === MOCK_SESSION_COOKIE ? fallback.user.id : cookieStore.get(name)?.value,
           setCookie: (name, value) => {
             try {
-              cookieStore.set(name, value, { ...iframeCookieOpts, httpOnly: false });
+              cookieStore.set(name, value, MOCK_COOKIE_OPTS);
             } catch {
               // ignore
             }
@@ -58,7 +62,7 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
           deleteCookie: (name) => {
             if (name === MOCK_SESSION_COOKIE) clearPreviewFallbackSession();
             try {
-              cookieStore.delete({ name, ...iframeCookieOpts });
+              cookieStore.delete({ name, ...MOCK_COOKIE_OPTS });
             } catch {
               // ignore
             }
@@ -101,14 +105,14 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
       getCookie: (name) => cookieStore.get(name)?.value,
       setCookie: (name, value) => {
         try {
-          cookieStore.set(name, value, { ...iframeCookieOpts, httpOnly: false });
+          cookieStore.set(name, value, MOCK_COOKIE_OPTS);
         } catch {
           // ignore in read-only Server Components
         }
       },
       deleteCookie: (name) => {
         try {
-          cookieStore.delete({ name, ...iframeCookieOpts });
+          cookieStore.delete({ name, ...MOCK_COOKIE_OPTS });
         } catch {
           // ignore
         }
@@ -129,10 +133,11 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
         },
         setAll(cookiesToSet) {
           try {
+            // Use Supabase's own cookie options — do NOT override with partitioned/sameSite
+            // since those break session reads in Server Actions on first-party production domains.
             cookiesToSet.forEach(({ name, value, options: cookieOptions }) => {
               cookieStore.set(name, value, {
                 ...cookieOptions,
-                ...iframeCookieOpts,
                 httpOnly: false,
               });
             });
