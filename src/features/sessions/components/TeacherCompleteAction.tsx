@@ -1,45 +1,69 @@
 // src/features/sessions/components/TeacherCompleteAction.tsx
 // Teacher action: "Tandai Selesai" button + progress report modal with AI draft.
-"use client";
+'use client';
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { markSessionComplete } from "@/features/sessions/actions";
-import { draftProgressReport } from "@/features/ai/actions";
-import { Modal } from "@/components/ui/Modal";
-import { Button } from "@/components/ui/Button";
-import { Textarea } from "@/components/ui/Input";
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  markSessionComplete,
+  updateSessionReport,
+} from '@/features/sessions/actions';
+import { draftProgressReport } from '@/features/ai/actions';
+import { Modal } from '@/components/ui/Modal';
+import { Button } from '@/components/ui/Button';
+import { Textarea } from '@/components/ui/Input';
+import { AttendanceRadioGroup } from './AttendanceRadioGroup';
+import type {
+  AttendanceStatus,
+  SessionAttendanceStudent,
+} from '@/types/sessions';
 
 interface Props {
   meetingId: number;
   meetingTitle: string;
   studentNames?: string;
   buttonText?: string;
-  variant?: "primary" | "secondary" | "danger" | "ghost";
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   className?: string;
   initialReport?: string | null;
+  isCompleted?: boolean;
+  attendanceStudents: SessionAttendanceStudent[];
 }
 
 export function TeacherCompleteAction({
   meetingId,
   meetingTitle,
   studentNames,
-  buttonText = "✓ Tandai Selesai",
-  variant = "secondary",
+  buttonText = '✓ Tandai Selesai',
+  variant = 'secondary',
   className,
   initialReport,
+  isCompleted = false,
+  attendanceStudents,
 }: Props) {
-  const router   = useRouter();
-  const [open,      setOpen]      = useState(false);
-  const [report,    setReport]    = useState(initialReport ?? "");
-  const [error,     setError]     = useState<string | null>(null);
-  const [pending,   start]        = useTransition();
-  const [aiPending, startAi]      = useTransition();
-  const [aiError,   setAiError]   = useState<string | null>(null);
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [report, setReport] = useState(initialReport ?? '');
+  const [attendance, setAttendance] = useState<
+    Record<string, AttendanceStatus>
+  >(() =>
+    Object.fromEntries(
+      attendanceStudents.map((student) => [student.studentId, student.status])
+    )
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [pending, start] = useTransition();
+  const [aiPending, startAi] = useTransition();
+  const [aiError, setAiError] = useState<string | null>(null);
 
   // Sync initialReport when modal opens
   function handleOpen() {
-    setReport(initialReport ?? "");
+    setReport(initialReport ?? '');
+    setAttendance(
+      Object.fromEntries(
+        attendanceStudents.map((student) => [student.studentId, student.status])
+      )
+    );
     setError(null);
     setAiError(null);
     setOpen(true);
@@ -48,22 +72,35 @@ export function TeacherCompleteAction({
   async function handleSubmit() {
     setError(null);
     const fd = new FormData();
-    fd.append("id", String(meetingId));
-    fd.append("progress_report", report);
-    fd.append("completion_status", "selesai");
+    fd.append('id', String(meetingId));
+    fd.append('progress_report', report);
+    fd.set(
+      'attendance_statuses',
+      JSON.stringify(
+        attendanceStudents.map((student) => ({
+          student_id: student.studentId,
+          status: attendance[student.studentId] ?? student.status,
+        }))
+      )
+    );
+    if (!isCompleted) fd.append('completion_status', 'selesai');
     start(async () => {
-      const result = await markSessionComplete(null, fd);
-      if (result.success) { setOpen(false); router.refresh(); }
-      else setError(result.error);
+      const result = isCompleted
+        ? await updateSessionReport(null, fd)
+        : await markSessionComplete(null, fd);
+      if (result.success) {
+        setOpen(false);
+        router.refresh();
+      } else setError(result.error);
     });
   }
 
   function handleAiDraft() {
     setAiError(null);
     const fd = new FormData();
-    fd.append("session_title",  meetingTitle);
-    fd.append("student_names",  studentNames ?? "siswa");
-    fd.append("topic_hint",     "");
+    fd.append('session_title', meetingTitle);
+    fd.append('student_names', studentNames ?? 'siswa');
+    fd.append('topic_hint', '');
     startAi(async () => {
       const r = await draftProgressReport(null, fd);
       if (r.success) setReport(r.data);
@@ -73,14 +110,29 @@ export function TeacherCompleteAction({
 
   return (
     <>
-      <Button variant={variant} size="sm" className={className} onClick={handleOpen}>
+      <Button
+        variant={variant}
+        size="sm"
+        className={className}
+        onClick={handleOpen}
+      >
         {buttonText}
       </Button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)} title="Laporan Kelas">
         <div className="space-y-4">
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            Tandai <strong>{meetingTitle}</strong> sebagai selesai dan tambahkan catatan perkembangan siswa.
+            {isCompleted ? (
+              <>
+                Perbarui catatan perkembangan untuk{' '}
+                <strong>{meetingTitle}</strong>.
+              </>
+            ) : (
+              <>
+                Tandai <strong>{meetingTitle}</strong> sebagai selesai dan
+                tambahkan catatan perkembangan siswa.
+              </>
+            )}
           </p>
 
           {/* AI draft button */}
@@ -97,8 +149,13 @@ export function TeacherCompleteAction({
                 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150"
             >
               {aiPending ? (
-                <><span className="inline-block w-3 h-3 border border-white/40 border-t-white
-                  rounded-full animate-spin" /> Membuat Draft…</>
+                <>
+                  <span
+                    className="inline-block w-3 h-3 border border-white/40 border-t-white
+                  rounded-full animate-spin"
+                  />{' '}
+                  Membuat Draft…
+                </>
               ) : (
                 <>✨ Bantu Tulis dengan AI</>
               )}
@@ -111,11 +168,22 @@ export function TeacherCompleteAction({
           </div>
 
           {aiError && (
-            <p className="text-xs text-red-500 bg-red-50 dark:bg-red-900/20
-              rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
+            <p
+              className="text-xs text-red-500 bg-red-50 dark:bg-red-900/20
+              rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40"
+            >
               {aiError}
             </p>
           )}
+
+          <AttendanceRadioGroup
+            groupId={meetingId}
+            students={attendanceStudents}
+            values={attendance}
+            onChange={(studentId, status) =>
+              setAttendance((current) => ({ ...current, [studentId]: status }))
+            }
+          />
 
           <Textarea
             label="Catatan Progress"
@@ -128,8 +196,16 @@ export function TeacherCompleteAction({
           {error && <p className="text-xs text-red-600">{error}</p>}
 
           <div className="flex justify-end gap-3">
-            <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>Batal</Button>
-            <Button size="sm" loading={pending} onClick={handleSubmit}>Simpan & Selesaikan</Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setOpen(false)}
+            >
+              Batal
+            </Button>
+            <Button size="sm" loading={pending} onClick={handleSubmit}>
+              {isCompleted ? 'Simpan Laporan' : 'Simpan & Selesaikan'}
+            </Button>
           </div>
         </div>
       </Modal>

@@ -2,7 +2,10 @@
 // In-memory mock Supabase store & query builder used when NEXT_PUBLIC_SUPABASE_URL
 // or SUPABASE_SERVICE_ROLE_KEY are not configured.
 
-import { scratchTopicsData, scratchFinalAssessment } from '@/features/curriculum/data/scratchModuleData';
+import {
+  scratchTopicsData,
+  scratchFinalAssessment,
+} from '@/features/curriculum/data/scratchModuleData';
 import { encodeFinalAssessment } from '@/features/curriculum/validation';
 
 export interface MockUser {
@@ -68,7 +71,9 @@ const globalForMock = globalThis as unknown as {
   __b2bPreviewSession?: PreviewFallbackSession | null;
 };
 
-export function setPreviewFallbackSession(session: Omit<PreviewFallbackSession, 'updatedAt'>): void {
+export function setPreviewFallbackSession(
+  session: Omit<PreviewFallbackSession, 'updatedAt'>
+): void {
   globalForMock.__b2bPreviewSession = {
     ...session,
     updatedAt: Date.now(),
@@ -105,7 +110,10 @@ const DEFAULT_SUPABASE_SERVICE_ROLE_KEY = '';
 
 export function sanitizeEnvVal(raw: string | undefined): string {
   if (!raw) return '';
-  let clean = raw.trim().replace(/^["']+|["']+$/g, '').trim();
+  let clean = raw
+    .trim()
+    .replace(/^["']+|["']+$/g, '')
+    .trim();
   // Auto-heal common copy-paste truncation where leading 'e' of 'eyJhbGci...' was cut off
   if (clean.startsWith('yJhbGci')) {
     clean = 'e' + clean;
@@ -120,9 +128,14 @@ export function isValidSupabaseKey(raw: string | undefined): boolean {
   if (!k) return false;
   if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
   // Standard Supabase JWT key (3 base64url segments starting with eyJ)
-  if (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80) return true;
+  if (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80)
+    return true;
   // New Supabase API keys (sb_publishable_... / sb_secret_...)
-  if ((k.startsWith('sb_publishable_') || k.startsWith('sb_secret_')) && k.length > 20) return true;
+  if (
+    (k.startsWith('sb_publishable_') || k.startsWith('sb_secret_')) &&
+    k.length > 20
+  )
+    return true;
   return false;
 }
 
@@ -154,7 +167,9 @@ function createInitialMockStore(): MockStore {
   const now = new Date();
   const inTwoHours = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
   const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-  const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const nextWeek = new Date(
+    now.getTime() + 7 * 24 * 60 * 60 * 1000
+  ).toISOString();
   const currentMonthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const prevMonthYear = `${prevMonthDate.getFullYear()}-${String(prevMonthDate.getMonth() + 1).padStart(2, '0')}`;
@@ -187,10 +202,34 @@ function createInitialMockStore(): MockStore {
       },
     ],
     profiles: [
-      { id: 'admin-demo-1', role: 'admin', full_name: 'Admin Bits2Bytes', email: 'admin@b2b.id', created_at: yesterday },
-      { id: 'teacher-demo-1', role: 'teacher', full_name: 'Kak Budi Santoso', email: 'guru@b2b.id', created_at: yesterday },
-      { id: 'student-demo-1', role: 'student', full_name: 'Raka Pratama', email: '08123456789@student.mylms.app', created_at: yesterday },
-      { id: 'student-demo-2', role: 'student', full_name: 'Nadia Putri', email: '08987654321@student.mylms.app', created_at: yesterday },
+      {
+        id: 'admin-demo-1',
+        role: 'admin',
+        full_name: 'Admin Bits2Bytes',
+        email: 'admin@b2b.id',
+        created_at: yesterday,
+      },
+      {
+        id: 'teacher-demo-1',
+        role: 'teacher',
+        full_name: 'Kak Budi Santoso',
+        email: 'guru@b2b.id',
+        created_at: yesterday,
+      },
+      {
+        id: 'student-demo-1',
+        role: 'student',
+        full_name: 'Raka Pratama',
+        email: '08123456789@student.mylms.app',
+        created_at: yesterday,
+      },
+      {
+        id: 'student-demo-2',
+        role: 'student',
+        full_name: 'Nadia Putri',
+        email: '08987654321@student.mylms.app',
+        created_at: yesterday,
+      },
     ],
     students: [
       {
@@ -237,7 +276,8 @@ function createInitialMockStore(): MockStore {
       {
         id: 2,
         title: 'Python Dasar untuk Anak: Misi Robot AI',
-        description: 'Mengenal sintaks Python, variabel, perulangan, dan fungsi melalui misi interaktif.',
+        description:
+          'Mengenal sintaks Python, variabel, perulangan, dan fungsi melalui misi interaktif.',
         level: 'intermediate',
         gamification_type: 'mimo',
         is_active: true,
@@ -265,7 +305,10 @@ function createInitialMockStore(): MockStore {
           correctOption: n.correct_option,
           content: n.content,
           ...(n.code_content && {
-            code: { language: n.code_language ?? 'scratch', content: n.code_content },
+            code: {
+              language: n.code_language ?? 'scratch',
+              content: n.code_content,
+            },
           }),
         })),
         quiz: t.quiz,
@@ -290,14 +333,37 @@ function createInitialMockStore(): MockStore {
       teacher_id: 'teacher-demo-1',
       is_completed: idx === 0,
       completion_status: idx === 0 ? 'selesai' : null,
-      progress_report: idx === 0 ? 'Siswa berhasil menguasai materi koordinat panggung dan lulus kuis dengan nilai sempurna!' : null,
+      progress_report:
+        idx === 0
+          ? 'Siswa berhasil menguasai materi koordinat panggung dan lulus kuis dengan nilai sempurna!'
+          : null,
       created_at: yesterday,
     })),
     meeting_students: [
-      { meeting_id: 1, student_id: 'student-demo-1', has_joined: true },
-      { meeting_id: 1, student_id: 'student-demo-2', has_joined: true },
-      { meeting_id: 2, student_id: 'student-demo-1', has_joined: true },
-      { meeting_id: 2, student_id: 'student-demo-2', has_joined: true },
+      {
+        meeting_id: 1,
+        student_id: 'student-demo-1',
+        has_joined: true,
+        attendance_status: 'hadir',
+      },
+      {
+        meeting_id: 1,
+        student_id: 'student-demo-2',
+        has_joined: true,
+        attendance_status: 'hadir',
+      },
+      {
+        meeting_id: 2,
+        student_id: 'student-demo-1',
+        has_joined: true,
+        attendance_status: 'hadir',
+      },
+      {
+        meeting_id: 2,
+        student_id: 'student-demo-2',
+        has_joined: true,
+        attendance_status: 'hadir',
+      },
     ],
     quizzes: [],
     quiz_questions: [],
@@ -342,7 +408,8 @@ function createInitialMockStore(): MockStore {
       {
         id: 'ann-1',
         title: '🚀 Pembaruan Platform Bits2Bytes',
-        content: 'Selamat datang di antarmuka baru Bits2Bytes! Nikmati navigasi cepat, jadwal kelas otomatis, dan pemantauan invoice transparan.',
+        content:
+          'Selamat datang di antarmuka baru Bits2Bytes! Nikmati navigasi cepat, jadwal kelas otomatis, dan pemantauan invoice transparan.',
         target: 'all',
         urgency: 'info',
         image_url: null,
@@ -353,7 +420,8 @@ function createInitialMockStore(): MockStore {
       {
         id: 'ann-2',
         title: '⚠️ Pengingat Jadwal Kelas & Presensi',
-        content: 'Untuk para Guru dan Siswa, harap pastikan hadir tepat waktu sesuai jam sesi dan melakukan check-in presensi.',
+        content:
+          'Untuk para Guru dan Siswa, harap pastikan hadir tepat waktu sesuai jam sesi dan melakukan check-in presensi.',
         target: 'all',
         urgency: 'warning',
         image_url: null,
@@ -395,9 +463,11 @@ function createInitialMockStore(): MockStore {
         challenge_id: 1,
         student_id: 'student-demo-1',
         submission_url: 'https://scratch.mit.edu/projects/123456',
-        submission_note: 'Sudah selesai kak, saya tambahkan efek suara laser juga!',
+        submission_note:
+          'Sudah selesai kak, saya tambahkan efek suara laser juga!',
         status: 'approved',
-        review_note: 'Keren banget Raka! Gerakannya halus dan ada suara lasernya.',
+        review_note:
+          'Keren banget Raka! Gerakannya halus dan ada suara lasernya.',
         reviewed_by: 'teacher-demo-1',
         reviewed_at: yesterday,
         submitted_at: yesterday,
@@ -461,27 +531,48 @@ export function isSupabaseAdminConfigured(): boolean {
   return Boolean(url.startsWith('http') && isValidServiceRoleJwt());
 }
 
-export function matchMockUserCredentials(email: string, password?: string): MockUser | null {
+export function matchMockUserCredentials(
+  email: string,
+  password?: string
+): MockUser | null {
   const store = getMockStore();
   const lower = email.toLowerCase().trim();
   const normalizedEmail =
-    lower === '081234567890@student.mylms.app' ? '08123456789@student.mylms.app' : lower;
-  const user = store.users.find((u) => u.email.toLowerCase() === normalizedEmail);
+    lower === '081234567890@student.mylms.app'
+      ? '08123456789@student.mylms.app'
+      : lower;
+  const user = store.users.find(
+    (u) => u.email.toLowerCase() === normalizedEmail
+  );
   if (!user) return null;
   if (user.password && password === user.password) return user;
-  if (normalizedEmail === 'admin@b2b.id' && (password === 'password123' || password === 'admin123')) return user;
-  if (normalizedEmail === 'guru@b2b.id' && (password === 'password123' || password === 'guru123')) return user;
+  if (
+    normalizedEmail === 'admin@b2b.id' &&
+    (password === 'password123' || password === 'admin123')
+  )
+    return user;
+  if (
+    normalizedEmail === 'guru@b2b.id' &&
+    (password === 'password123' || password === 'guru123')
+  )
+    return user;
   return null;
 }
 
-function enrichRow(table: string, row: MockRow, selectStr: string, store: MockStore): MockRow {
+function enrichRow(
+  table: string,
+  row: MockRow,
+  selectStr: string,
+  store: MockStore
+): MockRow {
   const copy: MockRow = { ...row };
 
   if (table === 'meetings' && selectStr.includes('meeting_students')) {
     const msRows = store.meeting_students
       .filter((ms) => ms.meeting_id === row.id)
       .map((ms) => {
-        const student = store.students.find((s) => s.id === ms.student_id) ?? null;
+        const student =
+          store.students.find((s) => s.id === ms.student_id) ?? null;
         return {
           ...ms,
           students: student ? { ...student } : null,
@@ -492,10 +583,12 @@ function enrichRow(table: string, row: MockRow, selectStr: string, store: MockSt
 
   if (table === 'meeting_students') {
     if (selectStr.includes('students')) {
-      copy.students = store.students.find((s) => s.id === row.student_id) ?? null;
+      copy.students =
+        store.students.find((s) => s.id === row.student_id) ?? null;
     }
     if (selectStr.includes('meetings')) {
-      copy.meetings = store.meetings.find((m) => m.id === row.meeting_id) ?? null;
+      copy.meetings =
+        store.meetings.find((m) => m.id === row.meeting_id) ?? null;
     }
   }
 
@@ -658,14 +751,20 @@ class MockQueryBuilder {
     return this;
   }
 
-  private execute(): { data: unknown; error: null | { message: string }; count?: number } {
+  private execute(): {
+    data: unknown;
+    error: null | { message: string };
+    count?: number;
+  } {
     if (!this.store[this.table]) {
       this.store[this.table] = [];
     }
     const tableArr = this.store[this.table] as MockRow[];
 
     if (this.op === 'insert') {
-      const rawItems = Array.isArray(this.payload) ? this.payload : [this.payload];
+      const rawItems = Array.isArray(this.payload)
+        ? this.payload
+        : [this.payload];
       const inserted = rawItems.map((item) => {
         const row: MockRow = { ...(item as MockRow) };
         if (row.id === undefined) {
@@ -681,7 +780,9 @@ class MockQueryBuilder {
         }
         if (this.table === 'parent_links' && !row.token) {
           row.token = crypto.randomUUID();
-          row.expires_at = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+          row.expires_at = new Date(
+            Date.now() + 30 * 24 * 60 * 60 * 1000
+          ).toISOString();
         }
         if (!row.created_at) {
           row.created_at = new Date().toISOString();
@@ -689,41 +790,62 @@ class MockQueryBuilder {
         tableArr.push(row);
         return row;
       });
-      const data = this.returnSingle || this.returnMaybeSingle ? (inserted[0] ?? null) : inserted;
+      const data =
+        this.returnSingle || this.returnMaybeSingle
+          ? (inserted[0] ?? null)
+          : inserted;
       return { data, error: null };
     }
 
     if (this.op === 'upsert') {
-      const rawItems = Array.isArray(this.payload) ? this.payload : [this.payload];
+      const rawItems = Array.isArray(this.payload)
+        ? this.payload
+        : [this.payload];
       const conflictCols = this.upsertConflict
         ? this.upsertConflict.split(',').map((s) => s.trim())
         : ['id'];
       const results = rawItems.map((rawItem) => {
         const item = rawItem as MockRow;
-        const idx = tableArr.findIndex((r) => conflictCols.every((c) => r[c] === item[c]));
+        const idx = tableArr.findIndex((r) =>
+          conflictCols.every((c) => r[c] === item[c])
+        );
         if (idx >= 0) {
           tableArr[idx] = { ...tableArr[idx], ...item };
           return tableArr[idx];
         } else {
-          const newRow: MockRow = { ...item, created_at: new Date().toISOString() };
+          const newRow: MockRow = {
+            ...item,
+            created_at: new Date().toISOString(),
+          };
           tableArr.push(newRow);
           return newRow;
         }
       });
-      const data = this.returnSingle || this.returnMaybeSingle ? (results[0] ?? null) : results;
+      const data =
+        this.returnSingle || this.returnMaybeSingle
+          ? (results[0] ?? null)
+          : results;
       return { data, error: null };
     }
 
     if (this.op === 'update') {
       const matched: MockRow[] = [];
       for (let i = 0; i < tableArr.length; i++) {
-        const enriched = enrichRow(this.table, tableArr[i], this.selectStr, this.store);
+        const enriched = enrichRow(
+          this.table,
+          tableArr[i],
+          this.selectStr,
+          this.store
+        );
         if (this.filters.every((f) => f(enriched))) {
           tableArr[i] = { ...tableArr[i], ...(this.payload as MockRow) };
           matched.push(tableArr[i]);
         }
       }
-      const data = this.returnSingle || this.returnMaybeSingle ? (matched[0] ?? null) : matched;
+      const data =
+        this.returnSingle || this.returnMaybeSingle
+          ? (matched[0] ?? null)
+          : matched;
       return { data, error: null };
     }
 
@@ -740,7 +862,9 @@ class MockQueryBuilder {
     }
 
     // SELECT
-    let rows = tableArr.map((r) => enrichRow(this.table, r, this.selectStr, this.store));
+    let rows = tableArr.map((r) =>
+      enrichRow(this.table, r, this.selectStr, this.store)
+    );
     rows = rows.filter((r) => this.filters.every((f) => f(r)));
 
     const totalCount = rows.length;
@@ -782,8 +906,21 @@ class MockQueryBuilder {
     return { data: rows, error: null, count: totalCount };
   }
 
-  then<TResult1 = { data: unknown; error: null | { message: string }; count?: number }, TResult2 = never>(
-    onfulfilled?: ((value: { data: unknown; error: null | { message: string }; count?: number }) => TResult1 | PromiseLike<TResult1>) | null,
+  then<
+    TResult1 = {
+      data: unknown;
+      error: null | { message: string };
+      count?: number;
+    },
+    TResult2 = never,
+  >(
+    onfulfilled?:
+      | ((value: {
+          data: unknown;
+          error: null | { message: string };
+          count?: number;
+        }) => TResult1 | PromiseLike<TResult1>)
+      | null,
     onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null
   ): Promise<TResult1 | TResult2> {
     try {
@@ -805,6 +942,93 @@ export function createMockSupabaseClient(options?: {
   const store = getMockStore();
 
   return {
+    async rpc(functionName: string, args: Record<string, unknown>) {
+      if (functionName !== 'save_meeting_report') {
+        return {
+          data: null,
+          error: { message: `Unknown mock function: ${functionName}` },
+        };
+      }
+
+      const meetingId = Number(args.p_meeting_id);
+      const meeting = store.meetings.find(
+        (row) => Number(row.id) === meetingId
+      );
+      const markCompleted = args.p_mark_completed === true;
+      if (!meeting || (!markCompleted && meeting.is_completed !== true)) {
+        return {
+          data: null,
+          error: { message: 'Meeting not found or is not completed' },
+        };
+      }
+
+      const attendance = args.p_attendance;
+      if (!Array.isArray(attendance)) {
+        return {
+          data: null,
+          error: { message: 'Attendance must be an array' },
+        };
+      }
+
+      const roster = store.meeting_students.filter(
+        (row) => Number(row.meeting_id) === meetingId
+      );
+      const updates = attendance as Array<{
+        student_id?: unknown;
+        status?: unknown;
+      }>;
+      const seen = new Set<string>();
+      for (const item of updates) {
+        const studentId = String(item.student_id ?? '');
+        if (
+          !studentId ||
+          !['hadir', 'telat', 'absen'].includes(String(item.status))
+        ) {
+          return {
+            data: null,
+            error: {
+              message: 'Attendance contains an invalid student or status',
+            },
+          };
+        }
+        seen.add(studentId);
+      }
+      if (updates.length !== roster.length || seen.size !== roster.length) {
+        return {
+          data: null,
+          error: {
+            message: 'Attendance must include every student exactly once',
+          },
+        };
+      }
+      if (roster.some((row) => !seen.has(String(row.student_id)))) {
+        return {
+          data: null,
+          error: { message: 'Attendance does not match the meeting roster' },
+        };
+      }
+
+      for (const item of updates) {
+        const studentId = String(item.student_id);
+        const status = String(item.status);
+        const row = roster.find(
+          (entry) => String(entry.student_id) === studentId
+        );
+        if (row) {
+          row.attendance_status = status;
+          row.has_joined = status !== 'absen';
+        }
+      }
+
+      meeting.progress_report = String(args.p_progress_report ?? '');
+      if (markCompleted) {
+        meeting.is_completed = true;
+        meeting.completion_status = String(
+          args.p_completion_status ?? 'selesai'
+        );
+      }
+      return { data: null, error: null };
+    },
     from(table: string) {
       return new MockQueryBuilder(table, store);
     },
@@ -814,7 +1038,12 @@ export function createMockSupabaseClient(options?: {
         const user = store.users.find((u) => u.id === userId) ?? null;
         return { data: { user }, error: null };
       },
-      async signInWithPassword({ email }: { email: string; password?: string }) {
+      async signInWithPassword({
+        email,
+      }: {
+        email: string;
+        password?: string;
+      }) {
         const lower = email.toLowerCase().trim();
         let user = store.users.find((u) => u.email.toLowerCase() === lower);
 
@@ -829,20 +1058,30 @@ export function createMockSupabaseClient(options?: {
         }
 
         if (!user) {
-          return { data: { user: null, session: null }, error: { message: 'Invalid login credentials' } };
+          return {
+            data: { user: null, session: null },
+            error: { message: 'Invalid login credentials' },
+          };
         }
 
         options?.setCookie?.(MOCK_SESSION_COOKIE, user.id);
-        return { data: { user, session: { access_token: 'mock-token', user } }, error: null };
+        return {
+          data: { user, session: { access_token: 'mock-token', user } },
+          error: null,
+        };
       },
       async signOut() {
         options?.deleteCookie?.(MOCK_SESSION_COOKIE);
         return { error: null };
       },
-      async updateUser(attrs: { data?: Record<string, unknown>; password?: string }) {
+      async updateUser(attrs: {
+        data?: Record<string, unknown>;
+        password?: string;
+      }) {
         const userId = options?.getCookie?.(MOCK_SESSION_COOKIE);
         const user = store.users.find((u) => u.id === userId) ?? null;
-        if (!user) return { data: { user: null }, error: { message: 'User not found' } };
+        if (!user)
+          return { data: { user: null }, error: { message: 'User not found' } };
         if (attrs.data) {
           user.user_metadata = { ...user.user_metadata, ...attrs.data };
         }
@@ -864,24 +1103,40 @@ export function createMockSupabaseClient(options?: {
           email_confirm?: boolean;
           user_metadata?: Record<string, unknown>;
         }) {
-          const exists = store.users.some((u) => u.email.toLowerCase() === attrs.email.toLowerCase());
+          const exists = store.users.some(
+            (u) => u.email.toLowerCase() === attrs.email.toLowerCase()
+          );
           if (exists) {
-            return { data: { user: null }, error: { message: 'User already been registered' } };
+            return {
+              data: { user: null },
+              error: { message: 'User already been registered' },
+            };
           }
           const newUser: MockUser = {
             id: crypto.randomUUID(),
             email: attrs.email,
             password: attrs.password,
-            user_metadata: (attrs.user_metadata ?? {}) as MockUser['user_metadata'],
+            user_metadata: (attrs.user_metadata ??
+              {}) as MockUser['user_metadata'],
           };
           store.users.push(newUser);
           return { data: { user: newUser }, error: null };
         },
-        async updateUserById(id: string, attrs: { user_metadata?: Record<string, unknown>; password?: string }) {
+        async updateUserById(
+          id: string,
+          attrs: { user_metadata?: Record<string, unknown>; password?: string }
+        ) {
           const user = store.users.find((u) => u.id === id);
-          if (!user) return { data: { user: null }, error: { message: 'User not found' } };
+          if (!user)
+            return {
+              data: { user: null },
+              error: { message: 'User not found' },
+            };
           if (attrs.user_metadata) {
-            user.user_metadata = { ...user.user_metadata, ...attrs.user_metadata };
+            user.user_metadata = {
+              ...user.user_metadata,
+              ...attrs.user_metadata,
+            };
           }
           if (attrs.password) {
             user.password = attrs.password;

@@ -11,6 +11,8 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { requireAdmin, requireAdminOrTeacher } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import type { Json } from '@/types/database';
+import { ATTENDANCE_STATUSES } from '@/types/sessions';
 import {
   validate,
   createSessionSchema,
@@ -18,11 +20,18 @@ import {
 } from './validation';
 
 export type ActionResult =
-  | { success: true;  message: string }
+  | { success: true; message: string }
   | { success: false; error: string; fields?: Record<string, string> };
 
 type CreateInput = z.infer<typeof createSessionSchema>;
 type UpdateInput = z.infer<typeof updateSessionSchema>;
+
+const attendanceInputSchema = z.array(
+  z.object({
+    student_id: z.string().min(1),
+    status: z.enum(ATTENDANCE_STATUSES),
+  })
+);
 
 const REVALIDATE_PATHS = [
   '/admin/dashboard',
@@ -50,13 +59,13 @@ export async function createSession(
   const teacherId = (formData.get('teacher_id') as string) || null;
 
   const raw = {
-    title:          formData.get('title'),
-    meeting_date:   formData.get('meeting_date'),
-    link_url:       formData.get('link_url'),
-    notes:          formData.get('notes') || undefined,
-    session_count:  formData.get('session_count')  ?? 1,
+    title: formData.get('title'),
+    meeting_date: formData.get('meeting_date'),
+    link_url: formData.get('link_url'),
+    notes: formData.get('notes') || undefined,
+    session_count: formData.get('session_count') ?? 1,
     session_number: formData.get('session_number') ?? 1,
-    student_ids:    formData.getAll('student_ids'),
+    student_ids: formData.getAll('student_ids'),
   };
 
   const v = validate(createSessionSchema, raw);
@@ -67,7 +76,7 @@ export async function createSession(
 
   const db = createSupabaseAdminClient();
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
-  const baseDate  = new Date(meeting_date);
+  const baseDate = new Date(meeting_date);
   let insertedCount = 0;
 
   for (let i = 0; i < session_count; i++) {
@@ -80,16 +89,19 @@ export async function createSession(
       .from('meetings')
       .insert({
         title,
-        meeting_date:   sessionDate.toISOString(),
-        link_url:       link_url ?? null,
-        notes:          notes    ?? null,
+        meeting_date: sessionDate.toISOString(),
+        link_url: link_url ?? null,
+        notes: notes ?? null,
         session_count,
         session_number: i + 1,
-        series_id:      seriesId,
-        teacher_id:     teacherId,
+        series_id: seriesId,
+        teacher_id: teacherId,
       } as never)
       .select('id')
-      .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+      .single() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { message: string } | null;
+    }>);
 
     const { data: meeting, error: meetingError } = await insertResult;
 
@@ -105,9 +117,14 @@ export async function createSession(
       }));
       const { error: assignError } = await (db
         .from('meeting_students')
-        .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+        .insert(rows as never) as unknown as Promise<{
+        error: { message: string } | null;
+      }>);
       if (assignError) {
-        console.error('[createSession] student assign error:', assignError.message);
+        console.error(
+          '[createSession] student assign error:',
+          assignError.message
+        );
       }
     }
 
@@ -115,7 +132,10 @@ export async function createSession(
   }
 
   if (insertedCount === 0) {
-    return { success: false, error: 'Gagal menyimpan jadwal. Silakan coba lagi.' };
+    return {
+      success: false,
+      error: 'Gagal menyimpan jadwal. Silakan coba lagi.',
+    };
   }
 
   revalidateAll();
@@ -133,24 +153,28 @@ export async function updateSession(
   if (!auth.ok) return { success: false, error: auth.message };
 
   const idRaw = formData.get('id');
-  const id    = idRaw ? Number(idRaw) : NaN;
+  const id = idRaw ? Number(idRaw) : NaN;
   if (isNaN(id) || id <= 0) {
-    return { success: false, error: 'ID jadwal tidak valid.', fields: { id: 'Wajib diisi.' } };
+    return {
+      success: false,
+      error: 'ID jadwal tidak valid.',
+      fields: { id: 'Wajib diisi.' },
+    };
   }
 
-  const editMode   = (formData.get('edit_mode') as string) || 'single';
-  const seriesId   = (formData.get('series_id')  as string) || null;
+  const editMode = (formData.get('edit_mode') as string) || 'single';
+  const seriesId = (formData.get('series_id') as string) || null;
   const sessionNum = Number(formData.get('session_number') ?? 1);
   const studentIds = formData.getAll('student_ids') as string[];
-  const teacherId  = (formData.get('teacher_id') as string) || null;
+  const teacherId = (formData.get('teacher_id') as string) || null;
 
   const raw = Object.fromEntries(
     [
-      ['title',          formData.get('title')],
-      ['meeting_date',   formData.get('meeting_date')],
-      ['link_url',       formData.get('link_url')],
-      ['notes',          formData.get('notes')],
-      ['session_count',  formData.get('session_count')],
+      ['title', formData.get('title')],
+      ['meeting_date', formData.get('meeting_date')],
+      ['link_url', formData.get('link_url')],
+      ['notes', formData.get('notes')],
+      ['session_count', formData.get('session_count')],
       ['session_number', formData.get('session_number')],
     ].filter(([, v]) => v !== null && v !== '')
   );
@@ -160,8 +184,11 @@ export async function updateSession(
 
   const patch = v.data as UpdateInput;
   // Merge teacher_id into the patch (not part of Zod schema â€” handled separately)
-  const patchWithTeacher = { ...patch, teacher_id: teacherId } as Record<string, unknown>;
-  const db    = createSupabaseAdminClient();
+  const patchWithTeacher = { ...patch, teacher_id: teacherId } as Record<
+    string,
+    unknown
+  >;
+  const db = createSupabaseAdminClient();
 
   if (editMode === 'series' && seriesId) {
     const { data: futures, error: fetchErr } = await (db
@@ -170,16 +197,17 @@ export async function updateSession(
       .eq('series_id', seriesId)
       .gte('session_number', sessionNum)
       .order('session_number', { ascending: true }) as unknown as Promise<{
-        data: Array<{ id: number; session_number: number }>;
-        error: { message: string } | null;
-      }>);
+      data: Array<{ id: number; session_number: number }>;
+      error: { message: string } | null;
+    }>);
 
-    if (fetchErr) return { success: false, error: 'Gagal memuat data seri jadwal.' };
+    if (fetchErr)
+      return { success: false, error: 'Gagal memuat data seri jadwal.' };
 
     const baseDate = patch.meeting_date ? new Date(patch.meeting_date) : null;
 
     for (let i = 0; i < futures.length; i++) {
-      const m          = futures[i];
+      const m = futures[i];
       const sessionPatch: Record<string, unknown> = { ...patchWithTeacher };
 
       if (baseDate) {
@@ -188,31 +216,56 @@ export async function updateSession(
         sessionPatch.meeting_date = d.toISOString();
       }
 
-      await (db.from('meetings').update(sessionPatch as never).eq('id', m.id) as unknown as Promise<unknown>);
+      await (db
+        .from('meetings')
+        .update(sessionPatch as never)
+        .eq('id', m.id) as unknown as Promise<unknown>);
 
       if (studentIds.length > 0) {
-        await (db.from('meeting_students').delete().eq('meeting_id', m.id) as unknown as Promise<unknown>);
-        const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
-        await (db.from('meeting_students').insert(rows as never) as unknown as Promise<unknown>);
+        await (db
+          .from('meeting_students')
+          .delete()
+          .eq('meeting_id', m.id) as unknown as Promise<unknown>);
+        const rows = studentIds.map((sid) => ({
+          meeting_id: m.id,
+          student_id: sid,
+        }));
+        await (db
+          .from('meeting_students')
+          .insert(rows as never) as unknown as Promise<unknown>);
       }
     }
   } else {
     const { error: updateErr } = await (db
       .from('meetings')
       .update(patchWithTeacher as never)
-      .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
+      .eq('id', id) as unknown as Promise<{
+      error: { message: string } | null;
+    }>);
 
     if (updateErr) {
-      return { success: false, error: `Gagal memperbarui jadwal: ${updateErr.message}` };
+      return {
+        success: false,
+        error: `Gagal memperbarui jadwal: ${updateErr.message}`,
+      };
     }
 
     if (studentIds.length > 0) {
-      await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
-      const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
+      await (db
+        .from('meeting_students')
+        .delete()
+        .eq('meeting_id', id) as unknown as Promise<unknown>);
+      const rows = studentIds.map((sid) => ({
+        meeting_id: id,
+        student_id: sid,
+      }));
       const { error: assignErr } = await (db
         .from('meeting_students')
-        .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-      if (assignErr) console.error('[updateSession] student assign:', assignErr.message);
+        .insert(rows as never) as unknown as Promise<{
+        error: { message: string } | null;
+      }>);
+      if (assignErr)
+        console.error('[updateSession] student assign:', assignErr.message);
     }
   }
 
@@ -230,13 +283,13 @@ export async function deleteSession(
   if (!auth.ok) return { success: false, error: auth.message };
 
   const idRaw = formData.get('id');
-  const id    = idRaw ? Number(idRaw) : NaN;
+  const id = idRaw ? Number(idRaw) : NaN;
   if (isNaN(id) || id <= 0) {
     return { success: false, error: 'ID jadwal tidak valid.' };
   }
 
-  const editMode   = (formData.get('edit_mode') as string) || 'single';
-  const seriesId   = (formData.get('series_id')  as string) || null;
+  const editMode = (formData.get('edit_mode') as string) || 'single';
+  const seriesId = (formData.get('series_id') as string) || null;
   const sessionNum = Number(formData.get('session_number') ?? 1);
 
   const db = createSupabaseAdminClient();
@@ -247,31 +300,49 @@ export async function deleteSession(
       .select('id')
       .eq('series_id', seriesId)
       .gte('session_number', sessionNum) as unknown as Promise<{
-        data: Array<{ id: number }>;
-        error: unknown;
-      }>);
+      data: Array<{ id: number }>;
+      error: unknown;
+    }>);
 
     const targetIds = (targets ?? []).map((m) => m.id);
 
     if (targetIds.length > 0) {
-      await (db.from('meeting_students').delete().in('meeting_id', targetIds) as unknown as Promise<unknown>);
+      await (db
+        .from('meeting_students')
+        .delete()
+        .in('meeting_id', targetIds) as unknown as Promise<unknown>);
       const { error: delErr } = await (db
         .from('meetings')
         .delete()
         .eq('series_id', seriesId)
-        .gte('session_number', sessionNum) as unknown as Promise<{ error: { message: string } | null }>);
+        .gte('session_number', sessionNum) as unknown as Promise<{
+        error: { message: string } | null;
+      }>);
 
-      if (delErr) return { success: false, error: `Gagal menghapus seri jadwal: ${delErr.message}` };
+      if (delErr)
+        return {
+          success: false,
+          error: `Gagal menghapus seri jadwal: ${delErr.message}`,
+        };
     }
   } else {
-    await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
+    await (db
+      .from('meeting_students')
+      .delete()
+      .eq('meeting_id', id) as unknown as Promise<unknown>);
 
     const { error: delErr } = await (db
       .from('meetings')
       .delete()
-      .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
+      .eq('id', id) as unknown as Promise<{
+      error: { message: string } | null;
+    }>);
 
-    if (delErr) return { success: false, error: `Gagal menghapus jadwal: ${delErr.message}` };
+    if (delErr)
+      return {
+        success: false,
+        error: `Gagal menghapus jadwal: ${delErr.message}`,
+      };
   }
 
   revalidateAll();
@@ -288,26 +359,84 @@ export async function markSessionComplete(
   if (!auth.ok) return { success: false, error: auth.message };
 
   const idRaw = formData.get('id');
-  const id    = idRaw ? Number(idRaw) : NaN;
+  const id = idRaw ? Number(idRaw) : NaN;
   if (isNaN(id) || id <= 0) {
     return { success: false, error: 'ID jadwal tidak valid.' };
   }
 
-  const progressReport   = (formData.get('progress_report')   as string) || '';
-  const completionStatus = (formData.get('completion_status') as string) || 'selesai';
+  return saveMeetingReport(id, formData, true);
+}
+
+export async function updateSessionReport(
+  _prevState: ActionResult | null,
+  formData: FormData
+): Promise<ActionResult> {
+  const auth = await requireAdminOrTeacher();
+  if (!auth.ok) return { success: false, error: auth.message };
+
+  const idRaw = formData.get('id');
+  const id = idRaw ? Number(idRaw) : NaN;
+  if (isNaN(id) || id <= 0) {
+    return { success: false, error: 'ID jadwal tidak valid.' };
+  }
+
+  return saveMeetingReport(id, formData, false);
+}
+
+async function saveMeetingReport(
+  meetingId: number,
+  formData: FormData,
+  markCompleted: boolean
+): Promise<ActionResult> {
+  const rawAttendance = formData.get('attendance_statuses');
+  let attendance: unknown;
+  try {
+    attendance = JSON.parse(String(rawAttendance ?? '[]'));
+  } catch {
+    return { success: false, error: 'Data kehadiran tidak valid.' };
+  }
+
+  const parsedAttendance = attendanceInputSchema.safeParse(attendance);
+  if (!parsedAttendance.success) {
+    return {
+      success: false,
+      error: 'Pilih status kehadiran untuk setiap siswa.',
+    };
+  }
 
   const db = createSupabaseAdminClient();
-  const { error } = await (db
-    .from('meetings')
-    .update({
-      is_completed:      true,
-      progress_report:   progressReport,
-      completion_status: completionStatus,
-    } as never)
-    .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
+  const callSaveMeetingReport = db.rpc as unknown as (
+    functionName: 'save_meeting_report',
+    args: {
+      p_meeting_id: number;
+      p_progress_report: string;
+      p_attendance: Json;
+      p_mark_completed: boolean;
+      p_completion_status: string | null;
+    }
+  ) => Promise<{ error: { message: string } | null }>;
+  const { error } = await callSaveMeetingReport('save_meeting_report', {
+    p_meeting_id: meetingId,
+    p_progress_report: (formData.get('progress_report') as string) || '',
+    p_attendance: parsedAttendance.data as Json,
+    p_mark_completed: markCompleted,
+    p_completion_status: markCompleted
+      ? (formData.get('completion_status') as string) || 'selesai'
+      : null,
+  });
 
-  if (error) return { success: false, error: `Gagal memperbarui status: ${error.message}` };
+  if (error) {
+    const action = markCompleted
+      ? 'menyelesaikan kelas'
+      : 'memperbarui laporan';
+    return { success: false, error: `Gagal ${action}: ${error.message}` };
+  }
 
   revalidateAll();
-  return { success: true, message: 'Kelas berhasil ditandai selesai.' };
+  return {
+    success: true,
+    message: markCompleted
+      ? 'Kelas berhasil ditandai selesai.'
+      : 'Laporan kelas berhasil diperbarui.',
+  };
 }

@@ -96,7 +96,9 @@ function LearningPathTab({
         <div>
           <p className="text-[10px] font-bold uppercase tracking-wide
             text-slate-400 dark:text-slate-500 mb-2 px-1">
-            Modul Terdaftar
+            Modul Terdaftar · {student.modules.filter((m) => m.status === 'active').length} aktif
+            {student.modules.some((m) => m.status !== 'active') &&
+              ` · ${student.modules.filter((m) => m.status !== 'active').length} dijeda`}
           </p>
           <ul className="flex flex-col gap-2">
             {student.modules.map((m) => {
@@ -122,22 +124,28 @@ function LearningPathTab({
                       ✓ Aktif
                     </span>
                   ) : (
-                    /* Activate button for paused modules */
-                    <form action={dispatch}>
-                      <input type="hidden" name="student_id" value={student.id} />
-                      <input type="hidden" name="module_id"  value={m.module_id} />
-                      <button
-                        type="submit"
-                        disabled={pending}
-                        className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
-                          bg-white text-indigo-600 ring-indigo-200 hover:bg-indigo-50
-                          dark:bg-white/5 dark:text-indigo-400 dark:ring-indigo-700/40
-                          dark:hover:bg-indigo-900/20
-                          disabled:opacity-50 transition-colors cursor-pointer"
-                      >
-                        {pending ? '…' : 'Aktifkan'}
-                      </button>
-                    </form>
+                    <>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
+                        bg-slate-100 text-slate-600 ring-slate-200
+                        dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">
+                        ⏸ Dijeda
+                      </span>
+                      <form action={dispatch}>
+                        <input type="hidden" name="student_id" value={student.id} />
+                        <input type="hidden" name="module_id"  value={m.module_id} />
+                        <button
+                          type="submit"
+                          disabled={pending}
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
+                            bg-white text-indigo-600 ring-indigo-200 hover:bg-indigo-50
+                            dark:bg-white/5 dark:text-indigo-400 dark:ring-indigo-700/40
+                            dark:hover:bg-indigo-900/20
+                            disabled:opacity-50 transition-colors cursor-pointer"
+                        >
+                          {pending ? '…' : 'Aktifkan'}
+                        </button>
+                      </form>
+                    </>
                   )}
                 </li>
               );

@@ -5,6 +5,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { sanitizeEnvVal, isValidSupabaseKey } from '@/lib/supabase/mock';
 import type { MeetingRow, StudentRow } from '@/types/database';
+import type { AttendanceStatus } from '@/types/sessions';
 
 // ── Runtime Supabase Environment Diagnostics ─────────────────────────────────
 
@@ -34,7 +35,9 @@ export interface SupabaseEnvDiagnosticReport {
   hasKeyMismatch: boolean;
 }
 
-function decodeJwtPayload(token: string): { ref?: string; role?: string; exp?: number } | null {
+function decodeJwtPayload(
+  token: string
+): { ref?: string; role?: string; exp?: number } | null {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
@@ -68,8 +71,12 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
   const anonPayload = decodeJwtPayload(cleanAnon);
   const servicePayload = decodeJwtPayload(cleanService);
 
-  const anonMatches = Boolean(urlProjectRef && anonPayload?.ref === urlProjectRef);
-  const serviceMatches = Boolean(urlProjectRef && servicePayload?.ref === urlProjectRef);
+  const anonMatches = Boolean(
+    urlProjectRef && anonPayload?.ref === urlProjectRef
+  );
+  const serviceMatches = Boolean(
+    urlProjectRef && servicePayload?.ref === urlProjectRef
+  );
 
   const report: SupabaseEnvDiagnosticReport = {
     urlPresent: Boolean(cleanUrl),
@@ -111,6 +118,7 @@ export interface MeetingWithStudents extends MeetingRow {
   meeting_students: Array<{
     student_id: string;
     has_joined: boolean;
+    attendance_status: AttendanceStatus;
     students: Pick<StudentRow, 'id' | 'full_name' | 'email_or_phone'> | null;
   }>;
 }
@@ -137,6 +145,7 @@ const MEETING_SELECT = `
   meeting_students (
     student_id,
     has_joined,
+    attendance_status,
     students ( id, full_name, email_or_phone )
   )
 `.trim();
@@ -148,6 +157,7 @@ const MEETING_SELECT_INNER = `
   meeting_students!inner (
     student_id,
     has_joined,
+    attendance_status,
     students ( id, full_name, email_or_phone )
   )
 `.trim();
@@ -270,9 +280,9 @@ export async function getTeacherOptions(): Promise<TeacherOption[]> {
   }
 
   return rows.map((row) => ({
-    id:        row.id,
+    id: row.id,
     full_name: row.full_name,
-    email:     emailMap.get(row.id) ?? null,
+    email: emailMap.get(row.id) ?? null,
   }));
 }
 
@@ -307,10 +317,10 @@ export async function getStudentsWithModules(opts?: {
   pageSize?: number;
 }): Promise<{ students: StudentOption[]; total: number }> {
   const db = createSupabaseAdminClient();
-  const page     = opts?.page     ?? 1;
+  const page = opts?.page ?? 1;
   const pageSize = opts?.pageSize ?? 20;
-  const from     = (page - 1) * pageSize;
-  const to       = from + pageSize - 1;
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
 
   const { data, error, count } = await db
     .from('students')
@@ -325,19 +335,17 @@ export async function getStudentsWithModules(opts?: {
 
   return {
     students: (data ?? []) as unknown as StudentOption[],
-    total:    count ?? 0,
+    total: count ?? 0,
   };
 }
-
-
 
 // ── Town Square enriched meeting ─────────────────────────────────────────────
 
 export interface TownSquareSeat {
-  student_id:          string;
-  full_name:           string;
-  avatar_id:           string | null;
-  equipped_hat_id:     string | null;
+  student_id: string;
+  full_name: string;
+  avatar_id: string | null;
+  equipped_hat_id: string | null;
   equipped_cosmetics?: {
     archetype?: string;
     skinTone?: string;
@@ -348,9 +356,9 @@ export interface TownSquareSeat {
     petHatId?: string | null;
     titleId?: string | null;
   } | null;
-  total_xp:            number;
-  is_self:             boolean;
-  is_online?:          boolean;
+  total_xp: number;
+  is_self: boolean;
+  is_online?: boolean;
 }
 
 export interface TownSquareMeeting {
@@ -363,7 +371,7 @@ export interface TownSquareMeeting {
   session_number: number;
   teacher_id: string | null;
   teacher_name: string | null;
-  seats: TownSquareSeat[];   // max 4 enrolled students
+  seats: TownSquareSeat[]; // max 4 enrolled students
 }
 
 /**
@@ -374,147 +382,164 @@ export interface TownSquareMeeting {
 export async function getUpcomingMeetingForStudent(
   studentId: string
 ): Promise<TownSquareMeeting | null> {
-  const db  = createSupabaseAdminClient();
+  const db = createSupabaseAdminClient();
   const now = new Date().toISOString();
 
   // 1. Find live and next upcoming meetings in parallel
-  const [{ data: meetings, error: meetErr }, { data: liveMeetings, error: liveErr }] = await Promise.all([
+  const [
+    { data: meetings, error: meetErr },
+    { data: liveMeetings, error: liveErr },
+  ] = await Promise.all([
     db
       .from('meetings')
-      .select(`
+      .select(
+        `
         id, title, meeting_date, link_url, notes,
         session_count, session_number, teacher_id,
         meeting_students!inner (
           student_id,
           students ( id, full_name, avatar_id )
         )
-      `)
+      `
+      )
       .eq('is_completed', false)
       .eq('meeting_students.student_id', studentId)
       .gt('meeting_date', now)
       .order('meeting_date', { ascending: true })
       .limit(1) as unknown as Promise<{
-        data: Array<{
-          id: number;
-          title: string;
-          meeting_date: string;
-          link_url: string | null;
-          notes: string | null;
-          session_count: number;
-          session_number: number;
-          teacher_id: string | null;
-          meeting_students: Array<{
-            student_id: string;
-            students: { id: string; full_name: string; avatar_id: string | null } | null;
-          }>;
-        }> | null;
-        error: { message: string } | null;
-      }>,
+      data: Array<{
+        id: number;
+        title: string;
+        meeting_date: string;
+        link_url: string | null;
+        notes: string | null;
+        session_count: number;
+        session_number: number;
+        teacher_id: string | null;
+        meeting_students: Array<{
+          student_id: string;
+          students: {
+            id: string;
+            full_name: string;
+            avatar_id: string | null;
+          } | null;
+        }>;
+      }> | null;
+      error: { message: string } | null;
+    }>,
     db
       .from('meetings')
-      .select(`
+      .select(
+        `
         id, title, meeting_date, link_url, notes,
         session_count, session_number, teacher_id,
         meeting_students!inner (
           student_id,
           students ( id, full_name, avatar_id )
         )
-      `)
+      `
+      )
       .eq('is_completed', false)
       .eq('meeting_students.student_id', studentId)
       .lte('meeting_date', now)
       .order('meeting_date', { ascending: false })
       .limit(1) as unknown as Promise<{
-        data: Array<{
-          id: number;
-          title: string;
-          meeting_date: string;
-          link_url: string | null;
-          notes: string | null;
-          session_count: number;
-          session_number: number;
-          teacher_id: string | null;
-          meeting_students: Array<{
-            student_id: string;
-            students: { id: string; full_name: string; avatar_id: string | null } | null;
-          }>;
-        }> | null;
-        error: { message: string } | null;
-      }>,
+      data: Array<{
+        id: number;
+        title: string;
+        meeting_date: string;
+        link_url: string | null;
+        notes: string | null;
+        session_count: number;
+        session_number: number;
+        teacher_id: string | null;
+        meeting_students: Array<{
+          student_id: string;
+          students: {
+            id: string;
+            full_name: string;
+            avatar_id: string | null;
+          } | null;
+        }>;
+      }> | null;
+      error: { message: string } | null;
+    }>,
   ]);
 
-  if (meetErr)  console.error('[getUpcomingMeetingForStudent] meetings:', meetErr.message);
-  if (liveErr)  console.error('[getUpcomingMeetingForStudent] live:', liveErr.message);
+  if (meetErr)
+    console.error('[getUpcomingMeetingForStudent] meetings:', meetErr.message);
+  if (liveErr)
+    console.error('[getUpcomingMeetingForStudent] live:', liveErr.message);
 
   // Prefer live meeting, then upcoming
-  const raw = (liveMeetings?.[0]) ?? (meetings?.[0]) ?? null;
+  const raw = liveMeetings?.[0] ?? meetings?.[0] ?? null;
   if (!raw) return null;
 
   // 2 & 3. Fetch all enrolled students and teacher name in parallel
   const [{ data: allSeats }, teacherProfileRes] = await Promise.all([
     db
       .from('meeting_students')
-      .select('student_id, students ( id, full_name, avatar_id, equipped_hat_id, total_xp, equipped_cosmetics )')
+      .select(
+        'student_id, students ( id, full_name, avatar_id, equipped_hat_id, total_xp, equipped_cosmetics )'
+      )
       .eq('meeting_id', raw.id) as unknown as Promise<{
-        data: Array<{
-          student_id: string;
-          students: {
-            id: string;
-            full_name: string;
-            avatar_id:       string | null;
-            equipped_hat_id: string | null;
-            total_xp:        number;
-            equipped_cosmetics?: {
-              archetype?: string;
-              skinTone?: string;
-              hatId?: string | null;
-              outfitId?: string | null;
-              auraId?: string | null;
-              petId?: string | null;
-              petHatId?: string | null;
-              titleId?: string | null;
-            } | null;
+      data: Array<{
+        student_id: string;
+        students: {
+          id: string;
+          full_name: string;
+          avatar_id: string | null;
+          equipped_hat_id: string | null;
+          total_xp: number;
+          equipped_cosmetics?: {
+            archetype?: string;
+            skinTone?: string;
+            hatId?: string | null;
+            outfitId?: string | null;
+            auraId?: string | null;
+            petId?: string | null;
+            petHatId?: string | null;
+            titleId?: string | null;
           } | null;
-        }> | null;
-        error: unknown;
-      }>,
+        } | null;
+      }> | null;
+      error: unknown;
+    }>,
     raw.teacher_id
       ? (db
           .from('profiles')
           .select('full_name')
           .eq('id', raw.teacher_id)
           .maybeSingle() as unknown as Promise<{
-            data: { full_name: string | null } | null;
-            error: unknown;
-          }>)
+          data: { full_name: string | null } | null;
+          error: unknown;
+        }>)
       : Promise.resolve({ data: null, error: null }),
   ]);
 
   const teacherName: string | null = teacherProfileRes.data?.full_name ?? null;
 
   // 4. Build seats array (max 4)
-  const seats: TownSquareSeat[] = (allSeats ?? [])
-    .slice(0, 4)
-    .map((ms) => ({
-      student_id:         ms.student_id,
-      full_name:          ms.students?.full_name          ?? 'Siswa',
-      avatar_id:          ms.students?.avatar_id          ?? null,
-      equipped_hat_id:    ms.students?.equipped_hat_id    ?? null,
-      equipped_cosmetics: ms.students?.equipped_cosmetics ?? null,
-      total_xp:           ms.students?.total_xp           ?? 0,
-      is_self:            ms.student_id === studentId,
-    }));
+  const seats: TownSquareSeat[] = (allSeats ?? []).slice(0, 4).map((ms) => ({
+    student_id: ms.student_id,
+    full_name: ms.students?.full_name ?? 'Siswa',
+    avatar_id: ms.students?.avatar_id ?? null,
+    equipped_hat_id: ms.students?.equipped_hat_id ?? null,
+    equipped_cosmetics: ms.students?.equipped_cosmetics ?? null,
+    total_xp: ms.students?.total_xp ?? 0,
+    is_self: ms.student_id === studentId,
+  }));
 
   return {
-    id:             raw.id,
-    title:          raw.title,
-    meeting_date:   raw.meeting_date,
-    link_url:       raw.link_url,
-    notes:          raw.notes,
-    session_count:  raw.session_count,
+    id: raw.id,
+    title: raw.title,
+    meeting_date: raw.meeting_date,
+    link_url: raw.link_url,
+    notes: raw.notes,
+    session_count: raw.session_count,
     session_number: raw.session_number,
-    teacher_id:     raw.teacher_id,
-    teacher_name:   teacherName,
+    teacher_id: raw.teacher_id,
+    teacher_name: teacherName,
     seats,
   };
 }

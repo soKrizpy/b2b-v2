@@ -23,12 +23,14 @@ export default async function TeacherDashboardPage() {
     getStudentsForTeacher(user.id),
   ]);
 
+  const renderTimestamp = Date.now();
+  const renderNow = new Date(renderTimestamp);
   const upcoming = meetings.filter(
-    (m) => !m.is_completed && isUpcoming(m.meeting_date)
+    (m) => !m.is_completed && isUpcoming(m.meeting_date, renderNow)
   );
 
   const teacherName = user.user_metadata?.full_name?.split(" ")[0] ?? "Guru";
-  const hasLive = upcoming.some((m) => isLive(m.meeting_date));
+  const hasLive = upcoming.some((m) => isLive(m.meeting_date, renderNow));
 
   return (
     <div className="space-y-8 animate-fade-in-up">
@@ -110,7 +112,7 @@ export default async function TeacherDashboardPage() {
           </h2>
           <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
         </div>
-        <TeacherScheduleCards meetings={meetings} />
+        <TeacherScheduleCards meetings={meetings} renderTimestamp={renderTimestamp} />
       </section>
     </div>
   );

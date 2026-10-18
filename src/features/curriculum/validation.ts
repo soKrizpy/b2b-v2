@@ -122,6 +122,12 @@ export function extractTopicQuiz(lessonContent: unknown): QuizQuestion[] {
   return parsed.success ? parsed.data : [];
 }
 
+export function hasLearningNodes(lessonContent: unknown): boolean {
+  if (!lessonContent || typeof lessonContent !== 'object') return false;
+  const learningPath = (lessonContent as Record<string, unknown>).learningPath;
+  return Array.isArray(learningPath) && learningPath.length > 0;
+}
+
 /**
  * Extracts the final assessment stored inside a module's lesson_content-like
  * field. We store it in the module row's description field under a special

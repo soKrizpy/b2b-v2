@@ -3,7 +3,14 @@
 // Covers every table that the rebuild reads or writes.
 // NEVER destructively alter the corresponding production tables.
 
-export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json }
+  | Json[];
+import type { AttendanceStatus } from './sessions';
 
 // ── Row types ────────────────────────────────────────────────────────────────
 // Each "Row" type is the shape returned by SELECT *.
@@ -11,7 +18,7 @@ export type Json = string | number | boolean | null | { [key: string]: Json } | 
 
 // public.profiles  (role lives here — NOT in public.users / auth.users metadata)
 export interface ProfileRow {
-  id: string;           // uuid — matches auth.users.id
+  id: string; // uuid — matches auth.users.id
   role: 'admin' | 'teacher' | 'student';
   full_name: string | null;
   email?: string | null;
@@ -19,19 +26,19 @@ export interface ProfileRow {
 }
 
 export interface EquippedCosmetics {
-  archetype?: string;     // 'cyber-mage' | 'astral-knight' | 'shadow-glitcher' | 'chrono-alchemist'
-  skinTone?: string;      // 'default' | 'fair' | 'tan' | 'dark'
+  archetype?: string; // 'cyber-mage' | 'astral-knight' | 'shadow-glitcher' | 'chrono-alchemist'
+  skinTone?: string; // 'default' | 'fair' | 'tan' | 'dark'
   hatId?: string | null;
   outfitId?: string | null;
   auraId?: string | null;
-  petId?: string | null;   // 'cat' | 'fox' | 'dragon' | 'robot' | 'bunny' | 'owl' | 'dog'
+  petId?: string | null; // 'cat' | 'fox' | 'dragon' | 'robot' | 'bunny' | 'owl' | 'dog'
   petHatId?: string | null;
   titleId?: string | null;
 }
 
 // public.students
 export interface StudentRow {
-  id: string;                    // uuid — matches auth.users.id
+  id: string; // uuid — matches auth.users.id
   email_or_phone: string;
   full_name: string;
   grade: string | null;
@@ -46,7 +53,10 @@ export interface StudentRow {
   inventory: string[];
   created_at: string | null;
 }
-export type StudentInsert = Omit<StudentRow, 'coins' | 'inventory' | 'created_at'> & {
+export type StudentInsert = Omit<
+  StudentRow,
+  'coins' | 'inventory' | 'created_at'
+> & {
   coins?: number;
   inventory?: string[];
 };
@@ -97,13 +107,13 @@ export type StudentModuleUpdate = Pick<StudentModuleRow, 'status'>;
 export interface MeetingRow {
   id: number;
   title: string;
-  meeting_date: string;         // timestamptz as ISO string
+  meeting_date: string; // timestamptz as ISO string
   link_url: string;
   notes: string | null;
   session_count: number;
   session_number: number;
   series_id: string | null;
-  teacher_id: string | null;    // uuid FK → profiles.id (added in migration 0007)
+  teacher_id: string | null; // uuid FK → profiles.id (added in migration 0007)
   is_completed: boolean;
   completion_status: string | null;
   progress_report: string | null;
@@ -112,7 +122,7 @@ export interface MeetingRow {
 // MeetingInsert — teacher_id optional (nullable; existing rows stay valid).
 export type MeetingInsert = {
   title: string;
-  meeting_date: string;       // ISO 8601
+  meeting_date: string; // ISO 8601
   link_url: string | null;
   notes: string | null;
   session_count: number;
@@ -128,7 +138,14 @@ export interface MeetingStudentRow {
   meeting_id: number;
   student_id: string;
   has_joined: boolean;
+  attendance_status: AttendanceStatus;
 }
+export type MeetingStudentInsert = Omit<
+  MeetingStudentRow,
+  'attendance_status'
+> & {
+  attendance_status?: AttendanceStatus;
+};
 
 // public.quizzes
 export interface QuizRow {
@@ -181,14 +198,16 @@ export interface StudentPetRow {
   pet_name: string | null;
   species_id: string | null;
   stage: 'EGG' | 'READY_TO_HATCH' | 'BABY_PET';
-  hatch_progress: number;        // 0–100
+  hatch_progress: number; // 0–100
   logic_data: number;
   creative_data: number;
   spatial_data: number;
   created_at: string | null;
 }
 export type StudentPetInsert = Omit<StudentPetRow, 'id' | 'created_at'>;
-export type StudentPetUpdate = Partial<Omit<StudentPetRow, 'id' | 'student_id' | 'created_at'>>;
+export type StudentPetUpdate = Partial<
+  Omit<StudentPetRow, 'id' | 'student_id' | 'created_at'>
+>;
 
 // public.student_badges
 export interface StudentBadgeRow {
@@ -200,10 +219,10 @@ export interface StudentBadgeRow {
 
 // public.parent_links
 export interface ParentLinkRow {
-  id: string;           // uuid
-  token: string;        // unique random token
+  id: string; // uuid
+  token: string; // unique random token
   student_id: string;
-  expires_at: string;   // timestamptz
+  expires_at: string; // timestamptz
   invoice_id: string | null; // optional link to an invoice row
   created_at: string | null;
 }
@@ -262,9 +281,9 @@ export interface ModuleAssessmentAttemptRow {
 // Billing is post-paid: attended_meetings × price_per_meeting = total_amount.
 // Attendance is determined by meeting_students.has_joined = true.
 export interface InvoiceRow {
-  id: string;             // uuid
+  id: string; // uuid
   student_id: string;
-  month_year: string;     // "YYYY-MM"
+  month_year: string; // "YYYY-MM"
   total_meetings: number;
   attended_meetings: number;
   price_per_meeting: number;
@@ -286,8 +305,8 @@ export interface TopicQuizAttemptRow {
   student_id: string;
   topic_id: number;
   attempt_num: 1 | 2;
-  score: number;           // 0–100
-  answers: QuizAnswer[];   // JSONB
+  score: number; // 0–100
+  answers: QuizAnswer[]; // JSONB
   submitted_at: string;
 }
 
@@ -312,7 +331,7 @@ export type CertificateInsert = Omit<CertificateRow, 'id' | 'issued_at'>;
 // Challenges belong to a topic and describe a task the student must complete.
 export interface ChallengeRow {
   id: number;
-  topic_id: number;           // FK → topics(id)
+  topic_id: number; // FK → topics(id)
   title: string;
   instructions: string | null;
   order_index: number;
@@ -327,21 +346,24 @@ export type SubmissionStatus = 'pending' | 'approved' | 'needs_revision';
 
 export interface SubmissionRow {
   id: number;
-  challenge_id: number;         // FK → challenges(id)
-  student_id: string;           // FK → auth.users(id)
+  challenge_id: number; // FK → challenges(id)
+  student_id: string; // FK → auth.users(id)
   submission_url: string | null; // URL proof (link or uploaded file URL)
   submission_note: string | null;
   status: SubmissionStatus;
-  review_note: string | null;   // teacher feedback on rejection/revision
-  reviewed_by: string | null;   // teacher user id
+  review_note: string | null; // teacher feedback on rejection/revision
+  reviewed_by: string | null; // teacher user id
   reviewed_at: string | null;
   submitted_at: string;
   created_at: string | null;
 }
-export type SubmissionInsert = Omit<SubmissionRow,
+export type SubmissionInsert = Omit<
+  SubmissionRow,
   'id' | 'status' | 'review_note' | 'reviewed_by' | 'reviewed_at' | 'created_at'
 > & { status?: SubmissionStatus };
-export type SubmissionUpdate = Partial<Omit<SubmissionRow, 'id' | 'student_id' | 'challenge_id' | 'created_at'>>;
+export type SubmissionUpdate = Partial<
+  Omit<SubmissionRow, 'id' | 'student_id' | 'challenge_id' | 'created_at'>
+>;
 
 // public.teacher_students
 export interface TeacherStudentRow {
@@ -351,10 +373,15 @@ export interface TeacherStudentRow {
   assigned_at: string;
   notes: string | null;
 }
-export type TeacherStudentInsert = Omit<TeacherStudentRow, 'id' | 'assigned_at'> & {
+export type TeacherStudentInsert = Omit<
+  TeacherStudentRow,
+  'id' | 'assigned_at'
+> & {
   assigned_at?: string;
 };
-export type TeacherStudentUpdate = Partial<Omit<TeacherStudentRow, 'id' | 'teacher_id' | 'student_id'>>;
+export type TeacherStudentUpdate = Partial<
+  Omit<TeacherStudentRow, 'id' | 'teacher_id' | 'student_id'>
+>;
 
 // ── Supabase Database generic type ───────────────────────────────────────────
 // Used to parameterise the Supabase client — enables typed .from() calls.
@@ -394,8 +421,10 @@ export interface Database {
       };
       meeting_students: {
         Row: MeetingStudentRow;
-        Insert: MeetingStudentRow;
-        Update: Partial<Pick<MeetingStudentRow, 'has_joined'>>;
+        Insert: MeetingStudentInsert;
+        Update: Partial<
+          Pick<MeetingStudentRow, 'has_joined' | 'attendance_status'>
+        >;
       };
       quizzes: {
         Row: QuizRow;
@@ -434,12 +463,17 @@ export interface Database {
       };
       announcements: {
         Row: AnnouncementRow;
-        Insert: Omit<AnnouncementRow, 'created_at'> & { created_at?: string | null };
+        Insert: Omit<AnnouncementRow, 'created_at'> & {
+          created_at?: string | null;
+        };
         Update: Partial<Omit<AnnouncementRow, 'id' | 'created_at'>>;
       };
       invoices: {
         Row: InvoiceRow;
-        Insert: Omit<InvoiceRow, 'id' | 'created_at'> & { id?: string; created_at?: string | null };
+        Insert: Omit<InvoiceRow, 'id' | 'created_at'> & {
+          id?: string;
+          created_at?: string | null;
+        };
         Update: Partial<Omit<InvoiceRow, 'id' | 'created_at'>>;
       };
       module_assessments: {
@@ -465,7 +499,9 @@ export interface Database {
       certificates: {
         Row: CertificateRow;
         Insert: CertificateInsert;
-        Update: Partial<Omit<CertificateRow, 'id' | 'student_id' | 'module_id' | 'issued_at'>>;
+        Update: Partial<
+          Omit<CertificateRow, 'id' | 'student_id' | 'module_id' | 'issued_at'>
+        >;
       };
       challenges: {
         Row: ChallengeRow;
@@ -484,13 +520,18 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      save_meeting_report: {
+        Args: {
+          p_meeting_id: number;
+          p_progress_report: string;
+          p_attendance: Json;
+          p_mark_completed: boolean;
+          p_completion_status: string | null;
+        };
+        Returns: undefined;
+      };
+    };
     Enums: Record<string, never>;
   };
 }
-
-
-
-
-
-

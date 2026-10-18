@@ -13,16 +13,16 @@ import type { MonthlySnapshot } from '@/features/parent-report/queries.student';
 import type { ReactNode } from 'react';
 
 interface Props {
-  snapshots:             MonthlySnapshot[];
-  studentName:           string;
+  snapshots: MonthlySnapshot[];
+  studentName: string;
   /** All-time completed session count (from riwayat) — shown in the Sesi Selesai card */
   totalCompletedSessions: number;
   /** Active module status string e.g. "Tinkercad · 3/5 topik" */
-  moduleStatus:          string;
+  moduleStatus: string;
   /** Number of earned certificates */
-  certCount:             number;
+  certCount: number;
   /** Optional slot rendered between attendance bar and archive table */
-  children?:             ReactNode;
+  children?: ReactNode;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -51,14 +51,37 @@ function rateColor(rate: number) {
 
 function printMonthReport(snap: MonthlySnapshot, studentName: string) {
   const fmtDateShort = (iso: string) =>
-    new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    new Date(iso).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
 
   // Compute engagement score (weighted: 60% attendance + 40% quiz)
-  const engagementScore = snap.totalScheduled > 0
-    ? Math.round(snap.attendanceRate * 0.6 + (snap.avgQuizScore > 0 ? snap.avgQuizScore : snap.attendanceRate) * 0.4)
-    : 0;
-  const engagementLabel = engagementScore >= 80 ? 'Sangat Baik' : engagementScore >= 60 ? 'Baik' : engagementScore >= 40 ? 'Cukup' : 'Perlu Peningkatan';
-  const engagementColor = engagementScore >= 80 ? '#16a34a' : engagementScore >= 60 ? '#eab308' : engagementScore >= 40 ? '#f97316' : '#dc2626';
+  const engagementScore =
+    snap.totalScheduled > 0
+      ? Math.round(
+          snap.attendanceRate * 0.6 +
+            (snap.avgQuizScore > 0 ? snap.avgQuizScore : snap.attendanceRate) *
+              0.4
+        )
+      : 0;
+  const engagementLabel =
+    engagementScore >= 80
+      ? 'Sangat Baik'
+      : engagementScore >= 60
+        ? 'Baik'
+        : engagementScore >= 40
+          ? 'Cukup'
+          : 'Perlu Peningkatan';
+  const engagementColor =
+    engagementScore >= 80
+      ? '#16a34a'
+      : engagementScore >= 60
+        ? '#eab308'
+        : engagementScore >= 40
+          ? '#f97316'
+          : '#dc2626';
 
   // SVG semi-circle gauge
   const gaugeRadius = 70;
@@ -83,11 +106,12 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
 
   // Teacher feedback snippets
   const teacherNotes = snap.sessions
-    .filter(s => s.progress_report && s.progress_report.trim().length > 0)
+    .filter((s) => s.progress_report && s.progress_report.trim().length > 0)
     .slice(0, 3);
 
   const rows = snap.sessions
-    .map((s, i) => `
+    .map(
+      (s, i) => `
       <tr style="background:${i % 2 === 0 ? '#ffffff' : '#f8fafc'}">
         <td style="padding:12px 10px;font-weight:600;color:#64748b;text-align:center;width:36px">${i + 1}</td>
         <td style="padding:12px 10px">
@@ -97,17 +121,18 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
         <td style="padding:12px 10px;color:#475569;font-size:12px;white-space:nowrap">${fmtDateShort(s.meeting_date)}</td>
         <td style="padding:12px 10px;text-align:center">
           <span style="display:inline-block;padding:3px 14px;border-radius:99px;font-size:11px;font-weight:700;
-            background:${s.has_joined ? '#dcfce7' : '#fef2f2'};
-            color:${s.has_joined ? '#15803d' : '#dc2626'};
-            border:1px solid ${s.has_joined ? '#bbf7d0' : '#fecaca'}">
-            ${s.has_joined ? '✓ Hadir' : '✗ Absen'}
+            background:${s.attendance_status === 'hadir' ? '#dcfce7' : s.attendance_status === 'telat' ? '#fef3c7' : '#fef2f2'};
+            color:${s.attendance_status === 'hadir' ? '#15803d' : s.attendance_status === 'telat' ? '#b45309' : '#dc2626'};
+            border:1px solid ${s.attendance_status === 'hadir' ? '#bbf7d0' : s.attendance_status === 'telat' ? '#fcd34d' : '#fecaca'}">
+            ${s.attendance_status === 'hadir' ? '✓ Hadir' : s.attendance_status === 'telat' ? '⏱ Telat' : '✗ Absen'}
           </span>
         </td>
         <td style="padding:12px 10px;text-align:center;font-weight:700;font-size:14px;
           color:${s.quiz_score !== null ? (s.quiz_score >= 80 ? '#16a34a' : s.quiz_score >= 60 ? '#eab308' : '#dc2626') : '#cbd5e1'}">
           ${s.quiz_score !== null ? `${s.quiz_score}` : '—'}
         </td>
-      </tr>`)
+      </tr>`
+    )
     .join('');
 
   const html = `<!DOCTYPE html>
@@ -183,11 +208,15 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
     </div>
   </div>
 
-  ${teacherNotes.length > 0 ? `
+  ${
+    teacherNotes.length > 0
+      ? `
   <!-- ═══ TEACHER FEEDBACK ═══ -->
   <div style="margin:0 36px 20px;background:linear-gradient(135deg,#faf5ff,#f5f3ff);border:1px solid #e9d5ff;border-radius:14px;padding:18px 22px">
     <div style="font-size:12px;font-weight:800;color:#7e22ce;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">💬 Catatan Guru</div>
-    ${teacherNotes.map(n => `
+    ${teacherNotes
+      .map(
+        (n) => `
       <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px">
         <div style="color:#c084fc;font-size:22px;line-height:1;flex-shrink:0;margin-top:2px">❝</div>
         <div>
@@ -195,17 +224,22 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
           <div style="font-size:10px;color:#94a3b8;margin-top:3px">— Sesi: ${n.title}</div>
         </div>
       </div>
-    `).join('')}
-  </div>` : ''}
+    `
+      )
+      .join('')}
+  </div>`
+      : ''
+  }
 
   <!-- ═══ SESSION TABLE ═══ -->
   <div style="padding:0 36px 20px">
     <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #4f46e5;display:inline-block;letter-spacing:.5px">
       📋 Detail Sesi Bulan Ini
     </div>
-    ${snap.sessions.length === 0
-      ? '<div style="text-align:center;padding:40px;color:#94a3b8;font-style:italic;background:#f8fafc;border-radius:12px;border:1px dashed #e2e8f0">Tidak ada sesi pada bulan ini.</div>'
-      : `<table style="width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0">
+    ${
+      snap.sessions.length === 0
+        ? '<div style="text-align:center;padding:40px;color:#94a3b8;font-style:italic;background:#f8fafc;border-radius:12px;border:1px dashed #e2e8f0">Tidak ada sesi pada bulan ini.</div>'
+        : `<table style="width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0">
         <thead>
           <tr style="background:linear-gradient(90deg,#4338ca,#6366f1)">
             <th style="padding:12px 10px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#e0e7ff;font-weight:800;width:36px">#</th>
@@ -238,34 +272,55 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
   win.document.write(html);
   win.document.close();
   win.focus();
-  setTimeout(() => { win.print(); }, 400);
+  setTimeout(() => {
+    win.print();
+  }, 400);
 }
 
 // ── Metric card (replaces old StatTile) ──────────────────────────────────────
 
 function MetricCard({
-  icon, iconColor, iconBg, value, label, sub,
+  icon,
+  iconColor,
+  iconBg,
+  value,
+  label,
+  sub,
 }: {
-  icon: string; iconColor: string; iconBg: string;
-  value: string; label: string; sub?: string;
+  icon: string;
+  iconColor: string;
+  iconBg: string;
+  value: string;
+  label: string;
+  sub?: string;
 }) {
   return (
-    <div className="bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm
-      hover:border-purple-400/50 dark:hover:border-purple-500/50 hover:shadow-md transition-all flex flex-col justify-between min-w-0">
+    <div
+      className="bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm
+      hover:border-purple-400/50 dark:hover:border-purple-500/50 hover:shadow-md transition-all flex flex-col justify-between min-w-0"
+    >
       <div className="flex items-center justify-between gap-2 mb-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${iconBg}`}>
+        <div
+          className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${iconBg}`}
+        >
           <i className={`${icon} ${iconColor}`} />
         </div>
         {sub && (
-          <span className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border
-            border-zinc-200 dark:border-zinc-700 px-2.5 py-1 rounded-full text-right truncate max-w-[130px]">
+          <span
+            className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border
+            border-zinc-200 dark:border-zinc-700 px-2.5 py-1 rounded-full text-right truncate max-w-[130px]"
+          >
             {sub}
           </span>
         )}
       </div>
       <div>
-        <p className="text-2xl font-bold font-mono text-zinc-900 dark:text-zinc-100 tabular-nums leading-none">{value}</p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mt-2 font-medium">{label}</p>
+        <p className="text-2xl font-bold font-mono text-zinc-900 dark:text-zinc-100 tabular-nums leading-none">
+          {value}
+        </p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mt-2 font-medium">
+          {label}
+        </p>
       </div>
     </div>
   );
@@ -295,7 +350,6 @@ export function MonthlyReportCard({
 
   return (
     <div className="flex flex-col gap-6">
-
       {/* ── Month selector + print ── */}
       <div className="flex items-center gap-3 flex-wrap">
         <label
@@ -313,8 +367,13 @@ export function MonthlyReportCard({
             text-sm px-3.5 py-2.5 font-bold focus:outline-none focus:ring-2 focus:ring-purple-400"
         >
           {snapshots.map((s, i) => (
-            <option key={s.monthYear} value={i} className="dark:bg-zinc-800 dark:text-zinc-100">
-              {s.monthLabel}{i === 0 ? ' (Bulan Ini)' : ''}
+            <option
+              key={s.monthYear}
+              value={i}
+              className="dark:bg-zinc-800 dark:text-zinc-100"
+            >
+              {s.monthLabel}
+              {i === 0 ? ' (Bulan Ini)' : ''}
             </option>
           ))}
         </select>
@@ -334,28 +393,36 @@ export function MonthlyReportCard({
       {/* ── 4 Metric cards — reactive to selected month ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          icon="fa-solid fa-calendar-check" iconColor="text-cyan-600 dark:text-cyan-400"
+          icon="fa-solid fa-calendar-check"
+          iconColor="text-cyan-600 dark:text-cyan-400"
           iconBg="bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800"
           value={`${snap.attendanceRate}%`}
           label="Tingkat Kehadiran"
           sub={`${snap.attendedCount}/${snap.totalScheduled} Sesi`}
         />
         <MetricCard
-          icon="fa-solid fa-award" iconColor="text-amber-600 dark:text-amber-400"
+          icon="fa-solid fa-award"
+          iconColor="text-amber-600 dark:text-amber-400"
           iconBg="bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800"
           value={snap.avgQuizScore > 0 ? `${snap.avgQuizScore}%` : '—'}
           label="Rata-Rata Kuis"
-          sub={snap.avgQuizScore > 0 ? scoreLabel(snap.avgQuizScore) : 'Belum Ada Kuis'}
+          sub={
+            snap.avgQuizScore > 0
+              ? scoreLabel(snap.avgQuizScore)
+              : 'Belum Ada Kuis'
+          }
         />
         <MetricCard
-          icon="fa-solid fa-circle-check" iconColor="text-emerald-600 dark:text-emerald-400"
+          icon="fa-solid fa-circle-check"
+          iconColor="text-emerald-600 dark:text-emerald-400"
           iconBg="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800"
           value={String(totalCompletedSessions)}
           label="Sesi Selesai"
           sub="Semua Waktu"
         />
         <MetricCard
-          icon="fa-solid fa-rocket" iconColor="text-purple-600 dark:text-purple-400"
+          icon="fa-solid fa-rocket"
+          iconColor="text-purple-600 dark:text-purple-400"
           iconBg="bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800"
           value={certCount > 0 ? `${certCount} Sertifikat` : 'Aktif'}
           label="Status Modul"
@@ -368,7 +435,9 @@ export function MonthlyReportCard({
         <div>
           <div className="flex items-center justify-between text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-1.5">
             <span>Tingkat Kehadiran · {snap.monthLabel}</span>
-            <span className={scoreColor(snap.attendanceRate)}>{snap.attendanceRate}%</span>
+            <span className={scoreColor(snap.attendanceRate)}>
+              {snap.attendanceRate}%
+            </span>
           </div>
           <div className="h-3 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
             <div
@@ -377,16 +446,20 @@ export function MonthlyReportCard({
             />
           </div>
           <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-1">
-            {snap.attendedCount} hadir · {snap.totalScheduled - snap.attendedCount} tidak hadir
+            {snap.attendedCount} hadir ·{' '}
+            {snap.totalScheduled - snap.attendedCount} tidak hadir
             {snap.xpEarned > 0 && ` · ⭐ ${snap.xpEarned} XP`}
-            {snap.topicsCompleted > 0 && ` · 📖 ${snap.topicsCompleted} topik selesai`}
+            {snap.topicsCompleted > 0 &&
+              ` · 📖 ${snap.topicsCompleted} topik selesai`}
           </p>
         </div>
       )}
 
       {snap.totalScheduled === 0 && (
-        <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800
-          bg-zinc-50 dark:bg-zinc-900/40 py-8 text-center text-sm text-zinc-400 dark:text-zinc-500">
+        <div
+          className="rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800
+          bg-zinc-50 dark:bg-zinc-900/40 py-8 text-center text-sm text-zinc-400 dark:text-zinc-500"
+        >
           Tidak ada sesi terjadwal pada {snap.monthLabel}.
         </div>
       )}
@@ -403,21 +476,37 @@ export function MonthlyReportCard({
           </p>
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 overflow-hidden shadow-sm">
             {/* Table header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3
-              border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/60">
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Bulan</span>
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-24">Kehadiran</span>
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-16">Nilai</span>
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-28">Laporan</span>
+            <div
+              className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3
+              border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/60"
+            >
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                Bulan
+              </span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-24">
+                Kehadiran
+              </span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-16">
+                Nilai
+              </span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center w-28">
+                Laporan
+              </span>
             </div>
             {/* Table rows */}
             {archiveMonths.map((s) => {
               const grade =
-                s.avgQuizScore >= 90 ? 'A+' :
-                s.avgQuizScore >= 80 ? 'A' :
-                s.avgQuizScore >= 70 ? 'B+' :
-                s.avgQuizScore >= 60 ? 'B' :
-                s.avgQuizScore > 0  ? 'C' : '—';
+                s.avgQuizScore >= 90
+                  ? 'A+'
+                  : s.avgQuizScore >= 80
+                    ? 'A'
+                    : s.avgQuizScore >= 70
+                      ? 'B+'
+                      : s.avgQuizScore >= 60
+                        ? 'B'
+                        : s.avgQuizScore > 0
+                          ? 'C'
+                          : '—';
               return (
                 <div
                   key={s.monthYear}
@@ -425,23 +514,35 @@ export function MonthlyReportCard({
                     border-b border-zinc-100 dark:border-zinc-800/80 last:border-b-0
                     hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors"
                 >
-                  <span className="text-sm font-bold text-zinc-800 dark:text-zinc-200 truncate">{s.monthLabel}</span>
+                  <span className="text-sm font-bold text-zinc-800 dark:text-zinc-200 truncate">
+                    {s.monthLabel}
+                  </span>
                   <span className="w-24 text-center">
-                    <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-extrabold
-                      ${s.attendanceRate >= 80
-                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
-                        : s.attendanceRate >= 50
-                          ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
-                          : 'bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800'
-                      }`}>
+                    <span
+                      className={`inline-block px-3 py-1 rounded-full text-[10px] font-extrabold
+                      ${
+                        s.attendanceRate >= 80
+                          ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                          : s.attendanceRate >= 50
+                            ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
+                            : 'bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800'
+                      }`}
+                    >
                       {s.attendanceRate}% hadir
                     </span>
                   </span>
-                  <span className={`w-16 text-center text-base font-black
-                    ${s.avgQuizScore >= 80 ? 'text-emerald-600 dark:text-emerald-400'
-                      : s.avgQuizScore >= 60 ? 'text-amber-600 dark:text-amber-400'
-                        : s.avgQuizScore > 0 ? 'text-red-500 dark:text-red-400' : 'text-zinc-300 dark:text-zinc-600'
-                    }`}>
+                  <span
+                    className={`w-16 text-center text-base font-black
+                    ${
+                      s.avgQuizScore >= 80
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : s.avgQuizScore >= 60
+                          ? 'text-amber-600 dark:text-amber-400'
+                          : s.avgQuizScore > 0
+                            ? 'text-red-500 dark:text-red-400'
+                            : 'text-zinc-300 dark:text-zinc-600'
+                    }`}
+                  >
                     {grade}
                   </span>
                   <span className="w-28 text-center">

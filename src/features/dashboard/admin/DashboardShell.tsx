@@ -9,7 +9,7 @@ import type {
   StudentOption,
 } from '@/features/sessions/queries';
 import { computeAdminMetrics, type AdminMetrics } from '@/features/dashboard/admin/metrics';
-import { isLive, isToday, formatDate, formatTime } from '@/lib/formatDate';
+import { APP_TIME_ZONE, isLive, isToday, formatDate, formatTime } from '@/lib/formatDate';
 import { AnnouncementManager } from '@/features/announcements/components/AnnouncementManager';
 
 interface Props {
@@ -17,26 +17,26 @@ interface Props {
   teachers: TeacherOption[];
   students: StudentOption[];
   metrics?: AdminMetrics;
+  renderTimestamp: number;
 }
 
 const ITEMS_PER_PAGE = 9;
 
-function activityLabel(m: MeetingWithStudents): string {
+function activityLabel(m: MeetingWithStudents, now: Date): string {
   if (m.is_completed) return `Kelas "${m.title}" selesai`;
-  if (isLive(m.meeting_date)) return `Kelas "${m.title}" sedang berlangsung`;
+  if (isLive(m.meeting_date, now)) return `Kelas "${m.title}" sedang berlangsung`;
   return `Jadwal: "${m.title}"`;
 }
 
-function activityIcon(m: MeetingWithStudents): string {
+function activityIcon(m: MeetingWithStudents, now: Date): string {
   if (m.is_completed)         return '✓';
-  if (isLive(m.meeting_date)) return '🔴';
+  if (isLive(m.meeting_date, now)) return '🔴';
   return '📅';
 }
 
-function getTimeUntil(dateIso: string): string {
+function getTimeUntil(dateIso: string, now: Date): string {
   const target = new Date(dateIso).getTime();
-  const now = new Date().getTime();
-  const diffMs = target - now;
+  const diffMs = target - now.getTime();
 
   if (diffMs <= 0) return 'Mulai sebentar lagi';
 
@@ -58,17 +58,29 @@ function formatTimeRange(dateIso: string): string {
   const start = new Date(dateIso);
   const end = new Date(start.getTime() + 60 * 60 * 1000);
   const format = (d: Date) =>
-    d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+    d.toLocaleTimeString('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: APP_TIME_ZONE,
+    });
   return `${format(start)} - ${format(end)} WIB`;
 }
 
-export function DashboardShell({ meetings, teachers, students, metrics: propMetrics }: Props) {
+export function DashboardShell({
+  meetings,
+  teachers,
+  students,
+  metrics: propMetrics,
+  renderTimestamp,
+}: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const renderNow = useMemo(() => new Date(renderTimestamp), [renderTimestamp]);
 
   const metrics = useMemo(() => {
-    return propMetrics ?? computeAdminMetrics(meetings);
-  }, [propMetrics, meetings]);
+    return propMetrics ?? computeAdminMetrics(meetings, renderNow);
+  }, [propMetrics, meetings, renderNow]);
 
   const teacherMap = useMemo(() => {
     const map = new Map<string, string>();
@@ -79,8 +91,8 @@ export function DashboardShell({ meetings, teachers, students, metrics: propMetr
   }, [teachers]);
 
   const todayMeetings = useMemo(() => {
-    return meetings.filter((m) => isToday(m.meeting_date));
-  }, [meetings]);
+    return meetings.filter((m) => isToday(m.meeting_date, renderNow));
+  }, [meetings, renderNow]);
 
   const filteredToday = useMemo(() => {
     if (!searchQuery.trim()) return todayMeetings;
@@ -238,7 +250,7 @@ export function DashboardShell({ meetings, teachers, students, metrics: propMetr
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {paginated.map((m) => {
-                const live = isLive(m.meeting_date);
+                const live = isLive(m.meeting_date, renderNow);
                 const teacherName = m.teacher_id ? teacherMap.get(m.teacher_id) ?? null : null;
 
                 return (
@@ -264,7 +276,7 @@ export function DashboardShell({ meetings, teachers, students, metrics: propMetr
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/10 dark:bg-cyan-500/15 text-blue-700 dark:text-cyan-300 border border-blue-500/20 dark:border-cyan-500/30">
-                            {getTimeUntil(m.meeting_date)}
+                            {getTimeUntil(m.meeting_date, renderNow)}
                           </span>
                         )}
 
@@ -362,10 +374,10 @@ export function DashboardShell({ meetings, teachers, students, metrics: propMetr
                 className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/70 dark:bg-zinc-900/60 border border-blue-100 dark:border-zinc-800/80 hover:border-blue-400 dark:hover:border-purple-500/50 transition-colors duration-200"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-base">{activityIcon(m)}</span>
+                  <span className="text-base">{activityIcon(m, renderNow)}</span>
                   <div className="min-w-0">
                     <p className="text-xs font-black text-slate-800 dark:text-slate-200 truncate">
-                      {activityLabel(m)}
+                      {activityLabel(m, renderNow)}
                     </p>
                     <p className="text-[11px] font-medium text-slate-600 dark:text-slate-300 mt-0.5">
                       {formatDate(m.meeting_date)} · {formatTime(m.meeting_date)}

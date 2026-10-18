@@ -40,6 +40,12 @@ type QuizQuestion = {
 
 type PanelMode = 'preview' | 'edit';
 
+function getNodeCount(lessonContent: unknown): number {
+  if (!lessonContent || typeof lessonContent !== 'object') return 0;
+  const learningPath = (lessonContent as Record<string, unknown>).learningPath;
+  return Array.isArray(learningPath) ? learningPath.length : 0;
+}
+
 const NODE_TYPE_LABEL: Record<string, { label: string; color: string }> = {
   theory:    { label: 'Teori',     color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 ring-blue-200 dark:ring-blue-700/40' },
   lesson:    { label: 'Teori',     color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 ring-blue-200 dark:ring-blue-700/40' },
@@ -295,8 +301,15 @@ function TopicEditForm({
             bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
             focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="draft">○ Draft — tidak terlihat siswa</option>
-          <option value="published">● Published — terlihat siswa</option>
+          <option value="published" disabled={getNodeCount(topic.lesson_content) === 0}>
+            ● Published — terlihat siswa
+          </option>
         </select>
+        {getNodeCount(topic.lesson_content) === 0 && (
+          <p className="text-xs text-amber-700 dark:text-amber-300">
+            Tambahkan minimal satu node materi sebelum topik dapat dipublikasikan.
+          </p>
+        )}
       </div>
 
       {/* Description */}
@@ -440,12 +453,6 @@ export function ModuleBuilderClient({ module: mod }: Props) {
     startDel(async () => { await deleteTopic(null, fd); router.refresh(); });
   };
 
-  const getNodeCount = (lc: unknown): number => {
-    if (!lc || typeof lc !== 'object') return 0;
-    const arr = (lc as Record<string, unknown>).learningPath;
-    return Array.isArray(arr) ? arr.length : 0;
-  };
-
   const getQuizCount = (lc: unknown): number => {
     if (!lc || typeof lc !== 'object') return 0;
     const q = (lc as Record<string, unknown>).quiz;
@@ -548,10 +555,10 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                           {/* Status */}
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ring-1
                             ${topic.status === 'published'
-                              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 ring-green-200 dark:ring-green-700/40'
-                              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 ring-amber-200 dark:ring-amber-700/40'
+                              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 ring-green-300 dark:ring-green-600/50'
+                              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 ring-amber-300 dark:ring-amber-600/50'
                             }`}>
-                            {topic.status === 'published' ? '● Published' : '○ Draft'}
+                            {topic.status === 'published' ? '● Published · Terlihat siswa' : '○ Draft · Tersembunyi'}
                           </span>
                           {/* Node count */}
                           {nodeCount > 0 && (

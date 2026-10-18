@@ -23,6 +23,7 @@ type Tab = 'today' | 'tomorrow' | 'past' | 'unreported';
 
 interface Props {
   meetings: MeetingWithStudents[];
+  renderTimestamp: number;
 }
 
 interface TabConfig {
@@ -32,10 +33,18 @@ interface TabConfig {
 }
 
 const TABS: TabConfig[] = [
-  { key: 'today',      label: 'Hari Ini',                icon: 'fa-solid fa-calendar-day' },
-  { key: 'tomorrow',   label: 'Besok',                   icon: 'fa-solid fa-calendar-plus' },
-  { key: 'past',       label: 'Riwayat Kelas',           icon: 'fa-solid fa-clock-rotate-left' },
-  { key: 'unreported', label: 'Laporan Belum Selesai',   icon: 'fa-solid fa-clipboard-question' },
+  { key: 'today', label: 'Hari Ini', icon: 'fa-solid fa-calendar-day' },
+  { key: 'tomorrow', label: 'Besok', icon: 'fa-solid fa-calendar-plus' },
+  {
+    key: 'past',
+    label: 'Riwayat Kelas',
+    icon: 'fa-solid fa-clock-rotate-left',
+  },
+  {
+    key: 'unreported',
+    label: 'Laporan Belum Selesai',
+    icon: 'fa-solid fa-clipboard-question',
+  },
 ];
 
 // ── Empty state ───────────────────────────────────────────────────────────────
@@ -45,7 +54,8 @@ function EmptyState({ tab }: { tab: Tab }) {
     today: {
       icon: 'fa-solid fa-calendar-check text-cyan-500 dark:text-cyan-400',
       title: 'Tidak Ada Kelas Hari Ini',
-      subtitle: 'Semua jadwal hari ini telah tuntas atau belum ada sesi yang dijadwalkan.',
+      subtitle:
+        'Semua jadwal hari ini telah tuntas atau belum ada sesi yang dijadwalkan.',
     },
     tomorrow: {
       icon: 'fa-solid fa-calendar-plus text-sky-500 dark:text-sky-400',
@@ -60,17 +70,22 @@ function EmptyState({ tab }: { tab: Tab }) {
     unreported: {
       icon: 'fa-solid fa-circle-check text-emerald-500 dark:text-emerald-400',
       title: 'Semua Laporan Telah Selesai! ✓',
-      subtitle: 'Hebat! Seluruh sesi kelas telah memiliki catatan progress siswa yang lengkap.',
+      subtitle:
+        'Hebat! Seluruh sesi kelas telah memiliki catatan progress siswa yang lengkap.',
     },
   };
 
   const { icon, title, subtitle } = map[tab];
 
   return (
-    <div className="py-14 px-6 rounded-3xl border-2 border-dashed border-blue-400/30 dark:border-purple-500/30
-      bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm flex flex-col items-center text-center gap-3 animate-fade-in-up">
-      <div className="w-14 h-14 rounded-2xl bg-blue-500/10 dark:bg-purple-500/15 border border-blue-400/20 dark:border-purple-400/20
-        flex items-center justify-center text-2xl mb-1 shadow-sm">
+    <div
+      className="py-14 px-6 rounded-3xl border-2 border-dashed border-blue-400/30 dark:border-purple-500/30
+      bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm flex flex-col items-center text-center gap-3 animate-fade-in-up"
+    >
+      <div
+        className="w-14 h-14 rounded-2xl bg-blue-500/10 dark:bg-purple-500/15 border border-blue-400/20 dark:border-purple-400/20
+        flex items-center justify-center text-2xl mb-1 shadow-sm"
+      >
         <i className={icon} />
       </div>
       <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
@@ -88,13 +103,17 @@ function EmptyState({ tab }: { tab: Tab }) {
 function MeetingCard({
   m,
   showUnreportedWarning,
+  now,
 }: {
   m: MeetingWithStudents;
   showUnreportedWarning?: boolean;
+  now: Date;
 }) {
-  const live      = isLive(m.meeting_date);
+  const live = isLive(m.meeting_date, now);
   const completed = m.is_completed;
-  const hasReport = Boolean(m.progress_report && m.progress_report.trim().length > 0);
+  const hasReport = Boolean(
+    m.progress_report && m.progress_report.trim().length > 0
+  );
 
   const studentNames = m.meeting_students
     .map((ms) => ms.students?.full_name ?? '')
@@ -104,10 +123,10 @@ function MeetingCard({
   const ringStyle = live
     ? 'border-2 border-rose-500 shadow-rose-500/20 ring-2 ring-rose-400/50'
     : completed
-    ? 'border border-emerald-500/40 dark:border-emerald-500/30 shadow-emerald-500/5'
-    : showUnreportedWarning
-    ? 'border-2 border-amber-400/80 dark:border-amber-500/60 shadow-amber-500/10'
-    : 'border border-blue-400/35 dark:border-purple-500/35 hover:border-blue-500 dark:hover:border-purple-400';
+      ? 'border border-emerald-500/40 dark:border-emerald-500/30 shadow-emerald-500/5'
+      : showUnreportedWarning
+        ? 'border-2 border-amber-400/80 dark:border-amber-500/60 shadow-amber-500/10'
+        : 'border border-blue-400/35 dark:border-purple-500/35 hover:border-blue-500 dark:hover:border-purple-400';
 
   return (
     <div
@@ -122,10 +141,10 @@ function MeetingCard({
           live
             ? 'bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 animate-pulse'
             : completed
-            ? 'bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500'
-            : showUnreportedWarning
-            ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500'
-            : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500'
+              ? 'bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500'
+              : showUnreportedWarning
+                ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500'
+                : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500'
         }`}
       />
 
@@ -134,30 +153,38 @@ function MeetingCard({
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-1.5 flex-wrap">
             {m.session_count > 1 ? (
-              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
+              <span
+                className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
                 bg-blue-500/10 text-blue-700 dark:bg-purple-500/15 dark:text-purple-300
-                border border-blue-400/30 dark:border-purple-500/30">
+                border border-blue-400/30 dark:border-purple-500/30"
+              >
                 Sesi {m.session_number}/{m.session_count}
               </span>
             ) : (
-              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
+              <span
+                className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono
                 bg-blue-500/10 text-blue-700 dark:bg-purple-500/15 dark:text-purple-300
-                border border-blue-400/30 dark:border-purple-500/30">
+                border border-blue-400/30 dark:border-purple-500/30"
+              >
                 Sesi Tunggal
               </span>
             )}
 
             {live && !completed && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full
-                bg-rose-500 text-white shadow-sm shadow-rose-500/40 animate-pulse font-mono">
+              <span
+                className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full
+                bg-rose-500 text-white shadow-sm shadow-rose-500/40 animate-pulse font-mono"
+              >
                 <i className="fa-solid fa-tower-broadcast text-[9px] fa-beat-fade" />
                 LIVE
               </span>
             )}
 
             {completed && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full
-                bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 font-mono">
+              <span
+                className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full
+                bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 font-mono"
+              >
                 <i className="fa-solid fa-check text-[9px]" />
                 Selesai
               </span>
@@ -172,8 +199,10 @@ function MeetingCard({
 
         {/* Row 2: Title */}
         <div>
-          <h3 className="font-black text-slate-900 dark:text-white text-sm sm:text-base leading-snug line-clamp-2
-            group-hover:text-blue-600 dark:group-hover:text-purple-300 transition-colors">
+          <h3
+            className="font-black text-slate-900 dark:text-white text-sm sm:text-base leading-snug line-clamp-2
+            group-hover:text-blue-600 dark:group-hover:text-purple-300 transition-colors"
+          >
             {m.title}
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1 flex items-center gap-2">
@@ -211,7 +240,8 @@ function MeetingCard({
         {completed && hasReport && (
           <div className="p-3 rounded-2xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/60 dark:border-zinc-800 text-xs text-slate-600 dark:text-slate-300 space-y-1">
             <p className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-              <i className="fa-solid fa-clipboard-check text-[10px]" /> Catatan Progress:
+              <i className="fa-solid fa-clipboard-check text-[10px]" /> Catatan
+              Progress:
             </p>
             <p className="italic line-clamp-2 leading-relaxed">
               &ldquo;{m.progress_report}&rdquo;
@@ -258,6 +288,13 @@ function MeetingCard({
             variant={completed ? 'secondary' : 'primary'}
             className={m.link_url && !completed ? '' : 'w-full justify-center'}
             initialReport={m.progress_report}
+            isCompleted={completed}
+            attendanceStudents={m.meeting_students.map((ms) => ({
+              studentId: ms.student_id,
+              studentName: ms.students?.full_name ?? 'Siswa',
+              status:
+                ms.attendance_status ?? (ms.has_joined ? 'hadir' : 'absen'),
+            }))}
           />
         </div>
       </div>
@@ -267,18 +304,19 @@ function MeetingCard({
 
 // ── Main Component ────────────────────────────────────────────────────────────
 
-export function TeacherScheduleCards({ meetings }: Props) {
-  const nowMs = Date.now();
+export function TeacherScheduleCards({ meetings, renderTimestamp }: Props) {
+  const now = useMemo(() => new Date(renderTimestamp), [renderTimestamp]);
+  const nowMs = now.getTime();
 
   // Derive tab buckets
   const todayMeetings = useMemo(
-    () => meetings.filter((m) => isToday(m.meeting_date)),
-    [meetings]
+    () => meetings.filter((m) => isToday(m.meeting_date, now)),
+    [meetings, now]
   );
 
   const tomorrowMeetings = useMemo(
-    () => meetings.filter((m) => isTomorrow(m.meeting_date)),
-    [meetings]
+    () => meetings.filter((m) => isTomorrow(m.meeting_date, now)),
+    [meetings, now]
   );
 
   const pastMeetings = useMemo(
@@ -286,16 +324,16 @@ export function TeacherScheduleCards({ meetings }: Props) {
       meetings
         .filter(
           (m) =>
-            !isUpcoming(m.meeting_date) &&
-            !isToday(m.meeting_date) &&
-            !isTomorrow(m.meeting_date)
+            !isUpcoming(m.meeting_date, now) &&
+            !isToday(m.meeting_date, now) &&
+            !isTomorrow(m.meeting_date, now)
         )
         .sort(
           (a, b) =>
             new Date(b.meeting_date).getTime() -
             new Date(a.meeting_date).getTime()
         ),
-    [meetings]
+    [meetings, now]
   );
 
   // Unreported: past sessions or today's sessions that have ended or completed without a report
@@ -305,7 +343,8 @@ export function TeacherScheduleCards({ meetings }: Props) {
         .filter((m) => {
           const mTime = new Date(m.meeting_date).getTime();
           const isPassedOrEnded = mTime < nowMs;
-          const isMissingReport = !m.progress_report || m.progress_report.trim().length === 0;
+          const isMissingReport =
+            !m.progress_report || m.progress_report.trim().length === 0;
           return isPassedOrEnded && (!m.is_completed || isMissingReport);
         })
         .sort(
@@ -322,21 +361,25 @@ export function TeacherScheduleCards({ meetings }: Props) {
     if (tomorrowMeetings.length > 0) return 'tomorrow';
     if (unreportedMeetings.length > 0) return 'unreported';
     return 'past';
-  }, [todayMeetings.length, tomorrowMeetings.length, unreportedMeetings.length]);
+  }, [
+    todayMeetings.length,
+    tomorrowMeetings.length,
+    unreportedMeetings.length,
+  ]);
 
   const [activeTab, setActiveTab] = useState<Tab>(defaultTab);
 
   const countMap: Record<Tab, number> = {
-    today:      todayMeetings.length,
-    tomorrow:   tomorrowMeetings.length,
-    past:       pastMeetings.length,
+    today: todayMeetings.length,
+    tomorrow: tomorrowMeetings.length,
+    past: pastMeetings.length,
     unreported: unreportedMeetings.length,
   };
 
   const activeList: MeetingWithStudents[] = {
-    today:      todayMeetings,
-    tomorrow:   tomorrowMeetings,
-    past:       pastMeetings,
+    today: todayMeetings,
+    tomorrow: tomorrowMeetings,
+    past: pastMeetings,
     unreported: unreportedMeetings,
   }[activeTab];
 
@@ -366,15 +409,17 @@ export function TeacherScheduleCards({ meetings }: Props) {
                 }
               `}
             >
-              <i className={`${tab.icon} text-[11px] ${isActive ? 'text-white' : 'text-blue-500 dark:text-purple-400'}`} />
+              <i
+                className={`${tab.icon} text-[11px] ${isActive ? 'text-white' : 'text-blue-500 dark:text-purple-400'}`}
+              />
               <span>{tab.label}</span>
               <span
                 className={`inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-[10px] font-black ${
                   isActive
                     ? 'bg-white/20 text-white'
                     : isUnrep && count > 0
-                    ? 'bg-rose-500 text-white animate-pulse'
-                    : 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+                      ? 'bg-rose-500 text-white animate-pulse'
+                      : 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300'
                 }`}
               >
                 {count}
@@ -393,7 +438,11 @@ export function TeacherScheduleCards({ meetings }: Props) {
             <MeetingCard
               key={m.id}
               m={m}
-              showUnreportedWarning={activeTab === 'unreported' || (!m.is_completed && new Date(m.meeting_date).getTime() < nowMs)}
+              now={now}
+              showUnreportedWarning={
+                activeTab === 'unreported' ||
+                (!m.is_completed && new Date(m.meeting_date).getTime() < nowMs)
+              }
             />
           ))}
         </div>

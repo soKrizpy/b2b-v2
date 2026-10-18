@@ -21,7 +21,9 @@ import {
   getMockStore,
 } from './mock';
 
-async function getRequestCookies(): Promise<Array<{ name: string; value: string }>> {
+async function getRequestCookies(): Promise<
+  Array<{ name: string; value: string }>
+> {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     return document.cookie
       .split(';')
@@ -39,7 +41,9 @@ async function getRequestCookies(): Promise<Array<{ name: string; value: string 
 
   try {
     const req = eval('require') as (id: string) => {
-      cookies: () => Promise<{ getAll: () => Array<{ name: string; value: string }> }>;
+      cookies: () => Promise<{
+        getAll: () => Array<{ name: string; value: string }>;
+      }>;
     };
     const { cookies } = req('next/headers');
     const cookieStore = await cookies();
@@ -61,12 +65,16 @@ function extractSupabaseSessionToken(
 
     if (!rawValue) {
       const chunkPrefix = allCookies
-        .find((c) => c.name.startsWith('sb-') && c.name.includes('-auth-token.0'))
+        .find(
+          (c) => c.name.startsWith('sb-') && c.name.includes('-auth-token.0')
+        )
         ?.name.replace(/\.0$/, '');
       if (chunkPrefix) {
         const chunks: string[] = [];
         for (let i = 0; i < 10; i++) {
-          const chunk = allCookies.find((c) => c.name === `${chunkPrefix}.${i}`);
+          const chunk = allCookies.find(
+            (c) => c.name === `${chunkPrefix}.${i}`
+          );
           if (!chunk) break;
           chunks.push(chunk.value);
         }
@@ -78,7 +86,10 @@ function extractSupabaseSessionToken(
 
     let jsonStr = rawValue;
     if (jsonStr.startsWith('base64-')) {
-      const b64 = jsonStr.slice('base64-'.length).replace(/-/g, '+').replace(/_/g, '/');
+      const b64 = jsonStr
+        .slice('base64-'.length)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
       jsonStr = Buffer.from(b64, 'base64').toString('utf8');
     } else if (jsonStr.startsWith('%')) {
       jsonStr = decodeURIComponent(jsonStr);
@@ -88,7 +99,10 @@ function extractSupabaseSessionToken(
     if (Array.isArray(parsed) && typeof parsed[0] === 'string') {
       return parsed[0];
     }
-    if (parsed && typeof (parsed as { access_token?: string }).access_token === 'string') {
+    if (
+      parsed &&
+      typeof (parsed as { access_token?: string }).access_token === 'string'
+    ) {
       return (parsed as { access_token: string }).access_token;
     }
     return null;
@@ -98,8 +112,7 @@ function extractSupabaseSessionToken(
 }
 
 async function resolveExecutionTarget(): Promise<
-  | { mode: 'mock' }
-  | { mode: 'real'; authToken: string }
+  { mode: 'mock' } | { mode: 'real'; authToken: string }
 > {
   const url = getSupabaseUrl();
   if (!url.startsWith('http') || !isSupabaseConfigured()) {
@@ -109,7 +122,9 @@ async function resolveExecutionTarget(): Promise<
   let allCookies: Array<{ name: string; value: string }> = [];
   try {
     allCookies = await getRequestCookies();
-    const mockUserId = allCookies.find((c) => c.name === MOCK_SESSION_COOKIE)?.value;
+    const mockUserId = allCookies.find(
+      (c) => c.name === MOCK_SESSION_COOKIE
+    )?.value;
     if (mockUserId && getMockStore().users.some((u) => u.id === mockUserId)) {
       return { mode: 'mock' };
     }
@@ -193,37 +208,91 @@ class SmartAdminQueryBuilder {
     return this;
   }
 
-  select(...args: unknown[]) { return this.record('select', ...args); }
-  insert(...args: unknown[]) { return this.record('insert', ...args); }
-  update(...args: unknown[]) { return this.record('update', ...args); }
-  upsert(...args: unknown[]) { return this.record('upsert', ...args); }
-  delete(...args: unknown[]) { return this.record('delete', ...args); }
-  eq(...args: unknown[]) { return this.record('eq', ...args); }
-  neq(...args: unknown[]) { return this.record('neq', ...args); }
-  gt(...args: unknown[]) { return this.record('gt', ...args); }
-  gte(...args: unknown[]) { return this.record('gte', ...args); }
-  lt(...args: unknown[]) { return this.record('lt', ...args); }
-  lte(...args: unknown[]) { return this.record('lte', ...args); }
-  in(...args: unknown[]) { return this.record('in', ...args); }
-  is(...args: unknown[]) { return this.record('is', ...args); }
-  not(...args: unknown[]) { return this.record('not', ...args); }
-  or(...args: unknown[]) { return this.record('or', ...args); }
-  filter(...args: unknown[]) { return this.record('filter', ...args); }
-  order(...args: unknown[]) { return this.record('order', ...args); }
-  range(...args: unknown[]) { return this.record('range', ...args); }
-  limit(...args: unknown[]) { return this.record('limit', ...args); }
-  single(...args: unknown[]) { return this.record('single', ...args); }
-  maybeSingle(...args: unknown[]) { return this.record('maybeSingle', ...args); }
+  select(...args: unknown[]) {
+    return this.record('select', ...args);
+  }
+  insert(...args: unknown[]) {
+    return this.record('insert', ...args);
+  }
+  update(...args: unknown[]) {
+    return this.record('update', ...args);
+  }
+  upsert(...args: unknown[]) {
+    return this.record('upsert', ...args);
+  }
+  delete(...args: unknown[]) {
+    return this.record('delete', ...args);
+  }
+  eq(...args: unknown[]) {
+    return this.record('eq', ...args);
+  }
+  neq(...args: unknown[]) {
+    return this.record('neq', ...args);
+  }
+  gt(...args: unknown[]) {
+    return this.record('gt', ...args);
+  }
+  gte(...args: unknown[]) {
+    return this.record('gte', ...args);
+  }
+  lt(...args: unknown[]) {
+    return this.record('lt', ...args);
+  }
+  lte(...args: unknown[]) {
+    return this.record('lte', ...args);
+  }
+  in(...args: unknown[]) {
+    return this.record('in', ...args);
+  }
+  is(...args: unknown[]) {
+    return this.record('is', ...args);
+  }
+  not(...args: unknown[]) {
+    return this.record('not', ...args);
+  }
+  or(...args: unknown[]) {
+    return this.record('or', ...args);
+  }
+  filter(...args: unknown[]) {
+    return this.record('filter', ...args);
+  }
+  order(...args: unknown[]) {
+    return this.record('order', ...args);
+  }
+  range(...args: unknown[]) {
+    return this.record('range', ...args);
+  }
+  limit(...args: unknown[]) {
+    return this.record('limit', ...args);
+  }
+  single(...args: unknown[]) {
+    return this.record('single', ...args);
+  }
+  maybeSingle(...args: unknown[]) {
+    return this.record('maybeSingle', ...args);
+  }
 
-  private replayOn(client: { from: (t: string) => unknown }): Promise<{ data: unknown; error: unknown; count?: number }> {
-    let builder = client.from(this.table) as Record<string, (...a: unknown[]) => unknown>;
+  private replayOn(client: {
+    from: (t: string) => unknown;
+  }): Promise<{ data: unknown; error: unknown; count?: number }> {
+    let builder = client.from(this.table) as Record<
+      string,
+      (...a: unknown[]) => unknown
+    >;
     for (const op of this.ops) {
       const fn = builder[op.method];
       if (typeof fn === 'function') {
-        builder = fn.apply(builder, op.args) as Record<string, (...a: unknown[]) => unknown>;
+        builder = fn.apply(builder, op.args) as Record<
+          string,
+          (...a: unknown[]) => unknown
+        >;
       }
     }
-    return builder as unknown as Promise<{ data: unknown; error: unknown; count?: number }>;
+    return builder as unknown as Promise<{
+      data: unknown;
+      error: unknown;
+      count?: number;
+    }>;
   }
 
   private async execute() {
@@ -236,12 +305,18 @@ class SmartAdminQueryBuilder {
 
     try {
       const realClient = buildRealClientWithToken(target.authToken);
-      const res = await this.replayOn(realClient as unknown as { from: (t: string) => unknown });
+      const res = await this.replayOn(
+        realClient as unknown as { from: (t: string) => unknown }
+      );
       if (res?.error) {
         const err = res.error as { code?: string; message?: string };
         // Fallback to mock if the table or column doesn't exist in the Supabase schema
         // PGRST205 = relationship not found, 42703 = column not found, 42P01 = table not found
-        if (err?.code === 'PGRST205' || err?.code === '42703' || err?.code === '42P01') {
+        if (
+          err?.code === 'PGRST205' ||
+          err?.code === '42703' ||
+          err?.code === '42P01'
+        ) {
           return this.replayOn(mockClient);
         }
       }
@@ -265,6 +340,32 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
   const hybridClient = {
     from(table: string) {
       return new SmartAdminQueryBuilder(table);
+    },
+    async rpc(functionName: string, args: Record<string, unknown>) {
+      const target = await resolveExecutionTarget();
+      if (target.mode === 'mock') {
+        return mockClient.rpc(functionName, args);
+      }
+
+      try {
+        const realClient = buildRealClientWithToken(
+          target.authToken
+        ) as unknown as {
+          rpc: (
+            name: string,
+            params: Record<string, unknown>
+          ) => Promise<{ data: unknown; error: { message: string } | null }>;
+        };
+        return await realClient.rpc(functionName, args);
+      } catch (error) {
+        return {
+          data: null,
+          error: {
+            message:
+              error instanceof Error ? error.message : 'RPC request failed.',
+          },
+        };
+      }
     },
     auth: {
       ...mockClient.auth,
@@ -302,7 +403,11 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
         },
         async updateUserById(
           id: string,
-          attrs: { user_metadata?: Record<string, unknown>; password?: string; email_confirm?: boolean }
+          attrs: {
+            user_metadata?: Record<string, unknown>;
+            password?: string;
+            email_confirm?: boolean;
+          }
         ) {
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {

@@ -11,6 +11,7 @@ import { getAllModulesWithTopics } from './queries';
 import {
   curriculumJsonSchema,
   encodeFinalAssessment,
+  hasLearningNodes,
   type ModuleImport,
   type NodeImport,
 } from './validation';
@@ -504,6 +505,26 @@ export async function updateTopicAction(
   if (!title) return { success: false, error: 'Judul topik wajib diisi.', fields: { title: 'Wajib diisi.' } };
 
   const db = createSupabaseAdminClient();
+  if (status === 'published') {
+    const { data: topic, error: topicError } = await (db
+      .from('topics')
+      .select('lesson_content')
+      .eq('id', id)
+      .maybeSingle() as unknown as Promise<{
+        data: { lesson_content: unknown } | null;
+        error: { message: string } | null;
+      }>);
+
+    if (topicError) return { success: false, error: topicError.message };
+    if (!topic) return { success: false, error: 'Topik tidak ditemukan.' };
+    if (!hasLearningNodes(topic.lesson_content)) {
+      return {
+        success: false,
+        error: 'Topik harus memiliki minimal satu node materi sebelum dipublikasikan.',
+      };
+    }
+  }
+
   const { error } = await (db
     .from('topics')
     .update({

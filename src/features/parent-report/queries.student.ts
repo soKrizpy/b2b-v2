@@ -5,83 +5,89 @@
 //         certificates, billing, and 12-month snapshots in a single unified loader.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getStudentCertificates, type CertificateWithModule } from '@/features/certificates/queries';
+import {
+  getStudentCertificates,
+  type CertificateWithModule,
+} from '@/features/certificates/queries';
+import type { AttendanceStatus } from '@/types/sessions';
 
 // ── Result shapes ─────────────────────────────────────────────────────────────
 
 export interface MonthlyRecap {
-  monthLabel:     string;    // e.g. "Oktober 2026"
-  attendedCount:  number;
+  monthLabel: string; // e.g. "Oktober 2026"
+  attendedCount: number;
   totalScheduled: number;
-  attendanceRate: number;    // 0–100 integer percentage
-  xpThisMonth:    number;
-  coinsTotal:     number;
-  totalXp:        number;
-  avgQuizScore:   number;    // 0–100 average across all topic_quiz_attempts best scores
-  moduleStatus:   string;    // e.g. "Desain 3D Tinkercad · 3/5 topik selesai"
+  attendanceRate: number; // 0–100 integer percentage
+  xpThisMonth: number;
+  coinsTotal: number;
+  totalXp: number;
+  avgQuizScore: number; // 0–100 average across all topic_quiz_attempts best scores
+  moduleStatus: string; // e.g. "Desain 3D Tinkercad · 3/5 topik selesai"
 }
 
 export interface PortfolioItem {
-  submissionId:   number;
+  submissionId: number;
   challengeTitle: string;
-  topicTitle:     string | null;
-  submissionUrl:  string | null;
-  approvedAt:     string | null;
+  topicTitle: string | null;
+  submissionUrl: string | null;
+  approvedAt: string | null;
 }
 
 export interface HubInvoice {
-  id:                string;
-  month_year:        string;
+  id: string;
+  month_year: string;
   attended_meetings: number;
-  total_meetings:    number;
+  total_meetings: number;
   price_per_meeting: number;
-  total_amount:      number;
-  bank_account:      string | null;
-  status:            'draft' | 'sent' | 'paid';
+  total_amount: number;
+  bank_account: string | null;
+  status: 'draft' | 'sent' | 'paid';
 }
 
 export interface RiwayatSession {
-  meeting_id:      number;
-  title:           string;
-  meeting_date:    string;
-  has_joined:      boolean;
-  progress_report: string | null;  // teacher note
-  topic_title:     string | null;  // resolved from topics table
-  quiz_score:      number | null;  // best attempt score for aligned topic (0-100)
+  meeting_id: number;
+  title: string;
+  meeting_date: string;
+  has_joined: boolean;
+  attendance_status: AttendanceStatus;
+  progress_report: string | null; // teacher note
+  topic_title: string | null; // resolved from topics table
+  quiz_score: number | null; // best attempt score for aligned topic (0-100)
 }
 
 export interface RiwayatModule {
-  module_id:       number | null;
-  module_title:    string;
-  completed_count: number;         // sessions where has_joined = true
-  sessions:        RiwayatSession[];
+  module_id: number | null;
+  module_title: string;
+  completed_count: number; // sessions where has_joined = true
+  sessions: RiwayatSession[];
 }
 
 export interface StudentHubData {
-  studentName:  string;
-  monthly:      MonthlyRecap;
-  portfolio:    PortfolioItem[];
+  studentName: string;
+  monthly: MonthlyRecap;
+  portfolio: PortfolioItem[];
   certificates: CertificateWithModule[];
-  invoices:     HubInvoice[];
-  riwayat:      RiwayatModule[];
+  invoices: HubInvoice[];
+  riwayat: RiwayatModule[];
 }
 
 export interface MonthlySnapshot {
-  monthYear:       string;   // "YYYY-MM"
-  monthLabel:      string;   // "Oktober 2026"
-  attendedCount:   number;
-  totalScheduled:  number;
-  attendanceRate:  number;   // 0–100
-  avgQuizScore:    number;   // 0–100, 0 = no attempts
-  topicsCompleted: number;   // topics with best quiz score ≥ 70
-  xpEarned:        number;
-  sessions:        Array<{
-    meeting_id:      number;
-    title:           string;
-    meeting_date:    string;
-    has_joined:      boolean;
-    quiz_score:      number | null;
-    topic_title:     string | null;
+  monthYear: string; // "YYYY-MM"
+  monthLabel: string; // "Oktober 2026"
+  attendedCount: number;
+  totalScheduled: number;
+  attendanceRate: number; // 0–100
+  avgQuizScore: number; // 0–100, 0 = no attempts
+  topicsCompleted: number; // topics with best quiz score ≥ 70
+  xpEarned: number;
+  sessions: Array<{
+    meeting_id: number;
+    title: string;
+    meeting_date: string;
+    has_joined: boolean;
+    attendance_status: AttendanceStatus;
+    quiz_score: number | null;
+    topic_title: string | null;
     progress_report: string | null;
   }>;
 }
@@ -91,7 +97,7 @@ export interface MonthlySnapshot {
 export async function getStudentHubBundle(
   studentId: string
 ): Promise<{ hubData: StudentHubData; snapshots: MonthlySnapshot[] }> {
-  const db  = createSupabaseAdminClient();
+  const db = createSupabaseAdminClient();
   const now = new Date();
 
   // Stage 1: Fetch all independent student records in parallel
@@ -109,86 +115,100 @@ export async function getStudentHubBundle(
       .select('full_name, total_xp, coins')
       .eq('id', studentId)
       .maybeSingle() as unknown as Promise<{
-        data: { full_name: string; total_xp: number; coins: number } | null;
-        error: unknown;
-      }>,
+      data: { full_name: string; total_xp: number; coins: number } | null;
+      error: unknown;
+    }>,
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined')
+      .select('meeting_id, has_joined, attendance_status')
       .eq('student_id', studentId) as unknown as Promise<{
-        data: Array<{ meeting_id: number; has_joined: boolean }> | null;
-        error: unknown;
-      }>,
+      data: Array<{
+        meeting_id: number;
+        has_joined: boolean;
+        attendance_status: AttendanceStatus;
+      }> | null;
+      error: unknown;
+    }>,
     db
       .from('topic_progress')
       .select('xp_earned, completed_at')
       .eq('student_id', studentId) as unknown as Promise<{
-        data: Array<{ xp_earned: number; completed_at: string }> | null;
-        error: unknown;
-      }>,
+      data: Array<{ xp_earned: number; completed_at: string }> | null;
+      error: unknown;
+    }>,
     db
       .from('student_modules')
       .select('module_id, status, modules ( id, title )')
       .eq('student_id', studentId) as unknown as Promise<{
-        data: Array<{
-          module_id: number;
-          status:    string;
-          modules:   { id: number; title: string } | null;
-        }> | null;
-        error: unknown;
-      }>,
+      data: Array<{
+        module_id: number;
+        status: string;
+        modules: { id: number; title: string } | null;
+      }> | null;
+      error: unknown;
+    }>,
     db
       .from('challenge_submissions')
       .select('id, challenge_id, submission_url, reviewed_at')
       .eq('student_id', studentId)
       .eq('status', 'approved')
       .order('reviewed_at', { ascending: false }) as unknown as Promise<{
-        data: Array<{
-          id:             number;
-          challenge_id:   number;
-          submission_url: string | null;
-          reviewed_at:    string | null;
-        }> | null;
-        error: unknown;
-      }>,
+      data: Array<{
+        id: number;
+        challenge_id: number;
+        submission_url: string | null;
+        reviewed_at: string | null;
+      }> | null;
+      error: unknown;
+    }>,
     getStudentCertificates(studentId),
     db
       .from('invoices')
-      .select('id, month_year, attended_meetings, total_meetings, price_per_meeting, total_amount, bank_account, status')
+      .select(
+        'id, month_year, attended_meetings, total_meetings, price_per_meeting, total_amount, bank_account, status'
+      )
       .eq('student_id', studentId)
       .order('month_year', { ascending: false }) as unknown as Promise<{
-        data: HubInvoice[] | null;
-        error: unknown;
-      }>,
+      data: HubInvoice[] | null;
+      error: unknown;
+    }>,
   ]);
 
   const studentName = student?.full_name ?? 'Siswa';
-  const totalXp     = student?.total_xp  ?? 0;
-  const coinsTotal  = student?.coins ?? (student as unknown as { edu_coins?: number })?.edu_coins ?? 0;
+  const totalXp = student?.total_xp ?? 0;
+  const coinsTotal =
+    student?.coins ??
+    (student as unknown as { edu_coins?: number })?.edu_coins ??
+    0;
 
-  const allMsRows         = msRows ?? [];
-  const joinedMap         = new Map(allMsRows.map((r) => [r.meeting_id, r.has_joined]));
+  const allMsRows = msRows ?? [];
+  const joinedMap = new Map(allMsRows.map((r) => [r.meeting_id, r.has_joined]));
+  const attendanceMap = new Map(
+    allMsRows.map((r) => [r.meeting_id, r.attendance_status])
+  );
   const enrolledModuleIds = (enrollments ?? []).map((e) => e.module_id);
-  const challengeIds      = (approvedSubs ?? []).map((s) => s.challenge_id);
+  const challengeIds = (approvedSubs ?? []).map((s) => s.challenge_id);
 
   // Stage 2: Fetch dependent meetings, published topics, and challenges in parallel
   const [meetingsRes, topicsRes, challengesRes] = await Promise.all([
-    (db
+    db
       .from('meetings')
-      .select('id, title, meeting_date, progress_report, is_completed, meeting_students!inner(student_id)')
+      .select(
+        'id, title, meeting_date, progress_report, is_completed, meeting_students!inner(student_id)'
+      )
       .eq('meeting_students.student_id', studentId)
       .eq('is_completed', true)
       .order('meeting_date', { ascending: true }) as unknown as Promise<{
-        data: Array<{
-          id:              number;
-          title:           string;
-          meeting_date:    string;
-          progress_report: string | null;
-          is_completed:    boolean;
-          meeting_students: Array<{ student_id: string }>;
-        }> | null;
-        error: unknown;
-      }>),
+      data: Array<{
+        id: number;
+        title: string;
+        meeting_date: string;
+        progress_report: string | null;
+        is_completed: boolean;
+        meeting_students: Array<{ student_id: string }>;
+      }> | null;
+      error: unknown;
+    }>,
     enrolledModuleIds.length > 0
       ? (db
           .from('topics')
@@ -196,27 +216,34 @@ export async function getStudentHubBundle(
           .in('module_id', enrolledModuleIds)
           .eq('status', 'published')
           .order('order_index', { ascending: true }) as unknown as Promise<{
-            data: Array<{ id: number; title: string; module_id: number; order_index: number }> | null;
-            error: unknown;
-          }>)
+          data: Array<{
+            id: number;
+            title: string;
+            module_id: number;
+            order_index: number;
+          }> | null;
+          error: unknown;
+        }>)
       : Promise.resolve({ data: [], error: null }),
     challengeIds.length > 0
       ? (db
           .from('challenges')
           .select('id, title, topic_id')
           .in('id', challengeIds) as unknown as Promise<{
-            data: Array<{ id: number; title: string; topic_id: number }> | null;
-            error: unknown;
-          }>)
+          data: Array<{ id: number; title: string; topic_id: number }> | null;
+          error: unknown;
+        }>)
       : Promise.resolve({ data: [], error: null }),
   ]);
 
   const allMeetingsAsc = meetingsRes.data ?? [];
-  const topicsData     = topicsRes.data ?? [];
-  const challenges     = challengesRes.data ?? [];
+  const topicsData = topicsRes.data ?? [];
+  const challenges = challengesRes.data ?? [];
 
   // Flatten published topics in module order (active module first)
-  const activeEnrollment = (enrollments ?? []).find((e) => e.status === 'active');
+  const activeEnrollment = (enrollments ?? []).find(
+    (e) => e.status === 'active'
+  );
   const sortedModIds = [
     ...(activeEnrollment ? [activeEnrollment.module_id] : []),
     ...(enrollments ?? [])
@@ -224,7 +251,12 @@ export async function getStudentHubBundle(
       .map((e) => e.module_id),
   ];
 
-  const flattenedTopics: Array<{ id: number; title: string; module_id: number; order_index: number }> = [];
+  const flattenedTopics: Array<{
+    id: number;
+    title: string;
+    module_id: number;
+    order_index: number;
+  }> = [];
   for (const modId of sortedModIds) {
     const modTopics = topicsData
       .filter((t) => t.module_id === modId)
@@ -232,7 +264,7 @@ export async function getStudentHubBundle(
     flattenedTopics.push(...modTopics);
   }
 
-  const topicIds     = flattenedTopics.map((t) => t.id);
+  const topicIds = flattenedTopics.map((t) => t.id);
   const portTopicIds = [...new Set(challenges.map((c) => c.topic_id))];
 
   // Fetch quiz attempts + portfolio topic titles in parallel if needed
@@ -243,18 +275,22 @@ export async function getStudentHubBundle(
           .select('topic_id, score, submitted_at')
           .eq('student_id', studentId)
           .in('topic_id', topicIds) as unknown as Promise<{
-            data: Array<{ topic_id: number; score: number; submitted_at?: string }> | null;
-            error: unknown;
-          }>)
+          data: Array<{
+            topic_id: number;
+            score: number;
+            submitted_at?: string;
+          }> | null;
+          error: unknown;
+        }>)
       : Promise.resolve({ data: [], error: null }),
     portTopicIds.length > 0
       ? (db
           .from('topics')
           .select('id, title')
           .in('id', portTopicIds) as unknown as Promise<{
-            data: Array<{ id: number; title: string }> | null;
-            error: unknown;
-          }>)
+          data: Array<{ id: number; title: string }> | null;
+          error: unknown;
+        }>)
       : Promise.resolve({ data: [], error: null }),
   ]);
 
@@ -266,27 +302,37 @@ export async function getStudentHubBundle(
 
   // Average quiz score across all attempted topics
   const attemptedScores = [...quizBestMap.values()];
-  const avgQuizScore = attemptedScores.length > 0
-    ? Math.round(attemptedScores.reduce((s, v) => s + v, 0) / attemptedScores.length)
-    : 0;
+  const avgQuizScore =
+    attemptedScores.length > 0
+      ? Math.round(
+          attemptedScores.reduce((s, v) => s + v, 0) / attemptedScores.length
+        )
+      : 0;
 
   // Module status string
   let moduleStatus = 'Belum ada modul aktif';
   if (activeEnrollment?.modules) {
-    const activeTopics    = flattenedTopics.filter((t) => t.module_id === activeEnrollment.module_id);
-    const completedTopics = activeTopics.filter((t) => quizBestMap.has(t.id) && quizBestMap.get(t.id)! >= 70).length;
+    const activeTopics = flattenedTopics.filter(
+      (t) => t.module_id === activeEnrollment.module_id
+    );
+    const completedTopics = activeTopics.filter(
+      (t) => quizBestMap.has(t.id) && quizBestMap.get(t.id)! >= 70
+    ).length;
     moduleStatus = `${activeEnrollment.modules.title} · ${completedTopics}/${activeTopics.length} topik`;
   }
 
   // GlobalIndex: chronological meeting position → topic mapping
-  const meetingTopicMap = new Map<number, { topic_title: string | null; quiz_score: number | null }>();
+  const meetingTopicMap = new Map<
+    number,
+    { topic_title: string | null; quiz_score: number | null }
+  >();
   for (let i = 0; i < allMeetingsAsc.length; i++) {
     const m = allMeetingsAsc[i];
     if (flattenedTopics.length > 0) {
       const topic = flattenedTopics[i % flattenedTopics.length];
       meetingTopicMap.set(m.id, {
         topic_title: topic.title,
-        quiz_score:  quizBestMap.get(topic.id) ?? null,
+        quiz_score: quizBestMap.get(topic.id) ?? null,
       });
     } else {
       meetingTopicMap.set(m.id, { topic_title: null, quiz_score: null });
@@ -294,17 +340,30 @@ export async function getStudentHubBundle(
   }
 
   // Current month recap
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-  const monthEnd   = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999).toISOString();
+  const monthStart = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    1
+  ).toISOString();
+  const monthEnd = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+    23,
+    59,
+    59,
+    999
+  ).toISOString();
 
   const thisMoMeetings = allMeetingsAsc.filter(
     (m) => m.meeting_date >= monthStart && m.meeting_date <= monthEnd
   );
   const totalScheduled = thisMoMeetings.length;
-  const attendedCount  = thisMoMeetings.filter((m) => joinedMap.get(m.id) === true).length;
-  const attendanceRate = totalScheduled > 0
-    ? Math.round((attendedCount / totalScheduled) * 100)
-    : 0;
+  const attendedCount = thisMoMeetings.filter(
+    (m) => joinedMap.get(m.id) === true
+  ).length;
+  const attendanceRate =
+    totalScheduled > 0 ? Math.round((attendedCount / totalScheduled) * 100) : 0;
 
   const xpThisMonth = (tpAll ?? [])
     .filter((r) => r.completed_at >= monthStart && r.completed_at <= monthEnd)
@@ -321,13 +380,15 @@ export async function getStudentHubBundle(
     const sessions: RiwayatSession[] = completedMeetingsDesc.map((m) => {
       const topicData = meetingTopicMap.get(m.id);
       return {
-        meeting_id:      m.id,
-        title:           m.title,
-        meeting_date:    m.meeting_date,
-        has_joined:      joinedMap.get(m.id) ?? false,
+        meeting_id: m.id,
+        title: m.title,
+        meeting_date: m.meeting_date,
+        has_joined: joinedMap.get(m.id) ?? false,
+        attendance_status:
+          attendanceMap.get(m.id) ?? (joinedMap.get(m.id) ? 'hadir' : 'absen'),
         progress_report: m.progress_report,
-        topic_title:     topicData?.topic_title ?? null,
-        quiz_score:      topicData?.quiz_score  ?? null,
+        topic_title: topicData?.topic_title ?? null,
+        quiz_score: topicData?.quiz_score ?? null,
       };
     });
 
@@ -335,15 +396,15 @@ export async function getStudentHubBundle(
     // We deliberately avoid fuzzy title matching which silently drops sessions.
     if (activeEnrollment?.modules) {
       riwayat.push({
-        module_id:       activeEnrollment.module_id,
-        module_title:    activeEnrollment.modules.title,
+        module_id: activeEnrollment.module_id,
+        module_title: activeEnrollment.modules.title,
         completed_count: sessions.filter((s) => s.has_joined).length,
         sessions,
       });
     } else if (sessions.length > 0) {
       riwayat.push({
-        module_id:       null,
-        module_title:    'Sesi Lainnya',
+        module_id: null,
+        module_title: 'Sesi Lainnya',
         completed_count: sessions.filter((s) => s.has_joined).length,
         sessions,
       });
@@ -353,23 +414,26 @@ export async function getStudentHubBundle(
   // Portfolio items
   const portfolio: PortfolioItem[] = [];
   if ((approvedSubs ?? []).length > 0) {
-    const chMap    = new Map(challenges.map((c) => [c.id, c]));
+    const chMap = new Map(challenges.map((c) => [c.id, c]));
     const topicMap = new Map((portTopicsRes.data ?? []).map((t) => [t.id, t]));
 
     for (const sub of approvedSubs ?? []) {
-      const ch    = chMap.get(sub.challenge_id);
+      const ch = chMap.get(sub.challenge_id);
       const topic = ch ? topicMap.get(ch.topic_id) : null;
       portfolio.push({
-        submissionId:   sub.id,
+        submissionId: sub.id,
         challengeTitle: ch?.title ?? 'Challenge',
-        topicTitle:     topic?.title ?? null,
-        submissionUrl:  sub.submission_url,
-        approvedAt:     sub.reviewed_at,
+        topicTitle: topic?.title ?? null,
+        submissionUrl: sub.submission_url,
+        approvedAt: sub.reviewed_at,
       });
     }
   }
 
-  const monthLabel = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+  const monthLabel = now.toLocaleDateString('id-ID', {
+    month: 'long',
+    year: 'numeric',
+  });
   const monthly: MonthlyRecap = {
     monthLabel,
     attendedCount,
@@ -392,15 +456,31 @@ export async function getStudentHubBundle(
   };
 
   // Build 12 month windows for MonthlySnapshot[]
-  const windows: Array<{ monthYear: string; monthLabel: string; start: string; end: string }> = [];
+  const windows: Array<{
+    monthYear: string;
+    monthLabel: string;
+    start: string;
+    end: string;
+  }> = [];
   for (let i = 0; i < 12; i++) {
-    const d     = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const start = new Date(d.getFullYear(), d.getMonth(), 1).toISOString();
-    const end   = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999).toISOString();
-    const mm    = String(d.getMonth() + 1).padStart(2, '0');
+    const end = new Date(
+      d.getFullYear(),
+      d.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ).toISOString();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
     windows.push({
-      monthYear:  `${d.getFullYear()}-${mm}`,
-      monthLabel: d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+      monthYear: `${d.getFullYear()}-${mm}`,
+      monthLabel: d.toLocaleDateString('id-ID', {
+        month: 'long',
+        year: 'numeric',
+      }),
       start,
       end,
     });
@@ -412,19 +492,28 @@ export async function getStudentHubBundle(
     );
 
     const scheduled = inWindow.length;
-    const attended  = inWindow.filter((m) => joinedMap.get(m.id) === true).length;
-    const rate      = scheduled > 0 ? Math.round((attended / scheduled) * 100) : 0;
+    const attended = inWindow.filter(
+      (m) => joinedMap.get(m.id) === true
+    ).length;
+    const rate = scheduled > 0 ? Math.round((attended / scheduled) * 100) : 0;
 
     const meetingScores = inWindow
       .map((m) => meetingTopicMap.get(m.id)?.quiz_score ?? null)
       .filter((s): s is number => s !== null);
     const directAttemptScores = (quizAttemptsRes.data ?? [])
-      .filter((qa) => qa.submitted_at && qa.submitted_at >= w.start && qa.submitted_at <= w.end)
+      .filter(
+        (qa) =>
+          qa.submitted_at &&
+          qa.submitted_at >= w.start &&
+          qa.submitted_at <= w.end
+      )
       .map((qa) => qa.score);
-    const scores = meetingScores.length > 0 ? meetingScores : directAttemptScores;
-    const avg = scores.length > 0
-      ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
-      : 0;
+    const scores =
+      meetingScores.length > 0 ? meetingScores : directAttemptScores;
+    const avg =
+      scores.length > 0
+        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        : 0;
 
     const topicsThisMonth = inWindow
       .map((m) => meetingTopicMap.get(m.id)?.quiz_score)
@@ -437,23 +526,25 @@ export async function getStudentHubBundle(
     const sessions = inWindow.map((m) => {
       const td = meetingTopicMap.get(m.id);
       return {
-        meeting_id:      m.id,
-        title:           m.title,
-        meeting_date:    m.meeting_date,
-        has_joined:      joinedMap.get(m.id) ?? false,
-        quiz_score:      td?.quiz_score      ?? null,
-        topic_title:     td?.topic_title     ?? null,
+        meeting_id: m.id,
+        title: m.title,
+        meeting_date: m.meeting_date,
+        has_joined: joinedMap.get(m.id) ?? false,
+        attendance_status:
+          attendanceMap.get(m.id) ?? (joinedMap.get(m.id) ? 'hadir' : 'absen'),
+        quiz_score: td?.quiz_score ?? null,
+        topic_title: td?.topic_title ?? null,
         progress_report: m.progress_report,
       };
     });
 
     return {
-      monthYear:       w.monthYear,
-      monthLabel:      w.monthLabel,
-      attendedCount:   attended,
-      totalScheduled:  scheduled,
-      attendanceRate:  rate,
-      avgQuizScore:    avg,
+      monthYear: w.monthYear,
+      monthLabel: w.monthLabel,
+      attendedCount: attended,
+      totalScheduled: scheduled,
+      attendanceRate: rate,
+      avgQuizScore: avg,
       topicsCompleted: topicsThisMonth,
       xpEarned,
       sessions,
@@ -463,12 +554,16 @@ export async function getStudentHubBundle(
   return { hubData, snapshots };
 }
 
-export async function getStudentHubData(studentId: string): Promise<StudentHubData> {
+export async function getStudentHubData(
+  studentId: string
+): Promise<StudentHubData> {
   const { hubData } = await getStudentHubBundle(studentId);
   return hubData;
 }
 
-export async function getMonthlySnapshots(studentId: string): Promise<MonthlySnapshot[]> {
+export async function getMonthlySnapshots(
+  studentId: string
+): Promise<MonthlySnapshot[]> {
   const { snapshots } = await getStudentHubBundle(studentId);
   return snapshots;
 }

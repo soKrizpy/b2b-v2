@@ -17,13 +17,15 @@ export default async function AdminDashboardPage() {
     getTeacherOptions(),
     getStudentOptions(),
   ]);
-  const metrics = computeAdminMetrics(meetings);
+  const renderTimestamp = Date.now();
+  const metrics = computeAdminMetrics(meetings, new Date(renderTimestamp));
   return (
     <DashboardShell
       meetings={meetings}
       teachers={teachers}
       students={students}
       metrics={metrics}
+      renderTimestamp={renderTimestamp}
     />
   );
 }
