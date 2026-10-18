@@ -1,15 +1,23 @@
 // src/features/sessions/components/MeetingForm.tsx
 // Admin-only form for creating and editing meetings.
 // Used in both the Create modal and the Edit modal.
-"use client";
+'use client';
 
-import { useActionState, useEffect, useState } from "react";
-import { createSession, updateSession, type ActionResult } from "@/features/sessions/actions";
-import { Button } from "@/components/ui/Button";
-import { Input, Textarea } from "@/components/ui/Input";
-import type { MeetingWithStudents, TeacherOption, StudentOption } from "@/features/sessions/queries";
+import { useActionState, useEffect, useState } from 'react';
+import {
+  createSession,
+  updateSession,
+  type ActionResult,
+} from '@/features/sessions/actions';
+import { Button } from '@/components/ui/Button';
+import { Input, Textarea } from '@/components/ui/Input';
+import type {
+  MeetingWithStudents,
+  TeacherOption,
+  StudentOption,
+} from '@/features/sessions/queries';
 
-type Mode = "create" | "edit";
+type Mode = 'create' | 'edit';
 
 interface MeetingFormProps {
   mode: Mode;
@@ -23,17 +31,32 @@ const initial: ActionResult | null = null;
 
 function toLocalDatetimeInput(iso: string): string {
   const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess }: MeetingFormProps) {
-  const action = mode === "create" ? createSession : updateSession;
+export function localDatetimeToIso(value: string): string {
+  if (!value) return '';
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? '' : date.toISOString();
+}
+
+export function MeetingForm({
+  mode,
+  teachers = [],
+  students,
+  meeting,
+  onSuccess,
+}: MeetingFormProps) {
+  const action = mode === 'create' ? createSession : updateSession;
   const [state, formAction, pending] = useActionState(action, initial);
+  const [meetingDate, setMeetingDate] = useState(
+    meeting ? toLocalDatetimeInput(meeting.meeting_date) : ''
+  );
   const [selectedStudents, setSelectedStudents] = useState<string[]>(
     meeting?.meeting_students?.map((ms) => ms.student_id) ?? []
   );
-  const [editMode, setEditMode] = useState<"single" | "series">("single");
+  const [editMode, setEditMode] = useState<'single' | 'series'>('single');
 
   useEffect(() => {
     if (state?.success) onSuccess?.();
@@ -50,14 +73,26 @@ export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess 
   return (
     <form action={formAction} className="space-y-5">
       {/* Hidden fields */}
-      {mode === "edit" && meeting && (
+      {mode === 'edit' && meeting && (
         <>
           <input type="hidden" name="id" value={meeting.id} />
           <input type="hidden" name="edit_mode" value={editMode} />
-          {meeting.series_id && <input type="hidden" name="series_id" value={meeting.series_id} />}
-          <input type="hidden" name="session_number" value={meeting.session_number} />
+          {meeting.series_id && (
+            <input type="hidden" name="series_id" value={meeting.series_id} />
+          )}
+          <input
+            type="hidden"
+            name="session_number"
+            value={meeting.session_number}
+          />
         </>
       )}
+
+      <input
+        type="hidden"
+        name="meeting_date"
+        value={localDatetimeToIso(meetingDate)}
+      />
 
       {/* Selected students (repeated hidden inputs) */}
       {selectedStudents.map((id) => (
@@ -66,31 +101,43 @@ export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess 
 
       {/* Top-level error */}
       {state && !state.success && !state.fields && (
-        <div className="rounded-xl bg-red-50 ring-1 ring-red-200 px-4 py-3 text-sm text-red-700
-          flex items-center gap-2">
-          <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4zm.75 7a.75.75 0 110-1.5.75.75 0 010 1.5z"/>
+        <div
+          className="rounded-xl bg-red-50 ring-1 ring-red-200 px-4 py-3 text-sm text-red-700
+          flex items-center gap-2"
+        >
+          <svg
+            className="h-4 w-4 flex-shrink-0"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+          >
+            <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4zm.75 7a.75.75 0 110-1.5.75.75 0 010 1.5z" />
           </svg>
           {state.error}
         </div>
       )}
 
       {/* Title */}
-      <Input label="Judul Kelas" name="title" required
+      <Input
+        label="Judul Kelas"
+        name="title"
+        required
         defaultValue={meeting?.title}
         placeholder="Kelas HTML Dasar — Sesi 1"
-        error={err("title")}
+        error={err('title')}
       />
 
       {/* Teacher picker */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="meeting-teacher" className="text-sm font-medium text-slate-700">
+        <label
+          htmlFor="meeting-teacher"
+          className="text-sm font-medium text-slate-700"
+        >
           Guru <span className="text-slate-400 font-normal">(opsional)</span>
         </label>
         <select
           id="meeting-teacher"
           name="teacher_id"
-          defaultValue={meeting?.teacher_id ?? ""}
+          defaultValue={meeting?.teacher_id ?? ''}
           className="rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm
             bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
@@ -104,77 +151,114 @@ export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess 
       </div>
 
       {/* Date-time */}
-      <Input label="Waktu Mulai" name="meeting_date" type="datetime-local" required
-        defaultValue={meeting ? toLocalDatetimeInput(meeting.meeting_date) : undefined}
-        error={err("meeting_date")}
+      <Input
+        label="Waktu Mulai"
+        name="meeting_date_local"
+        type="datetime-local"
+        required
+        value={meetingDate}
+        onChange={(event) => setMeetingDate(event.target.value)}
+        error={err('meeting_date')}
       />
 
       {/* Meeting link */}
-      <Input label="Link Meeting (Zoom / Meet)" name="link_url" type="url" required
+      <Input
+        label="Link Meeting (Zoom / Meet)"
+        name="link_url"
+        type="url"
+        required
         defaultValue={meeting?.link_url ?? undefined}
         placeholder="https://zoom.us/j/..."
-        error={err("link_url")}
+        error={err('link_url')}
       />
 
       {/* Session count — create mode only */}
-      {mode === "create" && (
-        <Input label="Jumlah Sesi (1 = single, >1 = seri mingguan)" name="session_count"
-          type="number" min={1} max={20} defaultValue={1}
-          error={err("session_count")}
+      {mode === 'create' && (
+        <Input
+          label="Jumlah Sesi (1 = single, >1 = seri mingguan)"
+          name="session_count"
+          type="number"
+          min={1}
+          max={20}
+          defaultValue={1}
+          error={err('session_count')}
         />
       )}
 
       {/* Notes */}
-      <Textarea label="Catatan (opsional)" name="notes"
+      <Textarea
+        label="Catatan (opsional)"
+        name="notes"
         defaultValue={meeting?.notes ?? undefined}
         placeholder="Topik, persiapan, dll."
-        error={err("notes")}
+        error={err('notes')}
       />
 
       {/* Student picker */}
       <div>
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-medium text-slate-700">
-            Siswa {mode === "create" ? "(pilih minimal 1)" : ""}
+            Siswa {mode === 'create' ? '(pilih minimal 1)' : ''}
           </p>
           {selectedStudents.length > 0 && (
-            <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5
-              rounded-full ring-1 ring-indigo-200">
+            <span
+              className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5
+              rounded-full ring-1 ring-indigo-200"
+            >
               {selectedStudents.length} dipilih
             </span>
           )}
         </div>
-        {err("student_ids") && (
+        {err('student_ids') && (
           <p className="text-xs text-red-600 mb-2 flex items-center gap-1">
-            <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4zm.75 7a.75.75 0 110-1.5.75.75 0 010 1.5z"/>
+            <svg
+              className="h-3.5 w-3.5"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+            >
+              <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4zm.75 7a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
-            {err("student_ids")}
+            {err('student_ids')}
           </p>
         )}
-        <div className="rounded-xl border border-slate-200 max-h-48 overflow-y-auto
-          divide-y divide-slate-100 shadow-sm">
+        <div
+          className="rounded-xl border border-slate-200 max-h-48 overflow-y-auto
+          divide-y divide-slate-100 shadow-sm"
+        >
           {students.length === 0 && (
-            <p className="px-4 py-3 text-xs text-slate-400 italic">Belum ada siswa terdaftar.</p>
+            <p className="px-4 py-3 text-xs text-slate-400 italic">
+              Belum ada siswa terdaftar.
+            </p>
           )}
           {students.map((s) => {
             const checked = selectedStudents.includes(s.id);
             return (
-              <label key={s.id}
+              <label
+                key={s.id}
                 className={`flex items-center gap-3 px-4 py-2.5 cursor-pointer select-none transition-colors
-                  ${checked ? "bg-indigo-50" : "hover:bg-slate-50"}`}
+                  ${checked ? 'bg-indigo-50' : 'hover:bg-slate-50'}`}
               >
-                <input type="checkbox" className="rounded accent-indigo-600 w-4 h-4"
+                <input
+                  type="checkbox"
+                  className="rounded accent-indigo-600 w-4 h-4"
                   checked={checked}
                   onChange={() => toggleStudent(s.id)}
                 />
                 <span className="text-sm font-medium text-slate-800 flex-1 min-w-0 truncate">
                   {s.full_name}
-                  {s.grade && <span className="ml-1.5 text-xs text-slate-400 font-normal">Kelas {s.grade}</span>}
+                  {s.grade && (
+                    <span className="ml-1.5 text-xs text-slate-400 font-normal">
+                      Kelas {s.grade}
+                    </span>
+                  )}
                 </span>
                 {checked && (
-                  <svg className="h-4 w-4 text-indigo-600 flex-shrink-0" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z"/>
+                  <svg
+                    className="h-4 w-4 text-indigo-600 flex-shrink-0"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" />
                   </svg>
                 )}
               </label>
@@ -184,15 +268,27 @@ export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess 
       </div>
 
       {/* Series edit mode — edit mode only, for series meetings */}
-      {mode === "edit" && meeting?.series_id && (
+      {mode === 'edit' && meeting?.series_id && (
         <div className="rounded-lg bg-amber-50 border border-amber-200 p-3 space-y-2">
-          <p className="text-xs font-semibold text-amber-800">Ini adalah bagian dari seri kelas</p>
+          <p className="text-xs font-semibold text-amber-800">
+            Ini adalah bagian dari seri kelas
+          </p>
           <div className="flex gap-3">
-            {(["single", "series"] as const).map((m) => (
-              <label key={m} className="flex items-center gap-2 text-sm cursor-pointer">
-                <input type="radio" name="_editMode_ui" value={m}
-                  checked={editMode === m} onChange={() => setEditMode(m)} />
-                {m === "single" ? "Perbarui hanya sesi ini" : "Perbarui sesi ini & selanjutnya"}
+            {(['single', 'series'] as const).map((m) => (
+              <label
+                key={m}
+                className="flex items-center gap-2 text-sm cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  name="_editMode_ui"
+                  value={m}
+                  checked={editMode === m}
+                  onChange={() => setEditMode(m)}
+                />
+                {m === 'single'
+                  ? 'Perbarui hanya sesi ini'
+                  : 'Perbarui sesi ini & selanjutnya'}
               </label>
             ))}
           </div>
@@ -201,15 +297,9 @@ export function MeetingForm({ mode, teachers = [], students, meeting, onSuccess 
 
       <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
         <Button type="submit" loading={pending} className="min-w-[140px]">
-          {mode === "create" ? "✨ Buat Jadwal" : "💾 Simpan Perubahan"}
+          {mode === 'create' ? '✨ Buat Jadwal' : '💾 Simpan Perubahan'}
         </Button>
       </div>
     </form>
   );
 }
-
-
-
-
-
-

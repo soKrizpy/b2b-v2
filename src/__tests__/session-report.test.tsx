@@ -4,6 +4,7 @@ import { AdminSessionActions } from '@/features/sessions/components/AdminSession
 import { updateSessionReport } from '@/features/sessions/actions';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
 import { TeacherCompleteAction } from '@/features/sessions/components/TeacherCompleteAction';
+import { localDatetimeToIso } from '@/features/sessions/components/MeetingForm';
 
 const state = vi.hoisted(() => ({
   meeting: {
@@ -224,7 +225,7 @@ describe('completed session report editing', () => {
         attendance_status: 'absen',
         students: { full_name: `Student ${index + 1}` },
       })),
-    } as MeetingWithStudents;
+    } as unknown as MeetingWithStudents;
 
     render(
       <AdminSessionActions meeting={meeting} teachers={[]} students={[]} />
@@ -269,5 +270,21 @@ describe('completed session report editing', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTitle('Tandai Selesai')).not.toBeInTheDocument();
     expect(screen.queryByTitle('Hapus Jadwal')).not.toBeInTheDocument();
+  });
+});
+
+describe('meeting form datetime conversion', () => {
+  it('converts local datetime input to an ISO timestamp with timezone', () => {
+    const localValue = '2026-10-18T07:55';
+
+    expect(localDatetimeToIso(localValue)).toBe(
+      new Date(localValue).toISOString()
+    );
+    expect(localDatetimeToIso(localValue)).toMatch(/Z$/);
+  });
+
+  it('keeps an empty or invalid value empty for required-field validation', () => {
+    expect(localDatetimeToIso('')).toBe('');
+    expect(localDatetimeToIso('not-a-date')).toBe('');
   });
 });
