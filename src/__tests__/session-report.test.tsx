@@ -246,7 +246,7 @@ describe('completed session report editing', () => {
     });
   });
 
-  it('shows only the report-edit action for completed admin sessions', () => {
+  it('allows schedule and report editing for completed admin sessions', () => {
     const meeting = {
       id: 41,
       title: 'Completed lesson',
@@ -262,7 +262,11 @@ describe('completed session report editing', () => {
     expect(
       screen.getByRole('button', { name: /Edit Laporan/ })
     ).toBeInTheDocument();
-    expect(screen.queryByTitle('Edit Jadwal')).not.toBeInTheDocument();
+    expect(screen.getByTitle('Edit Jadwal')).toBeInTheDocument();
+    fireEvent.click(screen.getByTitle('Edit Jadwal'));
+    expect(
+      screen.getByRole('dialog', { name: 'Edit Jadwal' })
+    ).toBeInTheDocument();
     expect(screen.queryByTitle('Tandai Selesai')).not.toBeInTheDocument();
     expect(screen.queryByTitle('Hapus Jadwal')).not.toBeInTheDocument();
   });
