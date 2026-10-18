@@ -167,29 +167,28 @@ export async function getStudentHubBundle(
   const coinsTotal  = student?.coins ?? (student as unknown as { edu_coins?: number })?.edu_coins ?? 0;
 
   const allMsRows         = msRows ?? [];
-  const meetingIds        = allMsRows.map((r) => r.meeting_id);
   const joinedMap         = new Map(allMsRows.map((r) => [r.meeting_id, r.has_joined]));
   const enrolledModuleIds = (enrollments ?? []).map((e) => e.module_id);
   const challengeIds      = (approvedSubs ?? []).map((s) => s.challenge_id);
 
   // Stage 2: Fetch dependent meetings, published topics, and challenges in parallel
   const [meetingsRes, topicsRes, challengesRes] = await Promise.all([
-    meetingIds.length > 0
-      ? (db
-          .from('meetings')
-          .select('id, title, meeting_date, progress_report, is_completed')
-          .in('id', meetingIds)
-          .order('meeting_date', { ascending: true }) as unknown as Promise<{
-            data: Array<{
-              id:              number;
-              title:           string;
-              meeting_date:    string;
-              progress_report: string | null;
-              is_completed:    boolean;
-            }> | null;
-            error: unknown;
-          }>)
-      : Promise.resolve({ data: [], error: null }),
+    (db
+      .from('meetings')
+      .select('id, title, meeting_date, progress_report, is_completed, meeting_students!inner(student_id)')
+      .eq('meeting_students.student_id', studentId)
+      .eq('is_completed', true)
+      .order('meeting_date', { ascending: true }) as unknown as Promise<{
+        data: Array<{
+          id:              number;
+          title:           string;
+          meeting_date:    string;
+          progress_report: string | null;
+          is_completed:    boolean;
+          meeting_students: Array<{ student_id: string }>;
+        }> | null;
+        error: unknown;
+      }>),
     enrolledModuleIds.length > 0
       ? (db
           .from('topics')
