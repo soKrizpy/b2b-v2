@@ -64,12 +64,12 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
           placeholder="Cari nama murid..."
           value={searchStudent}
           onChange={(e) => setSearchStudent(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 shadow-sm transition-all"
+          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-[#0B0F19] border-2 border-slate-200/90 dark:border-purple-500/40 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50 shadow-sm transition-all"
         />
       </div>
 
       {filteredGroups.size === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 py-16 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200/80 dark:border-purple-500/30 py-16 text-center">
           <div className="text-3xl mb-2">📥</div>
           <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">Belum ada riwayat kelas selesai</p>
         </div>
@@ -77,7 +77,7 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
         Array.from(filteredGroups.entries()).map(([studentName, sessions]) => {
           const isExpanded = expandedStudents.has(studentName);
           return (
-            <div key={studentName} className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+            <div key={studentName} className="bg-white dark:bg-[#0B0F19] border-2 border-slate-200/90 dark:border-purple-500/40 rounded-2xl overflow-hidden shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20">
               <button
                 type="button"
                 onClick={() => toggleStudent(studentName)}

@@ -1,12 +1,11 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { toDateKey, isSameDateKey, formatTimeRange, getTimeUntil } from '@/features/sessions/components/calendar/MonthCalendar';
+import { toDateKey } from '@/features/sessions/components/calendar/MonthCalendar';
 import { MonthCalendar } from '@/features/sessions/components/calendar/MonthCalendar';
 import { HistoryView } from '@/features/sessions/components/history/HistoryView';
 import { SessionDetailCard } from '@/features/sessions/components/calendar/SessionDetailCard';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
-import { AdminSessionActions } from '@/features/sessions/components/AdminSessionActions';
 import type {
   MeetingWithStudents,
   TeacherOption,
@@ -193,7 +192,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
 
           {/* Right: Detail Panel (lg:col-span-5 for 1280px laptop, xl:col-span-4 for desktop) */}
           <div className="lg:col-span-5 xl:col-span-4">
-            <div className="sticky top-6 bg-white dark:bg-zinc-950 border border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+            <div className="sticky top-6 bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
               {/* Detail panel header */}
               <div className="px-5 py-4 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-900/60">
                 <p className="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-0.5">

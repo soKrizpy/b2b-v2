@@ -12,6 +12,7 @@ import {
   curriculumJsonSchema,
   encodeFinalAssessment,
   hasLearningNodes,
+  moduleImportSchema,
   type ModuleImport,
   type NodeImport,
 } from './validation';
@@ -394,25 +395,20 @@ export async function importCurriculumJsonForModule(
 ): Promise<CurriculumActionResult> {
   const auth = await requireAdmin();
   if (!auth.ok) return { success: false, error: auth.message };
-  if (!moduleId) return { success: false, error: 'moduleId tidak valid.' };
+  if (!Number.isSafeInteger(moduleId) || moduleId <= 0) {
+    return { success: false, error: 'moduleId tidak valid.' };
+  }
 
   // Accept { topics: [...], final_assessment?: {...} } OR full module object
   // We normalise both into a single module entry with the given moduleId.
-  const db = createSupabaseAdminClient();
-
   // Parse: accept single-module JSON or a wrapper with just topics[]
-  let parsed: unknown;
-  try {
-    // If it's an array, treat as multi-module (legacy) and pick the first
-    const raw = Array.isArray(payload) ? payload[0] : payload;
-    if (!raw || typeof raw !== 'object') throw new Error('Payload kosong.');
-    parsed = raw;
-  } catch (e: unknown) {
-    return { success: false, error: e instanceof Error ? e.message : 'Payload tidak valid.' };
+  // If it's an array, treat as multi-module (legacy) and pick the first.
+  const parsed = Array.isArray(payload) ? payload[0] : payload;
+  if (!parsed || typeof parsed !== 'object') {
+    return { success: false, error: 'Payload kosong.' };
   }
 
   // Validate just the module import schema
-  const { moduleImportSchema, encodeFinalAssessment: encFA } = await import('./validation');
   // Inject a dummy title if missing so the schema validates
   const toValidate = { module_title: 'ignored', module_order: 0, ...(parsed as object) };
   const result = moduleImportSchema.safeParse(toValidate);
@@ -426,62 +422,85 @@ export async function importCurriculumJsonForModule(
   const mod = result.data;
   let importedTopics = 0;
 
-  // Update module metadata if final_assessment is in the JSON
-  if (mod.final_assessment) {
-    await (db
-      .from('modules')
-      .update({ description: encFA(mod.final_assessment) } as never)
-      .eq('id', moduleId) as unknown as Promise<unknown>);
-  }
+  try {
+    const db = createSupabaseAdminClient();
 
-  // Upsert topics into this module
-  const { data: existingTopics } = await (db
-    .from('topics')
-    .select('id, title')
-    .eq('module_id', moduleId) as unknown as Promise<{
-      data: Array<{ id: number; title: string }>;
-      error: unknown;
-    }>);
-
-  const topicTitleMap = new Map<string, number>(
-    (existingTopics ?? []).map((t) => [t.title.toLowerCase().trim(), t.id])
-  );
-
-  for (const topic of mod.topics) {
-    const topicTitle    = topic.topic_title.trim();
-    const hasNodes      = topic.nodes.length > 0;
-    const lessonContent = (hasNodes || topic.quiz?.length)
-      ? { learningPath: topic.nodes.map(nodeToLearningNode), ...(topic.quiz?.length && { quiz: topic.quiz }) }
-      : null;
-
-    const existingId = topicTitleMap.get(topicTitle.toLowerCase());
-    if (existingId) {
-      await (db
-        .from('topics')
-        .update({
-          order_index: topic.topic_order, description: topic.description ?? null,
-          project_link: topic.project_link || null, lesson_content: lessonContent,
-          status: hasNodes ? 'published' : 'draft',
-          ...(hasNodes && { published_at: new Date().toISOString() }),
-        } as never)
-        .eq('id', existingId) as unknown as Promise<unknown>);
-    } else {
-      const { error: tErr } = await (db
-        .from('topics')
-        .insert({
-          module_id: moduleId, title: topicTitle, order_index: topic.topic_order,
-          description: topic.description ?? null, project_link: topic.project_link || null,
-          lesson_content: lessonContent, status: hasNodes ? 'published' : 'draft',
-          ...(hasNodes && { published_at: new Date().toISOString() }),
-        } as never) as unknown as Promise<{ error: { message: string } | null }>);
-      if (tErr) return { success: false, error: `Gagal membuat topik "${topicTitle}": ${tErr.message}` };
+    // Update module metadata if final_assessment is in the JSON
+    if (mod.final_assessment) {
+      const { error } = await (db
+        .from('modules')
+        .update({ description: encodeFinalAssessment(mod.final_assessment) } as never)
+        .eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
+      if (error) {
+        return { success: false, error: `Gagal memperbarui tryout modul: ${error.message}` };
+      }
     }
-    importedTopics++;
-  }
 
-  revalidateAll();
-  revalidatePath(`/admin/curriculum/${moduleId}`, 'layout');
-  return { success: true, message: `${importedTopics} topik berhasil diimpor ke modul ini.`, stats: { modules: 1, topics: importedTopics } };
+    // Upsert topics into this module
+    const { data: existingTopics, error: topicsError } = await (db
+      .from('topics')
+      .select('id, title')
+      .eq('module_id', moduleId) as unknown as Promise<{
+        data: Array<{ id: number; title: string }> | null;
+        error: { message: string } | null;
+      }>);
+    if (topicsError) {
+      return { success: false, error: `Gagal membaca topik modul: ${topicsError.message}` };
+    }
+
+    const topicTitleMap = new Map<string, number>(
+      (existingTopics ?? []).map((t) => [t.title.toLowerCase().trim(), t.id])
+    );
+
+    for (const topic of mod.topics) {
+      const topicTitle    = topic.topic_title.trim();
+      const hasNodes      = topic.nodes.length > 0;
+      const lessonContent = (hasNodes || topic.quiz?.length)
+        ? { learningPath: topic.nodes.map(nodeToLearningNode), ...(topic.quiz?.length && { quiz: topic.quiz }) }
+        : null;
+
+      const existingId = topicTitleMap.get(topicTitle.toLowerCase());
+      if (existingId) {
+        const { error } = await (db
+          .from('topics')
+          .update({
+            order_index: topic.topic_order, description: topic.description ?? null,
+            project_link: topic.project_link || null, lesson_content: lessonContent,
+            status: hasNodes ? 'published' : 'draft',
+            ...(hasNodes && { published_at: new Date().toISOString() }),
+          } as never)
+          .eq('id', existingId) as unknown as Promise<{ error: { message: string } | null }>);
+        if (error) {
+          return { success: false, error: `Gagal memperbarui topik "${topicTitle}": ${error.message}` };
+        }
+      } else {
+        const { error: tErr } = await (db
+          .from('topics')
+          .insert({
+            module_id: moduleId, title: topicTitle, order_index: topic.topic_order,
+            description: topic.description ?? null, project_link: topic.project_link || null,
+            lesson_content: lessonContent, status: hasNodes ? 'published' : 'draft',
+            ...(hasNodes && { published_at: new Date().toISOString() }),
+          } as never) as unknown as Promise<{ error: { message: string } | null }>);
+        if (tErr) return { success: false, error: `Gagal membuat topik "${topicTitle}": ${tErr.message}` };
+      }
+      importedTopics++;
+    }
+
+    revalidateAll();
+    revalidatePath(`/admin/curriculum/${moduleId}`, 'layout');
+    return { success: true, message: `${importedTopics} topik berhasil diimpor ke modul ini.`, stats: { modules: 1, topics: importedTopics } };
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    console.error('[importCurriculumJsonForModule] Import failed', {
+      moduleId,
+      error: detail,
+    });
+    return {
+      success: false,
+      error: `Import gagal saat menyimpan kurikulum: ${detail}. Sebagian perubahan mungkin sudah tersimpan.`,
+    };
+  }
 }
 
 // ── updateTopicAction ─────────────────────────────────────────────────────────

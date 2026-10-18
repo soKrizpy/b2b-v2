@@ -45,10 +45,12 @@ export function ModuleAccordion({ module: mod }: Props) {
   const displayDesc = hasFinalAssessment ? null : mod.description;
 
   return (
-    <div className={`relative bg-white dark:bg-[var(--surface)] rounded-2xl ring-1 shadow-sm
-      transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-md hover:z-10 overflow-hidden
+    <div className={`relative bg-white dark:bg-[#0B0F19] rounded-2xl border-2 shadow-sm
+      transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md hover:z-10 overflow-hidden
       ${pendingDel ? 'opacity-50 pointer-events-none' : ''}
-      ${showEdit ? 'ring-indigo-300 dark:ring-indigo-600/50' : 'ring-slate-200 dark:ring-white/10 hover:ring-slate-300 dark:hover:ring-white/20'}`}>
+      ${showEdit
+        ? 'border-indigo-400 dark:border-purple-500 shadow-[0_0_20px_rgba(99,102,241,0.2)] dark:shadow-[0_0_25px_rgba(168,85,247,0.25)]'
+        : 'border-blue-400/35 dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]'}`}>
 
       {/* ── Card header ──────────────────────────────────────────────────── */}
       <div className="px-5 py-4 flex items-start gap-3">
@@ -160,9 +162,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                 </label>
                 <input id={`mod-title-${mod.id}`} name="title" required
                   defaultValue={mod.title ?? ''}
-                  className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-                    bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
               </div>
 
               {/* Level */}
@@ -171,9 +173,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                   className="text-xs font-semibold text-slate-600 dark:text-slate-300">Level</label>
                 <select id={`mod-level-${mod.id}`} name="level"
                   defaultValue={mod.level ?? 'beginner'}
-                  className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
@@ -186,9 +188,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                   className="text-xs font-semibold text-slate-600 dark:text-slate-300">Deskripsi</label>
                 <textarea id={`mod-desc-${mod.id}`} name="description" rows={2}
                   defaultValue={hasFinalAssessment ? '' : (mod.description ?? '')}
-                  className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
-                    bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm resize-y
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50"
                   placeholder="Deskripsi singkat modul…" />
               </div>
             </div>

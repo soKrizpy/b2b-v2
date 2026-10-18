@@ -70,7 +70,7 @@ export function MonthCalendar({
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 overflow-hidden">
       {/* Calendar header */}
       <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-900/60">
         <button

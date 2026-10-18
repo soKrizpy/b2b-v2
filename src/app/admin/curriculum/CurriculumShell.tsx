@@ -48,10 +48,10 @@ export function CurriculumShell({ children }: Props) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={(e) => { if (e.target === e.currentTarget && !pending) setShowCreate(false); }}
         >
-          <div className="w-full max-w-md bg-white dark:bg-[var(--surface)] rounded-2xl shadow-2xl overflow-hidden">
+          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden">
 
             {/* Header */}
-            <div className="px-6 py-4 border-b border-slate-100 dark:border-white/8 flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-purple-500/25 flex items-center justify-between">
               <h2 id="create-module-title" className="font-bold text-slate-900 dark:text-white text-base">
                 Buat Modul Baru
               </h2>
@@ -64,7 +64,7 @@ export function CurriculumShell({ children }: Props) {
             <form action={dispatch} className="px-6 py-5 flex flex-col gap-4">
 
               {state && !state.success && (
-                <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2.5 rounded-xl ring-1 ring-red-200">
+                <p role="alert" className="text-sm text-red-600 dark:text-rose-300 bg-red-50 dark:bg-rose-950/40 px-3 py-2.5 rounded-xl ring-1 ring-red-200 dark:ring-rose-800/50">
                   {state.error}
                 </p>
               )}
@@ -77,13 +77,13 @@ export function CurriculumShell({ children }: Props) {
                 <input id="new-mod-title" name="title" required autoFocus
                   placeholder="contoh: Pengenalan HTML & CSS"
                   className={`rounded-xl border px-3.5 py-2.5 text-sm
-                    bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50
                     ${state && !state.success && state.fields?.title
                       ? 'border-red-400'
-                      : 'border-slate-300 dark:border-white/15'}`} />
+                      : 'border-slate-300 dark:border-purple-500/40'}`} />
                 {state && !state.success && state.fields?.title && (
-                  <p className="text-xs text-red-600">{state.fields.title}</p>
+                  <p className="text-xs text-red-600 dark:text-red-400">{state.fields.title}</p>
                 )}
               </div>
 
@@ -96,9 +96,9 @@ export function CurriculumShell({ children }: Props) {
                   Level
                 </label>
                 <select id="new-mod-level" name="level" defaultValue="beginner"
-                  className="rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-2.5 text-sm
-                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
@@ -108,13 +108,13 @@ export function CurriculumShell({ children }: Props) {
               {/* Description */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="new-mod-desc" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  Deskripsi <span className="text-slate-400 font-normal">(opsional)</span>
+                  Deskripsi <span className="text-slate-400 dark:text-slate-500 font-normal">(opsional)</span>
                 </label>
                 <textarea id="new-mod-desc" name="description" rows={3}
                   placeholder="Deskripsi singkat isi modul ini…"
-                  className="rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-2.5 text-sm resize-y
-                    bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm resize-y
+                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
               </div>
 
               {/* Footer */}

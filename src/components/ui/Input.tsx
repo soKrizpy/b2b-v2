@@ -21,7 +21,7 @@ export function Input({ label, error, hint, className = "", ...props }: InputPro
         id={id}
         {...props}
         className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-purple-50
-          bg-white dark:bg-slate-900/90 placeholder:text-slate-400 dark:placeholder:text-slate-500
+          bg-white dark:bg-[#0B0F19] placeholder:text-slate-400 dark:placeholder:text-slate-500
           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
           dark:focus:ring-purple-500/50 dark:focus:border-purple-400
           transition-all duration-200
@@ -63,7 +63,7 @@ export function Textarea({ label, error, hint, className = "", ...props }: Texta
         {...props}
         rows={props.rows ?? 3}
         className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-purple-50
-          bg-white dark:bg-slate-900/90 placeholder:text-slate-400 dark:placeholder:text-slate-500
+          bg-white dark:bg-[#0B0F19] placeholder:text-slate-400 dark:placeholder:text-slate-500
           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
           dark:focus:ring-purple-500/50 dark:focus:border-purple-400
           transition-all duration-200 resize-y

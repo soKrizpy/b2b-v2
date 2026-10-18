@@ -48,11 +48,11 @@ function IconBtn({
     'inline-flex items-center justify-center w-8 h-8 rounded-xl transition-all duration-150 active:scale-95 ring-1';
   const styles = {
     default:
-      'ring-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-700 hover:ring-slate-300',
+      'ring-slate-200 dark:ring-white/15 bg-white dark:bg-zinc-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-white hover:ring-slate-300 dark:hover:ring-white/30',
     danger:
-      'ring-red-200 bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700',
+      'ring-red-200 dark:ring-rose-800/50 bg-red-50 dark:bg-rose-950/40 text-red-600 dark:text-rose-400 hover:bg-red-100 dark:hover:bg-rose-900/50 hover:text-red-700 dark:hover:text-rose-200',
     success:
-      'ring-emerald-200 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700',
+      'ring-emerald-200 dark:ring-emerald-800/50 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 hover:text-emerald-700 dark:hover:text-emerald-200',
   };
   return (
     <button
@@ -280,10 +280,10 @@ export function AdminSessionActions({
         title="Tandai Kelas Selesai"
       >
         <div className="space-y-5">
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 ring-1 ring-emerald-200">
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-emerald-200 dark:ring-emerald-800/50">
+            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center">
               <svg
-                className="h-5 w-5 text-emerald-600"
+                className="h-5 w-5 text-emerald-600 dark:text-emerald-400"
                 viewBox="0 0 16 16"
                 fill="currentColor"
               >
@@ -291,10 +291,10 @@ export function AdminSessionActions({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-emerald-800">
+              <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-200">
                 {meeting.title}
               </p>
-              <p className="text-xs text-emerald-600 mt-0.5">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5">
                 Tulis catatan untuk laporan ke orang tua.
               </p>
             </div>
@@ -352,7 +352,7 @@ export function AdminSessionActions({
             rows={4}
             placeholder="Topik yang dipelajari, perkembangan siswa…"
           />
-          <div className="flex justify-end gap-3 pt-2 border-t border-slate-100">
+          <div className="flex justify-end gap-3 pt-2 border-t border-slate-100 dark:border-white/10">
             <Button
               variant="secondary"
               size="sm"
@@ -380,10 +380,10 @@ export function AdminSessionActions({
         size="sm"
       >
         <div className="space-y-4">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 ring-1 ring-red-200">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 dark:bg-rose-950/40 ring-1 ring-red-200 dark:ring-rose-800/50">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 dark:bg-rose-900/50 flex items-center justify-center mt-0.5">
               <svg
-                className="h-4 w-4 text-red-600"
+                className="h-4 w-4 text-red-600 dark:text-rose-400"
                 viewBox="0 0 16 16"
                 fill="currentColor"
               >
@@ -391,10 +391,10 @@ export function AdminSessionActions({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-red-800">
+              <p className="text-sm font-semibold text-red-800 dark:text-rose-200">
                 Hapus jadwal ini?
               </p>
-              <p className="text-xs text-red-600 mt-1 leading-relaxed">
+              <p className="text-xs text-red-600 dark:text-rose-300 mt-1 leading-relaxed">
                 <span className="font-medium">{meeting.title}</span> akan
                 dihapus permanen. Tindakan ini tidak dapat dibatalkan.
               </p>
@@ -402,8 +402,8 @@ export function AdminSessionActions({
           </div>
 
           {meeting.series_id && (
-            <div className="space-y-2.5 p-3 rounded-xl bg-amber-50 ring-1 ring-amber-200">
-              <p className="text-xs font-semibold text-amber-800 flex items-center gap-1.5">
+            <div className="space-y-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 ring-1 ring-amber-200 dark:ring-amber-800/50">
+              <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
                 <svg
                   className="h-3.5 w-3.5"
                   viewBox="0 0 16 16"
@@ -426,7 +426,7 @@ export function AdminSessionActions({
                     onChange={() => setDeleteMode(m)}
                     className="accent-amber-600"
                   />
-                  <span className="text-amber-800 text-xs font-medium">
+                  <span className="text-amber-800 dark:text-amber-200 text-xs font-medium">
                     {m === 'single'
                       ? 'Hapus hanya sesi ini'
                       : 'Hapus sesi ini & selanjutnya'}
@@ -449,7 +449,7 @@ export function AdminSessionActions({
             </p>
           )}
 
-          <div className="flex justify-end gap-3 pt-2 border-t border-slate-100">
+          <div className="flex justify-end gap-3 pt-2 border-t border-slate-100 dark:border-white/10">
             <Button
               variant="secondary"
               size="sm"

@@ -397,10 +397,11 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-md bg-white dark:bg-[#1a1a28]
+        className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col max-h-[90dvh] overflow-hidden
-          border-0 dark:border dark:border-white/10
+          border-2 border-slate-200/90 dark:border-purple-500/40
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
           animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >

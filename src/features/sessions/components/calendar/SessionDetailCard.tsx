@@ -52,10 +52,10 @@ export function SessionDetailCard({
     : 'Belum ditentukan';
 
   return (
-    <div className={`bg-white dark:bg-slate-900/90 border rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
+    <div className={`bg-white dark:bg-[#0B0F19] border-2 rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
       live
-        ? 'border-rose-300 dark:border-rose-600/80 ring-1 ring-rose-200 dark:ring-rose-800/60'
-        : 'border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700'
+        ? 'border-rose-400 dark:border-rose-600 ring-1 ring-rose-400/30 dark:ring-rose-800/60 dark:shadow-[0_0_15px_rgba(244,63,94,0.2)]'
+        : 'border-slate-200/90 dark:border-purple-500/40 hover:border-blue-400 dark:hover:border-purple-400 dark:shadow-[0_0_15px_rgba(168,85,247,0.12)]'
     }`}>
       {/* Card top: status + time */}
       <div className="flex items-center justify-between gap-2">

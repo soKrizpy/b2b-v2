@@ -168,7 +168,7 @@ export function AnnouncementManager() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0B0F19] border border-blue-400/45 dark:border-purple-500/45 rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col gap-5 transition-all duration-300">
+    <div className="bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 flex flex-col gap-5 transition-all duration-300">
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap border-b border-slate-100 dark:border-white/5 pb-4">
         <div className="flex items-center gap-2.5">
@@ -213,7 +213,7 @@ export function AnnouncementManager() {
 
       {/* Form Creator / Editor */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-slate-50/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 animate-fade-in-up">
+        <form onSubmit={handleSubmit} className="bg-slate-50/80 dark:bg-white/5 border-2 border-slate-200/90 dark:border-purple-500/30 rounded-2xl p-4 flex flex-col gap-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-extrabold uppercase tracking-wider text-purple-700 dark:text-purple-300">
               {editingId ? '✏️ Edit Pengumuman' : '📢 Form Pengumuman Baru'}
@@ -323,7 +323,7 @@ export function AnnouncementManager() {
         </h4>
 
         {announcements.length === 0 ? (
-          <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6 border border-dashed border-slate-200 dark:border-white/10 rounded-2xl">
+          <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl">
             Belum ada pengumuman aktif. Klik &ldquo;Buat Pengumuman&rdquo; di atas untuk menambahkan.
           </p>
         ) : (
@@ -335,10 +335,10 @@ export function AnnouncementManager() {
               return (
                 <div
                   key={ann.id}
-                  className={`p-3.5 rounded-2xl border transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                  className={`p-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                     ann.is_active
-                      ? 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10'
-                      : 'bg-slate-50 dark:bg-white/2 border-slate-100 dark:border-white/5 opacity-60'
+                      ? 'bg-white dark:bg-white/5 border-slate-200/90 dark:border-purple-500/30 dark:shadow-[0_0_12px_rgba(168,85,247,0.12)]'
+                      : 'bg-slate-50 dark:bg-white/2 border-slate-200/60 dark:border-white/5 opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">

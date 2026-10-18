@@ -92,6 +92,52 @@ export interface MonthlySnapshot {
   }>;
 }
 
+interface StudentMeetingAttendance {
+  meeting_id: number;
+  has_joined: boolean;
+  attendance_status: AttendanceStatus | null;
+}
+
+async function getStudentMeetingAttendance(
+  studentId: string
+): Promise<StudentMeetingAttendance[]> {
+  const db = createSupabaseAdminClient();
+
+  try {
+    const { data, error } = await db
+      .from('meeting_students')
+      .select('meeting_id, has_joined, attendance_status')
+      .eq('student_id', studentId) as unknown as {
+      data: StudentMeetingAttendance[] | null;
+      error: { message: string } | null;
+    };
+
+    if (!error) return data ?? [];
+    console.error('[getStudentHubBundle] attendance status query failed:', error.message);
+  } catch (error) {
+    console.error('[getStudentHubBundle] attendance status query threw:', error);
+  }
+
+  try {
+    const { data, error } = await db
+      .from('meeting_students')
+      .select('meeting_id, has_joined')
+      .eq('student_id', studentId) as unknown as {
+      data: Array<{ meeting_id: number; has_joined: boolean }> | null;
+      error: { message: string } | null;
+    };
+
+    if (error) {
+      console.error('[getStudentHubBundle] legacy attendance query failed:', error.message);
+      throw new Error(error.message);
+    }
+    return (data ?? []).map((row) => ({ ...row, attendance_status: null }));
+  } catch (error) {
+    console.error('[getStudentHubBundle] legacy attendance query threw:', error);
+    throw new Error('Gagal memuat data kehadiran Parent Hub.');
+  }
+}
+
 // ── Unified 2-stage parallel loader ───────────────────────────────────────────
 
 export async function getStudentHubBundle(
@@ -103,7 +149,7 @@ export async function getStudentHubBundle(
   // Stage 1: Fetch all independent student records in parallel
   const [
     { data: student },
-    { data: msRows },
+    msRows,
     { data: tpAll },
     { data: enrollments },
     { data: approvedSubs },
@@ -118,17 +164,7 @@ export async function getStudentHubBundle(
       data: { full_name: string; total_xp: number; coins: number } | null;
       error: unknown;
     }>,
-    db
-      .from('meeting_students')
-      .select('meeting_id, has_joined, attendance_status')
-      .eq('student_id', studentId) as unknown as Promise<{
-      data: Array<{
-        meeting_id: number;
-        has_joined: boolean;
-        attendance_status: AttendanceStatus;
-      }> | null;
-      error: unknown;
-    }>,
+    getStudentMeetingAttendance(studentId),
     db
       .from('topic_progress')
       .select('xp_earned, completed_at')

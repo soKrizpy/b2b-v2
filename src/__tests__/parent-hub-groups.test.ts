@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { getStudentHubBundle } from '@/features/parent-report/queries.student';
 
 const students = vi.hoisted(() =>
@@ -10,13 +10,20 @@ const students = vi.hoisted(() =>
     meeting_id: index + 101,
   }))
 );
+const queryState = vi.hoisted(() => ({
+  attendanceColumnUnavailable: false,
+}));
 
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
     from: (table: string) => {
+      let selectedColumns = '';
       const query = {
         filters: [] as Array<[string, string, unknown]>,
-        select: () => query,
+        select: (columns = '') => {
+          selectedColumns = columns;
+          return query;
+        },
         eq: (column: string, value: unknown) => {
           query.filters.push(['eq', column, value]);
           return query;
@@ -39,8 +46,30 @@ vi.mock('@/lib/supabase/admin', () => ({
         then: (
           resolve: (value: { data: unknown[]; error: null }) => unknown,
           reject?: (reason: unknown) => unknown
-        ) =>
-          Promise.resolve({ data: rows(), error: null }).then(resolve, reject),
+        ) => {
+          if (
+            table === 'meeting_students' &&
+            selectedColumns.includes('attendance_status') &&
+            queryState.attendanceColumnUnavailable
+          ) {
+            return Promise.resolve({
+              data: null,
+              error: { message: 'column meeting_students.attendance_status does not exist' },
+            }).then(resolve, reject);
+          }
+          let resultRows = rows();
+          if (
+            table === 'meeting_students' &&
+            !selectedColumns.includes('attendance_status')
+          ) {
+            resultRows = resultRows.map((row) => {
+              const legacyRow = { ...(row as Record<string, unknown>) };
+              delete legacyRow.attendance_status;
+              return legacyRow;
+            });
+          }
+          return Promise.resolve({ data: resultRows, error: null }).then(resolve, reject);
+        },
       };
 
       function rows(): unknown[] {
@@ -109,6 +138,23 @@ vi.mock('@/features/certificates/queries', () => ({
 }));
 
 describe('Parent Hub reports for linked students', () => {
+  afterEach(() => {
+    queryState.attendanceColumnUnavailable = false;
+  });
+
+  it('falls back to joined attendance when the status column is unavailable', async () => {
+    queryState.attendanceColumnUnavailable = true;
+
+    const { hubData } = await getStudentHubBundle('student-2');
+
+    expect(hubData.riwayat[0].sessions[0]).toMatchObject({
+      title: 'Session 2',
+      progress_report: 'Report 2',
+      has_joined: true,
+      attendance_status: 'hadir',
+    });
+  });
+
   it('keeps each student’s completed sessions and notes separate for a four-student group', async () => {
     const reports = await Promise.all(
       students.map(({ id }) => getStudentHubBundle(id))

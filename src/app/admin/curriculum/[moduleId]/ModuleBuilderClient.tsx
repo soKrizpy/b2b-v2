@@ -7,7 +7,6 @@ import {
   importCurriculumJsonForModule,
   deleteTopic,
   updateTopicAction,
-  type CurriculumActionResult,
 } from '@/features/curriculum/actions';
 import type { ModuleWithTopics } from '@/features/curriculum/queries';
 import type { TopicRow } from '@/types/database';
@@ -115,8 +114,8 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                   </button>
 
                   {open && (
-                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[var(--surface)]
-                      ring-1 ring-slate-200 dark:ring-white/10 px-4 py-3 space-y-2.5">
+                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[#0B0F19]
+                      border border-slate-200 dark:border-purple-500/30 px-4 py-3 space-y-2.5">
                       {body && (
                         <div>
                           <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">
@@ -422,9 +421,17 @@ export function ModuleBuilderClient({ module: mod }: Props) {
     try { payload = JSON.parse(text); } catch { return; }
     setVs({ status: 'importing' });
     startImport(async () => {
-      const r = await importCurriculumJsonForModule(mod.id, payload);
-      if (r.success) { setVs({ status: 'done', msg: r.message }); router.refresh(); }
-      else setVs({ status: 'error', msg: r.error });
+      try {
+        const r = await importCurriculumJsonForModule(mod.id, payload);
+        if (r.success) { setVs({ status: 'done', msg: r.message }); router.refresh(); }
+        else setVs({ status: 'error', msg: r.error });
+      } catch (error) {
+        console.error('[ModuleBuilderClient] Curriculum import request failed', error);
+        setVs({
+          status: 'error',
+          msg: 'Import gagal diproses oleh server. Materi mungkin belum tersimpan; periksa dan coba lagi.',
+        });
+      }
     });
   };
 
@@ -507,8 +514,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         {mod.topics.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl
-            border-2 border-dashed border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/3 py-12 text-center">
+            border-2 border-dashed border-blue-400/40 dark:border-purple-500/30
+            bg-white dark:bg-[#0B0F19] dark:shadow-[0_0_20px_rgba(168,85,247,0.12)] py-12 text-center">
             <p className="text-slate-400 dark:text-slate-500 text-sm">
               Belum ada topik. Import JSON di atas untuk menambahkan materi.
             </p>
@@ -522,13 +529,13 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
               return (
                 <div key={topic.id}
-                  className={`bg-white dark:bg-[var(--surface)] rounded-2xl ring-1 overflow-hidden
-                    transition-all duration-200
+                  className={`bg-white dark:bg-[#0B0F19] rounded-2xl border-2 overflow-hidden
+                    transition-all duration-200 shadow-sm
                     ${panel === 'edit'
-                      ? 'ring-indigo-300 dark:ring-indigo-600/50'
+                      ? 'border-indigo-400 dark:border-purple-400 ring-2 ring-indigo-500/20 dark:ring-purple-500/30 shadow-neon-blue dark:shadow-neon-purple'
                       : panel === 'preview'
-                      ? 'ring-slate-300 dark:ring-white/20'
-                      : 'ring-slate-200 dark:ring-white/10'
+                      ? 'border-blue-400/60 dark:border-purple-500/50 dark:shadow-[0_0_25px_rgba(168,85,247,0.18)]'
+                      : 'border-blue-400/45 dark:border-purple-500/45 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20'
                     }`}>
 
                   {/* ── Topic header row ──────────────────────────────── */}
@@ -655,7 +662,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
           className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm pt-12 px-4"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
-          <div className="w-full max-w-2xl bg-white dark:bg-[var(--surface)] rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[85vh]">
 
             {/* Header */}
             <div className="px-6 py-4 border-b border-slate-100 dark:border-white/8 flex items-center justify-between">

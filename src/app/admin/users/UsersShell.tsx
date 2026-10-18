@@ -31,16 +31,6 @@ function formatDate(iso: string | null) {
   });
 }
 
-function InitialAvatar({ name, color }: { name: string; color: 'green' | 'violet' }) {
-  const cls = color === 'green'
-    ? 'bg-[#7cc62f]/15 text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a]'
-    : 'bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300';
-  return (
-    <div className={`flex items-center justify-center rounded-xl flex-shrink-0 font-black ${cls}`}>
-      {name[0]?.toUpperCase() ?? '?'}
-    </div>
-  );
-}
 
 function ColHeader({ children }: { children: React.ReactNode }) {
   return (
@@ -77,8 +67,8 @@ function ModuleBadges({ titles }: { titles: string[] }) {
 function EmptyState({ icon, message }: { icon: string; message: string }) {
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl
-      border-2 border-dashed border-slate-200 dark:border-white/10
-      bg-white dark:bg-[#161622] py-16 px-6 text-center">
+      border-2 border-dashed border-slate-200/90 dark:border-purple-500/30
+      bg-white dark:bg-[#0B0F19] py-16 px-6 text-center">
       <span className="text-4xl mb-3" aria-hidden="true">{icon}</span>
       <p className="font-bold text-slate-700 dark:text-slate-100 text-sm">{message}</p>
       <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
@@ -136,8 +126,8 @@ function StudentCard({
   s, onDetail,
 }: { s: StudentRecord; onDetail: (s: StudentRecord) => void }) {
   return (
-    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border border-blue-400/45 dark:border-purple-500/45
-      shadow-sm p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
+    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border-2 border-blue-400/40 dark:border-purple-500/40
+      shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
       transition-all duration-300 ease-out cursor-pointer">
 
@@ -211,8 +201,8 @@ function TeacherCard({
   t, onDetail,
 }: { t: TeacherRecord; onDetail: (t: TeacherRecord) => void }) {
   return (
-    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border border-blue-400/45 dark:border-purple-500/45
-      shadow-sm p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
+    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border-2 border-blue-400/40 dark:border-purple-500/40
+      shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
       transition-all duration-300 ease-out cursor-pointer">
 
@@ -278,10 +268,10 @@ function StudentDesktopTable({
   students, onDetail,
 }: { students: StudentRecord[]; onDetail: (s: StudentRecord) => void }) {
   return (
-    <div className="rounded-2xl overflow-hidden border border-blue-400/45 dark:border-purple-500/45 shadow-sm">
+    <div className="rounded-2xl overflow-hidden border-2 border-blue-400/40 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
-          <thead className="bg-blue-50/60 dark:bg-purple-950/30 border-b border-blue-200/80 dark:border-purple-500/25">
+          <thead className="bg-blue-50/70 dark:bg-purple-950/40 border-b border-blue-200/80 dark:border-purple-500/25">
             <tr>
               <ColHeader>Nama &amp; Kontak</ColHeader>
               <ColHeader>Kelas &amp; Akses</ColHeader>
@@ -293,8 +283,8 @@ function StudentDesktopTable({
           <tbody className="divide-y divide-blue-100 dark:divide-purple-500/20">
             {students.map((s) => (
               <tr key={s.id}
-                className="bg-white dark:bg-[#161622]
-                  hover:bg-slate-50 dark:hover:bg-[#1a1a2e]
+                className="bg-white dark:bg-[#0B0F19]
+                  hover:bg-slate-50 dark:hover:bg-purple-950/25
                   transition-colors duration-150 group">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -350,10 +340,10 @@ function TeacherDesktopTable({
   teachers, onDetail,
 }: { teachers: TeacherRecord[]; onDetail: (t: TeacherRecord) => void }) {
   return (
-    <div className="rounded-2xl overflow-hidden border border-blue-400/45 dark:border-purple-500/45 shadow-sm">
+    <div className="rounded-2xl overflow-hidden border-2 border-blue-400/40 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
-          <thead className="bg-blue-50/60 dark:bg-purple-950/30 border-b border-blue-200/80 dark:border-purple-500/25">
+          <thead className="bg-blue-50/70 dark:bg-purple-950/40 border-b border-blue-200/80 dark:border-purple-500/25">
             <tr>
               <ColHeader>Nama &amp; Email</ColHeader>
               <ColHeader>Sesi &amp; Siswa</ColHeader>
@@ -364,8 +354,8 @@ function TeacherDesktopTable({
           <tbody className="divide-y divide-blue-100 dark:divide-purple-500/20">
             {teachers.map((t) => (
               <tr key={t.id}
-                className="bg-white dark:bg-[#161622]
-                  hover:bg-slate-50 dark:hover:bg-[#1a1a2e]
+                className="bg-white dark:bg-[#0B0F19]
+                  hover:bg-slate-50 dark:hover:bg-purple-950/25
                   transition-colors duration-150">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -487,8 +477,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         {/* Tab switcher */}
         <div className="flex items-center gap-1
-          bg-slate-100 dark:bg-[#1a1a28] p-1 rounded-xl
-          border border-slate-200/60 dark:border-white/10">
+          bg-slate-100 dark:bg-[#0B0F19] p-1 rounded-xl
+          border-2 border-slate-200/60 dark:border-purple-500/30 dark:shadow-[0_0_15px_rgba(168,85,247,0.12)]">
           {([
             { id: 'students', label: 'Siswa', count: students.length },
             { id: 'teachers', label: 'Guru',  count: teachers.length },
@@ -498,7 +488,7 @@ export function UsersShell({ students, teachers, allModules }: Props) {
               className={`px-4 py-1.5 rounded-lg text-xs font-extrabold transition-all duration-200
                 flex items-center gap-1.5
                 ${tab === id
-                  ? 'bg-white dark:bg-[#272740] text-slate-900 dark:text-white shadow-sm border border-slate-200/80 dark:border-white/15'
+                  ? 'bg-white dark:bg-purple-950/60 text-slate-900 dark:text-purple-200 shadow-sm border border-slate-200/80 dark:border-purple-500/40'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/5'
                 }`}>
               {label}
@@ -532,7 +522,7 @@ export function UsersShell({ students, teachers, allModules }: Props) {
       {/* ── Search bar ── */}
       <div className="relative">
         <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-400"
           aria-hidden="true"
         />
         <input
@@ -541,11 +531,11 @@ export function UsersShell({ students, teachers, allModules }: Props) {
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder={tab === 'students' ? 'Cari nama atau kontak siswa…' : 'Cari nama atau email guru…'}
           className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm
-            bg-white dark:bg-[#1a1a28]
-            border border-slate-200 dark:border-white/10
+            bg-white dark:bg-[#0B0F19]
+            border-2 border-slate-200/90 dark:border-purple-500/40
             text-slate-900 dark:text-white
             placeholder:text-slate-400 dark:placeholder:text-slate-500
-            focus:outline-none focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-500/40
+            focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50
             transition-all"
         />
         {search && (
@@ -575,8 +565,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
 
       {/* ── Collapsible add form ── */}
       {showAdd && (
-        <div className="bg-white dark:bg-[#1a1a28] rounded-2xl
-          border border-slate-200/80 dark:border-white/10 shadow-sm p-5 animate-fade-in-up">
+        <div className="bg-white dark:bg-[#0B0F19] rounded-2xl
+          border-2 border-slate-200/90 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_25px_rgba(168,85,247,0.18)] p-5 animate-fade-in-up">
           <h2 className="text-sm font-extrabold text-slate-800 dark:text-white mb-4">
             {tab === 'students' ? '🎓 Tambah Siswa Baru' : '📚 Tambah Guru Baru'}
           </h2>

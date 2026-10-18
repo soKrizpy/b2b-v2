@@ -15,14 +15,12 @@ import {
   CheckCircle2,
   Clock,
   FileText,
-  DollarSign,
   Send,
   Eye,
   Edit2,
   Link as LinkIcon,
   MessageSquare,
   Mail,
-  X,
   Sparkles,
   CheckSquare,
   Square,
@@ -104,8 +102,9 @@ function MetricCard({
   };
 
   return (
-    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border border-blue-400/45 dark:border-purple-500/45
+    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border-2 border-blue-400/45 dark:border-purple-500/45
       p-4 flex flex-col justify-between gap-3 shadow-sm hover:shadow-neon-blue dark:hover:shadow-neon-purple
+      dark:shadow-[0_0_22px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
       transition-all duration-300 ease-out cursor-pointer">
       <div className="flex items-center justify-between gap-2">
@@ -190,12 +189,13 @@ function SendInvoiceModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#161622] rounded-3xl
-          shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[90vh]"
+        className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
+          shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-100 dark:border-white/8 flex items-center justify-between gap-4">
+        <div className="px-6 py-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
               <Send className="w-5 h-5" />
@@ -215,8 +215,8 @@ function SendInvoiceModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/10 flex items-center justify-center
-              text-slate-500 hover:bg-slate-200 dark:hover:bg-white/15 transition-colors font-bold"
+            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-purple-950/40 flex items-center justify-center
+              text-slate-500 dark:text-purple-300 hover:bg-slate-200 dark:hover:bg-purple-900/50 transition-colors font-bold"
           >
             ✕
           </button>
@@ -284,15 +284,15 @@ function SendInvoiceModal({
                 placeholder="Tambahkan catatan khusus (opsional)..."
                 value={customNote}
                 onChange={(e) => setCustomNote(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl text-xs bg-slate-50 dark:bg-white/5
-                  border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white
+                className="w-full px-3.5 py-2 rounded-xl text-xs bg-slate-50 dark:bg-[#020617]
+                  border border-slate-200 dark:border-purple-500/30 text-slate-900 dark:text-white
                   placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
               />
             </div>
           )}
 
           {/* Target List Summary */}
-          <div className="bg-slate-50 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 rounded-2xl p-3.5">
+          <div className="bg-slate-50 dark:bg-[#020617] border-2 border-slate-200/80 dark:border-purple-500/30 rounded-2xl p-3.5">
             <p className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
               Ringkasan Penerima ({invoices.length}):
             </p>
@@ -313,7 +313,7 @@ function SendInvoiceModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t border-slate-200/60 dark:border-purple-500/20 flex items-center justify-end gap-3">
           <button
             type="button"
             onClick={onClose}
@@ -370,11 +370,12 @@ function AttendanceModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#161622] rounded-3xl
-          shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden"
+        className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
+          shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-100 dark:border-white/8 flex items-start justify-between gap-4">
+        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">
               Detail Kehadiran
@@ -386,8 +387,8 @@ function AttendanceModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/10 flex items-center justify-center
-              text-slate-500 hover:bg-slate-200 dark:hover:bg-white/15 transition-colors font-bold"
+            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-purple-950/40 flex items-center justify-center
+              text-slate-500 dark:text-purple-300 hover:bg-slate-200 dark:hover:bg-purple-900/50 transition-colors font-bold"
           >
             ✕
           </button>
@@ -406,7 +407,7 @@ function AttendanceModal({
                 <li
                   key={r.meeting_id}
                   className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl
-                    bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/8"
+                    bg-slate-50 dark:bg-[#020617] border border-slate-200/60 dark:border-purple-500/25"
                 >
                   <div className="min-w-0">
                     <p className="text-xs font-bold text-slate-800 dark:text-white truncate">
@@ -487,11 +488,12 @@ function EditModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-[#161622] rounded-3xl
-          shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden"
+        className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl
+          shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-100 dark:border-white/8 flex items-start justify-between gap-4">
+        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-base">
               Edit Detail Invoice
@@ -503,8 +505,8 @@ function EditModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/10 flex items-center justify-center
-              text-slate-500 hover:bg-slate-200 dark:hover:bg-white/15 transition-colors font-bold"
+            className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-purple-950/40 flex items-center justify-center
+              text-slate-500 dark:text-purple-300 hover:bg-slate-200 dark:hover:bg-purple-900/50 transition-colors font-bold"
           >
             ✕
           </button>
@@ -538,9 +540,9 @@ function EditModal({
               max={invoice.total_meetings}
               value={attended}
               onChange={(e) => setAttended(e.target.value)}
-              className="rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-2
-                text-xs bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="rounded-xl border border-slate-300 dark:border-purple-500/30 px-3.5 py-2
+                text-xs bg-white dark:bg-[#020617] text-slate-900 dark:text-white
+                focus:outline-none focus:ring-2 focus:ring-purple-500/50"
             />
           </div>
 
@@ -554,9 +556,9 @@ function EditModal({
               min={0}
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-2
-                text-xs bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="rounded-xl border border-slate-300 dark:border-purple-500/30 px-3.5 py-2
+                text-xs bg-white dark:bg-[#020617] text-slate-900 dark:text-white
+                focus:outline-none focus:ring-2 focus:ring-purple-500/50"
             />
           </div>
 
@@ -570,9 +572,9 @@ function EditModal({
               value={bank}
               onChange={(e) => setBank(e.target.value)}
               placeholder="BCA 1234567890 a.n. Bits2Bytes"
-              className="rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-2
-                text-xs bg-white dark:bg-white/5 text-slate-900 dark:text-white
-                focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="rounded-xl border border-slate-300 dark:border-purple-500/30 px-3.5 py-2
+                text-xs bg-white dark:bg-[#020617] text-slate-900 dark:text-white
+                focus:outline-none focus:ring-2 focus:ring-purple-500/50"
             />
           </div>
 
@@ -626,8 +628,9 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-[#161622] rounded-3xl
-          shadow-2xl border border-slate-200 dark:border-white/10 p-6 flex flex-col gap-4"
+        className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl
+          shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 p-6 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2.5">
@@ -897,7 +900,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
       </div>
 
       {/* ── 2. Toolbar: Month Picker + Generate + Search & Filter ── */}
-      <div className="bg-white dark:bg-[#0B0F19] p-4 rounded-2xl border border-blue-400/45 dark:border-purple-500/45 shadow-sm flex flex-col gap-4 transition-all duration-300">
+      <div className="bg-white dark:bg-[#0B0F19] p-4 rounded-2xl border-2 border-blue-400/45 dark:border-purple-500/45 shadow-sm dark:shadow-[0_0_25px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20 flex flex-col gap-4 transition-all duration-300">
         {/* Top bar: month & generate */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2">
@@ -906,8 +909,8 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
               type="month"
               value={month}
               onChange={handleMonthChange}
-              className="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-white/15
-                text-xs font-bold bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white
+              className="px-3.5 py-2 rounded-xl border-2 border-slate-200 dark:border-purple-500/30
+                text-xs font-bold bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-white
                 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer"
             />
           </div>
@@ -937,8 +940,8 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari nama siswa atau nomor HP/email…"
-              className="w-full pl-9 pr-8 py-2 rounded-xl text-xs bg-slate-50 dark:bg-white/5
-                border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white
+              className="w-full pl-9 pr-8 py-2 rounded-xl text-xs bg-slate-50 dark:bg-[#020617]
+                border border-slate-200 dark:border-purple-500/30 text-slate-900 dark:text-white
                 placeholder:text-slate-400 dark:placeholder:text-slate-500
                 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all"
             />
@@ -959,8 +962,8 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as 'all' | 'draft' | 'sent' | 'paid')}
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-white/15
-                text-xs font-bold bg-slate-50 dark:bg-white/5 text-slate-800 dark:text-slate-200
+              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-purple-500/30
+                text-xs font-bold bg-slate-50 dark:bg-[#020617] text-slate-800 dark:text-slate-200
                 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all cursor-pointer"
             >
               <option value="all">Semua Status ({invoices.length})</option>
@@ -1038,7 +1041,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
       {/* ── Invoice List: Mobile Cards + Desktop Table ── */}
       {filteredInvoices.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed
-          border-slate-200 dark:border-white/10 bg-white dark:bg-[#161622] py-16 px-6 text-center">
+          border-blue-400/40 dark:border-purple-500/30 bg-white dark:bg-[#0B0F19] dark:shadow-[0_0_20px_rgba(168,85,247,0.12)] py-16 px-6 text-center">
           <span className="text-4xl" aria-hidden="true">🧾</span>
           <p className="font-bold text-slate-700 dark:text-white text-sm">
             {search || statusFilter !== 'all'
@@ -1079,10 +1082,10 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                 return (
                   <div
                     key={inv.id}
-                    className={`bg-white dark:bg-[#0B0F19] rounded-2xl border p-4 flex flex-col gap-3.5 shadow-sm hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-300 ease-out cursor-pointer ${
+                    className={`bg-white dark:bg-[#0B0F19] rounded-2xl border-2 p-4 flex flex-col gap-3.5 shadow-sm hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-300 ease-out cursor-pointer ${
                       isSelected
                         ? 'border-blue-500 dark:border-purple-400 ring-2 ring-blue-500/20 dark:ring-purple-500/30 shadow-neon-blue dark:shadow-neon-purple'
-                        : 'border-blue-400/45 dark:border-purple-500/45 hover:border-blue-500 dark:hover:border-purple-400 hover:shadow-neon-blue dark:hover:shadow-neon-purple'
+                        : 'border-blue-400/45 dark:border-purple-500/45 hover:border-blue-500 dark:hover:border-purple-400 hover:shadow-neon-blue dark:hover:shadow-neon-purple dark:shadow-[0_0_15px_rgba(168,85,247,0.12)]'
                     }`}
                   >
                     {/* Header: Checkbox + Name + Status */}
@@ -1198,7 +1201,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
           </div>
 
           {/* ── Desktop Layout (>=768px): Table View ── */}
-          <div className="hidden md:block rounded-2xl overflow-hidden border border-blue-400/45 dark:border-purple-500/45 shadow-sm bg-white dark:bg-[#0B0F19] transition-all duration-300">
+          <div className="hidden md:block rounded-2xl overflow-hidden border-2 border-blue-400/45 dark:border-purple-500/45 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 bg-white dark:bg-[#0B0F19] transition-all duration-300">
             <div className="overflow-x-auto">
               <table className="w-full text-xs border-collapse">
                 <thead className="bg-blue-50/60 dark:bg-purple-950/30 border-b border-blue-400/40 dark:border-purple-500/40">
