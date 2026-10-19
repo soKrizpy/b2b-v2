@@ -28,11 +28,23 @@ export function formatDateTime(iso: string): string {
   });
 }
 
-export function formatDate(iso: string): string {
+export function formatDate(
+  iso: string,
+  options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }
+): string {
   return new Date(iso).toLocaleDateString(IDN, {
-    weekday: "long", day: "numeric", month: "long", year: "numeric",
+    ...options,
     timeZone: APP_TIME_ZONE,
   });
+}
+
+export function getDateKey(date: Date): string | null {
+  return dateKey(date);
 }
 
 export function formatTime(iso: string): string {

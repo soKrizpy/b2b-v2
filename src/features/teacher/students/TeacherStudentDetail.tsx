@@ -4,6 +4,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { formatDate } from '@/lib/formatDate';
 import {
   ArrowLeft, Sparkles, Coins, GraduationCap, BookOpen, Trophy,
   ScrollText, ClipboardList, CalendarDays, CheckCircle2, XCircle,
@@ -27,6 +29,17 @@ const TIER_MEDAL: Record<string, string> = {
   excellent:   '🥈',
   completion:  '🥉',
 };
+
+function isSupabaseStorageImage(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:'
+      && parsed.hostname.endsWith('.supabase.co')
+      && parsed.pathname.startsWith('/storage/v1/object/');
+  } catch {
+    return false;
+  }
+}
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   pending:  { label: 'Menunggu Review', color: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border-amber-200/60 dark:border-amber-700/40' },
@@ -266,7 +279,7 @@ export function TeacherStudentDetail({ student }: Props) {
                         {s.subject ?? 'Sesi Belajar'}
                       </p>
                       <p className="text-[10px] text-slate-400 dark:text-slate-500">
-                        {new Date(s.meeting_date).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
+                        {formatDate(s.meeting_date, { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
@@ -351,7 +364,15 @@ export function TeacherStudentDetail({ student }: Props) {
                     className="rounded-2xl bg-white dark:bg-zinc-800/50 border border-slate-200/60 dark:border-zinc-700/60 p-4 flex flex-col items-center gap-2 text-center hover:border-violet-300 dark:hover:border-violet-500/50 transition-colors"
                   >
                     {b.icon_url ? (
-                      <img src={b.icon_url} alt={b.name} className="w-12 h-12 rounded-xl object-cover" />
+                      <Image
+                        src={b.icon_url}
+                        alt={b.name}
+                        width={48}
+                        height={48}
+                        unoptimized={!isSupabaseStorageImage(b.icon_url)}
+                        referrerPolicy="no-referrer"
+                        className="w-12 h-12 rounded-xl object-cover"
+                      />
                     ) : (
                       <div className="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
                         <Award className="w-6 h-6 text-violet-600 dark:text-violet-300" />
@@ -362,7 +383,7 @@ export function TeacherStudentDetail({ student }: Props) {
                       <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-relaxed">{b.description}</p>
                     )}
                     <p className="text-[10px] text-slate-400 dark:text-slate-600">
-                      {new Date(b.earned_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      {formatDate(b.earned_at, { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
                   </div>
                 ))}
@@ -403,7 +424,7 @@ export function TeacherStudentDetail({ student }: Props) {
                         <span className="text-sm font-black text-amber-600 dark:text-amber-400">{c.score}%</span>
                       </div>
                       <p className="text-[10px] text-slate-400 dark:text-slate-500">
-                        {new Date(c.issued_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {formatDate(c.issued_at, { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                   </div>
@@ -452,7 +473,7 @@ export function TeacherStudentDetail({ student }: Props) {
                     </div>
                     <div className="flex flex-col items-end gap-2 flex-shrink-0">
                       <p className="text-[10px] text-slate-400 dark:text-slate-600">
-                        {new Date(sub.submitted_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {formatDate(sub.submitted_at, { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                       {sub.submission_url && (
                         <a
@@ -509,7 +530,7 @@ export function TeacherStudentDetail({ student }: Props) {
                     </div>
                     <div className="flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-slate-500">
                       <Clock className="w-3 h-3" />
-                      {new Date(s.meeting_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                      {formatDate(s.meeting_date)}
                     </div>
                     {s.progress_report && (
                       <div className="mt-2 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-zinc-800 rounded-xl px-3 py-2">

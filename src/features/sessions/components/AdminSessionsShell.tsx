@@ -6,6 +6,7 @@ import { MonthCalendar } from '@/features/sessions/components/calendar/MonthCale
 import { HistoryView } from '@/features/sessions/components/history/HistoryView';
 import { SessionDetailCard } from '@/features/sessions/components/calendar/SessionDetailCard';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
+import { formatDate, formatTime, getDateKey } from '@/lib/formatDate';
 import type {
   MeetingWithStudents,
   TeacherOption,
@@ -13,6 +14,12 @@ import type {
 } from '@/features/sessions/queries';
 
 type ViewTab = 'calendar' | 'history';
+
+const IDN_MONTHS = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+];
+const IDN_DAYS_LONG = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
 interface Props {
   meetings: MeetingWithStudents[];
@@ -22,10 +29,12 @@ interface Props {
 
 export function AdminSessionsShell({ meetings, teachers, students }: Props) {
   const today = new Date();
+  const todayKey = getDateKey(today) ?? '';
+  const [todayYear, todayMonth] = todayKey.split('-').map(Number);
   const [viewTab, setViewTab] = useState<ViewTab>('calendar');
-  const [calYear, setCalYear] = useState(today.getFullYear());
-  const [calMonth, setCalMonth] = useState(today.getMonth());
-  const [selectedKey, setSelectedKey] = useState(toDateKey(today));
+  const [calYear, setCalYear] = useState(todayYear);
+  const [calMonth, setCalMonth] = useState(todayMonth - 1);
+  const [selectedKey, setSelectedKey] = useState(todayKey);
 
   const teacherMap = useMemo(() => {
     const map = new Map<string, string>();
@@ -55,12 +64,11 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
   );
 
   const selectedDateObj = useMemo(() => {
-    const [y, mo, d] = selectedKey.split('-').map(Number);
-    return new Date(y, mo - 1, d);
+    return new Date(`${selectedKey}T00:00:00.000Z`);
   }, [selectedKey]);
 
   const formattedSelectedDate = useMemo(() => {
-    return selectedDateObj.toLocaleDateString('id-ID', {
+    return formatDate(selectedDateObj.toISOString(), {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
     });
   }, [selectedDateObj]);
@@ -70,19 +78,14 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
     [meetings]
   );
 
-  const IDN_MONTHS = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
-  ];
-  const IDN_DAYS_LONG = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-
   // CSV export
   const handleExportCSV = useCallback(() => {
     const headers = ['Tanggal', 'Waktu', 'Judul', 'Murid', 'Guru', 'Status', 'Catatan'];
     const rows = meetings.map((m) => {
-      const d = new Date(m.meeting_date);
-      const dateStr = d.toLocaleDateString('id-ID');
-      const timeStr = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      const dateStr = formatDate(m.meeting_date, {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+      });
+      const timeStr = formatTime(m.meeting_date);
       const studentNames = m.meeting_students.map((ms) => ms.students?.full_name ?? '').join('; ');
       const teacher = '';
       const status = m.is_completed ? 'Selesai' : /live/i.test(m.meeting_date) ? 'Live' : 'Mendatang';
@@ -98,7 +101,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
     link.download = `jadwal-${IDN_MONTHS[calMonth]}-${calYear}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-  }, [meetings, calMonth, calYear, IDN_MONTHS]);
+  }, [meetings, calMonth, calYear]);
 
   // Calendar navigation callbacks
   const prevMonth = useCallback(() => {
@@ -109,9 +112,11 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
   }, []);
   const goToday = useCallback(() => {
     const t = new Date();
-    setCalYear(t.getFullYear());
-    setCalMonth(t.getMonth());
-    setSelectedKey(toDateKey(t));
+    const key = getDateKey(t) ?? '';
+    const [year, month] = key.split('-').map(Number);
+    setCalYear(year);
+    setCalMonth(month - 1);
+    setSelectedKey(key);
   }, []);
 
   return (
@@ -196,7 +201,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
               {/* Detail panel header */}
               <div className="px-5 py-4 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-900/60">
                 <p className="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-0.5">
-                  {IDN_DAYS_LONG[selectedDateObj.getDay()]}
+                  {IDN_DAYS_LONG[selectedDateObj.getUTCDay()]}
                 </p>
                 <h3 className="text-base font-black text-slate-900 dark:text-white leading-tight">
                   {formattedSelectedDate}
