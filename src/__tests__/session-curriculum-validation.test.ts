@@ -28,3 +28,4 @@ describe('guided curriculum schedule validation', () => {
     expect(updateSessionSchema.safeParse({ module_id: '' }).success).toBe(false);
   });
 });
+
