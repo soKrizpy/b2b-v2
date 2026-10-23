@@ -24,6 +24,8 @@ ALTER TABLE public.teacher_students ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Enable all for authenticated admin" ON public.meetings;
 DROP POLICY IF EXISTS "Enable read access for all users" ON public.meetings;
 DROP POLICY IF EXISTS "Enable all for authenticated admin" ON public.meeting_students;
+DROP POLICY IF EXISTS "teacher_students_read_all" ON public.teacher_students;
+DROP POLICY IF EXISTS "teacher_students_modify_admin" ON public.teacher_students;
 DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON public.student_modules;
 DROP POLICY IF EXISTS "Enable delete for authenticated users only" ON public.student_modules;
 
