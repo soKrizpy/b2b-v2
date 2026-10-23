@@ -192,6 +192,25 @@ export async function getAllSubmissions(teacherId?: string): Promise<SubmissionW
       return [];
     }
     assignedStudentIds = new Set((assignments ?? []).map((row) => row.student_id));
+
+    // Also include students on meetings assigned to this teacher; some class
+    // assignments are represented through meeting_students rather than mentorship.
+    const { data: meetings, error: meetingError } = await db
+      .from('meetings').select('id').eq('teacher_id', teacherId);
+    if (meetingError) {
+      console.error('[getAllSubmissions] meeting lookup failed', meetingError.message);
+      return [];
+    }
+    const meetingIds = (meetings ?? []).map((meeting) => meeting.id);
+    if (meetingIds.length > 0) {
+      const { data: meetingStudents, error: meetingStudentsError } = await db
+        .from('meeting_students').select('student_id').in('meeting_id', meetingIds);
+      if (meetingStudentsError) {
+        console.error('[getAllSubmissions] meeting-student lookup failed', meetingStudentsError.message);
+        return [];
+      }
+      for (const row of meetingStudents ?? []) assignedStudentIds.add(row.student_id);
+    }
     if (assignedStudentIds.size === 0) return [];
   }
 
