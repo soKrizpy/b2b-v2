@@ -153,9 +153,11 @@ export async function getQuestMapData(
 
     // Topic is completed when quiz is passed (bestScore >= 70 or attempts exhausted),
     // OR if topic has no quiz and session report was submitted.
-    const quizDone = hasQuiz
-      ? (attemptsUsed > 0 && (bestScore >= 70 || attemptsUsed >= 2))
-      : isSessionReportSubmitted;
+    const quizDone = isSessionReportSubmitted && (
+      hasQuiz
+        ? (attemptsUsed > 0 && (bestScore >= 70 || attemptsUsed >= 2))
+        : true
+    );
 
     const isDone = quizDone;
 
