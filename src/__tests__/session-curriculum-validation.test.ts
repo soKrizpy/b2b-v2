@@ -14,7 +14,7 @@ const validCreate = {
 describe('guided curriculum schedule validation', () => {
   it('requires a curriculum module for newly created schedules', () => {
     expect(createSessionSchema.safeParse(validCreate).success).toBe(true);
-    const { module_id: _moduleId, ...missingModule } = validCreate;
+    const missingModule = { ...validCreate, module_id: undefined };
     expect(createSessionSchema.safeParse(missingModule).success).toBe(false);
   });
 
