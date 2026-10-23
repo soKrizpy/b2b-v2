@@ -51,10 +51,13 @@ export async function POST(request: Request): Promise<Response> {
   const v = validate(createSessionSchema, body);
   if (!v.success) return apiError(422, v.error, v.fields, 'VALIDATION_ERROR');
 
-  const { title, meeting_date, link_url, notes, session_count, student_ids } =
+  const { title, meeting_date, link_url, notes, session_count, student_ids, module_id } =
     v.data as CreateInput;
 
   const db = createSupabaseAdminClient();
+  const { data: moduleRow, error: moduleError } = await db
+    .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
+  if (moduleError || !moduleRow) return apiError(422, 'Modul kurikulum tidak ditemukan atau tidak aktif.', {}, 'INVALID_MODULE');
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate  = new Date(meeting_date);
   const inserted: number[] = [];
@@ -74,6 +77,7 @@ export async function POST(request: Request): Promise<Response> {
         session_count,
         session_number: i + 1,
         series_id:      seriesId,
+        module_id,
       } as never)
       .select('id')
       .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
