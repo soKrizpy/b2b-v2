@@ -15,7 +15,7 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Added a shared report-gate predicate and regression tests for module collisions, session-number collisions, absence, incomplete sessions, blank reports, and legacy unlinked meetings.
 - New schedule creation validates an active module and persists `module_id` through both the Server Action and `POST /api/sessions`.
 - Quiz and Quest Map lookups scope sessions to the current module and no longer infer self-paced mode from missing meeting assignments.
-- Meeting form uses an admin-only module picker; both creation paths validate that the module is active and the series does not exceed the number of published topics. Editing cannot silently move an existing schedule to another module.
+- Meeting form uses an admin-only module picker; both creation paths validate that the module is active and require the series length to equal the published-topic count, so every topic has a corresponding 1-based session. Editing cannot silently move an existing schedule to another module.
 
 ## Required follow-up / acceptance checks
 
@@ -23,7 +23,8 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Verify two modules with session 1 cannot unlock one another's quizzes.
 - Verify unlinked legacy meetings never unlock topics.
 - Verify attendance + completed status + non-empty report are all required.
-- Run unit tests and `npx tsc --noEmit` in CI; run migration and full student/teacher/admin journey only against isolated staging Supabase.
+- Re-run unit tests and `npx tsc --noEmit` against the latest branch head. The latest available CI run predates the final type fixes and schedule-coverage rule, so it is not evidence that the current head passes.
+- Run migration and full student/teacher/admin journey only against isolated staging Supabase.
 - Final assessment must remain blocked until all published module topics are complete and must use exactly 20 official distinct questions; certificate issuance requires a valid final assessment attempt.
 
 ## Safety / validation
