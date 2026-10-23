@@ -158,7 +158,7 @@ const MEETING_SELECT_INNER = `
     student_id,
     has_joined,
     attendance_status,
-    students ( id, full_name, email_or_phone )
+    students ( id, full_name )
   )
 `.trim();
 
