@@ -11,7 +11,11 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiError, apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
 import { validate, updateSessionSchema } from '@/features/sessions/validation';
-import { getSessionById } from '@/features/sessions/queries';
+import {
+  getSessionsForAdmin,
+  getSessionsForTeacher,
+  getSessionsForStudent,
+} from '@/features/sessions/queries';
 
 type UpdateInput = z.infer<typeof updateSessionSchema>;
 type RouteContext = { params: Promise<{ id: string }> };
@@ -37,7 +41,13 @@ export async function GET(
   if (isNaN(id) || id <= 0) return apiError(400, 'ID jadwal tidak valid.', undefined, 'INVALID_ID');
 
   try {
-    const session = await getSessionById(id);
+    // Scope the lookup before returning meeting links, notes, attendance, or student data.
+    const sessions = auth.role === 'admin'
+      ? await getSessionsForAdmin()
+      : auth.role === 'teacher'
+        ? await getSessionsForTeacher(auth.user.id)
+        : await getSessionsForStudent(auth.user.id);
+    const session = sessions.find((item) => item.id === id);
     if (!session) return apiError(404, 'Jadwal tidak ditemukan.', undefined, 'NOT_FOUND');
     return Response.json(session, { headers: NO_STORE });
   } catch (err) {
