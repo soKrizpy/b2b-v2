@@ -98,11 +98,11 @@ export async function PATCH(
   const db    = createSupabaseAdminClient();
 
   if (patch.module_id !== undefined) {
-    const { data: existingMeeting, error: existingMeetingError } = await db
+    const { data: existingMeeting, error: existingMeetingError } = await (db
       .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{
         data: { module_id: number | null } | null;
         error: { message: string } | null;
-      }>;
+      }>);
     if (existingMeetingError || !existingMeeting || existingMeeting.module_id !== patch.module_id) {
       return apiError(422, 'Modul jadwal tidak dapat diubah saat edit. Buat seri baru untuk modul lain.', undefined, 'MODULE_IMMUTABLE');
     }
