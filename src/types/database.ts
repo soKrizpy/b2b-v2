@@ -113,6 +113,7 @@ export interface MeetingRow {
   session_count: number;
   session_number: number;
   series_id: string | null;
+  module_id: number | null; // FK → modules.id; NULL only for unassociated legacy meetings
   teacher_id: string | null; // uuid FK → profiles.id (added in migration 0007)
   is_completed: boolean;
   completion_status: string | null;
@@ -128,6 +129,7 @@ export type MeetingInsert = {
   session_count: number;
   session_number: number;
   series_id: string | null;
+  module_id: number;
   teacher_id?: string | null;
   is_completed?: boolean;
 };
