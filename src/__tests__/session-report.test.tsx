@@ -33,6 +33,24 @@ vi.mock('@/lib/auth', () => ({
 
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
+    from: (table: string) => ({
+      select: (_columns: string) => ({
+        eq: (_column: string, _value: number) => ({
+          maybeSingle: async () => {
+            if (table !== 'meetings') {
+              return { data: null, error: { message: 'Unexpected table' } };
+            }
+            return {
+              data: {
+                teacher_id:
+                  state.authRole === 'admin' ? 'assigned-teacher-id' : 'test-user-id',
+              },
+              error: null,
+            };
+          },
+        }),
+      }),
+    }),
     rpc: async (functionName: string, args: Record<string, unknown>) => {
       if (state.dbError) return { data: null, error: state.dbError };
       if (functionName !== 'save_meeting_report') {
