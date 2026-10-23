@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { isCompleteModuleSchedule } from '@/features/sessions/curriculumSchedule';
 import { createSessionSchema, updateSessionSchema } from '@/features/sessions/validation';
 
 const validCreate = {
@@ -27,5 +28,12 @@ describe('guided curriculum schedule validation', () => {
     expect(updateSessionSchema.safeParse({ module_id: '12' }).success).toBe(true);
     expect(updateSessionSchema.safeParse({ module_id: '' }).success).toBe(false);
   });
-});
 
+  it('requires a series to cover every published topic exactly once', () => {
+    expect(isCompleteModuleSchedule(12, 12)).toBe(true);
+    expect(isCompleteModuleSchedule(11, 12)).toBe(false);
+    expect(isCompleteModuleSchedule(13, 12)).toBe(false);
+    expect(isCompleteModuleSchedule(0, 0)).toBe(false);
+    expect(isCompleteModuleSchedule(1, null)).toBe(false);
+  });
+});
