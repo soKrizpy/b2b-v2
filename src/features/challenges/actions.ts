@@ -281,18 +281,22 @@ export async function reviewSubmission(
   const db = createSupabaseAdminClient();
   const { data: targetSubmission, error: targetError } = await (db
     .from('challenge_submissions')
-    .select('id, student_id')
+    .select('id, student_id, status')
     .eq('id', submission_id)
-    .maybeSingle() as unknown as Promise<{ data: { id: number; student_id: string } | null; error: { message: string } | null }>);
+    .maybeSingle() as unknown as Promise<{ data: { id: number; student_id: string; status: string } | null; error: { message: string } | null }>);
   if (targetError || !targetSubmission) {
     return { success: false, error: 'Submission tidak ditemukan.' };
+  }
+  if (targetSubmission.status === 'approved') {
+    return { success: false, error: 'Submission ini sudah disetujui sebelumnya.' };
   }
   const isAssigned = await isTeacherAssignedToStudent(db, auth.user.id, targetSubmission.student_id);
   if (!isAssigned) {
     return { success: false, error: 'Kamu hanya dapat meninjau submission siswa yang ditugaskan kepadamu.' };
   }
 
-  const { error } = await (db
+  // Conditional transition prevents concurrent/replayed approvals from awarding twice.
+  const { data: updatedSubmission, error } = await (db
     .from('challenge_submissions')
     .update({
       status,
@@ -300,9 +304,18 @@ export async function reviewSubmission(
       reviewed_by:  auth.user.id,
       reviewed_at:  new Date().toISOString(),
     } as never)
-    .eq('id', submission_id) as unknown as Promise<{ error: { message: string } | null }>);
+    .eq('id', submission_id)
+    .in('status', ['pending', 'needs_revision'])
+    .select('id')
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { message: string } | null;
+    }>);
 
   if (error) return { success: false, error: error.message };
+  if (!updatedSubmission) {
+    return { success: false, error: 'Submission sudah ditinjau oleh permintaan lain. Muat ulang halaman.' };
+  }
 
   // Award XP + coins to the student when the teacher approves their submission
   if (status === 'approved') {
@@ -368,20 +381,29 @@ export async function bulkApproveSubmissions(
 
   const validIds = subs.map((s) => s.id);
 
-  const { error } = await (db
+  // Only transition reviewable submissions; concurrent approvals won't earn duplicate rewards.
+  const { data: approvedRows, error } = await (db
     .from('challenge_submissions')
     .update({
       status: 'approved',
       reviewed_by: auth.user.id,
       reviewed_at: new Date().toISOString(),
     } as never)
-    .in('id', validIds) as unknown as Promise<{ error: { message: string } | null }>);
+    .in('id', validIds)
+    .in('status', ['pending', 'needs_revision'])
+    .select('id, student_id') as unknown as Promise<{
+      data: Array<{ id: number; student_id: string }> | null;
+      error: { message: string } | null;
+    }>);
 
   if (error) return { success: false, error: error.message };
+  if (!approvedRows?.length) {
+    return { success: false, error: 'Tidak ada submission baru yang dapat disetujui.' };
+  }
 
-  // Award rewards for students whose submissions were previously pending
-  for (const s of subs) {
-    if (s.student_id && s.status !== 'approved') {
+  // Award only rows this request actually transitioned to approved.
+  for (const s of approvedRows) {
+    if (s.student_id) {
       awardRewardEvent(s.student_id, 'CHALLENGE_APPROVED').catch((err) => {
         console.error('[bulkApproveSubmissions] reward error:', err);
       });
@@ -393,7 +415,7 @@ export async function bulkApproveSubmissions(
 
   return {
     success: true,
-    message: `${validIds.length} submission berhasil disetujui!`,
+    message: `${approvedRows.length} submission berhasil disetujui!`,
   };
 }
 
