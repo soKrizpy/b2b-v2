@@ -137,10 +137,9 @@ export async function getQuestMapData(
     // order_index because imported curriculum JSON can use zero-based numbering.
     const sessionNumber = idx + 1;
 
-    // A session report is submitted if:
-    // 1) Student has matching completed meeting by session_number, OR
-    // 2) Total completed meetings reaches or exceeds this session number, OR
-    // 3) Student has no assigned meetings at all (e.g. self-paced demo/test mode).
+    // A session report is submitted when the student joined the assigned,
+    // completed meeting matching this topic's 1-based session number. When no
+    // meetings are assigned to the student, retain the existing self-paced mode.
     const isSessionReportSubmitted = hasAssignedMeetings
       ? reportedSessionNumbers.has(sessionNumber)
       : true;
