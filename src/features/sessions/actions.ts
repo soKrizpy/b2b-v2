@@ -349,29 +349,36 @@ export async function deleteSession(
   const db = createSupabaseAdminClient();
 
   if (editMode === 'series' && seriesId) {
-    const { data: targets } = await (db
+    const { data: targets, error: targetErr } = await (db
       .from('meetings')
       .select('id')
       .eq('series_id', seriesId)
       .gte('session_number', sessionNum) as unknown as Promise<{
-      data: Array<{ id: number }>;
-      error: unknown;
+      data: Array<{ id: number }> | null;
+      error: { message: string } | null;
     }>);
 
+    if (targetErr) {
+      return { success: false, error: `Gagal memuat seri jadwal: ${targetErr.message}` };
+    }
     const targetIds = (targets ?? []).map((m) => m.id);
 
     if (targetIds.length > 0) {
-      await (db
+      const { error: assignmentDeleteError } = await (db
         .from('meeting_students')
         .delete()
-        .in('meeting_id', targetIds) as unknown as Promise<unknown>);
+        .in('meeting_id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignmentDeleteError) {
+        return {
+          success: false,
+          error: `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`,
+        };
+      }
+
       const { error: delErr } = await (db
         .from('meetings')
         .delete()
-        .eq('series_id', seriesId)
-        .gte('session_number', sessionNum) as unknown as Promise<{
-        error: { message: string } | null;
-      }>);
+        .in('id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
 
       if (delErr)
         return {
@@ -380,17 +387,21 @@ export async function deleteSession(
         };
     }
   } else {
-    await (db
+    const { error: assignmentDeleteError } = await (db
       .from('meeting_students')
       .delete()
-      .eq('meeting_id', id) as unknown as Promise<unknown>);
+      .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+    if (assignmentDeleteError) {
+      return {
+        success: false,
+        error: `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`,
+      };
+    }
 
     const { error: delErr } = await (db
       .from('meetings')
       .delete()
-      .eq('id', id) as unknown as Promise<{
-      error: { message: string } | null;
-    }>);
+      .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
 
     if (delErr)
       return {
