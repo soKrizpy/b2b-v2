@@ -72,14 +72,12 @@ export async function getTopicQuizState(
     : 0;
 
   const hasAssignedMeetings = (joinRows ?? []).length > 0;
-  const orderedTopics = topicRes.data
-    ? await db
-        .from('topics')
-        .select('id, order_index')
-        .eq('module_id', topicRes.data.module_id)
-        .eq('status', 'published')
-        .order('order_index', { ascending: true })
-    : { data: [], error: null };
+  const orderedTopics = await db
+    .from('topics')
+    .select('id, order_index')
+    .eq('module_id', topicRes.data?.module_id ?? -1)
+    .eq('status', 'published')
+    .order('order_index', { ascending: true });
   const topicIndex = (orderedTopics.data ?? []).findIndex((topic) => topic.id === topicId);
   const orderIndex = topicRes.data?.order_index ?? 0;
   const sessionNumber = orderIndex > 0 ? orderIndex : topicIndex + 1;
