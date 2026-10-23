@@ -8,6 +8,7 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiError, apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
 import { validate, createSessionSchema } from '@/features/sessions/validation';
+import { isCompleteModuleSchedule } from '@/features/sessions/curriculumSchedule';
 import {
   getSessionsForAdmin,
   getSessionsForTeacher,
@@ -61,7 +62,7 @@ export async function POST(request: Request): Promise<Response> {
   const { count: publishedTopicCount, error: topicsCountError } = await db
     .from('topics').select('id', { count: 'exact', head: true })
     .eq('module_id', module_id).eq('status', 'published');
-  if (topicsCountError || !publishedTopicCount || session_count !== publishedTopicCount) {
+  if (topicsCountError || !isCompleteModuleSchedule(session_count, publishedTopicCount)) {
     return apiError(422, 'Jumlah sesi dalam satu seri harus sama dengan jumlah topik terpublikasi pada modul agar setiap topik memiliki sesi.', {}, 'SESSION_COUNT_MUST_MATCH_TOPICS');
   }
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
