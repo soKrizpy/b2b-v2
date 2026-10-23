@@ -80,8 +80,10 @@ export async function getTopicQuizState(
     .order('order_index', { ascending: true });
   const orderedTopicRows = (orderedTopics.data ?? []) as unknown as Array<{ id: number; order_index: number }>;
   const topicIndex = orderedTopicRows.findIndex((topic) => topic.id === topicId);
-  const orderIndex = topicRes.data?.order_index ?? 0;
-  const sessionNumber = orderIndex > 0 ? orderIndex : topicIndex + 1;
+  // Match a topic's sorted position to the 1-based session_number. Do not use
+  // order_index directly: imported curricula may number topics from zero, which
+  // would otherwise map the first two topics to the same session.
+  const sessionNumber = topicIndex + 1;
   const hasCompletedSession = sessionNumber > 0 && (joinRows ?? []).some(
     (r) => r.has_joined &&
       r.meetings?.is_completed === true &&
