@@ -1,7 +1,7 @@
 -- Additive curriculum association for guided teacher-led learning.
 -- Existing meetings remain NULL; historical rows are deliberately not guessed/backfilled.
 ALTER TABLE public.meetings
-  ADD COLUMN IF NOT EXISTS module_id bigint NULL
+  ADD COLUMN IF NOT EXISTS module_id integer NULL
   REFERENCES public.modules(id) ON DELETE RESTRICT;
 
 CREATE INDEX IF NOT EXISTS meetings_module_session_idx
@@ -17,7 +17,7 @@ RETURNS trigger
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  IF NEW.series_id IS NOT NULL AND NEW.module_id IS NOT NULL AND EXISTS (
+  IF NEW.series_id IS NOT NULL AND EXISTS (
     SELECT 1
     FROM public.meetings existing
     WHERE existing.series_id = NEW.series_id
