@@ -267,6 +267,19 @@ function LocationPopoverCard({
       : `Ringkasan Materi ${slideIndex + 1}`;
     const slideBody = [slide?.explanation, slide?.content, slide?.instructions]
       .find((value) => typeof value === 'string' && value.trim()) as string | undefined;
+    const slideCode = typeof slide?.code === 'object' && slide.code !== null
+      ? slide.code as Record<string, unknown>
+      : null;
+    const slideCodeContent = typeof slideCode?.content === 'string'
+      ? slideCode.content
+      : typeof slide?.code_content === 'string'
+        ? slide.code_content
+        : null;
+    const slideCodeLanguage = typeof slideCode?.language === 'string'
+      ? slideCode.language
+      : typeof slide?.code_language === 'string'
+        ? slide.code_language
+        : 'text';
     const slideCount = Math.max(slides.length, 1);
     const visibleIndex = Math.min(slideIndex, slideCount - 1);
 
@@ -298,8 +311,11 @@ function LocationPopoverCard({
           <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
             {slides.length ? (slideBody || fallbackBody || 'Materi untuk topik ini belum ditambahkan.') : fallbackBody || 'Materi untuk topik ini belum ditambahkan. Guru atau admin dapat melengkapinya melalui editor kurikulum.'}
           </p>
-          {typeof slide?.code === 'object' && slide.code !== null && typeof (slide.code as Record<string, unknown>).content === 'string' && (
-            <pre className="overflow-x-auto rounded-xl bg-slate-950 border border-slate-700 p-3 text-xs text-emerald-200"><code>{String((slide.code as Record<string, unknown>).content)}</code></pre>
+          {slideCodeContent && (
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{slideCodeLanguage}</p>
+              <pre className="overflow-x-auto rounded-xl bg-slate-950 border border-slate-700 p-3 text-xs text-emerald-200"><code>{slideCodeContent}</code></pre>
+            </div>
           )}
         </article>
 
