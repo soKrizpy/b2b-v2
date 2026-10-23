@@ -6,6 +6,8 @@ import { notFound, redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractFinalAssessment } from '@/features/curriculum/validation';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getCertificateByModuleAndStudent, TIER_CONFIG } from '@/features/certificates/queries';
 import { TryoutClient } from './TryoutClient';
 
@@ -66,7 +68,7 @@ export default async function AssessmentPage({ params }: Props) {
     );
   }
 
-  // If already certified, show existing certificate
+  // A previously issued certificate remains viewable even if curriculum changes.
   if (existingCert) {
     const cfg = TIER_CONFIG[existingCert.tier as keyof typeof TIER_CONFIG];
     return (
@@ -87,6 +89,28 @@ export default async function AssessmentPage({ params }: Props) {
         <Link href="/student/lessons"
           className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700">
           Kembali ke Pelajaran
+        </Link>
+      </div>
+    );
+  }
+
+  const enrolledModules = await getStudentModulesWithTopics(auth.user.id);
+  const enrolledModule = enrolledModules.find((item) => item.id === id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(auth.user.id, enrolledModule)
+    : null;
+
+  if (!questProgress?.moduleComplete) {
+    return (
+      <div className="max-w-xl mx-auto py-16 text-center space-y-4">
+        <p className="text-4xl">🗺️</p>
+        <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">Ujian akhir masih terkunci</h1>
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          Selesaikan seluruh topik yang dipublikasikan di Quest Map terlebih dahulu. Setelah semua topik selesai, ujian akhir 20 soal akan terbuka.
+        </p>
+        <Link href="/student/lessons"
+          className="inline-block px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700">
+          Kembali ke Quest Map
         </Link>
       </div>
     );
