@@ -154,7 +154,10 @@ export async function getQuestMapData(
 
     const isDone = quizDone;
 
-    if (isDone) {
+    // Only advance the completed frontier when this topic directly follows
+    // the already-completed streak. A previously completed later topic must
+    // never make an unfinished earlier topic appear completed.
+    if (isDone && idx === lastCompletedIdx + 1) {
       lastCompletedIdx = idx;
     }
 
