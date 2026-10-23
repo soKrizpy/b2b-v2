@@ -4,7 +4,7 @@
 // After a successful submission it calls awardQuizReward and shows
 // an animated result screen with star rating + XP/coin gain.
 
-import { useState, useActionState, useEffect, useTransition } from 'react';
+import { useState, useActionState, useEffect, useTransition, useRef } from 'react';
 import { submitTopicQuiz, awardQuizReward, type QuizActionResult, type RewardResult } from '@/features/quiz/actions';
 import { explainQuizAnswer } from '@/features/ai/actions';
 import type { QuizQuestion } from '@/features/curriculum/validation';
@@ -231,7 +231,7 @@ function QuizForm({
   questions:    QuizQuestion[];
   attemptsUsed: number;
   bestScore:    number;
-  onResult:     (score: number) => void;
+  onResult:     (score: number, attemptNum: number) => void;
 }) {
   const [selected,  setSelected]  = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -239,9 +239,17 @@ function QuizForm({
     submitTopicQuiz, null
   );
 
+  const handledAttemptRef = useRef<number | null>(null);
+
   useEffect(() => {
-    if (state?.success) {
-      onResult(state.result.score);
+    if (
+      state?.success &&
+      handledAttemptRef.current !== state.result.attemptNum
+    ) {
+      // onResult is recreated by the parent on render; guard the persisted
+      // attempt so effect re-runs cannot trigger a second reward claim.
+      handledAttemptRef.current = state.result.attemptNum;
+      onResult(state.result.score, state.result.attemptNum);
     }
   }, [state, onResult]);
 
@@ -387,12 +395,13 @@ export function QuizModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  const handleQuizResult = (finalScore: number) => {
+  const handleQuizResult = (finalScore: number, attemptNum: number) => {
     setScore(finalScore);
     // Fire reward action
     const fd = new FormData();
     fd.append('score',    String(finalScore));
     fd.append('topic_id', String(topicId));
+    fd.append('attempt_num', String(attemptNum));
     startTransition(() => rewardDispatch(fd));
     setPhase('reward');
     onComplete?.(finalScore);
