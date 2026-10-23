@@ -238,23 +238,46 @@ export async function updateSession(
         sessionPatch.meeting_date = d.toISOString();
       }
 
-      await (db
+      const { error: sessionUpdateError } = await (db
         .from('meetings')
         .update(sessionPatch as never)
-        .eq('id', m.id) as unknown as Promise<unknown>);
+        .eq('id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+
+      if (sessionUpdateError) {
+        revalidateAll();
+        return {
+          success: false,
+          error: 'Seri jadwal hanya terperbarui sebagian. Periksa jadwal sebelum mengulangi perubahan.',
+        };
+      }
 
       if (studentIds.length > 0) {
-        await (db
+        const { error: assignmentDeleteError } = await (db
           .from('meeting_students')
           .delete()
-          .eq('meeting_id', m.id) as unknown as Promise<unknown>);
+          .eq('meeting_id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentDeleteError) {
+          revalidateAll();
+          return {
+            success: false,
+            error: 'Perubahan seri jadwal tidak selesai: penugasan siswa gagal diperbarui. Periksa jadwal sebelum mengulangi perubahan.',
+          };
+        }
+
         const rows = studentIds.map((sid) => ({
           meeting_id: m.id,
           student_id: sid,
         }));
-        await (db
+        const { error: assignmentInsertError } = await (db
           .from('meeting_students')
-          .insert(rows as never) as unknown as Promise<unknown>);
+          .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentInsertError) {
+          revalidateAll();
+          return {
+            success: false,
+            error: 'Perubahan seri jadwal tidak selesai: penugasan siswa gagal disimpan. Periksa jadwal sebelum mengulangi perubahan.',
+          };
+        }
       }
     }
   } else {
@@ -273,21 +296,30 @@ export async function updateSession(
     }
 
     if (studentIds.length > 0) {
-      await (db
+      const { error: assignmentDeleteError } = await (db
         .from('meeting_students')
         .delete()
-        .eq('meeting_id', id) as unknown as Promise<unknown>);
+        .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignmentDeleteError) {
+        return {
+          success: false,
+          error: 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.',
+        };
+      }
+
       const rows = studentIds.map((sid) => ({
         meeting_id: id,
         student_id: sid,
       }));
       const { error: assignErr } = await (db
         .from('meeting_students')
-        .insert(rows as never) as unknown as Promise<{
-        error: { message: string } | null;
-      }>);
-      if (assignErr)
-        console.error('[updateSession] student assign:', assignErr.message);
+        .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignErr) {
+        return {
+          success: false,
+          error: 'Jadwal diperbarui, tetapi penugasan siswa gagal disimpan. Periksa penugasan sebelum mencoba lagi.',
+        };
+      }
     }
   }
 
