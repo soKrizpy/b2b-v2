@@ -16,6 +16,7 @@ import { RetroPixelWorldMap } from '@/features/quiz/components/RetroPixelWorldMa
 import { SimplifiedWaypointHistory } from '@/features/quiz/components/SimplifiedWaypointHistory';
 import type { QuestMapData, QuestTopicNode, NodeStatus } from '@/features/quiz/questMapQueries';
 import type { QuizQuestion } from '@/features/curriculum/validation';
+import { getInstructionalSlides, hasRequiredLessonSlideCount, MIN_LESSON_SLIDES } from '@/features/curriculum/lessonSlides';
 import type { TopicQuizAttemptRow } from '@/types/database';
 import {
   Tent,
@@ -257,13 +258,8 @@ function LocationPopoverCard({
   // For an available topic, start with a short slide-based lesson before challenges.
   if (fogState !== 'shrouded' && node.status !== 'LOCKED') {
     const lessonContent = node.topic.lesson_content as Record<string, unknown> | null;
-    const rawPath = Array.isArray(lessonContent?.learningPath)
-      ? lessonContent.learningPath
-      : [];
-    const slides = rawPath
-      .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object')
-      .filter((item) => item.type !== 'quiz' && item.type !== 'challenge')
-      .slice(0, 20);
+    const slides = getInstructionalSlides(lessonContent?.learningPath);
+    const lessonReady = hasRequiredLessonSlideCount(slides);
     const fallbackBody = node.topic.description?.trim() || loc.lore;
     const slide = slides[slideIndex];
     const slideTitle = typeof slide?.title === 'string' && slide.title.trim()
@@ -317,15 +313,22 @@ function LocationPopoverCard({
               className="flex-1 rounded-xl bg-cyan-500 px-3 py-2.5 text-xs font-black text-slate-950 hover:bg-cyan-400">
               Lanjut →
             </button>
-          ) : (
+          ) : lessonReady ? (
             <Link href={`/student/lessons/topic/${node.topic.id}`} onClick={onClose}
               className="flex-1 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-2.5 text-center text-xs font-black text-white hover:from-indigo-400 hover:to-violet-400">
               Lanjut ke Challenge →
             </Link>
+          ) : (
+            <button type="button" disabled
+              className="flex-1 rounded-xl bg-slate-800 px-3 py-2.5 text-center text-xs font-black text-slate-500 cursor-not-allowed">
+              Materi Belum Lengkap
+            </button>
           )}
         </div>
         <p className="text-[10px] leading-relaxed text-slate-500">
-          Materi ditampilkan sesuai konten yang sudah disimpan untuk topik ini. Untuk membuat 10–20 slide, isi learningPath pada editor kurikulum; modal ini tidak mengarang slide yang belum ada.
+          {lessonReady
+            ? `Materi memiliki ${slides.length} slide. Lanjutkan ke challenge setelah mempelajari semuanya.`
+            : `Topik ini baru memiliki ${slides.length} slide materi; minimal ${MIN_LESSON_SLIDES} slide diperlukan sebelum challenge terbuka. Minta guru atau admin melengkapi learningPath pada editor kurikulum.`}
         </p>
       </>
     );
