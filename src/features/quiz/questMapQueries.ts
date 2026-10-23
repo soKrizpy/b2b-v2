@@ -133,7 +133,9 @@ export async function getQuestMapData(
     const quizInfo    = attemptsMap.get(topic.id) ?? { count: 0, bestScore: 0 };
     const { count: attemptsUsed, bestScore } = quizInfo;
 
-    const sessionNumber = topic.order_index > 0 ? topic.order_index : idx + 1;
+    // Session numbers are 1-based; use sorted topic position rather than
+    // order_index because imported curriculum JSON can use zero-based numbering.
+    const sessionNumber = idx + 1;
 
     // A session report is submitted if:
     // 1) Student has matching completed meeting by session_number, OR
