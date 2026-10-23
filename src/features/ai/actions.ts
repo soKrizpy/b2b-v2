@@ -290,32 +290,41 @@ export async function chatWithTutor(
 ): Promise<AiResult> {
   const auth = await getAuthUser();
   if (!auth.ok) return { success: false, error: 'Tidak terautentikasi.' };
+  if (auth.role !== 'teacher' && auth.role !== 'admin') {
+    return { success: false, error: 'Akses ditolak. Bot Chat hanya tersedia untuk guru dan admin.' };
+  }
 
-  const topicTitle   = (formData.get('topic_title')   as string | null)?.trim() ?? 'topik ini';
+  const topicTitle   = (formData.get('topic_title')   as string | null)?.trim() ?? 'Pusat Manajemen Pembelajaran';
   const topicContext = (formData.get('topic_context') as string | null)?.trim() ?? '';
   const userMessage  = (formData.get('message')       as string | null)?.trim();
   const historyRaw   = (formData.get('history')       as string | null) ?? '[]';
 
   if (!userMessage) return { success: false, error: 'Pesan kosong.' };
   if (!hasGeminiApiKey()) {
-    return { success: false, error: 'Byte sedang tidak tersedia (GEMINI_API_KEY belum tersedia).' };
+    return { success: false, error: 'AI Copilot sedang tidak tersedia (GEMINI_API_KEY belum tersedia).' };
   }
 
   let history: ChatMessage[] = [];
   try { history = JSON.parse(historyRaw); } catch { history = []; }
 
+  const roleLabel = auth.role === 'admin' ? 'Administrator' : 'Guru / Pengajar';
   const systemPrompt = `
-Kamu adalah Byte, tutor AI ramah untuk platform belajar coding Bits2Bytes.
-Kamu sedang membantu siswa berusia 10-16 tahun belajar tentang: "${topicTitle}".
-${topicContext ? `\nKonteks materi:\n${topicContext.slice(0, 1500)}` : ''}
+Kamu adalah Byte Copilot AI, asisten kecerdasan buatan khusus untuk ${roleLabel} pada platform edukasi coding Bits2Bytes.
+Konteks pengguna: ${roleLabel} (Bits2Bytes LMS).
+${topicTitle && topicTitle !== 'Pusat Manajemen Pembelajaran' ? `Fokus/Topik bahasan: "${topicTitle}".` : ''}
+${topicContext ? `\nKonteks materi/catatan:\n${topicContext.slice(0, 1500)}` : ''}
 
-Aturan:
-- Jawab dalam Bahasa Indonesia yang santai dan ramah, cocok untuk anak/remaja
-- Gunakan analogi yang mudah dipahami
-- Jika ada kode, format dengan backtick
-- Jangan menjawab topik di luar pelajaran coding/teknologi
-- Jawaban maksimal 3 paragraf, ringkas dan langsung ke poin
-- Gunakan emoji sesekali untuk semangat 🚀
+Peran & Tanggung Jawabmu:
+- Membantu merancang kurikulum, silabus, dan ide proyek coding interaktif (Scratch, Python, Web Development, Algoritma, Game Dev, Database) untuk siswa usia 8-18 tahun.
+- Membantu menyusun soal kuis, tantangan kode (challenges), dan rubrik penilaian beserta pembahasannya.
+- Memberikan strategi pedagogis dan diferensiasi pembelajaran bagi siswa yang kesulitan maupun yang cepat paham.
+- Membantu menyusun draf feedback laporan berkala, catatan evaluasi pertemuan, serta pesan komunikasi untuk orang tua.
+- Menjawab pertanyaan seputar manajemen kelas, kurikulum, dan pengajaran teknologi secara lugas, solutif, ramah, dan profesional.
+
+Aturan Respon:
+- Gunakan Bahasa Indonesia yang profesional, ramah, dan solutif.
+- Jika menyertakan kode program, gunakan format markdown code block.
+- Berikan saran yang actionable dan mudah diterapkan dalam sesi bimbingan belajar.
 `.trim();
 
   try {
@@ -323,12 +332,12 @@ Aturan:
       model: GEMINI_FLASH_MODEL,
       config: {
         systemInstruction: systemPrompt,
-        temperature: 0.9,
+        temperature: 0.8,
         topP: 0.95,
       },
       history: [
-        { role: 'user',  parts: [{ text: 'Halo Byte!' }] },
-        { role: 'model', parts: [{ text: 'Halo! Aku Byte, tutor AI kamu. Aku siap bantu belajar tentang ' + topicTitle + '! Ada yang ingin kamu tanyakan? 🚀' }] },
+        { role: 'user',  parts: [{ text: 'Halo Byte Copilot!' }] },
+        { role: 'model', parts: [{ text: `Halo! Saya Byte Copilot, asisten AI khusus ${roleLabel} Bits2Bytes. Siap membantu persiapan materi belajar, bank soal kuis, maupun saran pedagogis. Ada yang bisa saya bantu hari ini? 🎓✨` }] },
         ...history.map((m) => ({
           role:  m.role as 'user' | 'model',
           parts: [{ text: m.content }],

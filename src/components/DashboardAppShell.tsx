@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SignOutButton } from '@/features/auth/components/SignOutButton';
+import { TeacherAdminChatbot } from '@/features/ai/components/TeacherAdminChatbot';
 import type { UserRole } from '@/types/roles';
 
 // ── Role Configurations ───────────────────────────────────────────────────────
@@ -367,6 +368,11 @@ export function DashboardAppShell({
           );
         })}
       </nav>
+
+      {/* ── AI Copilot for Guru and Admin ONLY ── */}
+      {(role === 'teacher' || role === 'admin') && (
+        <TeacherAdminChatbot role={role} />
+      )}
     </div>
   );
 }

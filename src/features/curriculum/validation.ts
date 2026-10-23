@@ -163,9 +163,9 @@ export function encodeFinalAssessment(fa: FinalAssessment): string {
   return `FINAL_ASSESSMENT:${JSON.stringify(fa)}`;
 }
 
-/** Certificate tier from a 0-100 score. */
-export function scoreToCertificateTier(score: number): 'achievement' | 'excellent' | 'completion' {
-  if (score >= 80) return 'achievement';
-  if (score >= 70) return 'excellent';
+/** Certificate tier from a 0-100 score. (>=85 Excellent, >=75 Achievement, <75 Completion) */
+export function scoreToCertificateTier(score: number): 'excellent' | 'achievement' | 'completion' {
+  if (score >= 85) return 'excellent';
+  if (score >= 75) return 'achievement';
   return 'completion';
 }

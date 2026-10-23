@@ -188,12 +188,12 @@ export function CosmeticShopModal({
                   Toko Kosmetik &amp; Ruang Ganti
                 </h3>
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full
-                  bg-blue-500/15 text-blue-700 dark:bg-purple-500/20 dark:text-purple-300 border border-blue-400/30 dark:border-purple-500/30">
-                  Cyber-Fantasy
+                  bg-cyan-500/15 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300 border border-cyan-400/40">
+                  Retro Pixel Adventurer
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                Pilih gaya bertualangmu, rawat pet setia, dan raih gelar terhormat!
+                Pilih gaya bertualangmu di Quest Map, rawat pet setia, dan raih gelar terhormat!
               </p>
             </div>
           </div>
@@ -257,7 +257,7 @@ export function CosmeticShopModal({
               <div className="flex flex-col sm:flex-row items-center gap-5 w-full md:w-auto">
                 <div className="relative group">
                   {mirrorMode === 'avatar' ? (
-                    <div className="p-2 rounded-3xl bg-white/70 dark:bg-black/40 border border-blue-300/40 dark:border-purple-400/40 shadow-inner">
+                    <div className="p-3 rounded-3xl bg-white/70 dark:bg-black/40 border border-blue-300/40 dark:border-purple-400/40 shadow-inner flex items-center justify-center min-w-[140px] min-h-[160px]">
                       <CyberFantasyAvatar
                         archetype={previewCosmetics.archetype}
                         skinTone={previewCosmetics.skinTone}
@@ -266,6 +266,8 @@ export function CosmeticShopModal({
                         auraId={previewCosmetics.auraId}
                         size="xl"
                         animateIdle
+                        showTag
+                        tagLabel="KAMU"
                       />
                     </div>
                   ) : (

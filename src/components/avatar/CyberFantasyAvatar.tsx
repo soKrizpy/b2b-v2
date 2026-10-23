@@ -1,7 +1,13 @@
 'use client';
 // src/components/avatar/CyberFantasyAvatar.tsx
-// Pure Layered SVG Cyber-Fantasy Student Avatar Engine.
-// Ultra-crisp, instant load, theme-adaptive, multi-slot rendering.
+// 16-Bit Retro Pixel Adventurer Student Avatar Engine.
+// Visually harmonized with the Quest Map character sprite:
+// - Full-body 16-bit pixel adventurer sprite
+// - Iconic adventurer cap, hair, pixel gleam eyes, tunic, belt with golden buckle, backpack, and boots
+// - Modular support for shop cosmetics (Hats, Outfits, Auras)
+// - Pulsing cyan floor mana rune shadow
+// - Floating "KAMU" status tag
+// - Idle bounce animation matching the map character
 
 import React from 'react';
 
@@ -15,363 +21,493 @@ export interface CyberFantasyAvatarProps {
   className?: string;
   isSelf?: boolean;
   animateIdle?: boolean;
+  showTag?: boolean;
+  tagLabel?: string;
 }
 
 const SIZE_MAP = {
-  xs:  'w-6 h-6',
-  sm:  'w-8 h-8',
-  md:  'w-11 h-11',
-  lg:  'w-16 h-16',
-  xl:  'w-24 h-24',
-  '2xl': 'w-36 h-36',
+  xs:    'w-8 h-10',
+  sm:    'w-10 h-12',
+  md:    'w-14 h-16',
+  lg:    'w-20 h-24',
+  xl:    'w-28 h-34',
+  '2xl': 'w-40 h-48',
 };
 
-const SKIN_TONES: Record<string, { base: string; shadow: string }> = {
-  default: { base: '#fde047', shadow: '#eab308' }, // cyber-warm gold / anime
-  fair:    { base: '#fde68a', shadow: '#fcd34d' },
-  tan:     { base: '#d97706', shadow: '#b45309' },
-  dark:    { base: '#854d0e', shadow: '#713f12' },
+const SKIN_TONES: Record<string, { base: string; shadow: string; cheek: string }> = {
+  default: { base: '#fde68a', shadow: '#f59e0b', cheek: '#fca5a5' }, // Anime warm peach
+  fair:    { base: '#fef3c7', shadow: '#fde68a', cheek: '#fda4af' }, // Porcelain
+  tan:     { base: '#d97706', shadow: '#b45309', cheek: '#f87171' }, // Sun-kissed bronze
+  dark:    { base: '#78350f', shadow: '#451a03', cheek: '#e11d48' }, // Deep cocoa
 };
 
 export function CyberFantasyAvatar({
-  archetype = 'cyber-mage',
+  archetype = 'astral-knight',
   skinTone = 'default',
   hatId,
   outfitId,
   auraId,
   size = 'md',
   className = '',
+  isSelf = false,
   animateIdle = true,
+  showTag = false,
+  tagLabel = 'KAMU',
 }: CyberFantasyAvatarProps) {
   const skin = SKIN_TONES[skinTone] || SKIN_TONES.default;
-  const arch = archetype.toLowerCase();
+  const arch = archetype ? archetype.toLowerCase() : 'astral-knight';
 
-  // Primary palette based on archetype
-  const colors = {
-    'cyber-mage':       { main: '#8b5cf6', accent: '#c084fc', hair: '#312e81', glow: '#a855f7' },
-    'astral-knight':    { main: '#0ea5e9', accent: '#38bdf8', hair: '#0f172a', glow: '#38bdf8' },
-    'shadow-glitcher':  { main: '#f43f5e', accent: '#fb7185', hair: '#18181b', glow: '#f43f5e' },
-    'chrono-alchemist': { main: '#10b981', accent: '#34d399', hair: '#fef08a', glow: '#10b981' },
-  }[arch] || { main: '#6366f1', accent: '#818cf8', hair: '#1e1b4b', glow: '#6366f1' };
+  // Palette customization based on Archetype
+  const palette = {
+    'astral-knight': {
+      tunicMain:   '#0891b2', // Cyan-600 (Iconic Map Adventurer)
+      tunicLight:  '#22d3ee', // Cyan-400
+      tunicDark:   '#0e7490', // Cyan-700
+      hair:        '#78350f', // Amber-900 / Warm adventurer brown
+      hairLight:   '#b45309',
+      runeColor:   '#22d3ee',
+    },
+    'cyber-mage': {
+      tunicMain:   '#7c3aed', // Violet-600
+      tunicLight:  '#a855f7', // Violet-400
+      tunicDark:   '#5b21b6', // Violet-800
+      hair:        '#312e81', // Indigo-900
+      hairLight:   '#6366f1',
+      runeColor:   '#c084fc',
+    },
+    'shadow-glitcher': {
+      tunicMain:   '#18181b', // Zinc-900
+      tunicLight:  '#e11d48', // Rose-600
+      tunicDark:   '#09090b', // Black
+      hair:        '#27272a', // Zinc-800
+      hairLight:   '#f43f5e',
+      runeColor:   '#f43f5e',
+    },
+    'chrono-alchemist': {
+      tunicMain:   '#059669', // Emerald-600
+      tunicLight:  '#34d399', // Emerald-400
+      tunicDark:   '#065f46', // Emerald-800
+      hair:        '#f59e0b', // Golden Amber
+      hairLight:   '#fde047',
+      runeColor:   '#10b981',
+    },
+  }[arch] || {
+    tunicMain:   '#0891b2',
+    tunicLight:  '#22d3ee',
+    tunicDark:   '#0e7490',
+    hair:        '#78350f',
+    hairLight:   '#b45309',
+    runeColor:   '#22d3ee',
+  };
+
+  const shouldDisplayTag = showTag || isSelf;
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center flex-shrink-0 select-none ${SIZE_MAP[size]} ${className}`}
+      className={`relative inline-flex flex-col items-center justify-center flex-shrink-0 select-none ${SIZE_MAP[size]} ${className}`}
       style={{ overflow: 'visible' }}
     >
-      <svg
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={`w-full h-full drop-shadow-md ${animateIdle ? 'transition-transform duration-300 hover:scale-105' : ''}`}
+      {/* ── 1. Floating Tag ("KAMU" / "YOU") ── */}
+      {shouldDisplayTag && (
+        <div className="absolute -top-3.5 z-40 px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-black text-[9px] tracking-widest font-mono shadow-[0_0_10px_rgba(6,182,212,0.8)] border border-white flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping" />
+          {tagLabel}
+        </div>
+      )}
+
+      {/* ── 2. Pixel Adventurer Body & Animations ── */}
+      <div
+        className={`relative w-full h-full flex flex-col items-center justify-center ${
+          animateIdle ? 'animate-bounce transition-transform duration-300 hover:scale-105' : ''
+        }`}
+        style={{ imageRendering: 'pixelated' }}
       >
-        <defs>
-          {/* Gradients */}
-          <linearGradient id={`grad-bg-${arch}`} x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor={colors.main} stopOpacity="0.25" />
-            <stop offset="100%" stopColor={colors.accent} stopOpacity="0.10" />
-          </linearGradient>
+        <svg
+          viewBox="0 0 64 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.55)]"
+          shapeRendering="crispEdges"
+        >
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 1: AURA FX (Behind character)
+             ════════════════════════════════════════════════════════════════ */}
+          {auraId === 'aura-matrix' && (
+            <g id="aura-matrix" className="animate-pulse">
+              <rect x="8" y="12" width="2" height="6" fill="#22c55e" opacity="0.8" />
+              <rect x="54" y="16" width="2" height="8" fill="#22c55e" opacity="0.9" />
+              <rect x="12" y="38" width="2" height="10" fill="#4ade80" opacity="0.85" />
+              <rect x="50" y="44" width="2" height="6" fill="#22c55e" opacity="0.75" />
+              <rect x="20" y="4" width="3" height="3" fill="#86efac" />
+              <rect x="42" y="8" width="3" height="3" fill="#86efac" />
+            </g>
+          )}
 
-          <linearGradient id={`grad-hair-${arch}`} x1="0" y1="0" x2="0" y2="50" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor={colors.hair} />
-            <stop offset="100%" stopColor={colors.main} />
-          </linearGradient>
+          {auraId === 'aura-quantum' && (
+            <g id="aura-quantum">
+              <ellipse cx="32" cy="38" rx="28" ry="14" stroke="#c084fc" strokeWidth="2" strokeDasharray="4 4" transform="rotate(-15 32 38)" opacity="0.75" />
+              <ellipse cx="32" cy="38" rx="28" ry="14" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3 3" transform="rotate(25 32 38)" opacity="0.75" />
+              <rect x="8" y="24" width="4" height="4" fill="#c084fc" />
+              <rect x="52" y="48" width="4" height="4" fill="#38bdf8" />
+            </g>
+          )}
 
-          <filter id="glow-fx" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
+          {auraId === 'aura-glitch' && (
+            <g id="aura-glitch">
+              <rect x="6" y="20" width="8" height="3" fill="#06b6d4" opacity="0.8" />
+              <rect x="50" y="24" width="8" height="3" fill="#f43f5e" opacity="0.8" />
+              <rect x="10" y="52" width="6" height="2.5" fill="#f43f5e" opacity="0.75" />
+              <rect x="48" y="48" width="8" height="3" fill="#06b6d4" opacity="0.85" />
+            </g>
+          )}
 
-        {/* ── LAYER 1: AURA FX (Behind character) ────────────────── */}
-        {auraId === 'aura-matrix' && (
-          <g opacity="0.85" className="animate-pulse">
-            <circle cx="50" cy="50" r="46" stroke="#22c55e" strokeWidth="1.5" strokeDasharray="3 4" opacity="0.6" />
-            <text x="12" y="24" fill="#22c55e" fontSize="7" fontFamily="monospace" fontWeight="bold">01</text>
-            <text x="80" y="32" fill="#22c55e" fontSize="7" fontFamily="monospace" fontWeight="bold">10</text>
-            <text x="14" y="82" fill="#22c55e" fontSize="7" fontFamily="monospace" fontWeight="bold">11</text>
-            <text x="78" y="76" fill="#22c55e" fontSize="7" fontFamily="monospace" fontWeight="bold">00</text>
+          {auraId === 'aura-celestial' && (
+            <g id="aura-celestial">
+              <ellipse cx="32" cy="38" rx="28" ry="24" stroke="#fbbf24" strokeWidth="1.5" strokeDasharray="2 3" opacity="0.85" />
+              <polygon points="32,4 34,9 32,11 30,9" fill="#ffd700" />
+              <polygon points="58,38 53,40 51,38 53,36" fill="#ffd700" />
+              <polygon points="32,66 30,61 32,59 34,61" fill="#ffd700" />
+              <polygon points="6,38 11,36 13,38 11,40" fill="#ffd700" />
+            </g>
+          )}
+
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 2: FLOOR SHADOW RUNE (Matching Map Adventurer)
+             ════════════════════════════════════════════════════════════════ */}
+          <ellipse cx="32" cy="67" rx="18" ry="4" fill="#0f172a" opacity="0.4" />
+          <ellipse cx="32" cy="67" rx="15" ry="3" fill={palette.runeColor} opacity="0.45" className="animate-pulse" />
+
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 3: ADVENTURER BACKPACK (Left Side)
+             ════════════════════════════════════════════════════════════════ */}
+          <g id="backpack">
+            {/* Main Leather Pack */}
+            <rect x="14" y="32" width="7" height="15" rx="1.5" fill="#78350f" />
+            <rect x="15" y="34" width="5" height="11" fill="#92400e" />
+            {/* Top Flap */}
+            <rect x="13" y="30" width="9" height="4" rx="1" fill="#451a03" />
+            {/* Brass Buckle */}
+            <rect x="16" y="37" width="3" height="3" fill="#facc15" />
+            {/* Straps */}
+            <rect x="20" y="32" width="2" height="12" fill="#451a03" />
           </g>
-        )}
 
-        {auraId === 'aura-quantum' && (
-          <g opacity="0.9">
-            <ellipse cx="50" cy="50" rx="46" ry="24" stroke="#c084fc" strokeWidth="2" strokeDasharray="6 3" transform="rotate(-25 50 50)" opacity="0.7" />
-            <ellipse cx="50" cy="50" rx="46" ry="24" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="4 4" transform="rotate(35 50 50)" opacity="0.7" />
-            <circle cx="20" cy="30" r="2.5" fill="#c084fc" />
-            <circle cx="82" cy="72" r="2.5" fill="#38bdf8" />
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 4: STURDY ADVENTURER BOOTS & LEGS
+             ════════════════════════════════════════════════════════════════ */}
+          <g id="legs-and-boots">
+            {/* Pants / Trousers */}
+            <rect x="23" y="54" width="7" height="7" fill="#1e293b" />
+            <rect x="34" y="54" width="7" height="7" fill="#1e293b" />
+
+            {/* Left Boot */}
+            <rect x="21" y="60" width="9" height="6" rx="1" fill="#451a03" />
+            <rect x="20" y="63" width="10" height="3" fill="#291102" />
+            <rect x="22" y="60" width="3" height="2" fill="#78350f" />
+
+            {/* Right Boot */}
+            <rect x="34" y="60" width="9" height="6" rx="1" fill="#451a03" />
+            <rect x="34" y="63" width="10" height="3" fill="#291102" />
+            <rect x="39" y="60" width="3" height="2" fill="#78350f" />
           </g>
-        )}
 
-        {auraId === 'aura-glitch' && (
-          <g opacity="0.85">
-            <polygon points="12,18 20,14 18,24" fill="#06b6d4" opacity="0.8" />
-            <polygon points="82,22 88,30 80,28" fill="#f43f5e" opacity="0.8" />
-            <polygon points="18,78 26,82 22,72" fill="#06b6d4" opacity="0.8" />
-            <polygon points="80,72 86,68 82,80" fill="#f43f5e" opacity="0.8" />
-            <line x1="8" y1="50" x2="22" y2="50" stroke="#06b6d4" strokeWidth="2" />
-            <line x1="78" y1="50" x2="92" y2="50" stroke="#f43f5e" strokeWidth="2" />
-          </g>
-        )}
-
-        {auraId === 'aura-celestial' && (
-          <g opacity="0.95">
-            <circle cx="50" cy="50" r="47" stroke="#fbbf24" strokeWidth="2" strokeDasharray="2 4" />
-            <polygon points="50,4 53,12 50,14 47,12" fill="#ffd700" />
-            <polygon points="96,50 88,53 86,50 88,47" fill="#ffd700" />
-            <polygon points="50,96 47,88 50,86 53,88" fill="#ffd700" />
-            <polygon points="4,50 12,47 14,50 12,53" fill="#ffd700" />
-            <circle cx="50" cy="50" r="44" stroke="#ffd700" strokeWidth="0.5" opacity="0.4" />
-          </g>
-        )}
-
-        {/* ── LAYER 2: AVATAR SILHOUETTE & BASE CONTAINER ────────── */}
-        <rect x="6" y="6" width="88" height="88" rx="28" fill={`url(#grad-bg-${arch})`} />
-        <rect
-          x="6" y="6" width="88" height="88" rx="28"
-          stroke={colors.main} strokeWidth="2" strokeOpacity="0.4"
-        />
-
-        {/* ── LAYER 3: BODY / OUTFIT ──────────────────────────────── */}
-        <g id="body-layer">
-          {/* Neck */}
-          <rect x="44" y="56" width="12" height="12" fill={skin.shadow} rx="2" />
-
-          {/* Default / Cyber Academy Hoodie */}
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 5: OUTFIT / TUNIC / ROBE / ARMOR
+             ════════════════════════════════════════════════════════════════ */}
+          {/* Default / Cyber Adventurer Hoodie: Iconic Blue Tunic with Belt */}
           {(!outfitId || outfitId === 'outfit-cyber-hoodie') && (
-            <g id="outfit-hoodie">
-              <path d="M24 74 Q50 64 76 74 L84 94 L16 94 Z" fill="#1e293b" />
-              <path d="M38 72 L50 88 L62 72 Z" fill="#3b82f6" />
-              <line x1="50" y1="88" x2="50" y2="94" stroke="#06b6d4" strokeWidth="2" />
-              <circle cx="50" cy="88" r="3" fill="#06b6d4" />
+            <g id="outfit-adventurer-tunic">
+              {/* Main Tunic Body */}
+              <rect x="20" y="36" width="24" height="18" rx="2" fill={palette.tunicMain} />
+              {/* Chest highlight */}
+              <rect x="24" y="38" width="16" height="10" fill={palette.tunicLight} />
+              {/* Collar / V-Neck */}
+              <polygon points="28,36 36,36 32,42" fill={skin.base} />
+              {/* Arms / Sleeves */}
+              <rect x="17" y="38" width="4" height="10" rx="1" fill={palette.tunicDark} />
+              <rect x="43" y="38" width="4" height="10" rx="1" fill={palette.tunicDark} />
+              {/* Hands */}
+              <rect x="17" y="47" width="4" height="3" fill={skin.base} />
+              <rect x="43" y="47" width="4" height="3" fill={skin.base} />
+
+              {/* Adventurer Leather Belt with Golden Buckle */}
+              <rect x="20" y="48" width="24" height="4" fill="#451a03" />
+              <rect x="29" y="47" width="6" height="6" rx="1" fill="#facc15" stroke="#ca8a04" strokeWidth="0.5" />
+              <rect x="31" y="49" width="2" height="2" fill="#713f12" />
             </g>
           )}
 
           {/* Archmage Robe */}
           {outfitId === 'outfit-wizard-robe' && (
-            <g id="outfit-robe">
-              <path d="M22 72 Q50 62 78 72 L86 94 L14 94 Z" fill="#4c1d95" />
-              <path d="M36 70 L50 90 L64 70 Z" fill="#8b5cf6" />
-              {/* Rune stitching */}
-              <circle cx="50" cy="82" r="4" fill="#fbbf24" stroke="#d97706" strokeWidth="1" />
-              <line x1="32" y1="78" x2="42" y2="92" stroke="#c084fc" strokeWidth="1.5" />
-              <line x1="68" y1="78" x2="58" y2="92" stroke="#c084fc" strokeWidth="1.5" />
+            <g id="outfit-wizard-robe">
+              <polygon points="18,36 46,36 49,56 15,56" fill="#581c87" />
+              <polygon points="24,36 40,36 42,56 22,56" fill="#7e22ce" />
+              {/* Rune Center Line */}
+              <line x1="32" y1="36" x2="32" y2="56" stroke="#facc15" strokeWidth="1.5" />
+              <rect x="30" y="44" width="4" height="4" fill="#fbbf24" />
+              {/* Sleeves */}
+              <rect x="15" y="38" width="5" height="12" fill="#3b0764" />
+              <rect x="44" y="38" width="5" height="12" fill="#3b0764" />
+              <rect x="16" y="48" width="4" height="3" fill={skin.base} />
+              <rect x="44" y="48" width="4" height="3" fill={skin.base} />
             </g>
           )}
 
           {/* Astral Plate Armor */}
           {outfitId === 'outfit-astral-plate' && (
-            <g id="outfit-plate">
-              <path d="M22 70 Q50 60 78 70 L86 94 L14 94 Z" fill="#0369a1" />
-              <polygon points="34,70 66,70 58,92 42,92" fill="#0284c7" />
-              {/* Arc Reactor Core */}
-              <circle cx="50" cy="80" r="5" fill="#38bdf8" />
-              <circle cx="50" cy="80" r="3" fill="#ffffff" />
-              <line x1="30" y1="74" x2="40" y2="74" stroke="#38bdf8" strokeWidth="2" />
-              <line x1="60" y1="74" x2="70" y2="74" stroke="#38bdf8" strokeWidth="2" />
+            <g id="outfit-astral-plate">
+              <rect x="20" y="36" width="24" height="18" rx="2" fill="#0369a1" />
+              <rect x="23" y="38" width="18" height="10" fill="#0284c7" />
+              {/* Glowing Mana Core */}
+              <circle cx="32" cy="44" r="3.5" fill="#38bdf8" />
+              <circle cx="32" cy="44" r="1.5" fill="#ffffff" />
+              {/* Pauldrons */}
+              <rect x="16" y="36" width="6" height="8" rx="1.5" fill="#0284c7" />
+              <rect x="42" y="36" width="6" height="8" rx="1.5" fill="#0284c7" />
+              {/* Hands */}
+              <rect x="17" y="47" width="4" height="3" fill="#075985" />
+              <rect x="43" y="47" width="4" height="3" fill="#075985" />
+              {/* Belt */}
+              <rect x="20" y="49" width="24" height="4" fill="#0c4a6e" />
+              <rect x="30" y="49" width="4" height="4" fill="#38bdf8" />
             </g>
           )}
 
           {/* Shinobi Gi */}
           {outfitId === 'outfit-shinobi-suit' && (
-            <g id="outfit-shinobi">
-              <path d="M22 72 Q50 62 78 72 L86 94 L14 94 Z" fill="#09090b" />
-              <path d="M34 68 L50 86 L66 68 Z" fill="#f43f5e" />
-              <path d="M38 74 L50 88 L62 74 Z" fill="#18181b" />
-              <line x1="50" y1="88" x2="50" y2="94" stroke="#f43f5e" strokeWidth="2" />
+            <g id="outfit-shinobi-suit">
+              <rect x="20" y="36" width="24" height="18" rx="2" fill="#09090b" />
+              <polygon points="25,36 32,46 39,36" fill="#e11d48" />
+              <rect x="16" y="38" width="5" height="11" fill="#18181b" />
+              <rect x="43" y="38" width="5" height="11" fill="#18181b" />
+              <rect x="17" y="47" width="4" height="3" fill={skin.base} />
+              <rect x="43" y="47" width="4" height="3" fill={skin.base} />
+              <rect x="20" y="48" width="24" height="4" fill="#e11d48" />
+              <rect x="29" y="47" width="6" height="5" fill="#be123c" />
             </g>
           )}
 
           {/* Chrono Coat */}
           {outfitId === 'outfit-chrono-coat' && (
-            <g id="outfit-chrono">
-              <path d="M20 72 Q50 60 80 72 L88 94 L12 94 Z" fill="#065f46" />
-              <path d="M36 68 L50 86 L64 68 Z" fill="#10b981" />
-              {/* Golden Chrono Gear */}
-              <circle cx="50" cy="82" r="4.5" fill="#f59e0b" />
-              <circle cx="50" cy="82" r="2" fill="#065f46" />
-              <line x1="28" y1="76" x2="72" y2="76" stroke="#f59e0b" strokeWidth="1.5" />
-            </g>
-          )}
-        </g>
-
-        {/* ── LAYER 4: HEAD & FACE ─────────────────────────────────── */}
-        <g id="head-layer">
-          {/* Head Shape */}
-          <rect x="28" y="26" width="44" height="42" rx="20" fill={skin.base} />
-
-          {/* Elf Ears for Chrono Alchemist */}
-          {arch === 'chrono-alchemist' && (
-            <g id="elf-ears">
-              <polygon points="28,42 16,36 28,48" fill={skin.base} />
-              <polygon points="72,42 84,36 72,48" fill={skin.base} />
-              <line x1="19" y1="38" x2="27" y2="44" stroke="#10b981" strokeWidth="1" />
+            <g id="outfit-chrono-coat">
+              <rect x="19" y="36" width="26" height="18" rx="2" fill="#065f46" />
+              <rect x="24" y="38" width="16" height="14" fill="#047857" />
+              {/* Brass Gear Amulet */}
+              <circle cx="32" cy="43" r="3.5" fill="#f59e0b" />
+              <circle cx="32" cy="43" r="1.5" fill="#065f46" />
+              {/* Sleeves */}
+              <rect x="16" y="38" width="5" height="11" fill="#064e3b" />
+              <rect x="43" y="38" width="5" height="11" fill="#064e3b" />
+              <rect x="17" y="47" width="4" height="3" fill={skin.base} />
+              <rect x="43" y="47" width="4" height="3" fill={skin.base} />
+              {/* Belt */}
+              <rect x="19" y="49" width="26" height="4" fill="#78350f" />
+              <rect x="29" y="48" width="6" height="6" fill="#fbbf24" />
             </g>
           )}
 
-          {/* Hair Base */}
-          <g id="hair-base">
-            {arch === 'cyber-mage' && (
-              <path d="M26 38 C26 22 74 22 74 38 C74 34 66 26 50 26 C34 26 26 34 26 38 Z" fill={`url(#grad-hair-${arch})`} />
-            )}
-            {arch === 'astral-knight' && (
-              <path d="M26 36 C28 20 72 20 74 36 C70 28 62 24 50 24 C38 24 30 28 26 36 Z" fill={`url(#grad-hair-${arch})`} />
-            )}
-            {arch === 'shadow-glitcher' && (
-              <path d="M24 40 L34 22 L50 26 L66 22 L76 40 C70 30 60 26 50 26 C40 26 30 30 24 40 Z" fill={`url(#grad-hair-${arch})`} />
-            )}
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 6: FACE & EYES (16-Bit Pixel Expression)
+             ════════════════════════════════════════════════════════════════ */}
+          <g id="face-and-head">
+            {/* Neck */}
+            <rect x="29" y="33" width="6" height="4" fill={skin.shadow} />
+
+            {/* Face Block */}
+            <rect x="22" y="16" width="20" height="18" rx="2" fill={skin.base} />
+            <rect x="22" y="28" width="20" height="6" fill={skin.shadow} opacity="0.3" />
+
+            {/* Elf Ears (for Chrono Alchemist) */}
             {arch === 'chrono-alchemist' && (
-              <path d="M26 42 C26 24 74 24 74 42 C72 32 64 26 50 26 C36 26 28 32 26 42 Z" fill="#fde047" />
+              <g id="elf-ears">
+                <polygon points="22,22 16,18 22,26" fill={skin.base} />
+                <polygon points="42,22 48,18 42,26" fill={skin.base} />
+              </g>
             )}
-          </g>
 
-          {/* Eyes */}
-          <g id="eyes">
+            {/* Pixel Eyes with Gleam Highlight */}
             {/* Left Eye */}
-            <circle cx="40" cy="46" r="3.5" fill="#0f172a" />
-            <circle cx="41" cy="45" r="1.2" fill="#ffffff" />
+            <rect x="26" y="22" width="3.5" height="5" fill="#09090b" />
+            <rect x="26" y="22" width="1.5" height="2" fill="#ffffff" />
             {/* Right Eye */}
-            <circle cx="60" cy="46" r="3.5" fill="#0f172a" />
-            <circle cx="61" cy="45" r="1.2" fill="#ffffff" />
+            <rect x="34.5" y="22" width="3.5" height="5" fill="#09090b" />
+            <rect x="34.5" y="22" width="1.5" height="2" fill="#ffffff" />
 
-            {/* Cyber Eye glow for Shinobi */}
+            {/* Cyber Glow pupils for Mage / Shinobi */}
             {arch === 'shadow-glitcher' && (
-              <circle cx="40" cy="46" r="2.2" fill="#f43f5e" />
+              <rect x="27" y="24" width="2" height="2" fill="#f43f5e" />
             )}
-            {/* Cyber Eye glow for Mage */}
             {arch === 'cyber-mage' && (
-              <circle cx="60" cy="46" r="2.2" fill="#a855f7" />
+              <rect x="35.5" y="24" width="2" height="2" fill="#a855f7" />
             )}
+
+            {/* Cute Pixel Cheek Blush */}
+            <rect x="24" y="27" width="2.5" height="1.5" fill={skin.cheek} opacity="0.75" />
+            <rect x="37.5" y="27" width="2.5" height="1.5" fill={skin.cheek} opacity="0.75" />
+
+            {/* Adventurer Smile */}
+            <rect x="30" y="29" width="4" height="1.5" fill="#78350f" />
           </g>
 
-          {/* Mouth & Expression */}
-          <path d="M46 56 Q50 60 54 56" stroke="#b45309" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-        </g>
-
-        {/* ── LAYER 5: HEADGEAR & ACCESSORIES ──────────────────────── */}
-        {hatId && (
-          <g id="headgear-layer">
-            {/* Bandana Coder */}
-            {hatId === 'rookie-band' && (
-              <g id="acc-rookie-band">
-                <rect x="26" y="32" width="48" height="8" rx="3" fill="#3b82f6" />
-                <circle cx="50" cy="36" r="2.5" fill="#ffffff" />
-                <path d="M26 36 L18 42 L24 44 Z" fill="#2563eb" />
-              </g>
-            )}
-
-            {/* Topi Hacker */}
-            {hatId === 'topi-hacker' && (
-              <g id="acc-topi-hacker">
-                <path d="M24 34 C24 20 76 20 76 34 Z" fill="#0284c7" />
-                <rect x="22" y="32" width="56" height="5" rx="2" fill="#0ea5e9" />
-                {/* HUD Visor bill */}
-                <path d="M30 37 L70 37 L82 43 L18 43 Z" fill="#06b6d4" opacity="0.85" />
-                <line x1="26" y1="40" x2="74" y2="40" stroke="#38bdf8" strokeWidth="1" />
-              </g>
-            )}
-
-            {/* Topi Dino */}
-            {hatId === 'dino-cap' && (
-              <g id="acc-dino-cap">
-                <path d="M26 34 C26 22 74 22 74 34 Z" fill="#10b981" />
-                {/* Spikes */}
-                <polygon points="40,24 44,16 48,24" fill="#059669" />
-                <polygon points="52,24 56,16 60,24" fill="#059669" />
-                <circle cx="36" cy="30" r="2.5" fill="#ffffff" />
-                <circle cx="37" cy="30" r="1.2" fill="#064e3b" />
-                <circle cx="64" cy="30" r="2.5" fill="#ffffff" />
-                <circle cx="63" cy="30" r="1.2" fill="#064e3b" />
-              </g>
-            )}
-
-            {/* Ninja Headband */}
-            {hatId === 'ninja-headband' && (
-              <g id="acc-ninja-band">
-                <rect x="24" y="33" width="52" height="7" rx="2" fill="#dc2626" />
-                {/* Metal plate */}
-                <rect x="42" y="33" width="16" height="7" rx="1.5" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
-                <circle cx="50" cy="36.5" r="1.5" fill="#ef4444" />
-                {/* Tails */}
-                <path d="M24 36 L16 42 L20 46 L26 38 Z" fill="#991b1b" />
-              </g>
-            )}
-
-            {/* Archmage Hood */}
-            {hatId === 'tudung-wizard' && (
-              <g id="acc-wizard-hood">
-                <path d="M22 40 C20 16 80 16 78 40 L74 54 C70 42 30 42 26 54 Z" fill="#6b21a8" />
-                <circle cx="50" cy="22" r="3.5" fill="#fbbf24" stroke="#d97706" strokeWidth="1" />
-                <path d="M24 38 Q50 30 76 38" stroke="#a855f7" strokeWidth="2" fill="none" />
-              </g>
-            )}
-
-            {/* RGB Cat Headset */}
-            {hatId === 'headset-cat' && (
-              <g id="acc-cat-headset">
-                {/* Band */}
-                <path d="M20 42 C20 18 80 18 80 42" stroke="#ec4899" strokeWidth="4" fill="none" strokeLinecap="round" />
-                {/* Cat ears */}
-                <polygon points="26,26 32,12 40,22" fill="#f43f5e" stroke="#fda4af" strokeWidth="1" />
-                <polygon points="74,26 68,12 60,22" fill="#f43f5e" stroke="#fda4af" strokeWidth="1" />
-                {/* Ear cushions */}
-                <rect x="16" y="38" width="8" height="16" rx="4" fill="#be185d" />
-                <rect x="76" y="38" width="8" height="16" rx="4" fill="#be185d" />
-              </g>
-            )}
-
-            {/* Pro Gamer Headset */}
-            {hatId === 'headset-pro' && (
-              <g id="acc-gamer-headset">
-                <path d="M20 42 C20 18 80 18 80 42" stroke="#d97706" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-                <rect x="16" y="38" width="8" height="16" rx="3" fill="#f59e0b" />
-                <rect x="76" y="38" width="8" height="16" rx="3" fill="#f59e0b" />
-                {/* Mic */}
-                <path d="M20 52 Q30 64 42 62" stroke="#78350f" strokeWidth="2" fill="none" strokeLinecap="round" />
-                <circle cx="43" cy="62" r="2.5" fill="#ef4444" />
-              </g>
-            )}
-
-            {/* HUD Scouter Visor */}
-            {hatId === 'visor-neon' && (
-              <g id="acc-hud-visor">
-                <rect x="32" y="42" width="22" height="10" rx="3" fill="#00f0ff" fillOpacity="0.85" stroke="#38bdf8" strokeWidth="1.2" />
-                <line x1="32" y1="47" x2="20" y2="44" stroke="#0284c7" strokeWidth="2" />
-                <line x1="36" y1="45" x2="48" y2="45" stroke="#ffffff" strokeWidth="1" />
-              </g>
-            )}
-
-            {/* VR Goggles */}
-            {hatId === 'vr-goggles' && (
-              <g id="acc-vr-goggles">
-                <rect x="28" y="40" width="44" height="15" rx="5" fill="#4c1d95" stroke="#a855f7" strokeWidth="1.5" />
-                <rect x="32" y="43" width="36" height="9" rx="3" fill="#8b5cf6" fillOpacity="0.8" />
-                <line x1="36" y1="47.5" x2="64" y2="47.5" stroke="#00f0ff" strokeWidth="1.5" />
-              </g>
-            )}
-
-            {/* Golden Quantum Halo */}
-            {hatId === 'golden-halo' && (
-              <g id="acc-golden-halo">
-                <ellipse cx="50" cy="18" rx="26" ry="6" stroke="#ffd700" strokeWidth="3" fill="none" filter="url(#glow-fx)" />
-                <circle cx="28" cy="18" r="2" fill="#ffffff" />
-                <circle cx="72" cy="18" r="2" fill="#ffffff" />
-              </g>
-            )}
-
-            {/* Cyber Crown */}
-            {hatId === 'cyber-crown' && (
-              <g id="acc-cyber-crown">
-                <polygon points="30,30 36,14 44,24 50,10 56,24 64,14 70,30" fill="#ffd700" stroke="#b45309" strokeWidth="1" />
-                <circle cx="50" cy="16" r="2" fill="#38bdf8" />
-                <circle cx="38" cy="20" r="1.5" fill="#ec4899" />
-                <circle cx="62" cy="20" r="1.5" fill="#ec4899" />
-                <rect x="30" y="28" width="40" height="4" rx="1" fill="#f59e0b" />
-              </g>
-            )}
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 7: HAIR BASE & BANGS
+             ════════════════════════════════════════════════════════════════ */}
+          <g id="hair-base">
+            {/* Hair bangs framing face */}
+            <rect x="21" y="15" width="22" height="5" fill={palette.hair} />
+            <rect x="21" y="19" width="4" height="7" fill={palette.hair} />
+            <rect x="39" y="19" width="4" height="7" fill={palette.hair} />
+            <polygon points="25,18 29,18 27,22" fill={palette.hair} />
+            <polygon points="34,18 38,18 36,22" fill={palette.hair} />
           </g>
-        )}
-      </svg>
+
+          {/* ════════════════════════════════════════════════════════════════
+              LAYER 8: HEADGEAR & ACCESSORIES (Pixel Art)
+             ════════════════════════════════════════════════════════════════ */}
+          {/* Default: Iconic Map Adventurer Cap */}
+          {!hatId && (
+            <g id="default-map-adventurer-cap">
+              {/* Top Cap */}
+              <rect x="21" y="8" width="22" height="8" rx="2" fill="#78350f" />
+              {/* Middle Layer */}
+              <rect x="19" y="12" width="26" height="5" rx="1" fill="#92400e" />
+              {/* Cap Brim / Peak */}
+              <rect x="18" y="15" width="28" height="3" fill="#451a03" />
+              {/* Front Badge / Button */}
+              <rect x="30" y="11" width="4" height="3" fill="#facc15" />
+            </g>
+          )}
+
+          {/* Bandana Coder Pemula */}
+          {hatId === 'rookie-band' && (
+            <g id="hat-rookie-band">
+              <rect x="19" y="15" width="26" height="5" fill="#2563eb" />
+              <rect x="29" y="15" width="6" height="5" fill="#ffffff" />
+              <polygon points="19,17 14,21 17,23" fill="#1d4ed8" />
+            </g>
+          )}
+
+          {/* Topi Hacker Cyberpunk */}
+          {hatId === 'topi-hacker' && (
+            <g id="hat-topi-hacker">
+              <rect x="21" y="8" width="22" height="8" rx="2" fill="#0284c7" />
+              <rect x="19" y="13" width="26" height="4" fill="#0369a1" />
+              {/* Neon Visor Bill */}
+              <polygon points="18,17 46,17 48,21 16,21" fill="#06b6d4" opacity="0.9" />
+              <line x1="20" y1="18.5" x2="44" y2="18.5" stroke="#ffffff" strokeWidth="0.8" />
+            </g>
+          )}
+
+          {/* Topi Dino Kawaii */}
+          {hatId === 'dino-cap' && (
+            <g id="hat-dino-cap">
+              <rect x="20" y="8" width="24" height="9" rx="3" fill="#10b981" />
+              <rect x="19" y="14" width="26" height="4" fill="#059669" />
+              {/* Cute Dino Spikes */}
+              <polygon points="26,8 28,3 30,8" fill="#047857" />
+              <polygon points="33,8 35,3 37,8" fill="#047857" />
+              {/* Dino Eyes */}
+              <rect x="24" y="10" width="3" height="3" fill="#ffffff" />
+              <rect x="25" y="11" width="1.5" height="1.5" fill="#064e3b" />
+              <rect x="37" y="10" width="3" height="3" fill="#ffffff" />
+              <rect x="37" y="11" width="1.5" height="1.5" fill="#064e3b" />
+            </g>
+          )}
+
+          {/* Ikat Kepala Shinobi */}
+          {hatId === 'ninja-headband' && (
+            <g id="hat-ninja-headband">
+              <rect x="19" y="15" width="26" height="5" fill="#dc2626" />
+              {/* Forehead Metal Plate */}
+              <rect x="27" y="15" width="10" height="5" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.5" />
+              <rect x="31" y="16.5" width="2" height="2" fill="#ef4444" />
+              {/* Ribbon Tails */}
+              <polygon points="19,17 13,22 17,24" fill="#b91c1c" />
+            </g>
+          )}
+
+          {/* Tudung Code Archmage */}
+          {hatId === 'tudung-wizard' && (
+            <g id="hat-wizard-hood">
+              {/* Wizard Hat Peak */}
+              <polygon points="32,2 40,14 24,14" fill="#6b21a8" />
+              <polygon points="32,2 35,9 29,9" fill="#7e22ce" />
+              {/* Crystal Gem */}
+              <rect x="30" y="11" width="4" height="4" fill="#facc15" />
+              {/* Wide Brim */}
+              <rect x="15" y="14" width="34" height="4" rx="1" fill="#581c87" />
+            </g>
+          )}
+
+          {/* Cyber Cat RGB Headset */}
+          {hatId === 'headset-cat' && (
+            <g id="hat-cat-headset">
+              {/* Headband */}
+              <rect x="20" y="9" width="24" height="3" fill="#ec4899" />
+              {/* Cat Ears */}
+              <polygon points="21,9 24,2 28,9" fill="#f43f5e" />
+              <polygon points="23,8 24,4 27,8" fill="#fda4af" />
+              <polygon points="43,9 40,2 36,9" fill="#f43f5e" />
+              <polygon points="41,8 40,4 37,8" fill="#fda4af" />
+              {/* Ear Cushions */}
+              <rect x="17" y="16" width="5" height="10" rx="1.5" fill="#db2777" />
+              <rect x="42" y="16" width="5" height="10" rx="1.5" fill="#db2777" />
+            </g>
+          )}
+
+          {/* Headset Pro Gamer */}
+          {hatId === 'headset-pro' && (
+            <g id="hat-gamer-headset">
+              <rect x="20" y="8" width="24" height="3.5" fill="#d97706" />
+              <rect x="17" y="16" width="5" height="11" rx="1.5" fill="#f59e0b" />
+              <rect x="42" y="16" width="5" height="11" rx="1.5" fill="#f59e0b" />
+              {/* Boom Mic */}
+              <path d="M19 24 L27 30" stroke="#78350f" strokeWidth="1.5" />
+              <circle cx="28" cy="30" r="1.5" fill="#ef4444" />
+            </g>
+          )}
+
+          {/* Kacamata HUD Scouter */}
+          {hatId === 'visor-neon' && (
+            <g id="hat-hud-visor">
+              <rect x="24" y="21" width="8" height="7" rx="1" fill="#00f0ff" fillOpacity="0.85" stroke="#0284c7" strokeWidth="0.8" />
+              <line x1="24" y1="24" x2="18" y2="23" stroke="#0284c7" strokeWidth="1" />
+              <rect x="26" y="23" width="4" height="1.5" fill="#ffffff" />
+            </g>
+          )}
+
+          {/* Kacamata VR Metaverse */}
+          {hatId === 'vr-goggles' && (
+            <g id="hat-vr-goggles">
+              <rect x="20" y="20" width="24" height="9" rx="2" fill="#4c1d95" stroke="#7c3aed" strokeWidth="0.8" />
+              <line x1="22" y1="24.5" x2="42" y2="24.5" stroke="#00f0ff" strokeWidth="1.5" />
+              <rect x="17" y="22" width="4" height="4" fill="#312e81" />
+              <rect x="43" y="22" width="4" height="4" fill="#312e81" />
+            </g>
+          )}
+
+          {/* Lingkaran Halo Kuantum */}
+          {hatId === 'golden-halo' && (
+            <g id="hat-golden-halo">
+              <ellipse cx="32" cy="7" rx="15" ry="3.5" stroke="#ffd700" strokeWidth="2" fill="none" />
+              <rect x="19" y="6" width="2" height="2" fill="#ffffff" />
+              <rect x="43" y="6" width="2" height="2" fill="#ffffff" />
+            </g>
+          )}
+
+          {/* Mahkota Juara Algoritma */}
+          {hatId === 'cyber-crown' && (
+            <g id="hat-cyber-crown">
+              <polygon points="21,15 23,7 28,12 32,5 36,12 41,7 43,15" fill="#ffd700" stroke="#b45309" strokeWidth="0.6" />
+              {/* Jewels */}
+              <circle cx="32" cy="10" r="1.5" fill="#38bdf8" />
+              <circle cx="26" cy="12" r="1.2" fill="#ec4899" />
+              <circle cx="38" cy="12" r="1.2" fill="#ec4899" />
+              <rect x="21" y="14" width="22" height="2.5" fill="#f59e0b" />
+            </g>
+          )}
+        </svg>
+      </div>
     </div>
   );
 }

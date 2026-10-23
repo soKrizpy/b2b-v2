@@ -9,29 +9,29 @@ export interface CertificateWithModule extends CertificateRow {
 export const TIER_CONFIG: Record<CertificateTier, {
   label: string; color: string; bg: string; ring: string; medal: string; description: string;
 }> = {
-  achievement: {
-    label:       'Achievement',
-    medal:       '🥇',
-    description: 'Skor tertinggi — penguasaan luar biasa!',
+  excellent: {
+    label:       'Excellent',
+    medal:       '🏆',
+    description: 'Skor ≥85 — Penguasaan materi istimewa & luar biasa!',
     color:       'text-amber-700 dark:text-amber-300',
     bg:          'bg-amber-50 dark:bg-amber-900/30',
     ring:        'ring-amber-300 dark:ring-amber-600/60',
   },
-  excellent: {
-    label:       'Excellent',
-    medal:       '🥈',
-    description: 'Skor sangat baik — kerja keras terbayar!',
-    color:       'text-slate-600 dark:text-slate-300',
-    bg:          'bg-slate-50 dark:bg-slate-800/40',
-    ring:        'ring-slate-300 dark:ring-slate-600/60',
+  achievement: {
+    label:       'Achievement',
+    medal:       '🥇',
+    description: 'Skor ≥75 — Pencapaian sangat baik & tuntas berprestasi!',
+    color:       'text-indigo-700 dark:text-indigo-300',
+    bg:          'bg-indigo-50 dark:bg-indigo-900/30',
+    ring:        'ring-indigo-300 dark:ring-indigo-600/60',
   },
   completion: {
     label:       'Completion',
     medal:       '🥉',
-    description: 'Modul selesai — terus semangat belajar!',
-    color:       'text-orange-700 dark:text-orange-300',
-    bg:          'bg-orange-50 dark:bg-orange-900/20',
-    ring:        'ring-orange-300 dark:ring-orange-600/60',
+    description: 'Skor <75 — Modul tuntas, terus semangat belajar!',
+    color:       'text-teal-700 dark:text-teal-300',
+    bg:          'bg-teal-50 dark:bg-teal-900/20',
+    ring:        'ring-teal-300 dark:ring-teal-600/60',
   },
 };
 

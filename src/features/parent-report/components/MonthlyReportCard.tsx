@@ -104,10 +104,25 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
       <text x="90" y="102" text-anchor="middle" font-size="12" fill="${engagementColor}" font-weight="700">${engagementLabel}</text>
     </svg>`;
 
-  // Teacher feedback snippets
-  const teacherNotes = snap.sessions
-    .filter((s) => s.progress_report && s.progress_report.trim().length > 0)
-    .slice(0, 3);
+  // Summarize all teacher notes into one cohesive paragraph for the month
+  const teacherNotesList = snap.sessions
+    .map((s) => s.progress_report?.trim())
+    .filter((n): n is string => Boolean(n && n.length > 0));
+
+  const teacherNotesSummary =
+    teacherNotesList.length > 0
+      ? teacherNotesList
+          .map((note) => {
+            const clean = note.replace(/\s+/g, ' ').trim();
+            return clean.endsWith('.') || clean.endsWith('!') || clean.endsWith('?')
+              ? clean
+              : `${clean}.`;
+          })
+          .join(' ')
+      : '';
+
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const logoUrl = `${origin}/b2bdark.webp`;
 
   const rows = snap.sessions
     .map(
@@ -151,13 +166,16 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
   </style>
 </head>
 <body>
-  <!-- ═══ HEADER BAR ═══ -->
-  <div style="background:linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#4338ca 100%);padding:28px 36px;display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div style="font-size:22px;font-weight:900;letter-spacing:1px">
-        <span style="color:#ffffff">BITS</span><span style="color:#34d399">2</span><span style="color:#ffffff">BYTES</span>
+  <!-- ═══ HEADER BAR DENGAN LOGO BITS2BYTES ═══ -->
+  <div style="background:linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#4338ca 100%);padding:24px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <img src="${logoUrl}" alt="Logo Bits2Bytes" style="height:44px;width:44px;border-radius:10px;object-fit:contain;background:rgba(255,255,255,0.12);padding:2px" onerror="this.style.display='none'" />
+      <div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:1px;line-height:1.2">
+          <span style="color:#ffffff">BITS</span><span style="color:#34d399">2</span><span style="color:#ffffff">BYTES</span>
+        </div>
+        <div style="color:#c7d2fe;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:3px">Laporan Kemajuan Belajar</div>
       </div>
-      <div style="color:#c7d2fe;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:3px">Laporan Kemajuan Belajar</div>
     </div>
     <div style="text-align:right">
       <div style="color:#ffffff;font-size:15px;font-weight:700">${snap.monthLabel}</div>
@@ -165,10 +183,11 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
     </div>
   </div>
 
-  <!-- ═══ STUDENT GREETING ═══ -->
-  <div style="padding:24px 36px 8px;border-bottom:1px solid #e2e8f0">
-    <div style="font-size:20px;font-weight:800;color:#1e293b">Hello, Orang Tua <span style="color:#4f46e5">${studentName}</span> 👋</div>
-    <div style="font-size:13px;color:#64748b;margin-top:4px">Berikut ringkasan kemajuan belajar ${studentName} di Bits2Bytes selama bulan <strong>${snap.monthLabel}</strong>.</div>
+  <!-- ═══ REPORT LEAD ═══ -->
+  <div style="padding:18px 36px 14px;border-bottom:1px solid #e2e8f0;background:#f8fafc">
+    <div style="font-size:16px;font-weight:800;color:#1e293b;line-height:1.5">
+      Berikut laporan, <span style="color:#4338ca">${studentName}</span> pada Bulan <strong>${snap.monthLabel}</strong>.
+    </div>
   </div>
 
   <!-- ═══ OVERVIEW: GAUGE + METRICS ═══ -->
@@ -209,24 +228,16 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
   </div>
 
   ${
-    teacherNotes.length > 0
+    teacherNotesSummary
       ? `
-  <!-- ═══ TEACHER FEEDBACK ═══ -->
+  <!-- ═══ TEACHER FEEDBACK SUMMARY (1 PARAGRAPH) ═══ -->
   <div style="margin:0 36px 20px;background:linear-gradient(135deg,#faf5ff,#f5f3ff);border:1px solid #e9d5ff;border-radius:14px;padding:18px 22px">
-    <div style="font-size:12px;font-weight:800;color:#7e22ce;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">💬 Catatan Guru</div>
-    ${teacherNotes
-      .map(
-        (n) => `
-      <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px">
-        <div style="color:#c084fc;font-size:22px;line-height:1;flex-shrink:0;margin-top:2px">❝</div>
-        <div>
-          <div style="font-size:12px;color:#1e293b;line-height:1.6;font-style:italic">${n.progress_report}</div>
-          <div style="font-size:10px;color:#94a3b8;margin-top:3px">— Sesi: ${n.title}</div>
-        </div>
-      </div>
-    `
-      )
-      .join('')}
+    <div style="font-size:12px;font-weight:800;color:#7e22ce;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+      <span>💬</span> Rangkuman Catatan &amp; Evaluasi Guru (${snap.monthLabel})
+    </div>
+    <div style="font-size:12px;color:#334155;line-height:1.75;font-weight:500;text-align:justify;background:#ffffff;padding:14px 18px;border-radius:10px;border:1px solid #ede9fe">
+      &ldquo;${teacherNotesSummary}&rdquo;
+    </div>
   </div>`
       : ''
   }
@@ -274,7 +285,7 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
   win.focus();
   setTimeout(() => {
     win.print();
-  }, 400);
+  }, 500);
 }
 
 // ── Metric card (replaces old StatTile) ──────────────────────────────────────
@@ -344,13 +355,28 @@ export function MonthlyReportCard({
     if (snap) printMonthReport(snap, studentName);
   }, [snap, studentName]);
 
+  const handleShareWA = useCallback(() => {
+    if (!snap) return;
+    const lines = [
+      `📊 *Laporan Belajar Bits2Bytes — ${studentName}*`,
+      `📅 *Periode:* ${snap.monthLabel}`,
+      `✅ *Kehadiran:* ${snap.attendanceRate}% (${snap.attendedCount}/${snap.totalScheduled} sesi)`,
+      `🎯 *Rata-rata Kuis:* ${snap.avgQuizScore > 0 ? `${snap.avgQuizScore}%` : 'Belum ada kuis'}`,
+      `📖 *Topik Selesai:* ${snap.topicsCompleted} topik`,
+      snap.xpEarned > 0 ? `⭐ *XP Didapat:* ${snap.xpEarned} XP` : '',
+      `\nDiakses via Portal Parent Hub Bits2Bytes.`,
+    ].filter(Boolean);
+    const text = encodeURIComponent(lines.join('\n'));
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  }, [snap, studentName]);
+
   if (!snap) return null;
 
   const archiveMonths = snapshots.filter((s) => s.totalScheduled > 0);
 
   return (
     <div className="flex flex-col gap-6">
-      {/* ── Month selector + print ── */}
+      {/* ── Month selector + print + WA ── */}
       <div className="flex items-center gap-3 flex-wrap">
         <label
           htmlFor="month-select"
@@ -387,6 +413,17 @@ export function MonthlyReportCard({
         >
           <i className="fa-solid fa-print text-[10px]" />
           Unduh / Cetak
+        </button>
+        <button
+          type="button"
+          onClick={handleShareWA}
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold
+            text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800
+            hover:bg-emerald-100 dark:hover:bg-emerald-900/60 active:scale-95 transition-all whitespace-nowrap"
+          title="Kirim ringkasan bulan ini ke WhatsApp"
+        >
+          <i className="fa-brands fa-whatsapp text-sm text-emerald-600 dark:text-emerald-400" />
+          Kirim WA
         </button>
       </div>
 

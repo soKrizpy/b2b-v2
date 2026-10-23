@@ -37,4 +37,4 @@ export const ai = new Proxy({} as GoogleGenAI, {
   },
 });
 
-export const GEMINI_FLASH_MODEL = 'gemini-2.0-flash';
+export const GEMINI_FLASH_MODEL = 'gemini-3.8-flash';

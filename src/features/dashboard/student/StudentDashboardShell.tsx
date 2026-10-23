@@ -16,6 +16,7 @@ import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
 import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
+import { CyberFantasyAvatar } from '@/components/avatar/CyberFantasyAvatar';
 import type { TownSquareMeeting } from '@/features/sessions/queries';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
@@ -243,11 +244,19 @@ export function StudentDashboardShell({
               {/* Profile inline strip */}
               {lvl && (
                 <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-white/10">
-                  {/* Level + title */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-400/40
-                      flex items-center justify-center text-base select-none">
-                      {adventurerInfo.icon}
+                  {/* Level + title with Map-Style Adventurer Avatar */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="relative flex-shrink-0 -my-2 flex items-center justify-center">
+                      <CyberFantasyAvatar
+                        archetype={gamData?.equippedCosmetics?.archetype || 'astral-knight'}
+                        skinTone={gamData?.equippedCosmetics?.skinTone || 'default'}
+                        hatId={gamData?.equippedCosmetics?.hatId}
+                        outfitId={gamData?.equippedCosmetics?.outfitId || 'outfit-cyber-hoodie'}
+                        auraId={gamData?.equippedCosmetics?.auraId}
+                        size="sm"
+                        animateIdle
+                        isSelf
+                      />
                     </div>
                     <div>
                       <p className="text-[10px] font-black text-amber-300 uppercase tracking-wider leading-none">

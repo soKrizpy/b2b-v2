@@ -336,6 +336,19 @@ function QuizForm({
       >
         {pending ? 'Menilai…' : 'Kumpulkan Jawaban →'}
       </button>
+
+      {/* Centered Loading Modal Overlay during quiz evaluation */}
+      {pending && (
+        <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-slate-900 border-2 border-indigo-400/80 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center gap-4 text-center max-w-xs animate-in zoom-in-95 duration-150 my-auto text-white">
+            <div className="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+            <div>
+              <h4 className="text-base font-black text-white">Menilai Jawaban Kuis...</h4>
+              <p className="text-xs text-slate-300 mt-1">Sistem sedang memeriksa pilihanmu dan menghitung skor.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
@@ -356,7 +369,7 @@ export function QuizModal({
   const [phase,  setPhase]  = useState<'quiz' | 'reward'>('quiz');
   const [score,  setScore]  = useState(0);
   const [reward, setReward] = useState<RewardResult | null>(null);
-  const [, startTransition] = useTransition();
+  const [isRewarding, startTransition] = useTransition();
   const [rewardState, rewardDispatch] = useActionState<RewardResult | null, FormData>(
     awardQuizReward, null
   );
@@ -365,6 +378,14 @@ export function QuizModal({
   useEffect(() => {
     if (rewardState) setReward(rewardState);
   }, [rewardState]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const handleQuizResult = (finalScore: number) => {
     setScore(finalScore);
@@ -380,16 +401,29 @@ export function QuizModal({
   const attemptsUsed = attempts.length;
 
   return (
-    /* Backdrop */
+    /* Centered Screen Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-        bg-black/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center
+        bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-150"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
+      {/* Centered Loading Modal during reward calculation */}
+      {isRewarding && (
+        <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-slate-900 border-2 border-amber-400/80 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center gap-4 text-center max-w-xs animate-in zoom-in-95 duration-150 my-auto text-white">
+            <div className="w-12 h-12 border-4 border-amber-400 border-t-transparent rounded-full animate-spin" />
+            <div>
+              <h4 className="text-base font-black text-white">Membuka Hadiah Rune...</h4>
+              <p className="text-xs text-amber-200 mt-1">Mencatat XP, Koin, dan membuka jalur berikutnya.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Panel */}
       <div
         className="relative w-full max-w-xl bg-white dark:bg-zinc-900 border border-blue-400/40 dark:border-purple-500/40
-          rounded-2xl shadow-2xl p-6 flex flex-col max-h-[90dvh] overflow-hidden"
+          rounded-3xl shadow-2xl p-6 flex flex-col max-h-[90dvh] overflow-hidden my-auto animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

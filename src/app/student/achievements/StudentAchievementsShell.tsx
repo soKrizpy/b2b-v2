@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { StudentAchievementBadges } from '@/features/dashboard/student/StudentAchievementBadges';
+import { LaurelWreathBadgeRack } from '@/features/dashboard/student/LaurelWreathBadgeRack';
 import { StudentModuleProgressChart } from '@/features/dashboard/student/StudentModuleProgressChart';
 import { CertificateBadge } from '@/features/certificates/components/CertificateBadge';
 import { getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
@@ -229,7 +230,15 @@ export function StudentAchievementsShell({
 
       {/* ── SECTION 1: Lencana Pencapaian (Badges Showcase) ── */}
       {(activeFilter === 'all' || activeFilter === 'badges') && (
-        <section className="space-y-4">
+        <section className="space-y-6">
+          {/* 16-Bit Golden Laurel Wreath Badge Showcase */}
+          <LaurelWreathBadgeRack
+            completedCount={completedTopics.length}
+            certificatesCount={certificates.length}
+            totalPossibleCount={totalPossibleTopics}
+          />
+
+          {/* Gamification & Pet Milestone Badges */}
           <StudentAchievementBadges
             gamData={gamData}
             certificates={certificates}

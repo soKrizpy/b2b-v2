@@ -61,12 +61,12 @@ export const CHARACTER_ARCHETYPES: CharacterArchetype[] = [
   },
   {
     id: 'astral-knight',
-    name: 'Quantum Paladin',
-    title: 'Ksatria Spektrum',
-    description: 'Berbalut baju zirah energi dan perisai firewall anti-malware.',
-    primaryColor: '#0ea5e9',
-    accentColor: '#38bdf8',
-    iconEmoji: '🛡️',
+    name: 'Pixel Adventurer',
+    title: 'Petualang Utama Peta',
+    description: 'Karakter petualang berani penjelajah seluruh biome dan pulau ilmu di Quest Map.',
+    primaryColor: '#0891b2',
+    accentColor: '#22d3ee',
+    iconEmoji: '🗺️',
   },
   {
     id: 'shadow-glitcher',
@@ -154,28 +154,28 @@ export const AVATAR_ACCESSORIES: CosmeticItem[] = [
 
   // ── Outfits & Robes ──
   {
-    id: 'outfit-cyber-hoodie', name: 'Cyber Academy Hoodie', category: 'outfit', tab: 'student', price: 0, minLevel: 1, rarity: 'starter',
-    description: 'Jaket hoodie resmi murid akademi Bits2Bytes beraksen neon.',
-    accentColor: '#3b82f6', glowColor: 'rgba(59,130,246,0.4)', iconType: 'cyber-hoodie', badge: 'Default', iconEmoji: '🥋',
+    id: 'outfit-cyber-hoodie', name: 'Tunik Petualang Biru', category: 'outfit', tab: 'student', price: 0, minLevel: 1, rarity: 'starter',
+    description: 'Tunik biru ikonik petualang Quest Map lengkap dengan tas ransel dan sabuk gesper emas.',
+    accentColor: '#0891b2', glowColor: 'rgba(8,145,178,0.4)', iconType: 'cyber-hoodie', badge: 'Map Default', iconEmoji: '🎒',
   },
   {
-    id: 'outfit-wizard-robe', name: 'Jubah Archmage Biner', category: 'outfit', tab: 'student', price: 70, minLevel: 2, rarity: 'rare',
-    description: 'Jubah sutra kosmik dengan sulaman benang kode bercahaya.',
+    id: 'outfit-wizard-robe', name: 'Jubah Archmage Pixel', category: 'outfit', tab: 'student', price: 70, minLevel: 2, rarity: 'rare',
+    description: 'Jubah sutra ungu mistis petualang biner dengan sulaman rune bercahaya.',
     accentColor: '#8b5cf6', glowColor: 'rgba(139,92,246,0.5)', iconType: 'wizard-robe', badge: 'Mystic', iconEmoji: '👘',
   },
   {
-    id: 'outfit-astral-plate', name: 'Armor Paladin Kuantum', category: 'outfit', tab: 'student', price: 95, minLevel: 3, rarity: 'epic',
-    description: 'Pelindung dada titanium berdaya medan gaya pertahanan firewall.',
+    id: 'outfit-astral-plate', name: 'Zirah Ksatria Pixel', category: 'outfit', tab: 'student', price: 95, minLevel: 3, rarity: 'epic',
+    description: 'Zirah plat baja kobalt berdaya inti mana bercahaya untuk melindungi petualang.',
     accentColor: '#0ea5e9', glowColor: 'rgba(14,165,233,0.5)', iconType: 'astral-plate', badge: 'Epic', iconEmoji: '🛡️',
   },
   {
-    id: 'outfit-shinobi-suit', name: 'Pakaian Glitch Shadow', category: 'outfit', tab: 'student', price: 65, minLevel: 2, rarity: 'rare',
-    description: 'Seragam ninja siluman dengan serat optik pemantul bayangan.',
+    id: 'outfit-shinobi-suit', name: 'Pakaian Shinobi Shadow', category: 'outfit', tab: 'student', price: 65, minLevel: 2, rarity: 'rare',
+    description: 'Seragam ninja siluman dengan sabuk merah khas untuk petualangan bayangan.',
     accentColor: '#f43f5e', glowColor: 'rgba(244,63,94,0.5)', iconType: 'shinobi-suit', iconEmoji: '🥷',
   },
   {
     id: 'outfit-chrono-coat', name: 'Mantel Alkimia Waktu', category: 'outfit', tab: 'student', price: 110, minLevel: 4, rarity: 'legendary',
-    description: 'Mantel panjang bangsawan dengan sabuk reaktor kristal kuantum.',
+    description: 'Mantel hijau zamrud berhias roda gigi kuningan dan jimat petualang waktu.',
     accentColor: '#10b981', glowColor: 'rgba(16,185,129,0.6)', iconType: 'chrono-coat', badge: 'Legendary', iconEmoji: '🧥',
   },
 

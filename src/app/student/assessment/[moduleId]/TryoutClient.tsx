@@ -82,8 +82,8 @@ export function TryoutClient({ moduleId, assessment }: Props) {
 
   // ── Results screen ──────────────────────────────────────────────────────────
   if (state?.success) {
-    const tierEmoji = state.tier === 'achievement' ? '🥇' : state.tier === 'excellent' ? '🥈' : '🥉';
-    const tierLabel = state.tier === 'achievement' ? 'Achievement' : state.tier === 'excellent' ? 'Excellent' : 'Completion';
+    const tierEmoji = state.tier === 'excellent' ? '🏆' : state.tier === 'achievement' ? '🥇' : '🥉';
+    const tierLabel = state.tier === 'excellent' ? 'Excellent' : state.tier === 'achievement' ? 'Achievement' : 'Completion';
     return (
       <div className="max-w-xl mx-auto py-16 text-center flex flex-col items-center gap-6">
         <span className="text-7xl">{tierEmoji}</span>

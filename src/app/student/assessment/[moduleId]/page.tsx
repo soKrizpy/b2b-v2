@@ -96,12 +96,12 @@ export default async function AssessmentPage({ params }: Props) {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {(['achievement', 'excellent', 'completion'] as const).map((tier) => {
+          {(['excellent', 'achievement', 'completion'] as const).map((tier) => {
             const cfg = TIER_CONFIG[tier];
             return (
               <div key={tier}
                 className={`text-xs px-3 py-1.5 rounded-full ring-1 font-semibold ${cfg.bg} ${cfg.color} ${cfg.ring}`}>
-                {cfg.medal} {cfg.label}: {tier === 'achievement' ? '≥80' : tier === 'excellent' ? '70–79' : '<70'}
+                {cfg.medal} {cfg.label}: {tier === 'excellent' ? '≥85' : tier === 'achievement' ? '≥75' : '<75'}
               </div>
             );
           })}
