@@ -78,7 +78,8 @@ export async function getTopicQuizState(
     .eq('module_id', topicRes.data?.module_id ?? -1)
     .eq('status', 'published')
     .order('order_index', { ascending: true });
-  const topicIndex = (orderedTopics.data ?? []).findIndex((topic) => topic.id === topicId);
+  const orderedTopicRows = (orderedTopics.data ?? []) as unknown as Array<{ id: number; order_index: number }>;
+  const topicIndex = orderedTopicRows.findIndex((topic) => topic.id === topicId);
   const orderIndex = topicRes.data?.order_index ?? 0;
   const sessionNumber = orderIndex > 0 ? orderIndex : topicIndex + 1;
   const hasCompletedSession = sessionNumber > 0 && (joinRows ?? []).some(
