@@ -18,10 +18,6 @@ export type AuthResult =
   | { ok: true;  user: User; role: UserRole }
   | { ok: false; status: 401 | 403; message: string };
 
-function isValidRole(val: unknown): val is UserRole {
-  return val === 'admin' || val === 'teacher' || val === 'student';
-}
-
 /** Extract JWT from cookie store (handles chunked and base64url-encoded tokens). */
 async function extractAccessTokenFromCookies(): Promise<string | null> {
   try {
