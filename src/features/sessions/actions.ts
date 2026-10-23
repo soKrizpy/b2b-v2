@@ -13,6 +13,7 @@ import { requireAdmin, requireAdminOrTeacher } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { Json } from '@/types/database';
 import { ATTENDANCE_STATUSES } from '@/types/sessions';
+import { isCompleteModuleSchedule } from './curriculumSchedule';
 import {
   validate,
   createSessionSchema,
@@ -82,7 +83,7 @@ export async function createSession(
   const { count: publishedTopicCount, error: topicsCountError } = await db
     .from('topics').select('id', { count: 'exact', head: true })
     .eq('module_id', module_id).eq('status', 'published');
-  if (topicsCountError || !publishedTopicCount || session_count !== publishedTopicCount) {
+  if (topicsCountError || !isCompleteModuleSchedule(session_count, publishedTopicCount)) {
     return { success: false, error: 'Jumlah sesi dalam satu seri harus sama dengan jumlah topik terpublikasi pada modul agar setiap topik memiliki sesi.' };
   }
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
