@@ -1,46 +1,52 @@
-# Curriculum Flow Audit — Session-to-Topic Mapping
+# Curriculum Flow Audit — Session-to-Curriculum Mapping
 
-Status: design blocker; no production database changes made.
+Status: design blocker identified; no production database changes made.
 
 ## Confirmed current behavior
 
-- The student Quest Map builds topic nodes from published topics ordered by `order_index`.
-- Both `src/features/quiz/questMapQueries.ts` and `src/features/quiz/queries.ts` derive a session number from a topic's sorted position (`index + 1`).
-- Student meeting assignments are queried across all meetings assigned to the student. The `meetings` relation exposes `session_number`, but does not expose a `module_id` or `topic_id` relation.
-- Therefore, the current lookup cannot reliably distinguish sessions belonging to different modules or different session series. A session number match is not proof that a report belongs to the topic being unlocked.
+- Quest Map topics are ordered by `order_index`; quiz code maps topic position to `session_number = index + 1`.
+- Student meeting assignments are queried across all meetings. `meetings` has `session_number` and `series_id`, but no curriculum identifier.
+- The admin form and `POST /api/sessions` are two separate meeting creation paths. Both generate numbered weekly sessions, and neither stores a module/topic association.
+- Quiz state uses any assigned meeting to decide whether the student is self-paced, then matches completed reports by session number only. A meeting from another module or series can therefore affect the wrong topic's lock state.
+- The meeting form has no module selector, and `student_modules` has no explicit guided/self-paced learning mode.
 
-## Required design decision
+## Recommended design
 
-Before changing quiz gating, establish an explicit, durable relation between a curriculum unit and the meeting/session that teaches it. Preferred options:
+First validate the product rule: **does one meeting series belong to one module, with session N corresponding to topic N?**
 
-1. Add a nullable `topic_id` foreign key to `meetings` (if one meeting is intended to teach one topic); or
-2. Add a junction table such as `meeting_topics(meeting_id, topic_id)` if a meeting can cover multiple topics.
+If yes:
 
-Do not infer the relation from title text, date, `session_number`, student assignment, or `series_id` alone. Existing rows need a reviewed backfill plan; leave unknown historical associations unlinked rather than guessing.
+1. Add a nullable `module_id` FK on `meetings` plus an index. All generated meetings in a series must share the same module. Nullable preserves legacy rows without inventing associations.
+2. Add a module selector to the admin form; validate module availability and student eligibility. Persist it in both `createSession` and `POST /api/sessions`, and preserve it when editing one session or the remainder of a series.
+3. Scope Quest Map and quiz-state lookups to the current module before matching `session_number`. Meetings from another module/series must never unlock the current module's quiz.
+4. Add an explicit learning-mode value to student-module enrollment (for example, guided vs. self-paced). Do not infer self-paced mode only because no linked meetings were found; that could bypass the teacher-report requirement for a guided student.
+5. Leave historical `module_id` null until there is an evidence-based, reviewed backfill. Never infer from title, date, session number, student assignment, or `series_id`.
+
+If a meeting can cover multiple modules/topics, use a reviewed junction-table design instead; do not force that behavior into a single `module_id` column.
 
 ## Implementation sequence
 
-1. Confirm product semantics: one meeting per topic vs. one meeting covering several topics; whether series are module-specific; and how self-paced students are identified.
-2. Add an additive migration with foreign keys, indexes, and constraints appropriate to the chosen relationship. Do not apply it to production as part of this branch work.
-3. Update the teacher/admin meeting form and server action to select and persist the curriculum topic/module association. Validate that selected topics are published and available to the student's active enrollment.
-4. Update Quest Map and quiz state queries to filter meetings by the explicit topic relation and the current student assignment. A report should unlock only the linked topic for students who attended the completed meeting.
-5. Keep self-paced behavior explicit (for example, a defined enrollment/learning mode) instead of treating “no meeting rows returned” as proof that a student is self-paced.
-6. Add regression tests for two modules both having session 1, separate series both having session 1, an unrelated assigned meeting, a student absent from the linked meeting, an unsubmitted report, and a truly self-paced student.
-7. Validate the migration and end-to-end flow on a non-production Supabase project before any production rollout.
+1. Confirm series-to-module semantics and how guided/self-paced mode is assigned during enrollment.
+2. Add an additive migration with FK/index/constraints and null-preserving legacy behavior. Do not apply it to production as part of this branch work.
+3. Update the admin form, server action, API route, edit-series path, and types together.
+4. Scope quiz/Quest Map report matching to the current module and enforce explicit learning mode.
+5. Add regression tests for two modules both having session 1, separate series both having session 1, unrelated assigned meetings, absent students, unsubmitted reports, and truly self-paced enrollment.
+6. Test migration and end-to-end journey on isolated non-production Supabase before rollout.
 
-## Acceptance criteria for the requested learner journey
+## Learner journey acceptance criteria
 
-- Opening a Quest Map topic shows the topic brief/learning path and does not replace or mutate curriculum data.
-- Lesson content may contain 10–20 slides; if that is a hard curriculum requirement, validate it in the curriculum authoring/import path and show an actionable validation error rather than silently manufacturing slides.
-- The challenge is available according to topic progression rules.
-- A teacher's completed report unlocks only the quiz associated with that topic and only for eligible students.
-- The quiz remains available on a later day after it has been unlocked, according to the retry policy.
-- The final assessment is inaccessible until all required published topics are complete; it uses exactly 20 distinct official questions.
-- Certificate issuance is verified after a valid final assessment attempt.
-- All critical checks run in CI; full flow is exercised against isolated staging data.
+- Quest Map node opens a topic brief/learning path without replacing or mutating curriculum data.
+- If 10–20 slides is a hard requirement, validate it at curriculum authoring/import and show actionable errors rather than manufacturing slides.
+- Challenges follow topic progression rules.
+- A completed teacher report unlocks only the linked topic quiz for eligible students who attended.
+- Once unlocked, the quiz remains available on a later day according to retry policy.
+- Final assessment is blocked until all required published topics are complete and contains exactly 20 distinct official questions.
+- Certificate issuance is verified after a valid final-assessment attempt.
+- Critical checks run in CI; full flow is exercised against isolated staging data.
 
-## Validation state at audit time
+## Validation state
 
-- GitHub Actions run `39986302251` on commit `c3fe9c2af7a984edcd7d1a629f809c18faefeeb0`: success, including unit tests and TypeScript type-check.
-- This CI result does not establish that the meeting-to-topic association is correct; dedicated regression tests and staging end-to-end tests remain required.
+- GitHub Actions run `39986302251` on code commit `c3fe9c2af7a984edcd7d1a629f809c18faefeeb0` succeeded, including unit tests and TypeScript type-check.
+- That run does not prove the meeting-to-curriculum association is correct; dedicated regression and staging E2E tests remain required.
+- The successful run predates documentation-only commit `a0ae0543c11509cf75f140b0d3477dd76673fac9`; no fresh run was returned for that docs commit.
 - PR remains unmerged. No production migration was applied.
