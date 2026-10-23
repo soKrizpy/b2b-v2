@@ -93,16 +93,15 @@ export async function getQuestMapData(
   const hasAssignedMeetings = meetingRows.length > 0;
   const reportedSessionNumbers = new Set<number>();
   const sessionDatesMap = new Map<number, string>();
-  let totalCompletedMeetings = 0;
-
   for (const r of meetingRows) {
     const sNum = r.meetings?.session_number;
     if (typeof sNum === 'number' && sNum > 0) {
       if (r.meetings?.meeting_date) {
         sessionDatesMap.set(sNum, r.meetings.meeting_date);
       }
-      if (r.meetings?.is_completed) {
-        totalCompletedMeetings++;
+      // A teacher report unlocks this topic only for a student assigned to and
+      // present in that specific completed session—not by counting other sessions.
+      if (r.has_joined && r.meetings?.is_completed) {
         reportedSessionNumbers.add(sNum);
       }
     }
@@ -141,7 +140,7 @@ export async function getQuestMapData(
     // 2) Total completed meetings reaches or exceeds this session number, OR
     // 3) Student has no assigned meetings at all (e.g. self-paced demo/test mode).
     const isSessionReportSubmitted = hasAssignedMeetings
-      ? reportedSessionNumbers.has(sessionNumber) || totalCompletedMeetings >= sessionNumber
+      ? reportedSessionNumbers.has(sessionNumber)
       : true;
 
     // Quiz is unlocked once teacher has submitted report
