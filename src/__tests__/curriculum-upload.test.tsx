@@ -24,7 +24,7 @@ describe('module curriculum file upload', () => {
       id: 7,
       title: 'Scratch',
       topics: [],
-    } as ModuleWithTopics;
+    } as unknown as ModuleWithTopics;
 
     render(<ModuleBuilderClient module={moduleData} />);
     fireEvent.click(screen.getByRole('button', { name: 'Import JSON Materi' }));
