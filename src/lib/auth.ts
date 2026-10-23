@@ -106,25 +106,10 @@ export const getAuthUser = cache(async (): Promise<AuthResult> => {
     return { ok: false, status: 401, message: 'Sesi tidak ditemukan. Silakan login kembali.' };
   }
 
-  let role: UserRole | undefined = isValidRole(user.user_metadata?.role)
-    ? user.user_metadata.role
-    : undefined;
-
-  if (!role) {
-    try {
-      const cookieStore = await cookies();
-      const cookieRole = cookieStore.get('b2b_role')?.value;
-      if (isValidRole(cookieRole)) {
-        role = cookieRole;
-      }
-    } catch {
-      // ignore
-    }
-  }
-
-  if (!role) {
-    role = (await resolveUserRole(user.id, user)) ?? undefined;
-  }
+  // Authorization roles must come from the trusted profile row (or trusted
+  // server-managed app_metadata fallback), never from user-editable metadata
+  // or the client-controlled b2b_role cookie.
+  const role: UserRole | undefined = (await resolveUserRole(user.id, user)) ?? undefined;
 
   if (!role) {
     return { ok: false, status: 403, message: 'Akun ini belum memiliki hak akses.' };
