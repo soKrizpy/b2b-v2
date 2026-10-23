@@ -109,6 +109,7 @@ function LocationPopoverCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  useEffect(() => { setSlideIndex(0); }, [node?.topic.id]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
