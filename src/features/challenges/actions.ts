@@ -50,6 +50,35 @@ function flatErr(err: z.ZodError): Record<string, string> {
   return fields;
 }
 
+async function isTeacherAssignedToStudent(
+  db: ReturnType<typeof createSupabaseAdminClient>,
+  teacherId: string,
+  studentId: string
+): Promise<boolean> {
+  const { data: directAssignment, error: directError } = await db
+    .from('teacher_students')
+    .select('student_id')
+    .eq('teacher_id', teacherId)
+    .eq('student_id', studentId)
+    .maybeSingle();
+  if (directError) return false;
+  if (directAssignment) return true;
+
+  const { data: meetings, error: meetingError } = await db
+    .from('meetings')
+    .select('id')
+    .eq('teacher_id', teacherId);
+  if (meetingError || !meetings?.length) return false;
+
+  const { data: meetingAssignment, error: meetingStudentError } = await db
+    .from('meeting_students')
+    .select('student_id')
+    .eq('student_id', studentId)
+    .in('meeting_id', meetings.map((meeting) => meeting.id))
+    .limit(1);
+  return !meetingStudentError && Boolean(meetingAssignment?.length);
+}
+
 function revalidateAll(topicId?: number, moduleId?: number) {
   revalidateTag('curriculum');
   revalidatePath('/admin/curriculum', 'layout');
@@ -212,13 +241,8 @@ export async function reviewSubmission(
   if (targetError || !targetSubmission) {
     return { success: false, error: 'Submission tidak ditemukan.' };
   }
-  const { data: assignment } = await (db
-    .from('teacher_students')
-    .select('student_id')
-    .eq('teacher_id', auth.user.id)
-    .eq('student_id', targetSubmission.student_id)
-    .maybeSingle() as unknown as Promise<{ data: { student_id: string } | null; error: unknown }>);
-  if (!assignment) {
+  const isAssigned = await isTeacherAssignedToStudent(db, auth.user.id, targetSubmission.student_id);
+  if (!isAssigned) {
     return { success: false, error: 'Kamu hanya dapat meninjau submission siswa yang ditugaskan kepadamu.' };
   }
 
@@ -290,15 +314,10 @@ export async function bulkApproveSubmissions(
     return { success: false, error: 'Submission tidak ditemukan.' };
   }
 
-  const assignedStudentIds = new Set<string>();
-  const { data: assignments, error: assignmentError } = await (db
-    .from('teacher_students')
-    .select('student_id')
-    .eq('teacher_id', auth.user.id) as unknown as Promise<{ data: Array<{ student_id: string }> | null; error: { message: string } | null }>);
-  if (assignmentError) return { success: false, error: 'Gagal memverifikasi penugasan siswa.' };
-  for (const assignment of assignments ?? []) assignedStudentIds.add(assignment.student_id);
-  if (subs.some((submission) => !assignedStudentIds.has(submission.student_id))) {
-    return { success: false, error: 'Pilihan berisi submission siswa yang tidak ditugaskan kepadamu. Tidak ada perubahan yang dilakukan.' };
+  for (const submission of subs) {
+    if (!(await isTeacherAssignedToStudent(db, auth.user.id, submission.student_id))) {
+      return { success: false, error: 'Pilihan berisi submission siswa yang tidak ditugaskan kepadamu. Tidak ada perubahan yang dilakukan.' };
+    }
   }
 
   const validIds = subs.map((s) => s.id);
