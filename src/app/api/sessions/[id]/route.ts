@@ -11,6 +11,7 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiError, apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
 import { validate, updateSessionSchema } from '@/features/sessions/validation';
+import { parseStudentIdsInput } from '@/features/sessions/student-assignment-input';
 import {
   getSessionsForAdmin,
   getSessionsForTeacher,
@@ -73,15 +74,18 @@ export async function PATCH(
     return apiError(400, 'Request body harus berformat JSON.');
   }
 
-  const raw        = body as Record<string, unknown>;
+  const parsedAssignments = parseStudentIdsInput(body);
+  if (!parsedAssignments.valid) {
+    return apiError(400, parsedAssignments.error, undefined, 'INVALID_STUDENT_IDS');
+  }
+
+  const raw        = parsedAssignments.body;
   const editMode   = (raw.edit_mode   as string)   || 'single';
   const seriesId   = (raw.series_id   as string)   || null;
   const sessionNum = Number(raw.session_number ?? 1);
   // Omitted student_ids means "leave assignments unchanged"; an explicit
   // empty array means "clear all assignments".
-  const hasStudentIds = Object.prototype.hasOwnProperty.call(raw, 'student_ids')
-    && Array.isArray(raw.student_ids);
-  const studentIds = hasStudentIds ? (raw.student_ids as string[]) : [];
+  const { hasStudentIds, studentIds } = parsedAssignments;
 
   // Strip PATCH control fields before Zod validates only meeting-data fields
   const meetingFields = Object.fromEntries(
