@@ -11,11 +11,11 @@ import { getAllModulesWithTopics } from './queries';
 import {
   curriculumJsonSchema,
   encodeFinalAssessment,
-  hasLearningNodes,
   moduleImportSchema,
   type ModuleImport,
   type NodeImport,
 } from './validation';
+import { getInstructionalSlides, hasRequiredLessonSlideCount } from './lessonSlides';
 
 // ── Return type ───────────────────────────────────────────────────────────────
 // Exported as a type — allowed in 'use server' files (type exports are erased
@@ -148,13 +148,15 @@ export async function importCurriculumJson(
 
     for (const topic of mod.topics) {
       const topicTitle    = topic.topic_title.trim();
-      const hasNodes      = topic.nodes.length > 0;
-      const lessonContent = (hasNodes || topic.quiz?.length)
+      const learningPath = topic.nodes.map(nodeToLearningNode);
+      const lessonContent = (learningPath.length > 0 || topic.quiz?.length)
         ? {
-            learningPath: topic.nodes.map(nodeToLearningNode),
+            learningPath,
             ...(topic.quiz?.length && { quiz: topic.quiz }),
           }
         : null;
+      const lessonReady = hasRequiredLessonSlideCount(getInstructionalSlides(learningPath));
+      const topicStatus = lessonReady ? 'published' : 'draft';
 
       const existingTopicId = topicTitleMap.get(topicTitle.toLowerCase());
 
@@ -166,8 +168,8 @@ export async function importCurriculumJson(
             description:    topic.description ?? null,
             project_link:   topic.project_link || null,
             lesson_content: lessonContent,
-            status:         hasNodes ? 'published' : 'draft',
-            ...(hasNodes && { published_at: new Date().toISOString() }),
+            status:         topicStatus,
+            ...(lessonReady && { published_at: new Date().toISOString() }),
           } as never)
           .eq('id', existingTopicId) as unknown as Promise<unknown>);
       } else {
@@ -180,8 +182,8 @@ export async function importCurriculumJson(
             description:    topic.description ?? null,
             project_link:   topic.project_link || null,
             lesson_content: lessonContent,
-            status:         hasNodes ? 'published' : 'draft',
-            ...(hasNodes && { published_at: new Date().toISOString() }),
+            status:         topicStatus,
+            ...(lessonReady && { published_at: new Date().toISOString() }),
           } as never) as unknown as Promise<{ error: { message: string } | null }>);
 
         if (topicErr) {
@@ -454,10 +456,12 @@ export async function importCurriculumJsonForModule(
 
     for (const topic of mod.topics) {
       const topicTitle    = topic.topic_title.trim();
-      const hasNodes      = topic.nodes.length > 0;
-      const lessonContent = (hasNodes || topic.quiz?.length)
-        ? { learningPath: topic.nodes.map(nodeToLearningNode), ...(topic.quiz?.length && { quiz: topic.quiz }) }
+      const learningPath = topic.nodes.map(nodeToLearningNode);
+      const lessonContent = (learningPath.length > 0 || topic.quiz?.length)
+        ? { learningPath, ...(topic.quiz?.length && { quiz: topic.quiz }) }
         : null;
+      const lessonReady = hasRequiredLessonSlideCount(getInstructionalSlides(learningPath));
+      const topicStatus = lessonReady ? 'published' : 'draft';
 
       const existingId = topicTitleMap.get(topicTitle.toLowerCase());
       if (existingId) {
@@ -466,8 +470,8 @@ export async function importCurriculumJsonForModule(
           .update({
             order_index: topic.topic_order, description: topic.description ?? null,
             project_link: topic.project_link || null, lesson_content: lessonContent,
-            status: hasNodes ? 'published' : 'draft',
-            ...(hasNodes && { published_at: new Date().toISOString() }),
+            status: topicStatus,
+            ...(lessonReady && { published_at: new Date().toISOString() }),
           } as never)
           .eq('id', existingId) as unknown as Promise<{ error: { message: string } | null }>);
         if (error) {
@@ -479,8 +483,8 @@ export async function importCurriculumJsonForModule(
           .insert({
             module_id: moduleId, title: topicTitle, order_index: topic.topic_order,
             description: topic.description ?? null, project_link: topic.project_link || null,
-            lesson_content: lessonContent, status: hasNodes ? 'published' : 'draft',
-            ...(hasNodes && { published_at: new Date().toISOString() }),
+            lesson_content: lessonContent, status: topicStatus,
+            ...(lessonReady && { published_at: new Date().toISOString() }),
           } as never) as unknown as Promise<{ error: { message: string } | null }>);
         if (tErr) return { success: false, error: `Gagal membuat topik "${topicTitle}": ${tErr.message}` };
       }
@@ -536,10 +540,12 @@ export async function updateTopicAction(
 
     if (topicError) return { success: false, error: topicError.message };
     if (!topic) return { success: false, error: 'Topik tidak ditemukan.' };
-    if (!hasLearningNodes(topic.lesson_content)) {
+    const lessonContent = topic.lesson_content as Record<string, unknown> | null;
+    const slides = getInstructionalSlides(lessonContent?.learningPath);
+    if (!hasRequiredLessonSlideCount(slides)) {
       return {
         success: false,
-        error: 'Topik harus memiliki minimal satu node materi sebelum dipublikasikan.',
+        error: `Topik harus memiliki ${10}–${20} slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: ${slides.length}.`,
       };
     }
   }
