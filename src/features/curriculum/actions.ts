@@ -15,7 +15,7 @@ import {
   type ModuleImport,
   type NodeImport,
 } from './validation';
-import { getInstructionalSlides, hasRequiredLessonSlideCount } from './lessonSlides';
+import { getInstructionalSlides, hasRequiredLessonSlideCount, MIN_LESSON_SLIDES, MAX_LESSON_SLIDES } from './lessonSlides';
 
 // ── Return type ───────────────────────────────────────────────────────────────
 // Exported as a type — allowed in 'use server' files (type exports are erased
@@ -545,7 +545,7 @@ export async function updateTopicAction(
     if (!hasRequiredLessonSlideCount(slides)) {
       return {
         success: false,
-        error: `Topik harus memiliki ${10}–${20} slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: ${slides.length}.`,
+        error: `Topik harus memiliki ${MIN_LESSON_SLIDES}–${MAX_LESSON_SLIDES} slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: ${slides.length}.`,
       };
     }
   }
