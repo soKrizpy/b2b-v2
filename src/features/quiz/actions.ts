@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -305,6 +307,19 @@ export async function submitFinalAssessment(
   const assessment = extractFinalAssessment(moduleRow?.description ?? null);
   if (!assessment) {
     return { success: false, error: 'Modul ini belum memiliki soal tryout.' };
+  }
+
+  // Enforce the curriculum gate on the server. Hiding the final-boss button in
+  // the UI is not enough: direct Server Action calls must also require every
+  // published topic to be completed under the Quest Map progression rules.
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === module_id);
+  if (!enrolledModule) {
+    return { success: false, error: 'Modul aktif tidak ditemukan.' };
+  }
+  const questProgress = await getQuestMapData(studentId, enrolledModule);
+  if (!questProgress.moduleComplete) {
+    return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
   }
 
   // Validate against the official question set before scoring. Without this,
