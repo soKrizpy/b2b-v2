@@ -15,7 +15,7 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Added a shared report-gate predicate and regression tests for module collisions, session-number collisions, absence, incomplete sessions, blank reports, and legacy unlinked meetings.
 - New schedule creation validates an active module and persists `module_id` through both the Server Action and `POST /api/sessions`.
 - Quiz and Quest Map lookups scope sessions to the current module and no longer infer self-paced mode from missing meeting assignments.
-- Meeting form requires a module ID for new schedules. The form UI is being upgraded to a module picker in the next pass.
+- Meeting form uses an admin-only module picker; both creation paths validate that the module is active and the series does not exceed the number of published topics. Editing cannot silently move an existing schedule to another module.
 
 ## Required follow-up / acceptance checks
 
