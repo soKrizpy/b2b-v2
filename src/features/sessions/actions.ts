@@ -251,19 +251,19 @@ export async function updateSession(
         };
       }
 
-      if (studentIds.length > 0) {
-        const { error: assignmentDeleteError } = await (db
-          .from('meeting_students')
-          .delete()
-          .eq('meeting_id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
-        if (assignmentDeleteError) {
-          revalidateAll();
-          return {
-            success: false,
-            error: 'Perubahan seri jadwal tidak selesai: penugasan siswa gagal diperbarui. Periksa jadwal sebelum mengulangi perubahan.',
-          };
-        }
+      const { error: assignmentDeleteError } = await (db
+        .from('meeting_students')
+        .delete()
+        .eq('meeting_id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignmentDeleteError) {
+        revalidateAll();
+        return {
+          success: false,
+          error: 'Perubahan seri jadwal tidak selesai: penugasan siswa gagal diperbarui. Periksa jadwal sebelum mengulangi perubahan.',
+        };
+      }
 
+      if (studentIds.length > 0) {
         const rows = studentIds.map((sid) => ({
           meeting_id: m.id,
           student_id: sid,
@@ -295,18 +295,18 @@ export async function updateSession(
       };
     }
 
-    if (studentIds.length > 0) {
-      const { error: assignmentDeleteError } = await (db
-        .from('meeting_students')
-        .delete()
-        .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
-      if (assignmentDeleteError) {
-        return {
-          success: false,
-          error: 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.',
-        };
-      }
+    const { error: assignmentDeleteError } = await (db
+      .from('meeting_students')
+      .delete()
+      .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+    if (assignmentDeleteError) {
+      return {
+        success: false,
+        error: 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.',
+      };
+    }
 
+    if (studentIds.length > 0) {
       const rows = studentIds.map((sid) => ({
         meeting_id: id,
         student_id: sid,
