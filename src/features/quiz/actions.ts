@@ -145,8 +145,8 @@ export async function submitTopicQuiz(
   }
 
   // Enforce the teacher-report gate on the server as well as in the UI.
-  // Students may still retry a quiz they previously unlocked, and self-paced
-  // students without assigned meetings retain the existing supported flow.
+  // Guided mode has no self-paced bypass: the matching teacher report is required
+  // before the quiz can be submitted, including for legacy unlinked meetings.
   const quizState = await getTopicQuizState(topic_id, studentId, topicRow.lesson_content);
   if (!quizState.isUnlocked) {
     return { success: false, error: 'Quiz akan terbuka setelah laporan guru untuk sesi topik ini selesai.' };
