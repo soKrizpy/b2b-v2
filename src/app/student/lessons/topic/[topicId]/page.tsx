@@ -3,7 +3,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { getSessionUser } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getTopicById } from '@/features/curriculum/queries';
 import { getChallengesWithSubmissions } from '@/features/challenges/queries';
 import { getTopicQuizState } from '@/features/quiz/queries';
@@ -32,15 +33,30 @@ export default async function TopicPage({ params }: Props) {
   const id = Number(topicId);
   if (!id) notFound();
 
-  const user = await getSessionUser();
-  if (!user) redirect('/login');
+  const auth = await getAuthUser();
+  if (!auth.ok) redirect('/login');
+  if (auth.role !== 'student') redirect('/');
 
-  const [topic, challenges, quizState] = await Promise.all([
-    getTopicById(id),
-    getChallengesWithSubmissions(id, user.id),
-    getTopicQuizState(id, user.id),
+  const topic = await getTopicById(id);
+  if (!topic || topic.status !== 'published') notFound();
+
+  const db = createSupabaseAdminClient();
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', auth.user.id)
+    .eq('module_id', topic.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) notFound();
+
+  const [challenges, quizState] = await Promise.all([
+    getChallengesWithSubmissions(id, auth.user.id),
+    getTopicQuizState(id, auth.user.id),
   ]);
-  if (!topic) notFound();
 
   const completedCount  = challenges.filter((c) => c.submission?.status === 'approved').length;
   const progressPercent = challenges.length > 0
