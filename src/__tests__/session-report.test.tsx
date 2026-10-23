@@ -20,10 +20,15 @@ const state = vi.hoisted(() => ({
     attendance_status: 'absen',
   })),
   dbError: null as { message: string } | null,
+  authRole: 'teacher' as 'admin' | 'teacher',
 }));
 
 vi.mock('@/lib/auth', () => ({
-  requireAdminOrTeacher: async () => ({ ok: true }),
+  requireAdminOrTeacher: async () => ({
+    ok: true,
+    user: { id: 'test-user-id' },
+    role: state.authRole,
+  }),
 }));
 
 vi.mock('@/lib/supabase/admin', () => ({
@@ -89,6 +94,7 @@ describe('completed session report editing', () => {
       attendance_status: 'absen',
     }));
     state.dbError = null;
+    state.authRole = 'teacher';
   });
 
   it('updates only the report and preserves completion and student links', async () => {
@@ -213,6 +219,7 @@ describe('completed session report editing', () => {
   });
 
   it('saves per-student attendance from the admin completion form', async () => {
+    state.authRole = 'admin';
     state.meeting.is_completed = false;
     const meeting = {
       id: 41,
