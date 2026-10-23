@@ -221,7 +221,25 @@ export async function getSessionsForStudent(
     console.error('[getSessionsForStudent]', error.message);
     return [];
   }
-  return (data ?? []) as unknown as MeetingWithStudents[];
+
+  // A student needs their own schedule details, not classmates' UUIDs,
+  // contact information, attendance statuses, or teacher-only progress reports.
+  // Project the result before it can be serialized into a page or API response.
+  return (data ?? []).map((meeting) => ({
+    id: meeting.id,
+    title: meeting.title,
+    meeting_date: meeting.meeting_date,
+    link_url: meeting.link_url,
+    notes: meeting.notes,
+    session_count: meeting.session_count,
+    session_number: meeting.session_number,
+    series_id: meeting.series_id,
+    is_completed: meeting.is_completed,
+    created_at: meeting.created_at,
+    completion_status: null,
+    progress_report: null,
+    meeting_students: [],
+  })) as unknown as MeetingWithStudents[];
 }
 
 /**
