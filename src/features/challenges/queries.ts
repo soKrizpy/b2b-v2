@@ -205,7 +205,10 @@ export async function getAllSubmissions(teacherId?: string): Promise<SubmissionW
 
   if (subErr) { console.error('[getAllSubmissions]', subErr.message); return []; }
 
-  const rawSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const allSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const rawSubs = assignedStudentIds
+    ? allSubs.filter((sub) => assignedStudentIds!.has(sub.student_id))
+    : allSubs;
   if (!rawSubs.length) return [];
 
   const challengeIds = [...new Set(rawSubs.map((s) => s.challenge_id))];
