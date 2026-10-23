@@ -77,7 +77,8 @@ export async function createSession(
   const db = createSupabaseAdminClient();
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate = new Date(meeting_date);
-  let insertedCount = 0;
+  const insertedIds: number[] = [];
+  let failureReason: string | null = null;
 
   for (let i = 0; i < session_count; i++) {
     const sessionDate = new Date(baseDate);
@@ -107,8 +108,12 @@ export async function createSession(
 
     if (meetingError || !meeting) {
       console.error('[createSession] insert error:', meetingError?.message);
-      continue;
+      failureReason = 'Gagal menyimpan salah satu sesi.';
+      break;
     }
+
+    // Track immediately so a later assignment failure can roll this row back.
+    insertedIds.push(meeting.id);
 
     if (student_ids.length > 0) {
       const rows = student_ids.map((sid: string) => ({
@@ -125,21 +130,38 @@ export async function createSession(
           '[createSession] student assign error:',
           assignError.message
         );
+        failureReason = 'Gagal menugaskan siswa ke salah satu sesi.';
+        break;
       }
     }
-
-    insertedCount++;
   }
 
-  if (insertedCount === 0) {
+  if (failureReason || insertedIds.length !== session_count) {
+    let rollbackFailed = false;
+    if (insertedIds.length > 0) {
+      const { error: assignmentCleanupError } = await (db
+        .from('meeting_students')
+        .delete()
+        .in('meeting_id', insertedIds) as unknown as Promise<{ error: { message: string } | null }>);
+      const { error: meetingCleanupError } = await (db
+        .from('meetings')
+        .delete()
+        .in('id', insertedIds) as unknown as Promise<{ error: { message: string } | null }>);
+      rollbackFailed = Boolean(assignmentCleanupError || meetingCleanupError);
+      if (rollbackFailed) {
+        console.error('[createSession] rollback failed:', assignmentCleanupError?.message, meetingCleanupError?.message);
+      }
+    }
     return {
       success: false,
-      error: 'Gagal menyimpan jadwal. Silakan coba lagi.',
+      error: rollbackFailed
+        ? 'Pembuatan sesi gagal dan pembersihan otomatis tidak tuntas. Periksa jadwal sebelum mencoba lagi.'
+        : (failureReason ?? 'Gagal menyimpan seluruh jadwal. Tidak ada sesi yang dipertahankan.'),
     };
   }
 
   revalidateAll();
-  const label = session_count > 1 ? `${insertedCount} sesi` : '1 jadwal';
+  const label = session_count > 1 ? `${insertedIds.length} sesi` : '1 jadwal';
   return { success: true, message: `Berhasil membuat ${label} kelas.` };
 }
 
