@@ -152,7 +152,7 @@ const MEETING_SELECT = `
 
 const MEETING_SELECT_INNER = `
   id, title, meeting_date, link_url, notes,
-  session_count, session_number, series_id,
+  session_count, session_number, series_id, module_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students!inner (
     student_id,
