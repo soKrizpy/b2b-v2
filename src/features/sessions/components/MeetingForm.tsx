@@ -81,7 +81,7 @@ export function MeetingForm({
             <input type="hidden" name="series_id" value={meeting.series_id} />
           )}
           <input type="hidden" name="session_number" value={meeting.session_number} />
-          <input type="hidden" name="module_id" value={meeting.module_id ?? ''} />
+          {meeting.module_id != null && <input type="hidden" name="module_id" value={meeting.module_id} />}
         </>
       )}
 
