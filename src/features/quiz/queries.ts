@@ -100,7 +100,7 @@ export async function getTopicQuizState(
     attemptsUsed,
     bestScore,
     isLocked:    attemptsUsed >= 2,
-    isUnlocked:  hasCompletedSession || attemptsUsed > 0, // guided mode: no implicit unlock for unlinked/absent meetings
+    isUnlocked:  hasCompletedSession, // guided mode: only a matching submitted teacher report unlocks the quiz
   };
 }
 
