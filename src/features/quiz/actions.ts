@@ -387,8 +387,12 @@ export async function awardQuizReward(
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
 
   const topicId = Number(formData.get('topic_id')) || 0;
+  const attemptNum = Number(formData.get('attempt_num'));
   if (!Number.isSafeInteger(topicId) || topicId <= 0) {
     return { success: false, error: 'topic_id tidak valid.' };
+  }
+  if (attemptNum !== 1 && attemptNum !== 2) {
+    return { success: false, error: 'Nomor percobaan quiz tidak valid.' };
   }
 
   const db = createSupabaseAdminClient();
@@ -399,7 +403,7 @@ export async function awardQuizReward(
   const rewardDb = db as unknown as {
     rpc: (
       fn: string,
-      args: { p_student_id: string; p_topic_id: number }
+      args: { p_student_id: string; p_topic_id: number; p_attempt_num: number }
     ) => Promise<{
       data: Array<{
         attempt_id: number;
@@ -416,6 +420,7 @@ export async function awardQuizReward(
   const { data, error } = await rewardDb.rpc('claim_topic_quiz_reward', {
     p_student_id: auth.user.id,
     p_topic_id: topicId,
+    p_attempt_num: attemptNum,
   });
 
   if (error) {
