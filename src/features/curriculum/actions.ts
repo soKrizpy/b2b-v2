@@ -169,7 +169,7 @@ export async function importCurriculumJson(
             project_link:   topic.project_link || null,
             lesson_content: lessonContent,
             status:         topicStatus,
-            ...(lessonReady && { published_at: new Date().toISOString() }),
+            published_at: lessonReady ? new Date().toISOString() : null,
           } as never)
           .eq('id', existingTopicId) as unknown as Promise<unknown>);
       } else {
@@ -183,7 +183,7 @@ export async function importCurriculumJson(
             project_link:   topic.project_link || null,
             lesson_content: lessonContent,
             status:         topicStatus,
-            ...(lessonReady && { published_at: new Date().toISOString() }),
+            published_at: lessonReady ? new Date().toISOString() : null,
           } as never) as unknown as Promise<{ error: { message: string } | null }>);
 
         if (topicErr) {
@@ -471,7 +471,7 @@ export async function importCurriculumJsonForModule(
             order_index: topic.topic_order, description: topic.description ?? null,
             project_link: topic.project_link || null, lesson_content: lessonContent,
             status: topicStatus,
-            ...(lessonReady && { published_at: new Date().toISOString() }),
+            published_at: lessonReady ? new Date().toISOString() : null,
           } as never)
           .eq('id', existingId) as unknown as Promise<{ error: { message: string } | null }>);
         if (error) {
@@ -484,7 +484,7 @@ export async function importCurriculumJsonForModule(
             module_id: moduleId, title: topicTitle, order_index: topic.topic_order,
             description: topic.description ?? null, project_link: topic.project_link || null,
             lesson_content: lessonContent, status: topicStatus,
-            ...(lessonReady && { published_at: new Date().toISOString() }),
+            published_at: lessonReady ? new Date().toISOString() : null,
           } as never) as unknown as Promise<{ error: { message: string } | null }>);
         if (tErr) return { success: false, error: `Gagal membuat topik "${topicTitle}": ${tErr.message}` };
       }
