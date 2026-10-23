@@ -9,6 +9,7 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
+import { getTopicQuizState } from '@/features/quiz/queries';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -131,6 +132,14 @@ export async function submitTopicQuiz(
   const questions = extractTopicQuiz(topicRow.lesson_content);
   if (questions.length === 0) {
     return { success: false, error: 'Topik ini belum memiliki soal quiz.' };
+  }
+
+  // Enforce the teacher-report gate on the server as well as in the UI.
+  // Students may still retry a quiz they previously unlocked, and self-paced
+  // students without assigned meetings retain the existing supported flow.
+  const quizState = await getTopicQuizState(topic_id, studentId, topicRow.lesson_content);
+  if (!quizState.isUnlocked) {
+    return { success: false, error: 'Quiz akan terbuka setelah laporan guru untuk sesi topik ini selesai.' };
   }
 
   // Require one answer per official question; reject duplicates and out-of-range indices.
