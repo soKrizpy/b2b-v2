@@ -225,7 +225,8 @@ export async function getSessionsForStudent(
   // A student needs their own schedule details, not classmates' UUIDs,
   // contact information, attendance statuses, or teacher-only progress reports.
   // Project the result before it can be serialized into a page or API response.
-  return (data ?? []).map((meeting) => ({
+  const studentMeetings = (data ?? []) as unknown as MeetingWithStudents[];
+  return studentMeetings.map((meeting) => ({
     id: meeting.id,
     title: meeting.title,
     meeting_date: meeting.meeting_date,
