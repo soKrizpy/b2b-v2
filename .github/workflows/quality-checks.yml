@@ -1,6 +1,7 @@
 name: Quality checks
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - fix/security-priority-audit
@@ -72,6 +73,31 @@ jobs:
                 advisories: (item.via ?? []).map(v => typeof v === 'string' ? v : v.title).filter(Boolean),
               })),
             }, null, 2));
+          }
+          NODE
+
+      - name: Block merge readiness when production dependencies are vulnerable
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = '/tmp/npm-audit-production.json';
+          let report;
+          try {
+            report = JSON.parse(fs.readFileSync(path, 'utf8'));
+          } catch {
+            console.error('Production npm audit report is missing or invalid; failing closed.');
+            process.exit(1);
+          }
+          const counts = report.metadata?.vulnerabilities;
+          if (!counts || typeof counts.total !== 'number') {
+            console.error('Production npm audit did not return vulnerability metadata; failing closed.');
+            process.exit(1);
+          }
+          console.log(JSON.stringify({productionAudit: counts}, null, 2));
+          if (counts.total > 0) {
+            console.error('Production dependencies contain known vulnerabilities.');
+            process.exit(1);
           }
           NODE
 
