@@ -77,7 +77,11 @@ export async function PATCH(
   const editMode   = (raw.edit_mode   as string)   || 'single';
   const seriesId   = (raw.series_id   as string)   || null;
   const sessionNum = Number(raw.session_number ?? 1);
-  const studentIds = Array.isArray(raw.student_ids) ? (raw.student_ids as string[]) : [];
+  // Omitted student_ids means "leave assignments unchanged"; an explicit
+  // empty array means "clear all assignments".
+  const hasStudentIds = Object.prototype.hasOwnProperty.call(raw, 'student_ids')
+    && Array.isArray(raw.student_ids);
+  const studentIds = hasStudentIds ? (raw.student_ids as string[]) : [];
 
   // Strip PATCH control fields before Zod validates only meeting-data fields
   const meetingFields = Object.fromEntries(
@@ -123,7 +127,7 @@ export async function PATCH(
           return apiError(500, 'Seri jadwal hanya terperbarui sebagian. Periksa jadwal sebelum mengulangi perubahan.');
         }
 
-        if (studentIds.length > 0) {
+        if (hasStudentIds) {
           const { error: assignmentDeleteError } = await (db
             .from('meeting_students')
             .delete()
@@ -131,12 +135,14 @@ export async function PATCH(
           if (assignmentDeleteError) {
             return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat diperbarui.');
           }
-          const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
-          const { error: assignmentInsertError } = await (db
-            .from('meeting_students')
-            .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-          if (assignmentInsertError) {
-            return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat disimpan.');
+          if (studentIds.length > 0) {
+            const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
+            const { error: assignmentInsertError } = await (db
+              .from('meeting_students')
+              .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+            if (assignmentInsertError) {
+              return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat disimpan.');
+            }
           }
         }
       }
@@ -148,7 +154,7 @@ export async function PATCH(
 
       if (updateErr) return apiError(500, `Gagal memperbarui jadwal: ${updateErr.message}`);
 
-      if (studentIds.length > 0) {
+      if (hasStudentIds) {
         const { error: assignmentDeleteError } = await (db
           .from('meeting_students')
           .delete()
@@ -156,12 +162,14 @@ export async function PATCH(
         if (assignmentDeleteError) {
           return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.');
         }
-        const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
-        const { error: assignErr } = await (db
-          .from('meeting_students')
-          .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-        if (assignErr) {
-          return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal disimpan. Periksa penugasan sebelum mencoba lagi.');
+        if (studentIds.length > 0) {
+          const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
+          const { error: assignErr } = await (db
+            .from('meeting_students')
+            .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+          if (assignErr) {
+            return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal disimpan. Periksa penugasan sebelum mencoba lagi.');
+          }
         }
       }
     }
