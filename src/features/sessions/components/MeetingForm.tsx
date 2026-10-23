@@ -80,11 +80,8 @@ export function MeetingForm({
           {meeting.series_id && (
             <input type="hidden" name="series_id" value={meeting.series_id} />
           )}
-          <input
-            type="hidden"
-            name="session_number"
-            value={meeting.session_number}
-          />
+          <input type="hidden" name="session_number" value={meeting.session_number} />
+          <input type="hidden" name="module_id" value={meeting.module_id ?? ''} />
         </>
       )}
 
@@ -125,6 +122,25 @@ export function MeetingForm({
         placeholder="Kelas HTML Dasar — Sesi 1"
         error={err('title')}
       />
+
+      {/* Curriculum association: required for teacher-guided quiz unlocks */}
+      {mode === 'create' ? (
+        <Input
+          label="ID Modul Kurikulum"
+          name="module_id"
+          type="number"
+          min={1}
+          required
+          placeholder="Masukkan ID modul dari halaman Kurikulum"
+          error={err('module_id')}
+        />
+      ) : (
+        <div className="rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-2.5 text-sm">
+          <span className="font-medium">Modul kurikulum: </span>
+          {meeting?.module_id ? `ID ${meeting.module_id}` : 'Belum terhubung (jadwal lama)'}
+          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tidak dapat membuka kuis sampai dihubungkan ke modul secara eksplisit.</p>}
+        </div>
+      )}
 
       {/* Teacher picker */}
       <div className="flex flex-col gap-1.5">
