@@ -129,6 +129,16 @@ export async function submitTopicQuiz(
     return { success: false, error: 'Kamu belum terdaftar aktif pada modul topik ini.' };
   }
 
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === topicRow.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(studentId, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic_id);
+  if (!topicNode || topicNode.status === 'LOCKED') {
+    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  }
+
   const questions = extractTopicQuiz(topicRow.lesson_content);
   if (questions.length === 0) {
     return { success: false, error: 'Topik ini belum memiliki soal quiz.' };
