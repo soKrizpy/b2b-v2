@@ -262,11 +262,25 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Modul ini belum memiliki soal tryout.' };
   }
 
-  // Score
+  // Validate against the official question set before scoring. Without this,
+  // repeating one correctly answered question 20 times could earn a certificate.
+  const officialIds = assessment.questions.map((question) => question.id);
+  const submittedIds = answers.map((answer) => answer.question_id);
+  const uniqueSubmittedIds = new Set(submittedIds);
+  if (
+    assessment.questions.length !== 20 ||
+    uniqueSubmittedIds.size !== submittedIds.length ||
+    submittedIds.some((id) => !officialIds.includes(id)) ||
+    officialIds.some((id) => !uniqueSubmittedIds.has(id))
+  ) {
+    return { success: false, error: 'Daftar soal tidak valid. Muat ulang tryout dan coba lagi.' };
+  }
+
+  // Score each official question exactly once.
   let correct = 0;
-  for (const ans of answers) {
-    const q = assessment.questions.find((q) => q.id === ans.question_id);
-    if (q && ans.chosen_index === q.answer_index) correct++;
+  for (const question of assessment.questions) {
+    const answer = answers.find((item) => item.question_id === question.id);
+    if (answer && answer.chosen_index === question.answer_index) correct++;
   }
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
