@@ -23,7 +23,7 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Verify two modules with session 1 cannot unlock one another's quizzes.
 - Verify unlinked legacy meetings never unlock topics.
 - Verify attendance + completed status + non-empty report are all required.
-- Lesson modal currently displays up to 20 authored `learningPath` entries and falls back to a single summary when content is missing; it does **not yet guarantee 10–20 slides** for every topic. Treat minimum slide coverage as an open product requirement rather than claiming it is complete. Prefer adding/validating curriculum-authored slide content over silently duplicating filler text.
+- Quest Map lesson modal now filters quiz/challenge nodes and shows at most 20 authored instructional entries. The challenge link remains disabled until the topic has at least 10 authored entries; missing content is not fabricated. Admin/teacher must complete `learningPath` content for underfilled topics. Regression tests cover minimum/maximum counts and filtering.
 - GitHub Actions Quality checks run `39990748766` passed on commit `cb75acd4b98b793d6df54806c3a5089daf8363bf`: dependency installation, unit tests, `npx tsc --noEmit`, full/production npm audit reporting, production dependency vulnerability gate, and dry-run audit-fix preview all completed successfully. Any subsequent code commit requires a fresh run.
 - Run migration and full student/teacher/admin journey only against isolated staging Supabase.
 - Final assessment must remain blocked until all published module topics are complete and must use exactly 20 official distinct questions; certificate issuance requires a valid final assessment attempt.
@@ -32,4 +32,4 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 
 - Work stays on `fix/security-priority-audit`; PR #1 remains unmerged.
 - Migration 0018 and earlier proposed migrations are not applied to production.
-- CI passed on the implementation head above. Vercel deployment is still blocked by the account's daily deployment limit, so no deployment validation is claimed. No staging E2E is claimed without a dedicated staging database.
+- CI passed on implementation commit `cb75acd4b98b793d6df54806c3a5089daf8363bf`; the new slide-gating code/tests are later commits and have **not yet been validated by a fresh CI run**. Vercel deployment is still blocked by the account's daily deployment limit, so no deployment validation is claimed. No staging E2E is claimed without a dedicated staging database.
