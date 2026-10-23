@@ -308,6 +308,7 @@ export interface TopicQuizAttemptRow {
   score: number; // 0–100
   answers: QuizAnswer[]; // JSONB
   submitted_at: string;
+  reward_claimed_at: string | null;
 }
 
 // ── Phase 5: Certificates ─────────────────────────────────────────────────────
