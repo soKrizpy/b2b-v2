@@ -394,76 +394,54 @@ export async function awardQuizReward(
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
 
   const topicId = Number(formData.get('topic_id')) || 0;
-  if (!topicId) return { success: false, error: 'topic_id diperlukan.' };
+  if (!Number.isSafeInteger(topicId) || topicId <= 0) {
+    return { success: false, error: 'topic_id tidak valid.' };
+  }
 
   const db = createSupabaseAdminClient();
 
-  // Never trust a score sent by the browser. Claim one persisted, unclaimed attempt
-  // atomically so replaying this action cannot farm XP or coins.
-  const { data: attempt, error: attemptError } = await (db
-    .from('topic_quiz_attempts')
-    .select('id, score')
-    .eq('student_id', auth.user.id)
-    .eq('topic_id', topicId)
-    .is('reward_claimed_at', null)
-    .order('attempt_num', { ascending: true })
-    .limit(1)
-    .maybeSingle() as unknown as Promise<{
-      data: { id: number; score: number } | null;
+  // Claim the persisted attempt and update XP/coins in one database transaction.
+  // This prevents concurrent/replayed requests from double-awarding rewards and
+  // avoids leaving an attempt claimed if the balance update fails.
+  const rewardDb = db as unknown as {
+    rpc: (
+      fn: string,
+      args: { p_student_id: string; p_topic_id: number }
+    ) => Promise<{
+      data: Array<{
+        attempt_id: number;
+        score: number;
+        xp_earned: number;
+        coins_earned: number;
+        new_xp: number;
+        new_coins: number;
+      }> | null;
       error: { message: string } | null;
-    }>);
+    }>;
+  };
 
-  if (attemptError || !attempt) {
+  const { data, error } = await rewardDb.rpc('claim_topic_quiz_reward', {
+    p_student_id: auth.user.id,
+    p_topic_id: topicId,
+  });
+
+  if (error) {
+    return { success: false, error: 'Reward quiz gagal diproses. Coba lagi nanti.' };
+  }
+
+  const claimed = data?.[0];
+  if (!claimed) {
     return { success: false, error: 'Tidak ada reward quiz yang dapat diklaim.' };
   }
 
-  const { data: claimedAttempt, error: claimError } = await (db
-    .from('topic_quiz_attempts')
-    .update({ reward_claimed_at: new Date().toISOString() } as never)
-    .eq('id', attempt.id)
-    .eq('student_id', auth.user.id)
-    .is('reward_claimed_at', null)
-    .select('id')
-    .maybeSingle() as unknown as Promise<{
-      data: { id: number } | null;
-      error: { message: string } | null;
-    }>);
-
-  if (claimError || !claimedAttempt) {
-    return { success: false, error: 'Reward untuk percobaan ini sudah diklaim.' };
-  }
-
-  const score = attempt.score;
-  const reward =
-    score === 100 ? QUIZ_REWARDS.perfect :
-    score >= 80   ? QUIZ_REWARDS.good :
-    score >= 70   ? QUIZ_REWARDS.pass :
-    QUIZ_REWARDS.attempted;
-
-  // Fetch current stats
-  const { data: student } = await (db
-    .from('students')
-    .select('total_xp, coins')
-    .eq('id', auth.user.id)
-    .maybeSingle() as unknown as Promise<{
-      data: { total_xp: number; coins: number } | null;
-      error: unknown;
-    }>);
-
-  if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
-
-  const newXp    = (student.total_xp ?? 0) + reward.xp;
-  const newCoins = (student.coins    ?? 0) + reward.coins;
-
-  const { error: upErr } = await (db
-    .from('students')
-    .update({ total_xp: newXp, coins: newCoins } as never)
-    .eq('id', auth.user.id) as unknown as Promise<{ error: { message: string } | null }>);
-
-  if (upErr) return { success: false, error: upErr.message };
-
   revalidatePath('/student/dashboard', 'layout');
-  revalidatePath('/student/lessons',   'layout');
+  revalidatePath('/student/lessons', 'layout');
 
-  return { success: true, xpEarned: reward.xp, coinsEarned: reward.coins, newXp, newCoins };
+  return {
+    success: true,
+    xpEarned: claimed.xp_earned,
+    coinsEarned: claimed.coins_earned,
+    newXp: claimed.new_xp,
+    newCoins: claimed.new_coins,
+  };
 }
