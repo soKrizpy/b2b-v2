@@ -378,13 +378,6 @@ export type RewardResult =
   | { success: true;  xpEarned: number; coinsEarned: number; newXp: number; newCoins: number }
   | { success: false; error: string };
 
-const QUIZ_REWARDS = {
-  perfect:   { xp: 50, coins: 20 },  // score = 100
-  good:      { xp: 30, coins: 10 },  // score 80–99
-  pass:      { xp: 15, coins:  5 },  // score 70–79
-  attempted: { xp:  5, coins:  2 },  // score < 70
-} as const;
-
 export async function awardQuizReward(
   _prev: RewardResult | null,
   formData: FormData
