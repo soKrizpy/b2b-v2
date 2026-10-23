@@ -24,7 +24,7 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Verify unlinked legacy meetings never unlock topics.
 - Verify attendance + completed status + non-empty report are all required.
 - Quest Map lesson modal counts only valid authored instructional nodes (`lesson`/`theory`, `code`, `practice`) with a non-empty title and substantive content; practice nodes also require options and a matching correct answer. Quiz/challenge markers, unknown types, malformed entries, and blank content do not count. The modal shows at most 20 valid slides. Challenge navigation and direct topic URLs stay blocked until at least 10 valid slides exist. Publishing is rejected unless the topic has 10–20 valid slides, and JSON imports leave underfilled topics in draft rather than publishing them. No filler slides are fabricated. Regression tests cover empty, 9, 10, 20, over-20, non-instructional/malformed entries, code slides, practice validity, and publish gating.
-- GitHub Actions Quality checks run `39993334426` passed on latest reviewed commit `dcf7579443be70c1e616e2b25b13c3fc84e816a0`: dependency installation, unit tests, TypeScript type-check, full/production dependency audit, production dependency vulnerability gate, and dry-run audit-fix preview all completed successfully. Vercel deployment checks still fail due to the account's daily deployment/build-rate limit; that is separate from the passing GitHub Actions job.
+- GitHub Actions Quality checks run `39993613254` passed on commit `f7af5a8fd746207e307cc4d83f0f8bbc562c2b54`: dependency installation, unit tests, TypeScript type-check, full/production dependency audit, production dependency vulnerability gate, and dry-run audit-fix preview all completed successfully. Vercel status checks on that exact PR head reported the account's daily deployment/build-rate limit. A READY preview deployment was found for older commit `f8014aa8f90c2a619e52c318011a2937ee1752eb`, not the current PR head.
 - Run migration and full student/teacher/admin journey only against isolated staging Supabase.
 - Final assessment must remain blocked until all published module topics are complete and must use exactly 20 official distinct questions; certificate issuance requires a valid final assessment attempt.
 
@@ -32,4 +32,13 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 
 - Work stays on `fix/security-priority-audit`; PR #1 remains unmerged.
 - Migration 0018 and earlier proposed migrations are not applied to production.
-- An earlier CI run was cancelled/failed while the slide coverage tests were being added; the subsequent full Quality checks run `39993334426` passed on the current branch head at the time of this audit. The direct topic route now uses the shared slide validator and redirects to Quest Map when fewer than 10 valid slides exist. No staging E2E is claimed without a dedicated staging database. PR #1 remains open as draft, `main` is unchanged, and production migrations remain unapplied.
+- An earlier CI run was cancelled/failed while the slide coverage tests were being added; the subsequent full Quality checks run `39993334426` passed on the current branch head at the time of this audit. The Quest Map modal and direct topic route use the shared slide validator; the direct route redirects to Quest Map when fewer than 10 valid slides exist. No staging E2E is claimed without a dedicated staging database. PR #1 remains open as draft, `main` is unchanged, and production migrations remain unapplied.
+
+
+## Staging isolation audit (2026-10-24)
+
+- Vercel project b2b-v2 has no configured custom environments.
+- The Vercel Preview and Production targets share the same NEXT_PUBLIC_SUPABASE_ANON_KEY; its JWT project reference identifies the active Supabase project bits2bytes (enfqoofluceqrlcjemfu). Treat Vercel Preview as NOT isolated from that database unless the deployment configuration is changed and verified.
+- The Preview SUPABASE_SERVICE_ROLE_KEY entry is empty. Do not compensate by applying migrations or running E2E tests against the shared Preview/Production database.
+- Supabase also lists active project B2B and inactive project Bites2Bytes-Pro, but their intended role as staging is not established. Do not assume either is a safe staging target without confirming data ownership, credentials, and environment wiring.
+- Next safe step: explicitly designate/reactivate a non-production Supabase project, configure Vercel Preview to use only that project's URL/anon key and a properly secured server-only service role key if required, then verify environment targets without printing secret values. Only after isolation is confirmed should migrations 0014–0018 and E2E acceptance tests be run there.
