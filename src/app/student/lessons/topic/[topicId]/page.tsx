@@ -12,6 +12,7 @@ import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
+import { getInstructionalSlides, hasRequiredLessonSlideCount } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Topik — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -63,6 +64,12 @@ export default async function TopicPage({ params }: Props) {
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === id);
   if (!topicNode || topicNode.status === 'LOCKED') notFound();
 
+  // The lesson modal is the intended entry point, but direct URLs must not bypass
+  // the minimum authored lesson coverage required before challenge work.
+  const lessonContent = topic.lesson_content as Record<string, unknown> | null;
+  const lessonSlides = getInstructionalSlides(lessonContent?.learningPath);
+  if (!hasRequiredLessonSlideCount(lessonSlides)) redirect('/student/lessons');
+
   const [challenges, quizState] = await Promise.all([
     getChallengesWithSubmissions(id, auth.user.id),
     getTopicQuizState(id, auth.user.id),
@@ -73,7 +80,7 @@ export default async function TopicPage({ params }: Props) {
     ? Math.round((completedCount / challenges.length) * 100) : 0;
 
   // Extract learningPath nodes from lesson_content JSONB
-  const lc = topic.lesson_content as Record<string, unknown> | null;
+  const lc = lessonContent;
   const learningPath: LearningNode[] = Array.isArray(lc?.learningPath)
     ? (lc!.learningPath as LearningNode[])
     : [];
