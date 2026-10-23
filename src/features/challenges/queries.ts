@@ -108,7 +108,10 @@ export async function getPendingSubmissions(): Promise<SubmissionWithDetails[]> 
 
   if (subErr) { console.error('[getPendingSubmissions]', subErr.message); return []; }
 
-  const rawSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const allSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const rawSubs = assignedStudentIds
+    ? allSubs.filter((sub) => assignedStudentIds!.has(sub.student_id))
+    : allSubs;
   if (!rawSubs.length) return [];
 
   // Enrich with challenge and student data in parallel
@@ -173,8 +176,24 @@ export async function getSubmissionById(submissionId: number): Promise<Submissio
 }
 
 /** All submissions for teacher view — all statuses, all students. */
-export async function getAllSubmissions(): Promise<SubmissionWithDetails[]> {
+export async function getAllSubmissions(teacherId?: string): Promise<SubmissionWithDetails[]> {
   const db = createSupabaseAdminClient();
+
+  // Teacher view is limited to students explicitly assigned to that teacher.
+  // Admin callers may omit teacherId to access the complete review queue.
+  let assignedStudentIds: Set<string> | null = null;
+  if (teacherId) {
+    const { data: assignments, error: assignmentError } = await db
+      .from('teacher_students')
+      .select('student_id')
+      .eq('teacher_id', teacherId);
+    if (assignmentError) {
+      console.error('[getAllSubmissions] assignment lookup failed', assignmentError.message);
+      return [];
+    }
+    assignedStudentIds = new Set((assignments ?? []).map((row) => row.student_id));
+    if (assignedStudentIds.size === 0) return [];
+  }
 
   const { data: subs, error: subErr } = await db
     .from('challenge_submissions')
