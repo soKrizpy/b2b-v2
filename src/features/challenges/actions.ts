@@ -204,6 +204,24 @@ export async function reviewSubmission(
   const { submission_id, status, review_note } = parsed.data;
 
   const db = createSupabaseAdminClient();
+  const { data: targetSubmission, error: targetError } = await (db
+    .from('challenge_submissions')
+    .select('id, student_id')
+    .eq('id', submission_id)
+    .maybeSingle() as unknown as Promise<{ data: { id: number; student_id: string } | null; error: { message: string } | null }>);
+  if (targetError || !targetSubmission) {
+    return { success: false, error: 'Submission tidak ditemukan.' };
+  }
+  const { data: assignment } = await (db
+    .from('teacher_students')
+    .select('student_id')
+    .eq('teacher_id', auth.user.id)
+    .eq('student_id', targetSubmission.student_id)
+    .maybeSingle() as unknown as Promise<{ data: { student_id: string } | null; error: unknown }>);
+  if (!assignment) {
+    return { success: false, error: 'Kamu hanya dapat meninjau submission siswa yang ditugaskan kepadamu.' };
+  }
+
   const { error } = await (db
     .from('challenge_submissions')
     .update({
@@ -270,6 +288,17 @@ export async function bulkApproveSubmissions(
   if (fetchErr) return { success: false, error: fetchErr.message };
   if (!subs || subs.length === 0) {
     return { success: false, error: 'Submission tidak ditemukan.' };
+  }
+
+  const assignedStudentIds = new Set<string>();
+  const { data: assignments, error: assignmentError } = await (db
+    .from('teacher_students')
+    .select('student_id')
+    .eq('teacher_id', auth.user.id) as unknown as Promise<{ data: Array<{ student_id: string }> | null; error: { message: string } | null }>);
+  if (assignmentError) return { success: false, error: 'Gagal memverifikasi penugasan siswa.' };
+  for (const assignment of assignments ?? []) assignedStudentIds.add(assignment.student_id);
+  if (subs.some((submission) => !assignedStudentIds.has(submission.student_id))) {
+    return { success: false, error: 'Pilihan berisi submission siswa yang tidak ditugaskan kepadamu. Tidak ada perubahan yang dilakukan.' };
   }
 
   const validIds = subs.map((s) => s.id);
