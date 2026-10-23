@@ -37,4 +37,42 @@ export const ai = new Proxy({} as GoogleGenAI, {
   },
 });
 
-export const GEMINI_FLASH_MODEL = 'gemini-3.8-flash';
+export const PRIMARY_GEMINI_MODEL = 'gemini-flash-latest';
+export const FALLBACK_GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.1-flash-lite'] as const;
+export const FALLBACK_GEMINI_MODEL = 'gemini-3.1-flash-lite';
+export const GEMINI_FLASH_MODEL = PRIMARY_GEMINI_MODEL;
+
+export async function generateContentWithFallback(params: {
+  contents: string | Record<string, unknown> | Array<unknown>;
+  config?: Record<string, unknown>;
+  preferredModel?: string;
+}): Promise<string> {
+  const client = getAiClient();
+  const candidateModels = Array.from(
+    new Set([
+      params.preferredModel || PRIMARY_GEMINI_MODEL,
+      ...FALLBACK_GEMINI_MODELS,
+    ])
+  );
+
+  let lastError: unknown = null;
+  for (const model of candidateModels) {
+    try {
+      const response = await client.models.generateContent({
+        model,
+        contents: params.contents as never,
+        config: params.config as never,
+      });
+      const text = (response.text ?? '').trim();
+      if (text) {
+        return text;
+      }
+    } catch (err: unknown) {
+      console.warn(`[Gemini] Model ${model} encountered an issue, trying fallback if available:`, (err as { status?: number; message?: string })?.message || err);
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Gagal memproses permintaan AI pada semua model.');
+}
+

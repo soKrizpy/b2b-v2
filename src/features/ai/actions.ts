@@ -6,7 +6,13 @@
 //   3. draftProgressReport  — teacher/admin: draft session progress report
 //   4. chatWithTutor        — student: topic-aware AI tutor message
 
-import { ai, GEMINI_FLASH_MODEL, hasGeminiApiKey } from '@/features/ai/gemini';
+import {
+  ai,
+  GEMINI_FLASH_MODEL,
+  FALLBACK_GEMINI_MODELS,
+  hasGeminiApiKey,
+  generateContentWithFallback,
+} from '@/features/ai/gemini';
 import { requireAdmin, getAuthUser } from '@/lib/auth';
 
 export type AiResult<T = string> =
@@ -136,15 +142,13 @@ Return ONLY the JSON object, nothing else.
 `.trim();
 
   try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_FLASH_MODEL,
+    const text = await generateContentWithFallback({
       contents: prompt,
       config: {
         temperature: 0.7,
         topP: 0.9,
       },
     });
-    const text = (response.text ?? '').trim();
 
     // Strip any markdown code block wrapping if present
     const clean = text
@@ -158,7 +162,7 @@ Return ONLY the JSON object, nothing else.
     return { success: true, data: clean };
   } catch (err) {
     console.error('[generateCurriculum]', err);
-    return { success: false, error: 'Gagal menghasilkan konten. Coba lagi.' };
+    return { success: false, error: 'Gagal menghasilkan konten kurikulum. Coba lagi.' };
   }
 }
 
@@ -205,15 +209,14 @@ Tolong berikan penjelasan yang lebih panjang dan mudah dipahami dalam Bahasa Ind
 `.trim();
 
   try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_FLASH_MODEL,
+    const text = await generateContentWithFallback({
       contents: prompt,
       config: {
         temperature: 0.9,
         topP: 0.95,
       },
     });
-    return { success: true, data: (response.text ?? '').trim() };
+    return { success: true, data: text };
   } catch (err) {
     console.error('[explainQuizAnswer]', err);
     return { success: false, error: 'Gagal mendapatkan penjelasan.' };
@@ -261,15 +264,14 @@ Tulis laporan saja, tanpa judul atau header tambahan.
 `.trim();
 
   try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_FLASH_MODEL,
+    const text = await generateContentWithFallback({
       contents: prompt,
       config: {
         temperature: 0.9,
         topP: 0.95,
       },
     });
-    return { success: true, data: (response.text ?? '').trim() };
+    return { success: true, data: text };
   } catch (err) {
     console.error('[draftProgressReport]', err);
     return { success: false, error: 'Gagal membuat draf laporan.' };
@@ -327,28 +329,44 @@ Aturan Respon:
 - Berikan saran yang actionable dan mudah diterapkan dalam sesi bimbingan belajar.
 `.trim();
 
-  try {
-    const chat = ai.chats.create({
-      model: GEMINI_FLASH_MODEL,
-      config: {
-        systemInstruction: systemPrompt,
-        temperature: 0.8,
-        topP: 0.95,
-      },
-      history: [
-        { role: 'user',  parts: [{ text: 'Halo Byte Copilot!' }] },
-        { role: 'model', parts: [{ text: `Halo! Saya Byte Copilot, asisten AI khusus ${roleLabel} Bits2Bytes. Siap membantu persiapan materi belajar, bank soal kuis, maupun saran pedagogis. Ada yang bisa saya bantu hari ini? 🎓✨` }] },
-        ...history.map((m) => ({
-          role:  m.role as 'user' | 'model',
-          parts: [{ text: m.content }],
-        })),
-      ],
-    });
+  const chatConfig = {
+    systemInstruction: systemPrompt,
+    temperature: 0.8,
+    topP: 0.95,
+  };
+  const chatHistory = [
+    { role: 'user',  parts: [{ text: 'Halo Byte Copilot!' }] },
+    { role: 'model', parts: [{ text: `Halo! Saya Byte Copilot, asisten AI khusus ${roleLabel} Bits2Bytes. Siap membantu persiapan materi belajar, bank soal kuis, maupun saran pedagogis. Ada yang bisa saya bantu hari ini? 🎓✨` }] },
+    ...history.map((m) => ({
+      role:  m.role as 'user' | 'model',
+      parts: [{ text: m.content }],
+    })),
+  ];
 
-    const result = await chat.sendMessage({ message: userMessage });
-    return { success: true, data: (result.text ?? '').trim() };
-  } catch (err) {
-    console.error('[chatWithTutor]', err);
-    return { success: false, error: 'Byte sedang tidak tersedia. Coba lagi sebentar.' };
+  const candidateModels = Array.from(
+    new Set([GEMINI_FLASH_MODEL, ...FALLBACK_GEMINI_MODELS])
+  );
+
+  let lastError: unknown = null;
+  for (const model of candidateModels) {
+    try {
+      const chat = ai.chats.create({
+        model,
+        config: chatConfig,
+        history: chatHistory,
+      });
+
+      const result = await chat.sendMessage({ message: userMessage });
+      const text = (result.text ?? '').trim();
+      if (text) {
+        return { success: true, data: text };
+      }
+    } catch (err: unknown) {
+      console.warn(`[chatWithTutor] Model ${model} failed, trying next candidate:`, (err as { status?: number; message?: string })?.message || err);
+      lastError = err;
+    }
   }
+
+  console.error('[chatWithTutor] All candidate models failed:', lastError);
+  return { success: false, error: 'Byte sedang tidak tersedia. Coba lagi sebentar.' };
 }
