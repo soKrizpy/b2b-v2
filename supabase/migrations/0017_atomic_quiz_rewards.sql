@@ -2,7 +2,8 @@
 -- Only the trusted server-side service_role may execute this function.
 CREATE OR REPLACE FUNCTION public.claim_topic_quiz_reward(
   p_student_id uuid,
-  p_topic_id integer
+  p_topic_id integer,
+  p_attempt_num integer
 )
 RETURNS TABLE (
   attempt_id integer,
@@ -28,6 +29,7 @@ BEGIN
     FROM public.topic_quiz_attempts
    WHERE student_id = p_student_id
      AND topic_id = p_topic_id
+     AND attempt_num = p_attempt_num
      AND reward_claimed_at IS NULL
    ORDER BY attempt_num ASC
    LIMIT 1
@@ -74,7 +76,7 @@ BEGIN
 END;
 $$;
 
-REVOKE ALL ON FUNCTION public.claim_topic_quiz_reward(uuid, integer)
+REVOKE ALL ON FUNCTION public.claim_topic_quiz_reward(uuid, integer, integer)
   FROM PUBLIC, anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.claim_topic_quiz_reward(uuid, integer)
+GRANT EXECUTE ON FUNCTION public.claim_topic_quiz_reward(uuid, integer, integer)
   TO service_role;
