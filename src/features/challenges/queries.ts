@@ -108,10 +108,7 @@ export async function getPendingSubmissions(): Promise<SubmissionWithDetails[]> 
 
   if (subErr) { console.error('[getPendingSubmissions]', subErr.message); return []; }
 
-  const allSubs = (subs ?? []) as unknown as SubmissionRow[];
-  const rawSubs = assignedStudentIds
-    ? allSubs.filter((sub) => assignedStudentIds!.has(sub.student_id))
-    : allSubs;
+  const rawSubs = (subs ?? []) as unknown as SubmissionRow[];
   if (!rawSubs.length) return [];
 
   // Enrich with challenge and student data in parallel
