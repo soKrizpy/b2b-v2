@@ -185,6 +185,46 @@ export async function submitChallenge(
 
   const db = createSupabaseAdminClient();
 
+  // Server-side assignment check: a student cannot submit against an arbitrary
+  // challenge ID from a module they are not actively enrolled in.
+  const { data: challenge, error: challengeError } = await (db
+    .from('challenges')
+    .select('id, topic_id')
+    .eq('id', challenge_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number; topic_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (challengeError || !challenge) {
+    return { success: false, error: 'Challenge tidak ditemukan.' };
+  }
+
+  const { data: topic, error: topicError } = await (db
+    .from('topics')
+    .select('id, module_id, status')
+    .eq('id', challenge.topic_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number; module_id: number; status: string } | null;
+      error: { message: string } | null;
+    }>);
+  if (topicError || !topic || topic.status !== 'published') {
+    return { success: false, error: 'Topik challenge tidak tersedia.' };
+  }
+
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', topic.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul challenge ini.' };
+  }
+
   // Check whether an active (non-approved) submission already exists
   const { data: existing } = await (db
     .from('challenge_submissions')
