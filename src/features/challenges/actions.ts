@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { requireAdmin, requireRole, getAuthUser } from '@/lib/auth';
 import { awardRewardEvent } from '@/features/pet/lib/rewardActions';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 
 export type ChallengeActionResult =
   | { success: true; id?: number; message: string }
@@ -223,6 +225,18 @@ export async function submitChallenge(
     }>);
   if (enrollmentError || !enrollment) {
     return { success: false, error: 'Kamu belum terdaftar aktif pada modul challenge ini.' };
+  }
+
+  // Enforce map progression server-side so a guessed challenge ID cannot
+  // bypass the locked state of a future topic.
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(studentId, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic.id);
+  if (!topicNode || topicNode.status === 'LOCKED') {
+    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
   }
 
   // Check whether an active (non-approved) submission already exists
