@@ -115,12 +115,29 @@ export async function PATCH(
           sessionPatch.meeting_date = d.toISOString();
         }
 
-        await (db.from('meetings').update(sessionPatch as never).eq('id', m.id) as unknown as Promise<unknown>);
+        const { error: sessionUpdateError } = await (db
+          .from('meetings')
+          .update(sessionPatch as never)
+          .eq('id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+        if (sessionUpdateError) {
+          return apiError(500, 'Seri jadwal hanya terperbarui sebagian. Periksa jadwal sebelum mengulangi perubahan.');
+        }
 
         if (studentIds.length > 0) {
-          await (db.from('meeting_students').delete().eq('meeting_id', m.id) as unknown as Promise<unknown>);
+          const { error: assignmentDeleteError } = await (db
+            .from('meeting_students')
+            .delete()
+            .eq('meeting_id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+          if (assignmentDeleteError) {
+            return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat diperbarui.');
+          }
           const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
-          await (db.from('meeting_students').insert(rows as never) as unknown as Promise<unknown>);
+          const { error: assignmentInsertError } = await (db
+            .from('meeting_students')
+            .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+          if (assignmentInsertError) {
+            return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat disimpan.');
+          }
         }
       }
     } else {
@@ -132,12 +149,20 @@ export async function PATCH(
       if (updateErr) return apiError(500, `Gagal memperbarui jadwal: ${updateErr.message}`);
 
       if (studentIds.length > 0) {
-        await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
+        const { error: assignmentDeleteError } = await (db
+          .from('meeting_students')
+          .delete()
+          .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentDeleteError) {
+          return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.');
+        }
         const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
         const { error: assignErr } = await (db
           .from('meeting_students')
           .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-        if (assignErr) console.error('[PATCH /api/sessions/:id] assign:', assignErr.message);
+        if (assignErr) {
+          return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal disimpan. Periksa penugasan sebelum mencoba lagi.');
+        }
       }
     }
 
