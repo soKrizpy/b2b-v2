@@ -5,6 +5,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
 import type { TopicQuizAttemptRow, QuizAnswer } from '@/types/database';
+import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
 
 // ── Per-topic quiz state for a student ────────────────────────────────────────
 
@@ -51,12 +52,12 @@ export async function getTopicQuizState(
       }>,
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined, meetings!inner(is_completed, session_number)')
+      .select('meeting_id, has_joined, meetings!inner(module_id, is_completed, session_number, progress_report)')
       .eq('student_id', studentId) as unknown as Promise<{
         data: Array<{
           meeting_id: number;
           has_joined: boolean;
-          meetings: { is_completed: boolean; session_number: number | null };
+          meetings: { module_id: number | null; is_completed: boolean; session_number: number | null; progress_report: string | null };
         }>;
         error: unknown;
       }>,
@@ -71,7 +72,6 @@ export async function getTopicQuizState(
     ? Math.max(...attempts.map((a) => a.score))
     : 0;
 
-  const hasAssignedMeetings = (joinRows ?? []).length > 0;
   const orderedTopics = await db
     .from('topics')
     .select('id, order_index')
@@ -84,10 +84,14 @@ export async function getTopicQuizState(
   // order_index directly: imported curricula may number topics from zero, which
   // would otherwise map the first two topics to the same session.
   const sessionNumber = topicIndex + 1;
-  const hasCompletedSession = sessionNumber > 0 && (joinRows ?? []).some(
-    (r) => r.has_joined &&
-      r.meetings?.is_completed === true &&
-      r.meetings?.session_number === sessionNumber
+  const hasCompletedSession = sessionNumber > 0 && topicRes.data != null && (joinRows ?? []).some(
+    (r) => isTeacherReportSubmittedForTopic({
+      module_id: r.meetings?.module_id ?? null,
+      session_number: r.meetings?.session_number ?? null,
+      has_joined: r.has_joined,
+      is_completed: r.meetings?.is_completed === true,
+      progress_report: r.meetings?.progress_report ?? null,
+    }, topicRes.data.module_id, sessionNumber)
   );
 
   return {
@@ -96,7 +100,7 @@ export async function getTopicQuizState(
     attemptsUsed,
     bestScore,
     isLocked:    attemptsUsed >= 2,
-    isUnlocked:  hasCompletedSession || attemptsUsed > 0 || !hasAssignedMeetings, // self-paced mode when no sessions are assigned
+    isUnlocked:  hasCompletedSession || attemptsUsed > 0, // guided mode: no implicit unlock for unlinked/absent meetings
   };
 }
 
