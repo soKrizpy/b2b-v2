@@ -55,7 +55,7 @@ describe('instructional lesson slides', () => {
       { type: 'challenge', title: 'Challenge', content: 'Not a lesson slide' },
       { type: 'surprise', title: 'Unknown', content: 'Unsupported type' },
       { type: 'theory', title: 'Title only', content: '   ' },
-      { type: 'theory', title: 'Missing title', content: 'Has body but no title' },
+      { type: 'theory', title: '   ', content: 'Has body but blank title' },
       null,
       [],
     ];
