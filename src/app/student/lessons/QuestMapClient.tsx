@@ -262,8 +262,9 @@ function LocationPopoverCard({
       : [];
     const slides = rawPath
       .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object')
+      .filter((item) => item.type !== 'quiz' && item.type !== 'challenge')
       .slice(0, 20);
-    const fallbackBody = node.topic.description?.trim() || description;
+    const fallbackBody = node.topic.description?.trim() || loc.lore;
     const slide = slides[slideIndex];
     const slideTitle = typeof slide?.title === 'string' && slide.title.trim()
       ? slide.title
