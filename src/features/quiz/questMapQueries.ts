@@ -5,6 +5,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractFinalAssessment } from '@/features/curriculum/validation';
 import type { TopicWithChallengeCount, ModuleWithTopics } from '@/features/curriculum/queries';
+import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
 
 // ── Node status ───────────────────────────────────────────────────────────────
 
@@ -60,14 +61,16 @@ export async function getQuestMapData(
       : Promise.resolve({ data: [], error: null }),
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, session_number, is_completed, progress_report, meeting_date)')
-      .eq('student_id', studentId) as unknown as Promise<{
+      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, module_id, session_number, is_completed, progress_report, meeting_date)')
+      .eq('student_id', studentId)
+      .eq('meetings.module_id', mod.id) as unknown as Promise<{
         data: Array<{
           meeting_id: number;
           has_joined: boolean;
           attendance_status: string | null;
           meetings: {
             id: number;
+            module_id: number | null;
             session_number: number | null;
             is_completed: boolean;
             progress_report: string | null;
@@ -90,7 +93,6 @@ export async function getQuestMapData(
 
   // Set of session numbers where teacher has completed the session and submitted report
   const meetingRows = joinRowsRes.data ?? [];
-  const hasAssignedMeetings = meetingRows.length > 0;
   const reportedSessionNumbers = new Set<number>();
   const sessionDatesMap = new Map<number, string>();
   for (const r of meetingRows) {
@@ -101,7 +103,13 @@ export async function getQuestMapData(
       }
       // A teacher report unlocks this topic only for a student assigned to and
       // present in that specific completed session—not by counting other sessions.
-      if (r.has_joined && r.meetings?.is_completed) {
+      if (isTeacherReportSubmittedForTopic({
+        module_id: r.meetings?.module_id ?? null,
+        session_number: sNum,
+        has_joined: r.has_joined,
+        is_completed: r.meetings?.is_completed === true,
+        progress_report: r.meetings?.progress_report ?? null,
+      }, mod.id, sNum)) {
         reportedSessionNumbers.add(sNum);
       }
     }
@@ -137,12 +145,8 @@ export async function getQuestMapData(
     // order_index because imported curriculum JSON can use zero-based numbering.
     const sessionNumber = idx + 1;
 
-    // A session report is submitted when the student joined the assigned,
-    // completed meeting matching this topic's 1-based session number. When no
-    // meetings are assigned to the student, retain the existing self-paced mode.
-    const isSessionReportSubmitted = hasAssignedMeetings
-      ? reportedSessionNumbers.has(sessionNumber)
-      : true;
+    // Guided mode only: unlinked legacy meetings and unrelated modules never unlock topics.
+    const isSessionReportSubmitted = reportedSessionNumbers.has(sessionNumber);
 
     // Quiz is unlocked once teacher has submitted report
     const quizUnlocked = isSessionReportSubmitted;
