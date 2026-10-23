@@ -64,18 +64,24 @@ async function isTeacherAssignedToStudent(
   if (directError) return false;
   if (directAssignment) return true;
 
-  const { data: meetings, error: meetingError } = await db
+  const { data: meetings, error: meetingError } = await (db
     .from('meetings')
     .select('id')
-    .eq('teacher_id', teacherId);
+    .eq('teacher_id', teacherId) as unknown as Promise<{
+      data: Array<{ id: number }> | null;
+      error: { message: string } | null;
+    }>);
   if (meetingError || !meetings?.length) return false;
 
-  const { data: meetingAssignment, error: meetingStudentError } = await db
+  const { data: meetingAssignment, error: meetingStudentError } = await (db
     .from('meeting_students')
     .select('student_id')
     .eq('student_id', studentId)
     .in('meeting_id', meetings.map((meeting) => meeting.id))
-    .limit(1);
+    .limit(1) as unknown as Promise<{
+      data: Array<{ student_id: string }> | null;
+      error: { message: string } | null;
+    }>);
   return !meetingStudentError && Boolean(meetingAssignment?.length);
 }
 
