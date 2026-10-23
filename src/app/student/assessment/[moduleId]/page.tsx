@@ -3,7 +3,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { getSessionUser } from '@/lib/auth';
+import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractFinalAssessment } from '@/features/curriculum/validation';
 import { getCertificateByModuleAndStudent, TIER_CONFIG } from '@/features/certificates/queries';
@@ -19,10 +19,23 @@ export default async function AssessmentPage({ params }: Props) {
   const id = Number(moduleId);
   if (!id) notFound();
 
-  const user = await getSessionUser();
-  if (!user) redirect('/login');
+  const auth = await getAuthUser();
+  if (!auth.ok) redirect('/login');
+  if (auth.role !== 'student') redirect('/');
 
   const db = createSupabaseAdminClient();
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', auth.user.id)
+    .eq('module_id', id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) notFound();
+
   const [{ data: moduleRow }, existingCert] = await Promise.all([
     db
       .from('modules')
@@ -32,7 +45,7 @@ export default async function AssessmentPage({ params }: Props) {
         data: { id: number; title: string | null; description: string | null } | null;
         error: unknown;
       }>,
-    getCertificateByModuleAndStudent(user.id, id),
+    getCertificateByModuleAndStudent(auth.user.id, id),
   ]);
 
   if (!moduleRow) notFound();
