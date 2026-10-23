@@ -58,6 +58,7 @@ export async function POST(request: Request): Promise<Response> {
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate  = new Date(meeting_date);
   const inserted: number[] = [];
+  let failureReason: string | null = null;
 
   for (let i = 0; i < session_count; i++) {
     const sessionDate = new Date(baseDate);
@@ -79,8 +80,11 @@ export async function POST(request: Request): Promise<Response> {
 
     if (insertErr || !meeting) {
       console.error('[POST /api/sessions] insert error:', insertErr?.message);
-      continue;
+      failureReason = 'Gagal menyimpan salah satu sesi.';
+      break;
     }
+
+    // Track immediately so failed student assignment can roll back this series.
 
     if (student_ids.length > 0) {
       const rows = student_ids.map((sid: string) => ({
@@ -90,14 +94,38 @@ export async function POST(request: Request): Promise<Response> {
       const { error: assignErr } = await (db
         .from('meeting_students')
         .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-      if (assignErr) console.error('[POST /api/sessions] assign error:', assignErr.message);
+      if (assignErr) {
+        console.error('[POST /api/sessions] assign error:', assignErr.message);
+        inserted.push(meeting.id);
+        failureReason = 'Gagal menugaskan siswa ke salah satu sesi.';
+        break;
+      }
     }
 
     inserted.push(meeting.id);
   }
 
-  if (inserted.length === 0) {
-    return apiInternalError('No meeting rows inserted');
+  if (failureReason || inserted.length !== session_count) {
+    let rollbackFailed = false;
+    if (inserted.length > 0) {
+      const { error: assignmentCleanupError } = await (db
+        .from('meeting_students')
+        .delete()
+        .in('meeting_id', inserted) as unknown as Promise<{ error: { message: string } | null }>);
+      const { error: meetingCleanupError } = await (db
+        .from('meetings')
+        .delete()
+        .in('id', inserted) as unknown as Promise<{ error: { message: string } | null }>);
+      rollbackFailed = Boolean(assignmentCleanupError || meetingCleanupError);
+      if (rollbackFailed) {
+        console.error('[POST /api/sessions] rollback failed:', assignmentCleanupError?.message, meetingCleanupError?.message);
+      }
+    }
+    return apiInternalError(
+      rollbackFailed
+        ? 'Pembuatan sesi gagal dan pembersihan otomatis tidak tuntas. Periksa jadwal sebelum mencoba lagi.'
+        : (failureReason ?? 'Gagal menyimpan seluruh jadwal. Tidak ada sesi yang dipertahankan.')
+    );
   }
 
   revalidatePath('/admin/sessions', 'layout');
