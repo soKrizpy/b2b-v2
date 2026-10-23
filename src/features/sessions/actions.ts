@@ -65,16 +65,20 @@ export async function createSession(
     notes: formData.get('notes') || undefined,
     session_count: formData.get('session_count') ?? 1,
     session_number: formData.get('session_number') ?? 1,
+    module_id: formData.get('module_id'),
     student_ids: formData.getAll('student_ids'),
   };
 
   const v = validate(createSessionSchema, raw);
   if (!v.success) return { success: false, error: v.error, fields: v.fields };
 
-  const { title, meeting_date, link_url, notes, session_count, student_ids } =
+  const { title, meeting_date, link_url, notes, session_count, student_ids, module_id } =
     v.data as CreateInput;
 
   const db = createSupabaseAdminClient();
+  const { data: moduleRow, error: moduleError } = await db
+    .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
+  if (moduleError || !moduleRow) return { success: false, error: 'Modul kurikulum tidak ditemukan atau tidak aktif.' };
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate = new Date(meeting_date);
   const insertedIds: number[] = [];
@@ -96,6 +100,7 @@ export async function createSession(
         session_count,
         session_number: i + 1,
         series_id: seriesId,
+        module_id,
         teacher_id: teacherId,
       } as never)
       .select('id')
@@ -198,6 +203,7 @@ export async function updateSession(
       ['notes', formData.get('notes')],
       ['session_count', formData.get('session_count')],
       ['session_number', formData.get('session_number')],
+      ['module_id', formData.get('module_id')],
     ].filter(([, v]) => v !== null && v !== '')
   );
 
@@ -205,6 +211,14 @@ export async function updateSession(
   if (!v.success) return { success: false, error: v.error, fields: v.fields };
 
   const patch = v.data as UpdateInput;
+  if (patch.module_id !== undefined) {
+    const dbForModuleCheck = createSupabaseAdminClient();
+    const { data: existingMeeting, error: existingMeetingError } = await dbForModuleCheck
+      .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{ data: { module_id: number | null } | null; error: unknown }>;
+    if (existingMeetingError || !existingMeeting || existingMeeting.module_id !== patch.module_id) {
+      return { success: false, error: 'Modul jadwal tidak dapat diubah saat edit. Buat seri baru untuk modul lain.' };
+    }
+  }
   // Merge teacher_id into the patch (not part of Zod schema â€” handled separately)
   const patchWithTeacher = { ...patch, teacher_id: teacherId } as Record<
     string,
