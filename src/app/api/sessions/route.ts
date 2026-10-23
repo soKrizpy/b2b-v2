@@ -58,6 +58,12 @@ export async function POST(request: Request): Promise<Response> {
   const { data: moduleRow, error: moduleError } = await db
     .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
   if (moduleError || !moduleRow) return apiError(422, 'Modul kurikulum tidak ditemukan atau tidak aktif.', {}, 'INVALID_MODULE');
+  const { count: publishedTopicCount, error: topicsCountError } = await db
+    .from('topics').select('id', { count: 'exact', head: true })
+    .eq('module_id', module_id).eq('status', 'published');
+  if (topicsCountError || !publishedTopicCount || session_count > publishedTopicCount) {
+    return apiError(422, 'Jumlah sesi tidak boleh melebihi jumlah topik terpublikasi pada modul.', {}, 'SESSION_COUNT_EXCEEDS_TOPICS');
+  }
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate  = new Date(meeting_date);
   const inserted: number[] = [];
