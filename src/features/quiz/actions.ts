@@ -100,16 +100,46 @@ export async function submitTopicQuiz(
   // Fetch quiz questions from lesson_content
   const { data: topicRow } = await (db
     .from('topics')
-    .select('lesson_content')
+    .select('id, module_id, status, lesson_content')
     .eq('id', topic_id)
     .maybeSingle() as unknown as Promise<{
-      data: { lesson_content: unknown } | null;
+      data: { id: number; module_id: number; status: string; lesson_content: unknown } | null;
       error: unknown;
     }>);
 
-  const questions = topicRow ? extractTopicQuiz(topicRow.lesson_content) : [];
+  if (!topicRow || topicRow.status !== 'published') {
+    return { success: false, error: 'Topik tidak ditemukan atau belum dipublikasikan.' };
+  }
+
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', topicRow.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul topik ini.' };
+  }
+
+  const questions = extractTopicQuiz(topicRow.lesson_content);
   if (questions.length === 0) {
     return { success: false, error: 'Topik ini belum memiliki soal quiz.' };
+  }
+
+  // Require one answer per official question; reject duplicates and out-of-range indices.
+  const answerIndices = answers.map((answer) => answer.question_index);
+  const uniqueAnswerIndices = new Set(answerIndices);
+  if (
+    answers.length !== questions.length ||
+    uniqueAnswerIndices.size !== answers.length ||
+    answerIndices.some((index) => index >= questions.length)
+  ) {
+    return { success: false, error: 'Jawaban tidak sesuai dengan jumlah soal resmi.' };
   }
 
   // Score the answers server-side
@@ -220,6 +250,21 @@ export async function submitFinalAssessment(
 
   const { module_id, answers } = validated.data;
   const db = createSupabaseAdminClient();
+
+  // The server, not the client, decides whether a student may sit this module assessment.
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul ini.' };
+  }
 
   // Check if already certificated
   const { data: existing } = await (db
@@ -348,17 +393,52 @@ export async function awardQuizReward(
   if (!auth.ok) return { success: false, error: auth.message };
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
 
-  const score    = Number(formData.get('score'))    || 0;
-  const topicId  = Number(formData.get('topic_id')) || 0;
+  const topicId = Number(formData.get('topic_id')) || 0;
   if (!topicId) return { success: false, error: 'topic_id diperlukan.' };
 
+  const db = createSupabaseAdminClient();
+
+  // Never trust a score sent by the browser. Claim one persisted, unclaimed attempt
+  // atomically so replaying this action cannot farm XP or coins.
+  const { data: attempt, error: attemptError } = await (db
+    .from('topic_quiz_attempts')
+    .select('id, score')
+    .eq('student_id', auth.user.id)
+    .eq('topic_id', topicId)
+    .is('reward_claimed_at', null)
+    .order('attempt_num', { ascending: true })
+    .limit(1)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number; score: number } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (attemptError || !attempt) {
+    return { success: false, error: 'Tidak ada reward quiz yang dapat diklaim.' };
+  }
+
+  const { data: claimedAttempt, error: claimError } = await (db
+    .from('topic_quiz_attempts')
+    .update({ reward_claimed_at: new Date().toISOString() } as never)
+    .eq('id', attempt.id)
+    .eq('student_id', auth.user.id)
+    .is('reward_claimed_at', null)
+    .select('id')
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (claimError || !claimedAttempt) {
+    return { success: false, error: 'Reward untuk percobaan ini sudah diklaim.' };
+  }
+
+  const score = attempt.score;
   const reward =
     score === 100 ? QUIZ_REWARDS.perfect :
-    score >= 80   ? QUIZ_REWARDS.good    :
-    score >= 70   ? QUIZ_REWARDS.pass    :
+    score >= 80   ? QUIZ_REWARDS.good :
+    score >= 70   ? QUIZ_REWARDS.pass :
     QUIZ_REWARDS.attempted;
-
-  const db = createSupabaseAdminClient();
 
   // Fetch current stats
   const { data: student } = await (db
