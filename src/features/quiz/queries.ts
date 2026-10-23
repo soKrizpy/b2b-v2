@@ -84,14 +84,15 @@ export async function getTopicQuizState(
   // order_index directly: imported curricula may number topics from zero, which
   // would otherwise map the first two topics to the same session.
   const sessionNumber = topicIndex + 1;
-  const hasCompletedSession = sessionNumber > 0 && topicRes.data != null && (joinRows ?? []).some(
+  const topicModuleId = topicRes.data?.module_id ?? -1;
+  const hasCompletedSession = sessionNumber > 0 && topicModuleId > 0 && (joinRows ?? []).some(
     (r) => isTeacherReportSubmittedForTopic({
       module_id: r.meetings?.module_id ?? null,
       session_number: r.meetings?.session_number ?? null,
       has_joined: r.has_joined,
       is_completed: r.meetings?.is_completed === true,
       progress_report: r.meetings?.progress_report ?? null,
-    }, topicRes.data.module_id, sessionNumber)
+    }, topicModuleId, sessionNumber)
   );
 
   return {
