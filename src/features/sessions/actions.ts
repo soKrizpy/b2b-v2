@@ -364,7 +364,7 @@ export async function markSessionComplete(
     return { success: false, error: 'ID jadwal tidak valid.' };
   }
 
-  return saveMeetingReport(id, formData, true);
+  return saveMeetingReport(id, formData, true, auth.user.id, auth.role === 'admin');
 }
 
 export async function updateSessionReport(
@@ -380,13 +380,15 @@ export async function updateSessionReport(
     return { success: false, error: 'ID jadwal tidak valid.' };
   }
 
-  return saveMeetingReport(id, formData, false);
+  return saveMeetingReport(id, formData, false, auth.user.id, auth.role === 'admin');
 }
 
 async function saveMeetingReport(
   meetingId: number,
   formData: FormData,
-  markCompleted: boolean
+  markCompleted: boolean,
+  actorId: string,
+  isAdmin: boolean
 ): Promise<ActionResult> {
   const rawAttendance = formData.get('attendance_statuses');
   let attendance: unknown;
@@ -405,6 +407,24 @@ async function saveMeetingReport(
   }
 
   const db = createSupabaseAdminClient();
+
+  // The RPC uses a privileged server client, so enforce teacher-to-meeting
+  // ownership here before invoking it. Admins may manage any meeting.
+  const { data: meeting, error: meetingError } = await (db
+    .from('meetings')
+    .select('teacher_id')
+    .eq('id', meetingId)
+    .maybeSingle() as unknown as Promise<{
+      data: { teacher_id: string | null } | null;
+      error: { message: string } | null;
+    }>);
+  if (meetingError || !meeting) {
+    return { success: false, error: 'Jadwal tidak ditemukan.' };
+  }
+  if (!isAdmin && meeting.teacher_id !== actorId) {
+    return { success: false, error: 'Guru hanya dapat memperbarui laporan kelas yang ditugaskan kepadanya.' };
+  }
+
   const callSaveMeetingReport = db.rpc as unknown as (
     functionName: 'save_meeting_report',
     args: {
