@@ -79,6 +79,12 @@ export async function createSession(
   const { data: moduleRow, error: moduleError } = await db
     .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
   if (moduleError || !moduleRow) return { success: false, error: 'Modul kurikulum tidak ditemukan atau tidak aktif.' };
+  const { count: publishedTopicCount, error: topicsCountError } = await db
+    .from('topics').select('id', { count: 'exact', head: true })
+    .eq('module_id', module_id).eq('status', 'published');
+  if (topicsCountError || !publishedTopicCount || session_count > publishedTopicCount) {
+    return { success: false, error: 'Jumlah sesi tidak boleh melebihi jumlah topik terpublikasi pada modul.' };
+  }
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate = new Date(meeting_date);
   const insertedIds: number[] = [];
