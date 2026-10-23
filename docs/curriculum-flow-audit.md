@@ -23,7 +23,7 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - Verify two modules with session 1 cannot unlock one another's quizzes.
 - Verify unlinked legacy meetings never unlock topics.
 - Verify attendance + completed status + non-empty report are all required.
-- Re-run unit tests and `npx tsc --noEmit` against the latest branch head. The latest available CI run predates the final type fixes and schedule-coverage rule, so it is not evidence that the current head passes.
+- GitHub Actions Quality checks run `39990748766` passed on commit `cb75acd4b98b793d6df54806c3a5089daf8363bf`: dependency installation, unit tests, `npx tsc --noEmit`, full/production npm audit reporting, production dependency vulnerability gate, and dry-run audit-fix preview all completed successfully. Any subsequent code commit requires a fresh run.
 - Run migration and full student/teacher/admin journey only against isolated staging Supabase.
 - Final assessment must remain blocked until all published module topics are complete and must use exactly 20 official distinct questions; certificate issuance requires a valid final assessment attempt.
 
@@ -31,4 +31,4 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 
 - Work stays on `fix/security-priority-audit`; PR #1 remains unmerged.
 - Migration 0018 and earlier proposed migrations are not applied to production.
-- CI and deployment status must be checked after implementation commits; no staging E2E is claimed without a dedicated staging database.
+- CI passed on the implementation head above. Vercel deployment is still blocked by the account's daily deployment limit, so no deployment validation is claimed. No staging E2E is claimed without a dedicated staging database.
