@@ -115,11 +115,9 @@ export function CyberFantasyAvatar({
         </div>
       )}
 
-      {/* ── 2. Pixel Adventurer Body & Animations ── */}
+      {/* ── 2. Pixel Adventurer Body & Animations (Idle in place, non-bouncing) ── */}
       <div
-        className={`relative w-full h-full flex flex-col items-center justify-center ${
-          animateIdle ? 'animate-bounce transition-transform duration-300 hover:scale-105' : ''
-        }`}
+        className="relative w-full h-full flex flex-col items-center justify-center transition-transform duration-300 hover:scale-105"
         style={{ imageRendering: 'pixelated' }}
       >
         <svg
