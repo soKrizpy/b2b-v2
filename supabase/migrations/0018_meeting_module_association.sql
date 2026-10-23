@@ -22,7 +22,6 @@ BEGIN
     FROM public.meetings existing
     WHERE existing.series_id = NEW.series_id
       AND existing.id IS DISTINCT FROM NEW.id
-      AND existing.module_id IS NOT NULL
       AND existing.module_id IS DISTINCT FROM NEW.module_id
   ) THEN
     RAISE EXCEPTION 'All meetings in a series must belong to the same module'
