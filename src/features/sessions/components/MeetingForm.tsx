@@ -57,10 +57,26 @@ export function MeetingForm({
     meeting?.meeting_students?.map((ms) => ms.student_id) ?? []
   );
   const [editMode, setEditMode] = useState<'single' | 'series'>('single');
+  const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null }>>([]);
+  const [selectedModuleId, setSelectedModuleId] = useState(meeting?.module_id == null ? '' : String(meeting.module_id));
 
   useEffect(() => {
     if (state?.success) onSuccess?.();
   }, [state, onSuccess]);
+
+  useEffect(() => {
+    if (mode !== 'create') return;
+    let active = true;
+    fetch('/api/curriculum/modules', { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Gagal memuat modul')))
+      .then((data: Array<{ id: number; title: string | null; level: string | null }>) => {
+        if (active) setModuleOptions(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (active) setModuleOptions([]);
+      });
+    return () => { active = false; };
+  }, [mode]);
 
   const err = (field: string) =>
     state && !state.success ? state.fields?.[field] : undefined;
@@ -125,20 +141,34 @@ export function MeetingForm({
 
       {/* Curriculum association: required for teacher-guided quiz unlocks */}
       {mode === 'create' ? (
-        <Input
-          label="ID Modul Kurikulum"
-          name="module_id"
-          type="number"
-          min={1}
-          required
-          placeholder="Masukkan ID modul dari halaman Kurikulum"
-          error={err('module_id')}
-        />
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="meeting-module" className="text-sm font-medium text-slate-700 dark:text-slate-200">
+            Modul kurikulum <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="meeting-module"
+            name="module_id"
+            value={selectedModuleId}
+            onChange={(event) => setSelectedModuleId(event.target.value)}
+            required
+            className="rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 text-sm bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white"
+          >
+            <option value="">— Pilih modul —</option>
+            {moduleOptions.map((module) => (
+              <option key={module.id} value={module.id}>
+                {module.title ?? `Modul ${module.id}`}{module.level ? ` · ${module.level}` : ''}
+              </option>
+            ))}
+          </select>
+          {err('module_id') && <p className="text-xs text-red-600">{err('module_id')}</p>}
+          {moduleOptions.length === 0 && <p className="text-xs text-amber-600">Modul aktif tidak tersedia atau gagal dimuat.</p>}
+          <p className="text-xs text-slate-500">Sesi ke-N akan dipasangkan ke topik ke-N sesuai urutan topik terpublikasi.</p>
+        </div>
       ) : (
         <div className="rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-2.5 text-sm">
           <span className="font-medium">Modul kurikulum: </span>
-          {meeting?.module_id ? `ID ${meeting.module_id}` : 'Belum terhubung (jadwal lama)'}
-          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tidak dapat membuka kuis sampai dihubungkan ke modul secara eksplisit.</p>}
+          {meeting?.module_id ? (moduleOptions.find((module) => module.id === meeting.module_id)?.title ?? `ID ${meeting.module_id}`) : 'Belum terhubung (jadwal lama)'}
+          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tetap terkunci dari kuis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
         </div>
       )}
 
