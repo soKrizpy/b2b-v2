@@ -168,29 +168,39 @@ export async function DELETE(
 
   try {
     if (editMode === 'series' && seriesId) {
-      const { data: targets } = await (db
+      const { data: targets, error: targetErr } = await (db
         .from('meetings')
         .select('id')
         .eq('series_id', seriesId)
         .gte('session_number', sessionNum) as unknown as Promise<{
-          data: Array<{ id: number }>;
-          error: unknown;
+          data: Array<{ id: number }> | null;
+          error: { message: string } | null;
         }>);
 
+      if (targetErr) return apiInternalError(targetErr.message);
       const targetIds = (targets ?? []).map((m) => m.id);
 
       if (targetIds.length > 0) {
-        await (db.from('meeting_students').delete().in('meeting_id', targetIds) as unknown as Promise<unknown>);
+        const { error: assignmentDeleteError } = await (db
+          .from('meeting_students')
+          .delete()
+          .in('meeting_id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentDeleteError) return apiError(500, `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`);
+
         const { error: delErr } = await (db
           .from('meetings')
           .delete()
-          .eq('series_id', seriesId)
-          .gte('session_number', sessionNum) as unknown as Promise<{ error: { message: string } | null }>);
+          .in('id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
 
         if (delErr) return apiError(500, `Gagal menghapus seri: ${delErr.message}`);
       }
     } else {
-      await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
+      const { error: assignmentDeleteError } = await (db
+        .from('meeting_students')
+        .delete()
+        .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignmentDeleteError) return apiError(500, `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`);
+
       const { error: delErr } = await (db
         .from('meetings')
         .delete()
