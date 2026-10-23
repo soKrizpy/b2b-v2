@@ -219,8 +219,8 @@ export async function updateSession(
   const patch = v.data as UpdateInput;
   if (patch.module_id !== undefined) {
     const dbForModuleCheck = createSupabaseAdminClient();
-    const { data: existingMeeting, error: existingMeetingError } = await dbForModuleCheck
-      .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{ data: { module_id: number | null } | null; error: unknown }>;
+    const { data: existingMeeting, error: existingMeetingError } = await (dbForModuleCheck
+      .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{ data: { module_id: number | null } | null; error: unknown }>);
     if (existingMeetingError || !existingMeeting || existingMeeting.module_id !== patch.module_id) {
       return { success: false, error: 'Modul jadwal tidak dapat diubah saat edit. Buat seri baru untuk modul lain.' };
     }
