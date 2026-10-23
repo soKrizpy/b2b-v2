@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getTopicById } from '@/features/curriculum/queries';
+import { getStudentModulesWithTopics, getTopicById } from '@/features/curriculum/queries';
 import { getChallengesWithSubmissions } from '@/features/challenges/queries';
 import { getTopicQuizState } from '@/features/quiz/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
@@ -52,6 +53,15 @@ export default async function TopicPage({ params }: Props) {
       error: { message: string } | null;
     }>);
   if (enrollmentError || !enrollment) notFound();
+
+  // The map is not a security boundary: block direct URLs for future locked topics.
+  const enrolledModules = await getStudentModulesWithTopics(auth.user.id);
+  const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(auth.user.id, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === id);
+  if (!topicNode || topicNode.status === 'LOCKED') notFound();
 
   const [challenges, quizState] = await Promise.all([
     getChallengesWithSubmissions(id, auth.user.id),
