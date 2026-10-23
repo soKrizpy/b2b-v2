@@ -32,4 +32,4 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 
 - Work stays on `fix/security-priority-audit`; PR #1 remains unmerged.
 - Migration 0018 and earlier proposed migrations are not applied to production.
-- CI run `39991820708` was queued/in progress after the slide helper, modal gate, and tests were committed; the direct-URL guard was added after that run started, so the final branch head still requires a fresh successful CI run. Vercel deployment is still blocked by the account's daily deployment limit, so no deployment validation is claimed. No staging E2E is claimed without a dedicated staging database.
+- CI run `39991820708` was cancelled after unit tests, TypeScript type-check, and dependency audit steps reported success; because the run was cancelled and the direct-URL guard was added afterward, this is not a passing CI result for the final branch head. A fresh complete CI run is still required. Vercel deployment remains blocked by the account's daily deployment limit. No staging E2E is claimed without a dedicated staging database.
