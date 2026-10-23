@@ -44,7 +44,7 @@ describe('instructional lesson slides', () => {
     const slides = getInstructionalSlides(Array.from({ length: 25 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MAX_LESSON_SLIDES);
     expect(slides[0].id).toBe('slide-0');
-    expect(slides.at(-1)?.id).toBe('slide-19');
+    expect(slides[slides.length - 1]?.id).toBe('slide-19');
     expect(hasRequiredLessonSlideCount(slides)).toBe(true);
   });
 
