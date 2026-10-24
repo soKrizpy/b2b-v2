@@ -1,7 +1,7 @@
 -- Additive curriculum association for guided teacher-led learning.
 -- Existing meetings remain NULL; historical rows are deliberately not guessed/backfilled.
 ALTER TABLE public.meetings
-  ADD COLUMN IF NOT EXISTS module_id integer NULL
+  ADD COLUMN IF NOT EXISTS module_id bigint NULL
   REFERENCES public.modules(id) ON DELETE RESTRICT;
 
 CREATE INDEX IF NOT EXISTS meetings_module_session_idx
