@@ -16,6 +16,7 @@ import { RetroPixelWorldMap } from '@/features/quiz/components/RetroPixelWorldMa
 import { SimplifiedWaypointHistory } from '@/features/quiz/components/SimplifiedWaypointHistory';
 import type { QuestMapData, QuestTopicNode, NodeStatus } from '@/features/quiz/questMapQueries';
 import type { QuizQuestion } from '@/features/curriculum/validation';
+import { getInstructionalSlides, hasRequiredLessonSlideCount, MIN_LESSON_SLIDES } from '@/features/curriculum/lessonSlides';
 import type { TopicQuizAttemptRow } from '@/types/database';
 import {
   Tent,
@@ -108,6 +109,8 @@ function LocationPopoverCard({
   onClose:           () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+  useEffect(() => { setSlideIndex(0); }, [node?.topic.id]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -250,6 +253,102 @@ function LocationPopoverCard({
   }
 
   if (!node) return null;
+
+  // Keep future curriculum topics locked even when their map marker is scouted.
+  // For an available topic, start with a short slide-based lesson before challenges.
+  if (fogState !== 'shrouded' && node.status !== 'LOCKED') {
+    const lessonContent = node.topic.lesson_content as Record<string, unknown> | null;
+    const slides = getInstructionalSlides(lessonContent?.learningPath);
+    const lessonReady = hasRequiredLessonSlideCount(slides);
+    const fallbackBody = node.topic.description?.trim() || loc.lore;
+    const slide = slides[slideIndex];
+    const slideTitle = typeof slide?.title === 'string' && slide.title.trim()
+      ? slide.title
+      : `Ringkasan Materi ${slideIndex + 1}`;
+    const slideBody = [slide?.explanation, slide?.content, slide?.instructions]
+      .find((value) => typeof value === 'string' && value.trim()) as string | undefined;
+    const slideCode = typeof slide?.code === 'object' && slide.code !== null
+      ? slide.code as Record<string, unknown>
+      : null;
+    const slideCodeContent = typeof slideCode?.content === 'string'
+      ? slideCode.content
+      : typeof slide?.code_content === 'string'
+        ? slide.code_content
+        : null;
+    const slideCodeLanguage = typeof slideCode?.language === 'string'
+      ? slideCode.language
+      : typeof slide?.code_language === 'string'
+        ? slide.code_language
+        : 'text';
+    const slideCount = Math.max(slides.length, 1);
+    const visibleIndex = Math.min(slideIndex, slideCount - 1);
+
+    return renderCardWrapper(
+      <>
+        <div className="flex items-start gap-3 pb-3 border-b border-slate-800">
+          <div className="w-11 h-11 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-300 flex-shrink-0">
+            <BookOpen className="w-5 h-5" />
+          </div>
+          <div className="min-w-0 pr-6">
+            <p className="text-[10px] font-black uppercase tracking-widest text-cyan-300">Materi singkat · Quest Lesson</p>
+            <h3 className="text-base font-black text-white leading-snug">{node.topic.title}</h3>
+            <p className="text-[11px] text-slate-400 mt-1">Pelajari ringkasan ini, lalu lanjutkan ke challenge topik.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
+            Slide {visibleIndex + 1} dari {slideCount}
+          </span>
+          <span className="text-[10px] text-amber-300 font-bold">✨ Belajar bertahap</span>
+        </div>
+        <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+          <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-all" style={{ width: `${((visibleIndex + 1) / slideCount) * 100}%` }} />
+        </div>
+
+        <article className="min-h-[180px] rounded-2xl bg-slate-900/80 border border-slate-800 p-4 space-y-3">
+          <p className="text-sm font-extrabold text-white">{slides.length ? slideTitle : 'Tujuan Pembelajaran'}</p>
+          <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+            {slides.length ? (slideBody || fallbackBody || 'Materi untuk topik ini belum ditambahkan.') : fallbackBody || 'Materi untuk topik ini belum ditambahkan. Guru atau admin dapat melengkapinya melalui editor kurikulum.'}
+          </p>
+          {slideCodeContent && (
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{slideCodeLanguage}</p>
+              <pre className="overflow-x-auto rounded-xl bg-slate-950 border border-slate-700 p-3 text-xs text-emerald-200"><code>{slideCodeContent}</code></pre>
+            </div>
+          )}
+        </article>
+
+        <div className="flex gap-2">
+          <button type="button" onClick={() => setSlideIndex((current) => Math.max(0, current - 1))} disabled={visibleIndex === 0}
+            className="flex-1 rounded-xl border border-slate-700 px-3 py-2.5 text-xs font-bold text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800">
+            ← Sebelumnya
+          </button>
+          {visibleIndex < slideCount - 1 ? (
+            <button type="button" onClick={() => setSlideIndex((current) => Math.min(slideCount - 1, current + 1))}
+              className="flex-1 rounded-xl bg-cyan-500 px-3 py-2.5 text-xs font-black text-slate-950 hover:bg-cyan-400">
+              Lanjut →
+            </button>
+          ) : lessonReady ? (
+            <Link href={`/student/lessons/topic/${node.topic.id}`} onClick={onClose}
+              className="flex-1 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-2.5 text-center text-xs font-black text-white hover:from-indigo-400 hover:to-violet-400">
+              Lanjut ke Challenge →
+            </Link>
+          ) : (
+            <button type="button" disabled
+              className="flex-1 rounded-xl bg-slate-800 px-3 py-2.5 text-center text-xs font-black text-slate-500 cursor-not-allowed">
+              Materi Belum Lengkap
+            </button>
+          )}
+        </div>
+        <p className="text-[10px] leading-relaxed text-slate-500">
+          {lessonReady
+            ? `Materi memiliki ${slides.length} slide. Lanjutkan ke challenge setelah mempelajari semuanya.`
+            : `Topik ini baru memiliki ${slides.length} slide materi; minimal ${MIN_LESSON_SLIDES} slide diperlukan sebelum challenge terbuka. Minta guru atau admin melengkapi learningPath pada editor kurikulum.`}
+        </p>
+      </>
+    );
+  }
 
   // ── Shrouded in Deep Fog of War Dossier ──
   if (fogState === 'shrouded') {

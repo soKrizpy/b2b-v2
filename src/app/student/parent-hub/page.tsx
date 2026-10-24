@@ -28,7 +28,8 @@ export default async function ParentHubPage() {
   const { hubData: hub, snapshots } = await getStudentHubBundle(user.id);
 
   const { studentName, monthly, portfolio, certificates, riwayat } = hub;
-  const totalCompletedSessions = riwayat.reduce((s, m) => s + m.sessions.length, 0);
+  // Count sessions the student actually attended, not every completed meeting assigned to them.
+  const totalCompletedSessions = riwayat.reduce((sum, module) => sum + module.completed_count, 0);
 
   // Extract the latest teacher note from session history
   let latestTeacherNote: LatestTeacherNote | null = null;

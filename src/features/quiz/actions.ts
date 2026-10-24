@@ -7,6 +7,9 @@ import { z } from 'zod';
 import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
+import { getTopicQuizState } from '@/features/quiz/queries';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -100,16 +103,64 @@ export async function submitTopicQuiz(
   // Fetch quiz questions from lesson_content
   const { data: topicRow } = await (db
     .from('topics')
-    .select('lesson_content')
+    .select('id, module_id, status, lesson_content')
     .eq('id', topic_id)
     .maybeSingle() as unknown as Promise<{
-      data: { lesson_content: unknown } | null;
+      data: { id: number; module_id: number; status: string; lesson_content: unknown } | null;
       error: unknown;
     }>);
 
-  const questions = topicRow ? extractTopicQuiz(topicRow.lesson_content) : [];
+  if (!topicRow || topicRow.status !== 'published') {
+    return { success: false, error: 'Topik tidak ditemukan atau belum dipublikasikan.' };
+  }
+
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', topicRow.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul topik ini.' };
+  }
+
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === topicRow.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(studentId, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic_id);
+  if (!topicNode || topicNode.status === 'LOCKED') {
+    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  }
+
+  const questions = extractTopicQuiz(topicRow.lesson_content);
   if (questions.length === 0) {
     return { success: false, error: 'Topik ini belum memiliki soal quiz.' };
+  }
+
+  // Enforce the teacher-report gate on the server as well as in the UI.
+  // Guided mode has no self-paced bypass: the matching teacher report is required
+  // before the quiz can be submitted, including for legacy unlinked meetings.
+  const quizState = await getTopicQuizState(topic_id, studentId, topicRow.lesson_content);
+  if (!quizState.isUnlocked) {
+    return { success: false, error: 'Quiz akan terbuka setelah laporan guru untuk sesi topik ini selesai.' };
+  }
+
+  // Require one answer per official question; reject duplicates and out-of-range indices.
+  const answerIndices = answers.map((answer) => answer.question_index);
+  const uniqueAnswerIndices = new Set(answerIndices);
+  if (
+    answers.length !== questions.length ||
+    uniqueAnswerIndices.size !== answers.length ||
+    answerIndices.some((index) => index >= questions.length)
+  ) {
+    return { success: false, error: 'Jawaban tidak sesuai dengan jumlah soal resmi.' };
   }
 
   // Score the answers server-side
@@ -221,6 +272,21 @@ export async function submitFinalAssessment(
   const { module_id, answers } = validated.data;
   const db = createSupabaseAdminClient();
 
+  // The server, not the client, decides whether a student may sit this module assessment.
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul ini.' };
+  }
+
   // Check if already certificated
   const { data: existing } = await (db
     .from('certificates')
@@ -262,11 +328,38 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Modul ini belum memiliki soal tryout.' };
   }
 
-  // Score
+  // Enforce the curriculum gate on the server. Hiding the final-boss button in
+  // the UI is not enough: direct Server Action calls must also require every
+  // published topic to be completed under the Quest Map progression rules.
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === module_id);
+  if (!enrolledModule) {
+    return { success: false, error: 'Modul aktif tidak ditemukan.' };
+  }
+  const questProgress = await getQuestMapData(studentId, enrolledModule);
+  if (!questProgress.moduleComplete) {
+    return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
+  }
+
+  // Validate against the official question set before scoring. Without this,
+  // repeating one correctly answered question 20 times could earn a certificate.
+  const officialIds = assessment.questions.map((question) => question.id);
+  const submittedIds = answers.map((answer) => answer.question_id);
+  const uniqueSubmittedIds = new Set(submittedIds);
+  if (
+    assessment.questions.length !== 20 ||
+    uniqueSubmittedIds.size !== submittedIds.length ||
+    submittedIds.some((id) => !officialIds.includes(id)) ||
+    officialIds.some((id) => !uniqueSubmittedIds.has(id))
+  ) {
+    return { success: false, error: 'Daftar soal tidak valid. Muat ulang tryout dan coba lagi.' };
+  }
+
+  // Score each official question exactly once.
   let correct = 0;
-  for (const ans of answers) {
-    const q = assessment.questions.find((q) => q.id === ans.question_id);
-    if (q && ans.chosen_index === q.answer_index) correct++;
+  for (const question of assessment.questions) {
+    const answer = answers.find((item) => item.question_id === question.id);
+    if (answer && answer.chosen_index === question.answer_index) correct++;
   }
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
@@ -319,13 +412,6 @@ export type RewardResult =
   | { success: true;  xpEarned: number; coinsEarned: number; newXp: number; newCoins: number }
   | { success: false; error: string };
 
-const QUIZ_REWARDS = {
-  perfect:   { xp: 50, coins: 20 },  // score = 100
-  good:      { xp: 30, coins: 10 },  // score 80–99
-  pass:      { xp: 15, coins:  5 },  // score 70–79
-  attempted: { xp:  5, coins:  2 },  // score < 70
-} as const;
-
 export async function awardQuizReward(
   _prev: RewardResult | null,
   formData: FormData
@@ -334,42 +420,60 @@ export async function awardQuizReward(
   if (!auth.ok) return { success: false, error: auth.message };
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
 
-  const score    = Number(formData.get('score'))    || 0;
-  const topicId  = Number(formData.get('topic_id')) || 0;
-  if (!topicId) return { success: false, error: 'topic_id diperlukan.' };
-
-  const reward =
-    score === 100 ? QUIZ_REWARDS.perfect :
-    score >= 80   ? QUIZ_REWARDS.good    :
-    score >= 70   ? QUIZ_REWARDS.pass    :
-    QUIZ_REWARDS.attempted;
+  const topicId = Number(formData.get('topic_id')) || 0;
+  const attemptNum = Number(formData.get('attempt_num'));
+  if (!Number.isSafeInteger(topicId) || topicId <= 0) {
+    return { success: false, error: 'topic_id tidak valid.' };
+  }
+  if (attemptNum !== 1 && attemptNum !== 2) {
+    return { success: false, error: 'Nomor percobaan quiz tidak valid.' };
+  }
 
   const db = createSupabaseAdminClient();
 
-  // Fetch current stats
-  const { data: student } = await (db
-    .from('students')
-    .select('total_xp, coins')
-    .eq('id', auth.user.id)
-    .maybeSingle() as unknown as Promise<{
-      data: { total_xp: number; coins: number } | null;
-      error: unknown;
-    }>);
+  // Claim the persisted attempt and update XP/coins in one database transaction.
+  // This prevents concurrent/replayed requests from double-awarding rewards and
+  // avoids leaving an attempt claimed if the balance update fails.
+  const rewardDb = db as unknown as {
+    rpc: (
+      fn: string,
+      args: { p_student_id: string; p_topic_id: number; p_attempt_num: number }
+    ) => Promise<{
+      data: Array<{
+        attempt_id: number;
+        score: number;
+        xp_earned: number;
+        coins_earned: number;
+        new_xp: number;
+        new_coins: number;
+      }> | null;
+      error: { message: string } | null;
+    }>;
+  };
 
-  if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
+  const { data, error } = await rewardDb.rpc('claim_topic_quiz_reward', {
+    p_student_id: auth.user.id,
+    p_topic_id: topicId,
+    p_attempt_num: attemptNum,
+  });
 
-  const newXp    = (student.total_xp ?? 0) + reward.xp;
-  const newCoins = (student.coins    ?? 0) + reward.coins;
+  if (error) {
+    return { success: false, error: 'Reward quiz gagal diproses. Coba lagi nanti.' };
+  }
 
-  const { error: upErr } = await (db
-    .from('students')
-    .update({ total_xp: newXp, coins: newCoins } as never)
-    .eq('id', auth.user.id) as unknown as Promise<{ error: { message: string } | null }>);
-
-  if (upErr) return { success: false, error: upErr.message };
+  const claimed = data?.[0];
+  if (!claimed) {
+    return { success: false, error: 'Tidak ada reward quiz yang dapat diklaim.' };
+  }
 
   revalidatePath('/student/dashboard', 'layout');
-  revalidatePath('/student/lessons',   'layout');
+  revalidatePath('/student/lessons', 'layout');
 
-  return { success: true, xpEarned: reward.xp, coinsEarned: reward.coins, newXp, newCoins };
+  return {
+    success: true,
+    xpEarned: claimed.xp_earned,
+    coinsEarned: claimed.coins_earned,
+    newXp: claimed.new_xp,
+    newCoins: claimed.new_coins,
+  };
 }

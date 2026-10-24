@@ -1,7 +1,6 @@
 // src/features/auth/lib/resolveRole.ts
-// Resolves a user's role from public.profiles, with fallbacks to the
-// authenticated server client, user_metadata.role, and automatic profile
-// provisioning when a user was created directly in Supabase Auth Dashboard.
+// Resolves a user's role from the trusted profile row, with app_metadata as a
+// trusted provisioning fallback. Never trust user_metadata, cookies, or email patterns for authorization.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
@@ -59,24 +58,12 @@ export async function resolveUserRole(
     // ignore
   }
 
-  // 3. Check user_metadata or app_metadata if present
-  const metaRole = user?.user_metadata?.role ?? user?.app_metadata?.role;
-  let inferredRole: UserRole | null = isValidRole(metaRole) ? metaRole : null;
+  // Only app_metadata is managed by trusted server/admin flows. user_metadata and
+  // email naming conventions are user-controlled and must never grant a role.
+  const appRole = user?.app_metadata?.role;
+  const inferredRole: UserRole | null = isValidRole(appRole) ? appRole : null;
 
-  // 4. If user was created directly in Supabase Auth Dashboard without a profile row or metadata,
-  //    infer role from email convention (or default to 'admin' for manual Supabase Auth accounts)
-  if (!inferredRole && user) {
-    const email = (user.email ?? '').toLowerCase();
-    if (email.endsWith('@student.mylms.app') || email.startsWith('student') || email.startsWith('siswa')) {
-      inferredRole = 'student';
-    } else if (email.startsWith('guru') || email.startsWith('teacher')) {
-      inferredRole = 'teacher';
-    } else {
-      inferredRole = 'admin';
-    }
-  }
-
-  // 5. Auto-provision public.profiles row so future lookups succeed immediately
+  // Provision only when a trusted app_metadata role is explicitly present.
   if (inferredRole) {
     const fullName =
       (typeof user?.user_metadata?.full_name === 'string' && user.user_metadata.full_name) ||

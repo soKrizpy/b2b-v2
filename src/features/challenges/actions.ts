@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { requireAdmin, requireRole, getAuthUser } from '@/lib/auth';
 import { awardRewardEvent } from '@/features/pet/lib/rewardActions';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 
 export type ChallengeActionResult =
   | { success: true; id?: number; message: string }
@@ -48,6 +50,41 @@ function flatErr(err: z.ZodError): Record<string, string> {
     if (Array.isArray(msgs) && msgs.length > 0) fields[k] = msgs[0] as string;
   }
   return fields;
+}
+
+async function isTeacherAssignedToStudent(
+  db: ReturnType<typeof createSupabaseAdminClient>,
+  teacherId: string,
+  studentId: string
+): Promise<boolean> {
+  const { data: directAssignment, error: directError } = await db
+    .from('teacher_students')
+    .select('student_id')
+    .eq('teacher_id', teacherId)
+    .eq('student_id', studentId)
+    .maybeSingle();
+  if (directError) return false;
+  if (directAssignment) return true;
+
+  const { data: meetings, error: meetingError } = await (db
+    .from('meetings')
+    .select('id')
+    .eq('teacher_id', teacherId) as unknown as Promise<{
+      data: Array<{ id: number }> | null;
+      error: { message: string } | null;
+    }>);
+  if (meetingError || !meetings?.length) return false;
+
+  const { data: meetingAssignment, error: meetingStudentError } = await (db
+    .from('meeting_students')
+    .select('student_id')
+    .eq('student_id', studentId)
+    .in('meeting_id', meetings.map((meeting) => meeting.id))
+    .limit(1) as unknown as Promise<{
+      data: Array<{ student_id: string }> | null;
+      error: { message: string } | null;
+    }>);
+  return !meetingStudentError && Boolean(meetingAssignment?.length);
 }
 
 function revalidateAll(topicId?: number, moduleId?: number) {
@@ -150,6 +187,58 @@ export async function submitChallenge(
 
   const db = createSupabaseAdminClient();
 
+  // Server-side assignment check: a student cannot submit against an arbitrary
+  // challenge ID from a module they are not actively enrolled in.
+  const { data: challenge, error: challengeError } = await (db
+    .from('challenges')
+    .select('id, topic_id')
+    .eq('id', challenge_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number; topic_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (challengeError || !challenge) {
+    return { success: false, error: 'Challenge tidak ditemukan.' };
+  }
+
+  const { data: topic, error: topicError } = await (db
+    .from('topics')
+    .select('id, module_id, status')
+    .eq('id', challenge.topic_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number; module_id: number; status: string } | null;
+      error: { message: string } | null;
+    }>);
+  if (topicError || !topic || topic.status !== 'published') {
+    return { success: false, error: 'Topik challenge tidak tersedia.' };
+  }
+
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', studentId)
+    .eq('module_id', topic.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) {
+    return { success: false, error: 'Kamu belum terdaftar aktif pada modul challenge ini.' };
+  }
+
+  // Enforce map progression server-side so a guessed challenge ID cannot
+  // bypass the locked state of a future topic.
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(studentId, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic.id);
+  if (!topicNode || topicNode.status === 'LOCKED') {
+    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  }
+
   // Check whether an active (non-approved) submission already exists
   const { data: existing } = await (db
     .from('challenge_submissions')
@@ -204,7 +293,24 @@ export async function reviewSubmission(
   const { submission_id, status, review_note } = parsed.data;
 
   const db = createSupabaseAdminClient();
-  const { error } = await (db
+  const { data: targetSubmission, error: targetError } = await (db
+    .from('challenge_submissions')
+    .select('id, student_id, status')
+    .eq('id', submission_id)
+    .maybeSingle() as unknown as Promise<{ data: { id: number; student_id: string; status: string } | null; error: { message: string } | null }>);
+  if (targetError || !targetSubmission) {
+    return { success: false, error: 'Submission tidak ditemukan.' };
+  }
+  if (targetSubmission.status === 'approved') {
+    return { success: false, error: 'Submission ini sudah disetujui sebelumnya.' };
+  }
+  const isAssigned = await isTeacherAssignedToStudent(db, auth.user.id, targetSubmission.student_id);
+  if (!isAssigned) {
+    return { success: false, error: 'Kamu hanya dapat meninjau submission siswa yang ditugaskan kepadamu.' };
+  }
+
+  // Conditional transition prevents concurrent/replayed approvals from awarding twice.
+  const { data: updatedSubmission, error } = await (db
     .from('challenge_submissions')
     .update({
       status,
@@ -212,9 +318,18 @@ export async function reviewSubmission(
       reviewed_by:  auth.user.id,
       reviewed_at:  new Date().toISOString(),
     } as never)
-    .eq('id', submission_id) as unknown as Promise<{ error: { message: string } | null }>);
+    .eq('id', submission_id)
+    .in('status', ['pending', 'needs_revision'])
+    .select('id')
+    .maybeSingle() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { message: string } | null;
+    }>);
 
   if (error) return { success: false, error: error.message };
+  if (!updatedSubmission) {
+    return { success: false, error: 'Submission sudah ditinjau oleh permintaan lain. Muat ulang halaman.' };
+  }
 
   // Award XP + coins to the student when the teacher approves their submission
   if (status === 'approved') {
@@ -272,22 +387,37 @@ export async function bulkApproveSubmissions(
     return { success: false, error: 'Submission tidak ditemukan.' };
   }
 
+  for (const submission of subs) {
+    if (!(await isTeacherAssignedToStudent(db, auth.user.id, submission.student_id))) {
+      return { success: false, error: 'Pilihan berisi submission siswa yang tidak ditugaskan kepadamu. Tidak ada perubahan yang dilakukan.' };
+    }
+  }
+
   const validIds = subs.map((s) => s.id);
 
-  const { error } = await (db
+  // Only transition reviewable submissions; concurrent approvals won't earn duplicate rewards.
+  const { data: approvedRows, error } = await (db
     .from('challenge_submissions')
     .update({
       status: 'approved',
       reviewed_by: auth.user.id,
       reviewed_at: new Date().toISOString(),
     } as never)
-    .in('id', validIds) as unknown as Promise<{ error: { message: string } | null }>);
+    .in('id', validIds)
+    .in('status', ['pending', 'needs_revision'])
+    .select('id, student_id') as unknown as Promise<{
+      data: Array<{ id: number; student_id: string }> | null;
+      error: { message: string } | null;
+    }>);
 
   if (error) return { success: false, error: error.message };
+  if (!approvedRows?.length) {
+    return { success: false, error: 'Tidak ada submission baru yang dapat disetujui.' };
+  }
 
-  // Award rewards for students whose submissions were previously pending
-  for (const s of subs) {
-    if (s.student_id && s.status !== 'approved') {
+  // Award only rows this request actually transitioned to approved.
+  for (const s of approvedRows) {
+    if (s.student_id) {
       awardRewardEvent(s.student_id, 'CHALLENGE_APPROVED').catch((err) => {
         console.error('[bulkApproveSubmissions] reward error:', err);
       });
@@ -299,7 +429,7 @@ export async function bulkApproveSubmissions(
 
   return {
     success: true,
-    message: `${validIds.length} submission berhasil disetujui!`,
+    message: `${approvedRows.length} submission berhasil disetujui!`,
   };
 }
 

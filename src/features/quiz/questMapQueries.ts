@@ -5,6 +5,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractFinalAssessment } from '@/features/curriculum/validation';
 import type { TopicWithChallengeCount, ModuleWithTopics } from '@/features/curriculum/queries';
+import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
 
 // ── Node status ───────────────────────────────────────────────────────────────
 
@@ -60,14 +61,16 @@ export async function getQuestMapData(
       : Promise.resolve({ data: [], error: null }),
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, session_number, is_completed, progress_report, meeting_date)')
-      .eq('student_id', studentId) as unknown as Promise<{
+      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, module_id, session_number, is_completed, progress_report, meeting_date)')
+      .eq('student_id', studentId)
+      .eq('meetings.module_id', mod.id) as unknown as Promise<{
         data: Array<{
           meeting_id: number;
           has_joined: boolean;
           attendance_status: string | null;
           meetings: {
             id: number;
+            module_id: number | null;
             session_number: number | null;
             is_completed: boolean;
             progress_report: string | null;
@@ -90,19 +93,23 @@ export async function getQuestMapData(
 
   // Set of session numbers where teacher has completed the session and submitted report
   const meetingRows = joinRowsRes.data ?? [];
-  const hasAssignedMeetings = meetingRows.length > 0;
   const reportedSessionNumbers = new Set<number>();
   const sessionDatesMap = new Map<number, string>();
-  let totalCompletedMeetings = 0;
-
   for (const r of meetingRows) {
     const sNum = r.meetings?.session_number;
     if (typeof sNum === 'number' && sNum > 0) {
       if (r.meetings?.meeting_date) {
         sessionDatesMap.set(sNum, r.meetings.meeting_date);
       }
-      if (r.meetings?.is_completed) {
-        totalCompletedMeetings++;
+      // A teacher report unlocks this topic only for a student assigned to and
+      // present in that specific completed session—not by counting other sessions.
+      if (isTeacherReportSubmittedForTopic({
+        module_id: r.meetings?.module_id ?? null,
+        session_number: sNum,
+        has_joined: r.has_joined,
+        is_completed: r.meetings?.is_completed === true,
+        progress_report: r.meetings?.progress_report ?? null,
+      }, mod.id, sNum)) {
         reportedSessionNumbers.add(sNum);
       }
     }
@@ -134,28 +141,30 @@ export async function getQuestMapData(
     const quizInfo    = attemptsMap.get(topic.id) ?? { count: 0, bestScore: 0 };
     const { count: attemptsUsed, bestScore } = quizInfo;
 
-    const sessionNumber = topic.order_index > 0 ? topic.order_index : idx + 1;
+    // Session numbers are 1-based; use sorted topic position rather than
+    // order_index because imported curriculum JSON can use zero-based numbering.
+    const sessionNumber = idx + 1;
 
-    // A session report is submitted if:
-    // 1) Student has matching completed meeting by session_number, OR
-    // 2) Total completed meetings reaches or exceeds this session number, OR
-    // 3) Student has no assigned meetings at all (e.g. self-paced demo/test mode).
-    const isSessionReportSubmitted = hasAssignedMeetings
-      ? reportedSessionNumbers.has(sessionNumber) || totalCompletedMeetings >= sessionNumber
-      : true;
+    // Guided mode only: unlinked legacy meetings and unrelated modules never unlock topics.
+    const isSessionReportSubmitted = reportedSessionNumbers.has(sessionNumber);
 
     // Quiz is unlocked once teacher has submitted report
     const quizUnlocked = isSessionReportSubmitted;
 
     // Topic is completed when quiz is passed (bestScore >= 70 or attempts exhausted),
     // OR if topic has no quiz and session report was submitted.
-    const quizDone = hasQuiz
-      ? (attemptsUsed > 0 && (bestScore >= 70 || attemptsUsed >= 2))
-      : isSessionReportSubmitted;
+    const quizDone = isSessionReportSubmitted && (
+      hasQuiz
+        ? (attemptsUsed > 0 && (bestScore >= 70 || attemptsUsed >= 2))
+        : true
+    );
 
     const isDone = quizDone;
 
-    if (isDone) {
+    // Only advance the completed frontier when this topic directly follows
+    // the already-completed streak. A previously completed later topic must
+    // never make an unfinished earlier topic appear completed.
+    if (isDone && idx === lastCompletedIdx + 1) {
       lastCompletedIdx = idx;
     }
 

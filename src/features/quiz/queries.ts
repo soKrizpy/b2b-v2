@@ -5,6 +5,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
 import type { TopicQuizAttemptRow, QuizAnswer } from '@/types/database';
+import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
 
 // ── Per-topic quiz state for a student ────────────────────────────────────────
 
@@ -29,18 +30,17 @@ export async function getTopicQuizState(
 ): Promise<TopicQuizState> {
   const db = createSupabaseAdminClient();
 
-  // Fetch topic (unless preloaded), existing attempts, and session unlock status in parallel
+  // Fetch topic metadata, attempts, and all assigned sessions in parallel.
+  // Unlock state is matched to this topic's session, not any completed meeting.
   const [topicRes, { data: attemptRows }, { data: joinRows }] = await Promise.all([
-    preloadedLessonContent !== undefined
-      ? Promise.resolve({ data: { lesson_content: preloadedLessonContent }, error: null })
-      : (db
-          .from('topics')
-          .select('lesson_content')
-          .eq('id', topicId)
-          .maybeSingle() as unknown as Promise<{
-            data: { lesson_content: unknown } | null;
-            error: unknown;
-          }>),
+    db
+      .from('topics')
+      .select('id, module_id, order_index, lesson_content')
+      .eq('id', topicId)
+      .maybeSingle() as unknown as Promise<{
+        data: { id: number; module_id: number; order_index: number; lesson_content: unknown } | null;
+        error: unknown;
+      }>,
     db
       .from('topic_quiz_attempts')
       .select('id, student_id, topic_id, attempt_num, score, answers, submitted_at')
@@ -52,27 +52,47 @@ export async function getTopicQuizState(
       }>,
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined, meetings!inner(is_completed)')
-      .eq('student_id', studentId)
-      .eq('has_joined', true) as unknown as Promise<{
+      .select('meeting_id, has_joined, meetings!inner(module_id, is_completed, session_number, progress_report)')
+      .eq('student_id', studentId) as unknown as Promise<{
         data: Array<{
           meeting_id: number;
           has_joined: boolean;
-          meetings: { is_completed: boolean };
+          meetings: { module_id: number | null; is_completed: boolean; session_number: number | null; progress_report: string | null };
         }>;
         error: unknown;
       }>,
   ]);
 
-  const questions    = topicRes.data ? extractTopicQuiz(topicRes.data.lesson_content) : [];
+  const questions    = topicRes.data
+    ? extractTopicQuiz(preloadedLessonContent !== undefined ? preloadedLessonContent : topicRes.data.lesson_content)
+    : [];
   const attempts     = attemptRows ?? [];
   const attemptsUsed = attempts.length;
   const bestScore    = attempts.length > 0
     ? Math.max(...attempts.map((a) => a.score))
     : 0;
 
-  const hasCompletedSession = (joinRows ?? []).some(
-    (r) => r.has_joined && r.meetings?.is_completed === true
+  const orderedTopics = await db
+    .from('topics')
+    .select('id, order_index')
+    .eq('module_id', topicRes.data?.module_id ?? -1)
+    .eq('status', 'published')
+    .order('order_index', { ascending: true });
+  const orderedTopicRows = (orderedTopics.data ?? []) as unknown as Array<{ id: number; order_index: number }>;
+  const topicIndex = orderedTopicRows.findIndex((topic) => topic.id === topicId);
+  // Match a topic's sorted position to the 1-based session_number. Do not use
+  // order_index directly: imported curricula may number topics from zero, which
+  // would otherwise map the first two topics to the same session.
+  const sessionNumber = topicIndex + 1;
+  const topicModuleId = topicRes.data?.module_id ?? -1;
+  const hasCompletedSession = sessionNumber > 0 && topicModuleId > 0 && (joinRows ?? []).some(
+    (r) => isTeacherReportSubmittedForTopic({
+      module_id: r.meetings?.module_id ?? null,
+      session_number: r.meetings?.session_number ?? null,
+      has_joined: r.has_joined,
+      is_completed: r.meetings?.is_completed === true,
+      progress_report: r.meetings?.progress_report ?? null,
+    }, topicModuleId, sessionNumber)
   );
 
   return {
@@ -81,7 +101,7 @@ export async function getTopicQuizState(
     attemptsUsed,
     bestScore,
     isLocked:    attemptsUsed >= 2,
-    isUnlocked:  hasCompletedSession || attemptsUsed > 0, // keep unlocked if already attempted
+    isUnlocked:  hasCompletedSession, // guided mode: only a matching submitted teacher report unlocks the quiz
   };
 }
 

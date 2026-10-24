@@ -11,7 +11,12 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiError, apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
 import { validate, updateSessionSchema } from '@/features/sessions/validation';
-import { getSessionById } from '@/features/sessions/queries';
+import { parseStudentIdsInput } from '@/features/sessions/student-assignment-input';
+import {
+  getSessionsForAdmin,
+  getSessionsForTeacher,
+  getSessionsForStudent,
+} from '@/features/sessions/queries';
 
 type UpdateInput = z.infer<typeof updateSessionSchema>;
 type RouteContext = { params: Promise<{ id: string }> };
@@ -37,7 +42,13 @@ export async function GET(
   if (isNaN(id) || id <= 0) return apiError(400, 'ID jadwal tidak valid.', undefined, 'INVALID_ID');
 
   try {
-    const session = await getSessionById(id);
+    // Scope the lookup before returning meeting links, notes, attendance, or student data.
+    const sessions = auth.role === 'admin'
+      ? await getSessionsForAdmin()
+      : auth.role === 'teacher'
+        ? await getSessionsForTeacher(auth.user.id)
+        : await getSessionsForStudent(auth.user.id);
+    const session = sessions.find((item) => item.id === id);
     if (!session) return apiError(404, 'Jadwal tidak ditemukan.', undefined, 'NOT_FOUND');
     return Response.json(session, { headers: NO_STORE });
   } catch (err) {
@@ -63,11 +74,18 @@ export async function PATCH(
     return apiError(400, 'Request body harus berformat JSON.');
   }
 
-  const raw        = body as Record<string, unknown>;
+  const parsedAssignments = parseStudentIdsInput(body);
+  if (!parsedAssignments.valid) {
+    return apiError(400, parsedAssignments.error, undefined, 'INVALID_STUDENT_IDS');
+  }
+
+  const raw        = parsedAssignments.body;
   const editMode   = (raw.edit_mode   as string)   || 'single';
   const seriesId   = (raw.series_id   as string)   || null;
   const sessionNum = Number(raw.session_number ?? 1);
-  const studentIds = Array.isArray(raw.student_ids) ? (raw.student_ids as string[]) : [];
+  // Omitted student_ids means "leave assignments unchanged"; an explicit
+  // empty array means "clear all assignments".
+  const { hasStudentIds, studentIds } = parsedAssignments;
 
   // Strip PATCH control fields before Zod validates only meeting-data fields
   const meetingFields = Object.fromEntries(
@@ -78,6 +96,17 @@ export async function PATCH(
 
   const patch = v.data as UpdateInput;
   const db    = createSupabaseAdminClient();
+
+  if (patch.module_id !== undefined) {
+    const { data: existingMeeting, error: existingMeetingError } = await (db
+      .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{
+        data: { module_id: number | null } | null;
+        error: { message: string } | null;
+      }>);
+    if (existingMeetingError || !existingMeeting || existingMeeting.module_id !== patch.module_id) {
+      return apiError(422, 'Modul jadwal tidak dapat diubah saat edit. Buat seri baru untuk modul lain.', undefined, 'MODULE_IMMUTABLE');
+    }
+  }
 
   try {
     if (editMode === 'series' && seriesId) {
@@ -105,12 +134,31 @@ export async function PATCH(
           sessionPatch.meeting_date = d.toISOString();
         }
 
-        await (db.from('meetings').update(sessionPatch as never).eq('id', m.id) as unknown as Promise<unknown>);
+        const { error: sessionUpdateError } = await (db
+          .from('meetings')
+          .update(sessionPatch as never)
+          .eq('id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+        if (sessionUpdateError) {
+          return apiError(500, 'Seri jadwal hanya terperbarui sebagian. Periksa jadwal sebelum mengulangi perubahan.');
+        }
 
-        if (studentIds.length > 0) {
-          await (db.from('meeting_students').delete().eq('meeting_id', m.id) as unknown as Promise<unknown>);
-          const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
-          await (db.from('meeting_students').insert(rows as never) as unknown as Promise<unknown>);
+        if (hasStudentIds) {
+          const { error: assignmentDeleteError } = await (db
+            .from('meeting_students')
+            .delete()
+            .eq('meeting_id', m.id) as unknown as Promise<{ error: { message: string } | null }>);
+          if (assignmentDeleteError) {
+            return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat diperbarui.');
+          }
+          if (studentIds.length > 0) {
+            const rows = studentIds.map((sid) => ({ meeting_id: m.id, student_id: sid }));
+            const { error: assignmentInsertError } = await (db
+              .from('meeting_students')
+              .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+            if (assignmentInsertError) {
+              return apiError(500, 'Perubahan seri jadwal gagal: penugasan siswa tidak dapat disimpan.');
+            }
+          }
         }
       }
     } else {
@@ -121,13 +169,23 @@ export async function PATCH(
 
       if (updateErr) return apiError(500, `Gagal memperbarui jadwal: ${updateErr.message}`);
 
-      if (studentIds.length > 0) {
-        await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
-        const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
-        const { error: assignErr } = await (db
+      if (hasStudentIds) {
+        const { error: assignmentDeleteError } = await (db
           .from('meeting_students')
-          .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-        if (assignErr) console.error('[PATCH /api/sessions/:id] assign:', assignErr.message);
+          .delete()
+          .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentDeleteError) {
+          return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal dihapus. Periksa penugasan sebelum mencoba lagi.');
+        }
+        if (studentIds.length > 0) {
+          const rows = studentIds.map((sid) => ({ meeting_id: id, student_id: sid }));
+          const { error: assignErr } = await (db
+            .from('meeting_students')
+            .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
+          if (assignErr) {
+            return apiError(500, 'Jadwal diperbarui, tetapi penugasan siswa gagal disimpan. Periksa penugasan sebelum mencoba lagi.');
+          }
+        }
       }
     }
 
@@ -158,29 +216,39 @@ export async function DELETE(
 
   try {
     if (editMode === 'series' && seriesId) {
-      const { data: targets } = await (db
+      const { data: targets, error: targetErr } = await (db
         .from('meetings')
         .select('id')
         .eq('series_id', seriesId)
         .gte('session_number', sessionNum) as unknown as Promise<{
-          data: Array<{ id: number }>;
-          error: unknown;
+          data: Array<{ id: number }> | null;
+          error: { message: string } | null;
         }>);
 
+      if (targetErr) return apiInternalError(targetErr.message);
       const targetIds = (targets ?? []).map((m) => m.id);
 
       if (targetIds.length > 0) {
-        await (db.from('meeting_students').delete().in('meeting_id', targetIds) as unknown as Promise<unknown>);
+        const { error: assignmentDeleteError } = await (db
+          .from('meeting_students')
+          .delete()
+          .in('meeting_id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
+        if (assignmentDeleteError) return apiError(500, `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`);
+
         const { error: delErr } = await (db
           .from('meetings')
           .delete()
-          .eq('series_id', seriesId)
-          .gte('session_number', sessionNum) as unknown as Promise<{ error: { message: string } | null }>);
+          .in('id', targetIds) as unknown as Promise<{ error: { message: string } | null }>);
 
         if (delErr) return apiError(500, `Gagal menghapus seri: ${delErr.message}`);
       }
     } else {
-      await (db.from('meeting_students').delete().eq('meeting_id', id) as unknown as Promise<unknown>);
+      const { error: assignmentDeleteError } = await (db
+        .from('meeting_students')
+        .delete()
+        .eq('meeting_id', id) as unknown as Promise<{ error: { message: string } | null }>);
+      if (assignmentDeleteError) return apiError(500, `Gagal menghapus penugasan siswa: ${assignmentDeleteError.message}`);
+
       const { error: delErr } = await (db
         .from('meetings')
         .delete()

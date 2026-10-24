@@ -3,13 +3,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { getSessionUser } from '@/lib/auth';
-import { getTopicById } from '@/features/curriculum/queries';
+import { getAuthUser } from '@/lib/auth';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getStudentModulesWithTopics, getTopicById } from '@/features/curriculum/queries';
 import { getChallengesWithSubmissions } from '@/features/challenges/queries';
 import { getTopicQuizState } from '@/features/quiz/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
+import { getInstructionalSlides, hasRequiredLessonSlideCount } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Topik — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -32,22 +35,52 @@ export default async function TopicPage({ params }: Props) {
   const id = Number(topicId);
   if (!id) notFound();
 
-  const user = await getSessionUser();
-  if (!user) redirect('/login');
+  const auth = await getAuthUser();
+  if (!auth.ok) redirect('/login');
+  if (auth.role !== 'student') redirect('/');
 
-  const [topic, challenges, quizState] = await Promise.all([
-    getTopicById(id),
-    getChallengesWithSubmissions(id, user.id),
-    getTopicQuizState(id, user.id),
+  const topic = await getTopicById(id);
+  if (!topic || topic.status !== 'published') notFound();
+
+  const db = createSupabaseAdminClient();
+  const { data: enrollment, error: enrollmentError } = await (db
+    .from('student_modules')
+    .select('module_id')
+    .eq('student_id', auth.user.id)
+    .eq('module_id', topic.module_id)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { module_id: number } | null;
+      error: { message: string } | null;
+    }>);
+  if (enrollmentError || !enrollment) notFound();
+
+  // The map is not a security boundary: block direct URLs for future locked topics.
+  const enrolledModules = await getStudentModulesWithTopics(auth.user.id);
+  const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
+  const questProgress = enrolledModule
+    ? await getQuestMapData(auth.user.id, enrolledModule)
+    : null;
+  const topicNode = questProgress?.nodes.find((node) => node.topic.id === id);
+  if (!topicNode || topicNode.status === 'LOCKED') notFound();
+
+  // The lesson modal is the intended entry point, but direct URLs must not bypass
+  // the minimum authored lesson coverage required before challenge work.
+  const lessonContent = topic.lesson_content as Record<string, unknown> | null;
+  const lessonSlides = getInstructionalSlides(lessonContent?.learningPath);
+  if (!hasRequiredLessonSlideCount(lessonSlides)) redirect('/student/lessons');
+
+  const [challenges, quizState] = await Promise.all([
+    getChallengesWithSubmissions(id, auth.user.id),
+    getTopicQuizState(id, auth.user.id),
   ]);
-  if (!topic) notFound();
 
   const completedCount  = challenges.filter((c) => c.submission?.status === 'approved').length;
   const progressPercent = challenges.length > 0
     ? Math.round((completedCount / challenges.length) * 100) : 0;
 
   // Extract learningPath nodes from lesson_content JSONB
-  const lc = topic.lesson_content as Record<string, unknown> | null;
+  const lc = lessonContent;
   const learningPath: LearningNode[] = Array.isArray(lc?.learningPath)
     ? (lc!.learningPath as LearningNode[])
     : [];

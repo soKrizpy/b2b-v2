@@ -104,17 +104,10 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // 4. Resolve role from user_metadata, fallback session, b2b_role cookie, or public.profiles
-  let userRole: UserRole | null = isValidRole(user.user_metadata?.role)
-    ? user.user_metadata.role
-    : fallbackSession?.role ?? null;
-
-  if (!userRole) {
-    const cookieRole = request.cookies.get('b2b_role')?.value;
-    if (isValidRole(cookieRole)) {
-      userRole = cookieRole;
-    }
-  }
+  // 4. Resolve role only from the trusted profile row. The mock preview role
+  //    comes from the server-owned mock store; b2b_role and user_metadata are
+  //    client-controlled and must not be used for authorization.
+  let userRole: UserRole | null = fallbackSession?.role ?? null;
 
   if (!userRole) {
     try {
@@ -123,20 +116,17 @@ export async function middleware(request: NextRequest) {
         .select('role')
         .eq('id', user.id)
         .maybeSingle()) as unknown as { data: { role?: string } | null };
-      if (isValidRole(profile?.role)) {
-        userRole = profile.role;
-      }
+      if (isValidRole(profile?.role)) userRole = profile.role;
     } catch {
-      // ignore
+      // Fail closed below if the trusted role cannot be resolved.
     }
   }
 
-  // Final fallback for authenticated Supabase users without metadata yet
+  // Do not infer privileges from email addresses or default unknown users to admin.
   if (!userRole) {
-    const email = (user.email ?? '').toLowerCase();
-    if (email.endsWith('@student.mylms.app')) userRole = 'student';
-    else if (email.startsWith('guru') || email.startsWith('teacher')) userRole = 'teacher';
-    else userRole = 'admin';
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirectTo', pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   // 5. RBAC enforcement

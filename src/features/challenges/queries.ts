@@ -173,8 +173,56 @@ export async function getSubmissionById(submissionId: number): Promise<Submissio
 }
 
 /** All submissions for teacher view — all statuses, all students. */
-export async function getAllSubmissions(): Promise<SubmissionWithDetails[]> {
+export async function getAllSubmissions(teacherId?: string): Promise<SubmissionWithDetails[]> {
   const db = createSupabaseAdminClient();
+
+  // Teacher view is limited to students explicitly assigned to that teacher.
+  // Admin callers may omit teacherId to access the complete review queue.
+  let assignedStudentIds: Set<string> | null = null;
+  if (teacherId) {
+    const { data: assignments, error: assignmentError } = await (db
+      .from('teacher_students')
+      .select('student_id')
+      .eq('teacher_id', teacherId) as unknown as Promise<{
+        data: Array<{ student_id: string }> | null;
+        error: { message: string } | null;
+      }>);
+    if (assignmentError) {
+      console.error('[getAllSubmissions] assignment lookup failed', assignmentError.message);
+      return [];
+    }
+    assignedStudentIds = new Set((assignments ?? []).map((row) => row.student_id));
+
+    // Also include students on meetings assigned to this teacher; some class
+    // assignments are represented through meeting_students rather than mentorship.
+    const { data: meetings, error: meetingError } = await (db
+      .from('meetings')
+      .select('id')
+      .eq('teacher_id', teacherId) as unknown as Promise<{
+        data: Array<{ id: number }> | null;
+        error: { message: string } | null;
+      }>);
+    if (meetingError) {
+      console.error('[getAllSubmissions] meeting lookup failed', meetingError.message);
+      return [];
+    }
+    const meetingIds = (meetings ?? []).map((meeting) => meeting.id);
+    if (meetingIds.length > 0) {
+      const { data: meetingStudents, error: meetingStudentsError } = await (db
+        .from('meeting_students')
+        .select('student_id')
+        .in('meeting_id', meetingIds) as unknown as Promise<{
+          data: Array<{ student_id: string }> | null;
+          error: { message: string } | null;
+        }>);
+      if (meetingStudentsError) {
+        console.error('[getAllSubmissions] meeting-student lookup failed', meetingStudentsError.message);
+        return [];
+      }
+      for (const row of meetingStudents ?? []) assignedStudentIds.add(row.student_id);
+    }
+    if (assignedStudentIds.size === 0) return [];
+  }
 
   const { data: subs, error: subErr } = await db
     .from('challenge_submissions')
@@ -186,7 +234,10 @@ export async function getAllSubmissions(): Promise<SubmissionWithDetails[]> {
 
   if (subErr) { console.error('[getAllSubmissions]', subErr.message); return []; }
 
-  const rawSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const allSubs = (subs ?? []) as unknown as SubmissionRow[];
+  const rawSubs = assignedStudentIds
+    ? allSubs.filter((sub) => assignedStudentIds!.has(sub.student_id))
+    : allSubs;
   if (!rawSubs.length) return [];
 
   const challengeIds = [...new Set(rawSubs.map((s) => s.challenge_id))];
