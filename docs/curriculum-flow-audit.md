@@ -42,3 +42,13 @@ Status: implementation in progress on `fix/security-priority-audit`; migration r
 - The Preview SUPABASE_SERVICE_ROLE_KEY entry is empty. Do not compensate by applying migrations or running E2E tests against the shared Preview/Production database.
 - Supabase also lists active project B2B and inactive project Bites2Bytes-Pro, but their intended role as staging is not established. Do not assume either is a safe staging target without confirming data ownership, credentials, and environment wiring.
 - Next safe step: explicitly designate/reactivate a non-production Supabase project, configure Vercel Preview to use only that project's URL/anon key and a properly secured server-only service role key if required, then verify environment targets without printing secret values. Only after isolation is confirmed should migrations 0014–0018 and E2E acceptance tests be run there.
+
+## Release checkpoint (2026-10-24)
+
+- Latest branch head checked: `15eafa2f369e4befa2b387f0b1f667ddb692fae5` (`fix/security-priority-audit`). PR #1 remains open/draft; no merge or changes to `main` were made.
+- GitHub Actions Quality checks run `40054176238` completed successfully on this exact head: dependency install, unit tests, TypeScript check, production build, full/production dependency audit, and the production-vulnerability merge gate all passed.
+- The Vercel Preview deployment for this exact head reached READY. This proves the branch build deployed to a Preview URL, not that production is updated or that database-dependent flows have passed end-to-end tests.
+- The previous dependency audit identified Zod 4.6.5 as vulnerable; `package.json`, `package-lock.json`, and `bun.lock` were updated to Zod 4.6.7. The latest Quality workflow passed after this change.
+- Remote migration history currently lists versions `20250601`, `20250602`, `20250603`, `20250604`, `20250605`, `20250606`, `20250607`, `20250610`, and `20260923`. Local migration filenames use a different numbering scheme (`0001`–`0018)); these must be explicitly reconciled by comparing each migration's SQL with the remote schema/history before any `db push` or history repair. Do not rename, repair, or push migrations by guesswork.
+- Read-only schema check confirms Production `meetings` has `series_id` and `session_number` but no `module_id`. The proposed migration `0018` remains unapplied. No production migration or database write was performed.
+- Release blockers remain: map local/remote migration history; review the exact SQL and dependencies for migrations `0014`–`0018`; obtain an isolated staging database and configure Preview to use it; then run migration tests and Admin/Teacher/Student end-to-end acceptance tests. Until these pass, this branch is not approved for merge to `main`.
