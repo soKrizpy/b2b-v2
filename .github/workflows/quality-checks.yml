@@ -35,6 +35,9 @@ jobs:
       - name: Type-check TypeScript
         run: npx tsc --noEmit
 
+      - name: Production build
+        run: npm run build
+
       - name: Audit dependency vulnerabilities (full and production)
         shell: bash
         run: |
