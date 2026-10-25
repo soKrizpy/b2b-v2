@@ -140,7 +140,7 @@ export interface StudentOption {
 
 const MEETING_SELECT = `
   id, title, meeting_date, link_url, notes,
-  session_count, session_number, series_id, module_id,
+  session_count, session_number, series_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students (
     student_id,
@@ -152,7 +152,7 @@ const MEETING_SELECT = `
 
 const MEETING_SELECT_INNER = `
   id, title, meeting_date, link_url, notes,
-  session_count, session_number, series_id, module_id,
+  session_count, session_number, series_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students!inner (
     student_id,
@@ -235,7 +235,7 @@ export async function getSessionsForStudent(
     session_count: meeting.session_count,
     session_number: meeting.session_number,
     series_id: meeting.series_id,
-    module_id: meeting.module_id,
+    module_id: null,
     is_completed: meeting.is_completed,
     created_at: meeting.created_at,
     completion_status: null,
