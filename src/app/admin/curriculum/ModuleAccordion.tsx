@@ -50,7 +50,7 @@ export function ModuleAccordion({ module: mod }: Props) {
       ${pendingDel ? 'opacity-50 pointer-events-none' : ''}
       ${showEdit
         ? 'border-indigo-400 dark:border-purple-500 shadow-[0_0_20px_rgba(99,102,241,0.2)] dark:shadow-[0_0_25px_rgba(168,85,247,0.25)]'
-        : 'border-blue-400/35 dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]'}`}>
+        : 'border-blue-400/[0.35] dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]'}`}>
 
       {/* ── Card header ──────────────────────────────────────────────────── */}
       <div className="px-5 py-4 flex items-start gap-3">
@@ -65,7 +65,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             </span>
             <span className="text-[10px] font-semibold bg-slate-100 dark:bg-white/10
               text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full ring-1
-              ring-slate-200 dark:ring-white/15">
+              ring-slate-200 dark:ring-white/[0.15]">
               {mod.topics.length} Topik
             </span>
             {hasFinalAssessment && (
@@ -100,7 +100,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             className={`p-2 rounded-xl text-xs font-medium ring-1 transition-colors
               ${showEdit
                 ? 'ring-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300'
-                : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
+                : 'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
               }`}
           >
             ✏️
@@ -197,7 +197,7 @@ export function ModuleAccordion({ module: mod }: Props) {
 
             <div className="flex justify-end gap-2 pt-1">
               <button type="button" onClick={() => setShowEdit(false)}
-                className="px-4 py-2 text-sm rounded-lg ring-1 ring-slate-200 dark:ring-white/15
+                className="px-4 py-2 text-sm rounded-lg ring-1 ring-slate-200 dark:ring-white/[0.15]
                   text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5">
                 Batal
               </button>
