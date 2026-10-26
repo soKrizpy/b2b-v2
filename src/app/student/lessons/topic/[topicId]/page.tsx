@@ -162,7 +162,7 @@ export default async function TopicPage({ params }: Props) {
           {challenges.map((ch, idx) => (
             <div key={ch.id}
               className="bg-white dark:bg-[var(--surface)] rounded-2xl ring-1 ring-slate-200 dark:ring-white/10 overflow-hidden">
-              <div className="px-5 py-4 border-b border-slate-100 dark:border-white/8 flex items-start justify-between gap-3">
+              <div className="px-5 py-4 border-b border-slate-100 dark:border-white/[0.08] flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
                   <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                     {idx + 1}
