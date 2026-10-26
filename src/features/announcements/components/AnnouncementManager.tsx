@@ -228,7 +228,7 @@ export function AnnouncementManager() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Contoh: 🚀 Pembaruan Jadwal Sesi Pembelajaran"
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
@@ -240,7 +240,7 @@ export function AnnouncementManager() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Tuliskan pesan lengkap pengumuman di sini..."
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
@@ -251,7 +251,7 @@ export function AnnouncementManager() {
               <select
                 value={target}
                 onChange={(e) => setTarget(e.target.value as AnnouncementTarget)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               >
                 <option value="all">🌐 Semua Pengguna (Siswa &amp; Guru)</option>
                 <option value="students">🎓 Khusus Siswa</option>
@@ -265,7 +265,7 @@ export function AnnouncementManager() {
               <select
                 value={urgency}
                 onChange={(e) => setUrgency(e.target.value as AnnouncementUrgency)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               >
                 <option value="info">🔵 Info Normal</option>
                 <option value="warning">🟡 Peringatan (Warning)</option>
@@ -280,7 +280,7 @@ export function AnnouncementManager() {
                 type="date"
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               />
             </div>
           </div>
@@ -293,7 +293,7 @@ export function AnnouncementManager() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/banner.png"
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/[0.15] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
@@ -302,7 +302,7 @@ export function AnnouncementManager() {
             <button
               type="button"
               onClick={resetForm}
-              className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/15 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/[0.15] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
             >
               Batal
             </button>
@@ -338,7 +338,7 @@ export function AnnouncementManager() {
                   className={`p-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                     ann.is_active
                       ? 'bg-white dark:bg-white/5 border-slate-200/90 dark:border-purple-500/30 dark:shadow-[0_0_12px_rgba(168,85,247,0.12)]'
-                      : 'bg-slate-50 dark:bg-white/2 border-slate-200/60 dark:border-white/5 opacity-60'
+                      : 'bg-slate-50 dark:bg-white/[0.02] border-slate-200/60 dark:border-white/5 opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">
