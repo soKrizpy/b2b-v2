@@ -85,7 +85,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
           </p>
           <ol className="flex flex-col gap-1.5">
             {nodes.map((node, idx) => {
-              const cfg  = NODE_TYPE_LABEL[node.type] ?? { label: node.type, color: 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 ring-slate-200 dark:ring-white/15' };
+              const cfg  = NODE_TYPE_LABEL[node.type] ?? { label: node.type, color: 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 ring-slate-200 dark:ring-white/[0.15]' };
               const open = expandedNode === idx;
               const body = node.explanation || node.content || node.instructions;
 
@@ -217,7 +217,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                         ))}
                       </ol>
                       {q.explanation && (
-                        <div className="bg-amber-50 dark:bg-amber-900/15 rounded-lg px-3 py-2
+                        <div className="bg-amber-50 dark:bg-amber-900/[0.15] rounded-lg px-3 py-2
                           ring-1 ring-amber-200 dark:ring-amber-700/30">
                           <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 mb-0.5">💡 Penjelasan</p>
                           <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">{q.explanation}</p>
@@ -337,9 +337,9 @@ function TopicEditForm({
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-2 pt-1
-        border-t border-slate-100 dark:border-white/8">
+        border-t border-slate-100 dark:border-white/[0.08]">
         <button type="button" onClick={onClose}
-          className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
+          className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/[0.15]
             text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
           Batal
         </button>
@@ -485,7 +485,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         <button type="button" onClick={handleExport} disabled={exporting}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
-            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950
+            ring-1 ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-slate-950
             text-slate-700 dark:text-slate-300 rounded-xl shadow-sm
             hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-40 transition-all">
           <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
@@ -535,7 +535,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                       ? 'border-indigo-400 dark:border-purple-400 ring-2 ring-indigo-500/20 dark:ring-purple-500/30 shadow-neon-blue dark:shadow-neon-purple'
                       : panel === 'preview'
                       ? 'border-blue-400/60 dark:border-purple-500/50 dark:shadow-[0_0_25px_rgba(168,85,247,0.18)]'
-                      : 'border-blue-400/45 dark:border-purple-500/45 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20'
+                      : 'border-blue-400/[0.45] dark:border-purple-500/[0.45] dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20'
                     }`}>
 
                   {/* ── Topic header row ──────────────────────────────── */}
@@ -570,7 +570,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                           {nodeCount > 0 && (
                             <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400
                               bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-full ring-1
-                              ring-slate-200 dark:ring-white/15">
+                              ring-slate-200 dark:ring-white/[0.15]">
                               {nodeCount} node
                             </span>
                           )}
@@ -603,8 +603,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         title="Pratinjau konten"
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'preview'
-                            ? 'ring-slate-400 bg-slate-100 dark:bg-white/15 text-slate-800 dark:text-white'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
+                            ? 'ring-slate-400 bg-slate-100 dark:bg-white/[0.15] text-slate-800 dark:text-white'
+                            : 'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
                           }`}>
                         {panel === 'preview' ? '▲ Tutup' : '👁 Preview'}
                       </button>
@@ -616,7 +616,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'edit'
                             ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-200'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
+                            : 'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
                           }`}>
                         ✏️ Edit
                       </button>
@@ -635,7 +635,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-[#0B0F19]">
+                    <div className="border-t border-slate-100 dark:border-white/[0.08] bg-slate-50/40 dark:bg-[#0B0F19]">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
@@ -662,7 +662,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35] overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]">
 
             {/* Header */}
             <div className="shrink-0 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-[#0B0F19]">
