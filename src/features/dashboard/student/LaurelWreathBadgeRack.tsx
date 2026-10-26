@@ -15,6 +15,7 @@ export interface LaurelBadge {
   glow: string;
   minCompleted: number;
   requiresCert?: boolean;
+  requiresAllTopics?: boolean;
 }
 
 export const LAUREL_BADGES: LaurelBadge[] = [
@@ -66,12 +67,23 @@ export const LAUREL_BADGES: LaurelBadge[] = [
   {
     id: 'grandmaster',
     name: 'Code Master',
-    desc: 'Menuntaskan seluruh misi & menaklukkan Bos Terakhir',
+    desc: 'Menuntaskan 12 topik dan memperoleh setidaknya satu sertifikat kelulusan.',
     icon: '👑',
     laurelColor: 'text-yellow-400 border-yellow-500/60 bg-yellow-950/70',
     glow: 'shadow-yellow-500/40',
     minCompleted: 12,
     requiresCert: true,
+  },
+  {
+    id: 'curriculum-guardian',
+    name: 'Penjaga Kurikulum',
+    desc: 'Menuntaskan semua topik kurikulum dan memiliki sertifikat kelulusan.',
+    icon: '🗝️',
+    laurelColor: 'text-cyan-300 border-cyan-400/60 bg-cyan-950/70',
+    glow: 'shadow-cyan-500/35',
+    minCompleted: 1,
+    requiresCert: true,
+    requiresAllTopics: true,
   },
 ];
 
@@ -84,12 +96,14 @@ interface Props {
 export function LaurelWreathBadgeRack({
   completedCount,
   certificatesCount = 0,
+  totalPossibleCount = 0,
 }: Props) {
   const getIsUnlocked = (b: LaurelBadge) => {
-    if (b.requiresCert) {
-      return certificatesCount > 0 || completedCount >= b.minCompleted;
-    }
-    return completedCount >= b.minCompleted;
+    const topicRequirementMet = b.requiresAllTopics
+      ? totalPossibleCount > 0 && completedCount >= totalPossibleCount
+      : completedCount >= b.minCompleted;
+    const certificateRequirementMet = !b.requiresCert || certificatesCount > 0;
+    return topicRequirementMet && certificateRequirementMet;
   };
 
   const unlockedCount = LAUREL_BADGES.filter(getIsUnlocked).length;
