@@ -75,7 +75,7 @@ function QuestHeader() {
         Perjalanan Belajarmu
       </h1>
       <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-        Selesaikan setiap topik untuk membuka yang berikutnya.
+        Setiap topik terbuka saat sesi bersama gurumu dimulai.
       </p>
     </div>
   );

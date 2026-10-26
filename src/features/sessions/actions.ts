@@ -13,7 +13,7 @@ import { requireAdmin, requireAdminOrTeacher } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { Json } from '@/types/database';
 import { ATTENDANCE_STATUSES } from '@/types/sessions';
-import { isCompleteModuleSchedule } from './curriculumSchedule';
+import { assignTopicsToSessions, isCompleteModuleSchedule } from './curriculumSchedule';
 import {
   validate,
   createSessionSchema,
@@ -80,20 +80,25 @@ export async function createSession(
   const { data: moduleRow, error: moduleError } = await db
     .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
   if (moduleError || !moduleRow) return { success: false, error: 'Modul kurikulum tidak ditemukan atau tidak aktif.' };
-  const { count: publishedTopicCount, error: topicsCountError } = await db
-    .from('topics').select('id', { count: 'exact', head: true })
-    .eq('module_id', module_id).eq('status', 'published');
-  if (topicsCountError || !isCompleteModuleSchedule(session_count, publishedTopicCount)) {
+  const { data: publishedTopics, error: topicsError } = await (db
+    .from('topics').select('id')
+    .eq('module_id', module_id).eq('status', 'published')
+    .order('order_index', { ascending: true }).order('id', { ascending: true }) as unknown as Promise<{
+      data: Array<{ id: number }> | null;
+      error: { message: string } | null;
+    }>);
+  if (topicsError || !publishedTopics || !isCompleteModuleSchedule(session_count, publishedTopics.length)) {
     return { success: false, error: 'Jumlah sesi dalam satu seri harus sama dengan jumlah topik terpublikasi pada modul agar setiap topik memiliki sesi.' };
   }
+  const topicAssignments = assignTopicsToSessions(publishedTopics.map((topic) => topic.id));
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate = new Date(meeting_date);
   const insertedIds: number[] = [];
   let failureReason: string | null = null;
 
-  for (let i = 0; i < session_count; i++) {
+  for (const assignment of topicAssignments) {
     const sessionDate = new Date(baseDate);
-    sessionDate.setDate(sessionDate.getDate() + i * 7);
+    sessionDate.setDate(sessionDate.getDate() + (assignment.session_number - 1) * 7);
 
     // Cast through unknown â€” hand-authored Database generic doesn't resolve
     // MeetingInsert through the Supabase client generic perfectly at compile time.
@@ -104,10 +109,11 @@ export async function createSession(
         meeting_date: sessionDate.toISOString(),
         link_url: link_url ?? null,
         notes: notes ?? null,
-        session_count,
-        session_number: i + 1,
+        session_count: topicAssignments.length,
+        session_number: assignment.session_number,
         series_id: seriesId,
         module_id,
+        topic_id: assignment.topic_id,
         teacher_id: teacherId,
       } as never)
       .select('id')

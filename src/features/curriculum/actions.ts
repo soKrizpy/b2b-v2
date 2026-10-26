@@ -7,15 +7,19 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getActiveChallengeIds, isValidActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getAllModulesWithTopics } from './queries';
 import {
   curriculumJsonSchema,
   encodeFinalAssessment,
+  extractFinalAssessment,
+  extractTopicQuiz,
   moduleImportSchema,
+  normalizeTopicChallenges,
   type ModuleImport,
   type NodeImport,
 } from './validation';
-import { getInstructionalSlides, hasRequiredLessonSlideCount, MIN_LESSON_SLIDES, MAX_LESSON_SLIDES } from './lessonSlides';
+import { getInstructionalSlides, hasAuthoredLessonContent, MIN_LESSON_SLIDES, MAX_LESSON_SLIDES } from './lessonSlides';
 
 // ── Return type ───────────────────────────────────────────────────────────────
 // Exported as a type — allowed in 'use server' files (type exports are erased
@@ -38,6 +42,7 @@ function nodeToLearningNode(n: NodeImport) {
   };
   return {
     id:            n.node_id,
+    order:         n.order,
     type:          typeMap[n.type] ?? n.type,
     title:         n.title,
     xp:            n.xp,
@@ -49,6 +54,85 @@ function nodeToLearningNode(n: NodeImport) {
     ...(n.code_content && {
       code: { language: n.code_language ?? 'text', content: n.code_content },
     }),
+  };
+}
+
+function buildLessonContent(
+  topic: ModuleImport['topics'][number],
+  existing: unknown
+): Record<string, unknown> {
+  const previous = existing && typeof existing === 'object' && !Array.isArray(existing)
+    ? existing as Record<string, unknown>
+    : {};
+  const lessonContent: Record<string, unknown> = {
+    ...previous,
+    learningPath: topic.nodes.map(nodeToLearningNode),
+  };
+
+  if (topic.quiz !== undefined) lessonContent.quiz = topic.quiz;
+  if (topic.challenge !== undefined) {
+    lessonContent.challenge = normalizeTopicChallenges(topic.challenge);
+  }
+  return lessonContent;
+}
+
+async function persistTopicChallenges(
+  db: ReturnType<typeof createSupabaseAdminClient>,
+  topicId: number,
+  challengeInput: ModuleImport['topics'][number]['challenge'],
+  existing: Array<{
+    id: number;
+    order_index: number;
+    title: string;
+    instructions: string | null;
+    allows_file_upload: boolean;
+  }>
+): Promise<{ error: string | null; activeIds: number[] | undefined }> {
+  const definitions = normalizeTopicChallenges(challengeInput);
+  if (!definitions?.length) return { error: null, activeIds: undefined };
+
+  const usedIds = new Set<number>();
+  const activeIds: number[] = [];
+  for (const [index, challenge] of definitions.entries()) {
+    const allowsFileUpload = challenge.submission_type === 'file';
+    const matching = existing.find((row) =>
+      !usedIds.has(row.id)
+      && row.title === challenge.title
+      && (row.instructions ?? '') === challenge.instructions
+      && row.allows_file_upload === allowsFileUpload
+    );
+    if (matching) {
+      usedIds.add(matching.id);
+      activeIds.push(matching.id);
+      continue;
+    }
+
+    const { data: inserted, error } = await (db.from('challenges')
+      .insert({
+        topic_id: topicId,
+        title: challenge.title,
+        instructions: challenge.instructions,
+        order_index: index,
+        allows_file_upload: allowsFileUpload,
+      } as never)
+      .select('id')
+      .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+    if (error || !inserted) {
+      return { error: error?.message ?? 'ID challenge tidak dikembalikan.', activeIds: undefined };
+    }
+    activeIds.push(inserted.id);
+  }
+
+  // Keep historical rows intact; the topic JSONB sidecar controls visibility.
+  return { error: null, activeIds };
+}
+
+function importFailure(message: string, writeStarted: boolean): CurriculumActionResult {
+  return {
+    success: false,
+    error: writeStarted
+      ? `${message} Import tidak transaksional; perubahan parsial mungkin sudah tersimpan. Periksa hasilnya lalu jalankan ulang JSON yang sama untuk melanjutkan dengan aman.`
+      : message,
   };
 }
 
@@ -81,117 +165,136 @@ export async function importCurriculumJson(
   const db = createSupabaseAdminClient();
   let importedModules = 0;
   let importedTopics  = 0;
+  let writeStarted = false;
 
-  const { data: existingModules } = await (db
-    .from('modules')
-    .select('id, title') as unknown as Promise<{
-      data: Array<{ id: number; title: string }>;
-      error: unknown;
-    }>);
+  type ExistingTopic = { id: number; title: string; lesson_content: unknown; project_link: string | null };
+  type ExistingChallenge = { id: number; order_index: number; title: string; instructions: string | null; allows_file_upload: boolean };
+  type TopicPlan = { topic: ModuleImport['topics'][number]; existingTopic?: ExistingTopic; existingChallenges: ExistingChallenge[] };
+  type ModulePlan = { mod: ModuleImport; existingId?: number; topics: TopicPlan[] };
 
-  const modTitleMap = new Map<string, number>(
-    (existingModules ?? []).map((m) => [m.title.toLowerCase().trim(), m.id])
-  );
-
-  for (const mod of modules) {
-    const normalizedTitle = mod.module_title.trim();
-    let moduleId = modTitleMap.get(normalizedTitle.toLowerCase());
-
-    if (moduleId) {
-      await (db
-        .from('modules')
-        .update({
-          description:       mod.final_assessment
-            ? encodeFinalAssessment(mod.final_assessment)
-            : (mod.description ?? null),
-          level:             mod.level,
-          gamification_type: mod.gamification_type,
-        } as never)
-        .eq('id', moduleId) as unknown as Promise<unknown>);
-    } else {
-      const { data: newMod, error: modErr } = await (db
-        .from('modules')
-        .insert({
-          title:             normalizedTitle,
-          description:       mod.final_assessment
-            ? encodeFinalAssessment(mod.final_assessment)
-            : (mod.description ?? null),
-          level:             mod.level,
-          gamification_type: mod.gamification_type,
-        } as never)
-        .select('id')
-        .single() as unknown as Promise<{
-          data: { id: number } | null;
-          error: { message: string } | null;
-        }>);
-
-      if (modErr || !newMod) {
-        return { success: false, error: `Gagal membuat modul "${normalizedTitle}": ${modErr?.message}` };
-      }
-      moduleId = newMod.id;
-      modTitleMap.set(normalizedTitle.toLowerCase(), moduleId);
+  try {
+    // Preflight every read needed by the complete payload before the first write.
+    const { data: existingModules, error: modulesReadError } = await (db
+      .from('modules')
+      .select('id, title') as unknown as Promise<{
+        data: Array<{ id: number; title: string }> | null;
+        error: { message: string } | null;
+      }>);
+    if (modulesReadError || !existingModules) {
+      return importFailure(`Gagal membaca modul yang sudah ada: ${modulesReadError?.message ?? 'data tidak tersedia.'}`, false);
     }
 
-    importedModules++;
+    const moduleIds = new Map(existingModules.map((row) => [row.title.toLowerCase().trim(), row.id]));
+    const plans: ModulePlan[] = [];
+    for (const mod of modules) {
+      const existingId = moduleIds.get(mod.module_title.trim().toLowerCase());
+      let existingTopics: ExistingTopic[] = [];
+      if (existingId !== undefined) {
+        const { data, error } = await (db.from('topics')
+          .select('id, title, lesson_content, project_link')
+          .eq('module_id', existingId) as unknown as Promise<{ data: ExistingTopic[] | null; error: { message: string } | null }>);
+        if (error || !data) {
+          return importFailure(`Gagal membaca topik modul "${mod.module_title}": ${error?.message ?? 'data tidak tersedia.'}`, false);
+        }
+        existingTopics = data;
+      }
 
-    const { data: existingTopics } = await (db
-      .from('topics')
-      .select('id, title')
-      .eq('module_id', moduleId) as unknown as Promise<{
-        data: Array<{ id: number; title: string }>;
-        error: unknown;
-      }>);
-
-    const topicTitleMap = new Map<string, number>(
-      (existingTopics ?? []).map((t) => [t.title.toLowerCase().trim(), t.id])
-    );
-
-    for (const topic of mod.topics) {
-      const topicTitle    = topic.topic_title.trim();
-      const learningPath = topic.nodes.map(nodeToLearningNode);
-      const lessonContent = (learningPath.length > 0 || topic.quiz?.length)
-        ? {
-            learningPath,
-            ...(topic.quiz?.length && { quiz: topic.quiz }),
+      const topics = mod.topics.map((topic) => ({
+        topic,
+        existingTopic: existingTopics.find((row) => row.title.toLowerCase().trim() === topic.topic_title.trim().toLowerCase()),
+        existingChallenges: [] as ExistingChallenge[],
+      }));
+      for (const topicPlan of topics) {
+        if (topicPlan.existingTopic && topicPlan.topic.challenge !== undefined) {
+          const { data, error } = await (db.from('challenges')
+            .select('id, order_index, title, instructions, allows_file_upload')
+            .eq('topic_id', topicPlan.existingTopic.id)
+            .order('order_index', { ascending: true }) as unknown as Promise<{ data: ExistingChallenge[] | null; error: { message: string } | null }>);
+          if (error || !data) {
+            return importFailure(`Gagal membaca challenge topik "${topicPlan.topic.topic_title}": ${error?.message ?? 'data tidak tersedia.'}`, false);
           }
-        : null;
-      const lessonReady = hasRequiredLessonSlideCount(getInstructionalSlides(learningPath));
-      const topicStatus = lessonReady ? 'published' : 'draft';
-
-      const existingTopicId = topicTitleMap.get(topicTitle.toLowerCase());
-
-      if (existingTopicId) {
-        await (db
-          .from('topics')
-          .update({
-            order_index:    topic.topic_order,
-            description:    topic.description ?? null,
-            project_link:   topic.project_link || null,
-            lesson_content: lessonContent,
-            status:         topicStatus,
-            published_at: lessonReady ? new Date().toISOString() : null,
-          } as never)
-          .eq('id', existingTopicId) as unknown as Promise<unknown>);
-      } else {
-        const { error: topicErr } = await (db
-          .from('topics')
-          .insert({
-            module_id:      moduleId,
-            title:          topicTitle,
-            order_index:    topic.topic_order,
-            description:    topic.description ?? null,
-            project_link:   topic.project_link || null,
-            lesson_content: lessonContent,
-            status:         topicStatus,
-            published_at: lessonReady ? new Date().toISOString() : null,
-          } as never) as unknown as Promise<{ error: { message: string } | null }>);
-
-        if (topicErr) {
-          return { success: false, error: `Gagal membuat topik "${topicTitle}": ${topicErr.message}` };
+          topicPlan.existingChallenges = data;
         }
       }
-      importedTopics++;
+      plans.push({ mod, existingId, topics });
     }
+
+    for (const plan of plans) {
+      const normalizedTitle = plan.mod.module_title.trim();
+      let moduleId = plan.existingId;
+      if (moduleId !== undefined) {
+        const moduleUpdate: Record<string, unknown> = {
+          level: plan.mod.level,
+          gamification_type: plan.mod.gamification_type,
+        };
+        if (plan.mod.final_assessment) moduleUpdate.description = encodeFinalAssessment(plan.mod.final_assessment);
+        else if (plan.mod.description !== undefined) moduleUpdate.description = plan.mod.description;
+        writeStarted = true;
+        const { error } = await (db.from('modules').update(moduleUpdate as never).eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
+        if (error) return importFailure(`Gagal memperbarui modul "${normalizedTitle}": ${error.message}`, writeStarted);
+      } else {
+        writeStarted = true;
+        const { data, error } = await (db.from('modules').insert({
+          title: normalizedTitle,
+          description: plan.mod.final_assessment ? encodeFinalAssessment(plan.mod.final_assessment) : (plan.mod.description ?? null),
+          level: plan.mod.level,
+          gamification_type: plan.mod.gamification_type,
+        } as never).select('id').single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+        if (error || !data) return importFailure(`Gagal membuat modul "${normalizedTitle}": ${error?.message ?? 'ID modul tidak dikembalikan.'}`, writeStarted);
+        moduleId = data.id;
+      }
+      importedModules++;
+
+      for (const topicPlan of plan.topics) {
+        const { topic, existingTopic } = topicPlan;
+        const topicTitle = topic.topic_title.trim();
+        const lessonContent = buildLessonContent(topic, existingTopic?.lesson_content ?? null);
+        const lessonReady = hasAuthoredLessonContent(getInstructionalSlides(lessonContent.learningPath));
+        const topicValues: Record<string, unknown> = {
+          order_index: topic.topic_order,
+          project_link: topic.project_link !== undefined ? (topic.project_link || null) : existingTopic?.project_link,
+          lesson_content: lessonContent,
+          status: lessonReady ? 'published' : 'draft',
+          published_at: lessonReady ? new Date().toISOString() : null,
+        };
+        if (topic.description !== undefined) topicValues.description = topic.description;
+
+        let topicId = existingTopic?.id;
+        if (topicId === undefined) {
+          writeStarted = true;
+          const { data, error } = await (db.from('topics').insert({
+            module_id: moduleId,
+            title: topicTitle,
+            description: topic.description ?? null,
+            project_link: topic.project_link || null,
+            ...topicValues,
+          } as never).select('id').single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+          if (error || !data) return importFailure(`Gagal membuat topik "${topicTitle}": ${error?.message ?? 'ID topik tidak dikembalikan.'}`, writeStarted);
+          topicId = data.id;
+        }
+
+        if (topic.challenge !== undefined) {
+          writeStarted = true;
+          const persisted = await persistTopicChallenges(db, topicId, topic.challenge, topicPlan.existingChallenges);
+          if (persisted.error) return importFailure(`Gagal menyimpan challenge topik "${topicTitle}": ${persisted.error}`, writeStarted);
+          lessonContent.activeChallengeIds = persisted.activeIds ?? [];
+          topicValues.lesson_content = lessonContent;
+        }
+
+        // Existing topics are written after challenge definitions so their active-ID
+        // sidecar is committed with the imported topic content. New topics need this
+        // final update only when challenge IDs were generated.
+        if (existingTopic || topic.challenge !== undefined) {
+          writeStarted = true;
+          const { error } = await (db.from('topics').update(topicValues as never).eq('id', topicId) as unknown as Promise<{ error: { message: string } | null }>);
+          if (error) return importFailure(`Gagal memperbarui topik "${topicTitle}": ${error.message}`, writeStarted);
+        }
+        importedTopics++;
+      }
+    }
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    return importFailure(`Import gagal: ${detail}`, writeStarted);
   }
 
   revalidateAll();
@@ -212,15 +315,70 @@ export async function exportCurriculumJson(): Promise<
   if (!auth.ok) return { success: false, error: auth.message };
 
   const modules = await getAllModulesWithTopics();
+  const topicIds = modules.flatMap((module) => module.topics.map((topic) => topic.id));
+  const db = createSupabaseAdminClient();
+  const { data: challengeRows, error: challengeReadError } = topicIds.length
+    ? await (db.from('challenges')
+        .select('id, topic_id, title, instructions, order_index, allows_file_upload')
+        .in('topic_id', topicIds)
+        .order('order_index', { ascending: true }) as unknown as Promise<{
+          data: Array<{ id: number; topic_id: number; title: string; instructions: string | null; order_index: number; allows_file_upload: boolean }> | null;
+          error: { message: string } | null;
+        }>)
+    : { data: [], error: null };
+  if (challengeReadError || !challengeRows) {
+    return { success: false, error: `Gagal membaca challenge kurikulum: ${challengeReadError?.message ?? 'data tidak tersedia.'}` };
+  }
+
+  const supportedTypes = new Set(['lesson', 'theory', 'quiz', 'challenge', 'code', 'practice']);
+  for (const curriculumModule of modules) {
+    if (curriculumModule.description?.startsWith('FINAL_ASSESSMENT:') && !extractFinalAssessment(curriculumModule.description)) {
+      return { success: false, error: `Final assessment pada modul "${curriculumModule.title}" tidak valid; export dihentikan agar data tidak hilang.` };
+    }
+    for (const topic of curriculumModule.topics) {
+      const lessonContent = topic.lesson_content as { learningPath?: unknown; quiz?: unknown } | null;
+      if (!isValidActiveChallengeIds(lessonContent)) {
+        return { success: false, error: `Metadata challenge aktif pada topik "${topic.title}" tidak valid; export dihentikan agar visibilitas tidak berubah diam-diam.` };
+      }
+      if (lessonContent?.learningPath !== undefined && !Array.isArray(lessonContent.learningPath)) {
+        return { success: false, error: `Learning path pada topik "${topic.title}" tidak valid; export dihentikan agar materi tidak hilang.` };
+      }
+      if (Array.isArray(lessonContent?.learningPath)) {
+        for (const [index, rawNode] of lessonContent.learningPath.entries()) {
+          if (!rawNode || typeof rawNode !== 'object' || Array.isArray(rawNode)) {
+            return { success: false, error: `Node materi ke-${index + 1} pada topik "${topic.title}" tidak valid.` };
+          }
+          const type = (rawNode as Record<string, unknown>).type;
+          if (typeof type === 'string' && !supportedTypes.has(type)) {
+            return { success: false, error: `Tipe node "${type}" pada topik "${topic.title}" belum didukung export.` };
+          }
+        }
+      }
+      const rawQuiz = lessonContent?.quiz;
+      if (rawQuiz !== undefined && !Array.isArray(rawQuiz)) {
+        return { success: false, error: `Quiz pada topik "${topic.title}" tidak valid; export dihentikan agar soal tidak hilang.` };
+      }
+      if (Array.isArray(rawQuiz) && extractTopicQuiz(lessonContent).length !== rawQuiz.length) {
+        return { success: false, error: `Quiz pada topik "${topic.title}" tidak valid; export dihentikan agar soal tidak hilang.` };
+      }
+    }
+  }
+  const challengeMap = new Map<number, typeof challengeRows>();
+  for (const challenge of challengeRows) {
+    const rows = challengeMap.get(challenge.topic_id) ?? [];
+    rows.push(challenge);
+    challengeMap.set(challenge.topic_id, rows);
+  }
 
   const payload = modules.map((mod) => ({
     module_title:      mod.title ?? '',
     module_order:      0,
-    description:       mod.description ?? undefined,
+    description:       mod.description?.startsWith('FINAL_ASSESSMENT:') ? undefined : mod.description ?? undefined,
     level:             (mod.level as ModuleImport['level']) ?? 'beginner',
     gamification_type: (mod.gamification_type as ModuleImport['gamification_type']) ?? 'mimo',
+    final_assessment:  extractFinalAssessment(mod.description ?? null) ?? undefined,
     topics: mod.topics.map((topic) => {
-      const lc       = topic.lesson_content as { learningPath?: unknown[] } | null;
+      const lc       = topic.lesson_content as { learningPath?: unknown[]; quiz?: unknown; challenge?: unknown } | null;
       const rawNodes = lc?.learningPath ?? [];
 
       const nodes: NodeImport[] = rawNodes.map((n: unknown, idx: number) => {
@@ -232,8 +390,8 @@ export async function exportCurriculumJson(): Promise<
         const rawType = (node.type as string) ?? 'lesson';
         return {
           node_id:        (node.id as string) ?? `node-${idx + 1}`,
-          order:          idx,
-          type:           typeRevMap[rawType] ?? 'theory',
+          order:          Number.isInteger(node.order) ? node.order as number : idx,
+          type:           typeRevMap[rawType] ?? (['theory', 'lesson', 'quiz', 'challenge', 'code', 'practice'].includes(rawType) ? rawType as NodeImport['type'] : 'theory'),
           title:          (node.title as string) ?? '',
           content:        (node.explanation as string) ?? (node.content as string) ?? undefined,
           instructions:   (node.instructions as string) ?? undefined,
@@ -245,17 +403,44 @@ export async function exportCurriculumJson(): Promise<
         };
       });
 
+      const allStoredChallenges = challengeMap.get(topic.id) ?? [];
+      const activeChallengeIds = getActiveChallengeIds(lc);
+      const storedChallenges = activeChallengeIds === undefined
+        ? allStoredChallenges
+        : [...allStoredChallenges]
+          .filter((challenge) => activeChallengeIds.includes(challenge.id))
+          .sort((a, b) => activeChallengeIds.indexOf(a.id) - activeChallengeIds.indexOf(b.id));
+      const lessonSidecar = Array.isArray(lc?.challenge)
+        ? lc.challenge as Array<{ xp?: unknown }>
+        : lc?.challenge && typeof lc.challenge === 'object'
+          ? [lc.challenge as { xp?: unknown }]
+          : [];
+      const challenges = storedChallenges.map((challenge, index) => ({
+        title: challenge.title,
+        instructions: challenge.instructions ?? '',
+        submission_type: challenge.allows_file_upload ? 'file' as const : 'link' as const,
+        xp: lessonSidecar[index]?.xp ?? 30,
+      }));
+
       return {
         topic_title:  topic.title,
         topic_order:  topic.order_index,
         description:  topic.description ?? undefined,
         project_link: topic.project_link ?? undefined,
         nodes,
+        ...(extractTopicQuiz(lc).length > 0 && { quiz: extractTopicQuiz(lc) }),
+        challenge: challenges.length === 0
+          ? (activeChallengeIds === undefined ? undefined : [])
+          : challenges.length === 1 ? challenges[0] : challenges,
       };
     }),
   }));
 
-  return { success: true, data: payload };
+  const validatedPayload = curriculumJsonSchema.safeParse(payload);
+  if (!validatedPayload.success) {
+    return { success: false, error: 'Data kurikulum tidak memenuhi format export; proses dihentikan agar konten tidak hilang.' };
+  }
+  return { success: true, data: validatedPayload.data };
 }
 
 // ── deleteModule ──────────────────────────────────────────────────────────────
@@ -345,7 +530,7 @@ export async function createModuleAction(
   if (!title) return { success: false, error: 'Judul modul wajib diisi.', fields: { title: 'Wajib diisi.' } };
 
   const db = createSupabaseAdminClient();
-  const { data, error } = await (db
+  const { error } = await (db
     .from('modules')
     .insert({ title, description, level, gamification_type } as never)
     .select('id')
@@ -405,6 +590,9 @@ export async function importCurriculumJsonForModule(
   // We normalise both into a single module entry with the given moduleId.
   // Parse: accept single-module JSON or a wrapper with just topics[]
   // If it's an array, treat as multi-module (legacy) and pick the first.
+  if (Array.isArray(payload) && payload.length !== 1) {
+    return { success: false, error: 'Import ke satu modul harus berisi tepat satu modul; tidak ada modul yang diabaikan.' };
+  }
   const parsed = Array.isArray(payload) ? payload[0] : payload;
   if (!parsed || typeof parsed !== 'object') {
     return { success: false, error: 'Payload kosong.' };
@@ -423,70 +611,100 @@ export async function importCurriculumJsonForModule(
 
   const mod = result.data;
   let importedTopics = 0;
+  let writeStarted = false;
 
   try {
     const db = createSupabaseAdminClient();
 
-    // Update module metadata if final_assessment is in the JSON
+    // Upsert topics into this module
+    const { data: existingTopics, error: topicsError } = await (db
+      .from('topics')
+      .select('id, title, lesson_content, project_link')
+      .eq('module_id', moduleId) as unknown as Promise<{
+        data: Array<{ id: number; title: string; lesson_content: unknown; project_link: string | null }> | null;
+        error: { message: string } | null;
+      }>);
+    if (topicsError || !existingTopics) {
+      return importFailure(`Gagal membaca topik modul: ${topicsError?.message ?? 'data tidak tersedia.'}`, false);
+    }
+
+    const topicPlans = mod.topics.map((topic) => {
+      const existingTopic = existingTopics.find((row) => row.title.toLowerCase().trim() === topic.topic_title.trim().toLowerCase());
+      return { topic, existingTopic, existingChallenges: [] as Array<{ id: number; order_index: number; title: string; instructions: string | null; allows_file_upload: boolean }> };
+    });
+    // Read all challenge snapshots before assessment/topic/challenge writes.
+    for (const topicPlan of topicPlans) {
+      if (!topicPlan.existingTopic || topicPlan.topic.challenge === undefined) continue;
+      const { data, error } = await (db.from('challenges')
+        .select('id, order_index, title, instructions, allows_file_upload')
+        .eq('topic_id', topicPlan.existingTopic.id)
+        .order('order_index', { ascending: true }) as unknown as Promise<{
+          data: Array<{ id: number; order_index: number; title: string; instructions: string | null; allows_file_upload: boolean }> | null;
+          error: { message: string } | null;
+        }>);
+      if (error || !data) return importFailure(`Gagal membaca challenge topik "${topicPlan.topic.topic_title}": ${error?.message ?? 'data tidak tersedia.'}`, false);
+      topicPlan.existingChallenges = data;
+    }
+
+    // Perform module assessment changes only after all required reads succeed.
     if (mod.final_assessment) {
+      writeStarted = true;
       const { error } = await (db
         .from('modules')
         .update({ description: encodeFinalAssessment(mod.final_assessment) } as never)
         .eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
       if (error) {
-        return { success: false, error: `Gagal memperbarui tryout modul: ${error.message}` };
+        return importFailure(`Gagal memperbarui tryout modul: ${error.message}`, writeStarted);
       }
     }
 
-    // Upsert topics into this module
-    const { data: existingTopics, error: topicsError } = await (db
-      .from('topics')
-      .select('id, title')
-      .eq('module_id', moduleId) as unknown as Promise<{
-        data: Array<{ id: number; title: string }> | null;
-        error: { message: string } | null;
-      }>);
-    if (topicsError) {
-      return { success: false, error: `Gagal membaca topik modul: ${topicsError.message}` };
-    }
-
-    const topicTitleMap = new Map<string, number>(
-      (existingTopics ?? []).map((t) => [t.title.toLowerCase().trim(), t.id])
-    );
-
-    for (const topic of mod.topics) {
+    for (const topicPlan of topicPlans) {
+      const { topic, existingTopic } = topicPlan;
       const topicTitle    = topic.topic_title.trim();
-      const learningPath = topic.nodes.map(nodeToLearningNode);
-      const lessonContent = (learningPath.length > 0 || topic.quiz?.length)
-        ? { learningPath, ...(topic.quiz?.length && { quiz: topic.quiz }) }
-        : null;
-      const lessonReady = hasRequiredLessonSlideCount(getInstructionalSlides(learningPath));
+      const lessonContent = buildLessonContent(
+        topic,
+        existingTopic?.lesson_content ?? null
+      );
+      const learningPath = lessonContent.learningPath;
+      const lessonReady = hasAuthoredLessonContent(getInstructionalSlides(learningPath));
       const topicStatus = lessonReady ? 'published' : 'draft';
 
-      const existingId = topicTitleMap.get(topicTitle.toLowerCase());
-      if (existingId) {
-        const { error } = await (db
-          .from('topics')
-          .update({
-            order_index: topic.topic_order, description: topic.description ?? null,
-            project_link: topic.project_link || null, lesson_content: lessonContent,
-            status: topicStatus,
-            published_at: lessonReady ? new Date().toISOString() : null,
-          } as never)
-          .eq('id', existingId) as unknown as Promise<{ error: { message: string } | null }>);
-        if (error) {
-          return { success: false, error: `Gagal memperbarui topik "${topicTitle}": ${error.message}` };
-        }
-      } else {
-        const { error: tErr } = await (db
+      let topicId = existingTopic?.id;
+      if (topicId === undefined) {
+        writeStarted = true;
+        const { data: insertedTopic, error: tErr } = await (db
           .from('topics')
           .insert({
             module_id: moduleId, title: topicTitle, order_index: topic.topic_order,
             description: topic.description ?? null, project_link: topic.project_link || null,
             lesson_content: lessonContent, status: topicStatus,
             published_at: lessonReady ? new Date().toISOString() : null,
-          } as never) as unknown as Promise<{ error: { message: string } | null }>);
-        if (tErr) return { success: false, error: `Gagal membuat topik "${topicTitle}": ${tErr.message}` };
+          } as never)
+          .select('id')
+          .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+        if (tErr || !insertedTopic) return importFailure(`Gagal membuat topik "${topicTitle}": ${tErr?.message ?? 'ID topik tidak dikembalikan.'}`, writeStarted);
+        topicId = insertedTopic.id;
+      }
+
+      if (topic.challenge !== undefined) {
+        writeStarted = true;
+        const persisted = await persistTopicChallenges(db, topicId, topic.challenge, topicPlan.existingChallenges);
+        if (persisted.error) return importFailure(`Gagal menyimpan challenge topik "${topicTitle}": ${persisted.error}`, writeStarted);
+        lessonContent.activeChallengeIds = persisted.activeIds ?? [];
+      }
+
+      if (existingTopic || topic.challenge !== undefined) {
+        const topicUpdate: Record<string, unknown> = {
+          order_index: topic.topic_order,
+          project_link: topic.project_link !== undefined ? (topic.project_link || null) : existingTopic?.project_link,
+          lesson_content: lessonContent,
+          status: topicStatus,
+          published_at: lessonReady ? new Date().toISOString() : null,
+        };
+        if (topic.description !== undefined) topicUpdate.description = topic.description;
+        writeStarted = true;
+        const { error } = await (db.from('topics').update(topicUpdate as never).eq('id', topicId) as unknown as Promise<{ error: { message: string } | null }>);
+        if (error) return importFailure(`Gagal memperbarui topik "${topicTitle}": ${error.message}`, writeStarted);
       }
       importedTopics++;
     }
@@ -496,14 +714,12 @@ export async function importCurriculumJsonForModule(
     return { success: true, message: `${importedTopics} topik berhasil diimpor ke modul ini.`, stats: { modules: 1, topics: importedTopics } };
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
+    const stage = writeStarted ? 'menyimpan' : 'membaca data sebelum menyimpan';
     console.error('[importCurriculumJsonForModule] Import failed', {
       moduleId,
       error: detail,
     });
-    return {
-      success: false,
-      error: `Import gagal saat menyimpan kurikulum: ${detail}. Sebagian perubahan mungkin sudah tersimpan.`,
-    };
+    return importFailure(`Import gagal saat ${stage}: ${detail}`, writeStarted);
   }
 }
 
@@ -542,10 +758,10 @@ export async function updateTopicAction(
     if (!topic) return { success: false, error: 'Topik tidak ditemukan.' };
     const lessonContent = topic.lesson_content as Record<string, unknown> | null;
     const slides = getInstructionalSlides(lessonContent?.learningPath);
-    if (!hasRequiredLessonSlideCount(slides)) {
+    if (!hasAuthoredLessonContent(slides)) {
       return {
         success: false,
-        error: `Topik harus memiliki ${MIN_LESSON_SLIDES}–${MAX_LESSON_SLIDES} slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: ${slides.length}.`,
+        error: `Topik harus memiliki setidaknya satu slide instruksional valid sebelum dipublikasikan. Target ${MIN_LESSON_SLIDES}–${MAX_LESSON_SLIDES} slide disarankan jika materi sumber mendukung. Saat ini: ${slides.length}.`,
       };
     }
   }

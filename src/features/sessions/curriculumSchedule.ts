@@ -7,3 +7,16 @@ export function isCompleteModuleSchedule(
     && publishedTopicCount > 0
     && sessionCount === publishedTopicCount;
 }
+
+export interface TopicSessionAssignment {
+  topic_id: number;
+  session_number: number;
+}
+
+/** Preserve the database's pre-sorted published-topic order in explicit assignments. */
+export function assignTopicsToSessions(topicIds: readonly number[]): TopicSessionAssignment[] {
+  return topicIds.map((topicId, index) => ({
+    topic_id: topicId,
+    session_number: index + 1,
+  }));
+}

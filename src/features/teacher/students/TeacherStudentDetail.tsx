@@ -13,6 +13,7 @@ import {
   Layers, FileCheck2, MessageCircle, ExternalLink,
 } from 'lucide-react';
 import type { TeacherStudentProfile } from '@/features/users/teacherStudentQueries';
+import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 
 type Tab = 'overview' | 'questmap' | 'badges' | 'submissions' | 'sessions';
 
@@ -23,12 +24,6 @@ const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
   { key: 'submissions',label: 'Tugas',              icon: FileCheck2 },
   { key: 'sessions',   label: 'Sesi Belajar',       icon: CalendarDays },
 ];
-
-const TIER_MEDAL: Record<string, string> = {
-  achievement: '🥇',
-  excellent:   '🥈',
-  completion:  '🥉',
-};
 
 function isSupabaseStorageImage(url: string): boolean {
   try {
@@ -408,7 +403,7 @@ export function TeacherStudentDetail({ student }: Props) {
                     className="rounded-2xl bg-white dark:bg-zinc-800/50 border border-slate-200/60 dark:border-zinc-700/60 p-4 flex items-center gap-4"
                   >
                     <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-2xl flex-shrink-0">
-                      {TIER_MEDAL[c.tier] ?? '📜'}
+                      {CERTIFICATE_TIER_CONFIG[c.tier as keyof typeof CERTIFICATE_TIER_CONFIG]?.medal ?? '📜'}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">

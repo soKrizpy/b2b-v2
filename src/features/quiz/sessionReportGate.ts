@@ -1,19 +1,17 @@
 export interface TeacherReportMeeting {
-  module_id: number | null;
-  session_number: number | null;
+  topic_id: number | null;
   has_joined: boolean;
   is_completed: boolean;
   progress_report: string | null;
 }
 
-/** A report unlocks only the attended, completed session for the matching module/topic position. */
+/** A report unlocks only the attended, completed meeting associated with this topic. */
 export function isTeacherReportSubmittedForTopic(
   meeting: TeacherReportMeeting,
-  moduleId: number,
-  sessionNumber: number
+  topicId: number
 ): boolean {
-  return meeting.module_id === moduleId
-    && meeting.session_number === sessionNumber
+  return topicId > 0
+    && meeting.topic_id === topicId
     && meeting.has_joined
     && meeting.is_completed
     && Boolean(meeting.progress_report?.trim());
