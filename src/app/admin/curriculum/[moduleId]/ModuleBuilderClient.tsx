@@ -299,8 +299,8 @@ function TopicEditForm({
           className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
             bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
             focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <option value="draft">○ Draft — tidak terlihat siswa</option>
-          <option value="published" disabled={getNodeCount(topic.lesson_content) === 0}>
+          <option value="draft" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">○ Draft — tidak terlihat siswa</option>
+          <option value="published" disabled={getNodeCount(topic.lesson_content) === 0} className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
             ● Published — terlihat siswa
           </option>
         </select>
