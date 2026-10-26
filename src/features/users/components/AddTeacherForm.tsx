@@ -31,7 +31,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('full_name') && <p className="text-xs text-red-600">{err('full_name')}</p>}
         </div>
 
@@ -44,7 +44,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('email') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('email') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('email') && <p className="text-xs text-red-600">{err('email')}</p>}
         </div>
 
@@ -58,13 +58,13 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('password') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('password') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('password') && <p className="text-xs text-red-600">{err('password')}</p>}
           <p className="text-xs text-slate-400">Guru login menggunakan email + password ini</p>
         </div>
       </div>
 
-      <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-white/8">
+      <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-white/[0.08]">
         <button type="submit" disabled={pending}
           className="px-5 py-2.5 text-sm font-bold rounded-xl text-white
             bg-violet-600 hover:bg-violet-700 disabled:opacity-50 transition-colors shadow-sm">
