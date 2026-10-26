@@ -188,7 +188,7 @@ export function CosmeticShopModal({
                   Toko Kosmetik &amp; Ruang Ganti
                 </h3>
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full
-                  bg-cyan-500/15 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300 border border-cyan-400/40">
+                  bg-cyan-500/[0.15] text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300 border border-cyan-400/40">
                   Retro Pixel Adventurer
                 </span>
               </div>
@@ -201,7 +201,7 @@ export function CosmeticShopModal({
           <div className="flex items-center gap-3">
             {/* Coin Balance Chip */}
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl
-              bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-black shadow-sm">
+              bg-amber-500/[0.15] border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-black shadow-sm">
               <span className="text-sm">🪙</span>
               <span className="font-mono text-sm">{coins.toLocaleString('id-ID')}</span>
               <span className="text-[10px] opacity-80 uppercase">Koin</span>
@@ -209,7 +209,7 @@ export function CosmeticShopModal({
 
             {/* Level Chip */}
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl
-              bg-blue-500/15 dark:bg-purple-500/15 border border-blue-400/30 dark:border-purple-500/30
+              bg-blue-500/[0.15] dark:bg-purple-500/[0.15] border border-blue-400/30 dark:border-purple-500/30
               text-blue-700 dark:text-purple-300 text-xs font-black">
               <span>⭐</span>
               <span>Lvl {currentLevel}</span>
@@ -235,8 +235,8 @@ export function CosmeticShopModal({
           {feedback && (
             <div className={`p-3 rounded-2xl text-xs font-bold flex items-center justify-between animate-fade-in ${
               feedback.type === 'success'
-                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
-                : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30'
+                ? 'bg-emerald-500/[0.15] text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                : 'bg-rose-500/[0.15] text-rose-700 dark:text-rose-300 border border-rose-500/30'
             }`}>
               <span>{feedback.message}</span>
               <button type="button" onClick={() => setFeedback(null)} className="opacity-70 hover:opacity-100">✕</button>
@@ -563,11 +563,11 @@ export function CosmeticShopModal({
                             Dimiliki
                           </span>
                         ) : isLevelLocked ? (
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 flex items-center gap-1">
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-500/[0.15] text-rose-600 dark:text-rose-400 border border-rose-500/30 flex items-center gap-1">
                             <Lock className="w-2.5 h-2.5" /> Lvl {item.minLevel}
                           </span>
                         ) : (
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/[0.15] text-amber-600 dark:text-amber-300 border border-amber-500/30 flex items-center gap-1">
                             🪙 {item.price} Koin
                           </span>
                         )}
@@ -612,7 +612,7 @@ export function CosmeticShopModal({
                         disabled={isPending}
                         onClick={() => handleEquipToggle(item, true)}
                         className="flex-1 py-1.5 px-3 rounded-xl text-xs font-black
-                          bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400
+                          bg-rose-500/[0.15] hover:bg-rose-500/25 text-rose-600 dark:text-rose-400
                           border border-rose-500/30 transition-colors"
                       >
                         Lepas
