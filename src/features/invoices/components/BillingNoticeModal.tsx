@@ -55,8 +55,8 @@ export function BillingNoticeModal({ invoices }: Props) {
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center
-        bg-black/60 backdrop-blur-sm p-0 sm:p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain
+        bg-black/65 backdrop-blur-sm p-3 sm:p-4"
       onClick={dismiss}
       aria-modal="true"
       role="dialog"
@@ -64,19 +64,18 @@ export function BillingNoticeModal({ invoices }: Props) {
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-sm
+        className="relative w-full sm:max-w-sm max-h-[calc(100dvh-1.5rem)] min-h-0 flex flex-col
           bg-gradient-to-br from-zinc-950 via-indigo-950/80 to-zinc-900
-          sm:rounded-3xl rounded-t-3xl shadow-2xl
-          ring-1 ring-indigo-500/30
-          overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200"
+          rounded-3xl shadow-2xl ring-1 ring-indigo-500/30
+          overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Decorative glow */}
-        <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full
-          bg-indigo-500/20 blur-3xl pointer-events-none" />
+        <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-16 w-40 h-40 rounded-full
+          bg-indigo-500/20 blur-3xl" />
 
         {/* Header */}
-        <div className="relative px-5 pt-5 pb-4 border-b border-white/8 flex items-start justify-between gap-3">
+        <div className="relative shrink-0 px-5 pt-5 pb-4 border-b border-white/10 flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-500/30
               flex items-center justify-center text-xl flex-shrink-0">
@@ -104,7 +103,7 @@ export function BillingNoticeModal({ invoices }: Props) {
         </div>
 
         {/* Body */}
-        <div className="px-5 py-5 space-y-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 space-y-4">
 
           {/* Amount hero */}
           <div className="text-center">
@@ -170,7 +169,7 @@ export function BillingNoticeModal({ invoices }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="px-5 pb-5 flex items-center gap-3">
+        <div className="shrink-0 px-5 pb-5 flex items-center gap-3 border-t border-white/10 pt-4">
           <button
             type="button"
             onClick={dismiss}
