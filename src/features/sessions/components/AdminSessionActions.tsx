@@ -48,7 +48,7 @@ function IconBtn({
     'inline-flex items-center justify-center w-8 h-8 rounded-xl transition-all duration-150 active:scale-95 ring-1';
   const styles = {
     default:
-      'ring-slate-200 dark:ring-white/15 bg-white dark:bg-zinc-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-white hover:ring-slate-300 dark:hover:ring-white/30',
+      'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-zinc-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-white hover:ring-slate-300 dark:hover:ring-white/30',
     danger:
       'ring-red-200 dark:ring-rose-800/50 bg-red-50 dark:bg-rose-950/40 text-red-600 dark:text-rose-400 hover:bg-red-100 dark:hover:bg-rose-900/50 hover:text-red-700 dark:hover:text-rose-200',
     success:
