@@ -5,21 +5,23 @@
 import { useState, useMemo } from 'react';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
+import { calculateLevel, minXpForLevel } from '@/features/pet/lib/levelCalc';
 
 interface Props {
   gamData: StudentGamificationData | null;
   certificates?: CertificateWithModule[];
   completedCount?: number;
+  totalPossibleCount?: number;
 }
 
-export type BadgeCategory = 'all' | 'level' | 'coins' | 'wardrobe' | 'cert';
+export type BadgeCategory = 'all' | 'learning' | 'level' | 'coins' | 'wardrobe' | 'cert';
 export type BadgeRarity = 'common' | 'rare' | 'epic' | 'legendary';
 
 interface BadgeDef {
   id: string;
   title: string;
   description: string;
-  category: 'level' | 'coins' | 'wardrobe' | 'cert';
+  category: 'learning' | 'level' | 'coins' | 'wardrobe' | 'cert';
   rarity: BadgeRarity;
   icon: string;
   unlocked: boolean;
@@ -70,9 +72,51 @@ const RARITY_CONFIG: Record<BadgeRarity, {
   },
 };
 
+export interface AchievementMilestoneInput {
+  totalXp: number;
+  coins: number;
+  inventoryCount: number;
+  hasEquippedHat: boolean;
+  certificateCount: number;
+  completedCount: number;
+  totalPossibleCount: number;
+}
+
+export interface AchievementMilestone {
+  id: string;
+  title: string;
+  description: string;
+  kind: 'level' | 'badge' | 'certificate' | 'progress';
+}
+
+/** Share the exact unlock conditions with the dashboard's new-achievement notice. */
+export function getUnlockedAchievementMilestones(input: AchievementMilestoneInput): AchievementMilestone[] {
+  const level = calculateLevel(input.totalXp).currentLevel;
+  const items: Array<AchievementMilestone & { unlocked: boolean }> = [
+    { id: 'novice-coder', title: 'Langkah Pertama', description: 'Menyelesaikan topik materi pertamamu.', kind: 'badge', unlocked: input.completedCount >= 1 },
+    { id: 'explorer', title: 'Penjelajah Kode', description: 'Mencapai Level 2 dengan mengumpulkan 100 EXP.', kind: 'badge', unlocked: level >= 2 },
+    { id: 'logic-adventurer', title: 'Petualang Logika', description: 'Mencapai Level 3 dengan mengumpulkan 230 EXP.', kind: 'badge', unlocked: level >= 3 },
+    { id: 'algorithm-master', title: 'Master Algoritma', description: 'Mencapai Level 5 melalui latihan konsisten.', kind: 'badge', unlocked: level >= 5 },
+    { id: 'cyber-legend', title: 'Cyber Legend', description: 'Mencapai Level 10 dan menguasai perjalanan kode.', kind: 'badge', unlocked: level >= 10 },
+    { id: 'topic-trail', title: 'Penjelajah Materi', description: 'Menuntaskan 3 topik pembelajaran.', kind: 'badge', unlocked: input.completedCount >= 3 },
+    { id: 'topic-master', title: 'Penakluk 10 Topik', description: 'Menuntaskan 10 topik pembelajaran.', kind: 'badge', unlocked: input.completedCount >= 10 },
+    { id: 'curriculum-master', title: 'Penguasa Kurikulum', description: 'Menuntaskan semua topik yang tersedia.', kind: 'badge', unlocked: input.totalPossibleCount > 0 && input.completedCount >= input.totalPossibleCount },
+    { id: 'first-gold', title: 'Tabungan Koin', description: 'Mengumpulkan 20 Koin B2B.', kind: 'badge', unlocked: input.coins >= 20 },
+    { id: 'coin-collector', title: 'Kolektor Koin', description: 'Mengumpulkan 50 Koin B2B.', kind: 'badge', unlocked: input.coins >= 50 },
+    { id: 'coin-tycoon', title: 'Sultan B2B', description: 'Mengumpulkan 150 Koin B2B.', kind: 'badge', unlocked: input.coins >= 150 },
+    { id: 'pet-stylish', title: 'Gaya Petualang', description: 'Memasang aksesori pada karakter atau pet.', kind: 'badge', unlocked: input.hasEquippedHat },
+    { id: 'fashion-starter', title: 'Kolektor Kostum', description: 'Mengoleksi setidaknya 2 item.', kind: 'badge', unlocked: input.inventoryCount >= 2 },
+    { id: 'certified-scholar', title: 'Lulusan Teruji', description: 'Mendapatkan sertifikat kelulusan pertamamu.', kind: 'badge', unlocked: input.certificateCount >= 1 },
+    { id: 'master-graduate', title: 'Cendekia Sejati', description: 'Mengumpulkan 3 sertifikat kelulusan modul.', kind: 'badge', unlocked: input.certificateCount >= 3 },
+  ];
+  return items.filter((item) => item.unlocked).map(({ id, title, description, kind }) => ({ id, title, description, kind }));
+}
+
 export function StudentAchievementBadges({
   gamData,
   certificates = [],
+  completedCount = 0,
+  totalPossibleCount = 0,
 }: Props) {
   const [filter, setFilter] = useState<BadgeCategory>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'unlocked' | 'locked'>('all');
@@ -82,68 +126,109 @@ export function StudentAchievementBadges({
   const inventoryCount = gamData?.inventory?.length ?? 0;
   const hasEquippedHat = Boolean(gamData?.equippedHatId);
   const certCount = certificates.length;
+  const currentLevel = calculateLevel(totalXp).currentLevel;
+  const xpForLevel2 = minXpForLevel(2);
+  const xpForLevel3 = minXpForLevel(3);
+  const xpForLevel5 = minXpForLevel(5);
+  const xpForLevel10 = minXpForLevel(10);
 
   const badges: BadgeDef[] = useMemo(() => {
     return [
       {
         id: 'novice-coder',
-        title: 'Pemula Kode',
-        description: 'Memulai perjalanan belajar di Bits2Bytes',
-        category: 'level',
+        title: 'Langkah Pertama',
+        description: 'Menyelesaikan topik materi pertamamu.',
+        category: 'learning',
         rarity: 'common',
         icon: '🌱',
-        unlocked: totalXp >= 0,
-        currentValue: totalXp,
-        targetValue: 0,
-        unit: 'XP',
+        unlocked: completedCount >= 1,
+        currentValue: Math.min(completedCount, 1),
+        targetValue: 1,
+        unit: 'Topik',
       },
       {
         id: 'explorer',
         title: 'Penjelajah Kode',
-        description: 'Mencapai Level 2 dengan menembus 100 EXP',
+        description: 'Mencapai Level 2 dengan mengumpulkan 100 EXP.',
         category: 'level',
         rarity: 'common',
         icon: '🧭',
-        unlocked: totalXp >= 100,
-        currentValue: Math.min(totalXp, 100),
-        targetValue: 100,
+        unlocked: currentLevel >= 2,
+        currentValue: Math.min(totalXp, xpForLevel2),
+        targetValue: xpForLevel2,
         unit: 'XP',
       },
       {
         id: 'logic-adventurer',
         title: 'Petualang Logika',
-        description: 'Mencapai Level 3 dengan mengumpulkan 250 EXP',
+        description: 'Mencapai Level 3 dengan mengumpulkan 230 EXP.',
         category: 'level',
         rarity: 'rare',
         icon: '⚡',
-        unlocked: totalXp >= 250,
-        currentValue: Math.min(totalXp, 250),
-        targetValue: 250,
+        unlocked: currentLevel >= 3,
+        currentValue: Math.min(totalXp, xpForLevel3),
+        targetValue: xpForLevel3,
         unit: 'XP',
       },
       {
         id: 'algorithm-master',
         title: 'Master Algoritma',
-        description: 'Mencapai Level 5 dengan total 600 EXP',
+        description: 'Mencapai Level 5 melalui latihan yang konsisten.',
         category: 'level',
         rarity: 'epic',
         icon: '🔮',
-        unlocked: totalXp >= 600,
-        currentValue: Math.min(totalXp, 600),
-        targetValue: 600,
+        unlocked: currentLevel >= 5,
+        currentValue: Math.min(totalXp, xpForLevel5),
+        targetValue: xpForLevel5,
         unit: 'XP',
       },
       {
         id: 'cyber-legend',
         title: 'Cyber Legend',
-        description: 'Puncak dedikasi koding menembus 2,500 EXP',
+        description: 'Mencapai Level 10 dan menguasai perjalanan kode.',
         category: 'level',
         rarity: 'legendary',
         icon: '👑',
-        unlocked: totalXp >= 2500,
-        currentValue: Math.min(totalXp, 2500),
-        targetValue: 2500,
+        unlocked: currentLevel >= 10,
+        currentValue: Math.min(totalXp, xpForLevel10),
+        targetValue: xpForLevel10,
         unit: 'XP',
+      },
+      {
+        id: 'topic-trail',
+        title: 'Penjelajah Materi',
+        description: 'Menuntaskan 3 topik pembelajaran.',
+        category: 'learning',
+        rarity: 'common',
+        icon: '🗺️',
+        unlocked: completedCount >= 3,
+        currentValue: Math.min(completedCount, 3),
+        targetValue: 3,
+        unit: 'Topik',
+      },
+      {
+        id: 'topic-master',
+        title: 'Penakluk 10 Topik',
+        description: 'Menuntaskan 10 topik pembelajaran.',
+        category: 'learning',
+        rarity: 'epic',
+        icon: '🧩',
+        unlocked: completedCount >= 10,
+        currentValue: Math.min(completedCount, 10),
+        targetValue: 10,
+        unit: 'Topik',
+      },
+      {
+        id: 'curriculum-master',
+        title: 'Penguasa Kurikulum',
+        description: 'Menuntaskan seluruh topik yang tersedia.',
+        category: 'learning',
+        rarity: 'legendary',
+        icon: '🏰',
+        unlocked: totalPossibleCount > 0 && completedCount >= totalPossibleCount,
+        currentValue: Math.min(completedCount, totalPossibleCount),
+        targetValue: totalPossibleCount,
+        unit: 'Topik',
       },
       {
         id: 'first-gold',
@@ -220,17 +305,17 @@ export function StudentAchievementBadges({
       {
         id: 'master-graduate',
         title: 'Cendekia Sejati',
-        description: 'Menyelesaikan modul bergengsi dengan 2+ sertifikat',
+        description: 'Mengumpulkan 3 sertifikat kelulusan modul.',
         category: 'cert',
         rarity: 'legendary',
         icon: '🏆',
-        unlocked: certCount >= 2,
-        currentValue: Math.min(certCount, 2),
-        targetValue: 2,
+        unlocked: certCount >= 3,
+        currentValue: Math.min(certCount, 3),
+        targetValue: 3,
         unit: 'Sertifikat',
       },
     ];
-  }, [totalXp, coins, inventoryCount, hasEquippedHat, certCount]);
+  }, [totalXp, currentLevel, xpForLevel2, xpForLevel3, xpForLevel5, xpForLevel10, coins, inventoryCount, hasEquippedHat, certCount, completedCount, totalPossibleCount]);
 
   const unlockedCount = badges.filter((b) => b.unlocked).length;
   const totalBadges = badges.length;
@@ -294,6 +379,7 @@ export function StudentAchievementBadges({
           {(
             [
               { id: 'all', label: 'Semua', icon: '🌟' },
+              { id: 'learning', label: 'Materi', icon: '📚' },
               { id: 'level', label: 'Level & EXP', icon: '⚡' },
               { id: 'coins', label: 'Koin', icon: '🪙' },
               { id: 'wardrobe', label: 'Aksesori', icon: '🧢' },
