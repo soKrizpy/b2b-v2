@@ -46,7 +46,7 @@ export default async function AdminCurriculumPage() {
         {modules.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl
             border-2 border-dashed border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/3 py-24 px-6 text-center">
+            bg-white dark:bg-white/[0.03] py-24 px-6 text-center">
             <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5
               ring-1 ring-slate-200 dark:ring-white/10
               flex items-center justify-center mb-4 text-4xl">
