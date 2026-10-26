@@ -375,7 +375,7 @@ function AttendanceModal({
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
+        <div className="shrink-0 px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">
               Detail Kehadiran
@@ -488,12 +488,12 @@ function EditModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="w-full max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
+        <div className="shrink-0 px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-base">
               Edit Detail Invoice
