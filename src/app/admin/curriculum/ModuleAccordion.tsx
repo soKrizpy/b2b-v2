@@ -137,13 +137,13 @@ export function ModuleAccordion({ module: mod }: Props) {
 
       {/* ── Inline edit form ─────────────────────────────────────────────── */}
       {showEdit && (
-        <div className="px-5 pb-5 pt-1 border-t border-slate-100 dark:border-white/8 bg-slate-50/60 dark:bg-white/3">
+        <div className="px-5 pb-5 pt-1 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 mt-3">
             Edit Metadata Modul
           </p>
 
           {editState && !editState.success && (
-            <p role="alert" className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2 mb-3 ring-1 ring-red-200">
+            <p role="alert" className="text-xs text-red-700 dark:text-rose-300 bg-red-50 dark:bg-rose-950/50 rounded-lg px-3 py-2 mb-3 ring-1 ring-red-200 dark:ring-rose-800/60">
               {editState.error}
             </p>
           )}
@@ -162,8 +162,8 @@ export function ModuleAccordion({ module: mod }: Props) {
                 </label>
                 <input id={`mod-title-${mod.id}`} name="title" required
                   defaultValue={mod.title ?? ''}
-                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                  className="rounded-lg border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+                    bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
               </div>
 
@@ -176,9 +176,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                   className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
                     bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
-                  <option value="beginner">Beginner</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
+                  <option value="beginner" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">Beginner</option>
+                  <option value="intermediate" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">Intermediate</option>
+                  <option value="advanced" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">Advanced</option>
                 </select>
               </div>
 
