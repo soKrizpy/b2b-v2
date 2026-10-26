@@ -195,26 +195,41 @@ export function StudentDashboardShell({
       const previous = JSON.parse(previousRaw) as Partial<AchievementSnapshot>;
       if (typeof previous.level !== 'number' || !Array.isArray(previous.milestoneIds) || !Array.isArray(previous.certificateIds)) return;
 
+      const newMilestones = unlockedMilestones.filter((milestone) => !previous.milestoneIds?.includes(milestone.id));
+      const newCertificates = certificates.filter((certificate) => !previous.certificateIds?.includes(String(certificate.id)));
+      const additionalAchievements = [
+        ...newMilestones.map((milestone) => milestone.title),
+        ...newCertificates.map((certificate) => certificate.module_title || 'Sertifikat Kelulusan'),
+      ];
+      const additionalSummary = (excludedTitle?: string) => {
+        const names = additionalAchievements.filter((name) => name !== excludedTitle);
+        return names.length > 0 ? ` Pencapaian lain yang ikut terbuka: ${names.join(', ')}.` : '';
+      };
+
       let earned: AchievementMilestone | undefined;
       if (achievementSnapshot.level > previous.level) {
+        const title = `Naik ke Level ${achievementSnapshot.level}`;
         earned = {
           id: `level-${achievementSnapshot.level}`,
-          title: `Naik ke Level ${achievementSnapshot.level}`,
-          description: `Kerja hebat, ${studentName}! Kamu sekarang ${adventurerInfo.title}. Teruskan petualangan belajarmu.`,
+          title,
+          description: `Kerja hebat, ${studentName}! Kamu sekarang ${adventurerInfo.title}. Teruskan petualangan belajarmu.${additionalSummary(title)}`,
           kind: 'level',
         };
-      } else {
-        const newCertificate = certificates.find((certificate) => !previous.certificateIds?.includes(String(certificate.id)));
-        if (newCertificate) {
-          earned = {
-            id: `certificate-${newCertificate.id}`,
-            title: `Sertifikat Baru: ${newCertificate.module_title || 'Kelulusan Modul'}`,
-            description: 'Kamu menuntaskan ujian modul dan memperoleh sertifikat kelulusan. Simpan sebagai bukti kemajuanmu!',
-            kind: 'certificate',
-          };
-        } else {
-          earned = unlockedMilestones.find((milestone) => !previous.milestoneIds?.includes(milestone.id));
-        }
+      } else if (newCertificates.length > 0) {
+        const certificate = newCertificates[0];
+        const title = `Sertifikat Baru: ${certificate.module_title || 'Kelulusan Modul'}`;
+        earned = {
+          id: `certificate-${certificate.id}`,
+          title,
+          description: `Kamu menuntaskan ujian modul dan memperoleh sertifikat kelulusan. Simpan sebagai bukti kemajuanmu!${additionalSummary(title)}`,
+          kind: 'certificate',
+        };
+      } else if (newMilestones.length > 0) {
+        const [first, ...more] = newMilestones;
+        earned = {
+          ...first,
+          description: `${first.description}${more.length > 0 ? ` Pencapaian lain yang ikut terbuka: ${more.map((milestone) => milestone.title).join(', ')}.` : ''}`,
+        };
       }
       if (earned) {
         setPendingAchievement(earned);
