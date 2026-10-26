@@ -31,7 +31,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('full_name') && <p className="text-xs text-red-600">{err('full_name')}</p>}
         </div>
 
@@ -44,7 +44,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('contact') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('contact') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('contact') && <p className="text-xs text-red-600">{err('contact')}</p>}
         </div>
 
@@ -58,7 +58,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm font-mono tracking-widest
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('mpin') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('mpin') ? 'border-red-400' : 'border-slate-300 dark:border-white/[0.15]'}`} />
           {err('mpin') && <p className="text-xs text-red-600">{err('mpin')}</p>}
           <p className="text-xs text-slate-400">Siswa login menggunakan PIN ini</p>
         </div>
@@ -69,7 +69,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             Kelas / Grade
           </label>
           <input id="s-grade" name="grade" placeholder="SD Kelas 4"
-            className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
+            className="rounded-lg border border-slate-300 dark:border-white/[0.15] px-3 py-2 text-sm
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]" />
         </div>
@@ -81,12 +81,12 @@ export function AddStudentForm({ onSuccess }: Props) {
           Catatan / Bio
         </label>
         <textarea id="s-bio" name="bio" rows={2} placeholder="Catatan singkat tentang siswa…"
-          className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
+          className="rounded-lg border border-slate-300 dark:border-white/[0.15] px-3 py-2 text-sm resize-y
             bg-white dark:bg-white/5 text-slate-900 dark:text-white
             placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]" />
       </div>
 
-      <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-white/8">
+      <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-white/[0.08]">
         <button type="submit" disabled={pending}
           className="px-5 py-2.5 text-sm font-bold rounded-xl text-white
             bg-[#7cc62f] hover:bg-[#5fa31f] disabled:opacity-50 transition-colors shadow-sm">
