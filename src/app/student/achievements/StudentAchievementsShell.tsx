@@ -243,6 +243,7 @@ export function StudentAchievementsShell({
             gamData={gamData}
             certificates={certificates}
             completedCount={completedTopics.length}
+            totalPossibleCount={totalPossibleTopics}
           />
         </section>
       )}
