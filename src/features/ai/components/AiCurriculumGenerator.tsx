@@ -95,9 +95,9 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
                 className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
                   text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
+                <option value="beginner" className="bg-zinc-950 text-white">Beginner</option>
+                <option value="intermediate" className="bg-zinc-950 text-white">Intermediate</option>
+                <option value="advanced" className="bg-zinc-950 text-white">Advanced</option>
               </select>
             </div>
 
