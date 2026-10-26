@@ -97,7 +97,7 @@ export function CurriculumShell({ children }: Props) {
                 </label>
                 <select id="new-mod-level" name="level" defaultValue="beginner"
                   className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
                   <option value="beginner" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">Beginner</option>
                   <option value="intermediate" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">Intermediate</option>
@@ -113,7 +113,7 @@ export function CurriculumShell({ children }: Props) {
                 <textarea id="new-mod-desc" name="description" rows={3}
                   placeholder="Deskripsi singkat isi modul ini…"
                   className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm resize-y
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
+                    bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
                     placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
               </div>
 
