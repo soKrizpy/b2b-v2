@@ -259,17 +259,7 @@ export function LevelUpCelebrationModal({
             </div>
           </div>
         )}
-        <div className="rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-2.5 mb-6
-          flex items-center justify-between text-xs text-slate-300">
-          <div className="flex items-center gap-2">
-            <i className="fa-solid fa-coins text-amber-400" />
-            <span>Koin: <strong className="text-amber-400 tabular-nums">{coins.toLocaleString('id-ID')} 🪙</strong></span>
-          </div>
-          <div className="flex items-center gap-2">
-            <i className="fa-solid fa-sparkles text-purple-400" />
-            <span>Total EXP: <strong className="text-purple-400 tabular-nums">{totalXp.toLocaleString('id-ID')} ✨</strong></span>
-          </div>
-        </div>
+
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row items-center gap-3">
