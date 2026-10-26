@@ -12,6 +12,9 @@ interface Props {
   totalXp: number;
   coins: number;
   studentName?: string;
+  achievementTitle?: string;
+  achievementDescription?: string;
+  celebrationKind?: 'level' | 'badge' | 'certificate' | 'progress';
 }
 
 // ── RPG Adventurer Titles based on level ─────────────────────────────────────
@@ -113,6 +116,9 @@ export function LevelUpCelebrationModal({
   totalXp,
   coins,
   studentName = 'Petualang',
+  achievementTitle,
+  achievementDescription,
+  celebrationKind = 'level',
 }: Props) {
   const { title, subtitle, icon } = getAdventurerTitle(level);
 
@@ -142,7 +148,7 @@ export function LevelUpCelebrationModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="levelup-title"
-      className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[120] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain p-3 sm:p-4"
     >
       {/* Backdrop */}
       <div
@@ -151,10 +157,10 @@ export function LevelUpCelebrationModal({
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative w-full max-w-lg rounded-3xl overflow-hidden
+      <div className="relative my-auto w-full max-w-lg max-h-[calc(100dvh-1.5rem)] rounded-3xl overflow-y-auto overscroll-contain
         bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950
         border border-amber-500/40 shadow-2xl shadow-amber-500/20
-        p-7 sm:p-9 text-center text-white z-10 animate-fade-in-up">
+        p-5 sm:p-7 text-center text-white z-10 animate-fade-in-up">
 
         {/* Ambient Glow Orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -204,20 +210,32 @@ export function LevelUpCelebrationModal({
         <div className="space-y-1.5 mb-6">
           <p className="text-xs font-black tracking-widest uppercase text-amber-400 flex items-center justify-center gap-1.5">
             <i className="fa-solid fa-sparkles text-amber-400" />
-            SELEBRASI PETUALANGAN
+            {achievementTitle ? 'PENCAPAIAN BARU' : 'SELEBRASI PETUALANGAN'}
           </p>
           <h2 id="levelup-title" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Level Up, {studentName}! 🎉
+            {achievementTitle ? `Selamat, ${studentName}! 🎉` : `Level Up, ${studentName}! 🎉`}
           </h2>
           <p className="text-sm font-bold text-amber-200">
-            {title}
+            {achievementTitle ?? title}
           </p>
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
-            {subtitle}
+            {achievementDescription ?? subtitle}
           </p>
         </div>
 
-        {/* RPG Stat Buffs Grid */}
+        {/* Display real achievement details instead of suggesting ungranted rewards. */}
+        {achievementTitle ? (
+          <div className="rounded-2xl bg-slate-800/70 border border-amber-500/30 p-4 mb-6 text-left">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl" aria-hidden="true">{celebrationKind === 'certificate' ? '📜' : celebrationKind === 'level' ? '🏅' : '🏆'}</span>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-amber-400">{celebrationKind === 'certificate' ? 'Sertifikat Diraih' : celebrationKind === 'level' ? 'Level Baru Terbuka' : 'Lencana Terbuka'}</p>
+                <p className="text-sm font-bold text-white">Pencapaianmu tersimpan di galeri lencana.</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+        /* RPG Stat Buffs Grid */
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="rounded-2xl bg-slate-800/70 border border-amber-500/30 p-3 flex flex-col items-center">
             <span className="text-lg mb-1">✨</span>
@@ -237,6 +255,7 @@ export function LevelUpCelebrationModal({
             <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Energi Pet</span>
           </div>
         </div>
+        )}
 
         {/* Total Summary */}
         <div className="rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-2.5 mb-6
@@ -271,7 +290,7 @@ export function LevelUpCelebrationModal({
               hover:from-amber-300 hover:to-yellow-300 shadow-lg shadow-amber-500/30
               hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <span>Klaim Hadiah &amp; Lanjut Petualangan!</span>
+            <span>{achievementTitle ? 'Lanjut Petualangan' : 'Klaim Hadiah &amp; Lanjut Petualangan!'}</span>
             <i className="fa-solid fa-arrow-right text-[11px]" />
           </button>
         </div>
