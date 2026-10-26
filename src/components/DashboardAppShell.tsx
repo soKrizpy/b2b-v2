@@ -93,11 +93,22 @@ export function DashboardAppShell({
 }: DashboardAppShellProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const clientPathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [clientPathname]);
+
+  const handleNavClick = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (href === (clientPathname || currentPath)) return;
+    setIsNavigating(true);
+  };
 
   const navItems = ROLE_NAV[role];
   const pillClass = ROLE_PILL_CLASS[role];
@@ -174,6 +185,7 @@ export function DashboardAppShell({
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={handleNavClick(item.href)}
                 title={collapsed ? item.label : undefined}
                 className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-extrabold
                   transition-colors duration-200 cursor-pointer group
@@ -186,7 +198,7 @@ export function DashboardAppShell({
                   <motion.span
                     layoutId={`sidebar-active-pill-${role}`}
                     transition={SPRING_TRANSITION}
-                    className="absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/60 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/60 dark:shadow-neon-purple"
+                    className="pointer-events-none absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/60 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/60 dark:shadow-neon-purple"
                   />
                 )}
                 <Icon className={`relative z-10 w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${active ? 'text-blue-600 dark:text-purple-300' : ''}`} />
@@ -340,6 +352,7 @@ export function DashboardAppShell({
             <Link
               key={item.href}
               href={item.href}
+              onClick={handleNavClick(item.href)}
               aria-label={item.label}
               title={item.label}
               className={`relative flex items-center justify-center p-2.5 rounded-2xl
@@ -354,7 +367,7 @@ export function DashboardAppShell({
                   <motion.span
                     layoutId={`mobile-active-pill-${role}`}
                     transition={SPRING_TRANSITION}
-                    className="absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/50 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/50 dark:shadow-neon-purple"
+                    className="pointer-events-none absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/50 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/50 dark:shadow-neon-purple"
                   />
                   <motion.span
                     layoutId={`mobile-active-bar-${role}`}
@@ -372,6 +385,22 @@ export function DashboardAppShell({
       {/* ── AI Copilot for Guru and Admin ONLY ── */}
       {(role === 'teacher' || role === 'admin') && (
         <TeacherAdminChatbot role={role} />
+      )}
+
+      {isNavigating && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/55 backdrop-blur-sm p-4"
+        >
+          <div className="flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-purple-500/40 bg-white dark:bg-slate-900 px-5 py-4 shadow-2xl">
+            <span className="h-8 w-8 shrink-0 animate-spin rounded-full border-4 border-indigo-100 border-t-indigo-600 dark:border-slate-700 dark:border-t-purple-400" aria-hidden="true" />
+            <div>
+              <p className="text-sm font-bold text-slate-900 dark:text-white">Memuat halaman…</p>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Menyiapkan konten dashboard</p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
