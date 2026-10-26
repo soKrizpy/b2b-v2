@@ -290,7 +290,7 @@ export function LevelUpCelebrationModal({
               hover:from-amber-300 hover:to-yellow-300 shadow-lg shadow-amber-500/30
               hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <span>{achievementTitle ? 'Lanjut Petualangan' : 'Klaim Hadiah &amp; Lanjut Petualangan!'}</span>
+            <span>{achievementTitle ? 'Lanjut Petualangan' : 'Klaim Hadiah & Lanjut Petualangan!'}</span>
             <i className="fa-solid fa-arrow-right text-[11px]" />
           </button>
         </div>
