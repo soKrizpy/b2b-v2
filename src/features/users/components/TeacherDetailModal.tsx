@@ -391,15 +391,15 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center
-        bg-black/60 backdrop-blur-sm p-0 sm:p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain
+        bg-black/65 backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Panel */}
       <div
         className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
-          flex flex-col max-h-[90dvh] overflow-hidden
+          flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden
           border-2 border-slate-200/90 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
           animate-fade-in-up"
@@ -460,7 +460,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
         </div>
 
         {/* ── Content ── */}
-        <div className="flex-1 overflow-y-auto px-5 pb-5 pt-4 flex flex-col gap-5">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 pt-4 flex flex-col gap-5">
 
           {/* Access / Email row */}
           <div className="flex flex-col gap-2">
