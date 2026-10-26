@@ -138,7 +138,7 @@ function LocationPopoverCard({
   const renderCardWrapper = (content: React.ReactNode) => {
     return (
       <div
-        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150"
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain p-3 sm:p-4 animate-in fade-in duration-150"
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose();
         }}
@@ -147,7 +147,7 @@ function LocationPopoverCard({
           ref={ref}
           role="dialog"
           aria-modal="true"
-          className="relative w-full max-w-sm sm:max-w-md max-h-[90dvh] overflow-y-auto rounded-3xl bg-slate-950/98 border-2 border-amber-400/60 shadow-2xl shadow-cyan-950/80 p-5 sm:p-6 flex flex-col gap-3 text-left text-white animate-in zoom-in-95 duration-150 my-auto"
+          className="relative my-auto w-full max-w-sm sm:max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-3xl bg-slate-950/98 border-2 border-amber-400/60 shadow-2xl shadow-cyan-950/80 p-5 sm:p-6 flex flex-col gap-3 text-left text-white animate-in zoom-in-95 duration-150"
         >
           <button
             type="button"
