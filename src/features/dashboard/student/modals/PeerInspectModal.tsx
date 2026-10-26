@@ -69,7 +69,7 @@ export function PeerInspectModal({ seat, onClose }: Props) {
             </div>
 
             {/* Classmate's Companion Pet */}
-            <div className="p-1.5 rounded-2xl bg-white/15 dark:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-purple-500/30 flex flex-col items-center">
+            <div className="p-1.5 rounded-2xl bg-white/[0.15] dark:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-purple-500/30 flex flex-col items-center">
               <CyberPetRenderer
                 petId={petId}
                 petHatId={cos?.petHatId}
