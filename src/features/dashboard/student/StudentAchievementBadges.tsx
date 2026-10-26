@@ -124,7 +124,7 @@ export function StudentAchievementBadges({
   const totalXp = gamData?.totalXp ?? 0;
   const coins = gamData?.coins ?? 0;
   const inventoryCount = gamData?.inventory?.length ?? 0;
-  const hasEquippedHat = Boolean(gamData?.equippedHatId);
+  const hasEquippedHat = Boolean(gamData?.equippedHatId || gamData?.equippedCosmetics?.hatId);
   const certCount = certificates.length;
   const currentLevel = calculateLevel(totalXp).currentLevel;
   const xpForLevel2 = minXpForLevel(2);
