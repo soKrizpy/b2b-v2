@@ -277,7 +277,7 @@ export function CurriculumImportModal({ onClose }: Props) {
                 type="button"
                 onClick={() => validate(text)}
                 disabled={!text.trim() || isImporting}
-                className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+                className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
               >
                 Validasi JSON
               </button>
@@ -286,7 +286,7 @@ export function CurriculumImportModal({ onClose }: Props) {
                   type="button"
                   onClick={onClose}
                   disabled={isImporting}
-                  className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+                  className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
                 >
                   Batal
                 </button>
