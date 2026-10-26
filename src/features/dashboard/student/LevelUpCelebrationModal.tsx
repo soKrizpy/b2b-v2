@@ -192,9 +192,9 @@ export function LevelUpCelebrationModal({
             bg-gradient-to-br from-amber-400 via-orange-500 to-yellow-600
             p-1 shadow-xl shadow-amber-500/40 ring-4 ring-amber-300/30 flex items-center justify-center">
             <div className="w-full h-full rounded-[22px] bg-slate-950 flex flex-col items-center justify-center">
-              <span className="text-3xl sm:text-4xl select-none">{icon}</span>
+              <span className="text-3xl sm:text-4xl select-none">{achievementTitle ? (celebrationKind === 'certificate' ? '📜' : celebrationKind === 'level' ? icon : '🏆') : icon}</span>
               <span className="text-[11px] font-black tracking-widest text-amber-400 uppercase mt-0.5">
-                LVL {level}
+                {achievementTitle ? (celebrationKind === 'certificate' ? 'SERTIFIKAT' : celebrationKind === 'level' ? `LVL ${level}` : 'LENCANA') : `LVL ${level}`}
               </span>
             </div>
           </div>
@@ -202,7 +202,7 @@ export function LevelUpCelebrationModal({
           {/* Golden Level Wing */}
           <span className="absolute -bottom-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950
             font-black text-[11px] uppercase tracking-wider px-3.5 py-0.5 rounded-full shadow-md font-mono">
-            ★ TINGKAT BARU ★
+            {achievementTitle ? (celebrationKind === 'certificate' ? 'SERTIFIKAT DIRAIH' : celebrationKind === 'level' ? 'TINGKAT BARU' : 'LENCANA BARU') : '★ TINGKAT BARU ★'}
           </span>
         </div>
 
