@@ -110,7 +110,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     {typeof node.xp === 'number' && node.xp > 0 && (
                       <span className="text-[10px] text-amber-600 dark:text-amber-400 flex-shrink-0">+{node.xp}XP</span>
                     )}
-                    <span className="text-slate-400 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
                   </button>
 
                   {open && (
@@ -139,7 +139,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                     ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                     : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                                   }`}>
-                                <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                                <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                                 {opt}
                                 {opt === node.correctOption && (
                                   <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Benar</span>
@@ -635,7 +635,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-white/2">
+                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-[#0B0F19]">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
