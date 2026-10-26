@@ -158,7 +158,7 @@ export function TeacherAdminChatbot({ role }: Props) {
 
   return (
     <aside
-      aria-label="Byte Copilot AI"
+      aria-label="Ahlul Bytes"
       className="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end"
     >
       {/* ── Chat Modal Window ────────────────────────────────────────────── */}
