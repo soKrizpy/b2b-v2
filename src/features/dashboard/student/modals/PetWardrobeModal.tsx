@@ -217,14 +217,14 @@ export function PetWardrobeModal({
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-        bg-black/60 dark:bg-black/75 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain
+        bg-black/60 dark:bg-black/75 backdrop-blur-sm p-3 sm:p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Panel */}
       <div
         className="relative w-full max-w-xl bg-white dark:bg-[#0B0F19] border border-blue-400/40 dark:border-purple-500/40
-          rounded-2xl shadow-2xl p-6 flex flex-col max-h-[90dvh] overflow-hidden"
+          rounded-2xl shadow-2xl p-5 sm:p-6 flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
@@ -315,7 +315,7 @@ export function PetWardrobeModal({
         )}
 
         {/* ── Item grid ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 overflow-y-auto pt-3 pb-1 pr-1 scrollbar-thin">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 min-h-0 flex-1 overflow-y-auto overscroll-contain pt-3 pb-1 pr-1 scrollbar-thin">
           {categoryItems.map((item) => (
             <ItemCard
               key={item.id}
