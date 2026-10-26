@@ -87,7 +87,7 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
             placeholder="Password baru (min. 8 karakter)"
             className="w-full pr-10 pl-3 py-2.5 rounded-xl text-sm
               bg-white dark:bg-[#0f0f1a] text-slate-900 dark:text-white
-              border border-slate-200 dark:border-white/15
+              border border-slate-200 dark:border-white/[0.15]
               placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-violet-500/50"
           />
@@ -118,8 +118,8 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
       {result && (
         <p className={`text-xs px-3 py-2 rounded-xl border ${
           result.success
-            ? 'bg-emerald-500/8 text-emerald-700 border-emerald-500/25 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30'
-            : 'bg-red-500/8 text-red-700 border-red-500/25 dark:bg-red-500/10 dark:text-red-300 dark:border-red-500/30'
+            ? 'bg-emerald-500/[0.08] text-emerald-700 border-emerald-500/25 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30'
+            : 'bg-red-500/[0.08] text-red-700 border-red-500/25 dark:bg-red-500/10 dark:text-red-300 dark:border-red-500/30'
         }`}>
           {result.success ? `✓ ${result.message}` : `✗ ${result.error}`}
         </p>
@@ -283,7 +283,7 @@ function EnrolledStudentsSection({
                     onClick={() => toggleStudent(s.id)}
                     className={`flex items-center gap-2.5 p-2 rounded-xl cursor-pointer text-xs transition-colors border ${
                       checked
-                        ? 'bg-violet-500/15 border-violet-500/30 text-violet-900 dark:text-violet-200'
+                        ? 'bg-violet-500/[0.15] border-violet-500/30 text-violet-900 dark:text-violet-200'
                         : 'bg-white dark:bg-[#151522] border-slate-200/80 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/10'
                     }`}
                   >
@@ -349,7 +349,7 @@ function EnrolledStudentsSection({
                 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10"
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-[#7cc62f]/15 text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a] font-black text-xs flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-[#7cc62f]/[0.15] text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a] font-black text-xs flex items-center justify-center flex-shrink-0">
                   {s.full_name[0]?.toUpperCase() ?? '?'}
                 </div>
                 <div className="min-w-0">
@@ -401,13 +401,13 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden
           border-2 border-slate-200/90 dark:border-purple-500/40
-          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35]
           animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
         <div className="flex items-start gap-4 px-5 pt-5 pb-4
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-slate-100 dark:border-white/[0.08] flex-shrink-0">
 
           {/* Avatar */}
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600
@@ -422,7 +422,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
               </h2>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full
                 bg-violet-500/10 text-violet-700 border border-violet-500/25
-                dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30">
+                dark:bg-violet-500/[0.15] dark:text-violet-300 dark:border-violet-500/30">
                 Guru
               </span>
             </div>
@@ -454,7 +454,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
 
         {/* ── Stats row ── */}
         <div className="flex items-stretch divide-x divide-slate-100 dark:divide-white/8
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-slate-100 dark:border-white/[0.08] flex-shrink-0">
           <StatCard value={t.session_count} label="Sesi Ditugaskan" icon="📅" />
           <StatCard value={t.student_count} label="Siswa Terdaftar"  icon="🎓" />
         </div>
@@ -486,7 +486,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
           <PasswordResetForm teacherId={t.id} />
 
           {/* Danger zone */}
-          <div className="flex flex-col gap-2 pt-3 border-t border-slate-100 dark:border-white/8">
+          <div className="flex flex-col gap-2 pt-3 border-t border-slate-100 dark:border-white/[0.08]">
             <p className="text-[10px] font-black uppercase tracking-wide text-red-500/70 px-1">
               Zona Berbahaya
             </p>
