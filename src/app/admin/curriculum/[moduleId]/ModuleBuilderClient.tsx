@@ -284,8 +284,8 @@ function TopicEditForm({
             Urutan
           </label>
           <input name="order_index" type="number" min={0} defaultValue={topic.order_index}
-            className="w-20 rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+            className="w-20 rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+              bg-white dark:bg-slate-950 text-slate-900 dark:text-white
               focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
       </div>
@@ -296,7 +296,7 @@ function TopicEditForm({
           Status
         </label>
         <select name="status" defaultValue={topic.status ?? 'draft'}
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
             bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
             focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="draft" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">○ Draft — tidak terlihat siswa</option>
@@ -318,8 +318,8 @@ function TopicEditForm({
         </label>
         <textarea name="description" rows={3} defaultValue={topic.description ?? ''}
           placeholder="Instruksi atau deskripsi topik ini…"
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm resize-y
+            bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
@@ -330,8 +330,8 @@ function TopicEditForm({
         </label>
         <input name="project_link" type="url" defaultValue={topic.project_link ?? ''}
           placeholder="https://scratch.mit.edu/projects/..."
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+            bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
@@ -485,7 +485,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         <button type="button" onClick={handleExport} disabled={exporting}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
-            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5
+            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950
             text-slate-700 dark:text-slate-300 rounded-xl shadow-sm
             hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-40 transition-all">
           <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
@@ -604,7 +604,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'preview'
                             ? 'ring-slate-400 bg-slate-100 dark:bg-white/15 text-slate-800 dark:text-white'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
+                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
                           }`}>
                         {panel === 'preview' ? '▲ Tutup' : '👁 Preview'}
                       </button>
@@ -616,7 +616,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'edit'
                             ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-200'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
+                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
                           }`}>
                         ✏️ Edit
                       </button>
@@ -710,7 +710,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onFile}
                   className="sr-only" id="builder-file-input" disabled={isImporting} />
                 <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isImporting}
-                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-white/15
+                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-slate-700
                     rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                     text-slate-700 dark:text-slate-300 transition-colors">
                   📁 Pilih File .json
@@ -721,8 +721,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
               <textarea value={text} onChange={(e) => { setText(e.target.value); setVs({ status: 'idle' }); }}
                 rows={13} disabled={isImporting} spellCheck={false}
                 placeholder='{ "topics": [...], "final_assessment": { ... } }'
-                className="w-full rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-3
-                  text-xs font-mono resize-y bg-white dark:bg-white/5 text-slate-900 dark:text-white
+                className="w-full rounded-xl border border-slate-300 dark:border-slate-700 px-3.5 py-3
+                  text-xs font-mono resize-y bg-white dark:bg-slate-950 text-slate-900 dark:text-white
                   placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500
                   disabled:opacity-40" />
 
@@ -743,14 +743,14 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 <>
                   <button type="button" onClick={() => validate(text)}
                     disabled={!text.trim() || isImporting}
-                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-white/15
+                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-slate-700
                       rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                       text-slate-700 dark:text-slate-300 transition-colors">
                     Validasi JSON
                   </button>
                   <div className="flex gap-2">
                     <button type="button" onClick={() => setShowImport(false)} disabled={isImporting}
-                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-white/15 rounded-xl
+                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-slate-700 rounded-xl
                         hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                         text-slate-700 dark:text-slate-300 transition-colors">
                       Batal
