@@ -1,0 +1,41 @@
+name: Supabase configuration safety
+
+on:
+  push:
+    branches:
+      - fix/fail-closed-supabase-config-20261028
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/lib/supabase/mock.ts"
+      - "src/__tests__/supabase-config-fail-closed.test.ts"
+      - ".github/workflows/supabase-config-safety.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-config-safety-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run regression and unit tests
+        run: npm test
+      - name: Type-check TypeScript
+        run: npx tsc --noEmit
+      - name: Production build
+        run: npm run build
