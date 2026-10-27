@@ -44,7 +44,10 @@ vi.mock('@/lib/supabase/admin', () => ({
           error: null,
         }),
         then: (
-          resolve: (value: { data: unknown[]; error: null }) => unknown,
+          resolve: (value:
+            | { data: unknown[]; error: null }
+            | { data: null; error: { message: string } }
+          ) => unknown,
           reject?: (reason: unknown) => unknown
         ) => {
           if (
