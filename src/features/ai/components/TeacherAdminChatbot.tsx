@@ -158,14 +158,14 @@ export function TeacherAdminChatbot({ role }: Props) {
 
   return (
     <aside
-      aria-label="Byte Copilot AI"
+      aria-label="Ahlul Bytes"
       className="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end"
     >
       {/* ── Chat Modal Window ────────────────────────────────────────────── */}
       {open && (
         <div
           role="dialog"
-          aria-label={`Byte Copilot AI untuk ${roleLabel}`}
+          aria-label={`Ahlul Bytes untuk ${roleLabel}`}
           className="mb-3 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[580px] h-[520px] flex flex-col
             rounded-3xl shadow-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800
             overflow-hidden animate-in fade-in zoom-in-95 duration-200"
@@ -178,7 +178,7 @@ export function TeacherAdminChatbot({ role }: Props) {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-extrabold text-sm tracking-tight text-white">Byte Copilot AI</h3>
+                  <h3 className="font-extrabold text-sm tracking-tight text-white">Ahlul Bytes</h3>
                   <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded-full bg-white/20 border border-white/30 text-amber-200 font-mono">
                     {roleLabel}
                   </span>
@@ -222,7 +222,7 @@ export function TeacherAdminChatbot({ role }: Props) {
                 <div className="p-3.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/40 text-indigo-900 dark:text-indigo-200 space-y-1.5">
                   <p className="font-bold flex items-center gap-1.5">
                     <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    Selamat datang di Copilot {roleLabel}!
+                    Selamat datang wahai Ahlul Bytes
                   </p>
                   <p className="text-[11px] leading-relaxed text-slate-600 dark:text-indigo-300">
                     Gunakan asisten ini untuk merancang bank soal kuis, kurikulum, ide tantangan coding, atau saran pedagogis untuk siswa Anda.
@@ -297,7 +297,7 @@ export function TeacherAdminChatbot({ role }: Props) {
           bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 text-white
           shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 active:scale-95
           border border-white/25 transition-all duration-200 select-none cursor-pointer"
-        aria-label="Buka Byte Copilot AI untuk Guru dan Admin"
+        aria-label="Buka Ahlul Bytes untuk Guru dan Admin"
       >
         <div className="relative">
           <Bot className="w-5 h-5 text-amber-300 group-hover:rotate-12 transition-transform duration-200" />
@@ -305,7 +305,7 @@ export function TeacherAdminChatbot({ role }: Props) {
         </div>
         <div className="text-left hidden sm:block">
           <p className="text-[11px] font-black leading-none tracking-tight flex items-center gap-1 text-white">
-            <span>Byte Copilot</span>
+            <span>Ahlul Bytes</span>
             <span className="text-[9px] uppercase px-1 py-0.2 rounded bg-white/20 text-amber-300 font-mono">
               {roleLabel}
             </span>
