@@ -73,10 +73,13 @@ export default async function TopicPage({ params }: Props) {
   const meetsSlideTarget = isWithinSuggestedLessonSlideRange(lessonSlides);
   const activeChallengeIds = getActiveChallengeIds(lessonContent);
 
-  const [challenges, quizState] = await Promise.all([
-    lessonHasContent ? getChallengesWithSubmissions(id, auth.user.id, activeChallengeIds) : Promise.resolve([]),
-    getTopicQuizState(id, auth.user.id),
-  ]);
+  const quizState = await getTopicQuizState(id, auth.user.id, lessonContent);
+  const hasQuiz = Array.isArray(lessonContent?.quiz) && lessonContent.quiz.length > 0;
+  // Project challenges are available during the active topic session. The topic
+  // itself is guarded above by topicNode.isUnlocked; only the quiz waits for report.
+  const challenges = lessonHasContent
+    ? await getChallengesWithSubmissions(id, auth.user.id, activeChallengeIds)
+    : [];
 
   const completedCount  = challenges.filter((c) => c.submission?.status === 'approved').length;
   const progressPercent = challenges.length > 0
@@ -153,6 +156,15 @@ export default async function TopicPage({ params }: Props) {
         </div>
       )}
 
+      {!quizState.isUnlocked && hasQuiz && (
+        <div role="status" className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/30 dark:text-amber-200">
+          <h2 className="text-sm font-bold">🔒 Quiz Topik Terkunci</h2>
+          <p className="mt-1 text-sm leading-relaxed">
+            Quiz 5 soal pilihan ganda akan terbuka setelah guru atau admin mengirim laporan untuk sesi topik ini, sesi ditandai selesai, dan kehadiranmu tercatat. Proyek challenge tetap dapat dikerjakan selama pertemuan berlangsung.
+          </p>
+        </div>
+      )}
+
       {/* ── Challenges ──────────────────────────────────────────────────────── */}
       {challenges.length > 0 && (
         <div className="flex flex-col gap-4">
@@ -162,7 +174,7 @@ export default async function TopicPage({ params }: Props) {
           {challenges.map((ch, idx) => (
             <div key={ch.id}
               className="bg-white dark:bg-[var(--surface)] rounded-2xl ring-1 ring-slate-200 dark:ring-white/10 overflow-hidden">
-              <div className="px-5 py-4 border-b border-slate-100 dark:border-white/8 flex items-start justify-between gap-3">
+              <div className="px-5 py-4 border-b border-slate-100 dark:border-white/[0.08] flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
                   <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                     {idx + 1}
@@ -191,7 +203,7 @@ export default async function TopicPage({ params }: Props) {
       )}
 
       {/* ── Quiz (2 attempts, explanations) ─────────────────────────────────── */}
-      {quizState.questions.length > 0 && (
+      {quizState.isUnlocked && quizState.questions.length > 0 && (
         <div>
           <h2 className="font-semibold text-slate-800 dark:text-white text-sm mb-3">
             Quiz Topik ({quizState.questions.length} soal)

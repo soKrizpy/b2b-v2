@@ -143,7 +143,10 @@ describe('submitChallenge active challenge authorization', () => {
     state.topicUnlocked = true;
   });
 
-  it('allows a submission for an active challenge', async () => {
+  it('allows a challenge submission during the active session without waiting for the report', async () => {
+    // Challenge availability follows the live session/topic gate, not the report
+    // gate used by the quiz; the report can be submitted after the meeting.
+    state.topicUnlocked = true;
     const result = await submitChallenge(null, form());
     expect(result).toMatchObject({ success: true });
     expect(state.submissions).toHaveLength(1);
@@ -157,6 +160,7 @@ describe('submitChallenge active challenge authorization', () => {
     });
     expect(state.submissions).toHaveLength(0);
   });
+
 
   it('fails closed when the previous-submission query errors', async () => {
     state.submissionReadError = true;

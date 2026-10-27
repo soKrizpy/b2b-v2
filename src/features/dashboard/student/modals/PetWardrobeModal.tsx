@@ -231,7 +231,7 @@ export function PetWardrobeModal({
         <div className="flex items-center justify-between gap-3 pb-4
           border-b border-blue-100 dark:border-purple-500/20 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 dark:bg-purple-500/15 border border-blue-500/25 dark:border-purple-500/30 flex items-center justify-center text-xl text-blue-600 dark:text-purple-300">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 dark:bg-purple-500/[0.15] border border-blue-500/25 dark:border-purple-500/30 flex items-center justify-center text-xl text-blue-600 dark:text-purple-300">
               🎭
             </div>
             <div>

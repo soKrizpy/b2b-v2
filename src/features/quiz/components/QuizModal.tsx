@@ -85,12 +85,12 @@ function RewardScreen({
       {reward?.success && (
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl
-            bg-violet-500/15 border border-violet-500/25 text-violet-700 dark:text-violet-300">
+            bg-violet-500/[0.15] border border-violet-500/25 text-violet-700 dark:text-violet-300">
             <span className="text-base">⭐</span>
             <span className="text-sm font-extrabold">+{reward.xpEarned} XP</span>
           </div>
           <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl
-            bg-amber-500/15 border border-amber-500/25 text-amber-700 dark:text-amber-300">
+            bg-amber-500/[0.15] border border-amber-500/25 text-amber-700 dark:text-amber-300">
             <span className="text-base">🪙</span>
             <span className="text-sm font-extrabold">+{reward.coinsEarned} Koin</span>
           </div>
@@ -439,7 +439,7 @@ export function QuizModal({
         <div className="flex items-center justify-between gap-3 pb-4
           border-b border-slate-200 dark:border-zinc-800 flex-shrink-0">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/15 flex items-center
+            <div className="w-9 h-9 rounded-xl bg-indigo-500/[0.15] flex items-center
               justify-center text-base flex-shrink-0">
               📝
             </div>

@@ -128,7 +128,7 @@ export function CurriculumImportModal({ onClose }: Props) {
             type="button"
             onClick={onClose}
             disabled={isImporting}
-            className="text-slate-400 hover:text-slate-600 disabled:opacity-40 text-xl leading-none"
+            className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white disabled:opacity-40 text-xl leading-none"
             aria-label="Tutup"
           >
             Ã—
@@ -181,7 +181,7 @@ export function CurriculumImportModal({ onClose }: Props) {
 
           {/* File upload */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
               Upload file .json
             </label>
             <div className="flex items-center gap-3">
@@ -229,7 +229,7 @@ export function CurriculumImportModal({ onClose }: Props) {
               disabled={isImporting}
               spellCheck={false}
               className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 text-xs font-mono resize-y
-                focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-40"
+                focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-purple-500 disabled:opacity-40"
               placeholder='[{ "module_title": "...", "module_order": 1, "topics": [] }]'
             />
           </div>
@@ -255,7 +255,7 @@ export function CurriculumImportModal({ onClose }: Props) {
           )}
 
           {vs.status === 'done' && (
-            <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+            <div className="rounded-lg bg-green-50 dark:bg-emerald-950/40 border border-green-200 dark:border-emerald-800 px-4 py-3 text-sm text-green-700 dark:text-emerald-300">
               ðŸŽ‰ {vs.message}
             </div>
           )}

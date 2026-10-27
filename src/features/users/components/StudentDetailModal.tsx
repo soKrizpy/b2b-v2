@@ -33,7 +33,7 @@ const LEVEL_COLOR: Record<string, string> = {
 };
 
 function LevelBadge({ level }: { level: string | null }) {
-  const color = LEVEL_COLOR[level ?? ''] ?? 'bg-slate-100 text-slate-600 ring-slate-200 dark:bg-white/10 dark:text-slate-300 dark:ring-white/15';
+  const color = LEVEL_COLOR[level ?? ''] ?? 'bg-slate-100 text-slate-600 ring-slate-200 dark:bg-white/10 dark:text-slate-300 dark:ring-white/[0.15]';
   return (
     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 ${color}`}>
       {level ?? 'N/A'}
@@ -108,7 +108,7 @@ function LearningPathTab({
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border
                     transition-all duration-150
                     ${isActive
-                      ? 'bg-emerald-500/8 border-emerald-500/25 dark:bg-emerald-500/10 dark:border-emerald-500/30'
+                      ? 'bg-emerald-500/[0.08] border-emerald-500/25 dark:bg-emerald-500/10 dark:border-emerald-500/30'
                       : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10'
                     }`}>
                   <span className={`w-2 h-2 rounded-full flex-shrink-0
@@ -173,7 +173,7 @@ function LearningPathTab({
             <input type="hidden" name="student_id" value={student.id} />
             <select
               name="module_id"
-              className="flex-1 min-w-0 rounded-xl border border-slate-200 dark:border-white/15
+              className="flex-1 min-w-0 rounded-xl border border-slate-200 dark:border-white/[0.15]
                 px-3 py-2 text-xs font-medium
                 bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -373,7 +373,7 @@ function EnrolledTeacherTab({
               required
               className="w-full px-3 py-2 rounded-xl text-xs font-medium
                 bg-white dark:bg-[#0f0f1a] text-slate-900 dark:text-white
-                border border-slate-200 dark:border-white/15
+                border border-slate-200 dark:border-white/[0.15]
                 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
             >
               <option value="">-- Pilih Guru Pembimbing --</option>
@@ -447,15 +447,15 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
       <div
         className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
-          flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden
+          flex flex-col min-h-0 h-[min(44rem,calc(100dvh-1.5rem))] max-h-[calc(100dvh-1.5rem)] overflow-hidden
           border-2 border-slate-200/90 dark:border-purple-500/40
-          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35]
           animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
         <div className="flex items-start gap-4 px-5 pt-5 pb-4
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-slate-100 dark:border-white/[0.08] flex-shrink-0">
 
           {/* Avatar */}
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600
@@ -480,7 +480,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
             </p>
             {/* MPIN visible */}
             <div className="mt-1.5 inline-flex items-center gap-1.5
-              bg-slate-100 dark:bg-white/8 px-2.5 py-1 rounded-lg">
+              bg-slate-100 dark:bg-white/[0.08] px-2.5 py-1 rounded-lg">
               <span className="text-[10px] text-slate-400 dark:text-slate-500">🔑 MPIN</span>
               <span className="text-xs font-mono font-bold tracking-widest
                 text-slate-700 dark:text-slate-200">
@@ -506,7 +506,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
 
         {/* ── Stats row ── */}
         <div className="flex items-stretch divide-x divide-slate-100 dark:divide-white/8
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-slate-100 dark:border-white/[0.08] flex-shrink-0">
           <StatCard value={s.modules.length}  label="Modul"      icon="📖" />
           <StatCard value={s.session_count}   label="Pertemuan Hadir" icon="📅" />
           <StatCard value={s.quiz_count}      label="Quiz"       icon="🧠" />
@@ -534,7 +534,8 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         </div>
 
         {/* ── Tab content ── */}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-5 pt-2">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y px-4 pb-5 pt-2"
+          style={{ WebkitOverflowScrolling: 'touch' }}>
           {tab === 'path'        && <LearningPathTab student={s} allModules={allModules} />}
           {tab === 'teacher'     && <EnrolledTeacherTab student={s} allTeachers={allTeachers} />}
           {tab === 'history'     && <PlaceholderTab icon="📋" label="Riwayat Pertemuan" />}

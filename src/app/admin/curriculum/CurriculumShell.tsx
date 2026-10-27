@@ -48,7 +48,7 @@ export function CurriculumShell({ children }: Props) {
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
           onClick={(e) => { if (e.target === e.currentTarget && !pending) setShowCreate(false); }}
         >
-          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]">
+          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35] overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]">
 
             {/* Header */}
             <div className="shrink-0 px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0B0F19] flex items-center justify-between">
@@ -118,9 +118,9 @@ export function CurriculumShell({ children }: Props) {
               </div>
 
               {/* Footer */}
-              <div className="flex justify-end gap-2.5 pt-2 border-t border-slate-100 dark:border-white/8">
+              <div className="flex justify-end gap-2.5 pt-2 border-t border-slate-100 dark:border-white/[0.08]">
                 <button type="button" onClick={() => setShowCreate(false)} disabled={pending}
-                  className="px-4 py-2.5 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
+                  className="px-4 py-2.5 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/[0.15]
                     text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5
                     disabled:opacity-40 transition-colors">
                   Batal

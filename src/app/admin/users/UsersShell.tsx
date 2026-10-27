@@ -51,7 +51,7 @@ function ModuleBadges({ titles }: { titles: string[] }) {
     <div className="flex flex-col gap-1">
       <span className="inline-flex items-center px-2.5 py-1 rounded-xl text-xs font-bold
         bg-indigo-500/10 text-indigo-700 border border-indigo-500/25
-        dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30
+        dark:bg-indigo-500/[0.15] dark:text-indigo-300 dark:border-indigo-500/30
         max-w-[180px] truncate">
         {first}
       </span>
@@ -97,9 +97,9 @@ function Pagination({
           onClick={onPrev}
           disabled={page === 1}
           className="px-3 py-1.5 text-xs font-bold rounded-xl
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-300
+            bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300
             border border-slate-200 dark:border-white/10
-            hover:bg-slate-200 dark:hover:bg-white/15
+            hover:bg-slate-200 dark:hover:bg-white/[0.15]
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
           ← Sebelumnya
@@ -108,9 +108,9 @@ function Pagination({
           onClick={onNext}
           disabled={page === totalPages}
           className="px-3 py-1.5 text-xs font-bold rounded-xl
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-300
+            bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300
             border border-slate-200 dark:border-white/10
-            hover:bg-slate-200 dark:hover:bg-white/15
+            hover:bg-slate-200 dark:hover:bg-white/[0.15]
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
           Berikutnya →
@@ -135,7 +135,7 @@ function StudentCard({
       <div className="flex items-start gap-3">
         <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0
           text-base font-black
-          bg-[#7cc62f]/15 text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a]">
+          bg-[#7cc62f]/[0.15] text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a]">
           {s.full_name[0]?.toUpperCase() ?? '?'}
         </div>
         <div className="flex-1 min-w-0">
@@ -155,8 +155,8 @@ function StudentCard({
       <div className="flex flex-wrap gap-1.5">
         {s.grade && (
           <span className="px-2.5 py-1 rounded-lg text-xs font-semibold
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-200
-            border border-slate-200/60 dark:border-white/8">
+            bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-slate-200
+            border border-slate-200/60 dark:border-white/[0.08]">
             📌 {s.grade}
           </span>
         )}
@@ -183,7 +183,7 @@ function StudentCard({
           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl
             text-xs font-bold
             bg-indigo-500/10 text-indigo-700 border border-indigo-500/25
-            dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30
+            dark:bg-indigo-500/[0.15] dark:text-indigo-300 dark:border-indigo-500/30
             hover:bg-indigo-500/20 dark:hover:bg-indigo-500/25
             active:scale-95 transition-all duration-150"
         >
@@ -231,13 +231,13 @@ function TeacherCard({
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl
           text-xs font-bold tabular-nums
           bg-violet-500/10 text-violet-700 border border-violet-500/25
-          dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30">
+          dark:bg-violet-500/[0.15] dark:text-violet-300 dark:border-violet-500/30">
           📅 {t.session_count} sesi
         </span>
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl
           text-xs font-bold tabular-nums
           bg-indigo-500/10 text-indigo-700 border border-indigo-500/25
-          dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30">
+          dark:bg-indigo-500/[0.15] dark:text-indigo-300 dark:border-indigo-500/30">
           🎓 {t.student_count} siswa
         </span>
       </div>
@@ -250,7 +250,7 @@ function TeacherCard({
           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl
             text-xs font-bold
             bg-violet-500/10 text-violet-700 border border-violet-500/25
-            dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30
+            dark:bg-violet-500/[0.15] dark:text-violet-300 dark:border-violet-500/30
             hover:bg-violet-500/20 dark:hover:bg-violet-500/25
             active:scale-95 transition-all duration-150"
         >
@@ -290,7 +290,7 @@ function StudentDesktopTable({
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0
                       text-sm font-black
-                      bg-[#7cc62f]/15 text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a]">
+                      bg-[#7cc62f]/[0.15] text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a]">
                       {s.full_name[0]?.toUpperCase() ?? '?'}
                     </div>
                     <div className="min-w-0">
@@ -317,7 +317,7 @@ function StudentDesktopTable({
                     <button type="button" onClick={() => onDetail(s)}
                       className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold
                         bg-indigo-500/10 text-indigo-700 border border-indigo-500/25
-                        dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30
+                        dark:bg-indigo-500/[0.15] dark:text-indigo-300 dark:border-indigo-500/30
                         hover:bg-indigo-500/20 dark:hover:bg-indigo-500/25
                         active:scale-95 transition-all duration-150 whitespace-nowrap">
                       👁 Detail
@@ -375,13 +375,13 @@ function TeacherDesktopTable({
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl
                       text-xs font-bold tabular-nums
                       bg-violet-500/10 text-violet-700 border border-violet-500/25
-                      dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30">
+                      dark:bg-violet-500/[0.15] dark:text-violet-300 dark:border-violet-500/30">
                       📅 {t.session_count} sesi
                     </span>
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl
                       text-xs font-bold tabular-nums
                       bg-indigo-500/10 text-indigo-700 border border-indigo-500/25
-                      dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30">
+                      dark:bg-indigo-500/[0.15] dark:text-indigo-300 dark:border-indigo-500/30">
                       🎓 {t.student_count} siswa
                     </span>
                   </div>
@@ -394,7 +394,7 @@ function TeacherDesktopTable({
                     <button type="button" onClick={() => onDetail(t)}
                       className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold
                         bg-violet-500/10 text-violet-700 border border-violet-500/25
-                        dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30
+                        dark:bg-violet-500/[0.15] dark:text-violet-300 dark:border-violet-500/30
                         hover:bg-violet-500/20 dark:hover:bg-violet-500/25
                         active:scale-95 transition-all duration-150 whitespace-nowrap">
                       👁 Detail
@@ -544,7 +544,7 @@ export function UsersShell({ students, teachers, allModules }: Props) {
             onClick={() => handleSearchChange('')}
             className="absolute right-3 top-1/2 -translate-y-1/2
               w-5 h-5 rounded-full flex items-center justify-center
-              bg-slate-200 dark:bg-white/15 text-slate-500 dark:text-slate-400
+              bg-slate-200 dark:bg-white/[0.15] text-slate-500 dark:text-slate-400
               hover:bg-slate-300 dark:hover:bg-white/20 text-xs font-bold transition-all"
             aria-label="Hapus pencarian"
           >

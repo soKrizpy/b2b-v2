@@ -56,7 +56,7 @@ export function Modal({
         className={`w-full ${SIZE[size]} bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl
           shadow-blue-500/10 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)]
           border-2 border-blue-400/50 dark:border-purple-500/40
-          ring-1 ring-blue-300/30 dark:ring-purple-500/35
+          ring-1 ring-blue-300/30 dark:ring-purple-500/[0.35]
           flex flex-col max-h-[calc(100dvh-2rem)] overflow-hidden animate-fade-in-up`}
       >
         {/* Header */}
