@@ -24,7 +24,7 @@ describe('TeacherAdminChatbot failure and retry behavior', () => {
   async function openAndSend(message: string) {
     render(<TeacherAdminChatbot role="teacher" />);
     fireEvent.click(
-      screen.getByRole('button', { name: /Buka Byte Copilot AI untuk Guru dan Admin/i })
+      screen.getByRole('button', { name: /Buka (?:Byte Copilot AI|Ahlul Bytes) untuk Guru dan Admin/i })
     );
     const input = screen.getByPlaceholderText(/Tanya ide kurikulum, kuis, atau evaluasi Guru/i);
     fireEvent.change(input, { target: { value: message } });
