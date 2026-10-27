@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - fix/security-priority-audit
+      - fix/darkmode-window-audit-preview-20261027
   pull_request:
     branches:
       - main
