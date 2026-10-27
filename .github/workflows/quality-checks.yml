@@ -5,10 +5,12 @@ on:
   push:
     branches:
       - fix/security-priority-audit
+      - fix/preview-ui-polish-20261027
       - fix/darkmode-window-audit-preview-20261027
   pull_request:
     branches:
       - main
+      - fix/security-priority-audit
 
 permissions:
   contents: read
