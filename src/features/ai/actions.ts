@@ -14,6 +14,7 @@ import {
   generateContentWithFallback,
 } from '@/features/ai/gemini';
 import { requireAdmin, getAuthUser } from '@/lib/auth';
+import { moduleImportSchema } from '@/features/curriculum/validation';
 
 export type AiResult<T = string> =
   | { success: true;  data: T }
@@ -33,133 +34,169 @@ export async function generateCurriculum(
     return { success: false, error: 'Fitur AI belum dikonfigurasi (GEMINI_API_KEY belum tersedia).' };
   }
 
-  const topicTitle  = (formData.get('topic_title')  as string | null)?.trim();
-  const level       = (formData.get('level')        as string | null)?.trim() ?? 'beginner';
+  const topicTitle  = (formData.get('topic_title') as string | null)?.trim();
+  const level       = (formData.get('level') as string | null)?.trim() ?? 'beginner';
   const moduleTitle = (formData.get('module_title') as string | null)?.trim() ?? 'Modul';
-  const lang        = 'Bahasa Indonesia';
+  const lang = 'Bahasa Indonesia';
 
   if (!topicTitle) return { success: false, error: 'Judul topik wajib diisi.' };
 
-  const prompt = `
-You are an expert educational content creator for a kids & teens coding LMS called Bits2Bytes.
-Generate a complete curriculum topic JSON for the following:
+  const basePrompt = \`
+Kamu adalah perancang kurikulum coding Bits2Bytes. Buat SATU topik lengkap dan siap diimpor berdasarkan:
+Judul topik: "\${topicTitle}"
+Modul: "\${moduleTitle}"
+Level: \${level}
+Bahasa: \${lang}
 
-Topic Title: "${topicTitle}"
-Module: "${moduleTitle}"
-Level: ${level}
-Language: ${lang}
-
-Return ONLY valid JSON matching this exact schema (no markdown, no code block):
+Keluarkan HANYA JSON valid (tanpa Markdown/code fence) dengan struktur:
 {
-  "module_title": "${moduleTitle}",
+  "module_title": "\${moduleTitle}",
   "module_order": 0,
-  "level": "${level}",
+  "level": "\${level}",
   "gamification_type": "mimo",
-  "topics": [
-    {
-      "topic_title": "${topicTitle}",
-      "topic_order": 0,
-      "description": "<2-3 sentence topic overview in ${lang}>",
-      "nodes": [
-        {
-          "node_id": "node-01",
-          "order": 0,
-          "type": "lesson",
-          "title": "<lesson node title>",
-          "content": "<explanation paragraph, 3-5 sentences, in ${lang}>",
-          "xp": 10
-        },
-        {
-          "node_id": "node-02",
-          "order": 1,
-          "type": "code",
-          "title": "<code example title>",
-          "content": "<brief intro text>",
-          "code_content": "<sample code snippet>",
-          "code_language": "text",
-          "xp": 10
-        },
-        {
-          "node_id": "node-03",
-          "order": 2,
-          "type": "practice",
-          "title": "<MCQ practice title>",
-          "instructions": "<question text>",
-          "options": ["option A", "option B", "option C", "option D"],
-          "correct_option": "option A",
-          "xp": 15
-        },
-        {
-          "node_id": "node-04",
-          "order": 3,
-          "type": "lesson",
-          "title": "<second concept title>",
-          "content": "<deeper explanation, 3-4 sentences>",
-          "xp": 10
-        },
-        {
-          "node_id": "node-05",
-          "order": 4,
-          "type": "challenge",
-          "title": "Challenge: <task name>",
-          "instructions": "<clear step-by-step task instructions in ${lang}>",
-          "xp": 20
-        }
-      ],
-      "quiz": [
-        {
-          "question": "<question 1 in ${lang}>",
-          "options": ["A", "B", "C", "D"],
-          "answer_index": 0,
-          "explanation": "<why option A is correct, in ${lang}>"
-        },
-        {
-          "question": "<question 2 in ${lang}>",
-          "options": ["A", "B", "C", "D"],
-          "answer_index": 1,
-          "explanation": "<why option B is correct, in ${lang}>"
-        },
-        {
-          "question": "<question 3 in ${lang}>",
-          "options": ["A", "B", "C", "D"],
-          "answer_index": 2,
-          "explanation": "<why option C is correct, in ${lang}>"
-        }
-      ],
-      "challenge": {
-        "title": "Mini Project: <project name>",
-        "instructions": "<project description and acceptance criteria in ${lang}>",
-        "submission_type": "link",
-        "xp": 30
-      }
+  "topics": [{
+    "topic_title": "\${topicTitle}",
+    "topic_order": 0,
+    "description": "Ringkasan topik 2-3 kalimat",
+    "nodes": [
+      {"node_id":"node-01","order":0,"type":"lesson","title":"Konsep utama","content":"Penjelasan lengkap 3-5 kalimat dalam Bahasa Indonesia.","xp":10},
+      {"node_id":"node-02","order":1,"type":"code","title":"Contoh kode","content":"Pengantar contoh.","code_content":"Kode contoh yang valid atau relevan.","code_language":"python","xp":10},
+      {"node_id":"node-03","order":2,"type":"practice","title":"Latihan konsep","instructions":"Pertanyaan latihan.","options":["Pilihan A","Pilihan B","Pilihan C","Pilihan D"],"correct_option":"Pilihan A","xp":15},
+      {"node_id":"node-04","order":3,"type":"lesson","title":"Langkah penerapan","content":"Uraian langkah demi langkah yang jelas.","xp":10},
+      {"node_id":"node-05","order":4,"type":"code","title":"Contoh kedua","content":"Penjelasan singkat.","code_content":"Contoh kode kedua yang berbeda.","code_language":"python","xp":10},
+      {"node_id":"node-06","order":5,"type":"practice","title":"Latihan penerapan","instructions":"Tugas penerapan konsep.","options":["Pilihan A","Pilihan B","Pilihan C","Pilihan D"],"correct_option":"Pilihan B","xp":15},
+      {"node_id":"node-07","order":6,"type":"lesson","title":"Kesalahan umum","content":"Jelaskan jebakan umum dan cara menghindarinya.","xp":10},
+      {"node_id":"node-08","order":7,"type":"code","title":"Eksperimen kecil","content":"Pengantar eksperimen.","code_content":"Kode eksperimen yang dapat dicoba.","code_language":"python","xp":10},
+      {"node_id":"node-09","order":8,"type":"practice","title":"Debugging atau analisis","instructions":"Tugas analisis masalah atau debugging.","options":["Pilihan A","Pilihan B","Pilihan C","Pilihan D"],"correct_option":"Pilihan C","xp":15},
+      {"node_id":"node-10","order":9,"type":"challenge","title":"Proyek mini: judul proyek","instructions":"Tugas proyek dengan hasil yang dapat diperiksa.","content":"Kriteria hasil akhir.","xp":20}
+    ],
+    "quiz": [
+      {"question":"Soal 1 yang spesifik pada topik","options":["A","B","C","D"],"answer_index":0,"explanation":"Alasan jawaban benar."},
+      {"question":"Soal 2 menguji konsep berbeda","options":["A","B","C","D"],"answer_index":1,"explanation":"Alasan jawaban benar."},
+      {"question":"Soal 3 berbasis penerapan","options":["A","B","C","D"],"answer_index":2,"explanation":"Alasan jawaban benar."},
+      {"question":"Soal 4 berbasis analisis","options":["A","B","C","D"],"answer_index":3,"explanation":"Alasan jawaban benar."},
+      {"question":"Soal 5 menguji pemahaman menyeluruh","options":["A","B","C","D"],"answer_index":0,"explanation":"Alasan jawaban benar."}
+    ],
+    "challenge": {
+      "title":"Proyek Mini: judul proyek sesuai topik",
+      "instructions":"Deskripsi proyek, langkah pengerjaan, hasil yang dikumpulkan, dan kriteria keberhasilan yang terukur dalam Bahasa Indonesia.",
+      "submission_type":"link",
+      "xp":30
     }
-  ]
+  }]
 }
 
-Make the content engaging, age-appropriate (10-16 years old), and educational.
-All text must be in ${lang}.
-Return ONLY the JSON object, nothing else.
-`.trim();
+ATURAN WAJIB NODE:
+1. Setiap topik harus memiliki 10 sampai 20 node (inklusif). Jangan berhenti pada 5 node dan jangan membuat kurang dari 10.
+2. Tentukan jumlah secara DINAMIS sesuai cakupan/kompleksitas topik dan level:
+   - topik sempit/sederhana: 10-12 node;
+   - topik cakupan menengah: 13-16 node;
+   - topik luas, banyak subkonsep, atau level advanced: 17-20 node.
+   Jangan selalu memilih jumlah yang sama; cakup subkonsep secara bertahap tanpa mengulang atau membuat node pengisi.
+3. Semua node harus benar-benar ditulis lengkap dan relevan, bukan placeholder. Gunakan node_id unik node-01 hingga node-NN, order berurutan mulai dari 0 tanpa lompatan.
+4. Variasikan tipe lesson, code, practice, theory/quiz jika relevan, dan challenge. Wajib ada minimal satu node bertipe "challenge" yang merupakan proyek praktik nyata. Jangan membuat node duplikat.
+5. "challenge" di tingkat topik juga WAJIB berupa satu proyek nyata: instruksi harus menyebut hasil yang harus dibuat/dikumpulkan, langkah kerja, dan kriteria keberhasilan. Bukan sekadar pertanyaan atau refleksi.
 
+ATURAN WAJIB QUIZ:
+6. Buat TEPAT 5 soal pilihan ganda (bukan 3), berbeda satu sama lain dan mencakup konsep, penerapan, analisis, serta pemahaman topik.
+7. Setiap soal harus memiliki tepat 4 opsi non-kosong, answer_index bilangan bulat 0-3 yang sesuai dengan jawaban yang benar, dan explanation dalam Bahasa Indonesia.
+8. Konten berbahasa Indonesia, sesuai level \${level}, edukatif, akurat, konkret, dan tidak mengulang pertanyaan/opsi sekadar untuk memenuhi jumlah.
+Keluarkan seluruh JSON dan tidak ada teks lain.
+\`.trim();
+
+  let lastValidationError = 'Respons AI tidak valid.';
   try {
-    const text = await generateContentWithFallback({
-      contents: prompt,
-      config: {
-        temperature: 0.7,
-        topP: 0.9,
-      },
-    });
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const retryInstruction = attempt === 1
+        ? ''
+        : \`\n\nPERBAIKI OUTPUT SEBELUMNYA. Kesalahan validasi: \${lastValidationError}. Keluarkan ulang JSON LENGKAP yang valid, bukan hanya bagian yang salah. Pastikan 10-20 node, tepat 5 soal, dan proyek challenge lengkap.\`;
+      const text = await generateContentWithFallback({
+        contents: \`\${basePrompt}\${retryInstruction}\`,
+        config: {
+          temperature: 0.6,
+          topP: 0.85,
+          maxOutputTokens: 8192,
+        },
+      });
 
-    // Strip any markdown code block wrapping if present
-    const clean = text
-      .replace(/^```json\s*/i, '')
-      .replace(/^```\s*/i, '')
-      .replace(/\s*```$/i, '')
-      .trim();
+      const clean = text
+        .replace(new RegExp('^\\x60\\x60\\x60json\\s*', 'i'), '')
+        .replace(new RegExp('^\\x60\\x60\\x60\\s*', 'i'), '')
+        .replace(new RegExp('\\s*\\x60\\x60\\x60$'), '')
+        .trim();
 
-    // Validate it's parseable JSON
-    JSON.parse(clean);
-    return { success: true, data: clean };
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(clean);
+      } catch {
+        lastValidationError = 'Respons bukan JSON valid.';
+        continue;
+      }
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        lastValidationError = 'Akar JSON harus berupa object modul.';
+        continue;
+      }
+
+      const moduleObject = parsed as Record<string, unknown>;
+      const topics = moduleObject.topics;
+      if (!Array.isArray(topics) || topics.length !== 1 || !topics[0] || typeof topics[0] !== 'object' || Array.isArray(topics[0])) {
+        lastValidationError = 'JSON wajib memuat tepat satu topik.';
+        continue;
+      }
+
+      const topic = topics[0] as Record<string, unknown>;
+      if (!Array.isArray(topic.nodes) || topic.nodes.length < 10 || topic.nodes.length > 20) {
+        lastValidationError = \`Jumlah node harus 10-20; AI menghasilkan \${Array.isArray(topic.nodes) ? topic.nodes.length : 0}.\`;
+        continue;
+      }
+      if (!Array.isArray(topic.quiz) || topic.quiz.length !== 5) {
+        lastValidationError = \`Quiz harus tepat 5 soal pilihan ganda; AI menghasilkan \${Array.isArray(topic.quiz) ? topic.quiz.length : 0}.\`;
+        continue;
+      }
+      const hasProjectNode = topic.nodes.some((node) =>
+        Boolean(node && typeof node === 'object' && !Array.isArray(node)
+          && (node as Record<string, unknown>).type === 'challenge')
+      );
+      if (!hasProjectNode) {
+        lastValidationError = 'Nodes wajib menyertakan satu node bertipe challenge/proyek.';
+        continue;
+      }
+      const challenge = topic.challenge && typeof topic.challenge === 'object' && !Array.isArray(topic.challenge)
+        ? topic.challenge as Record<string, unknown>
+        : null;
+      const projectText = \`\${String(challenge?.title ?? '')} \${String(challenge?.instructions ?? '')}\`.toLowerCase();
+      if (!challenge || !/(proyek|project)/i.test(projectText)) {
+        lastValidationError = 'Challenge tingkat topik wajib berupa proyek nyata dengan instruksi dan kriteria keberhasilan.';
+        continue;
+      }
+
+      const normalizedPayload = {
+        ...moduleObject,
+        topics: [{
+          ...topic,
+          nodes: topic.nodes.map((node, index) => ({
+            ...(node && typeof node === 'object' && !Array.isArray(node) ? node as Record<string, unknown> : {}),
+            node_id: \`node-\${String(index + 1).padStart(2, '0')}\`,
+            order: index,
+          })),
+        }],
+      };
+      const validation = moduleImportSchema.safeParse(normalizedPayload);
+      if (!validation.success) {
+        lastValidationError = validation.error.issues
+          .slice(0, 3)
+          .map((issue) => \`\${issue.path.join('.')}: \${issue.message}\`)
+          .join('; ');
+        continue;
+      }
+
+      return { success: true, data: JSON.stringify(validation.data) };
+    }
+
+    return {
+      success: false,
+      error: \`Generator belum menghasilkan kurikulum sesuai aturan (10–20 node, tepat 5 soal pilihan ganda, dan proyek challenge) setelah 3 percobaan. Coba generate ulang. Detail: \${lastValidationError}\`,
+    };
   } catch (err) {
     console.error('[generateCurriculum]', err);
     return { success: false, error: 'Gagal menghasilkan konten kurikulum. Coba lagi.' };

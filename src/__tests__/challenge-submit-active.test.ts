@@ -19,6 +19,7 @@ const state = vi.hoisted(() => ({
   submissionReadResolvers: [] as Array<() => void>,
   simulatePendingUniqueIndex: false,
   topicUnlocked: true,
+  reportSubmitted: true,
 }));
 
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn(), revalidateTag: vi.fn() }));
@@ -33,6 +34,9 @@ vi.mock('@/features/curriculum/queries', () => ({
 }));
 vi.mock('@/features/quiz/questMapQueries', () => ({
   getQuestMapData: async () => ({ nodes: [{ topic: { id: 12 }, isUnlocked: state.topicUnlocked, status: state.topicUnlocked ? 'ACTIVE_NEXT' : 'LOCKED' }] }),
+}));
+vi.mock('@/features/quiz/queries', () => ({
+  getTopicQuizState: async () => ({ isUnlocked: state.reportSubmitted }),
 }));
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
@@ -141,6 +145,7 @@ describe('submitChallenge active challenge authorization', () => {
     state.submissionReadResolvers = [];
     state.simulatePendingUniqueIndex = false;
     state.topicUnlocked = true;
+    state.reportSubmitted = true;
   });
 
   it('allows a submission for an active challenge', async () => {
@@ -154,6 +159,16 @@ describe('submitChallenge active challenge authorization', () => {
     await expect(submitChallenge(null, form())).resolves.toMatchObject({
       success: false,
       error: 'Challenge akan terbuka saat sesi topik ini dimulai.',
+    });
+    expect(state.submissions).toHaveLength(0);
+  });
+
+
+  it('rejects project submissions until the admin/teacher report unlocks the topic', async () => {
+    state.reportSubmitted = false;
+    await expect(submitChallenge(null, form())).resolves.toMatchObject({
+      success: false,
+      error: 'Proyek challenge akan terbuka setelah guru/admin mengirim laporan sesi topik ini.',
     });
     expect(state.submissions).toHaveLength(0);
   });

@@ -44,7 +44,7 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
       {/* Panel */}
       {open && (
-        <div className="mt-4 rounded-2xl bg-zinc-900/80 border border-purple-500/30
+        <div className="mt-4 rounded-2xl bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-purple-500/30
           shadow-xl shadow-purple-900/20 backdrop-blur-md p-5 flex flex-col gap-4">
 
           {/* Header */}
@@ -52,15 +52,15 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
             <div className="flex items-center gap-2">
               <span className="text-xl select-none">✨</span>
               <div>
-                <p className="text-sm font-black text-white leading-none">AI Curriculum Generator</p>
-                <p className="text-[10px] text-zinc-400 mt-0.5">Powered by Gemini 2.0 Flash</p>
+                <p className="text-sm font-black text-slate-900 dark:text-white leading-none">AI Curriculum Generator</p>
+                <p className="text-[10px] text-slate-500 dark:text-zinc-400 mt-0.5">Powered by Gemini 2.0 Flash</p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700
-                flex items-center justify-center text-zinc-400 text-xs transition-colors"
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700
+                flex items-center justify-center text-slate-500 dark:text-zinc-400 text-xs transition-colors"
             >
               ✕
             </button>
@@ -71,7 +71,7 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
             {/* Topic title */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-topic" className="text-xs font-bold text-zinc-300">
+              <label htmlFor="ai-topic" className="text-xs font-bold text-slate-700 dark:text-zinc-300">
                 Judul Topik <span className="text-red-400">*</span>
               </label>
               <input
@@ -79,8 +79,8 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
                 name="topic_title"
                 required
                 placeholder="Contoh: Pengenalan Variabel di Python"
-                className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
-                  text-sm text-white placeholder:text-zinc-500
+                className="rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5
+                  text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500
                   focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
@@ -92,12 +92,12 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
                 id="ai-level"
                 name="level"
                 defaultValue="beginner"
-                className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
-                  text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5
+                  text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
-                <option value="beginner" className="bg-zinc-950 text-white">Beginner</option>
-                <option value="intermediate" className="bg-zinc-950 text-white">Intermediate</option>
-                <option value="advanced" className="bg-zinc-950 text-white">Advanced</option>
+                <option value="beginner" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Beginner</option>
+                <option value="intermediate" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Intermediate</option>
+                <option value="advanced" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Advanced</option>
               </select>
             </div>
 
@@ -125,18 +125,18 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
           {/* Error */}
           {state && !state.success && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-start gap-2">
-              <span className="text-red-400 flex-shrink-0">✗</span>
-              <p className="text-xs text-red-300">{state.error}</p>
+            <div className="rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 px-4 py-3 flex items-start gap-2">
+              <span className="text-red-700 dark:text-red-400 flex-shrink-0">✗</span>
+              <p className="text-xs text-red-700 dark:text-red-300">{state.error}</p>
             </div>
           )}
 
           {/* Success */}
           {state?.success && (
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30
+            <div className="rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30
               px-4 py-3 flex items-start gap-2">
-              <span className="text-emerald-400 flex-shrink-0">✓</span>
-              <p className="text-xs text-emerald-300 font-bold">
+              <span className="text-emerald-700 dark:text-emerald-400 flex-shrink-0">✓</span>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300 font-bold">
                 JSON berhasil di-generate! Konten sudah masuk ke editor import.
                 Periksa dan klik &ldquo;Import JSON Materi&rdquo; untuk menyimpan.
               </p>

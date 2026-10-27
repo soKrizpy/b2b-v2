@@ -10,6 +10,7 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
+import { getTopicQuizState } from '@/features/quiz/queries';
 
 export type ChallengeActionResult =
   | { success: true; id?: number; message: string }
@@ -243,6 +244,13 @@ export async function submitChallenge(
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic.id);
   if (!topicNode || !topicNode.isUnlocked) {
     return { success: false, error: 'Challenge akan terbuka saat sesi topik ini dimulai.' };
+  }
+
+  // Match the quiz gate exactly: the student must have attended this topic's
+  // session, and an admin/teacher must have saved a report and marked it done.
+  const topicQuizState = await getTopicQuizState(topic.id, studentId, topic.lesson_content);
+  if (!topicQuizState.isUnlocked) {
+    return { success: false, error: 'Proyek challenge akan terbuka setelah guru/admin mengirim laporan sesi topik ini.' };
   }
 
   // Check whether an active (non-approved) submission already exists
