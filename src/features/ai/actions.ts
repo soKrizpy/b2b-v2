@@ -115,6 +115,7 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
         config: {
           temperature: 0.6,
           topP: 0.85,
+          responseMimeType: 'application/json',
           maxOutputTokens: 8192,
         },
       });
