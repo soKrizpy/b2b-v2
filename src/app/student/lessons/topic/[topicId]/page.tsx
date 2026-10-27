@@ -75,9 +75,9 @@ export default async function TopicPage({ params }: Props) {
 
   const quizState = await getTopicQuizState(id, auth.user.id, lessonContent);
   const hasQuiz = Array.isArray(lessonContent?.quiz) && lessonContent.quiz.length > 0;
-  // Do not fetch or render project submission details until the student's
-  // attended topic session is complete and its teacher/admin report is saved.
-  const challenges = quizState.isUnlocked && lessonHasContent
+  // Project challenges are available during the active topic session. The topic
+  // itself is guarded above by topicNode.isUnlocked; only the quiz waits for report.
+  const challenges = lessonHasContent
     ? await getChallengesWithSubmissions(id, auth.user.id, activeChallengeIds)
     : [];
 
@@ -156,11 +156,11 @@ export default async function TopicPage({ params }: Props) {
         </div>
       )}
 
-      {!quizState.isUnlocked && (lessonHasContent || hasQuiz) && (
+      {!quizState.isUnlocked && hasQuiz && (
         <div role="status" className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/30 dark:text-amber-200">
-          <h2 className="text-sm font-bold">🔒 Proyek Challenge &amp; Quiz Terkunci</h2>
+          <h2 className="text-sm font-bold">🔒 Quiz Topik Terkunci</h2>
           <p className="mt-1 text-sm leading-relaxed">
-            Proyek dan quiz 5 soal pilihan ganda akan terbuka setelah guru atau admin mengirim laporan untuk sesi topik ini, sesi ditandai selesai, dan kehadiranmu tercatat.
+            Quiz 5 soal pilihan ganda akan terbuka setelah guru atau admin mengirim laporan untuk sesi topik ini, sesi ditandai selesai, dan kehadiranmu tercatat. Proyek challenge tetap dapat dikerjakan selama pertemuan berlangsung.
           </p>
         </div>
       )}

@@ -19,7 +19,6 @@ const state = vi.hoisted(() => ({
   submissionReadResolvers: [] as Array<() => void>,
   simulatePendingUniqueIndex: false,
   topicUnlocked: true,
-  reportSubmitted: true,
 }));
 
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn(), revalidateTag: vi.fn() }));
@@ -34,9 +33,6 @@ vi.mock('@/features/curriculum/queries', () => ({
 }));
 vi.mock('@/features/quiz/questMapQueries', () => ({
   getQuestMapData: async () => ({ nodes: [{ topic: { id: 12 }, isUnlocked: state.topicUnlocked, status: state.topicUnlocked ? 'ACTIVE_NEXT' : 'LOCKED' }] }),
-}));
-vi.mock('@/features/quiz/queries', () => ({
-  getTopicQuizState: async () => ({ isUnlocked: state.reportSubmitted }),
 }));
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
@@ -145,10 +141,12 @@ describe('submitChallenge active challenge authorization', () => {
     state.submissionReadResolvers = [];
     state.simulatePendingUniqueIndex = false;
     state.topicUnlocked = true;
-    state.reportSubmitted = true;
   });
 
-  it('allows a submission for an active challenge', async () => {
+  it('allows a challenge submission during the active session without waiting for the report', async () => {
+    // Challenge availability follows the live session/topic gate, not the report
+    // gate used by the quiz; the report can be submitted after the meeting.
+    state.topicUnlocked = true;
     const result = await submitChallenge(null, form());
     expect(result).toMatchObject({ success: true });
     expect(state.submissions).toHaveLength(1);
@@ -163,15 +161,6 @@ describe('submitChallenge active challenge authorization', () => {
     expect(state.submissions).toHaveLength(0);
   });
 
-
-  it('rejects project submissions until the admin/teacher report unlocks the topic', async () => {
-    state.reportSubmitted = false;
-    await expect(submitChallenge(null, form())).resolves.toMatchObject({
-      success: false,
-      error: 'Proyek challenge akan terbuka setelah guru/admin mengirim laporan sesi topik ini.',
-    });
-    expect(state.submissions).toHaveLength(0);
-  });
 
   it('fails closed when the previous-submission query errors', async () => {
     state.submissionReadError = true;
