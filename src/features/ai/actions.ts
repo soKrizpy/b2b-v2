@@ -88,7 +88,7 @@ Keluarkan HANYA JSON valid (tanpa Markdown/code fence) dengan struktur:
 
 ATURAN WAJIB NODE:
 1. Setiap topik harus memiliki 10 sampai 20 node (inklusif). Jangan berhenti pada 5 node dan jangan membuat kurang dari 10.
-2. Tentukan jumlah secara DINAMIS sesuai cakupan/kompleksitas topik dan level:
+2. Tentukan jumlah secara DINAMIS sesuai cakupan/kompleksitas topik dan level; jangan terpaku pada contoh 10 node di atas, karena itu hanya ilustrasi struktur minimum:
    - topik sempit/sederhana: 10-12 node;
    - topik cakupan menengah: 13-16 node;
    - topik luas, banyak subkonsep, atau level advanced: 17-20 node.

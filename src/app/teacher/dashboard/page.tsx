@@ -97,6 +97,7 @@ export default async function TeacherDashboardPage() {
         </div>
           </div>
       </div>
+      </div>
 
       {/* ── Mentored Students Quick Link ─────────────────────── */}
       <Link
