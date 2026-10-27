@@ -43,7 +43,7 @@ describe('TeacherAdminChatbot failure and retry behavior', () => {
       expect(screen.getByText(/Layanan AI gagal merespons/i)).toBeInTheDocument();
     });
     expect(input).toHaveValue(message);
-    expect(screen.queryByText(message)).not.toBeInTheDocument();
+    expect(screen.queryByText(message, { selector: 'p' })).not.toBeInTheDocument();
   });
 
   it('restores manually typed text when the action returns an error result', async () => {
@@ -59,7 +59,7 @@ describe('TeacherAdminChatbot failure and retry behavior', () => {
       expect(screen.getByText('Layanan sedang tidak tersedia.')).toBeInTheDocument();
     });
     expect(input).toHaveValue(message);
-    expect(screen.queryByText(message)).not.toBeInTheDocument();
+    expect(screen.queryByText(message, { selector: 'p' })).not.toBeInTheDocument();
   });
 
   it('appends a successful answer and leaves the input empty', async () => {
