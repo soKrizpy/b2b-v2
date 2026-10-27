@@ -87,7 +87,7 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
             {/* Level */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-level" className="text-xs font-bold text-zinc-300">Level</label>
+              <label htmlFor="ai-level" className="text-xs font-bold text-slate-700 dark:text-zinc-300">Level</label>
               <select
                 id="ai-level"
                 name="level"

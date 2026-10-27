@@ -9,6 +9,7 @@ import { TeacherScheduleCards } from "@/features/dashboard/teacher/TeacherSchedu
 import { isUpcoming, isLive, formatDateTime } from "@/lib/formatDate";
 import { AnnouncementBanner } from "@/features/announcements/components/AnnouncementBanner";
 import { HeroAtmosphere } from "@/components/common/HeroAtmosphere";
+import { CyberFantasyAvatar } from "@/components/avatar/CyberFantasyAvatar";
 import Link from "next/link";
 
 export const metadata: Metadata = { title: "Dasbor Guru — Bits2Bytes" };
@@ -30,6 +31,10 @@ export default async function TeacherDashboardPage() {
   );
 
   const teacherName = user.user_metadata?.full_name?.split(" ")[0] ?? "Guru";
+  // Stable per-teacher avatar palette; uses the existing 16-bit pixel adventurer art.
+  const teacherAvatarTypes = ["astral-knight", "cyber-mage", "chrono-alchemist", "shadow-glitcher"] as const;
+  const avatarSeed = Array.from(user.id).reduce((hash, char) => (hash * 33 + char.charCodeAt(0)) >>> 0, 5381);
+  const teacherAvatarType = teacherAvatarTypes[avatarSeed % teacherAvatarTypes.length];
   const hasLive = upcoming.some((m) => isLive(m.meeting_date, renderNow));
 
   return (
@@ -47,6 +52,17 @@ export default async function TeacherDashboardPage() {
         <HeroAtmosphere />
 
         <div className="relative z-10">
+        <div className="flex items-start gap-4 sm:gap-6">
+          <div className="shrink-0 rounded-2xl border border-white/20 dark:border-purple-400/30 bg-white/10 dark:bg-black/20 p-1.5 sm:p-2 shadow-lg">
+            <CyberFantasyAvatar
+              archetype={teacherAvatarType}
+              size="lg"
+              showTag
+              tagLabel="GURU"
+              className="scale-95 sm:scale-100"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
           {hasLive && (
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md text-white text-xs font-black px-3.5 py-1.5 rounded-full mb-4 ring-1 ring-white/30 shadow-md">
               <i className="fa-solid fa-tower-broadcast text-rose-200 fa-beat-fade" />
@@ -59,7 +75,7 @@ export default async function TeacherDashboardPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1 drop-shadow-sm">
-            Halo kembali, {teacherName}! 👋
+            Selamat datang kembali, {teacherName}! 👋
           </h1>
 
           <div className="mt-5 flex items-center gap-3 flex-wrap">
@@ -79,6 +95,7 @@ export default async function TeacherDashboardPage() {
             )}
           </div>
         </div>
+          </div>
       </div>
 
       {/* ── Mentored Students Quick Link ─────────────────────── */}

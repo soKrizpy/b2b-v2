@@ -41,21 +41,21 @@ export async function generateCurriculum(
 
   if (!topicTitle) return { success: false, error: 'Judul topik wajib diisi.' };
 
-  const basePrompt = \`
+  const basePrompt = `
 Kamu adalah perancang kurikulum coding Bits2Bytes. Buat SATU topik lengkap dan siap diimpor berdasarkan:
-Judul topik: "\${topicTitle}"
-Modul: "\${moduleTitle}"
-Level: \${level}
-Bahasa: \${lang}
+Judul topik: "${topicTitle}"
+Modul: "${moduleTitle}"
+Level: ${level}
+Bahasa: ${lang}
 
 Keluarkan HANYA JSON valid (tanpa Markdown/code fence) dengan struktur:
 {
-  "module_title": "\${moduleTitle}",
+  "module_title": "${moduleTitle}",
   "module_order": 0,
-  "level": "\${level}",
+  "level": "${level}",
   "gamification_type": "mimo",
   "topics": [{
-    "topic_title": "\${topicTitle}",
+    "topic_title": "${topicTitle}",
     "topic_order": 0,
     "description": "Ringkasan topik 2-3 kalimat",
     "nodes": [
@@ -100,18 +100,18 @@ ATURAN WAJIB NODE:
 ATURAN WAJIB QUIZ:
 6. Buat TEPAT 5 soal pilihan ganda (bukan 3), berbeda satu sama lain dan mencakup konsep, penerapan, analisis, serta pemahaman topik.
 7. Setiap soal harus memiliki tepat 4 opsi non-kosong, answer_index bilangan bulat 0-3 yang sesuai dengan jawaban yang benar, dan explanation dalam Bahasa Indonesia.
-8. Konten berbahasa Indonesia, sesuai level \${level}, edukatif, akurat, konkret, dan tidak mengulang pertanyaan/opsi sekadar untuk memenuhi jumlah.
+8. Konten berbahasa Indonesia, sesuai level ${level}, edukatif, akurat, konkret, dan tidak mengulang pertanyaan/opsi sekadar untuk memenuhi jumlah.
 Keluarkan seluruh JSON dan tidak ada teks lain.
-\`.trim();
+`.trim();
 
   let lastValidationError = 'Respons AI tidak valid.';
   try {
     for (let attempt = 1; attempt <= 3; attempt++) {
       const retryInstruction = attempt === 1
         ? ''
-        : \`\n\nPERBAIKI OUTPUT SEBELUMNYA. Kesalahan validasi: \${lastValidationError}. Keluarkan ulang JSON LENGKAP yang valid, bukan hanya bagian yang salah. Pastikan 10-20 node, tepat 5 soal, dan proyek challenge lengkap.\`;
+        : `\n\nPERBAIKI OUTPUT SEBELUMNYA. Kesalahan validasi: ${lastValidationError}. Keluarkan ulang JSON LENGKAP yang valid, bukan hanya bagian yang salah. Pastikan 10-20 node, tepat 5 soal, dan proyek challenge lengkap.`;
       const text = await generateContentWithFallback({
-        contents: \`\${basePrompt}\${retryInstruction}\`,
+        contents: `${basePrompt}${retryInstruction}`,
         config: {
           temperature: 0.6,
           topP: 0.85,
@@ -146,11 +146,11 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
 
       const topic = topics[0] as Record<string, unknown>;
       if (!Array.isArray(topic.nodes) || topic.nodes.length < 10 || topic.nodes.length > 20) {
-        lastValidationError = \`Jumlah node harus 10-20; AI menghasilkan \${Array.isArray(topic.nodes) ? topic.nodes.length : 0}.\`;
+        lastValidationError = `Jumlah node harus 10-20; AI menghasilkan ${Array.isArray(topic.nodes) ? topic.nodes.length : 0}.`;
         continue;
       }
       if (!Array.isArray(topic.quiz) || topic.quiz.length !== 5) {
-        lastValidationError = \`Quiz harus tepat 5 soal pilihan ganda; AI menghasilkan \${Array.isArray(topic.quiz) ? topic.quiz.length : 0}.\`;
+        lastValidationError = `Quiz harus tepat 5 soal pilihan ganda; AI menghasilkan ${Array.isArray(topic.quiz) ? topic.quiz.length : 0}.`;
         continue;
       }
       const hasProjectNode = topic.nodes.some((node) =>
@@ -164,7 +164,7 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
       const challenge = topic.challenge && typeof topic.challenge === 'object' && !Array.isArray(topic.challenge)
         ? topic.challenge as Record<string, unknown>
         : null;
-      const projectText = \`\${String(challenge?.title ?? '')} \${String(challenge?.instructions ?? '')}\`.toLowerCase();
+      const projectText = `${String(challenge?.title ?? '')} ${String(challenge?.instructions ?? '')}`.toLowerCase();
       if (!challenge || !/(proyek|project)/i.test(projectText)) {
         lastValidationError = 'Challenge tingkat topik wajib berupa proyek nyata dengan instruksi dan kriteria keberhasilan.';
         continue;
@@ -176,7 +176,7 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
           ...topic,
           nodes: topic.nodes.map((node, index) => ({
             ...(node && typeof node === 'object' && !Array.isArray(node) ? node as Record<string, unknown> : {}),
-            node_id: \`node-\${String(index + 1).padStart(2, '0')}\`,
+            node_id: `node-${String(index + 1).padStart(2, '0')}`,
             order: index,
           })),
         }],
@@ -185,7 +185,7 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
       if (!validation.success) {
         lastValidationError = validation.error.issues
           .slice(0, 3)
-          .map((issue) => \`\${issue.path.join('.')}: \${issue.message}\`)
+          .map((issue) => `${issue.path.join('.')}: ${issue.message}`)
           .join('; ');
         continue;
       }
@@ -195,7 +195,7 @@ Keluarkan seluruh JSON dan tidak ada teks lain.
 
     return {
       success: false,
-      error: \`Generator belum menghasilkan kurikulum sesuai aturan (10–20 node, tepat 5 soal pilihan ganda, dan proyek challenge) setelah 3 percobaan. Coba generate ulang. Detail: \${lastValidationError}\`,
+      error: `Generator belum menghasilkan kurikulum sesuai aturan (10–20 node, tepat 5 soal pilihan ganda, dan proyek challenge) setelah 3 percobaan. Coba generate ulang. Detail: ${lastValidationError}`,
     };
   } catch (err) {
     console.error('[generateCurriculum]', err);
