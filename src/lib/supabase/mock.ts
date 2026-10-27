@@ -1,6 +1,6 @@
 // src/lib/supabase/mock.ts
-// In-memory mock Supabase store & query builder used when NEXT_PUBLIC_SUPABASE_URL
-// or SUPABASE_SERVICE_ROLE_KEY are not configured.
+// In-memory mock Supabase store & query builder used when Supabase environment
+// configuration is missing. Missing values must never silently target a hosted database.
 
 import {
   scratchTopicsData,
@@ -103,9 +103,6 @@ export function markSupabaseKeyInvalid(key: string | undefined): void {
   globalForMock.__b2bInvalidKeys.add(sanitizeEnvVal(key));
 }
 
-const DEFAULT_SUPABASE_URL = 'https://enfqoofluceqrlcjemfu.supabase.co';
-const DEFAULT_SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuZnFvb2ZsdWNlcXJsY2plbWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2MjI3ODgsImV4cCI6MjEwMDE5ODc4OH0.N0PZY2kmT-5t8gsUKBLCaPH9i4mP9OzcIxt_uGXfpLE';
 const DEFAULT_SUPABASE_SERVICE_ROLE_KEY = '';
 
 export function sanitizeEnvVal(raw: string | undefined): string {
@@ -144,7 +141,7 @@ export function getSupabaseUrl(): string {
   if (envUrl.startsWith('http://') || envUrl.startsWith('https://')) {
     return envUrl;
   }
-  return DEFAULT_SUPABASE_URL;
+  return '';
 }
 
 export function getSupabaseAnonKey(): string {
@@ -152,7 +149,7 @@ export function getSupabaseAnonKey(): string {
   if (isValidSupabaseKey(envAnon)) {
     return envAnon;
   }
-  return DEFAULT_SUPABASE_ANON_KEY;
+  return '';
 }
 
 export function getSupabaseServiceRoleKey(): string {
