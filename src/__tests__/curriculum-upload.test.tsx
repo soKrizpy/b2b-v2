@@ -23,8 +23,13 @@ describe('module curriculum file upload', () => {
     const moduleData = {
       id: 7,
       title: 'Scratch',
+      description: null,
+      level: 'beginner',
+      gamification_type: 'points',
+      is_active: true,
+      created_at: null,
       topics: [],
-    } as ModuleWithTopics;
+    } satisfies ModuleWithTopics;
 
     render(<ModuleBuilderClient module={moduleData} />);
     fireEvent.click(screen.getByRole('button', { name: 'Import JSON Materi' }));

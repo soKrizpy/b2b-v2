@@ -251,10 +251,19 @@ describe('completed session report editing', () => {
     const meeting = {
       id: 41,
       title: 'Completed lesson',
+      meeting_date: '2026-10-18T10:00:00.000Z',
+      link_url: '',
+      notes: null,
+      session_count: 1,
+      session_number: 1,
+      series_id: null,
+      teacher_id: null,
       is_completed: true,
+      completion_status: 'completed',
       progress_report: 'Old report',
+      created_at: null,
       meeting_students: [],
-    } as MeetingWithStudents;
+    } satisfies MeetingWithStudents;
 
     render(
       <AdminSessionActions meeting={meeting} teachers={[]} students={[]} />
