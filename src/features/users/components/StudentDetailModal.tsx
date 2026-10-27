@@ -447,7 +447,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
       <div
         className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
-          flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden
+          flex flex-col min-h-0 h-[min(44rem,calc(100dvh-1.5rem))] max-h-[calc(100dvh-1.5rem)] overflow-hidden
           border-2 border-slate-200/90 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35]
           animate-fade-in-up"
@@ -534,7 +534,8 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         </div>
 
         {/* ── Tab content ── */}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-5 pt-2">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y px-4 pb-5 pt-2"
+          style={{ WebkitOverflowScrolling: 'touch' }}>
           {tab === 'path'        && <LearningPathTab student={s} allModules={allModules} />}
           {tab === 'teacher'     && <EnrolledTeacherTab student={s} allTeachers={allTeachers} />}
           {tab === 'history'     && <PlaceholderTab icon="📋" label="Riwayat Pertemuan" />}

@@ -399,7 +399,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
       <div
         className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
-          flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden
+          flex flex-col min-h-0 h-[min(44rem,calc(100dvh-1.5rem))] max-h-[calc(100dvh-1.5rem)] overflow-hidden
           border-2 border-slate-200/90 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/[0.35]
           animate-fade-in-up"
@@ -460,7 +460,8 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
         </div>
 
         {/* ── Content ── */}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 pt-4 flex flex-col gap-5">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y px-5 pb-5 pt-4 flex flex-col gap-5"
+          style={{ WebkitOverflowScrolling: 'touch' }}>
 
           {/* Access / Email row */}
           <div className="flex flex-col gap-2">

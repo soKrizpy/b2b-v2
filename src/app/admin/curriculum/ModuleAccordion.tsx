@@ -100,7 +100,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             className={`p-2 rounded-xl text-xs font-medium ring-1 transition-colors
               ${showEdit
                 ? 'ring-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300'
-                : 'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
+                : 'ring-slate-200 dark:ring-white/[0.15] bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600 dark:hover:text-indigo-300'
               }`}
           >
             ✏️
@@ -137,7 +137,7 @@ export function ModuleAccordion({ module: mod }: Props) {
 
       {/* ── Inline edit form ─────────────────────────────────────────────── */}
       {showEdit && (
-        <div className="px-5 pb-5 pt-1 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        <div className="px-5 pb-5 pt-1 border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-[#0B0F19]">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 mt-3">
             Edit Metadata Modul
           </p>

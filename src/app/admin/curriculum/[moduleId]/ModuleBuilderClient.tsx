@@ -95,8 +95,8 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     type="button"
                     onClick={() => setExpandedNode(open ? null : idx)}
                     className="w-full text-left flex items-start gap-2 px-3 py-2.5 rounded-xl
-                      bg-slate-50 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10
-                      hover:ring-slate-300 dark:hover:ring-white/20 transition-all"
+                      bg-slate-50 dark:bg-white/[0.05] ring-1 ring-slate-200 dark:ring-white/[0.10]
+                      hover:ring-slate-300 dark:hover:ring-white/[0.20] transition-all"
                   >
                     <span className="text-slate-300 dark:text-slate-600 tabular-nums text-[10px] w-4 text-right mt-0.5 flex-shrink-0">
                       {idx + 1}.
@@ -183,10 +183,10 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     type="button"
                     onClick={() => setExpandedQ(open ? null : qi)}
                     className="w-full text-left flex items-start gap-2 px-3 py-2.5 rounded-xl
-                      bg-violet-50/60 dark:bg-violet-900/10 ring-1 ring-violet-200 dark:ring-violet-700/30
+                      bg-violet-50/60 dark:bg-violet-950/40 ring-1 ring-violet-200 dark:ring-violet-700/30
                       hover:ring-violet-300 dark:hover:ring-violet-600/50 transition-all"
                   >
-                    <span className="text-violet-400 tabular-nums text-[10px] w-4 text-right mt-0.5 flex-shrink-0">
+                    <span className="text-violet-400 dark:text-violet-300 tabular-nums text-[10px] w-4 text-right mt-0.5 flex-shrink-0">
                       {qi + 1}.
                     </span>
                     <span className="flex-1 text-xs font-medium text-slate-700 dark:text-slate-200 text-left min-w-0 truncate">
@@ -198,7 +198,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                   </button>
 
                   {open && (
-                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[var(--surface)]
+                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[#0B0F19]
                       ring-1 ring-slate-200 dark:ring-white/10 px-4 py-3 space-y-2.5">
                       <ol className="flex flex-col gap-1">
                         {q.options.map((opt, oi) => (
@@ -208,7 +208,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                 ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                 : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                               }`}>
-                            <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                            <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                             {opt}
                             {oi === q.answer_index && (
                               <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Kunci</span>
@@ -260,8 +260,8 @@ function TopicEditForm({
       <input type="hidden" name="module_id" value={moduleId} />
 
       {state && !state.success && !state.fields && (
-        <p role="alert" className="text-xs text-red-600 bg-red-50 dark:bg-red-900/20
-          rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
+        <p role="alert" className="text-xs text-red-700 dark:text-rose-300 bg-red-50 dark:bg-rose-950/40
+          rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-rose-800/50">
           {state.error}
         </p>
       )}
@@ -277,7 +277,7 @@ function TopicEditForm({
               text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-indigo-500
               ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-slate-700'}`} />
-          {err('title') && <p className="text-xs text-red-600">{err('title')}</p>}
+          {err('title') && <p className="text-xs text-red-600 dark:text-rose-300">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -635,14 +635,14 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/[0.08] bg-slate-50/40 dark:bg-[#0B0F19]">
+                    <div className="border-t border-slate-100 dark:border-white/[0.08] bg-slate-50 dark:bg-[#0B0F19]">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
 
                   {/* ── Edit panel ─────────────────────────────────────── */}
                   {panel === 'edit' && (
-                    <div className="border-t border-indigo-100 dark:border-indigo-700/30 bg-indigo-50/30 dark:bg-indigo-900/10">
+                    <div className="border-t border-indigo-100 dark:border-purple-500/30 bg-indigo-50 dark:bg-[#0B0F19]">
                       <TopicEditForm
                         topic={topic as unknown as TopicRow}
                         moduleId={mod.id}
@@ -675,7 +675,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 </p>
               </div>
               <button type="button" onClick={() => setShowImport(false)} disabled={isImporting}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
+                className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
                 aria-label="Tutup">×</button>
             </div>
 
@@ -723,7 +723,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 placeholder='{ "topics": [...], "final_assessment": { ... } }'
                 className="w-full rounded-xl border border-slate-300 dark:border-slate-700 px-3.5 py-3
                   text-xs font-mono resize-y bg-white dark:bg-slate-950 text-slate-900 dark:text-white
-                  placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500
+                  placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500
                   disabled:opacity-40" />
 
               {vs.status === 'error'    && <div role="alert" className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/40 rounded-xl px-4 py-3"><strong>Error: </strong>{vs.msg}</div>}
