@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - fix/security-priority-audit
+      - fix/preview-ui-polish-20261027
 
 permissions:
   contents: read
