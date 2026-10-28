@@ -16,6 +16,7 @@ on:
       - "src/app/teacher/loading.tsx"
       - "src/features/sessions/components/AdminSessionActions.tsx"
       - "src/features/sessions/components/CreateSessionModal.tsx"
+      - "src/features/sessions/components/MeetingForm.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
