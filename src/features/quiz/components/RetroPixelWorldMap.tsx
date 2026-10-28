@@ -97,29 +97,32 @@ export function RetroPixelWorldMap({
     ...(hasFinal ? [`${bossCoord.x},${bossCoord.y}`] : []),
   ].join(' ');
 
-  // Dynamic mouse-follow coordinates with viewport edge clamping
+  // Keep the hover HUD anchored to the map board, not viewport coordinates.
+  // This prevents large offsets and clipping when the board is inside an animated container.
   const tooltipWidth = 270;
   const tooltipHeight = 160;
-  const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const mapWidth = typeof window !== 'undefined' ? Math.min(window.innerWidth, 1200) : 1200;
+  const mapHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
-  // Position tooltip to the right of cursor; flip to left if near right edge
-  let tooltipX = mousePos.x + 18;
-  if (tooltipX + tooltipWidth > windowWidth - 16) {
-    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 18);
+  let tooltipX = mousePos.x + 16;
+  if (tooltipX + tooltipWidth > mapWidth - 16) {
+    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 16);
   }
 
-  // Position tooltip below cursor; flip above if near bottom edge
-  let tooltipY = mousePos.y + 18;
-  if (tooltipY + tooltipHeight > windowHeight - 16) {
-    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 18);
+  let tooltipY = mousePos.y + 16;
+  if (tooltipY + tooltipHeight > mapHeight - 16) {
+    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 16);
   }
 
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* ── The Grand Archipelago World Map (MAP Board) ── */}
       <div
-        onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        }}
+        data-quest-map-board
         className="relative w-full rounded-3xl overflow-hidden border-4 border-amber-500/60 bg-slate-950 shadow-2xl shadow-cyan-950/40"
       >
         {/* Subtle Vignette & Frame Shadow */}
@@ -182,7 +185,7 @@ export function RetroPixelWorldMap({
           {hoveredNode && (
             <div
               style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
-              className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
+              className="absolute z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
             >
               <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
                 <div className="flex items-center gap-1.5">
@@ -323,13 +326,7 @@ export function RetroPixelWorldMap({
                   }`}
                   aria-current={isActive ? 'step' : undefined}
                   onClick={() => onSelectNode(node)}
-                  onMouseEnter={(e) => {
-                    setMousePos({ x: e.clientX, y: e.clientY });
-                    setHoveredNode(node);
-                  }}
-                  onMouseMove={(e) => {
-                    setMousePos({ x: e.clientX, y: e.clientY });
-                  }}
+                  onMouseEnter={() => setHoveredNode(node)}
                   onMouseLeave={() => setHoveredNode(null)}
                   className={`group relative flex items-center justify-center transition-all duration-300 select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200
                     ${isSelected ? 'scale-125 z-40 ring-4 ring-cyan-300' : 'hover:scale-125 hover:z-40'}
@@ -398,13 +395,7 @@ export function RetroPixelWorldMap({
               <button
                 type="button"
                 onClick={onSelectFinalBoss}
-                onMouseEnter={(e) => {
-                  setMousePos({ x: e.clientX, y: e.clientY });
-                  setHoveredBoss(true);
-                }}
-                onMouseMove={(e) => {
-                  setMousePos({ x: e.clientX, y: e.clientY });
-                }}
+                onMouseEnter={() => setHoveredBoss(true)}
                 onMouseLeave={() => setHoveredBoss(false)}
                 className={`group relative flex items-center justify-center rounded-3xl transition-all duration-300 ${
                   isDense ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-14 sm:h-14'
