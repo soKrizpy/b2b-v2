@@ -105,7 +105,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex-shrink-0">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 dark:text-slate-500 flex-shrink-0">
               {completedTopics}/{mod.topics.length} topik
             </span>
           </div>
