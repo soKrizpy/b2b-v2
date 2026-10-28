@@ -194,7 +194,7 @@ export function StudentModuleProgressChart({
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 viewMode === 'weekly'
                   ? 'bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-xs font-black'
-                  : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                  : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               Mingguan (4 Mg)
@@ -247,7 +247,7 @@ export function StudentModuleProgressChart({
             <span className="text-xl sm:text-2xl font-black text-purple-600 dark:text-purple-400">
               +{totalPeriodXp}
             </span>
-            <span className="text-xs font-semibold text-slate-400">EXP</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">EXP</span>
           </div>
         </div>
 
@@ -259,7 +259,7 @@ export function StudentModuleProgressChart({
             <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {totalEnrolledModules}
             </span>
-            <span className="text-xs font-semibold text-slate-400">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               ({totalEnrolledTopics} topik)
             </span>
           </div>
@@ -299,7 +299,7 @@ export function StudentModuleProgressChart({
                     className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                       weeklyTarget === val
                         ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 dark:hover:text-slate-200'
                     }`}
                   >
                     {val} topik
@@ -327,7 +327,7 @@ export function StudentModuleProgressChart({
             <div className="w-full h-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-2xl">
               <div className="flex flex-col items-center gap-2">
                 <i className="fa-solid fa-spinner fa-spin text-purple-500 text-xl" />
-                <span className="text-xs font-bold text-slate-400">Memuat visual grafik...</span>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Memuat visual grafik...</span>
               </div>
             </div>
           ) : (
