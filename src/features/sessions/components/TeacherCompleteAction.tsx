@@ -169,8 +169,8 @@ export function TeacherCompleteAction({
 
           {aiError && (
             <p
-              className="text-xs text-red-500 bg-red-50 dark:bg-red-900/20
-              rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40"
+              className="text-xs text-red-500 bg-red-50 dark:text-rose-300 dark:bg-rose-950/30
+              rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-rose-800/50"
             >
               {aiError}
             </p>
@@ -193,7 +193,7 @@ export function TeacherCompleteAction({
             placeholder="Topik yang dipelajari hari ini, perkembangan siswa, catatan untuk orang tua…"
           />
 
-          {error && <p className="text-xs text-red-600">{error}</p>}
+          {error && <p className="text-xs text-red-600 dark:text-rose-400">{error}</p>}
 
           <div className="flex justify-end gap-3">
             <Button
