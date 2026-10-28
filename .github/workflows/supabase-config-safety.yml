@@ -23,6 +23,13 @@ on:
       - "src/app/admin/curriculum/ModuleAccordion.tsx"
       - "src/app/admin/curriculum/[moduleId]/ModuleBuilderClient.tsx"
       - "src/app/admin/invoices/InvoicesShell.tsx"
+      - "src/features/dashboard/student/StudentDashboardShell.tsx"
+      - "src/features/dashboard/student/StudentModuleProgressChart.tsx"
+      - "src/features/dashboard/teacher/TeacherStudentsWidget.tsx"
+      - "src/features/teacher/students/TeacherStudentsList.tsx"
+      - "src/features/teacher/students/TeacherStudentDetail.tsx"
+      - "src/app/student/assessment/[moduleId]/TryoutClient.tsx"
+      - "src/features/challenges/components/ReviewForm.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
