@@ -338,7 +338,7 @@ export function AnnouncementManager() {
                   className={`p-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                     ann.is_active
                       ? 'bg-white dark:bg-white/5 border-slate-200/90 dark:border-purple-500/30 dark:shadow-[0_0_12px_rgba(168,85,247,0.12)]'
-                      : 'bg-slate-50 dark:bg-white/2 border-slate-200/60 dark:border-white/5 opacity-60'
+                      : 'bg-slate-50 dark:bg-slate-900/70 border-slate-200 dark:border-slate-700'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">
@@ -347,7 +347,7 @@ export function AnnouncementManager() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-extrabold text-xs text-slate-900 dark:text-white truncate">
+                        <p className={`font-extrabold text-xs truncate ${ann.is_active ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>
                           {ann.title}
                         </p>
                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${ucfg.badge}`}>
@@ -357,7 +357,7 @@ export function AnnouncementManager() {
                           {targetLabels[ann.target]}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                      <p className={`text-[11px] mt-1 line-clamp-2 ${ann.is_active ? 'text-slate-500 dark:text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
                         {ann.content}
                       </p>
                       {ann.expires_at && (
@@ -377,7 +377,7 @@ export function AnnouncementManager() {
                       className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${
                         ann.is_active
                           ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
-                          : 'text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                       }`}
                     >
                       {ann.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
