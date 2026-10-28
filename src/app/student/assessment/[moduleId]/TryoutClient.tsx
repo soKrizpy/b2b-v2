@@ -157,7 +157,7 @@ export function TryoutClient({ moduleId, assessment }: Props) {
                       ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-900 dark:text-indigo-100'
                       : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                     }`}>
-                  <span className="font-bold mr-2 text-slate-400">{['A','B','C','D'][oi]}.</span>
+                  <span className="font-bold mr-2 text-slate-500 dark:text-slate-400">{['A','B','C','D'][oi]}.</span>
                   {opt}
                 </button>
               );
