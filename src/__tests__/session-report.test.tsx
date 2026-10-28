@@ -254,7 +254,7 @@ describe('completed session report editing', () => {
       is_completed: true,
       progress_report: 'Old report',
       meeting_students: [],
-    } as MeetingWithStudents;
+    } as unknown as MeetingWithStudents;
 
     render(
       <AdminSessionActions meeting={meeting} teachers={[]} students={[]} />
