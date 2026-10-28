@@ -100,12 +100,12 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex-shrink-0">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-500 dark:text-slate-400 flex-shrink-0">
               {completedTopics}/{mod.topics.length} topik
             </span>
           </div>
         </div>
-        {open ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+        {open ? <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0" />}
       </button>
 
       {open && mod.topics.length > 0 && (
@@ -130,7 +130,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
                   </span>
                 </div>
               ) : (
-                <span className="text-[10px] text-slate-400 dark:text-slate-600 italic">Belum quiz</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 italic">Belum quiz</span>
               )}
             </div>
           ))}
@@ -138,7 +138,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
       )}
 
       {open && mod.topics.length === 0 && (
-        <p className="px-4 py-3 text-xs text-slate-400 dark:text-slate-600 italic border-t border-slate-100 dark:border-zinc-700/60">
+        <p className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 italic border-t border-slate-100 dark:border-zinc-700/60">
           Tidak ada topik di modul ini.
         </p>
       )}
@@ -330,7 +330,7 @@ export function TeacherStudentDetail({ student }: Props) {
           {student.modules.length === 0 ? (
             <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-10 text-center">
               <BookOpen className="w-10 h-10 text-slate-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm font-bold text-slate-500 dark:text-slate-500">Belum ada modul yang di-enroll</p>
+              <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada modul yang di-enroll</p>
             </div>
           ) : (
             student.modules.map((mod) => (
@@ -349,7 +349,7 @@ export function TeacherStudentDetail({ student }: Props) {
             </h2>
             {student.badges.length === 0 ? (
               <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-8 text-center">
-                <p className="text-sm font-bold text-slate-400 dark:text-slate-600">Belum ada badge</p>
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada badge</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -393,7 +393,7 @@ export function TeacherStudentDetail({ student }: Props) {
             </h2>
             {student.certificates.length === 0 ? (
               <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-8 text-center">
-                <p className="text-sm font-bold text-slate-400 dark:text-slate-600">Belum ada sertifikat</p>
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada sertifikat</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -435,7 +435,7 @@ export function TeacherStudentDetail({ student }: Props) {
           {student.submissions.length === 0 ? (
             <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-10 text-center">
               <FileCheck2 className="w-10 h-10 text-slate-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm font-bold text-slate-500 dark:text-slate-500">Belum ada tugas yang dikumpulkan</p>
+              <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada tugas yang dikumpulkan</p>
             </div>
           ) : (
             student.submissions.map((sub) => {
@@ -494,7 +494,7 @@ export function TeacherStudentDetail({ student }: Props) {
           {student.sessions.length === 0 ? (
             <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-10 text-center">
               <CalendarDays className="w-10 h-10 text-slate-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm font-bold text-slate-500 dark:text-slate-500">Belum ada sesi belajar</p>
+              <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada sesi belajar</p>
             </div>
           ) : (
             student.sessions.map((s) => (
