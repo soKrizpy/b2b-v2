@@ -79,7 +79,7 @@ export function TeacherStudentsList({ students }: Props) {
           </p>
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-xs text-slate-400 italic py-8 text-center">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic py-8 text-center">
           Tidak ada siswa yang cocok dengan pencarian &ldquo;{search}&rdquo;.
         </p>
       ) : (
