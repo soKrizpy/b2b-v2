@@ -308,21 +308,13 @@ class SmartAdminQueryBuilder {
       const res = await this.replayOn(
         realClient as unknown as { from: (t: string) => unknown }
       );
-      if (res?.error) {
-        const err = res.error as { code?: string; message?: string };
-        // Fallback to mock if the table or column doesn't exist in the Supabase schema
-        // PGRST205 = relationship not found, 42703 = column not found, 42P01 = table not found
-        if (
-          err?.code === 'PGRST205' ||
-          err?.code === '42703' ||
-          err?.code === '42P01'
-        ) {
-          return this.replayOn(mockClient);
-        }
-      }
       return res;
     } catch {
-      return this.replayOn(mockClient);
+      // Network/transport failures must not turn into plausible mock results.
+      return {
+        data: null,
+        error: { message: 'Supabase request failed.' },
+      };
     }
   }
 
@@ -357,13 +349,10 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           ) => Promise<{ data: unknown; error: { message: string } | null }>;
         };
         return await realClient.rpc(functionName, args);
-      } catch (error) {
+      } catch {
         return {
           data: null,
-          error: {
-            message:
-              error instanceof Error ? error.message : 'RPC request failed.',
-          },
+          error: { message: 'Supabase RPC request failed.' },
         };
       }
     },
@@ -371,17 +360,26 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
       ...mockClient.auth,
       admin: {
         async listUsers(params?: { page?: number; perPage?: number }) {
+          const target = await resolveExecutionTarget();
+          if (target.mode === 'mock') {
+            return mockClient.auth.admin.listUsers();
+          }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
-              const res = await real.auth.admin.listUsers(params);
-              if (!res.error) return res;
+              return await real.auth.admin.listUsers(params);
             } catch {
-              // fall through to mock
+              return {
+                data: { users: [] },
+                error: { message: 'Supabase admin request failed.' },
+              };
             }
           }
-          return mockClient.auth.admin.listUsers();
+          return {
+            data: { users: [] },
+            error: { message: 'Supabase service role is not configured.' },
+          };
         },
         async createUser(attrs: {
           email: string;
@@ -389,17 +387,26 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           email_confirm?: boolean;
           user_metadata?: Record<string, unknown>;
         }) {
+          const target = await resolveExecutionTarget();
+          if (target.mode === 'mock') {
+            return mockClient.auth.admin.createUser(attrs);
+          }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
-              const res = await real.auth.admin.createUser(attrs);
-              if (!res.error) return res;
+              return await real.auth.admin.createUser(attrs);
             } catch {
-              // fall through to mock
+              return {
+                data: { user: null },
+                error: { message: 'Supabase admin request failed.' },
+              };
             }
           }
-          return mockClient.auth.admin.createUser(attrs);
+          return {
+            data: { user: null },
+            error: { message: 'Supabase service role is not configured.' },
+          };
         },
         async updateUserById(
           id: string,
@@ -409,30 +416,46 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
             email_confirm?: boolean;
           }
         ) {
+          const target = await resolveExecutionTarget();
+          if (target.mode === 'mock') {
+            return mockClient.auth.admin.updateUserById(id, attrs);
+          }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
-              const res = await real.auth.admin.updateUserById(id, attrs);
-              if (!res.error) return res;
+              return await real.auth.admin.updateUserById(id, attrs);
             } catch {
-              // fall through to mock
+              return {
+                data: { user: null },
+                error: { message: 'Supabase admin request failed.' },
+              };
             }
           }
-          return mockClient.auth.admin.updateUserById(id, attrs);
+          return {
+            data: { user: null },
+            error: { message: 'Supabase service role is not configured.' },
+          };
         },
         async deleteUser(id: string) {
+          const target = await resolveExecutionTarget();
+          if (target.mode === 'mock') return mockClient.auth.admin.deleteUser(id);
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
-              const res = await real.auth.admin.deleteUser(id);
-              if (!res.error) return res;
+              return await real.auth.admin.deleteUser(id);
             } catch {
-              // fall through to mock
+              return {
+                data: { user: null },
+                error: { message: 'Supabase admin request failed.' },
+              };
             }
           }
-          return mockClient.auth.admin.deleteUser(id);
+          return {
+            data: { user: null },
+            error: { message: 'Supabase service role is not configured.' },
+          };
         },
       },
     },

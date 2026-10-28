@@ -46,6 +46,7 @@ export const createSessionSchema = z.object({
   notes:          z.string().max(1000).optional(),
   session_count:  z.coerce.number().int().min(1).max(20).default(1),
   session_number: z.coerce.number().int().min(1).max(20).default(1),
+  module_id:      z.coerce.number().int().positive('Pilih modul kurikulum yang valid.'),
   student_ids:    z
     .array(z.string().uuid('ID siswa tidak valid'))
     .min(1, 'Pilih minimal satu siswa'),
@@ -64,6 +65,7 @@ export const updateSessionSchema = z.object({
   notes:          z.string().max(1000).optional(),
   session_count:  z.coerce.number().int().min(1).max(20).optional(),
   session_number: z.coerce.number().int().min(1).max(20).optional(),
+  module_id:      z.coerce.number().int().positive().optional(),
 });
 
 export type UpdateSessionInput = z.infer<typeof updateSessionSchema>;

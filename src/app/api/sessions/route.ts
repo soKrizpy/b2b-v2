@@ -8,6 +8,7 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiError, apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
 import { validate, createSessionSchema } from '@/features/sessions/validation';
+import { isCompleteModuleSchedule } from '@/features/sessions/curriculumSchedule';
 import {
   getSessionsForAdmin,
   getSessionsForTeacher,
@@ -51,13 +52,23 @@ export async function POST(request: Request): Promise<Response> {
   const v = validate(createSessionSchema, body);
   if (!v.success) return apiError(422, v.error, v.fields, 'VALIDATION_ERROR');
 
-  const { title, meeting_date, link_url, notes, session_count, student_ids } =
+  const { title, meeting_date, link_url, notes, session_count, student_ids, module_id } =
     v.data as CreateInput;
 
   const db = createSupabaseAdminClient();
+  const { data: moduleRow, error: moduleError } = await db
+    .from('modules').select('id').eq('id', module_id).eq('is_active', true).maybeSingle();
+  if (moduleError || !moduleRow) return apiError(422, 'Modul kurikulum tidak ditemukan atau tidak aktif.', {}, 'INVALID_MODULE');
+  const { count: publishedTopicCount, error: topicsCountError } = await db
+    .from('topics').select('id', { count: 'exact', head: true })
+    .eq('module_id', module_id).eq('status', 'published');
+  if (topicsCountError || !isCompleteModuleSchedule(session_count, publishedTopicCount)) {
+    return apiError(422, 'Jumlah sesi dalam satu seri harus sama dengan jumlah topik terpublikasi pada modul agar setiap topik memiliki sesi.', {}, 'SESSION_COUNT_MUST_MATCH_TOPICS');
+  }
   const seriesId = session_count > 1 ? crypto.randomUUID() : null;
   const baseDate  = new Date(meeting_date);
   const inserted: number[] = [];
+  let failureReason: string | null = null;
 
   for (let i = 0; i < session_count; i++) {
     const sessionDate = new Date(baseDate);
@@ -73,14 +84,18 @@ export async function POST(request: Request): Promise<Response> {
         session_count,
         session_number: i + 1,
         series_id:      seriesId,
+        module_id,
       } as never)
       .select('id')
       .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
 
     if (insertErr || !meeting) {
       console.error('[POST /api/sessions] insert error:', insertErr?.message);
-      continue;
+      failureReason = 'Gagal menyimpan salah satu sesi.';
+      break;
     }
+
+    // Track immediately so failed student assignment can roll back this series.
 
     if (student_ids.length > 0) {
       const rows = student_ids.map((sid: string) => ({
@@ -90,14 +105,38 @@ export async function POST(request: Request): Promise<Response> {
       const { error: assignErr } = await (db
         .from('meeting_students')
         .insert(rows as never) as unknown as Promise<{ error: { message: string } | null }>);
-      if (assignErr) console.error('[POST /api/sessions] assign error:', assignErr.message);
+      if (assignErr) {
+        console.error('[POST /api/sessions] assign error:', assignErr.message);
+        inserted.push(meeting.id);
+        failureReason = 'Gagal menugaskan siswa ke salah satu sesi.';
+        break;
+      }
     }
 
     inserted.push(meeting.id);
   }
 
-  if (inserted.length === 0) {
-    return apiInternalError('No meeting rows inserted');
+  if (failureReason || inserted.length !== session_count) {
+    let rollbackFailed = false;
+    if (inserted.length > 0) {
+      const { error: assignmentCleanupError } = await (db
+        .from('meeting_students')
+        .delete()
+        .in('meeting_id', inserted) as unknown as Promise<{ error: { message: string } | null }>);
+      const { error: meetingCleanupError } = await (db
+        .from('meetings')
+        .delete()
+        .in('id', inserted) as unknown as Promise<{ error: { message: string } | null }>);
+      rollbackFailed = Boolean(assignmentCleanupError || meetingCleanupError);
+      if (rollbackFailed) {
+        console.error('[POST /api/sessions] rollback failed:', assignmentCleanupError?.message, meetingCleanupError?.message);
+      }
+    }
+    return apiInternalError(
+      rollbackFailed
+        ? 'Pembuatan sesi gagal dan pembersihan otomatis tidak tuntas. Periksa jadwal sebelum mencoba lagi.'
+        : (failureReason ?? 'Gagal menyimpan seluruh jadwal. Tidak ada sesi yang dipertahankan.')
+    );
   }
 
   revalidatePath('/admin/sessions', 'layout');

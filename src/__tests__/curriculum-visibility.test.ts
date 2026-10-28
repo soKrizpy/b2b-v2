@@ -162,8 +162,53 @@ describe('Quest Map and topic visibility', () => {
 
     await expect(updateTopicAction(null, formData)).resolves.toEqual({
       success: false,
-      error: 'Topik harus memiliki minimal satu node materi sebelum dipublikasikan.',
+      error: 'Topik harus memiliki 10–20 slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: 0.',
     });
     expect(state.updates).toBe(0);
+  });
+
+  it('rejects publishing a topic with only nine valid instructional slides', async () => {
+    state.topicLessonContent = {
+      learningPath: Array.from({ length: 9 }, (_, index) => ({
+        id: `slide-${index + 1}`,
+        type: 'lesson',
+        title: `Materi ${index + 1}`,
+        content: 'Penjelasan materi yang cukup.',
+      })),
+    };
+    const formData = new FormData();
+    formData.set('id', '10');
+    formData.set('module_id', '1');
+    formData.set('title', 'Underfilled topic');
+    formData.set('status', 'published');
+    formData.set('order_index', '1');
+
+    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({
+      success: false,
+      error: expect.stringContaining('Saat ini: 9.'),
+    });
+    expect(state.updates).toBe(0);
+  });
+
+  it('allows publishing a topic with exactly ten valid instructional slides', async () => {
+    state.topicLessonContent = {
+      learningPath: Array.from({ length: 10 }, (_, index) => ({
+        id: `slide-${index + 1}`,
+        type: 'lesson',
+        title: `Materi ${index + 1}`,
+        content: 'Penjelasan materi yang cukup.',
+      })),
+    };
+    const formData = new FormData();
+    formData.set('id', '10');
+    formData.set('module_id', '1');
+    formData.set('title', 'Ready topic');
+    formData.set('status', 'published');
+    formData.set('order_index', '1');
+
+    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({
+      success: true,
+    });
+    expect(state.updates).toBe(1);
   });
 });

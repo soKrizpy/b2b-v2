@@ -20,14 +20,37 @@ const state = vi.hoisted(() => ({
     attendance_status: 'absen',
   })),
   dbError: null as { message: string } | null,
+  authRole: 'teacher' as 'admin' | 'teacher',
 }));
 
 vi.mock('@/lib/auth', () => ({
-  requireAdminOrTeacher: async () => ({ ok: true }),
+  requireAdminOrTeacher: async () => ({
+    ok: true,
+    user: { id: 'test-user-id' },
+    role: state.authRole,
+  }),
 }));
 
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
+    from: (table: string) => ({
+      select: (_columns: string) => ({
+        eq: (_column: string, _value: number) => ({
+          maybeSingle: async () => {
+            if (table !== 'meetings') {
+              return { data: null, error: { message: 'Unexpected table' } };
+            }
+            return {
+              data: {
+                teacher_id:
+                  state.authRole === 'admin' ? 'assigned-teacher-id' : 'test-user-id',
+              },
+              error: null,
+            };
+          },
+        }),
+      }),
+    }),
     rpc: async (functionName: string, args: Record<string, unknown>) => {
       if (state.dbError) return { data: null, error: state.dbError };
       if (functionName !== 'save_meeting_report') {
@@ -89,6 +112,7 @@ describe('completed session report editing', () => {
       attendance_status: 'absen',
     }));
     state.dbError = null;
+    state.authRole = 'teacher';
   });
 
   it('updates only the report and preserves completion and student links', async () => {
@@ -213,6 +237,7 @@ describe('completed session report editing', () => {
   });
 
   it('saves per-student attendance from the admin completion form', async () => {
+    state.authRole = 'admin';
     state.meeting.is_completed = false;
     const meeting = {
       id: 41,
