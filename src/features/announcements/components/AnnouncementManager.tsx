@@ -357,7 +357,7 @@ export function AnnouncementManager() {
                           {targetLabels[ann.target]}
                         </span>
                       </div>
-                      <p className={`text-[11px] mt-1 line-clamp-2 ${ann.is_active ? 'text-slate-500 dark:text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                      <p className={`text-[11px] mt-1 line-clamp-2 ${ann.is_active ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400 dark:text-slate-500'}`}>
                         {ann.content}
                       </p>
                       {ann.expires_at && (
