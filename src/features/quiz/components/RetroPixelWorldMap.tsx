@@ -14,6 +14,7 @@ import type { QuestTopicNode } from '@/features/quiz/questMapQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
 import { getMapPinCoordinates, getScratchMapTheme } from '@/features/quiz/scratchMapConfig';
 import { ScratchPixelMapScene } from './ScratchPixelMapScene';
+import { getTooltipPosition } from '@/features/quiz/tooltipPosition';
 
 interface Props {
   moduleTitle: string;
@@ -98,22 +99,8 @@ export function RetroPixelWorldMap({
     ...(hasFinal ? [`${bossCoord.x},${bossCoord.y}`] : []),
   ].join(' ');
 
-  // Keep the hover HUD anchored to the map board, not viewport coordinates.
-  // This prevents large offsets and clipping when the board is inside an animated container.
-  const tooltipWidth = 270;
-  const tooltipHeight = 160;
-  const mapWidth = mapSize.width;
-  const mapHeight = mapSize.height;
-
-  let tooltipX = mousePos.x + 16;
-  if (tooltipX + tooltipWidth > mapWidth - 16) {
-    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 16);
-  }
-
-  let tooltipY = mousePos.y + 16;
-  if (tooltipY + tooltipHeight > mapHeight - 16) {
-    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 16);
-  }
+  // Keep the hover HUD close to the cursor while clamping it to the map canvas.
+  const { x: tooltipX, y: tooltipY } = getTooltipPosition(mousePos, mapSize);
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -186,7 +173,13 @@ export function RetroPixelWorldMap({
           {/* ── Hovered Node Dynamic Mouse-Follow HUD (Nama Topik, Score Quiz, Tanggal Pertemuan) ── */}
           {hoveredNode && (
             <div
-              style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
+              style={{
+                left: `${tooltipX}px`,
+                top: `${tooltipY}px`,
+                maxWidth: `${Math.max(0, mapSize.width - 32)}px`,
+                maxHeight: `${Math.max(0, mapSize.height - 32)}px`,
+                overflowY: 'auto',
+              }}
               className="absolute z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
             >
               <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
@@ -254,7 +247,13 @@ export function RetroPixelWorldMap({
           {/* ── Hovered Final Boss Dynamic Mouse-Follow HUD ── */}
           {hoveredBoss && !hoveredNode && (
             <div
-              style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
+              style={{
+                left: `${tooltipX}px`,
+                top: `${tooltipY}px`,
+                maxWidth: `${Math.max(0, mapSize.width - 32)}px`,
+                maxHeight: `${Math.max(0, mapSize.height - 32)}px`,
+                overflowY: 'auto',
+              }}
               className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-red-500/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
             >
               <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
