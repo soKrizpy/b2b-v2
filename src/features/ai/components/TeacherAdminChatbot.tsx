@@ -134,12 +134,28 @@ export function TeacherAdminChatbot({ role }: Props) {
       fd.append('history', JSON.stringify(history));
 
       startSend(async () => {
-        const res = await chatWithTutor(null, fd);
-        if (res.success) {
-          setHistory((prev) => [...prev, { role: 'model', content: res.data }]);
-        } else {
-          setError(res.error);
+        try {
+          const res = await chatWithTutor(null, fd);
+          if (res.success) {
+            setHistory((prev) => [...prev, { role: 'model', content: res.data }]);
+          } else {
+            setError(res.error);
+            setHistory((prev) => prev.slice(0, -1));
+            // Keep manually typed text available for a retry.
+            if (!customText) setInput(msg);
+          }
+        } catch (err: unknown) {
+          // Server Actions can reject before returning an AiResult (e.g. transport errors).
+          console.error(
+            '[TeacherAdminChatbot] Unexpected chat action failure:',
+            err instanceof Error ? err.message : 'Unknown error'
+          );
+          setError(
+            'Layanan AI gagal merespons. Pesan Anda belum diproses; silakan coba lagi. ' +
+            'Jika masalah berulang, periksa konfigurasi GEMINI_API_KEY pada proyek production.'
+          );
           setHistory((prev) => prev.slice(0, -1));
+          if (!customText) setInput(msg);
         }
       });
     },
