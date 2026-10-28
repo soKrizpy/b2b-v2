@@ -118,20 +118,20 @@ export function RetroPixelWorldMap({
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* ── The Grand Archipelago World Map (MAP Board) ── */}
-      <div
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          setMapSize({ width: rect.width, height: rect.height });
-          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        }}
-        data-quest-map-board
-        className="relative w-full rounded-3xl overflow-hidden border-4 border-amber-500/60 bg-slate-950 shadow-2xl shadow-cyan-950/40"
-      >
+      <div className="relative w-full rounded-3xl overflow-hidden border-4 border-amber-500/60 bg-slate-950 shadow-2xl shadow-cyan-950/40">
         {/* Subtle Vignette & Frame Shadow */}
         <div className="absolute inset-0 pointer-events-none z-20 shadow-[inset_0_0_60px_rgba(2,6,23,0.8)] border border-amber-300/30 rounded-[20px]" />
 
         {/* 16:9 Aspect Ratio Map Board */}
-        <div className="relative w-full aspect-[16/9]">
+        <div
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setMapSize({ width: rect.width, height: rect.height });
+            setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+          }}
+          data-quest-map-board
+          className="relative w-full aspect-[16/9]"
+        >
           {scratchTheme ? (
             <ScratchPixelMapScene theme={scratchTheme} />
           ) : baseImageFailed ? (
