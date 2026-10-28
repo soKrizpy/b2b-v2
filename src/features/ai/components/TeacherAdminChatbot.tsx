@@ -141,8 +141,8 @@ export function TeacherAdminChatbot({ role }: Props) {
           } else {
             setError(res.error);
             setHistory((prev) => prev.slice(0, -1));
-            // Keep manually typed text available for a retry.
-            if (!customText) setInput(msg);
+            // Keep failed messages available for retry, including quick-prompt selections.
+            setInput(msg);
           }
         } catch (err: unknown) {
           // Server Actions can reject before returning an AiResult (e.g. transport errors).
@@ -155,7 +155,7 @@ export function TeacherAdminChatbot({ role }: Props) {
             'Jika masalah berulang, periksa konfigurasi GEMINI_API_KEY pada proyek production.'
           );
           setHistory((prev) => prev.slice(0, -1));
-          if (!customText) setInput(msg);
+          setInput(msg);
         }
       });
     },
