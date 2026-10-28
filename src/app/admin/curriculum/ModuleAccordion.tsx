@@ -143,7 +143,7 @@ export function ModuleAccordion({ module: mod }: Props) {
           </p>
 
           {editState && !editState.success && (
-            <p role="alert" className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2 mb-3 ring-1 ring-red-200">
+            <p role="alert" className="text-xs text-red-600 dark:text-rose-300 bg-red-50 dark:bg-rose-950/40 rounded-lg px-3 py-2 mb-3 ring-1 ring-red-200 dark:ring-rose-800/50">
               {editState.error}
             </p>
           )}
