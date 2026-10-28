@@ -122,7 +122,7 @@ export function TopicQuizWidget({ topicId, questions, attempts, isUnlocked, isLo
                       : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                     }`}
                 >
-                  <span className="font-bold mr-2 text-slate-400">
+                  <span className={`font-bold mr-2 ${answers[qi] === oi ? 'text-indigo-600 dark:text-indigo-200' : 'text-slate-500 dark:text-slate-400'}`}>
                     {['A','B','C','D'][oi]}.
                   </span>
                   {opt}
