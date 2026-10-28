@@ -52,7 +52,7 @@ export function TeacherStudentsList({ students }: Props) {
 
         {students.length > 0 && (
           <div className="relative min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <input
               type="text"
               value={search}
@@ -74,12 +74,12 @@ export function TeacherStudentsList({ students }: Props) {
             <GraduationCap className="w-8 h-8" />
           </div>
           <p className="text-sm font-bold text-slate-800 dark:text-white">Belum Ada Siswa Bimbingan</p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 max-w-sm mx-auto mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mt-1">
             Admin dapat mendaftarkan siswa ke akun Anda di menu Manajemen Pengguna.
           </p>
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-xs text-slate-400 italic py-8 text-center">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic py-8 text-center">
           Tidak ada siswa yang cocok dengan pencarian &ldquo;{search}&rdquo;.
         </p>
       ) : (

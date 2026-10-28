@@ -273,10 +273,10 @@ function TopicEditForm({
             Judul Topik *
           </label>
           <input name="title" required defaultValue={topic.title}
-            className={`rounded-xl border px-3 py-2 text-sm bg-white dark:bg-white/5
-              text-slate-900 dark:text-white placeholder:text-slate-400
+            className={`rounded-xl border px-3 py-2 text-sm bg-white dark:bg-slate-950
+              text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-indigo-500
-              ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-slate-700'}`} />
           {err('title') && <p className="text-xs text-red-600">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
@@ -284,8 +284,8 @@ function TopicEditForm({
             Urutan
           </label>
           <input name="order_index" type="number" min={0} defaultValue={topic.order_index}
-            className="w-20 rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+            className="w-20 rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+              bg-white dark:bg-slate-950 text-slate-900 dark:text-white
               focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
       </div>
@@ -296,11 +296,11 @@ function TopicEditForm({
           Status
         </label>
         <select name="status" defaultValue={topic.status ?? 'draft'}
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-            bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+            bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
             focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <option value="draft">○ Draft — tidak terlihat siswa</option>
-          <option value="published" disabled={getNodeCount(topic.lesson_content) === 0}>
+          <option value="draft" className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">○ Draft — tidak terlihat siswa</option>
+          <option value="published" disabled={getNodeCount(topic.lesson_content) === 0} className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
             ● Published — terlihat siswa
           </option>
         </select>
@@ -318,8 +318,8 @@ function TopicEditForm({
         </label>
         <textarea name="description" rows={3} defaultValue={topic.description ?? ''}
           placeholder="Instruksi atau deskripsi topik ini…"
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm resize-y
+            bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
@@ -330,8 +330,8 @@ function TopicEditForm({
         </label>
         <input name="project_link" type="url" defaultValue={topic.project_link ?? ''}
           placeholder="https://scratch.mit.edu/projects/..."
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm
+            bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
@@ -485,7 +485,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         <button type="button" onClick={handleExport} disabled={exporting}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
-            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5
+            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950
             text-slate-700 dark:text-slate-300 rounded-xl shadow-sm
             hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-40 transition-all">
           <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
@@ -604,7 +604,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'preview'
                             ? 'ring-slate-400 bg-slate-100 dark:bg-white/15 text-slate-800 dark:text-white'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
+                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
                           }`}>
                         {panel === 'preview' ? '▲ Tutup' : '👁 Preview'}
                       </button>
@@ -616,7 +616,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'edit'
                             ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-200'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
+                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
                           }`}>
                         ✏️ Edit
                       </button>
@@ -660,12 +660,12 @@ export function ModuleBuilderClient({ module: mod }: Props) {
       {/* ── Import modal ─────────────────────────────────────────────────── */}
       {showImport && (
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm pt-12 px-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[85vh]">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]">
 
             {/* Header */}
-            <div className="px-6 py-4 border-b border-slate-100 dark:border-white/8 flex items-center justify-between">
+            <div className="shrink-0 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-[#0B0F19]">
               <div>
                 <h2 id="import-modal-title" className="font-bold text-slate-900 dark:text-white">
                   Import JSON Materi
@@ -680,7 +680,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-5 flex flex-col gap-4">
 
               <details className="text-xs border border-slate-200 dark:border-white/10 rounded-xl">
                 <summary className="px-4 py-3 cursor-pointer font-semibold text-slate-700 dark:text-slate-300 select-none hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl">
@@ -710,7 +710,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onFile}
                   className="sr-only" id="builder-file-input" disabled={isImporting} />
                 <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isImporting}
-                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-white/15
+                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-slate-700
                     rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                     text-slate-700 dark:text-slate-300 transition-colors">
                   📁 Pilih File .json
@@ -721,8 +721,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
               <textarea value={text} onChange={(e) => { setText(e.target.value); setVs({ status: 'idle' }); }}
                 rows={13} disabled={isImporting} spellCheck={false}
                 placeholder='{ "topics": [...], "final_assessment": { ... } }'
-                className="w-full rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-3
-                  text-xs font-mono resize-y bg-white dark:bg-white/5 text-slate-900 dark:text-white
+                className="w-full rounded-xl border border-slate-300 dark:border-slate-700 px-3.5 py-3
+                  text-xs font-mono resize-y bg-white dark:bg-slate-950 text-slate-900 dark:text-white
                   placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500
                   disabled:opacity-40" />
 
@@ -733,7 +733,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-between gap-3">
+            <div className="shrink-0 px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0B0F19] flex items-center justify-between gap-3">
               {vs.status === 'done' ? (
                 <button type="button" onClick={() => { setShowImport(false); setVs({ status: 'idle' }); setText(''); }}
                   className="px-5 py-2.5 text-sm font-bold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900">
@@ -743,14 +743,14 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 <>
                   <button type="button" onClick={() => validate(text)}
                     disabled={!text.trim() || isImporting}
-                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-white/15
+                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-slate-700
                       rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                       text-slate-700 dark:text-slate-300 transition-colors">
                     Validasi JSON
                   </button>
                   <div className="flex gap-2">
                     <button type="button" onClick={() => setShowImport(false)} disabled={isImporting}
-                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-white/15 rounded-xl
+                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-slate-700 rounded-xl
                         hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                         text-slate-700 dark:text-slate-300 transition-colors">
                       Batal

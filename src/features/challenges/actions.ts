@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { requireAdmin, requireRole, getAuthUser } from '@/lib/auth';
 import { awardRewardEvent } from '@/features/pet/lib/rewardActions';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 
@@ -203,14 +204,19 @@ export async function submitChallenge(
 
   const { data: topic, error: topicError } = await (db
     .from('topics')
-    .select('id, module_id, status')
+    .select('id, module_id, status, lesson_content')
     .eq('id', challenge.topic_id)
     .maybeSingle() as unknown as Promise<{
-      data: { id: number; module_id: number; status: string } | null;
+      data: { id: number; module_id: number; status: string; lesson_content: unknown } | null;
       error: { message: string } | null;
     }>);
   if (topicError || !topic || topic.status !== 'published') {
     return { success: false, error: 'Topik challenge tidak tersedia.' };
+  }
+
+  const activeChallengeIds = getActiveChallengeIds(topic.lesson_content);
+  if (activeChallengeIds !== undefined && !activeChallengeIds.includes(challenge_id)) {
+    return { success: false, error: 'Challenge ini sudah tidak aktif.' };
   }
 
   const { data: enrollment, error: enrollmentError } = await (db
@@ -227,26 +233,34 @@ export async function submitChallenge(
     return { success: false, error: 'Kamu belum terdaftar aktif pada modul challenge ini.' };
   }
 
-  // Enforce map progression server-side so a guessed challenge ID cannot
-  // bypass the locked state of a future topic.
+  // Enforce scheduled topic access server-side so a guessed challenge ID
+  // cannot bypass the meeting start gate.
   const enrolledModules = await getStudentModulesWithTopics(studentId);
   const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
   const questProgress = enrolledModule
     ? await getQuestMapData(studentId, enrolledModule)
     : null;
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic.id);
-  if (!topicNode || topicNode.status === 'LOCKED') {
-    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  if (!topicNode || !topicNode.isUnlocked) {
+    return { success: false, error: 'Challenge akan terbuka saat sesi topik ini dimulai.' };
   }
 
   // Check whether an active (non-approved) submission already exists
-  const { data: existing } = await (db
+  const { data: existing, error: existingError } = await (db
     .from('challenge_submissions')
     .select('id, status')
     .eq('challenge_id', challenge_id)
     .eq('student_id', studentId)
     .order('submitted_at', { ascending: false })
-    .limit(1) as unknown as Promise<{ data: Array<{ id: number; status: string }> | null }>);
+    .limit(1) as unknown as Promise<{
+      data: Array<{ id: number; status: string }> | null;
+      error: { message: string } | null;
+    }>);
+
+  if (existingError) {
+    console.error('[submitChallenge] previous submission lookup failed', existingError.message);
+    return { success: false, error: 'Gagal memeriksa submission sebelumnya. Coba lagi.' };
+  }
 
   const latest = existing?.[0];
 
@@ -268,9 +282,36 @@ export async function submitChallenge(
       submitted_at:    new Date().toISOString(),
     } as never)
     .select('id')
-    .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
+    .single() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { code?: string; message: string } | null;
+    }>);
 
-  if (error) return { success: false, error: `Gagal menyimpan submission: ${error.message}` };
+  if (error?.code === '23505') {
+    // PostgREST only tells us that some unique constraint failed. Confirm the
+    // pending pair before presenting the duplicate-pending response.
+    const { data: pendingSubmission, error: pendingLookupError } = await (db
+      .from('challenge_submissions')
+      .select('id')
+      .eq('challenge_id', challenge_id)
+      .eq('student_id', studentId)
+      .eq('status', 'pending')
+      .maybeSingle() as unknown as Promise<{
+        data: { id: number } | null;
+        error: { message: string } | null;
+      }>);
+
+    if (pendingLookupError) {
+      console.error('[submitChallenge] pending-conflict lookup failed', pendingLookupError.message);
+      return { success: false, error: 'Gagal menyimpan submission. Coba lagi.' };
+    }
+    if (pendingSubmission) {
+      return { success: false, error: 'Kamu sudah punya submission yang sedang ditinjau. Tunggu hasilnya dulu.' };
+    }
+    return { success: false, error: 'Gagal menyimpan submission. Coba lagi.' };
+  }
+  if (error) return { success: false, error: 'Gagal menyimpan submission. Coba lagi.' };
+  if (!data) return { success: false, error: 'Submission tidak tersimpan. Coba lagi.' };
 
   revalidatePath('/student/lessons', 'layout');
   revalidatePath('/teacher/submissions', 'layout');

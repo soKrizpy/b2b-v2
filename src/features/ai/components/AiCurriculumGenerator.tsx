@@ -1,10 +1,8 @@
 'use client';
 // src/features/ai/components/AiCurriculumGenerator.tsx
-// Admin tool: generate curriculum JSON from a topic title using Gemini API.
-// Uses dedicated route handler /api/ai/generate-curriculum to avoid Next.js Server Action timeouts.
+// Admin tool: generate curriculum JSON from a topic title using the dedicated API route.
 
-import { useState, useRef, useEffect } from 'react';
-import { Sparkles, X, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 
 interface Props {
   moduleTitle: string;
@@ -18,6 +16,12 @@ const LOADING_STAGES = [
   'Memvalidasi struktur JSON kurikulum...',
 ];
 
+type GenerateResponse = {
+  success?: boolean;
+  data?: unknown;
+  error?: string;
+};
+
 export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
   const [open, setOpen] = useState(false);
   const [topicTitle, setTopicTitle] = useState('');
@@ -30,20 +34,19 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
   const onGeneratedRef = useRef(onGenerated);
   onGeneratedRef.current = onGenerated;
 
-  // Cycle loading messages while generating
   useEffect(() => {
     if (!loading) {
       setStageIndex(0);
       return;
     }
     const interval = setInterval(() => {
-      setStageIndex((prev) => (prev + 1) % LOADING_STAGES.length);
+      setStageIndex((previous) => (previous + 1) % LOADING_STAGES.length);
     }, 4500);
     return () => clearInterval(interval);
   }, [loading]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!topicTitle.trim()) {
       setError('Judul topik wajib diisi.');
       return;
@@ -56,9 +59,7 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
     try {
       const response = await fetch('/api/ai/generate-curriculum', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic_title: topicTitle.trim(),
           level,
@@ -66,19 +67,23 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
         }),
       });
 
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Gagal menghasilkan kurikulum dengan AI. Coba lagi.');
+      const payload = (await response.json().catch(() => ({}))) as GenerateResponse;
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.error || 'Gagal menghasilkan kurikulum dengan AI. Coba lagi.');
+      }
+      if (typeof payload.data !== 'string') {
+        throw new Error('Respons AI tidak berisi JSON kurikulum yang valid. Silakan coba lagi.');
       }
 
+      onGeneratedRef.current(payload.data);
       setSuccess(true);
-      if (typeof result.data === 'string') {
-        onGeneratedRef.current(result.data);
-      }
-    } catch (err: unknown) {
-      console.error('[AiCurriculumGenerator] Error:', err);
-      setError((err as { message?: string })?.message || 'Terjadi gangguan saat memproses AI. Silakan coba lagi.');
+    } catch (caught: unknown) {
+      console.error('[AiCurriculumGenerator] Error:', caught);
+      setError(
+        caught instanceof Error
+          ? caught.message
+          : 'Terjadi gangguan saat memproses AI. Silakan coba lagi.'
+      );
     } finally {
       setLoading(false);
     }
@@ -86,123 +91,108 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
   return (
     <>
-      {/* Trigger button */}
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen((value) => !value)}
         className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-extrabold
           bg-gradient-to-r from-violet-600 to-purple-600 text-white
           shadow-md shadow-purple-500/25 hover:shadow-purple-500/45
           hover:-translate-y-0.5 active:scale-95 transition-all duration-150"
       >
-        <Sparkles className="w-4 h-4 text-amber-300" />
-        <span>Generate dengan AI</span>
+        <span className="text-sm">✨</span>
+        Generate dengan AI
       </button>
 
-      {/* Panel */}
       {open && (
-        <div className="mt-4 rounded-2xl bg-zinc-900/90 border border-purple-500/30
+        <div className="mt-4 rounded-2xl bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-purple-500/30
           shadow-xl shadow-purple-900/20 backdrop-blur-md p-5 flex flex-col gap-4">
-
-          {/* Header */}
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-purple-300" />
-              </div>
+              <span className="text-xl select-none">✨</span>
               <div>
-                <p className="text-sm font-black text-white leading-none">AI Curriculum Generator</p>
-                <p className="text-[10px] text-zinc-400 mt-0.5">Asisten Gemini AI Bits2Bytes</p>
+                <p className="text-sm font-black text-slate-900 dark:text-white leading-none">AI Curriculum Generator</p>
+                <p className="text-[10px] text-slate-500 dark:text-zinc-400 mt-0.5">Asisten Gemini AI Bits2Bytes</p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700
-                flex items-center justify-center text-zinc-400 hover:text-white text-xs transition-colors"
+              aria-label="Tutup generator kurikulum"
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700
+                flex items-center justify-center text-slate-500 dark:text-zinc-400 text-xs transition-colors"
             >
-              <X className="w-3.5 h-3.5" />
+              ✕
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            {/* Topic title */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-topic" className="text-xs font-bold text-zinc-300">
+              <label htmlFor="ai-topic" className="text-xs font-bold text-slate-700 dark:text-zinc-300">
                 Judul Topik <span className="text-red-400">*</span>
               </label>
               <input
                 id="ai-topic"
                 name="topic_title"
                 value={topicTitle}
-                onChange={(e) => setTopicTitle(e.target.value)}
+                onChange={(event) => setTopicTitle(event.target.value)}
                 required
                 disabled={loading}
                 placeholder="Contoh: Pengenalan Variabel di Python"
-                className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
-                  text-sm text-white placeholder:text-zinc-500
+                className="rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5
+                  text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500
                   focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
               />
             </div>
 
-            {/* Level */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-level" className="text-xs font-bold text-zinc-300">Level Pembelajaran</label>
+              <label htmlFor="ai-level" className="text-xs font-bold text-slate-700 dark:text-zinc-300">Level</label>
               <select
                 id="ai-level"
                 name="level"
                 value={level}
-                onChange={(e) => setLevel(e.target.value)}
+                onChange={(event) => setLevel(event.target.value)}
                 disabled={loading}
-                className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
-                  text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+                className="rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5
+                  text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
               >
-                <option value="beginner">Beginner (Pemula)</option>
-                <option value="intermediate">Intermediate (Menengah)</option>
-                <option value="advanced">Advanced (Lanjutan)</option>
+                <option value="beginner" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Beginner</option>
+                <option value="intermediate" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Intermediate</option>
+                <option value="advanced" className="bg-white text-slate-900 dark:bg-zinc-950 dark:text-white">Advanced</option>
               </select>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !topicTitle.trim()}
               className="py-2.5 rounded-xl text-sm font-extrabold text-black
                 bg-gradient-to-r from-amber-400 to-orange-500
                 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95
-                disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-150
+                disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150
                 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin text-black" />
-                  <span>{LOADING_STAGES[stageIndex]}</span>
+                  <span className="inline-block w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                  {LOADING_STAGES[stageIndex]}
                 </>
               ) : (
-                <>
-                  <Sparkles className="w-4 h-4 text-black" />
-                  <span>Generate Kurikulum</span>
-                </>
+                <>✨ Generate Kurikulum</>
               )}
             </button>
           </form>
 
-          {/* Error Message */}
           {error && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-start gap-2.5 animate-fade-in">
-              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-red-300 leading-relaxed">{error}</p>
+            <div role="alert" className="rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 px-4 py-3 flex items-start gap-2">
+              <span className="text-red-700 dark:text-red-400 flex-shrink-0">✗</span>
+              <p className="text-xs text-red-700 dark:text-red-300">{error}</p>
             </div>
           )}
 
-          {/* Success Message */}
           {success && (
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30
-              px-4 py-3 flex items-start gap-2.5 animate-fade-in">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-emerald-300 font-bold leading-relaxed">
-                JSON kurikulum berhasil dibuat! Konten otomatis disematkan ke editor JSON di bawah.
-                Silakan review dan klik &ldquo;Import JSON Materi&rdquo; untuk menyimpan ke database.
+            <div role="status" className="rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 px-4 py-3 flex items-start gap-2">
+              <span className="text-emerald-700 dark:text-emerald-400 flex-shrink-0">✓</span>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300 font-bold">
+                JSON berhasil di-generate! Konten sudah masuk ke editor import. Periksa dan klik &ldquo;Import JSON Materi&rdquo; untuk menyimpan.
               </p>
             </div>
           )}

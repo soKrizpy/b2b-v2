@@ -6,6 +6,7 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractFinalAssessment } from '@/features/curriculum/validation';
 import type { TopicWithChallengeCount, ModuleWithTopics } from '@/features/curriculum/queries';
 import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
+import { getTopicMeetingDate, getTopicMeetingSessionNumber, hasTopicMeetingStarted, type TopicMeetingSchedule } from '@/features/quiz/topicMeetingAccess';
 
 // ── Node status ───────────────────────────────────────────────────────────────
 
@@ -27,6 +28,7 @@ export interface QuestTopicNode {
   sessionNumber:            number;
   isSessionReportSubmitted: boolean;
   quizUnlocked:             boolean;
+  isUnlocked:               boolean;
   meetingDate?:             string | null;
 }
 
@@ -40,6 +42,16 @@ export interface QuestMapData {
   needsQuizTopics:  QuestTopicNode[]; // topics that need quiz action (for banner)
 }
 
+function hideLockedTopicContent(topic: TopicWithChallengeCount): TopicWithChallengeCount {
+  return {
+    ...topic,
+    description: null,
+    project_link: null,
+    topic_link: null,
+    lesson_content: null,
+  };
+}
+
 export async function getQuestMapData(
   studentId: string,
   mod:       ModuleWithTopics
@@ -47,7 +59,7 @@ export async function getQuestMapData(
   const db       = createSupabaseAdminClient();
   const topicIds = mod.topics.map((t) => t.id);
 
-  // ── 1 & 2. Parallel batch: quiz attempts + student meetings with teacher report ────────
+  // ── 1 & 2. Parallel batch: quiz attempts + assigned module meetings ────────
   const [attemptsRes, joinRowsRes] = await Promise.all([
     topicIds.length > 0
       ? (db
@@ -61,7 +73,7 @@ export async function getQuestMapData(
       : Promise.resolve({ data: [], error: null }),
     db
       .from('meeting_students')
-      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, module_id, session_number, is_completed, progress_report, meeting_date)')
+      .select('meeting_id, has_joined, attendance_status, meetings!inner(id, module_id, topic_id, session_number, is_completed, progress_report, meeting_date)')
       .eq('student_id', studentId)
       .eq('meetings.module_id', mod.id) as unknown as Promise<{
         data: Array<{
@@ -71,10 +83,11 @@ export async function getQuestMapData(
           meetings: {
             id: number;
             module_id: number | null;
+            topic_id: number | null;
             session_number: number | null;
             is_completed: boolean;
             progress_report: string | null;
-            meeting_date: string;
+            meeting_date: string | null;
           };
         }> | null;
         error: unknown;
@@ -91,26 +104,34 @@ export async function getQuestMapData(
     });
   }
 
-  // Set of session numbers where teacher has completed the session and submitted report
+  // Explicit topic associations make access independent of curriculum ordering.
   const meetingRows = joinRowsRes.data ?? [];
-  const reportedSessionNumbers = new Set<number>();
-  const sessionDatesMap = new Map<number, string>();
+  const meetingCountByTopic = new Map<number, number>();
+  for (const row of meetingRows) {
+    const topicId = row.meetings?.topic_id;
+    if (typeof topicId === 'number' && topicId > 0) {
+      meetingCountByTopic.set(topicId, (meetingCountByTopic.get(topicId) ?? 0) + 1);
+    }
+  }
+  const reportedTopicIds = new Set<number>();
+  const assignedMeetings: TopicMeetingSchedule[] = [];
   for (const r of meetingRows) {
-    const sNum = r.meetings?.session_number;
-    if (typeof sNum === 'number' && sNum > 0) {
-      if (r.meetings?.meeting_date) {
-        sessionDatesMap.set(sNum, r.meetings.meeting_date);
-      }
+    const topicId = r.meetings?.topic_id;
+    if (typeof topicId === 'number' && topicId > 0) {
+      assignedMeetings.push({
+        topic_id: topicId,
+        session_number: r.meetings?.session_number ?? null,
+        meeting_date: r.meetings?.meeting_date ?? null,
+      });
       // A teacher report unlocks this topic only for a student assigned to and
       // present in that specific completed session—not by counting other sessions.
-      if (isTeacherReportSubmittedForTopic({
-        module_id: r.meetings?.module_id ?? null,
-        session_number: sNum,
+      if (meetingCountByTopic.get(topicId) === 1 && isTeacherReportSubmittedForTopic({
+        topic_id: topicId,
         has_joined: r.has_joined,
         is_completed: r.meetings?.is_completed === true,
         progress_report: r.meetings?.progress_report ?? null,
-      }, mod.id, sNum)) {
-        reportedSessionNumbers.add(sNum);
+      }, topicId)) {
+        reportedTopicIds.add(topicId);
       }
     }
   }
@@ -133,27 +154,24 @@ export async function getQuestMapData(
   // ── 5. Compute per-topic status sequentially ─────────────────────────────
   const nodes: QuestTopicNode[] = [];
   let lastCompletedIdx = -1; // highest consecutive completed index
-  let activeNextAssigned = false;
 
   for (let idx = 0; idx < mod.topics.length; idx++) {
     const topic       = mod.topics[idx];
+    const sessionNumber = getTopicMeetingSessionNumber(assignedMeetings, topic.id) ?? idx + 1;
     const hasQuiz     = hasQuizMap.get(topic.id) ?? false;
     const quizInfo    = attemptsMap.get(topic.id) ?? { count: 0, bestScore: 0 };
     const { count: attemptsUsed, bestScore } = quizInfo;
 
-    // Session numbers are 1-based; use sorted topic position rather than
-    // order_index because imported curriculum JSON can use zero-based numbering.
-    const sessionNumber = idx + 1;
-
-    // Guided mode only: unlinked legacy meetings and unrelated modules never unlock topics.
-    const isSessionReportSubmitted = reportedSessionNumbers.has(sessionNumber);
+    // Meetings without an explicit topic association cannot unlock lesson content.
+    const isSessionReportSubmitted = reportedTopicIds.has(topic.id);
+    const isUnlocked = hasTopicMeetingStarted(assignedMeetings, topic.id);
 
     // Quiz is unlocked once teacher has submitted report
     const quizUnlocked = isSessionReportSubmitted;
 
     // Topic is completed when quiz is passed (bestScore >= 70 or attempts exhausted),
     // OR if topic has no quiz and session report was submitted.
-    const quizDone = isSessionReportSubmitted && (
+    const quizDone = isUnlocked && isSessionReportSubmitted && (
       hasQuiz
         ? (attemptsUsed > 0 && (bestScore >= 70 || attemptsUsed >= 2))
         : true
@@ -177,40 +195,32 @@ export async function getQuestMapData(
       sessionNumber,
       isSessionReportSubmitted,
       quizUnlocked,
-      meetingDate: sessionDatesMap.get(sessionNumber) ?? null,
+      isUnlocked,
+      meetingDate: getTopicMeetingDate(assignedMeetings, topic.id),
       status: 'LOCKED', // will be overwritten below
     });
   }
 
-  // Second pass: assign statuses based on lastCompletedIdx
+  // Access follows each topic's own scheduled meeting. Completion still follows
+  // the existing sequential module frontier and quizzes still require reports.
   for (let idx = 0; idx < nodes.length; idx++) {
     const n = nodes[idx];
-    const { hasQuiz, attemptsUsed, bestScore, quizUnlocked } = n;
+    const { hasQuiz, attemptsUsed, bestScore, quizUnlocked, isUnlocked } = n;
 
-    if (idx <= lastCompletedIdx) {
+    if (idx <= lastCompletedIdx && isUnlocked) {
       // All topics up to and including lastCompletedIdx are COMPLETED
       n.status = 'COMPLETED';
-    } else if (idx === lastCompletedIdx + 1) {
-      // The first topic after completed streak is active for this meeting
+    } else if (isUnlocked) {
       if (quizUnlocked) {
         if (hasQuiz && attemptsUsed < 2 && bestScore < 70) {
           // Quiz unlocked because teacher submitted report, but student hasn't passed quiz yet
           n.status = 'NEEDS_QUIZ';
-        } else if (!activeNextAssigned) {
-          n.status = 'ACTIVE_NEXT';
-          activeNextAssigned = true;
         } else {
-          n.status = 'LOCKED';
+          n.status = 'ACTIVE_NEXT';
         }
       } else {
-        // Teacher has not submitted report for this session yet.
-        // Student can study lesson content first! Quiz is locked until meeting report submitted.
-        if (!activeNextAssigned) {
-          n.status = 'ACTIVE_NEXT';
-          activeNextAssigned = true;
-        } else {
-          n.status = 'LOCKED';
-        }
+        // Class time unlocks its lesson; teacher report remains the quiz gate.
+        n.status = 'ACTIVE_NEXT';
       }
     } else {
       // Future topic — locked for future meetings
@@ -219,12 +229,24 @@ export async function getQuestMapData(
   }
 
   const moduleComplete = lastCompletedIdx === mod.topics.length - 1 && mod.topics.length > 0;
-  const hasFinal = Boolean(
-    (mod.description ?? '').startsWith('FINAL_ASSESSMENT:') ||
-    Boolean((mod as unknown as { final_assessment?: unknown }).final_assessment) ||
-    extractFinalAssessment(mod.description, (mod as unknown as { final_assessment?: unknown }).final_assessment)
+  // Only a valid legacy marker is currently supported by the assessment page
+  // and submit action. Do not show a boss for malformed markers or JSONB-only
+  // data that those consumers cannot load.
+  const hasFinal = extractFinalAssessment(mod.description) !== null;
+  // Do not serialize future lesson bodies or quiz answers to the student map.
+  const safeNodes = nodes.map((node) => ({
+    ...node,
+    topic: node.isUnlocked ? node.topic : hideLockedTopicContent(node.topic),
+  }));
+  const safeTopics = mod.topics.map((topic, index) =>
+    safeNodes[index]?.isUnlocked ? topic : hideLockedTopicContent(topic)
   );
-  const needsQuizTopics = nodes.filter((n) => n.status === 'NEEDS_QUIZ');
 
-  return { mod, nodes, moduleComplete, hasFinal, needsQuizTopics };
+  return {
+    mod: { ...mod, topics: safeTopics },
+    nodes: safeNodes,
+    moduleComplete,
+    hasFinal,
+    needsQuizTopics: safeNodes.filter((node) => node.status === 'NEEDS_QUIZ'),
+  };
 }

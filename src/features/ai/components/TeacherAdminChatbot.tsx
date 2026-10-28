@@ -5,7 +5,7 @@
 
 import { useState, useRef, useEffect, useTransition, useCallback } from 'react';
 import { chatWithTutor, type ChatMessage } from '@/features/ai/actions';
-import { Sparkles, X, Send, Bot, RefreshCw, ChevronDown, BookOpen } from 'lucide-react';
+import { X, Send, Bot, RefreshCw, ChevronDown, BookOpen } from 'lucide-react';
 
 interface Props {
   role: 'teacher' | 'admin';
@@ -166,15 +166,15 @@ export function TeacherAdminChatbot({ role }: Props) {
         <div
           role="dialog"
           aria-label={`Ahlul Bytes untuk ${roleLabel}`}
-          className="mb-3 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[580px] h-[520px] flex flex-col
+          className="mb-3 w-[calc(100vw-2rem)] sm:w-[420px] h-[min(520px,calc(100dvh-7rem))] max-h-[calc(100dvh-7rem)] min-h-0 flex flex-col
             rounded-3xl shadow-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800
             overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         >
           {/* Header */}
-          <div className="px-4 py-3 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 text-white flex items-center justify-between shadow-sm">
+          <div className="shrink-0 px-4 py-3 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 text-white flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/25">
-                <Sparkles className="w-4 h-4 text-amber-300" />
+                <Bot className="w-4 h-4 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -216,13 +216,13 @@ export function TeacherAdminChatbot({ role }: Props) {
           </div>
 
           {/* Conversation history area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 space-y-3.5 text-xs">
             {history.length === 0 && (
               <div className="py-4 px-2 space-y-4">
                 <div className="p-3.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/40 text-indigo-900 dark:text-indigo-200 space-y-1.5">
                   <p className="font-bold flex items-center gap-1.5">
                     <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    Selamat datang wahai Ahlul Bytes
+                    Selamat datang di Ahlul Bytes, {roleLabel}!
                   </p>
                   <p className="text-[11px] leading-relaxed text-slate-600 dark:text-indigo-300">
                     Gunakan asisten ini untuk merancang bank soal kuis, kurikulum, ide tantangan coding, atau saran pedagogis untuk siswa Anda.
@@ -266,7 +266,7 @@ export function TeacherAdminChatbot({ role }: Props) {
           </div>
 
           {/* Input Footer */}
-          <div className="p-3 bg-white dark:bg-zinc-800/90 border-t border-slate-200 dark:border-zinc-800 flex items-end gap-2">
+          <div className="shrink-0 p-3 bg-white dark:bg-zinc-800/90 border-t border-slate-200 dark:border-zinc-800 flex items-end gap-2">
             <textarea
               ref={inputRef}
               value={input}
@@ -312,7 +312,7 @@ export function TeacherAdminChatbot({ role }: Props) {
           </p>
           <p className="text-[9px] text-indigo-200 font-medium leading-none mt-0.5">Asisten AI Khusus</p>
         </div>
-        {open ? <X className="w-4 h-4 text-white/80" /> : <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />}
+        {open ? <X className="w-4 h-4 text-white/80" /> : null}
       </button>
     </aside>
   );

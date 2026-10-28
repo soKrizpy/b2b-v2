@@ -27,13 +27,13 @@ export function PeerInspectModal({ seat, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-        bg-black/70 backdrop-blur-md p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain
+        bg-black/70 backdrop-blur-md p-3 sm:p-4 animate-fade-in"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className="relative w-full max-w-sm bg-white dark:bg-[#0B0F19] border border-blue-400/40 dark:border-purple-500/40
-          rounded-3xl shadow-2xl p-6 overflow-hidden transition-all duration-300"
+        className="relative w-full max-w-sm max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain bg-white dark:bg-[#0B0F19] border border-blue-400/40 dark:border-purple-500/40
+          rounded-3xl shadow-2xl p-5 sm:p-6 transition-all duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Gradient Header */}

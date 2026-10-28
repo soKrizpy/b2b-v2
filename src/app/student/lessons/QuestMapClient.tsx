@@ -16,8 +16,10 @@ import { RetroPixelWorldMap } from '@/features/quiz/components/RetroPixelWorldMa
 import { SimplifiedWaypointHistory } from '@/features/quiz/components/SimplifiedWaypointHistory';
 import type { QuestMapData, QuestTopicNode, NodeStatus } from '@/features/quiz/questMapQueries';
 import type { QuizQuestion } from '@/features/curriculum/validation';
-import { getInstructionalSlides, hasRequiredLessonSlideCount, MIN_LESSON_SLIDES } from '@/features/curriculum/lessonSlides';
+import { getInstructionalSlides, hasAuthoredLessonContent, MIN_LESSON_SLIDES } from '@/features/curriculum/lessonSlides';
 import type { TopicQuizAttemptRow } from '@/types/database';
+import { formatDateTime } from '@/lib/formatDate';
+import { getScratchLearningStage, getScratchMapTheme, SCRATCH_LEARNING_STAGES } from '@/features/quiz/scratchMapConfig';
 import {
   Tent,
   Mountain,
@@ -136,7 +138,7 @@ function LocationPopoverCard({
   const renderCardWrapper = (content: React.ReactNode) => {
     return (
       <div
-        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150"
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain p-3 sm:p-4 animate-in fade-in duration-150"
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose();
         }}
@@ -145,7 +147,7 @@ function LocationPopoverCard({
           ref={ref}
           role="dialog"
           aria-modal="true"
-          className="relative w-full max-w-sm sm:max-w-md max-h-[90dvh] overflow-y-auto rounded-3xl bg-slate-950/98 border-2 border-amber-400/60 shadow-2xl shadow-cyan-950/80 p-5 sm:p-6 flex flex-col gap-3 text-left text-white animate-in zoom-in-95 duration-150 my-auto"
+          className="relative my-auto w-full max-w-sm sm:max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-3xl bg-slate-950/98 border-2 border-amber-400/60 shadow-2xl shadow-cyan-950/80 p-5 sm:p-6 flex flex-col gap-3 text-left text-white animate-in zoom-in-95 duration-150"
         >
           <button
             type="button"
@@ -256,10 +258,10 @@ function LocationPopoverCard({
 
   // Keep future curriculum topics locked even when their map marker is scouted.
   // For an available topic, start with a short slide-based lesson before challenges.
-  if (fogState !== 'shrouded' && node.status !== 'LOCKED') {
+  if (fogState !== 'shrouded' && node.isUnlocked) {
     const lessonContent = node.topic.lesson_content as Record<string, unknown> | null;
     const slides = getInstructionalSlides(lessonContent?.learningPath);
-    const lessonReady = hasRequiredLessonSlideCount(slides);
+    const lessonReady = hasAuthoredLessonContent(slides);
     const fallbackBody = node.topic.description?.trim() || loc.lore;
     const slide = slides[slideIndex];
     const slideTitle = typeof slide?.title === 'string' && slide.title.trim()
@@ -343,8 +345,8 @@ function LocationPopoverCard({
         </div>
         <p className="text-[10px] leading-relaxed text-slate-500">
           {lessonReady
-            ? `Materi memiliki ${slides.length} slide. Lanjutkan ke challenge setelah mempelajari semuanya.`
-            : `Topik ini baru memiliki ${slides.length} slide materi; minimal ${MIN_LESSON_SLIDES} slide diperlukan sebelum challenge terbuka. Minta guru atau admin melengkapi learningPath pada editor kurikulum.`}
+            ? `Materi memiliki ${slides.length} slide. Target ${MIN_LESSON_SLIDES}–20 slide disarankan jika sumber mendukung; lanjutkan ke challenge setelah mempelajari materi yang tersedia.`
+            : 'Materi belum memiliki slide instruksional. Challenge akan tersedia setelah materi autentik ditambahkan.'}
         </p>
       </>
     );
@@ -430,8 +432,17 @@ function LocationPopoverCard({
         </div>
 
         <div className="rounded-2xl bg-indigo-950/40 border border-indigo-500/30 p-2.5 text-[11px] text-indigo-200">
-          <span className="font-semibold text-white">Syarat Pembukaan: </span>
-          Tuntaskan tantangan di <strong className="text-cyan-300">{prevNodeTitle || `Lokasi #${index}`}</strong> untuk membubarkan kabut sepenuhnya.
+          {node.meetingDate ? (
+            <>
+              <span className="font-semibold text-white">Topik terbuka saat sesi dimulai: </span>
+              <strong className="text-cyan-300">{formatDateTime(node.meetingDate)}</strong>
+            </>
+          ) : (
+            <>
+              <span className="font-semibold text-white">Topik terkunci. </span>
+              Jadwal sesi belum tersedia untuk akunmu; hubungi guru atau admin.
+            </>
+          )}
         </div>
 
         <button
@@ -605,6 +616,21 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
     new Map(nodes.map((n) => [n.topic.id, n])).values()
   );
 
+  useEffect(() => {
+    const upcomingStarts = nodes
+      .filter((node) => !node.isUnlocked && node.meetingDate)
+      .map((node) => Date.parse(node.meetingDate!))
+      .filter((start) => Number.isFinite(start) && start > Date.now())
+      .sort((a, b) => a - b);
+    if (upcomingStarts.length === 0) return;
+
+    const delay = Math.min(upcomingStarts[0] - Date.now() + 25, 2_147_000_000);
+    const timer = window.setTimeout(() => router.refresh(), Math.max(0, delay));
+    return () => window.clearTimeout(timer);
+  }, [nodes, router]);
+
+  const scratchTheme = getScratchMapTheme(mod.title ?? '', mod.level);
+
   // Compute completed streak & frontier
   let highestCompletedIdx = -1;
   for (let i = 0; i < uniqueNodes.length; i++) {
@@ -617,6 +643,14 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
   const activeNode = uniqueNodes.find(
     (n) => n.status === 'NEEDS_QUIZ' || n.status === 'ACTIVE_NEXT'
   ) ?? uniqueNodes[0];
+
+  const stageTopicNumber = moduleComplete ? 12 : activeNode?.sessionNumber ?? uniqueNodes[0]?.sessionNumber ?? 1;
+  const scratchStage = scratchTheme ? getScratchLearningStage(stageTopicNumber) : null;
+  const scratchStageIndex = scratchStage ? SCRATCH_LEARNING_STAGES.indexOf(scratchStage) : -1;
+  const scratchStageNodes = scratchStage
+    ? uniqueNodes.filter((node) => node.sessionNumber >= scratchStage.fromTopic && node.sessionNumber <= scratchStage.toTopic)
+    : [];
+  const scratchStageCompleted = scratchStageNodes.filter((node) => node.status === 'COMPLETED').length;
 
   const lastTopicNode = uniqueNodes[uniqueNodes.length - 1];
 
@@ -631,8 +665,8 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
     const n = uniqueNodes[index];
     if (!n) return 'shrouded';
 
-    if (n.status === 'COMPLETED') return 'cleared';
-    if (n.status === 'ACTIVE_NEXT' || n.status === 'NEEDS_QUIZ') return 'revealed';
+    if (n.isUnlocked && n.status === 'COMPLETED') return 'cleared';
+    if (n.isUnlocked && (n.status === 'ACTIVE_NEXT' || n.status === 'NEEDS_QUIZ')) return 'revealed';
 
     // For locked nodes: if it's within 1 step of the completed streak or active frontier
     if (index <= highestCompletedIdx + 2) {
@@ -751,6 +785,13 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
           <p className="text-xs text-slate-400 mt-0.5">
             Selesaikan tiap lokasi untuk menyingkap kabut perang (Fog of War) dan membuka jalur pulau berikutnya.
           </p>
+          {scratchStage && (
+            <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-xl border border-emerald-300/30 bg-emerald-950/50 px-3 py-2 text-xs">
+              <span className="font-black text-emerald-200">Tahap {scratchStageIndex + 1}/3 · {scratchStage.label}</span>
+              <span className="text-emerald-100/70">{scratchStageCompleted}/{scratchStageNodes.length} topik selesai</span>
+              <span className="sr-only">Tahap usulan berdasarkan urutan materi yang tersedia.</span>
+            </div>
+          )}
         </div>
 
         {/* Expedition Metrics, Mode Selector & Fog Gauge Bar */}
@@ -843,7 +884,14 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
             hasFinal={hasFinal}
             cert={cert}
             selectedNodeId={popover?.isFinal ? FINAL_ID : popover?.nodeId ?? null}
-            onSelectNode={(node) => setPopover({ nodeId: node.topic.id, isFinal: false })}
+            onSelectNode={(node) => {
+              if (node.isUnlocked) {
+                setPopover(null);
+                router.push(`/student/lessons/topic/${node.topic.id}`);
+                return;
+              }
+              setPopover({ nodeId: node.topic.id, isFinal: false });
+            }}
             onSelectFinalBoss={() => setPopover({ nodeId: FINAL_ID, isFinal: true })}
           />
 
@@ -864,7 +912,11 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
                   isModuleComplete={moduleComplete}
                   cert={cert}
                   onQuizClick={() => {}}
-                  onFocusActiveNode={() => activeNode && setPopover({ nodeId: activeNode.topic.id, isFinal: false })}
+                  onFocusActiveNode={() => {
+                    if (!activeNode) return;
+                    setPopover(null);
+                    router.push(`/student/lessons/topic/${activeNode.topic.id}`);
+                  }}
                   onClose={() => setPopover(null)}
                 />
               );
@@ -892,7 +944,11 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId }:
                     setQuizNode(selectedNode);
                   }
                 }}
-                onFocusActiveNode={() => activeNode && setPopover({ nodeId: activeNode.topic.id, isFinal: false })}
+                onFocusActiveNode={() => {
+                  if (!activeNode) return;
+                  setPopover(null);
+                  router.push(`/student/lessons/topic/${activeNode.topic.id}`);
+                }}
                 onClose={() => setPopover(null)}
               />
             );

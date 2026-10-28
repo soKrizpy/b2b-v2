@@ -87,7 +87,7 @@ export function TopicQuizWidget({ topicId, questions, attempts, isUnlocked, isLo
       </div>
 
       {state && !state.success && (
-        <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200">
+        <p role="alert" className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
           {state.error}
         </p>
       )}
@@ -122,7 +122,7 @@ export function TopicQuizWidget({ topicId, questions, attempts, isUnlocked, isLo
                       : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                     }`}
                 >
-                  <span className="font-bold mr-2 text-slate-400">
+                  <span className={`font-bold mr-2 ${selected[qi] === oi ? 'text-indigo-600 dark:text-indigo-200' : 'text-slate-500 dark:text-slate-400'}`}>
                     {['A','B','C','D'][oi]}.
                   </span>
                   {opt}
@@ -162,7 +162,7 @@ function ResultView({ result, onRetry }: { result: QuizResult; onRetry?: () => v
         }`}>
         <p className="text-4xl font-extrabold tabular-nums mb-1 {color}" style={{ color: 'inherit' }}>
           <span className={color}>{pct}</span>
-          <span className="text-xl text-slate-400">/100</span>
+          <span className="text-xl text-slate-500 dark:text-slate-400">/100</span>
         </p>
         <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
           {result.correctCount} dari {result.totalQuestions} benar

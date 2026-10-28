@@ -324,7 +324,7 @@ function QuizForm({
                     : 'ring-slate-200 dark:ring-zinc-700 bg-slate-50 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                   }`}
               >
-                <span className="font-bold mr-2 text-slate-400">
+                <span className={`font-bold mr-2 ${selected[qi] === oi ? 'text-indigo-600 dark:text-indigo-200' : 'text-slate-500 dark:text-slate-400'}`}>
                   {['A','B','C','D'][oi]}.
                 </span>
                 {opt}
@@ -412,8 +412,8 @@ export function QuizModal({
   return (
     /* Centered Screen Backdrop */
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center
-        bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-150"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain
+        bg-black/80 backdrop-blur-md p-3 sm:p-4 animate-in fade-in duration-150"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Centered Loading Modal during reward calculation */}
@@ -432,7 +432,7 @@ export function QuizModal({
       {/* Panel */}
       <div
         className="relative w-full max-w-xl bg-white dark:bg-zinc-900 border border-blue-400/40 dark:border-purple-500/40
-          rounded-3xl shadow-2xl p-6 flex flex-col max-h-[90dvh] overflow-hidden my-auto animate-in zoom-in-95 duration-150"
+          rounded-3xl shadow-2xl p-5 sm:p-6 flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden my-auto animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -465,7 +465,7 @@ export function QuizModal({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           {phase === 'reward' ? (
             <RewardScreen score={score} reward={reward} onClose={onClose} />
           ) : isLocked ? (

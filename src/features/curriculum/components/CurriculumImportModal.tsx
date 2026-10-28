@@ -114,14 +114,14 @@ export function CurriculumImportModal({ onClose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="import-modal-title"
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-16 px-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
       onClick={(e) => { if (e.target === e.currentTarget && !isImporting) onClose(); }}
     >
-      <div className="w-full max-w-2xl bg-white rounded-xl shadow-2xl flex flex-col max-h-[80vh]">
+      <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)] overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h2 id="import-modal-title" className="font-semibold text-slate-900">
+        <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0B0F19]">
+          <h2 id="import-modal-title" className="font-semibold text-slate-900 dark:text-slate-100">
             Import Kurikulum (JSON)
           </h2>
           <button
@@ -136,14 +136,14 @@ export function CurriculumImportModal({ onClose }: Props) {
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-5 flex flex-col gap-4 text-slate-800 dark:text-slate-200">
 
           {/* Schema hint */}
-          <details className="text-xs text-slate-500 border border-slate-200 rounded-lg">
-            <summary className="px-3 py-2 cursor-pointer font-medium select-none">
+          <details className="text-xs text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <summary className="px-3 py-2 cursor-pointer font-medium select-none hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg">
               Format JSON yang diharapkan (klik untuk lihat)
             </summary>
-            <pre className="px-3 pb-3 pt-1 overflow-x-auto leading-relaxed text-slate-600">{`[
+            <pre className="px-3 pb-3 pt-1 overflow-x-auto leading-relaxed text-slate-600 dark:text-slate-300">{`[
   {
     "module_title": "Nama Modul",
     "module_order": 1,
@@ -198,7 +198,7 @@ export function CurriculumImportModal({ onClose }: Props) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isImporting}
-                className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+                className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
               >
                 Pilih File
               </button>
@@ -206,11 +206,11 @@ export function CurriculumImportModal({ onClose }: Props) {
                 type="button"
                 onClick={loadScratchTemplate}
                 disabled={isImporting}
-                className="px-3.5 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2 text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
               >
                 <span>🎮</span> Muat Template Scratch (10 Topik & Kuis)
               </button>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 atau tempel JSON langsung
               </span>
             </div>
@@ -218,7 +218,7 @@ export function CurriculumImportModal({ onClose }: Props) {
 
           {/* Textarea */}
           <div>
-            <label htmlFor="json-textarea" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="json-textarea" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
               JSON Kurikulum
             </label>
             <textarea
@@ -228,7 +228,7 @@ export function CurriculumImportModal({ onClose }: Props) {
               rows={12}
               disabled={isImporting}
               spellCheck={false}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono resize-y
+              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 text-xs font-mono resize-y
                 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-40"
               placeholder='[{ "module_title": "...", "module_order": 1, "topics": [] }]'
             />
@@ -236,20 +236,20 @@ export function CurriculumImportModal({ onClose }: Props) {
 
           {/* Validation / status feedback */}
           {vs.status === 'error' && (
-            <div role="alert" className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <div role="alert" className="rounded-lg bg-red-50 dark:bg-rose-950/40 border border-red-200 dark:border-rose-800 px-4 py-3 text-sm text-red-700 dark:text-rose-300">
               <span className="font-semibold">Error: </span>{vs.message}
             </div>
           )}
 
           {vs.status === 'valid' && (
-            <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+            <div className="rounded-lg bg-green-50 dark:bg-emerald-950/40 border border-green-200 dark:border-emerald-800 px-4 py-3 text-sm text-green-700 dark:text-emerald-300">
               âœ“ JSON valid â€” <span className="font-semibold">{vs.moduleCount}</span> modul,{' '}
               <span className="font-semibold">{vs.topicCount}</span> topik siap diimpor.
             </div>
           )}
 
           {vs.status === 'importing' && (
-            <div className="rounded-lg bg-indigo-50 border border-indigo-200 px-4 py-3 text-sm text-indigo-700">
+            <div className="rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 px-4 py-3 text-sm text-indigo-700 dark:text-indigo-300">
               â³ Mengimpor ke databaseâ€¦
             </div>
           )}
@@ -262,12 +262,12 @@ export function CurriculumImportModal({ onClose }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 gap-3">
+        <div className="shrink-0 flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0B0F19] gap-3">
           {isDone ? (
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 text-sm font-medium bg-slate-900 text-white rounded-lg"
+              className="px-5 py-2 text-sm font-medium bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg"
             >
               Selesai
             </button>
@@ -277,7 +277,7 @@ export function CurriculumImportModal({ onClose }: Props) {
                 type="button"
                 onClick={() => validate(text)}
                 disabled={!text.trim() || isImporting}
-                className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+                className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
               >
                 Validasi JSON
               </button>
@@ -286,7 +286,7 @@ export function CurriculumImportModal({ onClose }: Props) {
                   type="button"
                   onClick={onClose}
                   disabled={isImporting}
-                  className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+                  className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40"
                 >
                   Batal
                 </button>

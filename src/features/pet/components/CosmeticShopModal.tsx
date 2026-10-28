@@ -160,12 +160,12 @@ export function CosmeticShopModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain p-3 sm:p-5
         bg-black/70 backdrop-blur-md animate-fade-in"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className="relative w-full max-w-4xl max-h-[92vh] flex flex-col
+        className="relative my-auto w-full max-w-4xl min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col
           bg-white dark:bg-[#0B0F19] rounded-3xl overflow-hidden shadow-2xl
           border border-blue-400/40 dark:border-purple-500/40
           transition-all duration-300"
@@ -229,7 +229,7 @@ export function CosmeticShopModal({
         </div>
 
         {/* ── MAIN CONTENT (Scrollable) ── */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-5">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-6 space-y-5">
 
           {/* Feedback Alert Bar */}
           {feedback && (

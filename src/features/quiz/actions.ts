@@ -10,6 +10,7 @@ import { extractTopicQuiz } from '@/features/curriculum/validation';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
+import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -135,8 +136,8 @@ export async function submitTopicQuiz(
     ? await getQuestMapData(studentId, enrolledModule)
     : null;
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic_id);
-  if (!topicNode || topicNode.status === 'LOCKED') {
-    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  if (!topicNode || !topicNode.isUnlocked) {
+    return { success: false, error: 'Topik akan terbuka saat sesi topik ini dimulai.' };
   }
 
   const questions = extractTopicQuiz(topicRow.lesson_content);
@@ -391,16 +392,14 @@ export async function submitFinalAssessment(
   revalidatePath('/student/dashboard', 'layout');
   revalidatePath('/student/lessons', 'layout');
 
-  const tierLabel =
-    tier === 'achievement' ? '🥇 Achievement' :
-    tier === 'excellent'   ? '🥈 Excellent' : '🥉 Completion';
+  const tierConfig = CERTIFICATE_TIER_CONFIG[tier];
 
   return {
     success: true,
     score,
     tier,
     certificateNumber: certNumber,
-    message: `Tryout selesai! Skor ${score} — ${tierLabel} Certificate diterbitkan (${certNumber}).`,
+    message: `Tryout selesai! Skor ${score} — ${tierConfig.label} Certificate diterbitkan (${certNumber}).`,
   };
 }
 

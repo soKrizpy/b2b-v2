@@ -213,7 +213,7 @@ export function StudentModuleProgressChart({
             <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {totalPeriodCompleted}
             </span>
-            <span className="text-xs font-semibold text-slate-400">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               / {totalPeriodTarget} target
             </span>
           </div>
@@ -233,7 +233,7 @@ export function StudentModuleProgressChart({
             }`}>
               {completionRate}%
             </span>
-            <span className="text-xs font-bold text-slate-400">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
               {completionRate >= 100 ? 'Tercapai! 🎯' : 'Berjalan'}
             </span>
           </div>
@@ -247,7 +247,7 @@ export function StudentModuleProgressChart({
             <span className="text-xl sm:text-2xl font-black text-purple-600 dark:text-purple-400">
               +{totalPeriodXp}
             </span>
-            <span className="text-xs font-semibold text-slate-400">EXP</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">EXP</span>
           </div>
         </div>
 
@@ -259,7 +259,7 @@ export function StudentModuleProgressChart({
             <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {totalEnrolledModules}
             </span>
-            <span className="text-xs font-semibold text-slate-400">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               ({totalEnrolledTopics} topik)
             </span>
           </div>
@@ -283,7 +283,7 @@ export function StudentModuleProgressChart({
                     className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                       dailyTarget === val
                         ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     {val} topik
@@ -299,7 +299,7 @@ export function StudentModuleProgressChart({
                     className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                       weeklyTarget === val
                         ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     {val} topik
@@ -322,12 +322,12 @@ export function StudentModuleProgressChart({
         </div>
 
         {/* Chart Rendering */}
-        <div className="w-full h-64 sm:h-72">
+        <div className="w-full h-64 sm:h-72 text-slate-600 dark:text-slate-400">
           {!mounted ? (
             <div className="w-full h-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-2xl">
               <div className="flex flex-col items-center gap-2">
                 <i className="fa-solid fa-spinner fa-spin text-purple-500 text-xl" />
-                <span className="text-xs font-bold text-slate-400">Memuat visual grafik...</span>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Memuat visual grafik...</span>
               </div>
             </div>
           ) : (
@@ -341,13 +341,13 @@ export function StudentModuleProgressChart({
                   dataKey="label"
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                  tick={{ fill: 'currentColor', fontSize: 11, fontWeight: 600 }}
                 />
                 <YAxis
                   allowDecimals={false}
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11 }}
+                  tick={{ fill: 'currentColor', fontSize: 11 }}
                 />
                 <Tooltip
                   content={({ active, payload }) => {
@@ -357,7 +357,7 @@ export function StudentModuleProgressChart({
                       return (
                         <div className="rounded-2xl p-3 bg-white/95 dark:bg-slate-950/95 border border-slate-200 dark:border-slate-800 shadow-xl backdrop-blur-md text-xs space-y-1.5 min-w-[170px]">
                           <p className="font-black text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-1">
-                            {data.label} <span className="text-[10px] text-slate-400 font-normal">({data.fullDate})</span>
+                            {data.label} <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">({data.fullDate})</span>
                           </p>
                           <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
                             <span>Topik Selesai:</span>

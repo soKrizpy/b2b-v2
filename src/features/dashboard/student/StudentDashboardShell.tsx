@@ -4,7 +4,7 @@
 // Col Left  (2/3): Hero Realm Banner (with inline profile strip & anime.js atmosphere) + Town Square Pod
 // Col Right (1/3): Cyber Pet Companion - Misi Harian - Ringkasan Belajar - Koleksi Sertifikat
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { TownSquarePod } from '@/features/dashboard/student/TownSquarePod';
 import { CyberPetWidget } from '@/features/pet/components/CyberPetWidget';
@@ -12,6 +12,7 @@ import { BillingNoticeModal } from '@/features/invoices/components/BillingNotice
 import { AnnouncementBanner } from '@/features/announcements/components/AnnouncementBanner';
 import { LevelUpCelebrationModal, getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
 import { calculateLevel } from '@/features/pet/lib/levelCalc';
+import { getUnlockedAchievementMilestones, type AchievementMilestone } from '@/features/dashboard/student/StudentAchievementBadges';
 import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
@@ -35,6 +36,13 @@ import {
 } from 'lucide-react';
 
 // ── Types ────────────────────────────────────────────────────────────────────
+
+type AchievementSnapshot = {
+  level: number;
+  milestoneIds: string[];
+  certificateIds: string[];
+  completedTopics: number;
+};
 
 interface SessionItem {
   id: number | string;
@@ -147,6 +155,7 @@ export function StudentDashboardShell({
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [isCelebrationOpen, setIsCelebrationOpen] = useState(false);
+  const [pendingAchievement, setPendingAchievement] = useState<AchievementMilestone | null>(null);
   const [isShopModalOpen, setIsShopModalOpen] = useState(false);
 
   useEffect(() => {
@@ -157,6 +166,79 @@ export function StudentDashboardShell({
   const hasLive = upcoming.some((m) => isLive(m.meeting_date));
   const lvl = gamData ? calculateLevel(gamData.totalXp) : null;
   const adventurerInfo = lvl ? getAdventurerTitle(lvl.currentLevel) : getAdventurerTitle(1);
+  const totalPossibleTopics = allModules.reduce((total, module) => total + (module.topics?.length ?? 0), 0);
+  const unlockedMilestones = useMemo(() => getUnlockedAchievementMilestones({
+    totalXp: gamData?.totalXp ?? 0,
+    coins: gamData?.coins ?? 0,
+    inventoryCount: gamData?.inventory?.length ?? 0,
+    hasEquippedHat: Boolean(gamData?.equippedHatId || gamData?.equippedCosmetics?.hatId),
+    certificateCount: certificates.length,
+    completedCount: completedTopics.length,
+    totalPossibleCount: totalPossibleTopics,
+  }), [gamData?.totalXp, gamData?.coins, gamData?.inventory?.length, gamData?.equippedHatId, gamData?.equippedCosmetics?.hatId, certificates.length, completedTopics.length, totalPossibleTopics]);
+  const achievementSnapshot = useMemo<AchievementSnapshot>(() => ({
+    level: lvl?.currentLevel ?? 1,
+    milestoneIds: unlockedMilestones.map((milestone) => milestone.id).sort(),
+    certificateIds: certificates.map((certificate) => String(certificate.id)).sort(),
+    completedTopics: completedTopics.length,
+  }), [lvl?.currentLevel, unlockedMilestones, certificates, completedTopics.length]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const storageKey = `b2b-achievement-snapshot:${studentId}`;
+    try {
+      const previousRaw = window.localStorage.getItem(storageKey);
+      window.localStorage.setItem(storageKey, JSON.stringify(achievementSnapshot));
+      // First visit only establishes a baseline; it does not celebrate old progress.
+      if (!previousRaw) return;
+
+      const previous = JSON.parse(previousRaw) as Partial<AchievementSnapshot>;
+      if (typeof previous.level !== 'number' || !Array.isArray(previous.milestoneIds) || !Array.isArray(previous.certificateIds)) return;
+
+      const newMilestones = unlockedMilestones.filter((milestone) => !previous.milestoneIds?.includes(milestone.id));
+      const newCertificates = certificates.filter((certificate) => !previous.certificateIds?.includes(String(certificate.id)));
+      const additionalAchievements = [
+        ...newMilestones.map((milestone) => milestone.title),
+        ...newCertificates.map((certificate) => certificate.module_title || 'Sertifikat Kelulusan'),
+      ];
+      const additionalSummary = (excludedTitle?: string) => {
+        const names = additionalAchievements.filter((name) => name !== excludedTitle);
+        return names.length > 0 ? ` Pencapaian lain yang ikut terbuka: ${names.join(', ')}.` : '';
+      };
+
+      let earned: AchievementMilestone | undefined;
+      if (achievementSnapshot.level > previous.level) {
+        const title = `Naik ke Level ${achievementSnapshot.level}`;
+        earned = {
+          id: `level-${achievementSnapshot.level}`,
+          title,
+          description: `Kerja hebat, ${studentName}! Kamu sekarang ${adventurerInfo.title}. Teruskan petualangan belajarmu.${additionalSummary(title)}`,
+          kind: 'level',
+        };
+      } else if (newCertificates.length > 0) {
+        const certificate = newCertificates[0];
+        const title = `Sertifikat Baru: ${certificate.module_title || 'Kelulusan Modul'}`;
+        earned = {
+          id: `certificate-${certificate.id}`,
+          title,
+          description: `Kamu menuntaskan ujian modul dan memperoleh sertifikat kelulusan. Simpan sebagai bukti kemajuanmu!${additionalSummary(title)}`,
+          kind: 'certificate',
+        };
+      } else if (newMilestones.length > 0) {
+        const [first, ...more] = newMilestones;
+        earned = {
+          ...first,
+          description: `${first.description}${more.length > 0 ? ` Pencapaian lain yang ikut terbuka: ${more.map((milestone) => milestone.title).join(', ')}.` : ''}`,
+        };
+      }
+      if (earned) {
+        setPendingAchievement(earned);
+        setIsCelebrationOpen(true);
+      }
+    } catch {
+      // Storage may be disabled by the browser; dashboard remains usable without celebration history.
+    }
+  }, [mounted, studentId, studentName, adventurerInfo.title, achievementSnapshot, unlockedMilestones, certificates]);
 
   // Next 4 schedule items (excluding town square primary slot)
   const nextFour = upcoming.slice(1, 5);
@@ -292,16 +374,18 @@ export function StudentDashboardShell({
                     <span>Toko Kosmetik</span>
                   </button>
 
-                  {/* Celebrate button */}
-                  <button
-                    type="button"
-                    onClick={() => setIsCelebrationOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-white
-                      bg-white/15 hover:bg-white/25 border border-white/25 transition-colors"
-                  >
-                    <Sparkles className="w-3 h-3 text-amber-300" />
-                    Rayakan
-                  </button>
+                  {/* Only show a celebration action while a new milestone is waiting to be viewed. */}
+                  {pendingAchievement && (
+                    <button
+                      type="button"
+                      onClick={() => setIsCelebrationOpen(true)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-white
+                        bg-amber-500/25 hover:bg-amber-500/40 border border-amber-300/35 transition-colors"
+                    >
+                      <Award className="w-3 h-3 text-amber-300" />
+                      Rayakan Pencapaian
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -356,7 +440,7 @@ export function StudentDashboardShell({
                 <Compass className="w-3.5 h-3.5 text-blue-600 dark:text-purple-400" />
                 Misi Harian
               </span>
-              <span className="text-[10px] font-bold text-slate-400">Pembaruan 24 Jam</span>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Pembaruan 24 Jam</span>
             </div>
             <div className="space-y-2">
               <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
@@ -433,7 +517,7 @@ export function StudentDashboardShell({
                   <Award className="w-3.5 h-3.5 text-amber-500" />
                   Koleksi Utama
                 </span>
-                <span className="text-[10px] font-bold text-slate-400">{certificates.length} Diperoleh</span>
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{certificates.length} Diperoleh</span>
               </div>
               <div className="space-y-2">
                 {certificates.slice(0, 2).map((cert) => (
@@ -551,11 +635,14 @@ export function StudentDashboardShell({
       {/* ── Level-Up Celebration Modal ── */}
       <LevelUpCelebrationModal
         isOpen={isCelebrationOpen}
-        onClose={() => setIsCelebrationOpen(false)}
+        onClose={() => { setIsCelebrationOpen(false); setPendingAchievement(null); }}
         level={lvl?.currentLevel ?? 1}
         totalXp={gamData?.totalXp ?? 0}
         coins={gamData?.coins ?? 0}
         studentName={studentName}
+        achievementTitle={pendingAchievement?.title}
+        achievementDescription={pendingAchievement?.description}
+        celebrationKind={pendingAchievement?.kind}
       />
 
       {/* ── Cosmetic Shop & Dressing Room Modal ── */}

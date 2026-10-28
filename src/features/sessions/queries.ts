@@ -115,6 +115,7 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
 // ── Result shapes ─────────────────────────────────────────────────────────────
 
 export interface MeetingWithStudents extends MeetingRow {
+  topic_title?: string | null;
   meeting_students: Array<{
     student_id: string;
     has_joined: boolean;
@@ -140,7 +141,7 @@ export interface StudentOption {
 
 const MEETING_SELECT = `
   id, title, meeting_date, link_url, notes,
-  session_count, session_number, series_id, module_id,
+  session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students (
     student_id,
@@ -152,7 +153,7 @@ const MEETING_SELECT = `
 
 const MEETING_SELECT_INNER = `
   id, title, meeting_date, link_url, notes,
-  session_count, session_number, series_id, module_id,
+  session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students!inner (
     student_id,
@@ -179,7 +180,30 @@ export async function getSessionsForAdmin(): Promise<MeetingWithStudents[]> {
     console.error('[getSessionsForAdmin]', error.message);
     return [];
   }
-  return (data ?? []) as unknown as MeetingWithStudents[];
+  const meetings = (data ?? []) as unknown as MeetingWithStudents[];
+  const topicIds = [...new Set(meetings.flatMap((meeting) => meeting.topic_id == null ? [] : [meeting.topic_id]))];
+  if (topicIds.length === 0) return meetings;
+
+  const { data: topics, error: topicsError } = await (db
+    .from('topics')
+    .select('id, title')
+    .in('id', topicIds) as unknown as Promise<{
+      data: Array<{ id: number; title: string }> | null;
+      error: { message: string } | null;
+    }>);
+  if (topicsError) {
+    console.error('[getSessionsForAdmin] topic mapping', topicsError.message);
+    return meetings;
+  }
+
+  const titlesByTopic = new Map<number, string>();
+  for (const topic of topics ?? []) {
+    titlesByTopic.set(topic.id, topic.title);
+  }
+  return meetings.map((meeting) => ({
+    ...meeting,
+    topic_title: meeting.topic_id == null ? null : titlesByTopic.get(meeting.topic_id) ?? null,
+  }));
 }
 
 /**

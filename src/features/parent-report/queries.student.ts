@@ -230,7 +230,7 @@ export async function getStudentHubBundle(
     db
       .from('meetings')
       .select(
-        'id, title, meeting_date, progress_report, is_completed, meeting_students!inner(student_id)'
+        'id, title, meeting_date, topic_id, progress_report, is_completed, meeting_students!inner(student_id)'
       )
       .eq('meeting_students.student_id', studentId)
       .eq('is_completed', true)
@@ -239,6 +239,7 @@ export async function getStudentHubBundle(
         id: number;
         title: string;
         meeting_date: string;
+        topic_id: number | null;
         progress_report: string | null;
         is_completed: boolean;
         meeting_students: Array<{ student_id: string }>;
@@ -251,7 +252,8 @@ export async function getStudentHubBundle(
           .select('id, title, module_id, order_index')
           .in('module_id', enrolledModuleIds)
           .eq('status', 'published')
-          .order('order_index', { ascending: true }) as unknown as Promise<{
+          .order('order_index', { ascending: true })
+          .order('id', { ascending: true }) as unknown as Promise<{
           data: Array<{
             id: number;
             title: string;
@@ -296,7 +298,7 @@ export async function getStudentHubBundle(
   for (const modId of sortedModIds) {
     const modTopics = topicsData
       .filter((t) => t.module_id === modId)
-      .sort((a, b) => a.order_index - b.order_index);
+      .sort((a, b) => a.order_index - b.order_index || a.id - b.id);
     flattenedTopics.push(...modTopics);
   }
 
@@ -357,22 +359,18 @@ export async function getStudentHubBundle(
     moduleStatus = `${activeEnrollment.modules.title} · ${completedTopics}/${activeTopics.length} topik`;
   }
 
-  // GlobalIndex: chronological meeting position → topic mapping
+  // Meeting history follows its saved topic association; legacy meetings stay unmapped.
   const meetingTopicMap = new Map<
     number,
     { topic_title: string | null; quiz_score: number | null }
   >();
-  for (let i = 0; i < allMeetingsAsc.length; i++) {
-    const m = allMeetingsAsc[i];
-    if (flattenedTopics.length > 0) {
-      const topic = flattenedTopics[i % flattenedTopics.length];
-      meetingTopicMap.set(m.id, {
-        topic_title: topic.title,
-        quiz_score: quizBestMap.get(topic.id) ?? null,
-      });
-    } else {
-      meetingTopicMap.set(m.id, { topic_title: null, quiz_score: null });
-    }
+  const topicsById = new Map(flattenedTopics.map((topic) => [topic.id, topic]));
+  for (const meeting of allMeetingsAsc) {
+    const topic = meeting.topic_id == null ? undefined : topicsById.get(meeting.topic_id);
+    meetingTopicMap.set(meeting.id, {
+      topic_title: topic?.title ?? null,
+      quiz_score: topic ? quizBestMap.get(topic.id) ?? null : null,
+    });
   }
 
   // Current month recap

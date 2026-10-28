@@ -4,6 +4,7 @@
 // Server Components, Server Actions, and Route Handlers.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import type { ModuleRow, TopicRow } from '@/types/database';
 
 // ── Result shapes ─────────────────────────────────────────────────────────────
@@ -14,6 +15,19 @@ export interface TopicWithChallengeCount extends TopicRow {
 
 export interface ModuleWithTopics extends ModuleRow {
   topics: TopicWithChallengeCount[];
+}
+
+function countVisibleChallenges(topicList: TopicRow[], challengeRows: Array<{ id: number; topic_id: number }>): Map<number, number> {
+  const topicsById = new Map(topicList.map((topic) => [topic.id, topic]));
+  const counts = new Map<number, number>();
+  for (const challenge of challengeRows) {
+    const topic = topicsById.get(challenge.topic_id);
+    if (!topic) continue;
+    const activeIds = getActiveChallengeIds(topic.lesson_content);
+    if (activeIds !== undefined && !activeIds.includes(challenge.id)) continue;
+    counts.set(challenge.topic_id, (counts.get(challenge.topic_id) ?? 0) + 1);
+  }
+  return counts;
 }
 
 // ── Modules ───────────────────────────────────────────────────────────────────
@@ -76,7 +90,8 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
       .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
       .in('module_id', moduleIds)
       .eq('status', 'published')
-      .order('order_index', { ascending: true }),
+      .order('order_index', { ascending: true })
+      .order('id', { ascending: true }),
   ]);
 
   if (modErr || !modules?.length) return [];
@@ -86,19 +101,16 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
   const topicIds  = topicList.map((t) => t.id);
 
   // 4. Challenge counts per topic (filtered by topicIds in SQL)
-  const challengeCountMap = new Map<number, number>();
+  let challengeCountMap = new Map<number, number>();
   if (topicIds.length > 0) {
     const { data: challenges } = await db
       .from('challenges')
-      .select('topic_id')
+      .select('id, topic_id')
       .in('topic_id', topicIds) as unknown as {
-        data: Array<{ topic_id: number }>;
+        data: Array<{ id: number; topic_id: number }>;
         error: unknown;
       };
-
-    (challenges ?? []).forEach((c) => {
-      challengeCountMap.set(c.topic_id, (challengeCountMap.get(c.topic_id) ?? 0) + 1);
-    });
+    challengeCountMap = countVisibleChallenges(topicList, challenges ?? []);
   }
 
   return (modules as unknown as ModuleRow[]).map((mod) => ({
@@ -118,7 +130,8 @@ export async function getTopicsByModuleId(moduleId: number): Promise<TopicRow[]>
     .from('topics')
     .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
     .eq('module_id', moduleId)
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true })
+    .order('id', { ascending: true });
 
   if (error) { console.error('[getTopicsByModuleId]', error.message); return []; }
   return (data ?? []) as unknown as TopicRow[];
@@ -154,26 +167,24 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
     .from('topics')
     .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
     .in('module_id', moduleIds)
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true })
+    .order('id', { ascending: true });
 
   if (topErr) console.error('[getAllModulesWithTopics] topics', topErr.message);
 
   const topicList  = (topics ?? []) as unknown as TopicRow[];
   const topicIds   = topicList.map((t) => t.id);
 
-  const challengeCountMap = new Map<number, number>();
+  let challengeCountMap = new Map<number, number>();
   if (topicIds.length > 0) {
     const { data: challenges } = await db
       .from('challenges')
-      .select('topic_id')
+      .select('id, topic_id')
       .in('topic_id', topicIds) as unknown as {
-        data: Array<{ topic_id: number }>;
+        data: Array<{ id: number; topic_id: number }>;
         error: unknown;
       };
-
-    (challenges ?? []).forEach((c) => {
-      challengeCountMap.set(c.topic_id, (challengeCountMap.get(c.topic_id) ?? 0) + 1);
-    });
+    challengeCountMap = countVisibleChallenges(topicList, challenges ?? []);
   }
 
   return (modules as unknown as ModuleRow[]).map((mod) => ({

@@ -184,18 +184,18 @@ function SendInvoiceModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60
-        backdrop-blur-sm p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+        backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
         className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
-          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[90vh]"
+          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-center justify-between gap-4">
+        <div className="shrink-0 px-6 py-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
               <Send className="w-5 h-5" />
@@ -223,7 +223,7 @@ function SendInvoiceModal({
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 overflow-y-auto flex flex-col gap-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6 flex flex-col gap-4">
           {/* Channel selector */}
           <div>
             <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
@@ -365,17 +365,17 @@ function AttendanceModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60
-        backdrop-blur-sm p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+        backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="w-full max-w-lg min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
+        <div className="shrink-0 px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">
               Detail Kehadiran
@@ -394,7 +394,7 @@ function AttendanceModal({
           </button>
         </div>
 
-        <div className="px-6 py-4 max-h-80 overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-4">
           {loading ? (
             <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6">Memuat detail kehadiran…</p>
           ) : rows.length === 0 ? (
@@ -432,7 +432,7 @@ function AttendanceModal({
           )}
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-between">
+        <div className="shrink-0 px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-between">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
             Total Hadir:
             <span className="ml-2 text-[#7cc62f]">{attended} / {rows.length} Pertemuan</span>
@@ -483,17 +483,17 @@ function EditModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60
-        backdrop-blur-sm p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+        backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="w-full max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
+        <div className="shrink-0 px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-purple-500/20 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-extrabold text-slate-900 dark:text-white text-base">
               Edit Detail Invoice
@@ -512,7 +512,7 @@ function EditModal({
           </button>
         </div>
 
-        <form action={dispatch} className="px-6 py-5 flex flex-col gap-4">
+        <form action={dispatch} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-5 flex flex-col gap-4">
           <input type="hidden" name="id" value={invoice.id} />
           <input type="hidden" name="status" value={invoice.status} />
           <input type="hidden" name="total_meetings" value={invoice.total_meetings} />
@@ -540,8 +540,8 @@ function EditModal({
               max={invoice.total_meetings}
               value={attended}
               onChange={(e) => setAttended(e.target.value)}
-              className="rounded-xl border border-slate-300 dark:border-purple-500/30 px-3.5 py-2
-                text-xs bg-white dark:bg-[#020617] text-slate-900 dark:text-white
+              className="rounded-xl border border-slate-300 dark:border-slate-700 px-3.5 py-2
+                text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100
                 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
             />
           </div>
@@ -623,8 +623,8 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60
-        backdrop-blur-sm p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+        backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div

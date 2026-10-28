@@ -7,12 +7,13 @@ import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getStudentModulesWithTopics, getTopicById } from '@/features/curriculum/queries';
 import { getChallengesWithSubmissions } from '@/features/challenges/queries';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
-import { getInstructionalSlides, hasRequiredLessonSlideCount } from '@/features/curriculum/lessonSlides';
+import { getInstructionalSlides, hasAuthoredLessonContent, isWithinSuggestedLessonSlideRange } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Topik — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -62,16 +63,18 @@ export default async function TopicPage({ params }: Props) {
     ? await getQuestMapData(auth.user.id, enrolledModule)
     : null;
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === id);
-  if (!topicNode || topicNode.status === 'LOCKED') notFound();
+  if (!topicNode || !topicNode.isUnlocked) notFound();
 
-  // The lesson modal is the intended entry point, but direct URLs must not bypass
-  // the minimum authored lesson coverage required before challenge work.
+  // Keep the authored slide count visible as guidance without blocking source
+  // material that legitimately contains fewer than ten steps.
   const lessonContent = topic.lesson_content as Record<string, unknown> | null;
   const lessonSlides = getInstructionalSlides(lessonContent?.learningPath);
-  if (!hasRequiredLessonSlideCount(lessonSlides)) redirect('/student/lessons');
+  const lessonHasContent = hasAuthoredLessonContent(lessonSlides);
+  const meetsSlideTarget = isWithinSuggestedLessonSlideRange(lessonSlides);
+  const activeChallengeIds = getActiveChallengeIds(lessonContent);
 
   const [challenges, quizState] = await Promise.all([
-    getChallengesWithSubmissions(id, auth.user.id),
+    lessonHasContent ? getChallengesWithSubmissions(id, auth.user.id, activeChallengeIds) : Promise.resolve([]),
     getTopicQuizState(id, auth.user.id),
   ]);
 
@@ -138,8 +141,16 @@ export default async function TopicPage({ params }: Props) {
             </h2>
             <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
           </div>
-          <LessonNodeWalker nodes={learningPath} topicId={id} />
+          <LessonNodeWalker nodes={learningPath} topicId={id} studentId={auth.user.id} />
         </section>
+      )}
+
+      {!meetsSlideTarget && (
+        <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+          {lessonHasContent
+            ? `Materi memiliki ${lessonSlides.length} slide instruksional. Target 10–20 slide disarankan jika sumber materi mendukung; challenge tetap tersedia setelah materi yang ada dipelajari.`
+            : `Materi topik ini belum memiliki slide instruksional (${lessonSlides.length}/10 menuju target). Challenge akan tersedia setelah materi autentik ditambahkan; tidak ada slide pengisi yang dibuat.`}
+        </div>
       )}
 
       {/* ── Challenges ──────────────────────────────────────────────────────── */}

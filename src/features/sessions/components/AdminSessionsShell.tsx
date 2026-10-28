@@ -6,6 +6,7 @@ import { MonthCalendar } from '@/features/sessions/components/calendar/MonthCale
 import { HistoryView } from '@/features/sessions/components/history/HistoryView';
 import { SessionDetailCard } from '@/features/sessions/components/calendar/SessionDetailCard';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
+import { LegacyMeetingMapper } from '@/features/sessions/components/LegacyMeetingMapper';
 import { formatDate, formatTime, getDateKey } from '@/lib/formatDate';
 import type {
   MeetingWithStudents,
@@ -147,6 +148,8 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
           <CreateSessionModal teachers={teachers} students={students} />
         </div>
       </div>
+
+      <LegacyMeetingMapper meetings={meetings} />
 
       {/* View Tabs */}
       <div className="flex items-center gap-1.5 bg-slate-100/90 dark:bg-zinc-900/80 p-1.5 rounded-xl border border-blue-200/80 dark:border-purple-500/30 w-fit">
