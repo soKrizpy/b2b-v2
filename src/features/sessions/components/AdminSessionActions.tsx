@@ -205,7 +205,8 @@ export function AdminSessionActions({
       {feedback && (
         <div
           className="w-full text-xs text-red-600 bg-red-50 rounded-xl px-3 py-2
-          ring-1 ring-red-200 flex items-center gap-1.5 mb-1"
+          ring-1 ring-red-200 dark:text-rose-300 dark:bg-rose-950/40 dark:ring-rose-800/50
+          flex items-center gap-1.5 mb-1"
         >
           <svg
             className="h-3.5 w-3.5 flex-shrink-0"
@@ -324,14 +325,14 @@ export function AdminSessionActions({
               )}
             </button>
             {report && !aiPending && (
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">
                 (Edit sebelum menyimpan)
               </span>
             )}
           </div>
 
           {aiError && (
-            <p className="text-xs text-red-500 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200">
+            <p className="text-xs text-red-500 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200 dark:text-rose-300 dark:bg-rose-950/40 dark:ring-rose-800/50">
               {aiError}
             </p>
           )}
@@ -364,7 +365,7 @@ export function AdminSessionActions({
               size="sm"
               loading={pending}
               onClick={handleComplete}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 shadow-emerald-200"
+              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 shadow-emerald-200 dark:shadow-emerald-950/40"
             >
               ✓ Simpan &amp; Selesaikan
             </Button>
@@ -437,7 +438,7 @@ export function AdminSessionActions({
           )}
 
           {feedback && (
-            <p className="text-xs text-red-600 flex items-center gap-1">
+            <p className="text-xs text-red-600 dark:text-rose-400 flex items-center gap-1">
               <svg
                 className="h-3.5 w-3.5"
                 viewBox="0 0 16 16"
