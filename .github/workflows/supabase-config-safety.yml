@@ -20,6 +20,9 @@ on:
       - "src/features/sessions/components/TeacherCompleteAction.tsx"
       - "src/features/sessions/components/AttendanceRadioGroup.tsx"
       - "src/components/ui/Input.tsx"
+      - "src/app/admin/curriculum/ModuleAccordion.tsx"
+      - "src/app/admin/curriculum/[moduleId]/ModuleBuilderClient.tsx"
+      - "src/app/admin/invoices/InvoicesShell.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
