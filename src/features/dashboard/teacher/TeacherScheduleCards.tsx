@@ -63,7 +63,7 @@ function EmptyState({ tab }: { tab: Tab }) {
       subtitle: 'Nikmati waktu persiapan atau cek riwayat kelas sebelumnya.',
     },
     past: {
-      icon: 'fa-solid fa-calendar-xmark text-slate-400 dark:text-slate-500',
+      icon: 'fa-solid fa-calendar-xmark text-slate-500 dark:text-slate-400',
       title: 'Belum Ada Riwayat Kelas',
       subtitle: 'Sesi yang telah selesai akan otomatis diarsipkan di sini.',
     },
@@ -214,7 +214,7 @@ function MeetingCard({
         {/* Row 3: Enrolled Students */}
         {m.meeting_students.length > 0 && (
           <div className="space-y-1.5 pt-1">
-            <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
+            <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1">
               <i className="fa-solid fa-user-group text-[9px]" />
               Siswa Terdaftar ({m.meeting_students.length})
             </p>
