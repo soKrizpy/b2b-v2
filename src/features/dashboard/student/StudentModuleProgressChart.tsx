@@ -322,7 +322,7 @@ export function StudentModuleProgressChart({
         </div>
 
         {/* Chart Rendering */}
-        <div className="w-full h-64 sm:h-72">
+        <div className="w-full h-64 sm:h-72 text-slate-600 dark:text-slate-400">
           {!mounted ? (
             <div className="w-full h-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/30 rounded-2xl">
               <div className="flex flex-col items-center gap-2">
@@ -341,13 +341,13 @@ export function StudentModuleProgressChart({
                   dataKey="label"
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                  tick={{ fill: 'currentColor', fontSize: 11, fontWeight: 600 }}
                 />
                 <YAxis
                   allowDecimals={false}
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11 }}
+                  tick={{ fill: 'currentColor', fontSize: 11 }}
                 />
                 <Tooltip
                   content={({ active, payload }) => {
