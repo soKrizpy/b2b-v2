@@ -50,7 +50,7 @@ export function TeacherStudentsWidget({ students }: Props) {
         {/* Search */}
         {students.length > 0 && (
           <div className="relative min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <input
               type="text"
               value={search}
@@ -74,7 +74,7 @@ export function TeacherStudentsWidget({ students }: Props) {
           <p className="text-sm font-bold text-slate-800 dark:text-white">
             Belum Ada Siswa Bimbingan Terdaftar
           </p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 max-w-sm mx-auto mt-1 mb-4">
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mt-1 mb-4">
             Admin dapat mendaftarkan siswa ke akun Anda di menu Manajemen Pengguna, atau Anda dapat membuat jadwal sesi bimbingan pertama.
           </p>
           <Link
@@ -88,7 +88,7 @@ export function TeacherStudentsWidget({ students }: Props) {
           </Link>
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-xs text-slate-400 italic py-6 text-center">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic py-6 text-center">
           Tidak ada siswa bimbingan yang cocok dengan pencarian &ldquo;{search}&rdquo;.
         </p>
       ) : (
