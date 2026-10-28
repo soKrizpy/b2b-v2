@@ -12,7 +12,7 @@ export function ReviewForm({ submissionId }: Props) {
       <input type="hidden" name="submission_id" value={submissionId} />
 
       {state?.success && (
-        <p className="text-sm text-green-700">{state.message}</p>
+        <p className="text-sm text-green-700 dark:text-green-300">{state.message}</p>
       )}
       {state && !state.success && (
         <p className="text-sm text-red-600 dark:text-rose-400" role="alert">{state.error}</p>
