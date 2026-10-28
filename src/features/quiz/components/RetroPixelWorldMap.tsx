@@ -79,6 +79,7 @@ export function RetroPixelWorldMap({
   const [hoveredNode, setHoveredNode] = useState<QuestTopicNode | null>(null);
   const [hoveredBoss, setHoveredBoss] = useState(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [mapSize, setMapSize] = useState<{ width: number; height: number }>({ width: 1200, height: 800 });
   const [baseImageFailed, setBaseImageFailed] = useState(false);
 
   const scratchTheme = getScratchMapTheme(moduleTitle, moduleLevel);
@@ -101,8 +102,8 @@ export function RetroPixelWorldMap({
   // This prevents large offsets and clipping when the board is inside an animated container.
   const tooltipWidth = 270;
   const tooltipHeight = 160;
-  const mapWidth = typeof window !== 'undefined' ? Math.min(window.innerWidth, 1200) : 1200;
-  const mapHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const mapWidth = mapSize.width;
+  const mapHeight = mapSize.height;
 
   let tooltipX = mousePos.x + 16;
   if (tooltipX + tooltipWidth > mapWidth - 16) {
@@ -120,6 +121,7 @@ export function RetroPixelWorldMap({
       <div
         onMouseMove={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
+          setMapSize({ width: rect.width, height: rect.height });
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
         data-quest-map-board
