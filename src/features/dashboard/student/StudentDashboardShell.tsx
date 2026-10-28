@@ -179,8 +179,8 @@ export function StudentDashboardShell({
           <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-7 text-white shadow-xl
             transition-all duration-500 hover:shadow-2xl
             ${hasLive
-              ? 'bg-gradient-to-br from-rose-600 via-rose-700 to-indigo-800 border border-rose-400/50 shadow-rose-500/20 hover:border-rose-300/60 dark:from-slate-950 dark:via-rose-950 dark:to-slate-900 dark:border-rose-500/40 dark:shadow-rose-950/40'
-              : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-700 border border-blue-400/50 shadow-blue-500/20 hover:border-blue-300/60 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 dark:border-purple-500/40 dark:shadow-purple-950/40'
+              ? 'bg-gradient-to-br from-rose-600 via-rose-700 to-indigo-800 border border-rose-400/50 shadow-rose-500/20 hover:border-rose-300/60 dark:from-slate-950 dark:via-rose-950 dark:to-slate-900 dark:border-rose-500/40 dark:hover:border-rose-400/60 dark:shadow-rose-950/40'
+              : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-700 border border-blue-400/50 shadow-blue-500/20 hover:border-blue-300/60 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 dark:border-purple-500/40 dark:hover:border-purple-400/60 dark:shadow-purple-950/40'
             }`}>
             {/* Ambient seamless atmosphere: drifting clouds & soaring birds (light mode), twinkling stars & comet (dark mode) */}
             <HeroAtmosphere />
@@ -356,7 +356,7 @@ export function StudentDashboardShell({
                 <Compass className="w-3.5 h-3.5 text-blue-600 dark:text-purple-400" />
                 Misi Harian
               </span>
-              <span className="text-[10px] font-bold text-slate-400">Pembaruan 24 Jam</span>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Pembaruan 24 Jam</span>
             </div>
             <div className="space-y-2">
               <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
@@ -433,7 +433,7 @@ export function StudentDashboardShell({
                   <Award className="w-3.5 h-3.5 text-amber-500" />
                   Koleksi Utama
                 </span>
-                <span className="text-[10px] font-bold text-slate-400">{certificates.length} Diperoleh</span>
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{certificates.length} Diperoleh</span>
               </div>
               <div className="space-y-2">
                 {certificates.slice(0, 2).map((cert) => (

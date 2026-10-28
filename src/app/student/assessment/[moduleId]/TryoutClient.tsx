@@ -102,7 +102,7 @@ export function TryoutClient({ moduleId, assessment }: Props) {
           <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{state.message}</p>
         </div>
         <button onClick={() => router.push('/student/lessons')}
-          className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">
+          className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-500 transition-colors">
           Kembali ke Pelajaran
         </button>
       </div>
@@ -155,9 +155,9 @@ export function TryoutClient({ moduleId, assessment }: Props) {
                     transition-all ring-1 cursor-pointer
                     ${chosen
                       ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-900 dark:text-indigo-100'
-                      : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
+                      : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-purple-500/60'
                     }`}>
-                  <span className="font-bold mr-2 text-slate-400">{['A','B','C','D'][oi]}.</span>
+                  <span className="font-bold mr-2 text-slate-500 dark:text-slate-400">{['A','B','C','D'][oi]}.</span>
                   {opt}
                 </button>
               );

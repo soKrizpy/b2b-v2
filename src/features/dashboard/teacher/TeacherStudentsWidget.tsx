@@ -88,7 +88,7 @@ export function TeacherStudentsWidget({ students }: Props) {
           </Link>
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-xs text-slate-400 italic py-6 text-center">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic py-6 text-center">
           Tidak ada siswa bimbingan yang cocok dengan pencarian &ldquo;{search}&rdquo;.
         </p>
       ) : (
