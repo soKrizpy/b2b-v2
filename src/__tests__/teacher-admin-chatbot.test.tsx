@@ -77,4 +77,22 @@ describe('TeacherAdminChatbot failure and retry behavior', () => {
     expect(input).toHaveValue('');
     expect(screen.getByText(message)).toBeInTheDocument();
   });
+
+  it('restores a failed quick prompt to the input so it can be retried', async () => {
+    const prompt = 'Berikan 3 ide mini-proyek coding (Python/Scratch) yang seru untuk siswa tingkat pemula yang baru belajar percabangan (if-else).';
+    vi.mocked(chatWithTutor).mockRejectedValueOnce(new Error('transport failure'));
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(<TeacherAdminChatbot role="teacher" />);
+    fireEvent.click(
+      screen.getByRole('button', { name: /Buka (?:Byte Copilot AI|Ahlul Bytes) untuk Guru dan Admin/i })
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Ide Proyek Coding/i }));
+
+    const input = screen.getByPlaceholderText(/Tanya ide kurikulum, kuis, atau evaluasi Guru/i);
+    await waitFor(() => {
+      expect(screen.getByText(/Layanan AI gagal merespons/i)).toBeInTheDocument();
+    });
+    expect(input).toHaveValue(prompt);
+  });
 });
