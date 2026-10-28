@@ -14,6 +14,8 @@ on:
       - "src/components/DashboardLoadingModal.tsx"
       - "src/app/admin/loading.tsx"
       - "src/app/teacher/loading.tsx"
+      - "src/features/sessions/components/AdminSessionActions.tsx"
+      - "src/features/sessions/components/CreateSessionModal.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
