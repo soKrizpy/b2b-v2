@@ -110,7 +110,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
             </span>
           </div>
         </div>
-        {open ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+        {open ? <ChevronUp className="w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" />}
       </button>
 
       {open && mod.topics.length > 0 && (
