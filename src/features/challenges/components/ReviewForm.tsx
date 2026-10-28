@@ -15,7 +15,7 @@ export function ReviewForm({ submissionId }: Props) {
         <p className="text-sm text-green-700">{state.message}</p>
       )}
       {state && !state.success && (
-        <p className="text-sm text-red-600" role="alert">{state.error}</p>
+        <p className="text-sm text-red-600 dark:text-rose-400" role="alert">{state.error}</p>
       )}
 
       <div className="flex flex-col gap-1">
