@@ -179,8 +179,8 @@ export function StudentDashboardShell({
           <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-7 text-white shadow-xl
             transition-all duration-500 hover:shadow-2xl
             ${hasLive
-              ? 'bg-gradient-to-br from-rose-600 via-rose-700 to-indigo-800 border border-rose-400/50 shadow-rose-500/20 hover:border-rose-300/60 dark:from-slate-950 dark:via-rose-950 dark:to-slate-900 dark:border-rose-500/40 dark:shadow-rose-950/40'
-              : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-700 border border-blue-400/50 shadow-blue-500/20 hover:border-blue-300/60 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 dark:border-purple-500/40 dark:shadow-purple-950/40'
+              ? 'bg-gradient-to-br from-rose-600 via-rose-700 to-indigo-800 border border-rose-400/50 shadow-rose-500/20 hover:border-rose-300/60 dark:from-slate-950 dark:via-rose-950 dark:to-slate-900 dark:border-rose-500/40 dark:hover:border-rose-400/60 dark:shadow-rose-950/40'
+              : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-700 border border-blue-400/50 shadow-blue-500/20 hover:border-blue-300/60 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 dark:border-purple-500/40 dark:hover:border-purple-400/60 dark:shadow-purple-950/40'
             }`}>
             {/* Ambient seamless atmosphere: drifting clouds & soaring birds (light mode), twinkling stars & comet (dark mode) */}
             <HeroAtmosphere />
