@@ -356,7 +356,7 @@ export function StudentDashboardShell({
                 <Compass className="w-3.5 h-3.5 text-blue-600 dark:text-purple-400" />
                 Misi Harian
               </span>
-              <span className="text-[10px] font-bold text-slate-400">Pembaruan 24 Jam</span>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Pembaruan 24 Jam</span>
             </div>
             <div className="space-y-2">
               <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
@@ -433,7 +433,7 @@ export function StudentDashboardShell({
                   <Award className="w-3.5 h-3.5 text-amber-500" />
                   Koleksi Utama
                 </span>
-                <span className="text-[10px] font-bold text-slate-400">{certificates.length} Diperoleh</span>
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{certificates.length} Diperoleh</span>
               </div>
               <div className="space-y-2">
                 {certificates.slice(0, 2).map((cert) => (
