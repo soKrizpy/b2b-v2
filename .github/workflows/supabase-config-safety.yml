@@ -17,6 +17,9 @@ on:
       - "src/features/sessions/components/AdminSessionActions.tsx"
       - "src/features/sessions/components/CreateSessionModal.tsx"
       - "src/features/sessions/components/MeetingForm.tsx"
+      - "src/features/sessions/components/TeacherCompleteAction.tsx"
+      - "src/features/sessions/components/AttendanceRadioGroup.tsx"
+      - "src/components/ui/Input.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
