@@ -269,8 +269,8 @@ export function MeetingForm({
 
       {/* Series edit mode — edit mode only, for series meetings */}
       {mode === 'edit' && meeting?.series_id && (
-        <div className="rounded-lg bg-amber-50 border border-amber-200 p-3 space-y-2">
-          <p className="text-xs font-semibold text-amber-800">
+        <div className="rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 p-3 space-y-2">
+          <p className="text-xs font-semibold text-amber-800 dark:text-amber-200">
             Ini adalah bagian dari seri kelas
           </p>
           <div className="flex gap-3">
@@ -295,7 +295,7 @@ export function MeetingForm({
         </div>
       )}
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-white/10">
         <Button type="submit" loading={pending} className="min-w-[140px]">
           {mode === 'create' ? '✨ Buat Jadwal' : '💾 Simpan Perubahan'}
         </Button>
