@@ -1,22 +1,26 @@
-name: Supabase configuration safety
+name: Application test and build validation
 
 on:
   push:
     branches:
       - fix/fail-closed-supabase-config-20261028
+      - fix/dashboard-loading-modal-main-20261028
   pull_request:
     branches:
       - main
     paths:
       - "src/lib/supabase/mock.ts"
       - "src/__tests__/supabase-config-fail-closed.test.ts"
+      - "src/components/DashboardLoadingModal.tsx"
+      - "src/app/admin/loading.tsx"
+      - "src/app/teacher/loading.tsx"
       - ".github/workflows/supabase-config-safety.yml"
 
 permissions:
   contents: read
 
 concurrency:
-  group: supabase-config-safety-${{ github.workflow }}-${{ github.ref }}
+  group: app-validation-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
