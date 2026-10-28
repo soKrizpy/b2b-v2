@@ -260,8 +260,8 @@ function TopicEditForm({
       <input type="hidden" name="module_id" value={moduleId} />
 
       {state && !state.success && !state.fields && (
-        <p role="alert" className="text-xs text-red-600 bg-red-50 dark:bg-red-900/20
-          rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
+        <p role="alert" className="text-xs text-red-600 dark:text-rose-300 bg-red-50 dark:bg-rose-950/30
+          rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-rose-800/50">
           {state.error}
         </p>
       )}
@@ -277,7 +277,7 @@ function TopicEditForm({
               text-slate-900 dark:text-white placeholder:text-slate-400
               focus:outline-none focus:ring-2 focus:ring-indigo-500
               ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
-          {err('title') && <p className="text-xs text-red-600">{err('title')}</p>}
+          {err('title') && <p className="text-xs text-red-600 dark:text-rose-400">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
