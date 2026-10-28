@@ -283,7 +283,7 @@ export function StudentModuleProgressChart({
                     className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                       dailyTarget === val
                         ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     {val} topik
@@ -299,7 +299,7 @@ export function StudentModuleProgressChart({
                     className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                       weeklyTarget === val
                         ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     {val} topik
