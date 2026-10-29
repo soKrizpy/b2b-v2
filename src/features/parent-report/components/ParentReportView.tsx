@@ -37,42 +37,42 @@ function BillingCard({ invoice, attendedCount }: {
         {/* Status header */}
         <div className={`px-5 py-3 flex items-center justify-between
           ${isPaid
-            ? 'bg-emerald-50 border-b border-emerald-100'
+            ? 'bg-emerald-50 border-b border-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-900'
             : isDraft
-            ? 'bg-slate-50 border-b border-slate-100'
+            ? 'bg-slate-50 border-b border-slate-100 dark:bg-slate-800 dark:border-slate-700'
             : 'bg-indigo-600 text-white'}`}>
           <div className="flex items-center gap-2">
             <span className="text-base" aria-hidden="true">
               {isPaid ? '✅' : isDraft ? '📋' : '📨'}
             </span>
             <span className={`text-sm font-bold
-              ${isPaid ? 'text-emerald-800' : isDraft ? 'text-slate-600' : 'text-white'}`}>
+              ${isPaid ? 'text-emerald-800 dark:text-emerald-300' : isDraft ? 'text-slate-600 dark:text-slate-300' : 'text-white'}`}>
               {isPaid ? 'Tagihan Lunas' : isDraft ? 'Tagihan Sedang Disiapkan' : `Tagihan Bulan ${invoice.month_year}`}
             </span>
           </div>
           <span className={`text-xs font-extrabold px-3 py-1 rounded-full ring-1
             ${isPaid
-              ? 'bg-emerald-100 text-emerald-700 ring-emerald-300'
+              ? 'bg-emerald-100 text-emerald-700 ring-emerald-300 dark:bg-emerald-900/60 dark:text-emerald-200 dark:ring-emerald-700'
               : isDraft
-              ? 'bg-slate-100 text-slate-500 ring-slate-300'
+              ? 'bg-slate-100 text-slate-500 ring-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600'
               : 'bg-white/20 text-white ring-white/30'}`}>
             {isPaid ? 'LUNAS' : isDraft ? 'DRAFT' : 'BELUM DIBAYAR'}
           </span>
         </div>
 
         {/* Billing breakdown table */}
-        <div className="px-5 py-4 space-y-2.5">
-          <p className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">
+        <div className="px-5 py-4 space-y-2.5 text-slate-700 dark:text-slate-200">
+          <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
             Rincian Kehadiran
           </p>
 
           {/* Row: attended */}
           <div className="flex items-center justify-between text-sm">
-            <span className="flex items-center gap-1.5 text-slate-700">
+            <span className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
               <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[10px]">✓</span>
               Hadir ({invoice.attended_meetings} sesi)
             </span>
-            <span className="font-semibold text-slate-800 tabular-nums">
+            <span className="font-semibold text-slate-800 dark:text-slate-200 tabular-nums">
               {invoice.attended_meetings} × {fmt(invoice.price_per_meeting)}
               {' = '}
               <span className="text-emerald-700">{fmt(invoice.attended_meetings * invoice.price_per_meeting)}</span>
@@ -93,7 +93,7 @@ function BillingCard({ invoice, attendedCount }: {
           )}
 
           {/* Divider */}
-          <div className="border-t border-slate-100 my-1" />
+          <div className="border-t border-slate-100 dark:border-slate-700 my-1" />
 
           {/* Total */}
           <div className="flex items-center justify-between">
@@ -221,11 +221,11 @@ export function ParentReportView({ data }: ParentReportViewProps) {
                     {/* Attendance badge */}
                     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1
                       ${session.has_joined
-                        ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
-                        : 'bg-red-50 text-red-600 ring-red-200'}`}>
+                        ? 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-800'
+                        : 'bg-red-50 text-red-600 ring-red-200 dark:bg-red-950/50 dark:text-red-300 dark:ring-red-800'}`}>
                       {session.has_joined ? '✓ Hadir' : '✗ Tidak Hadir'}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
+                    <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-800">
                       ✓ Selesai
                     </span>
                   </div>
@@ -262,7 +262,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
                   <i className="fa-solid fa-star fa-fade" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-slate-800 text-sm truncate">{topic.topic_title}</p>
+                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-sm truncate">{topic.topic_title}</p>
                   <p className="text-xs text-slate-400 mt-0.5">
                     {formatDate(topic.completed_at)} · XP {topic.xp_earned} · Quiz {topic.best_quiz_score}%
                   </p>
@@ -291,7 +291,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       <footer data-report-motion className="text-center text-xs text-slate-500 dark:text-slate-400 pt-4 pb-8 border-t border-slate-200 dark:border-slate-700">
         <p>
           Laporan ini dibuat otomatis oleh{' '}
-          <span className="font-semibold text-slate-600">Bits2Bytes LMS</span>.
+          <span className="font-semibold text-slate-700 dark:text-slate-200">Bits2Bytes LMS</span>.
         </p>
         <p className="mt-1">Hanya dapat diakses dengan tautan khusus yang dikirim oleh pengajar.</p>
       </footer>
