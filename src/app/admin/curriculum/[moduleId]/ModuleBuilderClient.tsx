@@ -111,7 +111,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     {typeof node.xp === 'number' && node.xp > 0 && (
                       <span className="text-[10px] text-amber-600 dark:text-amber-400 flex-shrink-0">+{node.xp}XP</span>
                     )}
-                    <span className="text-slate-400 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
                   </button>
 
                   {open && (
@@ -140,7 +140,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                     ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                     : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                                   }`}>
-                                <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                                <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                                 {opt}
                                 {opt === node.correctOption && (
                                   <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Benar</span>
@@ -209,7 +209,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                 ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                 : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                               }`}>
-                            <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                            <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                             {opt}
                             {oi === q.answer_index && (
                               <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Kunci</span>
@@ -261,7 +261,7 @@ function TopicEditForm({
       <input type="hidden" name="module_id" value={moduleId} />
 
       {state && !state.success && !state.fields && (
-        <p role="alert" className="text-xs text-red-600 bg-red-50 dark:bg-red-900/20
+        <p role="alert" className="text-xs text-red-600 dark:text-red-300 bg-red-50 dark:bg-red-900/20
           rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
           {state.error}
         </p>
@@ -278,7 +278,7 @@ function TopicEditForm({
               text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-indigo-500
               ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-slate-700'}`} />
-          {err('title') && <p className="text-xs text-red-600">{err('title')}</p>}
+          {err('title') && <p className="text-xs text-red-600 dark:text-red-400">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
