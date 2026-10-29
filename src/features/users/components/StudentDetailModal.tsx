@@ -4,6 +4,7 @@
 // Tabs: Learning Path (assign active module) | Riwayat | Pencapaian | Sertifikat
 
 import { useState, useActionState, useTransition, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
@@ -435,8 +436,12 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 
 export function StudentDetailModal({ student: s, allModules, allTeachers, onClose }: Props) {
   const [tab, setTab] = useState<Tab>('path');
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     /* Backdrop */
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain
@@ -543,5 +548,5 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
