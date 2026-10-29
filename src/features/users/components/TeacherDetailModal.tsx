@@ -4,6 +4,7 @@
 // Shows: stats (sessions, students), enrolled students list & enroll picker, email+access, and password reset.
 
 import { useState, useActionState, useTransition, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Eye, EyeOff, UserPlus, Check, Search, X } from 'lucide-react';
@@ -381,6 +382,9 @@ function EnrolledStudentsSection({
 // ── Main component ──────────────────────────────────────────────────────────────────────
 
 export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Props) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   // Close on Escape key
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose(); }
@@ -388,7 +392,9 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal((
     /* Backdrop */
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain
@@ -504,5 +510,5 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
