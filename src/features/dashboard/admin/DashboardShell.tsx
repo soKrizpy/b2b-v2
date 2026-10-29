@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
 import { AdminSessionActions } from '@/features/sessions/components/AdminSessionActions';
@@ -76,7 +76,12 @@ export function DashboardShell({
 }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
-  const renderNow = useMemo(() => new Date(renderTimestamp), [renderTimestamp]);
+  const [clockNow, setClockNow] = useState(renderTimestamp);
+  useEffect(() => {
+    const timer = window.setInterval(() => setClockNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const renderNow = useMemo(() => new Date(clockNow), [clockNow]);
 
   const metrics = useMemo(() => {
     return propMetrics ?? computeAdminMetrics(meetings, renderNow);
@@ -323,8 +328,37 @@ export function DashboardShell({
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-zinc-800/80 flex items-center justify-between gap-2">
-                      <AdminSessionActions meeting={m} teachers={teachers} students={students} />
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-zinc-800/80 space-y-2">
+                      {(() => {
+                        const startsAt = new Date(m.meeting_date).getTime();
+                        const opensAt = startsAt - 10 * 60 * 1000;
+                        const endsAt = startsAt + 60 * 60 * 1000;
+                        const remaining = Math.max(0, opensAt - clockNow);
+                        const canJoin = Boolean(m.link_url) && !m.is_completed && clockNow >= opensAt && clockNow < endsAt;
+                        const countdown = (() => {
+                          const totalSeconds = Math.ceil(remaining / 1000);
+                          const hours = Math.floor(totalSeconds / 3600);
+                          const minutes = Math.floor((totalSeconds % 3600) / 60);
+                          const seconds = totalSeconds % 60;
+                          return [hours, minutes, seconds].map((value) => String(value).padStart(2, '0')).join(':');
+                        })();
+                        return canJoin ? (
+                          <a href={m.link_url!} target="_blank" rel="noopener noreferrer"
+                            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black py-3 px-4 shadow-md shadow-emerald-600/20 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                            <i className="fa-solid fa-video" /> Masuk Kelas (Admin)
+                          </a>
+                        ) : !m.is_completed && clockNow < opensAt ? (
+                          <div className="w-full rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/70 dark:bg-blue-950/30 px-3 py-2.5 text-center">
+                            <p className="text-[10px] font-extrabold uppercase tracking-wide text-blue-700 dark:text-blue-300">Akses admin dibuka 10 menit sebelum kelas</p>
+                            <p className="mt-1 font-mono text-lg font-black tabular-nums text-slate-900 dark:text-white">{countdown}</p>
+                          </div>
+                        ) : !m.link_url && !m.is_completed ? (
+                          <p className="text-center text-[11px] font-semibold text-amber-700 dark:text-amber-300">Tautan Zoom/Google Meet belum tersedia.</p>
+                        ) : null;
+                      })()}
+                      <div className="flex items-center justify-between gap-2">
+                        <AdminSessionActions meeting={m} teachers={teachers} students={students} />
+                      </div>
                     </div>
                   </div>
                 );
