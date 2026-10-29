@@ -696,7 +696,7 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Main Shell Component ──────────────────────────────────────────────────────
