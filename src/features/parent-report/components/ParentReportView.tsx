@@ -75,7 +75,7 @@ function BillingCard({ invoice, attendedCount }: {
             <span className="font-semibold text-slate-800 dark:text-slate-200 tabular-nums">
               {invoice.attended_meetings} × {fmt(invoice.price_per_meeting)}
               {' = '}
-              <span className="text-emerald-700 dark:text-emerald-300">{fmt(invoice.attended_meetings * invoice.price_per_meeting)</span>
+              <span className="text-emerald-700 dark:text-emerald-300">{fmt(invoice.attended_meetings * invoice.price_per_meeting)}</span>
             </span>
           </div>
 
