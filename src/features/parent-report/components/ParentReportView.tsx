@@ -24,8 +24,8 @@ function BillingCard({ invoice, attendedCount }: {
     new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
 
   return (
-    <section aria-label="Tagihan bulan ini">
-      <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+    <section aria-label="Tagihan bulan ini" data-report-motion>
+      <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
         <span className="text-lg" aria-hidden="true">🧾</span> Tagihan — {invoice.month_year}
       </h2>
 
@@ -97,8 +97,8 @@ function BillingCard({ invoice, attendedCount }: {
 
           {/* Total */}
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold text-slate-700">Total Tagihan</span>
-            <span className="text-xl font-extrabold text-slate-900 tabular-nums">
+            <span className="text-sm font-bold text-slate-700 dark:text-slate-200">Total Tagihan</span>
+            <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
               {fmt(invoice.total_amount)}
             </span>
           </div>
@@ -113,14 +113,14 @@ function BillingCard({ invoice, attendedCount }: {
         {/* Payment instructions — only when sent/unpaid */}
         {!isPaid && !isDraft && invoice.bank_account && (
           <div className="px-5 pb-5">
-            <div className="rounded-xl bg-indigo-50 ring-1 ring-indigo-200 px-4 py-3.5">
-              <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 mb-2">
+            <div className="rounded-xl bg-indigo-50 ring-1 ring-indigo-200 px-4 py-3.5 dark:bg-indigo-950/40 dark:ring-indigo-500/30">
+              <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-300 mb-2">
                 Transfer ke Rekening
               </p>
-              <p className="text-sm font-semibold text-indigo-900 break-all">
+              <p className="text-sm font-semibold text-indigo-900 dark:text-indigo-100 break-all">
                 {invoice.bank_account}
               </p>
-              <p className="text-[11px] text-indigo-500 mt-2 leading-relaxed">
+              <p className="text-[11px] text-indigo-600 dark:text-indigo-300 mt-2 leading-relaxed">
                 Mohon transfer sesuai nominal di atas dan konfirmasi pembayaran ke admin.
                 Model pembayaran kami adalah <strong>post-paid</strong> — bayar setelah sesi berlangsung.
               </p>
@@ -165,7 +165,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
     <div className="space-y-8">
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-500 to-violet-600 p-7 text-white shadow-lg">
+      <div data-report-motion className="relative overflow-hidden rounded-3xl border border-indigo-400/25 bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-700 p-5 text-white shadow-xl shadow-indigo-950/10 sm:p-7">
         <div className="flex items-center gap-3 mb-2">
           <i className="fa-solid fa-shield-halved fa-beat-fade text-violet-300 text-xl" aria-hidden="true" />
           <p className="text-indigo-200 text-sm font-medium">Laporan Perkembangan Terverifikasi</p>
@@ -183,7 +183,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
             { label: 'Materi',        value: totalTopics,     icon: 'fa-book-open',     anim: '',            color: 'text-sky-200' },
             { label: 'Total XP',      value: totalXp,         icon: 'fa-star',          anim: 'fa-fade',      color: 'text-amber-200' },
           ].map(({ label, value, icon, anim, color }) => (
-            <div key={label} className="bg-white/15 rounded-xl px-3 py-3 text-center backdrop-blur-sm">
+            <div key={label} data-report-card className="rounded-2xl border border-white/15 bg-white/10 px-3 py-3 text-center backdrop-blur-sm transition-colors hover:bg-white/15">
               <i className={`fa-solid ${icon} ${anim} ${color} text-xl mb-1 block`} aria-hidden="true" />
               <div className="text-xl font-extrabold leading-tight">{value}</div>
               <div className="text-xs text-indigo-100 mt-0.5">{label}</div>
@@ -204,17 +204,17 @@ export function ParentReportView({ data }: ParentReportViewProps) {
         </h2>
 
         {completedSessions.length === 0 ? (
-          <div className="rounded-xl border-2 border-dashed border-slate-200 bg-white py-10 text-center">
+          <div className="rounded-xl border-2 border-dashed border-slate-200 bg-white py-10 text-center dark:border-slate-700 dark:bg-slate-900">
             <p className="text-slate-400 text-sm">Belum ada kelas yang selesai.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {completedSessions.map((session) => (
               <div key={session.id}
-                className="bg-white rounded-xl ring-1 ring-slate-200 shadow-sm overflow-hidden">
-                <div className="px-5 py-3.5 border-b border-slate-100 flex items-start justify-between gap-4">
+                data-report-card className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-700 dark:bg-slate-900">
+                <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-700 flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-slate-800 text-sm truncate">{session.title}</h3>
+                    <h3 className="font-semibold text-slate-800 dark:text-slate-100 text-sm truncate">{session.title}</h3>
                     <p className="text-xs text-slate-400 mt-0.5">{formatDateTime(session.meeting_date)}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
@@ -232,11 +232,11 @@ export function ParentReportView({ data }: ParentReportViewProps) {
                 </div>
 
                 {session.progress_report && (
-                  <div className="px-5 py-3 bg-slate-50/60">
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+                  <div className="px-5 py-3 bg-slate-50/60 dark:bg-slate-800/50">
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">
                       Catatan Guru
                     </p>
-                    <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                    <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-wrap">
                       {session.progress_report}
                     </p>
                   </div>
@@ -256,7 +256,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
           <div className="grid gap-3 sm:grid-cols-2">
             {completedTopics.map((topic) => (
               <div key={topic.engine_topic_id}
-                className="bg-white rounded-xl ring-1 ring-slate-200 shadow-sm px-5 py-4 flex items-center gap-4 group hover:ring-amber-200 transition-all">
+                data-report-card className="rounded-2xl border border-slate-200 bg-white shadow-sm px-5 py-4 flex items-center gap-4 group hover:border-amber-300 transition-all dark:border-slate-700 dark:bg-slate-900">
                 <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center text-amber-500 text-lg group-hover:scale-110 transition-transform"
                   aria-hidden="true">
                   <i className="fa-solid fa-star fa-fade" />
@@ -288,7 +288,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       )}
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="text-center text-xs text-slate-400 pt-4 pb-8 border-t border-slate-100">
+      <footer data-report-motion className="text-center text-xs text-slate-500 dark:text-slate-400 pt-4 pb-8 border-t border-slate-200 dark:border-slate-700">
         <p>
           Laporan ini dibuat otomatis oleh{' '}
           <span className="font-semibold text-slate-600">Bits2Bytes LMS</span>.
