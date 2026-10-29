@@ -7,7 +7,7 @@
 //   - Zero color leaks: strict light/dark mode pairings with neon accents
 //   - Progress report draft & completion actions
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
 import {
   isToday,
@@ -261,42 +261,74 @@ function MeetingCard({
 
       {/* Row 5: Action Buttons */}
       <div className="pt-4 mt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-2.5 flex-wrap">
-        {m.link_url && !completed && (
-          <a
-            href={m.link_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
-              text-xs font-black transition-all duration-200 shadow-md active:scale-95
-              ${
-                live
-                  ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/50'
-                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 dark:from-purple-600 dark:to-indigo-600 dark:hover:from-purple-500 dark:hover:to-indigo-500 text-white shadow-blue-500/20 dark:shadow-purple-500/20'
-              }`}
-          >
-            <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
-            <span>{live ? 'Masuk Kelas' : 'Buka Meeting'}</span>
-          </a>
-        )}
+        {(() => {
+          const startsAt = new Date(m.meeting_date).getTime();
+          const joinOpensAt = startsAt - 10 * 60 * 1000;
+          const reportOpensAt = startsAt + 20 * 60 * 1000;
+          const canJoin = Boolean(m.link_url) && !completed && now.getTime() >= joinOpensAt;
+          const showCountdown = Boolean(m.link_url) && !completed && now.getTime() < joinOpensAt;
+          const canReport = completed || now.getTime() >= reportOpensAt;
+          const remainingSeconds = Math.max(0, Math.ceil((joinOpensAt - now.getTime()) / 1000));
+          const hours = Math.floor(remainingSeconds / 3600);
+          const minutes = Math.floor((remainingSeconds % 3600) / 60);
+          const seconds = remainingSeconds % 60;
+          const countdown = [hours, minutes, seconds]
+            .map((value) => String(value).padStart(2, '0'))
+            .join(':');
 
-        <div className={m.link_url && !completed ? 'flex-shrink-0' : 'w-full'}>
-          <TeacherCompleteAction
-            meetingId={m.id}
-            meetingTitle={m.title}
-            studentNames={studentNames}
-            buttonText={completed ? '✏️ Edit Laporan' : '✓ Tandai & Lapor'}
-            variant={completed ? 'secondary' : 'primary'}
-            className={m.link_url && !completed ? '' : 'w-full justify-center'}
-            initialReport={m.progress_report}
-            isCompleted={completed}
-            attendanceStudents={m.meeting_students.map((ms) => ({
-              studentId: ms.student_id,
-              studentName: ms.students?.full_name ?? 'Siswa',
-              status:
-                ms.attendance_status ?? (ms.has_joined ? 'hadir' : 'absen'),
-            }))}
-          />
-        </div>
+          return (
+            <>
+              {showCountdown && (
+                <span
+                  aria-label={`Masuk kelas dalam ${countdown}`}
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+                    text-xs font-black font-mono tabular-nums bg-slate-100 dark:bg-zinc-800
+                    text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-zinc-700"
+                >
+                  <i className="fa-solid fa-clock" />
+                  {countdown}
+                </span>
+              )}
+              {canJoin && (
+                <a
+                  href={m.link_url ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+                    text-xs font-black transition-all duration-200 shadow-md active:scale-95
+                    ${
+                      live
+                        ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/50'
+                        : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 dark:from-purple-600 dark:to-indigo-600 dark:hover:from-purple-500 dark:hover:to-indigo-500 text-white shadow-blue-500/20 dark:shadow-purple-500/20'
+                    }`}
+                >
+                  <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
+                  <span>Masuk Kelas</span>
+                </a>
+              )}
+              {canReport && (
+                <div className={m.link_url && !completed ? 'flex-shrink-0' : 'w-full'}>
+                  <TeacherCompleteAction
+                    meetingId={m.id}
+                    meetingTitle={m.title}
+                    studentNames={studentNames}
+                    buttonText={completed ? '✏️ Edit Laporan' : 'Kirim Laporan'}
+                    variant={completed ? 'secondary' : 'primary'}
+                    className={m.link_url && !completed ? '' : 'w-full justify-center'}
+                    initialReport={m.progress_report}
+                    isCompleted={completed}
+                    attendanceStudents={m.meeting_students.map((ms) => ({
+                      studentId: ms.student_id,
+                      studentName: ms.students?.full_name ?? 'Siswa',
+                      status:
+                        ms.attendance_status ?? (ms.has_joined ? 'hadir' : 'absen'),
+                    }))}
+                  />
+                </div>
+              )}
+            </>
+          );
+        })()}
       </div>
     </div>
   );
@@ -305,7 +337,12 @@ function MeetingCard({
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export function TeacherScheduleCards({ meetings, renderTimestamp }: Props) {
-  const now = useMemo(() => new Date(renderTimestamp), [renderTimestamp]);
+  const [clockNow, setClockNow] = useState(renderTimestamp);
+  useEffect(() => {
+    const timer = window.setInterval(() => setClockNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const now = useMemo(() => new Date(clockNow), [clockNow]);
   const nowMs = now.getTime();
 
   // Derive tab buckets
