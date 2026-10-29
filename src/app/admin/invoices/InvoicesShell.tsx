@@ -650,13 +650,22 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 p-6 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
-            <LinkIcon className="w-5 h-5" />
+        <div className="flex items-center gap-3">
+          <img
+            src="/b2blight.webp"
+            alt="Logo resmi Bits2Bytes"
+            width={44}
+            height={44}
+            className="h-11 w-11 shrink-0 object-contain"
+          />
+          <div className="min-w-0">
+            <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+              <span>bits</span><span className="text-lime-500 dark:text-lime-400">2</span><span>bytes</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">
+              Link Laporan Orang Tua
+            </h3>
           </div>
-          <h3 className="font-extrabold text-slate-900 dark:text-white text-base">
-            Link Laporan Orang Tua
-          </h3>
         </div>
         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           Bagikan link ini kepada orang tua siswa. Berisi rincian kehadiran dan tagihan transparan tanpa perlu login.
