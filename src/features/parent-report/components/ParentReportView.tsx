@@ -31,8 +31,8 @@ function BillingCard({ invoice, attendedCount }: {
 
       <div className={`rounded-2xl overflow-hidden ring-1 shadow-sm
         ${isPaid
-          ? 'ring-emerald-200 bg-white'
-          : 'ring-indigo-200 bg-white'}`}>
+          ? 'ring-emerald-200 bg-white dark:ring-emerald-800 dark:bg-[#0b0f19]'
+          : 'ring-blue-200 bg-white dark:ring-purple-500/30 dark:bg-[#0b0f19]'}`}>
 
         {/* Status header */}
         <div className={`px-5 py-3 flex items-center justify-between
@@ -40,7 +40,7 @@ function BillingCard({ invoice, attendedCount }: {
             ? 'bg-emerald-50 border-b border-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-900'
             : isDraft
             ? 'bg-slate-50 border-b border-slate-100 dark:bg-slate-800 dark:border-slate-700'
-            : 'bg-indigo-600 text-white'}`}>
+            : 'bg-blue-600 text-white'}`}>
           <div className="flex items-center gap-2">
             <span className="text-base" aria-hidden="true">
               {isPaid ? '✅' : isDraft ? '📋' : '📨'}
@@ -69,13 +69,13 @@ function BillingCard({ invoice, attendedCount }: {
           {/* Row: attended */}
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
-              <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[10px]">✓</span>
+              <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-200 flex items-center justify-center text-[10px]">✓</span>
               Hadir ({invoice.attended_meetings} sesi)
             </span>
             <span className="font-semibold text-slate-800 dark:text-slate-200 tabular-nums">
               {invoice.attended_meetings} × {fmt(invoice.price_per_meeting)}
               {' = '}
-              <span className="text-emerald-700">{fmt(invoice.attended_meetings * invoice.price_per_meeting)}</span>
+              <span className="text-emerald-700 dark:text-emerald-300">{fmt(invoice.attended_meetings * invoice.price_per_meeting)</span>
             </span>
           </div>
 
@@ -86,7 +86,7 @@ function BillingCard({ invoice, attendedCount }: {
                 <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">–</span>
                 Tidak Hadir / Izin ({skipped} sesi)
               </span>
-              <span className="font-semibold text-slate-400 tabular-nums">
+              <span className="font-semibold text-slate-400 dark:text-slate-500 tabular-nums">
                 Rp 0
               </span>
             </div>
@@ -113,14 +113,14 @@ function BillingCard({ invoice, attendedCount }: {
         {/* Payment instructions — only when sent/unpaid */}
         {!isPaid && !isDraft && invoice.bank_account && (
           <div className="px-5 pb-5">
-            <div className="rounded-xl bg-indigo-50 ring-1 ring-indigo-200 px-4 py-3.5 dark:bg-indigo-950/40 dark:ring-indigo-500/30">
-              <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-300 mb-2">
+            <div className="rounded-xl bg-blue-50 ring-1 ring-blue-200 px-4 py-3.5 dark:bg-indigo-950/40 dark:ring-indigo-500/30">
+              <p className="text-xs font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300 mb-2">
                 Transfer ke Rekening
               </p>
-              <p className="text-sm font-semibold text-indigo-900 dark:text-indigo-100 break-all">
+              <p className="text-sm font-semibold text-blue-950 dark:text-blue-100 break-all">
                 {invoice.bank_account}
               </p>
-              <p className="text-[11px] text-indigo-600 dark:text-indigo-300 mt-2 leading-relaxed">
+              <p className="text-[11px] text-blue-700 dark:text-blue-300 mt-2 leading-relaxed">
                 Mohon transfer sesuai nominal di atas dan konfirmasi pembayaran ke admin.
                 Model pembayaran kami adalah <strong>post-paid</strong> — bayar setelah sesi berlangsung.
               </p>
@@ -165,28 +165,28 @@ export function ParentReportView({ data }: ParentReportViewProps) {
     <div className="space-y-8">
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <div data-report-motion className="relative overflow-hidden rounded-3xl border border-indigo-400/25 bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-700 p-5 text-white shadow-xl shadow-indigo-950/10 sm:p-7">
+      <div data-report-motion className="relative overflow-hidden rounded-3xl border border-blue-400/35 bg-gradient-to-br from-blue-700 via-blue-600 to-sky-500 p-5 text-white shadow-xl shadow-blue-900/15 sm:p-7">
         <div className="flex items-center gap-3 mb-2">
           <i className="fa-solid fa-shield-halved fa-beat-fade text-violet-300 text-xl" aria-hidden="true" />
-          <p className="text-indigo-200 text-sm font-medium">Laporan Perkembangan Terverifikasi</p>
+          <p className="text-blue-100 text-sm font-medium">Laporan Perkembangan Terverifikasi</p>
         </div>
         <h1 className="text-2xl font-extrabold">{studentName}</h1>
-        <p className="mt-1 text-indigo-100 text-sm">
+        <p className="mt-1 text-blue-50 text-sm">
           Dibagikan secara aman · Hanya dapat diakses dengan tautan khusus ini
         </p>
 
         {/* Summary strip */}
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: 'Kelas Selesai', value: totalSessions,   icon: 'fa-graduation-cap', anim: 'fa-fade',      color: 'text-violet-200' },
-            { label: 'Kehadiran',     value: `${attendedCount}/${totalScheduled}`, icon: 'fa-circle-check', anim: '',            color: 'text-emerald-200' },
+            { label: 'Kelas Selesai', value: totalSessions,   icon: 'fa-graduation-cap', anim: 'fa-fade',      color: 'text-lime-200' },
+            { label: 'Kehadiran',     value: `${attendedCount}/${totalScheduled}`, icon: 'fa-circle-check', anim: '',            color: 'text-lime-200' },
             { label: 'Materi',        value: totalTopics,     icon: 'fa-book-open',     anim: '',            color: 'text-sky-200' },
             { label: 'Total XP',      value: totalXp,         icon: 'fa-star',          anim: 'fa-fade',      color: 'text-amber-200' },
           ].map(({ label, value, icon, anim, color }) => (
-            <div key={label} data-report-card className="rounded-2xl border border-white/15 bg-white/10 px-3 py-3 text-center backdrop-blur-sm transition-colors hover:bg-white/15">
+            <div key={label} data-report-card className="rounded-2xl border border-white/25 bg-white/12 px-3 py-3 text-center backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:shadow-[0_0_20px_rgba(124,198,47,0.22)]">
               <i className={`fa-solid ${icon} ${anim} ${color} text-xl mb-1 block`} aria-hidden="true" />
               <div className="text-xl font-extrabold leading-tight">{value}</div>
-              <div className="text-xs text-indigo-100 mt-0.5">{label}</div>
+              <div className="text-xs text-blue-50 mt-0.5">{label}</div>
             </div>
           ))}
         </div>
@@ -199,7 +199,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
 
       {/* ── Session history ───────────────────────────────────────────────── */}
       <section>
-        <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+        <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
           <i className="fa-solid fa-calendar-days text-indigo-500" aria-hidden="true" /> Riwayat Kelas
         </h2>
 
@@ -211,7 +211,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
           <div className="space-y-3">
             {completedSessions.map((session) => (
               <div key={session.id}
-                data-report-card className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-700 dark:bg-slate-900">
+                data-report-card className="rounded-2xl border border-blue-200/80 bg-white shadow-[0_4px_20px_-2px_rgba(59,130,246,0.10)] overflow-hidden transition-all duration-200 hover:border-blue-400 dark:border-purple-500/30 dark:bg-[#0b0f19] dark:hover:border-purple-400">
                 <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-700 flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3 className="font-semibold text-slate-800 dark:text-slate-100 text-sm truncate">{session.title}</h3>
@@ -256,7 +256,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
           <div className="grid gap-3 sm:grid-cols-2">
             {completedTopics.map((topic) => (
               <div key={topic.engine_topic_id}
-                data-report-card className="rounded-2xl border border-slate-200 bg-white shadow-sm px-5 py-4 flex items-center gap-4 group hover:border-amber-300 transition-all dark:border-slate-700 dark:bg-slate-900">
+                data-report-card className="rounded-2xl border border-blue-200/80 bg-white shadow-[0_4px_20px_-2px_rgba(59,130,246,0.10)] px-5 py-4 flex items-center gap-4 group hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.18)] transition-all dark:border-purple-500/30 dark:bg-[#0b0f19] dark:hover:border-purple-400">
                 <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center text-amber-500 text-lg group-hover:scale-110 transition-transform"
                   aria-hidden="true">
                   <i className="fa-solid fa-star fa-fade" />
