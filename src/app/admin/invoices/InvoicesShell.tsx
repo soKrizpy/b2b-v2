@@ -106,7 +106,7 @@ function MetricCard({
       p-4 flex flex-col justify-between gap-3 shadow-sm hover:shadow-neon-blue dark:hover:shadow-neon-purple
       dark:shadow-[0_0_22px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
-      transition-all duration-300 ease-out cursor-pointer">
+      transition-all duration-300 ease-out">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
           {title}
