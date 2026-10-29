@@ -49,7 +49,7 @@ export default async function TeacherTopicPage({ params }: Props) {
         {topic.project_link && <a href={topic.project_link} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-bold text-blue-700 hover:underline dark:text-purple-300">Buka tautan project ↗</a>}
       </header>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-900">
+      <section id="panduan-mengajar" className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-900">
         <h2 className="flex items-center gap-2 text-base font-black text-slate-900 dark:text-white">
           <span aria-hidden="true">🎯</span> Panduan Mengajar
         </h2>
