@@ -140,7 +140,7 @@ export interface StudentOption {
 // ── Query helpers shared between cookie client and admin client ───────────────
 
 const MEETING_SELECT = `
-  id, title, meeting_date, link_url, notes,
+  id, title, meeting_date, link_url, notes, teacher_id,
   session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students (
@@ -152,7 +152,7 @@ const MEETING_SELECT = `
 `.trim();
 
 const MEETING_SELECT_INNER = `
-  id, title, meeting_date, link_url, notes,
+  id, title, meeting_date, link_url, notes, teacher_id,
   session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students!inner (
