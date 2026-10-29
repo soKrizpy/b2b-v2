@@ -71,9 +71,8 @@ export function isWithinSuggestedLessonSlideRange(slides: readonly unknown[]): b
 }
 
 /**
- * A topic can be published when it contains at least one real authored lesson
- * step. Ten to twenty slides remain the content target when the source supports
- * that depth; this check intentionally does not invent or require filler slides.
+ * Confirms that a topic contains at least one authored lesson step. Import and
+ * publication actions must additionally enforce the strict node range and quiz count.
  */
 export function hasAuthoredLessonContent(slides: readonly unknown[]): boolean {
   return slides.length > 0;
