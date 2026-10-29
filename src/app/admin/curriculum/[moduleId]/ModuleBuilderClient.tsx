@@ -338,7 +338,7 @@ function TopicEditForm({
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-2 pt-1
-        border-t border-slate-100 dark:border-white/8">
+        border-t border-slate-100 dark:border-white/10">
         <button type="button" onClick={onClose}
           className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
             text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
@@ -639,7 +639,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-white/2">
+                    <div className="border-t border-slate-100 dark:border-white/10 bg-slate-50/40 dark:bg-white/5">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
