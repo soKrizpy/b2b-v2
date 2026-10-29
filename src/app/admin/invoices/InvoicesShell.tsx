@@ -139,11 +139,6 @@ function SendInvoiceModal({
   onClose: () => void;
   onSuccess: () => void;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
   const [channel, setChannel] = useState<'whatsapp' | 'email' | 'direct'>('whatsapp');
   const [pending, setPending] = useState(false);
   const [customNote, setCustomNote] = useState('');
@@ -187,6 +182,10 @@ function SendInvoiceModal({
       setPending(false);
     }
   };
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return createPortal((
     <div
@@ -357,11 +356,6 @@ function AttendanceModal({
   invoice: InvoiceWithStudent;
   onClose: () => void;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
   const [rows, setRows] = useState<AttendanceDetail[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -373,6 +367,10 @@ function AttendanceModal({
   }, [invoice.id]);
 
   const attended = rows.filter((r) => r.has_joined).length;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return createPortal((
     <div
@@ -471,11 +469,6 @@ function EditModal({
   invoice: InvoiceWithStudent;
   onClose: () => void;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
   const router = useRouter();
   const [state, dispatch, pending] = useActionState<InvoiceActionResult | null, FormData>(
     updateInvoice,
@@ -496,6 +489,10 @@ function EditModal({
   const numPrice = Math.max(0, parseInt(price) || 0);
   const numAttended = Math.max(0, Math.min(parseInt(attended) || 0, invoice.total_meetings));
   const total = numAttended * numPrice;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return createPortal((
     <div
@@ -628,11 +625,6 @@ function EditModal({
 // ── Parent Link Popup ─────────────────────────────────────────────────────────
 
 function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
   const [copied, setCopied] = useState(false);
 
   const copy = () => {
@@ -641,6 +633,10 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
       setTimeout(() => setCopied(false), 2500);
     });
   };
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return createPortal((
     <div
