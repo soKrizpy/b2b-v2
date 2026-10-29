@@ -8,6 +8,7 @@
 //   5. Attendance Detail & Edit Invoice Modals + Parent Link Copy Popup
 
 import { useState, useActionState, useEffect, useCallback, useTransition, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   Search,
@@ -138,6 +139,11 @@ function SendInvoiceModal({
   onClose: () => void;
   onSuccess: () => void;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const [channel, setChannel] = useState<'whatsapp' | 'email' | 'direct'>('whatsapp');
   const [pending, setPending] = useState(false);
   const [customNote, setCustomNote] = useState('');
@@ -182,7 +188,7 @@ function SendInvoiceModal({
     }
   };
 
-  return (
+  return createPortal((
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
@@ -339,7 +345,7 @@ function SendInvoiceModal({
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Attendance Detail Modal ───────────────────────────────────────────────────
@@ -351,6 +357,11 @@ function AttendanceModal({
   invoice: InvoiceWithStudent;
   onClose: () => void;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const [rows, setRows] = useState<AttendanceDetail[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -363,7 +374,7 @@ function AttendanceModal({
 
   const attended = rows.filter((r) => r.has_joined).length;
 
-  return (
+  return createPortal((
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
@@ -448,7 +459,7 @@ function AttendanceModal({
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Edit Invoice Modal ────────────────────────────────────────────────────────
@@ -460,6 +471,11 @@ function EditModal({
   invoice: InvoiceWithStudent;
   onClose: () => void;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const router = useRouter();
   const [state, dispatch, pending] = useActionState<InvoiceActionResult | null, FormData>(
     updateInvoice,
@@ -481,7 +497,7 @@ function EditModal({
   const numAttended = Math.max(0, Math.min(parseInt(attended) || 0, invoice.total_meetings));
   const total = numAttended * numPrice;
 
-  return (
+  return createPortal((
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
@@ -606,12 +622,17 @@ function EditModal({
         </form>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Parent Link Popup ─────────────────────────────────────────────────────────
 
 function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const [copied, setCopied] = useState(false);
 
   const copy = () => {
@@ -621,7 +642,7 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
     });
   };
 
-  return (
+  return createPortal((
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
@@ -1384,5 +1405,5 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
         />
       )}
     </div>
-  );
+  ), document.body);
 }
