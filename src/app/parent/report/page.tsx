@@ -49,10 +49,15 @@ export default async function ParentReportPage({ searchParams }: Props) {
     <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#080d18] dark:text-slate-100">
       {/* Branded top bar (no navigation — public page) */}
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/90 shadow-sm backdrop-blur-xl dark:border-slate-700/70 dark:bg-[#0b1020]/90">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 h-14 flex items-center gap-2.5">
-          <span className="text-xl">🎓</span>
-          <span className="font-bold text-slate-900 text-sm">Bits2Bytes LMS</span>
-          <span className="text-slate-300 text-xs ml-auto">Laporan Orang Tua</span>
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 h-16 flex items-center gap-3">
+          <picture className="flex-shrink-0">
+            <source srcSet="/b2bdark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="/b2blight.webp" alt="Bits2Bytes" className="h-10 w-auto object-contain" />
+          </picture>
+          <span className="font-extrabold tracking-tight text-slate-900 dark:text-white text-sm sm:text-base">
+            bits<span className="text-lime-500">2</span>bytes
+          </span>
+          <span className="ml-auto text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 text-right">Laporan Orang Tua</span>
         </div>
       </header>
 
