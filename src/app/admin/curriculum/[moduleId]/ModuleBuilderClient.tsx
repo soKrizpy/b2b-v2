@@ -370,6 +370,9 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
   // Import JSON state
   const [showImport, setShowImport] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
   const [text, setText]             = useState('');
   const [vs, setVs]                 = useState<ImportState>({ status: 'idle' });
   const [exporting, startExport]    = useTransition();
