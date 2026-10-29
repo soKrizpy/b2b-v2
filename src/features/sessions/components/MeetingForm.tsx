@@ -186,7 +186,7 @@ export function MeetingForm({
           htmlFor="meeting-teacher"
           className="text-sm font-medium text-slate-700 dark:text-slate-200"
         >
-          Guru <span className="text-slate-400 dark:text-slate-500 font-normal">(opsional)</span>
+          Guru Pendamping <span className="text-slate-400 dark:text-slate-500 font-normal">(opsional)</span>
         </label>
         <select
           id="meeting-teacher"
