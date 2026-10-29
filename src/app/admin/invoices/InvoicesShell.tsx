@@ -184,7 +184,7 @@ function SendInvoiceModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
@@ -365,7 +365,7 @@ function AttendanceModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
@@ -483,7 +483,7 @@ function EditModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
@@ -623,12 +623,12 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="w-full max-w-md max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 p-6 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
