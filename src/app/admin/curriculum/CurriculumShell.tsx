@@ -75,7 +75,7 @@ export function CurriculumShell({ children }: Props) {
               {/* Title */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="new-mod-title" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  Judul Modul <span className="text-red-500">*</span>
+                  Judul Modul <span className="text-red-500 dark:text-red-400">*</span>
                 </label>
                 <input id="new-mod-title" name="title" required autoFocus
                   placeholder="contoh: Pengenalan HTML & CSS"
