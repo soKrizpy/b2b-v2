@@ -259,7 +259,19 @@ function MeetingCard({
         )}
       </div>
 
-      {/* Row 5: Action Buttons */}
+      {/* Row 5: Curriculum access */}
+      {m.topic_id != null && (
+        <div className="pt-3 flex flex-wrap gap-2">
+          <a href={`/teacher/lessons/topic/${m.topic_id}`} className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/30 dark:hover:bg-purple-500/20 transition-colors">
+            <i className="fa-solid fa-book-open" /> Lihat Materi
+          </a>
+          <a href={`/teacher/lessons/topic/${m.topic_id}#panduan-mengajar`} className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700 dark:hover:bg-zinc-700 transition-colors">
+            <i className="fa-solid fa-chalkboard-user" /> Panduan Mengajar
+          </a>
+        </div>
+      )}
+
+      {/* Row 6: Action Buttons */}
       <div className="pt-4 mt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-2.5 flex-wrap">
         {(() => {
           const startsAt = new Date(m.meeting_date).getTime();
