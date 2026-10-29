@@ -1,6 +1,7 @@
 'use client';
 // Module-scoped Import/Export toolbar + per-topic Preview & Edit panel.
 import { useState, useTransition, useRef, useActionState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   exportCurriculumJson,
@@ -658,7 +659,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
       </section>
 
       {/* ── Import modal ─────────────────────────────────────────────────── */}
-      {showImport && (
+      {mounted && showImport && createPortal((
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
@@ -767,7 +768,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
     </div>
   );
 }
