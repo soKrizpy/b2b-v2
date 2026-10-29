@@ -184,12 +184,12 @@ function SendInvoiceModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-lg shrink-0 bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]"
         onClick={(e) => e.stopPropagation()}
@@ -365,12 +365,12 @@ function AttendanceModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-lg shrink-0 min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -483,12 +483,12 @@ function EditModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-md shrink-0 min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -623,12 +623,12 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-md shrink-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 p-6 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
