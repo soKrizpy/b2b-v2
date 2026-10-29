@@ -254,7 +254,7 @@ function EnrolledStudentsSection({
 
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               value={search}
@@ -270,7 +270,7 @@ function EnrolledStudentsSection({
           {/* List of candidates */}
           <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-1">
             {availableStudents.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-3 text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic py-3 text-center">
                 {allStudents.length === 0
                   ? 'Tidak ada data siswa.'
                   : 'Semua siswa yang cocok sudah terdaftar.'}
@@ -428,7 +428,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
               </h2>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full
                 bg-violet-500/10 text-violet-700 border border-violet-500/25
-                dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30">
+                dark:bg-violet-500/15 dark:text-violet-300 dark:text-violet-300 dark:border-violet-500/30">
                 Guru
               </span>
             </div>
@@ -493,7 +493,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
 
           {/* Danger zone */}
           <div className="flex flex-col gap-2 pt-3 border-t border-slate-100 dark:border-white/8">
-            <p className="text-[10px] font-black uppercase tracking-wide text-red-500/70 px-1">
+            <p className="text-[10px] font-black uppercase tracking-wide text-red-600 px-1 dark:text-red-400">
               Zona Berbahaya
             </p>
             <div className="flex items-center gap-3">
