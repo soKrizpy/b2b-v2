@@ -1401,5 +1401,5 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
         />
       )}
     </div>
-  ), document.body);
+  );
 }
