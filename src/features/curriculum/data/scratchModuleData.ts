@@ -251,7 +251,6 @@ export const scratchTopicsData = [
         correct_option: 'X: 240, Y: 180',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-101-n5',
         order: 5,
@@ -395,7 +394,6 @@ export const scratchTopicsData = [
         correct_option: 'set rotation style [left-right]',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-102-n5',
         order: 5,
@@ -549,7 +547,6 @@ export const scratchTopicsData = [
         correct_option: 'Ketika kondisi di dalamnya bernilai BENAR (True)',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-103-n5',
         order: 5,
@@ -693,7 +690,6 @@ export const scratchTopicsData = [
         correct_option: '[Skor] > 50',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-104-n5',
         order: 5,
@@ -847,7 +843,6 @@ export const scratchTopicsData = [
         correct_option: 'Nyawa < 1 (atau Nyawa = 0)',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-105-n5',
         order: 5,
@@ -1001,7 +996,6 @@ export const scratchTopicsData = [
         correct_option: 'clear graphic effects',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-106-n5',
         order: 5,
@@ -1160,7 +1154,6 @@ export const scratchTopicsData = [
         correct_option: 'stop [all]',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-107-n5',
         order: 5,
@@ -1324,7 +1317,6 @@ export const scratchTopicsData = [
         correct_option: 'Pasang "hide" di bendera hijau pada induk, dan pasang "show" di "when I start as a clone"',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-108-n5',
         order: 5,
@@ -1493,7 +1485,6 @@ export const scratchTopicsData = [
         correct_option: 'Agar game tetap menantang dan pemain tidak merasa monoton atau bosan',
         xp: 25,
       },
-    ,
       {
         node_id: 'scr-109-n5',
         order: 5,
@@ -1662,7 +1653,6 @@ export const scratchTopicsData = [
         correct_option: 'Mampu memahami, merancang, memecahkan masalah (debug), dan membangun game interaktif secara mandiri',
         xp: 30,
       },
-    ,
       {
         node_id: 'scr-110-n5',
         order: 5,
