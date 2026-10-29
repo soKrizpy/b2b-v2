@@ -5,7 +5,7 @@ export const MAX_LESSON_SLIDES = 20;
 
 export type LessonSlide = Record<string, unknown>;
 
-const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice']);
+const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice', 'challenge']);
 
 function nonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
@@ -54,9 +54,10 @@ function isAuthoredInstructionalSlide(item: unknown): item is LessonSlide {
 
 /**
  * Normalize the authored learningPath for the Quest Map lesson modal.
- * Only supported instructional nodes with a title and substantive content count
- * as slides. Quiz/challenge markers, unknown types, and malformed/empty nodes do
- * not count as instructional slides. Authored lessons are never truncated.
+ * Supported instructional nodes and authored challenge nodes with a title and
+ * substantive content count toward the 10–20 node target. Quiz markers, unknown
+ * types, and malformed/empty nodes do not count as instructional slides.
+ * Authored lessons are never truncated.
  */
 export function getInstructionalSlides(learningPath: unknown): LessonSlide[] {
   if (!Array.isArray(learningPath)) return [];
