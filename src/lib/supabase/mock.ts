@@ -349,7 +349,8 @@ function createInitialMockStore(): MockStore {
       { student_id: 'student-demo-1', module_id: 1, status: 'active' },
       { student_id: 'student-demo-2', module_id: 1, status: 'active' },
     ],
-    meetings: scratchTopicsData.map((t, idx) => ({
+    meetings: [
+      ...scratchTopicsData.map((t, idx) => ({
       id: idx + 1,
       title: `Sesi ${idx + 1}: ${t.topic_title}`,
       meeting_date: idx === 0 ? yesterday : idx === 1 ? inTwoHours : nextWeek,
@@ -382,6 +383,7 @@ function createInitialMockStore(): MockStore {
         progress_report: 'Data dummy invoice test.',
         created_at: yesterday,
       })),
+    ],
     meeting_students: [
       {
         meeting_id: 1,
