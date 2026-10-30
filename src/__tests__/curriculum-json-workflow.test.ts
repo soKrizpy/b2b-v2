@@ -93,6 +93,12 @@ const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
   title: `Materi ${index + 1}`,
   content: `Isi materi ${index + 1}`,
 }));
+const validQuiz = Array.from({ length: 5 }, (_, index) => ({
+  question: `Pertanyaan ${index + 1}`,
+  options: ['A', 'B', 'C', 'D'],
+  answer_index: index % 4,
+  explanation: `Penjelasan ${index + 1}`,
+}));
 
 describe('curriculum JSON round-trip workflow', () => {
   beforeEach(() => {
@@ -124,14 +130,14 @@ describe('curriculum JSON round-trip workflow', () => {
         module_title: 'Modul A',
         module_order: 0,
         topics: [
-          { topic_title: 'Topik A1', topic_order: 0, nodes: [] },
-          { topic_title: 'Topik A2', topic_order: 1, nodes: [] },
+          { topic_title: 'Topik A1', topic_order: 0, nodes: lessonNodes, quiz: validQuiz },
+          { topic_title: 'Topik A2', topic_order: 1, nodes: lessonNodes, quiz: validQuiz },
         ],
       },
       {
         module_title: 'Modul B',
         module_order: 1,
-        topics: [{ topic_title: 'Topik B1', topic_order: 0, nodes: [] }],
+        topics: [{ topic_title: 'Topik B1', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
       },
     ]);
 
@@ -140,7 +146,7 @@ describe('curriculum JSON round-trip workflow', () => {
     expect(state.appliedWrites.filter((write) => write.table === 'topics')).toHaveLength(3);
   });
 
-  it('publishes a topic with its authored slide content without inventing filler to reach ten', async () => {
+  it('rejects a topic with fewer than ten authored nodes instead of inventing filler', async () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul sumber ringkas',
       module_order: 0,
@@ -148,14 +154,12 @@ describe('curriculum JSON round-trip workflow', () => {
         topic_title: 'Satu topik dari sumber',
         topic_order: 0,
         nodes: [{ node_id: 'source-1', order: 0, type: 'theory', title: 'Konsep autentik', content: 'Penjelasan yang bersumber.' }],
+        quiz: validQuiz,
       }],
     }]);
 
-    expect(result).toMatchObject({ success: true, stats: { modules: 1, topics: 1 } });
-    expect(state.appliedWrites.find((write) => write.table === 'topics')?.values).toMatchObject({
-      status: 'published',
-      lesson_content: { learningPath: [{ title: 'Konsep autentik', content: 'Penjelasan yang bersumber.' }] },
-    });
+    expect(result.success).toBe(false);
+    expect(state.writes).toEqual([]);
   });
 
   it('stores lesson, quiz, assessment, and structured challenge payloads without losing authored node order', async () => {
@@ -167,7 +171,7 @@ describe('curriculum JSON round-trip workflow', () => {
         topic_title: 'Gerak Sprite',
         topic_order: 1,
         nodes: lessonNodes,
-        quiz: [{ question: 'Apa hasilnya?', options: ['A', 'B', 'C', 'D'], answer_index: 0, explanation: 'A benar.' }],
+        quiz: validQuiz,
         challenge: {
           title: 'Buat animasi',
           instructions: 'Kirim tautan project.',
@@ -253,7 +257,7 @@ describe('curriculum JSON round-trip workflow', () => {
   });
 
   it('round-trips imported topic materials, quiz, challenge, and final assessment through export', async () => {
-    const quiz = [{ question: 'Soal round-trip?', options: ['A', 'B', 'C', 'D'], answer_index: 2, explanation: 'C benar.' }];
+    const quiz = validQuiz;
     const challenge = { title: 'Kirim project', instructions: 'Lampirkan tautan.', submission_type: 'link' as const, xp: 55 };
     const importPayload = [{
       module_title: 'Round-trip module',
@@ -347,7 +351,7 @@ describe('curriculum JSON round-trip workflow', () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul gagal',
       module_order: 0,
-      topics: [{ topic_title: 'Topik gagal', topic_order: 0, nodes: [] }],
+      topics: [{ topic_title: 'Topik gagal', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
     }]);
     expect(result).toMatchObject({ success: false });
     if (!result.success) expect(result.error).toContain('parsial mungkin sudah tersimpan');
@@ -361,7 +365,7 @@ describe('curriculum JSON round-trip workflow', () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul gagal dibuat',
       module_order: 0,
-      topics: [{ topic_title: 'Topik tidak ditulis', topic_order: 0, nodes: [] }],
+      topics: [{ topic_title: 'Topik tidak ditulis', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
     }]);
 
     expect(result).toMatchObject({ success: false });
@@ -378,7 +382,8 @@ describe('curriculum JSON round-trip workflow', () => {
       topics: [{
         topic_title: 'Topik challenge gagal',
         topic_order: 0,
-        nodes: [],
+        nodes: lessonNodes,
+        quiz: validQuiz,
         challenge: { title: 'Challenge', instructions: 'Kirim link', submission_type: 'link' },
       }],
     }]);
@@ -426,7 +431,14 @@ describe('curriculum JSON round-trip workflow', () => {
         id: 81,
         title: 'Topik tanpa challenge aktif',
         order_index: 0,
-        lesson_content: { learningPath: [], activeChallengeIds: [] },
+        lesson_content: {
+          learningPath: lessonNodes.map((node) => ({
+            id: node.node_id, order: node.order, type: node.type,
+            title: node.title, content: node.content,
+          })),
+          quiz: validQuiz,
+          activeChallengeIds: [],
+        },
       }],
     }];
     state.challengeRows = [{ id: 501, topic_id: 81, title: 'Challenge lama', instructions: 'Riwayat', allows_file_upload: false }];
