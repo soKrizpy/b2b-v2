@@ -81,6 +81,18 @@ export default async function TeacherDashboardPage() {
         </div>
       </div>
 
+      {/* ── Jadwal Kelas (Tabbed 3-Column Grid) ─────────────── */}
+      <section>
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-white/10 to-transparent" />
+          <h2 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap flex items-center gap-2">
+            <i className="fa-solid fa-calendar-days text-blue-500 dark:text-purple-400" /> Jadwal Kelas Guru
+          </h2>
+          <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
+        </div>
+        <TeacherScheduleCards meetings={meetings} renderTimestamp={renderTimestamp} />
+      </section>
+
       {/* ── Mentored Students Quick Link ─────────────────────── */}
       <Link
         href="/teacher/students"
@@ -102,18 +114,6 @@ export default async function TeacherDashboardPage() {
         </div>
         <i className="fa-solid fa-chevron-right text-slate-400 dark:text-slate-600 group-hover:text-blue-500 dark:group-hover:text-purple-400 transition-colors" />
       </Link>
-
-      {/* ── Jadwal Kelas (Tabbed 3-Column Grid) ─────────────── */}
-      <section>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-white/10 to-transparent" />
-          <h2 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap flex items-center gap-2">
-            <i className="fa-solid fa-calendar-days text-blue-500 dark:text-purple-400" /> Jadwal Kelas Guru
-          </h2>
-          <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
-        </div>
-        <TeacherScheduleCards meetings={meetings} renderTimestamp={renderTimestamp} />
-      </section>
     </div>
   );
 }
