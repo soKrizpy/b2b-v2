@@ -27,7 +27,7 @@ const challengeSchema = z.object({
 
 const submitSchema = z.object({
   challenge_id:    z.coerce.number().int().positive(),
-  submission_url:  z.string().url('Link submission tidak valid').optional().or(z.literal('')),
+  submission_url:  z.string().trim().min(1, 'Link karya wajib diisi.').url('Link submission tidak valid.'),
   submission_note: z.string().max(1000).optional(),
 });
 
@@ -315,7 +315,8 @@ export async function submitChallenge(
 
   revalidatePath('/student/lessons', 'layout');
   revalidatePath('/teacher/submissions', 'layout');
-  return { success: true, id: data!.id, message: 'Submission berhasil dikirim! Tunggu review dari guru.' };
+  revalidatePath('/student/parent-hub', 'page');
+  return { success: true, id: data!.id, message: 'Link karya berhasil dikirim dan masuk ke portofolio Parent Hub. Tunggu review dari guru.' };
 }
 
 // â”€â”€ Teacher: review submission â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
