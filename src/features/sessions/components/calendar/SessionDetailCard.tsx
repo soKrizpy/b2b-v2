@@ -81,11 +81,6 @@ export function SessionDetailCard({
             Sesi {meeting.session_number}/{meeting.session_count}
           </span>
         )}
-        {meeting.topic_title && (
-          <p className="mt-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300 line-clamp-2">
-            Topik terbuka: {meeting.topic_title}
-          </p>
-        )}
       </div>
 
       {/* Chips */}
