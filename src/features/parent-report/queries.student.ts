@@ -154,7 +154,7 @@ export async function getStudentHubBundle(
     msRows,
     { data: tpAll },
     { data: enrollments },
-    { data: approvedSubs },
+    { data: portfolioSubs },
     certificates,
     { data: invoiceRows },
   ] = await Promise.all([
