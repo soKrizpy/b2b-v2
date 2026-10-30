@@ -199,9 +199,9 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
 }
 
 STRICT CONTENT RULES:
-- Generate between 10 and 20 learning slides for this topic (inclusive), represented as 10–20 items in the schema `nodes` array. Each node is one structured learning slide/card; do not add a separate `slides` field because the import schema is strict. Include a meaningful mix of lesson/theory, code, practice, and at least one challenge node.
+- Generate between 10 and 20 learning slides for this topic (inclusive), represented as 10–20 items in the schema \`nodes\` array. Each node is one structured learning slide/card; do not add a separate \`slides\` field because the import schema is strict. Include a meaningful mix of lesson/theory, code, practice, and at least one challenge node.
 - Generate exactly 5 quiz questions for this topic. Each question must have exactly 4 options, one correct answer_index (0-3), and a meaningful explanation.
-- Keep the module final exam separate from topic quizzes. Do not create a per-topic exam. The platform has a separate module-level `final_assessment` with exactly 20 questions; it must unlock only after the student completes every published topic in the module and assess the combined learning outcomes across all topics. This endpoint generates one topic at a time, so do not fabricate a module-wide `final_assessment` from this single topic. Keep the JSON compatible with the strict curriculum import schema.
+- Keep the module final exam separate from topic quizzes. Do not create a per-topic exam. The platform has a separate module-level \`final_assessment\` with exactly 20 questions; it must unlock only after the student completes every published topic in the module and assess the combined learning outcomes across all topics. This endpoint generates one topic at a time, so do not fabricate a module-wide \`final_assessment\` from this single topic. Keep the JSON compatible with the strict curriculum import schema.
 - Keep the challenge submission_type as "link"; students must submit a working public project URL.
 Make the content engaging, age-appropriate (10-16 years old), and educational.
 All text must be in ${lang}.
