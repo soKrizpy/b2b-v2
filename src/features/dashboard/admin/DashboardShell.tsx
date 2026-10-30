@@ -23,15 +23,15 @@ interface Props {
 const ITEMS_PER_PAGE = 9;
 
 function activityLabel(m: MeetingWithStudents, now: Date): string {
-  if (m.is_completed) return `Kelas "${m.title}" selesai`;
-  if (isLive(m.meeting_date, now)) return `Kelas "${m.title}" sedang berlangsung`;
-  return `Jadwal: "${m.title}"`;
+  if (m.is_completed) return 'Kelas "' + m.title + '" selesai';
+  if (isLive(m.meeting_date, now)) return 'Kelas "' + m.title + '" sedang berlangsung';
+  return 'Kelas "' + m.title + '" belum ditandai selesai';
 }
 
 function activityIcon(m: MeetingWithStudents, now: Date): string {
-  if (m.is_completed)         return '✓';
+  if (m.is_completed) return '✓';
   if (isLive(m.meeting_date, now)) return '🔴';
-  return '📅';
+  return '⚠️';
 }
 
 function getTimeUntil(dateIso: string, now: Date): string {
@@ -120,10 +120,11 @@ export function DashboardShell({
   );
 
   const recentActivity = useMemo(() => {
-    return [...meetings]
+    return meetings
+      .filter((meeting) => new Date(meeting.meeting_date).getTime() <= renderNow.getTime())
       .sort((a, b) => new Date(b.meeting_date).getTime() - new Date(a.meeting_date).getTime())
       .slice(0, 5);
-  }, [meetings]);
+  }, [meetings, renderNow]);
 
   return (
     <div className="space-y-8 animate-fade-in-up">
@@ -167,7 +168,7 @@ export function DashboardShell({
       </div>
 
       {/* KPI Stat Cards Grid — Modern solid backgrounds with thicker borders in light mode and majestic neon glow in dark mode */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-emerald-500/40 dark:border-emerald-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(16,185,129,0.22)] ring-1 ring-emerald-500/20 dark:ring-emerald-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <div className="flex items-center justify-between">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 inline-flex items-center gap-2">
@@ -193,17 +194,36 @@ export function DashboardShell({
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-purple-500/40 dark:border-purple-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(168,85,247,0.22)] ring-1 ring-purple-500/20 dark:ring-purple-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <span className="text-xs font-extrabold uppercase tracking-wider text-purple-700 dark:text-purple-300 inline-flex items-center gap-2">
             <i className="fa-solid fa-user-graduate text-purple-500 dark:text-purple-400" />
-            MURID AKTIF
+            TOTAL SISWA
           </span>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
-            {metrics.activeStudentsCount}
+            {metrics.totalStudentsCount}
           </p>
         </div>
 
+        <div className="bg-white dark:bg-[#0B0F19] border-2 border-indigo-500/40 dark:border-indigo-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(99,102,241,0.18)] ring-1 ring-indigo-500/20 dark:ring-indigo-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 inline-flex items-center gap-2">
+            <i className="fa-solid fa-chalkboard-user text-indigo-500 dark:text-indigo-400" />
+            TOTAL GURU
+          </span>
+          <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
+            {metrics.totalTeachersCount}
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-[#0B0F19] border-2 border-cyan-500/40 dark:border-cyan-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(6,182,212,0.18)] ring-1 ring-cyan-500/20 dark:ring-cyan-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-cyan-700 dark:text-cyan-300 inline-flex items-center gap-2">
+            <i className="fa-solid fa-calendar-check text-cyan-500 dark:text-cyan-400" />
+            JADWAL MENDATANG
+          </span>
+          <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
+            {metrics.upcomingSessionsCount}
+          </p>
+        </div>
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-amber-500/40 dark:border-amber-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(245,158,11,0.22)] ring-1 ring-amber-500/20 dark:ring-amber-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-300 inline-flex items-center gap-2">
             <i className="fa-solid fa-triangle-exclamation text-amber-500 dark:text-amber-400" />
-            PERLU TINDAKAN
+            JADWAL TANPA LINK
           </span>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
             {metrics.needsAttentionCount} <span className="text-xs font-bold text-amber-600 dark:text-amber-300">(No Link)</span>
@@ -424,11 +444,15 @@ export function DashboardShell({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
           <h2 className="text-base font-black text-slate-900 dark:text-white inline-flex items-center gap-2 mb-4">
-            <i className="fa-solid fa-clock-rotate-left text-blue-500 dark:text-cyan-400" /> Aktivitas Terkini
+            <i className="fa-solid fa-clock-rotate-left text-blue-500 dark:text-cyan-400" /> Riwayat Pertemuan Terakhir
           </h2>
 
           <div className="space-y-3">
-            {recentActivity.map((m) => (
+            {recentActivity.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 px-4 py-8 text-center text-sm text-slate-600 dark:text-slate-300">
+                Belum ada pertemuan yang waktunya telah lewat.
+              </p>
+            ) : recentActivity.map((m) => (
               <div
                 key={m.id}
                 className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/70 dark:bg-zinc-900/60 border border-blue-100 dark:border-zinc-800/80 hover:border-blue-400 dark:hover:border-purple-500/50 transition-colors duration-200"
@@ -450,7 +474,7 @@ export function DashboardShell({
                     ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20'
                     : 'bg-blue-500/10 dark:bg-purple-500/15 text-blue-700 dark:text-purple-300 border-blue-500/20 dark:border-purple-500/30'
                 }`}>
-                  {m.is_completed ? 'Selesai' : 'Dijadwalkan'}
+                  {m.is_completed ? 'Selesai' : isLive(m.meeting_date, renderNow) ? 'Berlangsung' : 'Belum ditandai selesai'}
                 </span>
               </div>
             ))}
