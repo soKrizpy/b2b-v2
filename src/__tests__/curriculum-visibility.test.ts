@@ -168,14 +168,6 @@ describe('Quest Map and topic visibility', () => {
   });
 
   it('rejects publishing a topic with authored source content below the required 10-node minimum', async () => {
-    state.topicLessonContent = {
-      learningPath: [{
-        id: 'source-slide-1',
-        type: 'lesson',
-        title: 'Satu konsep dari sumber',
-        content: 'Materi yang benar-benar tersedia dari sumber.',
-      }],
-    };
     const formData = new FormData();
     formData.set('id', '10');
     formData.set('module_id', '1');
