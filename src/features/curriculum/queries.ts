@@ -336,11 +336,8 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
   ]);
 
   if (meetingsError || directStudentsError) {
-    console.error('[getTeacherModulesWithTopics] teacher relationships', {
-      meetings: meetingsError?.message,
-      directStudents: directStudentsError?.message,
-    });
-    return [];
+    const details = [meetingsError?.message, directStudentsError?.message].filter(Boolean).join('; ');
+    throw new Error(`[getTeacherModulesWithTopics] teacher relationships: ${details}`);
   }
 
   const meetingIds = (meetings ?? []).map((meeting) => meeting.id);
@@ -352,8 +349,7 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
     : { data: [] as Array<{ student_id: string }>, error: null };
 
   if (meetingStudentsResult.error) {
-    console.error('[getTeacherModulesWithTopics] meeting students', meetingStudentsResult.error.message);
-    return [];
+    throw new Error(`[getTeacherModulesWithTopics] meeting students: ${meetingStudentsResult.error.message}`);
   }
 
   const studentIds = Array.from(new Set([
@@ -372,8 +368,7 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
     };
 
   if (enrollmentError) {
-    console.error('[getTeacherModulesWithTopics] active enrollments', enrollmentError.message);
-    return [];
+    throw new Error(`[getTeacherModulesWithTopics] active enrollments: ${enrollmentError.message}`);
   }
 
   const moduleIds = Array.from(new Set((enrollments ?? []).map((row) => row.module_id)));
@@ -393,12 +388,10 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
   ]);
 
   if (moduleError) {
-    console.error('[getTeacherModulesWithTopics] modules', moduleError.message);
-    return [];
+    throw new Error(`[getTeacherModulesWithTopics] modules: ${moduleError.message}`);
   }
   if (topicError) {
-    console.error('[getTeacherModulesWithTopics] topics', topicError.message);
-    return [];
+    throw new Error(`[getTeacherModulesWithTopics] topics: ${topicError.message}`);
   }
 
   const topicRows = (topics ?? []) as unknown as TopicRow[];
@@ -415,7 +408,7 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
       };
 
     if (challengeError) {
-      console.error('[getTeacherModulesWithTopics] challenge counts', challengeError.message);
+      throw new Error(`[getTeacherModulesWithTopics] challenge counts: ${challengeError.message}`);
     } else {
       (challenges ?? []).forEach((challenge) => {
         challengeCounts.set(challenge.topic_id, (challengeCounts.get(challenge.topic_id) ?? 0) + 1);
