@@ -319,7 +319,7 @@ export function AnnouncementManager() {
       {/* Active List */}
       <div className="flex flex-col gap-3">
         <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-          Daftar Pengumuman Aktif ({announcements.length})
+          Daftar Pengumuman ({announcements.length})
         </h4>
 
         {announcements.length === 0 ? (
@@ -338,7 +338,7 @@ export function AnnouncementManager() {
                   className={`p-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                     ann.is_active
                       ? 'bg-white dark:bg-slate-900 border-slate-200/90 dark:border-purple-500/30 dark:shadow-[0_0_12px_rgba(168,85,247,0.12)]'
-                      : 'bg-slate-50 dark:bg-slate-950/70 border-slate-200/80 dark:border-slate-800 opacity-70'
+                      : 'bg-slate-50 dark:bg-slate-950/70 border-slate-200/80 dark:border-slate-800'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">
