@@ -17,7 +17,7 @@ export default async function TeacherTopicPage({ params }: Props) {
 
   const auth = await getAuthUser();
   if (!auth.ok) redirect('/login');
-  if (auth.role !== 'teacher') redirect('/');
+  if (auth.role !== 'teacher' && auth.role !== 'admin') redirect('/');
 
   const topic = await getTopicById(id);
   if (!topic || topic.status !== 'published') notFound();
@@ -31,8 +31,8 @@ export default async function TeacherTopicPage({ params }: Props) {
 
   return (
     <main className="mx-auto max-w-4xl space-y-6">
-      <Link href="/teacher/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-purple-300">
-        <span aria-hidden="true">←</span> Kembali ke Jadwal Guru
+      <Link href={auth.role === 'admin' ? '/admin/dashboard' : '/teacher/dashboard'} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-purple-300">
+        <span aria-hidden="true">←</span> Kembali ke Dashboard
       </Link>
 
       <header className="rounded-3xl border border-blue-200 bg-white p-6 shadow-sm dark:border-purple-500/30 dark:bg-zinc-900 sm:p-8">
