@@ -14,6 +14,12 @@ import {
   generateContentWithFallback,
 } from '@/features/ai/gemini';
 import { requireAdmin, getAuthUser } from '@/lib/auth';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { revalidatePath } from 'next/cache';
+import {
+  encodeFinalAssessment,
+  finalAssessmentSchema,
+} from '@/features/curriculum/validation';
 
 export type AiResult<T = string> =
   | { success: true;  data: T }
@@ -228,7 +234,169 @@ Return ONLY the JSON object, nothing else.
   }
 }
 
-// ── 2. explainQuizAnswer ──────────────────────────────────────────────────────
+// ── 2. generateModuleFinalAssessment ──────────────────────────────────────────
+// Generates and persists a 20-question exam from every published topic in a module.
+
+export async function generateModuleFinalAssessment(
+  moduleId: number
+): Promise<AiResult<{ topicCount: number; questionCount: number }>> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+  if (!hasGeminiApiKey()) {
+    return { success: false, error: 'Fitur AI belum dikonfigurasi (GEMINI_API_KEY belum tersedia).' };
+  }
+  if (!Number.isSafeInteger(moduleId) || moduleId <= 0) {
+    return { success: false, error: 'ID modul tidak valid.' };
+  }
+
+  const db = createSupabaseAdminClient();
+  const [{ data: moduleRow, error: moduleError }, { data: topicRows, error: topicsError }] = await Promise.all([
+    db.from('modules').select('id, title, description').eq('id', moduleId).maybeSingle(),
+    db.from('topics')
+      .select('id, title, description, lesson_content, status, order_index')
+      .eq('module_id', moduleId)
+      .eq('status', 'published')
+      .order('order_index', { ascending: true })
+      .order('id', { ascending: true }),
+  ]);
+
+  if (moduleError || !moduleRow) {
+    return { success: false, error: moduleError?.message ?? 'Modul tidak ditemukan.' };
+  }
+  if (topicsError) {
+    return { success: false, error: `Gagal membaca topik modul: ${topicsError.message}` };
+  }
+
+  const publishedTopics = topicRows ?? [];
+  if (publishedTopics.length === 0) {
+    return { success: false, error: 'Belum ada topik berstatus published. Terbitkan topik terlebih dahulu.' };
+  }
+
+  const topicContext = publishedTopics.map((topic, index) => {
+    const lessonContent = topic.lesson_content && typeof topic.lesson_content === 'object'
+      ? topic.lesson_content as Record<string, unknown>
+      : {};
+    const nodes = Array.isArray(lessonContent.learningPath)
+      ? lessonContent.learningPath
+      : [];
+    const nodeSummaries = nodes.map((rawNode) => {
+      if (!rawNode || typeof rawNode !== 'object') return '';
+      const node = rawNode as Record<string, unknown>;
+      return [
+        typeof node.title === 'string' ? node.title : '',
+        typeof node.content === 'string' ? node.content : '',
+        typeof node.instructions === 'string' ? node.instructions : '',
+        typeof node.code_content === 'string' ? node.code_content : '',
+      ].filter(Boolean).join(' — ');
+    }).filter(Boolean);
+    const quizQuestions = Array.isArray(lessonContent.quiz)
+      ? lessonContent.quiz.map((rawQuestion) => {
+          if (!rawQuestion || typeof rawQuestion !== 'object') return '';
+          const question = rawQuestion as Record<string, unknown>;
+          return typeof question.question === 'string' ? question.question : '';
+        }).filter(Boolean)
+      : [];
+
+    return [
+      `TOPIK ${index + 1}: ${topic.title}`,
+      topic.description ? `Ringkasan: ${topic.description}` : '',
+      'Materi inti:',
+      ...nodeSummaries,
+      'Pokok kuis:',
+      ...quizQuestions,
+    ].filter(Boolean).join('\n');
+  }).join('\n\n').slice(0, 24000);
+
+  const prompt = `
+Kamu adalah penyusun asesmen kompetensi untuk LMS coding Bits2Bytes.
+Susun UJIAN AKHIR MODUL berdasarkan seluruh topik published di bawah ini.
+Nama modul: "${moduleRow.title}"
+Jumlah topik yang wajib tercakup: ${publishedTopics.length}
+
+KONTEKS MATERI:
+${topicContext}
+
+Keluarkan HANYA JSON valid dengan struktur persis:
+{
+  "title": "Ujian Akhir Modul: ${moduleRow.title}",
+  "duration_minutes": 40,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Pertanyaan...",
+      "options": ["A", "B", "C", "D"],
+      "answer_index": 0,
+      "explanation": "Penjelasan..."
+    }
+  ]
+}
+
+ATURAN WAJIB:
+- Tepat 20 soal, id berurutan 1 sampai 20.
+- Setiap soal harus memiliki tepat 4 opsi, satu answer_index bernilai 0 sampai 3, dan explanation yang menjelaskan alasan jawaban benar.
+- Sebarkan cakupan secara proporsional ke SELURUH ${publishedTopics.length} topik di atas. Jangan hanya menguji topik pertama atau topik terakhir.
+- Uji pemahaman konsep, penerapan, penalaran, membaca/memperbaiki kode, dan pemecahan masalah sesuai materi yang benar-benar diajarkan.
+- Jangan memasukkan konsep, sintaks, atau jawaban yang tidak didukung materi modul.
+- Jangan menyalin mentah soal kuis topik; buat soal ujian gabungan yang mengukur pemahaman lintas topik.
+- Bahasa Indonesia, jelas, ramah usia 10–16 tahun, tidak ambigu, dan tidak menggunakan pilihan "semua jawaban benar".
+- Distribusikan posisi jawaban benar secara bervariasi.
+- Jangan menambahkan markdown, komentar, properti lain, atau teks di luar JSON.
+`.trim();
+
+  try {
+    const generated = await generateContentWithFallback({
+      contents: prompt,
+      config: {
+        temperature: 0.45,
+        topP: 0.85,
+        responseMimeType: 'application/json',
+      },
+    });
+    const clean = generated
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
+
+    let parsedJson: unknown;
+    try {
+      parsedJson = JSON.parse(clean);
+    } catch {
+      return { success: false, error: 'Gemini mengembalikan JSON yang tidak valid. Silakan coba generate ulang.' };
+    }
+
+    const parsed = finalAssessmentSchema.safeParse(parsedJson);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      return {
+        success: false,
+        error: `Hasil ujian dari Gemini tidak memenuhi schema 20 soal: ${issue?.message ?? 'format tidak valid'}.`,
+      };
+    }
+
+    const { error: saveError } = await db
+      .from('modules')
+      .update({ description: encodeFinalAssessment(parsed.data) } as never)
+      .eq('id', moduleId);
+    if (saveError) {
+      return { success: false, error: `Ujian berhasil dibuat tetapi gagal disimpan: ${saveError.message}` };
+    }
+
+    revalidatePath(`/admin/curriculum/${moduleId}`, 'layout');
+    revalidatePath('/student/lessons', 'layout');
+    revalidatePath(`/student/assessment/${moduleId}`, 'layout');
+
+    return {
+      success: true,
+      data: { topicCount: publishedTopics.length, questionCount: parsed.data.questions.length },
+    };
+  } catch (error) {
+    console.error('[generateModuleFinalAssessment]', error);
+    return { success: false, error: 'Gemini gagal menyusun ujian akhir modul. Silakan coba lagi.' };
+  }
+}
+
+// ── 3. explainQuizAnswer ──────────────────────────────────────────────────────
 // Returns a richer, conversational explanation for a quiz question the student
 // got wrong. No auth restriction — student role check via getAuthUser.
 
@@ -285,7 +453,7 @@ Tolong berikan penjelasan yang lebih panjang dan mudah dipahami dalam Bahasa Ind
   }
 }
 
-// ── 3. draftProgressReport ────────────────────────────────────────────────────
+// ── 4. draftProgressReport ────────────────────────────────────────────────────
 // Drafts a progress report for a teacher or admin to edit before submitting.
 
 export async function draftProgressReport(
@@ -340,7 +508,7 @@ Tulis laporan saja, tanpa judul atau header tambahan.
   }
 }
 
-// ── 4. chatWithTutor ──────────────────────────────────────────────────────────
+// ── 5. chatWithTutor ──────────────────────────────────────────────────────────
 // Topic-aware AI tutor. Receives the topic context + conversation history.
 
 export interface ChatMessage {
