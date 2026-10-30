@@ -28,6 +28,8 @@ vi.mock('@/lib/supabase/admin', () => ({
           query.filters.push(['eq', column, value]);
           return query;
         },
+        // Parent Hub excludes submissions without a public project URL.
+        not: () => query,
         in: (column: string, value: unknown) => {
           query.filters.push(['in', column, value]);
           return query;
