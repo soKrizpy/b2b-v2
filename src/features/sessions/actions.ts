@@ -225,24 +225,42 @@ export async function updateSession(
   if (!v.success) return { success: false, error: v.error, fields: v.fields };
 
   const patch = v.data as UpdateInput;
-  const curriculumChanged = patch.module_id !== undefined || patch.topic_id !== undefined;
-  if (curriculumChanged) {
-    if (patch.module_id === undefined || patch.topic_id === undefined) {
-      return { success: false, error: 'Pilih modul dan topik untuk menghubungkan kurikulum ke jadwal.' };
-    }
-    if (editMode === 'series') {
-      return { success: false, error: 'Pengaitan topik dilakukan per pertemuan. Pilih “Perbarui hanya sesi ini” agar topik sesi lain tidak tertimpa.' };
-    }
+  const curriculumFieldsProvided = patch.module_id !== undefined || patch.topic_id !== undefined;
+  let curriculumChanged = false;
+  if (curriculumFieldsProvided) {
     const dbForModuleCheck = createSupabaseAdminClient();
-    const { data: selectedTopic, error: topicCheckError } = await (dbForModuleCheck
-      .from('topics')
-      .select('id')
-      .eq('id', patch.topic_id)
-      .eq('module_id', patch.module_id)
-      .eq('status', 'published')
-      .maybeSingle() as unknown as Promise<{ data: { id: number } | null; error: unknown }>);
-    if (topicCheckError || !selectedTopic) {
-      return { success: false, error: 'Topik tidak cocok dengan modul atau belum diterbitkan. Muat ulang pilihan kurikulum.' };
+    const { data: existingMeeting, error: existingMeetingError } = await (dbForModuleCheck
+      .from('meetings')
+      .select('module_id, topic_id')
+      .eq('id', id)
+      .maybeSingle() as unknown as Promise<{
+        data: { module_id: number | null; topic_id: number | null } | null;
+        error: unknown;
+      }>);
+    if (existingMeetingError || !existingMeeting) {
+      return { success: false, error: 'Jadwal tidak ditemukan saat memeriksa pengaitan kurikulum.' };
+    }
+    curriculumChanged =
+      patch.module_id !== existingMeeting.module_id ||
+      patch.topic_id !== existingMeeting.topic_id;
+
+    if (curriculumChanged) {
+      if (patch.module_id === undefined || patch.topic_id === undefined) {
+        return { success: false, error: 'Pilih modul dan topik untuk menghubungkan kurikulum ke jadwal.' };
+      }
+      if (editMode === 'series') {
+        return { success: false, error: 'Pengaitan topik dilakukan per pertemuan. Pilih “Perbarui hanya sesi ini” agar topik sesi lain tidak tertimpa.' };
+      }
+      const { data: selectedTopic, error: topicCheckError } = await (dbForModuleCheck
+        .from('topics')
+        .select('id')
+        .eq('id', patch.topic_id)
+        .eq('module_id', patch.module_id)
+        .eq('status', 'published')
+        .maybeSingle() as unknown as Promise<{ data: { id: number } | null; error: unknown }>);
+      if (topicCheckError || !selectedTopic) {
+        return { success: false, error: 'Topik tidak cocok dengan modul atau belum diterbitkan. Muat ulang pilihan kurikulum.' };
+      }
     }
   }
   // Merge teacher_id into the patch (not part of Zod schema â€” handled separately)
@@ -250,6 +268,10 @@ export async function updateSession(
     string,
     unknown
   >;
+  if (editMode === 'series' && !curriculumChanged) {
+    delete patchWithTeacher.module_id;
+    delete patchWithTeacher.topic_id;
+  }
   const db = createSupabaseAdminClient();
 
   if (editMode === 'series' && seriesId) {
