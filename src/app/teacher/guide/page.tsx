@@ -18,7 +18,7 @@ export default async function TeacherGuidePage() {
   if (!auth.ok) redirect('/login');
   if (auth.role !== 'teacher') redirect('/login');
 
-  let modules = [];
+  let modules: Awaited<ReturnType<typeof getTeacherModulesWithTopics>> = [];
   let loadFailed = false;
   try {
     modules = await getTeacherModulesWithTopics(auth.user.id);
