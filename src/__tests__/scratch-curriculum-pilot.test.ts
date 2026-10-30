@@ -1,16 +1,16 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getInstructionalSlides } from '@/features/curriculum/lessonSlides';
-import { curriculumJsonSchema } from '@/features/curriculum/validation';
+import { curriculumJsonSchema, topicImportSchema } from '@/features/curriculum/validation';
 
 describe('Scratch curriculum pilot', () => {
-  it('validates the 10 authored instructional steps and preserves the existing topic quiz and challenge', () => {
+  it('validates the authored first topic and blocks the incomplete module as a whole', () => {
     const file = readFileSync('public/curriculum/scratch-game-development.json', 'utf8');
     const parsedJson: unknown = JSON.parse(file);
-    const modules = curriculumJsonSchema.parse(parsedJson);
-    const pilot = modules[0].topics[0];
+    const [module] = parsedJson as Array<{ topics: unknown[] }>;
+    const pilot = topicImportSchema.parse(module.topics[0]);
 
-    expect(modules[0].topics).toHaveLength(10);
+    expect(module.topics).toHaveLength(10);
     expect(pilot.topic_title).toBe('Pengenalan Sprite & Sistem Koordinat X-Y');
     expect(pilot.nodes).toHaveLength(10);
     expect(new Set(pilot.nodes.map((node) => node.node_id)).size).toBe(10);
@@ -27,5 +27,9 @@ describe('Scratch curriculum pilot', () => {
       expect(node.options).toHaveLength(4);
       expect(node.options).toContain(node.correct_option);
     }
+
+    // The remaining legacy topics have fewer than ten nodes, so importing the
+    // entire module must fail closed until those topics are authored completely.
+    expect(curriculumJsonSchema.safeParse(parsedJson).success).toBe(false);
   });
 });
