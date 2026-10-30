@@ -315,3 +315,96 @@ export async function getStudentCompletedTopics(studentId: string): Promise<Topi
   }
   return (data ?? []) as TopicProgressSummary[];
 }
+
+
+/**
+ * Published curriculum available to a teacher through their currently mentored
+ * students' active module enrollments. Draft topics are never exposed here.
+ */
+export async function getTeacherModulesWithTopics(teacherId: string): Promise<ModuleWithTopics[]> {
+  const db = createSupabaseAdminClient();
+
+  const [{ data: meetings }, { data: directStudents }] = await Promise.all([
+    db.from('meetings').select('id').eq('teacher_id', teacherId) as unknown as Promise<{
+      data: Array<{ id: number }> | null;
+    }>,
+    db.from('teacher_students').select('student_id').eq('teacher_id', teacherId) as unknown as Promise<{
+      data: Array<{ student_id: string }> | null;
+    }>,
+  ]);
+
+  const meetingIds = (meetings ?? []).map((meeting) => meeting.id);
+  const [{ data: meetingStudents },] = await Promise.all([
+    meetingIds.length > 0
+      ? db.from('meeting_students').select('student_id').in('meeting_id', meetingIds) as unknown as Promise<{
+          data: Array<{ student_id: string }> | null;
+        }>
+      : Promise.resolve({ data: [] as Array<{ student_id: string }> }),
+  ]);
+
+  const studentIds = Array.from(new Set([
+    ...(directStudents ?? []).map((row) => row.student_id),
+    ...(meetingStudents ?? []).map((row) => row.student_id),
+  ]));
+  if (studentIds.length === 0) return [];
+
+  const { data: enrollments } = await db
+    .from('student_modules')
+    .select('module_id')
+    .in('student_id', studentIds)
+    .eq('status', 'active') as unknown as {
+      data: Array<{ module_id: number }> | null;
+    };
+
+  const moduleIds = Array.from(new Set((enrollments ?? []).map((row) => row.module_id)));
+  if (moduleIds.length === 0) return [];
+
+  const [{ data: modules, error: moduleError }, { data: topics, error: topicError }] = await Promise.all([
+    db.from('modules')
+      .select('id, title, description, level, gamification_type, is_active, created_at')
+      .in('id', moduleIds)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false }),
+    db.from('topics')
+      .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
+      .in('module_id', moduleIds)
+      .eq('status', 'published')
+      .order('order_index', { ascending: true }),
+  ]);
+
+  if (moduleError) {
+    console.error('[getTeacherModulesWithTopics] modules', moduleError.message);
+    return [];
+  }
+  if (topicError) {
+    console.error('[getTeacherModulesWithTopics] topics', topicError.message);
+    return [];
+  }
+
+  const topicRows = (topics ?? []) as unknown as TopicRow[];
+  const topicIds = topicRows.map((topic) => topic.id);
+  const challengeCounts = new Map<number, number>();
+
+  if (topicIds.length > 0) {
+    const { data: challenges } = await db
+      .from('challenges')
+      .select('topic_id')
+      .in('topic_id', topicIds) as unknown as {
+        data: Array<{ topic_id: number }> | null;
+      };
+
+    (challenges ?? []).forEach((challenge) => {
+      challengeCounts.set(challenge.topic_id, (challengeCounts.get(challenge.topic_id) ?? 0) + 1);
+    });
+  }
+
+  return ((modules ?? []) as unknown as ModuleRow[]).map((module) => ({
+    ...module,
+    topics: topicRows
+      .filter((topic) => topic.module_id === module.id)
+      .map((topic) => ({
+        ...topic,
+        challenge_count: challengeCounts.get(topic.id) ?? 0,
+      })),
+  }));
+}
