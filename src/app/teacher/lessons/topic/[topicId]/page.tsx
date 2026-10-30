@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { getTopicById } from '@/features/curriculum/queries';
+import { getModuleById, getTopicById } from '@/features/curriculum/queries';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
 
 export const metadata: Metadata = { title: 'Materi & Panduan Mengajar — Bits2Bytes' };
@@ -23,12 +23,7 @@ export default async function TeacherTopicPage({ params }: Props) {
   const topic = await getTopicById(id);
   if (!topic || topic.status !== 'published') notFound();
 
-  const db = createSupabaseAdminClient();
-  const { data: module } = await db
-    .from('modules')
-    .select('id, title, description')
-    .eq('id', topic.module_id)
-    .maybeSingle();
+  const module = await getModuleById(topic.module_id);
 
   const lessonContent = topic.lesson_content as Record<string, unknown> | null;
   const learningPath: LearningNode[] = Array.isArray(lessonContent?.learningPath)
