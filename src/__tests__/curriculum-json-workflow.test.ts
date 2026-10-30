@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { curriculumJsonSchema } from '@/features/curriculum/validation';
+import { curriculumJsonSchema, topicImportSchema } from '@/features/curriculum/validation';
 import { exportCurriculumJson, importCurriculumJson, importCurriculumJsonForModule } from '@/features/curriculum/actions';
 
 type WriteRecord = { table: string; operation: string; values: unknown };
@@ -295,45 +295,16 @@ describe('curriculum JSON round-trip workflow', () => {
     expect(topic.challenge).toEqual(challenge);
   });
 
-  it('imports and exports the Scratch pilot learningPath without losing its authored steps', async () => {
+  it('blocks the legacy Scratch module until every topic meets the 10–20 node rule', async () => {
     const payload: unknown = JSON.parse(readFileSync('public/curriculum/scratch-game-development.json', 'utf8'));
-    const validated = curriculumJsonSchema.parse(payload);
+    const [module] = payload as Array<{ topics: unknown[] }>;
+    expect(module.topics).toHaveLength(10);
+    expect(topicImportSchema.safeParse(module.topics[0]).success).toBe(true);
+    expect(module.topics.slice(1).some((topic) => !topicImportSchema.safeParse(topic).success)).toBe(true);
+
     const result = await importCurriculumJson(payload);
-    expect(result).toMatchObject({ success: true, stats: { modules: 1, topics: 10 } });
-
-    const moduleWrite = state.appliedWrites.find((write) => write.table === 'modules')?.values as Record<string, unknown>;
-    const firstTopicWrite = state.appliedWrites.find((write) => write.table === 'topics')?.values as Record<string, unknown>;
-    const lessonContent = firstTopicWrite.lesson_content as { learningPath: Array<Record<string, unknown>>; quiz: unknown };
-    expect(lessonContent.learningPath).toHaveLength(10);
-    expect(lessonContent.learningPath.map((node) => node.id)).toEqual(validated[0].topics[0].nodes.map((node) => node.node_id));
-    expect(lessonContent.learningPath.map((node) => node.type)).toEqual(validated[0].topics[0].nodes.map((node) => node.type));
-    expect(lessonContent.quiz).toEqual(validated[0].topics[0].quiz);
-
-    state.exportModules = [{
-      id: state.nextModuleId,
-      title: moduleWrite.title,
-      description: moduleWrite.description,
-      level: moduleWrite.level,
-      gamification_type: moduleWrite.gamification_type,
-      topics: [{
-        id: state.nextTopicId,
-        title: firstTopicWrite.title,
-        order_index: firstTopicWrite.order_index,
-        description: firstTopicWrite.description,
-        project_link: firstTopicWrite.project_link,
-        lesson_content: lessonContent,
-      }],
-    }];
-    const firstChallenge = state.appliedWrites.find((write) => write.table === 'challenges')?.values as Record<string, unknown>;
-    state.challengeRows = [{ id: 501, topic_id: state.nextTopicId, ...firstChallenge }];
-
-    const exported = await exportCurriculumJson();
-    expect(exported.success).toBe(true);
-    if (!exported.success) return;
-    const [exportedModule] = exported.data as Array<{ topics: Array<{ nodes: Array<Record<string, unknown>>; quiz: unknown }> }>;
-    expect(exportedModule.topics[0].nodes).toHaveLength(10);
-    expect(exportedModule.topics[0].nodes.map((node) => node.node_id)).toEqual(validated[0].topics[0].nodes.map((node) => node.node_id));
-    expect(exportedModule.topics[0].quiz).toEqual(validated[0].topics[0].quiz);
+    expect(result.success).toBe(false);
+    expect(state.writes).toEqual([]);
   });
 
   it('rejects multi-module arrays in an import scoped to one module instead of importing only the first', async () => {
@@ -402,7 +373,8 @@ describe('curriculum JSON round-trip workflow', () => {
       topics: [{
         topic_title: 'Topik sidecar gagal',
         topic_order: 0,
-        nodes: [],
+        nodes: lessonNodes,
+        quiz: validQuiz,
         challenge: { title: 'Challenge', instructions: 'Kirim link', submission_type: 'link' },
       }],
     }]);
