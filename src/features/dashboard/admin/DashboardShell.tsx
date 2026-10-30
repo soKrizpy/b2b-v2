@@ -231,12 +231,6 @@ export function DashboardShell({
               </span>
             )}
             <Link
-              href="/teacher/lessons"
-              className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
-            >
-              Panduan Mengajar & Topik →
-            </Link>
-            <Link
               href="/admin/sessions"
               className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
             >
@@ -312,6 +306,29 @@ export function DashboardShell({
                           {teacherName ?? 'Belum ditentukan'}
                         </strong>
                       </p>
+
+                      <div className="mt-3.5 rounded-xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 dark:border-purple-500/30 dark:bg-purple-950/20">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Pertemuan Ini</p>
+                        {m.topic_id != null ? (
+                          <>
+                            <p className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
+                              {m.topic_title ?? 'Topik belum tersedia atau belum diterbitkan'}
+                            </p>
+                            {m.topic_title && (
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Link href={`/teacher/lessons/topic/${m.topic_id}`} className="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-white px-3 py-2 text-xs font-extrabold text-blue-700 hover:bg-blue-100 dark:border-purple-500/30 dark:bg-zinc-900 dark:text-purple-300 dark:hover:bg-purple-500/20">
+                                  <i className="fa-solid fa-book-open" /> Lihat Materi
+                                </Link>
+                                <Link href={`/teacher/lessons/topic/${m.topic_id}#panduan-mengajar`} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-2 text-xs font-extrabold text-slate-700 hover:bg-slate-200 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
+                                  <i className="fa-solid fa-chalkboard-user" /> Panduan Mengajar
+                                </Link>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <p className="mt-1 text-xs text-amber-800 dark:text-amber-300">Topik belum ditetapkan untuk pertemuan ini.</p>
+                        )}
+                      </div>
 
                       <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-zinc-800/80">
                         <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
