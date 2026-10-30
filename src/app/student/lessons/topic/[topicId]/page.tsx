@@ -95,12 +95,42 @@ export default async function TopicPage({ params }: Props) {
         )}
       </div>
 
+      {/* Learning route: make the next action clear without replacing the lesson engine */}
+      <nav aria-label="Alur belajar topik" className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[var(--surface)] p-4">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
+          Alur belajar topik ini
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {learningPath.length > 0 && (
+            <a href="#materi" className="flex items-center gap-2 rounded-xl bg-sky-50 dark:bg-sky-900/20 px-3 py-2.5 text-sm font-semibold text-sky-800 dark:text-sky-200 hover:ring-1 hover:ring-sky-300 transition">
+              <span aria-hidden="true">📖</span>
+              <span>1. Pelajari materi <span className="block text-xs font-normal opacity-75">{learningPath.length} langkah</span></span>
+            </a>
+          )}
+          {challenges.length > 0 && (
+            <a href="#tantangan" className="flex items-center gap-2 rounded-xl bg-amber-50 dark:bg-amber-900/20 px-3 py-2.5 text-sm font-semibold text-amber-800 dark:text-amber-200 hover:ring-1 hover:ring-amber-300 transition">
+              <span aria-hidden="true">🎯</span>
+              <span>2. Praktikkan <span className="block text-xs font-normal opacity-75">{challenges.length} tantangan</span></span>
+            </a>
+          )}
+          {quizState.questions.length > 0 && (
+            <a href="#quiz" className="flex items-center gap-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 px-3 py-2.5 text-sm font-semibold text-indigo-800 dark:text-indigo-200 hover:ring-1 hover:ring-indigo-300 transition">
+              <span aria-hidden="true">📝</span>
+              <span>3. Uji pemahaman <span className="block text-xs font-normal opacity-75">{quizState.questions.length} soal quiz</span></span>
+            </a>
+          )}
+        </div>
+        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+          Ikuti arahan guru saat kelas berlangsung. Setelah memahami materi, kerjakan tantangan dan kirim hasilnya untuk ditinjau guru.
+        </p>
+      </nav>
+
       {/* ── Interactive node walker ─────────────────────────────────────── */}
       {learningPath.length > 0 && (
-        <section>
+        <section id="materi" aria-labelledby="materi-heading" className="scroll-mt-24">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-white/10 to-transparent" />
-            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap">
+            <h2 id="materi-heading" className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap">
               📖 Materi Pembelajaran
             </h2>
             <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
@@ -111,9 +141,9 @@ export default async function TopicPage({ params }: Props) {
 
       {/* ── Challenges ──────────────────────────────────────────────────────── */}
       {challenges.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <h2 className="font-semibold text-slate-800 dark:text-white text-sm">
-            Challenges ({challenges.length})
+        <section id="tantangan" aria-labelledby="tantangan-heading" className="flex flex-col gap-4 scroll-mt-24">
+          <h2 id="tantangan-heading" className="font-semibold text-slate-800 dark:text-white text-sm">
+            Tantangan Praktik ({challenges.length})
           </h2>
           {challenges.map((ch, idx) => (
             <div key={ch.id}
@@ -143,14 +173,14 @@ export default async function TopicPage({ params }: Props) {
               </div>
             </div>
           ))}
-        </div>
+        </section>
       )}
 
       {/* ── Quiz (2 attempts, explanations) ─────────────────────────────────── */}
       {quizState.questions.length > 0 && (
-        <div>
-          <h2 className="font-semibold text-slate-800 dark:text-white text-sm mb-3">
-            Quiz Topik ({quizState.questions.length} soal)
+        <section id="quiz" aria-labelledby="quiz-heading" className="scroll-mt-24">
+          <h2 id="quiz-heading" className="font-semibold text-slate-800 dark:text-white text-sm mb-3">
+            Uji Pemahaman ({quizState.questions.length} soal)
           </h2>
           <TopicQuizWidget
             topicId={id}
@@ -160,7 +190,7 @@ export default async function TopicPage({ params }: Props) {
             isLocked={quizState.isLocked}
             bestScore={quizState.bestScore}
           />
-        </div>
+        </section>
       )}
     </div>
   );
