@@ -55,64 +55,99 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
   "module_order": 0,
   "level": "${level}",
   "gamification_type": "mimo",
-  "module_exam_policy": {
-    "required": true,
-    "availability": "only_after_all_published_topics_in_this_module_are_completed",
-    "scope": "one_final_exam_for_the_whole_module_not_one_exam_per_topic",
-    "recommended_question_count": 20
-  },
   "topics": [
     {
       "topic_title": "${topicTitle}",
       "topic_order": 0,
       "description": "<2-3 sentence topic overview in ${lang}>",
-      "slides": [
-        { "slide_number": 1, "title": "<slide title>", "content": "<clear age-appropriate explanation in ${lang}>", "visual_hint": "<suggested diagram or illustration>" }
-      ],
       "nodes": [
         {
           "node_id": "node-01",
           "order": 0,
           "type": "lesson",
-          "title": "<lesson node title>",
-          "content": "<explanation paragraph, 3-5 sentences, in ${lang}>",
+          "title": "Slide 1: Konsep dasar",
+          "content": "Penjelasan yang jelas, bertahap, dan sesuai usia 10-16 tahun dalam Bahasa Indonesia.",
           "xp": 10
         },
         {
           "node_id": "node-02",
           "order": 1,
-          "type": "code",
-          "title": "<code example title>",
-          "content": "<brief intro text>",
-          "code_content": "<sample code snippet>",
-          "code_language": "text",
+          "type": "theory",
+          "title": "Slide 2: Konsep lanjutan",
+          "content": "Penjelasan yang jelas, bertahap, dan sesuai usia 10-16 tahun dalam Bahasa Indonesia.",
           "xp": 10
         },
         {
           "node_id": "node-03",
           "order": 2,
-          "type": "practice",
-          "title": "<MCQ practice title>",
-          "instructions": "<question text>",
-          "options": ["option A", "option B", "option C", "option D"],
-          "correct_option": "option A",
-          "xp": 15
+          "type": "code",
+          "title": "Slide 3: Contoh kode",
+          "content": "Pengantar contoh kode yang dijelaskan bertahap dalam Bahasa Indonesia.",
+          "code_content": "<kode contoh yang valid>",
+          "code_language": "text",
+          "xp": 10
         },
         {
           "node_id": "node-04",
           "order": 3,
-          "type": "lesson",
-          "title": "<second concept title>",
-          "content": "<deeper explanation, 3-4 sentences>",
-          "xp": 10
+          "type": "practice",
+          "title": "Slide 4: Latihan pemahaman",
+          "instructions": "Latihan pemahaman singkat tentang konsep slide ini.",
+          "options": ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
+          "correct_option": "Pilihan A",
+          "xp": 15
         },
         {
           "node_id": "node-05",
           "order": 4,
+          "type": "lesson",
+          "title": "Slide 5: Penerapan konsep",
+          "content": "Penjelasan yang jelas, bertahap, dan sesuai usia 10-16 tahun dalam Bahasa Indonesia.",
+          "xp": 10
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "theory",
+          "title": "Slide 6: Kesalahan umum",
+          "content": "Penjelasan yang jelas, bertahap, dan sesuai usia 10-16 tahun dalam Bahasa Indonesia.",
+          "xp": 10
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "code",
+          "title": "Slide 7: Eksperimen kode",
+          "content": "Pengantar contoh kode yang dijelaskan bertahap dalam Bahasa Indonesia.",
+          "code_content": "<kode contoh yang valid>",
+          "code_language": "text",
+          "xp": 10
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Slide 8: Tantangan mini",
+          "instructions": "Latihan pemahaman singkat tentang konsep slide ini.",
+          "options": ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
+          "correct_option": "Pilihan A",
+          "xp": 15
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Slide 9: Rangkuman",
+          "content": "Penjelasan yang jelas, bertahap, dan sesuai usia 10-16 tahun dalam Bahasa Indonesia.",
+          "xp": 10
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
           "type": "challenge",
-          "title": "Challenge: <task name>",
-          "instructions": "<clear step-by-step task instructions in ${lang}>",
-          "xp": 20
+          "title": "Slide 10: Challenge proyek",
+          "instructions": "Langkah proyek, kriteria keberhasilan, dan instruksi mengirim URL proyek publik.",
+          "xp": 30
         }
       ],
       "quiz": [
@@ -158,9 +193,9 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
 }
 
 STRICT CONTENT RULES:
-- Generate between 10 and 20 slides for this topic (inclusive); never fewer than 10 or more than 20. Every slide must teach one coherent concept with a useful explanation and a visual_hint.
+- Generate between 10 and 20 learning slides for this topic (inclusive), represented as 10–20 items in the schema `nodes` array. Each node is one structured learning slide/card; do not add a separate `slides` field because the import schema is strict. Include a meaningful mix of lesson/theory, code, practice, and at least one challenge node.
 - Generate exactly 5 quiz questions for this topic. Each question must have exactly 4 options, one correct answer_index (0-3), and a meaningful explanation.
-- Keep the module final exam separate from topic quizzes. Do not attach or unlock an exam on an individual topic. The module exam is available only after the student completes every published topic in the module; it assesses concepts across the entire module. The module-level policy metadata above must be preserved in the generated JSON.
+- Keep the module final exam separate from topic quizzes. Do not create a per-topic exam. The platform has a separate module-level `final_assessment` with exactly 20 questions; it must unlock only after the student completes every published topic in the module and assess the combined learning outcomes across all topics. This endpoint generates one topic at a time, so do not fabricate a module-wide `final_assessment` from this single topic. Keep the JSON compatible with the strict curriculum import schema.
 - Keep the challenge submission_type as "link"; students must submit a working public project URL.
 Make the content engaging, age-appropriate (10-16 years old), and educational.
 All text must be in ${lang}.
