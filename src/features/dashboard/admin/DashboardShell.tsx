@@ -328,7 +328,11 @@ export function DashboardShell({
                       </p>
 
                       <div className="mt-3.5 rounded-xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 dark:border-purple-500/30 dark:bg-purple-950/20">
-                        <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Pertemuan Ini</p>
+                        <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Kurikulum Pertemuan Ini</p>
+                        <p className="mt-1 text-xs font-bold text-slate-700 dark:text-slate-300">
+                          Modul: {m.module_title ?? (m.module_id == null ? 'Belum dipetakan' : 'Modul #' + m.module_id)}
+                        </p>
+                        <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik</p>
                         {m.topic_id != null ? (
                           <>
                             <p className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
