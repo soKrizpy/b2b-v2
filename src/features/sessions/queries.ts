@@ -225,7 +225,31 @@ export async function getSessionsForTeacher(
     console.error('[getSessionsForTeacher]', error.message);
     return [];
   }
-  return (data ?? []) as unknown as MeetingWithStudents[];
+
+  const meetings = (data ?? []) as unknown as MeetingWithStudents[];
+  const topicIds = [...new Set(meetings.flatMap((meeting) => meeting.topic_id == null ? [] : [meeting.topic_id]))];
+  if (topicIds.length === 0) return meetings;
+
+  const { data: topics, error: topicsError } = await (db
+    .from('topics')
+    .select('id, title')
+    .eq('status', 'published')
+    .in('id', topicIds) as unknown as Promise<{
+      data: Array<{ id: number; title: string }> | null;
+      error: { message: string } | null;
+    }>);
+  if (topicsError) {
+    console.error('[getSessionsForTeacher] topic mapping', topicsError.message);
+    return meetings;
+  }
+
+  const titlesByTopic = new Map<number, string>();
+  for (const topic of topics ?? []) titlesByTopic.set(topic.id, topic.title);
+
+  return meetings.map((meeting) => ({
+    ...meeting,
+    topic_title: meeting.topic_id == null ? null : titlesByTopic.get(meeting.topic_id) ?? null,
+  }));
 }
 
 /**
