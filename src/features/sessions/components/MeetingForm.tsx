@@ -57,7 +57,7 @@ export function MeetingForm({
     meeting?.meeting_students?.map((ms) => ms.student_id) ?? []
   );
   const [editMode, setEditMode] = useState<'single' | 'series'>('single');
-  const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number }>>([]);
+  const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number; publishedTopics: Array<{ id: number; title: string }> }>>([]);
   const [selectedModuleId, setSelectedModuleId] = useState(meeting?.module_id == null ? '' : String(meeting.module_id));
   const [selectedTopicId, setSelectedTopicId] = useState(meeting?.topic_id == null ? '' : String(meeting.topic_id));
 
@@ -69,7 +69,7 @@ export function MeetingForm({
     let active = true;
     fetch('/api/curriculum/modules', { cache: 'no-store' })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error('Gagal memuat modul')))
-      .then((data: Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number }>) => {
+      .then((data: Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number; publishedTopics: Array<{ id: number; title: string }> }>) => {
         if (active) setModuleOptions(Array.isArray(data) ? data : []);
       })
       .catch(() => {
