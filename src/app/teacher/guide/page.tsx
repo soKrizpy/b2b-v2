@@ -18,7 +18,14 @@ export default async function TeacherGuidePage() {
   if (!auth.ok) redirect('/login');
   if (auth.role !== 'teacher') redirect('/login');
 
-  const modules = await getTeacherModulesWithTopics(auth.user.id);
+  let modules = [];
+  let loadFailed = false;
+  try {
+    modules = await getTeacherModulesWithTopics(auth.user.id);
+  } catch (error) {
+    loadFailed = true;
+    console.error('[TeacherGuidePage] Failed to load teacher curriculum', error);
+  }
   const totalTopics = modules.reduce((total, module) => total + module.topics.length, 0);
 
   return (
@@ -64,7 +71,14 @@ export default async function TeacherGuidePage() {
         <span>{totalTopics} topik dipublikasikan</span>
       </div>
 
-      {modules.length === 0 ? (
+      {loadFailed ? (
+        <div role="alert" className="rounded-2xl border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 p-6">
+          <p className="font-bold text-rose-900 dark:text-rose-200">Panduan belum dapat dimuat</p>
+          <p className="mt-1 text-sm text-rose-800 dark:text-rose-300">
+            Terjadi kendala saat mengambil data kurikulum. Silakan muat ulang halaman atau hubungi administrator jika masalah berlanjut.
+          </p>
+        </div>
+      ) : modules.length === 0 ? (
         <div className="rounded-2xl border-2 border-dashed border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-8 text-center">
           <p className="font-bold text-slate-800 dark:text-white">Belum ada kurikulum aktif untuk siswa bimbinganmu</p>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
