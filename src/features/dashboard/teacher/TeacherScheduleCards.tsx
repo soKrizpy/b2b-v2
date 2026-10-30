@@ -259,15 +259,29 @@ function MeetingCard({
         )}
       </div>
 
-      {/* Row 5: Curriculum access */}
-      {m.topic_id != null && (
-        <div className="pt-3 flex flex-wrap gap-2">
-          <a href={`/teacher/lessons/topic/${m.topic_id}`} className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/30 dark:hover:bg-purple-500/20 transition-colors">
-            <i className="fa-solid fa-book-open" /> Lihat Materi
-          </a>
-          <a href={`/teacher/lessons/topic/${m.topic_id}#panduan-mengajar`} className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700 dark:hover:bg-zinc-700 transition-colors">
-            <i className="fa-solid fa-chalkboard-user" /> Panduan Mengajar
-          </a>
+      {/* Row 5: The exact topic assigned to this meeting */}
+      {m.topic_id != null ? (
+        <div className="pt-3 space-y-2">
+          <div className="rounded-xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 dark:border-purple-500/30 dark:bg-purple-950/20">
+            <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Pertemuan Ini</p>
+            <p className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
+              {m.topic_title ?? 'Topik belum tersedia atau belum diterbitkan'}
+            </p>
+            {m.topic_title && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                <a href={`/teacher/lessons/topic/${m.topic_id}`} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-extrabold bg-white text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-zinc-900 dark:text-purple-300 dark:border-purple-500/30 dark:hover:bg-purple-500/20 transition-colors">
+                  <i className="fa-solid fa-book-open" /> Lihat Materi
+                </a>
+                <a href={`/teacher/lessons/topic/${m.topic_id}#panduan-mengajar`} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700 dark:hover:bg-zinc-700 transition-colors">
+                  <i className="fa-solid fa-chalkboard-user" /> Panduan Mengajar
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="pt-3 rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 py-2.5 text-xs text-amber-800 dark:border-amber-500/30 dark:bg-amber-950/20 dark:text-amber-300">
+          <i className="fa-solid fa-circle-info mr-1.5" /> Topik belum ditetapkan untuk pertemuan ini. Hubungi admin untuk melengkapinya.
         </div>
       )}
 
