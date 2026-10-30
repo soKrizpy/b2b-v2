@@ -81,6 +81,21 @@ export default async function TeacherDashboardPage() {
         </div>
       </div>
 
+      {/* ── Teaching Guide & Topics Quick Link ────────────────── */}
+      <Link
+        href="/teacher/lessons"
+        className="flex items-center gap-4 rounded-2xl border border-violet-200/70 bg-white px-5 py-4 transition-all duration-200 hover:border-violet-400 hover:shadow-md dark:border-purple-500/30 dark:bg-zinc-900/80 dark:hover:border-purple-500/60 group"
+      >
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-violet-500/10 dark:bg-purple-500/20">
+          <i className="fa-solid fa-book-open-reader text-violet-600 dark:text-purple-300" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-extrabold text-slate-900 dark:text-white">Panduan Mengajar & Topik</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Buka materi siswa, urutan pembelajaran, dan panduan untuk mengajar</p>
+        </div>
+        <i className="fa-solid fa-chevron-right text-slate-400 transition-colors group-hover:text-violet-500 dark:text-slate-600 dark:group-hover:text-purple-400" />
+      </Link>
+
       {/* ── Mentored Students Quick Link ─────────────────────── */}
       <Link
         href="/teacher/students"
