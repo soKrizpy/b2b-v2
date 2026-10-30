@@ -13,6 +13,7 @@ import type { ModuleWithTopics } from '@/features/curriculum/queries';
 import type { TopicRow } from '@/types/database';
 import { moduleImportSchema } from '@/features/curriculum/validation';
 import { AiCurriculumGenerator } from '@/features/ai/components/AiCurriculumGenerator';
+import { generateModuleFinalAssessment } from '@/features/ai/actions';
 
 interface Props { module: ModuleWithTopics }
 
@@ -377,6 +378,9 @@ export function ModuleBuilderClient({ module: mod }: Props) {
   const [vs, setVs]                 = useState<ImportState>({ status: 'idle' });
   const [exporting, startExport]    = useTransition();
   const [importPending, startImport]= useTransition();
+  const [finalExamPending, startFinalExam] = useTransition();
+  const [finalExamMessage, setFinalExamMessage] = useState<string | null>(null);
+  const [finalExamError, setFinalExamError] = useState(false);
   const [delPending, startDel]      = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -435,6 +439,24 @@ export function ModuleBuilderClient({ module: mod }: Props) {
           status: 'error',
           msg: 'Import gagal diproses oleh server. Materi mungkin belum tersimpan; periksa dan coba lagi.',
         });
+      }
+    });
+  };
+
+  const handleGenerateFinalExam = () => {
+    const hasExistingExam = mod.description?.startsWith('FINAL_ASSESSMENT:') ?? false;
+    if (hasExistingExam && !window.confirm('Tryout akhir modul yang tersimpan akan diganti. Lanjutkan generate ulang?')) return;
+
+    setFinalExamMessage(null);
+    setFinalExamError(false);
+    startFinalExam(async () => {
+      const result = await generateModuleFinalAssessment(mod.id);
+      if (result.success) {
+        setFinalExamMessage(`Tryout akhir berhasil dibuat dari ${result.data.topicCount} topik: ${result.data.questionCount} soal tersimpan.`);
+        router.refresh();
+      } else {
+        setFinalExamError(true);
+        setFinalExamMessage(result.error);
       }
     });
   };
@@ -508,7 +530,32 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             validate(json);
           }}
         />
+
+        <button
+          type="button"
+          onClick={handleGenerateFinalExam}
+          disabled={finalExamPending || mod.topics.filter((topic) => topic.status === 'published').length === 0}
+          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
+            bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-sm
+            disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          title="Gemini menyusun 20 soal gabungan dari seluruh topik published"
+        >
+          {finalExamPending ? 'Menyusun 20 soal…' : (mod.description?.startsWith('FINAL_ASSESSMENT:') ? 'Generate Ulang Final Exam' : 'Generate Final Exam · 20 Soal')}
+        </button>
       </div>
+
+      {finalExamMessage && (
+        <p
+          role={finalExamError ? 'alert' : 'status'}
+          className={`rounded-xl px-4 py-3 text-sm ring-1 ${
+            finalExamError
+              ? 'bg-red-50 text-red-700 ring-red-200 dark:bg-red-950/30 dark:text-red-300 dark:ring-red-800/50'
+              : 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:ring-emerald-800/50'
+          }`}
+        >
+          {finalExamMessage}
+        </p>
+      )}
 
       {/* ── Topic list ───────────────────────────────────────────────────── */}
       <section>
