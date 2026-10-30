@@ -7,7 +7,7 @@ import { HistoryView } from '@/features/sessions/components/history/HistoryView'
 import { SessionDetailCard } from '@/features/sessions/components/calendar/SessionDetailCard';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
 import { LegacyMeetingMapper } from '@/features/sessions/components/LegacyMeetingMapper';
-import { formatDate, formatTime, getDateKey } from '@/lib/formatDate';
+import { formatDate, formatTime, getDateKey, isLive } from '@/lib/formatDate';
 import type {
   MeetingWithStudents,
   TeacherOption,
@@ -81,16 +81,19 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
 
   // CSV export
   const handleExportCSV = useCallback(() => {
-    const headers = ['Tanggal', 'Waktu', 'Judul', 'Murid', 'Guru', 'Status', 'Catatan'];
+    const headers = ['Tanggal', 'Waktu', 'Judul', 'Modul', 'Topik', 'Murid', 'Guru', 'Status', 'Catatan'];
     const rows = meetings.map((m) => {
       const dateStr = formatDate(m.meeting_date, {
         day: '2-digit', month: '2-digit', year: 'numeric',
       });
       const timeStr = formatTime(m.meeting_date);
       const studentNames = m.meeting_students.map((ms) => ms.students?.full_name ?? '').join('; ');
-      const teacher = '';
-      const status = m.is_completed ? 'Selesai' : /live/i.test(m.meeting_date) ? 'Live' : 'Mendatang';
-      return [dateStr, timeStr, m.title, studentNames, teacher, status, m.notes ?? '']
+      const teacher = m.teacher_id ? (teacherMap.get(m.teacher_id) ?? 'Guru tidak ditemukan') : 'Belum ditentukan';
+      const now = new Date();
+      const status = m.is_completed ? 'Selesai' : isLive(m.meeting_date, now) ? 'Berlangsung' : new Date(m.meeting_date).getTime() > now.getTime() ? 'Mendatang' : 'Belum ditandai selesai';
+      const moduleTitle = m.module_title ?? (m.module_id == null ? 'Belum dipetakan' : 'Modul #' + m.module_id);
+      const topicTitle = m.topic_title ?? (m.topic_id == null ? 'Belum ditetapkan' : 'Topik #' + m.topic_id);
+      return [dateStr, timeStr, m.title, moduleTitle, topicTitle, studentNames, teacher, status, m.notes ?? '']
         .map((v) => `"${String(v).replace(/"/g, '""')}"`)
         .join(',');
     });
@@ -102,7 +105,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
     link.download = `jadwal-${IDN_MONTHS[calMonth]}-${calYear}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-  }, [meetings, calMonth, calYear]);
+  }, [meetings, calMonth, calYear, teacherMap]);
 
   // Calendar navigation callbacks
   const prevMonth = useCallback(() => {
