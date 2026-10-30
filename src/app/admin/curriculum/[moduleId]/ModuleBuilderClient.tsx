@@ -13,7 +13,6 @@ import type { ModuleWithTopics } from '@/features/curriculum/queries';
 import type { TopicRow } from '@/types/database';
 import { moduleImportSchema } from '@/features/curriculum/validation';
 import { AiCurriculumGenerator } from '@/features/ai/components/AiCurriculumGenerator';
-import { generateModuleFinalAssessment } from '@/features/ai/actions';
 
 interface Props { module: ModuleWithTopics }
 
@@ -450,13 +449,25 @@ export function ModuleBuilderClient({ module: mod }: Props) {
     setFinalExamMessage(null);
     setFinalExamError(false);
     startFinalExam(async () => {
-      const result = await generateModuleFinalAssessment(mod.id);
-      if (result.success) {
+      try {
+        const response = await fetch('/api/ai/generate-final-assessment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ module_id: mod.id }),
+        });
+        const result = await response.json().catch(() => ({})) as {
+          success?: boolean;
+          data?: { topicCount: number; questionCount: number };
+          error?: string;
+        };
+        if (!response.ok || !result.success || !result.data) {
+          throw new Error(result.error || 'Gagal menyusun ujian akhir modul.');
+        }
         setFinalExamMessage(`Tryout akhir berhasil dibuat dari ${result.data.topicCount} topik: ${result.data.questionCount} soal tersimpan.`);
         router.refresh();
-      } else {
+      } catch (error) {
         setFinalExamError(true);
-        setFinalExamMessage(result.error);
+        setFinalExamMessage(error instanceof Error ? error.message : 'Gagal menyusun ujian akhir modul.');
       }
     });
   };
