@@ -17,6 +17,8 @@ import { requireAdmin, getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 import {
+  curriculumJsonSchema,
+  normalizeTopicChallenges,
   encodeFinalAssessment,
   finalAssessmentSchema,
 } from '@/features/curriculum/validation';
@@ -225,8 +227,37 @@ Return ONLY the JSON object, nothing else.
       .replace(/\s*```$/i, '')
       .trim();
 
-    // Validate it's parseable JSON
-    JSON.parse(clean);
+    // Validate the generated JSON against the same strict import contract used by the Module Builder.
+    let parsedJson: unknown;
+    try {
+      parsedJson = JSON.parse(clean);
+    } catch {
+      return { success: false, error: 'Gemini mengembalikan JSON yang tidak valid. Silakan generate ulang.' };
+    }
+
+    const validated = curriculumJsonSchema.safeParse(parsedJson);
+    if (!validated.success) {
+      const issue = validated.error.issues[0];
+      return {
+        success: false,
+        error: `Materi dari Gemini belum memenuhi aturan 10–20 node dan tepat 5 quiz: ${issue?.message ?? 'struktur tidak valid'}.`,
+      };
+    }
+
+    const generatedTopics = validated.data.flatMap((module) => module.topics);
+    const missingLinkChallenge = generatedTopics.some((topic) => {
+      const challenges = normalizeTopicChallenges(topic.challenge);
+      return !topic.nodes.some((node) => node.type === 'challenge')
+        || !challenges?.length
+        || challenges.some((challenge) => challenge.submission_type !== 'link');
+    });
+    if (missingLinkChallenge) {
+      return {
+        success: false,
+        error: 'Setiap topik hasil AI wajib memiliki node challenge dan challenge dengan submission_type "link". Silakan generate ulang.',
+      };
+    }
+
     return { success: true, data: clean };
   } catch (err) {
     console.error('[generateCurriculum]', err);
