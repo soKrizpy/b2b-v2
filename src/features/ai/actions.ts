@@ -281,15 +281,33 @@ export async function generateModuleFinalAssessment(
   }
 
   const db = createSupabaseAdminClient();
-  const [{ data: moduleRow, error: moduleError }, { data: topicRows, error: topicsError }] = await Promise.all([
-    db.from('modules').select('id, title, description').eq('id', moduleId).maybeSingle(),
+  const [moduleRead, topicsRead] = await Promise.all([
+    db.from('modules')
+      .select('id, title, description')
+      .eq('id', moduleId)
+      .maybeSingle() as unknown as Promise<{
+        data: { id: number; title: string; description: string | null } | null;
+        error: { message: string } | null;
+      }>,
     db.from('topics')
       .select('id, title, description, lesson_content, status, order_index')
       .eq('module_id', moduleId)
       .eq('status', 'published')
       .order('order_index', { ascending: true })
-      .order('id', { ascending: true }),
+      .order('id', { ascending: true }) as unknown as Promise<{
+        data: Array<{
+          id: number;
+          title: string;
+          description: string | null;
+          lesson_content: unknown;
+          status: string;
+          order_index: number;
+        }> | null;
+        error: { message: string } | null;
+      }>,
   ]);
+  const { data: moduleRow, error: moduleError } = moduleRead;
+  const { data: topicRows, error: topicsError } = topicsRead;
 
   if (moduleError || !moduleRow) {
     return { success: false, error: moduleError?.message ?? 'Modul tidak ditemukan.' };
@@ -303,6 +321,9 @@ export async function generateModuleFinalAssessment(
     return { success: false, error: 'Belum ada topik berstatus published. Terbitkan topik terlebih dahulu.' };
   }
 
+  // Give every published topic its own context budget so later topics are never
+  // silently dropped when a module has a large amount of learning content.
+  const topicContextBudget = Math.max(500, Math.floor(24000 / publishedTopics.length));
   const topicContext = publishedTopics.map((topic, index) => {
     const lessonContent = topic.lesson_content && typeof topic.lesson_content === 'object'
       ? topic.lesson_content as Record<string, unknown>
@@ -339,8 +360,8 @@ export async function generateModuleFinalAssessment(
       ...nodeSummaries,
       'Pokok kuis:',
       ...quizQuestions,
-    ].filter(Boolean).join('\n');
-  }).join('\n\n').slice(0, 24000);
+    ].filter(Boolean).join('\n').slice(0, topicContextBudget);
+  }).join('\n\n');
 
   const prompt = `
 Kamu adalah penyusun asesmen kompetensi untuk LMS coding Bits2Bytes.
