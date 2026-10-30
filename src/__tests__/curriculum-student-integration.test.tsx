@@ -111,6 +111,12 @@ const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
   title: `Materi ${index + 1}`,
   content: `Isi impor ${index + 1}`,
 }));
+const topicQuiz = Array.from({ length: 5 }, (_, index) => ({
+  question: `Pertanyaan ${index + 1}`,
+  options: ['A', 'B', 'C', 'D'],
+  answer_index: index % 4,
+  explanation: `Penjelasan ${index + 1}`,
+}));
 
 describe('isolated curriculum import to student challenge flow', () => {
   beforeEach(() => {
@@ -126,6 +132,7 @@ describe('isolated curriculum import to student challenge flow', () => {
         topic_title: 'Topik terisolasi',
         topic_order: 0,
         nodes: lessonNodes,
+        quiz: topicQuiz,
         challenge: { title: 'Challenge lama', instructions: 'Versi lama', submission_type: 'link', xp: 20 },
       }],
     }];
