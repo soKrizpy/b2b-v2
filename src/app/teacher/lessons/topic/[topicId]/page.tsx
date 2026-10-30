@@ -22,7 +22,7 @@ export default async function TeacherTopicPage({ params }: Props) {
   const topic = await getTopicById(id);
   if (!topic || topic.status !== 'published') notFound();
 
-  const module = await getModuleById(topic.module_id);
+  const moduleRecord = await getModuleById(topic.module_id);
 
   const lessonContent = topic.lesson_content as Record<string, unknown> | null;
   const learningPath: LearningNode[] = Array.isArray(lessonContent?.learningPath)
@@ -38,7 +38,7 @@ export default async function TeacherTopicPage({ params }: Props) {
       <header className="rounded-3xl border border-blue-200 bg-white p-6 shadow-sm dark:border-purple-500/30 dark:bg-zinc-900 sm:p-8">
         <p className="text-xs font-black uppercase tracking-widest text-blue-600 dark:text-purple-300">Materi Pembelajaran Guru</p>
         <h1 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">{topic.title}</h1>
-        {module?.title && <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">Modul: {module.title}</p>}
+        {moduleRecord?.title && <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">Modul: {moduleRecord.title}</p>}
         {topic.description && <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300">{topic.description}</p>}
         {topic.project_link && <a href={topic.project_link} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-bold text-blue-700 hover:underline dark:text-purple-300">Buka tautan project ↗</a>}
       </header>
