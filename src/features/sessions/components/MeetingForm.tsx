@@ -59,13 +59,13 @@ export function MeetingForm({
   const [editMode, setEditMode] = useState<'single' | 'series'>('single');
   const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number }>>([]);
   const [selectedModuleId, setSelectedModuleId] = useState(meeting?.module_id == null ? '' : String(meeting.module_id));
+  const [selectedTopicId, setSelectedTopicId] = useState(meeting?.topic_id == null ? '' : String(meeting.topic_id));
 
   useEffect(() => {
     if (state?.success) onSuccess?.();
   }, [state, onSuccess]);
 
   useEffect(() => {
-    if (mode !== 'create') return;
     let active = true;
     fetch('/api/curriculum/modules', { cache: 'no-store' })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error('Gagal memuat modul')))
@@ -76,7 +76,7 @@ export function MeetingForm({
         if (active) setModuleOptions([]);
       });
     return () => { active = false; };
-  }, [mode]);
+  }, []);
 
   const err = (field: string) =>
     state && !state.success ? state.fields?.[field] : undefined;
@@ -98,7 +98,6 @@ export function MeetingForm({
             <input type="hidden" name="series_id" value={meeting.series_id} />
           )}
           <input type="hidden" name="session_number" value={meeting.session_number} />
-          {meeting.module_id != null && <input type="hidden" name="module_id" value={meeting.module_id} />}
         </>
       )}
 
@@ -171,12 +170,50 @@ export function MeetingForm({
           <input type="hidden" name="session_count" value={selectedModule?.publishedTopicCount ?? ''} />
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-2.5 text-sm">
-          <span className="font-medium">Modul kurikulum: </span>
-          {meeting?.module_id ? (moduleOptions.find((module) => module.id === meeting.module_id)?.title ?? `ID ${meeting.module_id}`) : 'Belum terhubung (jadwal lama)'}
-          {meeting?.topic_title && <p className="mt-1 text-xs text-indigo-700 dark:text-indigo-300">Topik terkait: {meeting.topic_title}</p>}
-          {meeting?.module_id != null && meeting.topic_id == null && <p className="mt-1 text-xs text-amber-600">Topik jadwal ini belum dipasangkan secara permanen.</p>}
-          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tidak membuka topik secara otomatis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
+        <div className="space-y-3 rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-3 text-sm">
+          <div className="space-y-1.5">
+            <label htmlFor="meeting-module-edit" className="font-medium text-slate-700 dark:text-slate-200">
+              Modul kurikulum <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="meeting-module-edit"
+              name="module_id"
+              value={selectedModuleId}
+              onChange={(event) => { setSelectedModuleId(event.target.value); setSelectedTopicId(''); }}
+              required
+              className="w-full rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white"
+            >
+              <option value="">— Pilih modul —</option>
+              {moduleOptions.map((module) => (
+                <option key={module.id} value={module.id} disabled={module.publishedTopicCount < 1}>
+                  {module.title ?? `Modul ${module.id}`}{module.level ? ` · ${module.level}` : ''} · {module.publishedTopicCount} topik
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="meeting-topic-edit" className="font-medium text-slate-700 dark:text-slate-200">
+              Topik untuk pertemuan ini <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="meeting-topic-edit"
+              name="topic_id"
+              value={selectedTopicId}
+              onChange={(event) => setSelectedTopicId(event.target.value)}
+              required
+              disabled={!selectedModule}
+              className="w-full rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white disabled:opacity-50"
+            >
+              <option value="">— Pilih topik —</option>
+              {(selectedModule?.publishedTopics ?? []).map((topic) => (
+                <option key={topic.id} value={topic.id}>{topic.title}</option>
+              ))}
+            </select>
+          </div>
+          <p className="text-xs text-slate-500">
+            Topik yang dipilih akan disimpan langsung pada jadwal ini dan menjadi acuan card pertemuan guru. Untuk seri, ubah pengaitan kurikulum per sesi agar setiap pertemuan tetap memiliki topik yang tepat.
+          </p>
+          {moduleOptions.length === 0 && <p className="text-xs text-amber-600">Modul aktif tidak tersedia atau gagal dimuat.</p>}
         </div>
       )}
 
