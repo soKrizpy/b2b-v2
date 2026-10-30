@@ -110,6 +110,15 @@ export const topicImportSchema = z.object({
   /** Optional structured challenge definition that overrides free-form challenges table. */
   challenge:    topicChallengesSchema.optional(),
 }).strict().superRefine((topic, ctx) => {
+  const instructionalNodeCount = topic.nodes.filter((node) => node.type !== 'quiz').length;
+  if (instructionalNodeCount < 10) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['nodes'],
+      message: 'Setiap topik wajib memiliki minimal 10 node pembelajaran; marker quiz dihitung terpisah.',
+    });
+  }
+
   const seen = new Set<string>();
   for (const [index, node] of topic.nodes.entries()) {
     const key = node.node_id.trim().toLowerCase();
