@@ -8,7 +8,7 @@ import type {
   TeacherOption,
   StudentOption,
 } from '@/features/sessions/queries';
-import { computeAdminMetrics, type AdminMetrics } from '@/features/dashboard/admin/metrics';
+import { computeAdminMetrics } from '@/features/dashboard/admin/metrics';
 import { APP_TIME_ZONE, isLive, isToday, formatDate, formatTime } from '@/lib/formatDate';
 import { AnnouncementManager } from '@/features/announcements/components/AnnouncementManager';
 
@@ -16,7 +16,6 @@ interface Props {
   meetings: MeetingWithStudents[];
   teachers: TeacherOption[];
   students: StudentOption[];
-  metrics?: AdminMetrics;
   renderTimestamp: number;
 }
 
@@ -71,7 +70,6 @@ export function DashboardShell({
   meetings,
   teachers,
   students,
-  metrics: propMetrics,
   renderTimestamp,
 }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -83,9 +81,10 @@ export function DashboardShell({
   }, []);
   const renderNow = useMemo(() => new Date(clockNow), [clockNow]);
 
-  const metrics = useMemo(() => {
-    return propMetrics ?? computeAdminMetrics(meetings, renderNow);
-  }, [propMetrics, meetings, renderNow]);
+  const metrics = useMemo(() => computeAdminMetrics(meetings, renderNow, {
+    studentsCount: students.length,
+    teachersCount: teachers.length,
+  }), [meetings, renderNow, students.length, teachers.length]);
 
   const teacherMap = useMemo(() => {
     const map = new Map<string, string>();
