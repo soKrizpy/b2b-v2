@@ -5,7 +5,7 @@ export const MAX_LESSON_SLIDES = 20;
 
 export type LessonSlide = Record<string, unknown>;
 
-const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice', 'challenge', 'quiz']);
+const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice', 'challenge']);
 
 function nonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
