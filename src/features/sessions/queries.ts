@@ -122,6 +122,7 @@ export interface StudentAssignedModule {
 }
 
 export interface MeetingWithStudents extends MeetingRow {
+  module_title?: string | null;
   topic_title?: string | null;
   meeting_students: Array<{
     student_id: string;
@@ -188,10 +189,16 @@ async function enrichMeetingsWithStudentCurriculum(
   const topicIds = [...new Set(meetings.flatMap((meeting) =>
     meeting.topic_id == null ? [] : [meeting.topic_id]
   ))];
+  const moduleIds = [...new Set(meetings.flatMap((meeting) =>
+    meeting.module_id == null ? [] : [meeting.module_id]
+  ))];
 
-  const [topicResult, assignmentResult] = await Promise.all([
+  const [topicResult, moduleResult, assignmentResult] = await Promise.all([
     topicIds.length > 0
       ? db.from('topics').select('id, title').eq('status', 'published').in('id', topicIds)
+      : Promise.resolve({ data: [], error: null }),
+    moduleIds.length > 0
+      ? db.from('modules').select('id, title').in('id', moduleIds)
       : Promise.resolve({ data: [], error: null }),
     studentIds.length > 0
       ? db.from('student_modules').select(`
@@ -205,10 +212,14 @@ async function enrichMeetingsWithStudentCurriculum(
   ]);
 
   if (topicResult.error) console.error(`[${logPrefix}] meeting topic mapping`, topicResult.error.message);
+  if (moduleResult.error) console.error(`[${logPrefix}] meeting module mapping`, moduleResult.error.message);
   if (assignmentResult.error) console.error(`[${logPrefix}] student module mapping`, assignmentResult.error.message);
 
   const titlesByTopic = new Map<number, string>(
     ((topicResult.data ?? []) as Array<{ id: number; title: string }>).map((topic) => [topic.id, topic.title])
+  );
+  const moduleTitles = new Map<number, string | null>(
+    ((moduleResult.data ?? []) as Array<{ id: number; title: string | null }>).map((module) => [module.id, module.title])
   );
   const modulesByStudent = new Map<string, StudentAssignedModule[]>();
 
@@ -244,6 +255,7 @@ async function enrichMeetingsWithStudentCurriculum(
 
   return meetings.map((meeting) => ({
     ...meeting,
+    module_title: meeting.module_id == null ? null : moduleTitles.get(meeting.module_id) ?? null,
     topic_title: meeting.topic_id == null ? null : titlesByTopic.get(meeting.topic_id) ?? null,
     meeting_students: meeting.meeting_students.map((student) => ({
       ...student,
