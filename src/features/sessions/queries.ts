@@ -187,6 +187,7 @@ export async function getSessionsForAdmin(): Promise<MeetingWithStudents[]> {
   const { data: topics, error: topicsError } = await (db
     .from('topics')
     .select('id, title')
+    .eq('status', 'published')
     .in('id', topicIds) as unknown as Promise<{
       data: Array<{ id: number; title: string }> | null;
       error: { message: string } | null;
