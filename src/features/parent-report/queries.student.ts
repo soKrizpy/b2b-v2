@@ -31,6 +31,8 @@ export interface PortfolioItem {
   topicTitle: string | null;
   submissionUrl: string | null;
   approvedAt: string | null;
+  submittedAt: string | null;
+  status: 'pending' | 'approved' | 'needs_revision';
 }
 
 export interface HubInvoice {
@@ -185,15 +187,17 @@ export async function getStudentHubBundle(
     }>,
     db
       .from('challenge_submissions')
-      .select('id, challenge_id, submission_url, reviewed_at')
+       .select('id, challenge_id, submission_url, submitted_at, reviewed_at, status')
       .eq('student_id', studentId)
-      .eq('status', 'approved')
-      .order('reviewed_at', { ascending: false }) as unknown as Promise<{
+      .not('submission_url', 'is', null)
+      .order('submitted_at', { ascending: false }) as unknown as Promise<{
       data: Array<{
         id: number;
         challenge_id: number;
         submission_url: string | null;
+        submitted_at: string | null;
         reviewed_at: string | null;
+        status: 'pending' | 'approved' | 'needs_revision';
       }> | null;
       error: unknown;
     }>,
@@ -223,7 +227,7 @@ export async function getStudentHubBundle(
     allMsRows.map((r) => [r.meeting_id, r.attendance_status])
   );
   const enrolledModuleIds = (enrollments ?? []).map((e) => e.module_id);
-  const challengeIds = (approvedSubs ?? []).map((s) => s.challenge_id);
+  const challengeIds = (portfolioSubs ?? []).map((s) => s.challenge_id);
 
   // Stage 2: Fetch dependent meetings, published topics, and challenges in parallel
   const [meetingsRes, topicsRes, challengesRes] = await Promise.all([
@@ -445,13 +449,13 @@ export async function getStudentHubBundle(
     }
   }
 
-  // Portfolio items
+  // Every submitted project link is visible in the Parent Hub portfolio, including pending reviews.
   const portfolio: PortfolioItem[] = [];
-  if ((approvedSubs ?? []).length > 0) {
+  if ((portfolioSubs ?? []).length > 0) {
     const chMap = new Map(challenges.map((c) => [c.id, c]));
     const topicMap = new Map((portTopicsRes.data ?? []).map((t) => [t.id, t]));
 
-    for (const sub of approvedSubs ?? []) {
+    for (const sub of portfolioSubs ?? []) {
       const ch = chMap.get(sub.challenge_id);
       const topic = ch ? topicMap.get(ch.topic_id) : null;
       portfolio.push({
@@ -459,7 +463,9 @@ export async function getStudentHubBundle(
         challengeTitle: ch?.title ?? 'Challenge',
         topicTitle: topic?.title ?? null,
         submissionUrl: sub.submission_url,
-        approvedAt: sub.reviewed_at,
+        approvedAt: sub.status === 'approved' ? sub.reviewed_at : null,
+        submittedAt: sub.submitted_at,
+        status: sub.status,
       });
     }
   }
