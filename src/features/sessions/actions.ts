@@ -217,6 +217,7 @@ export async function updateSession(
       ['session_count', formData.get('session_count')],
       ['session_number', formData.get('session_number')],
       ['module_id', formData.get('module_id')],
+      ['topic_id', formData.get('topic_id')],
     ].filter(([, v]) => v !== null && v !== '')
   );
 
@@ -224,12 +225,24 @@ export async function updateSession(
   if (!v.success) return { success: false, error: v.error, fields: v.fields };
 
   const patch = v.data as UpdateInput;
-  if (patch.module_id !== undefined) {
+  const curriculumChanged = patch.module_id !== undefined || patch.topic_id !== undefined;
+  if (curriculumChanged) {
+    if (patch.module_id === undefined || patch.topic_id === undefined) {
+      return { success: false, error: 'Pilih modul dan topik untuk menghubungkan kurikulum ke jadwal.' };
+    }
+    if (editMode === 'series') {
+      return { success: false, error: 'Pengaitan topik dilakukan per pertemuan. Pilih “Perbarui hanya sesi ini” agar topik sesi lain tidak tertimpa.' };
+    }
     const dbForModuleCheck = createSupabaseAdminClient();
-    const { data: existingMeeting, error: existingMeetingError } = await (dbForModuleCheck
-      .from('meetings').select('module_id').eq('id', id).maybeSingle() as unknown as Promise<{ data: { module_id: number | null } | null; error: unknown }>);
-    if (existingMeetingError || !existingMeeting || existingMeeting.module_id !== patch.module_id) {
-      return { success: false, error: 'Modul jadwal tidak dapat diubah saat edit. Buat seri baru untuk modul lain.' };
+    const { data: selectedTopic, error: topicCheckError } = await (dbForModuleCheck
+      .from('topics')
+      .select('id')
+      .eq('id', patch.topic_id)
+      .eq('module_id', patch.module_id)
+      .eq('status', 'published')
+      .maybeSingle() as unknown as Promise<{ data: { id: number } | null; error: unknown }>);
+    if (topicCheckError || !selectedTopic) {
+      return { success: false, error: 'Topik tidak cocok dengan modul atau belum diterbitkan. Muat ulang pilihan kurikulum.' };
     }
   }
   // Merge teacher_id into the patch (not part of Zod schema â€” handled separately)
