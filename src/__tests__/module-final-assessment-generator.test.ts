@@ -43,7 +43,7 @@ function query(result: unknown) {
   chain.select = () => chain;
   chain.eq = () => chain;
   chain.order = () => chain;
-  chain.update = () => chain;
+  chain.update = vi.fn(() => chain);
   chain.maybeSingle = () => Promise.resolve(result);
   chain.then = (resolve: (value: unknown) => unknown, reject?: (reason: unknown) => unknown) =>
     Promise.resolve(result).then(resolve, reject);
@@ -98,7 +98,11 @@ describe('generateModuleFinalAssessment', () => {
       data: { topicCount: 1, questionCount: 20 },
     });
     expect(generateContentWithFallback).toHaveBeenCalledTimes(1);
-    expect(vi.mocked(createSupabaseAdminClient).mock.results[0].value).toBeDefined();
+    const moduleUpdate = vi.mocked(createSupabaseAdminClient).mock.results[0].value
+      .from('modules') as unknown as { update: ReturnType<typeof vi.fn> };
+    expect(moduleUpdate.update).toHaveBeenCalledWith(expect.objectContaining({
+      description: expect.stringContaining('FINAL_ASSESSMENT:'),
+    }));
     expect(revalidatePath).toHaveBeenCalledWith('/student/lessons', 'layout');
   });
 
