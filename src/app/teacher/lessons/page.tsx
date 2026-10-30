@@ -24,7 +24,7 @@ export default async function TeacherLessonsPage() {
   return (
     <main className="mx-auto max-w-5xl space-y-6">
       <div>
-        <Link href={auth.role === 'admin' ? '/admin/dashboard' : '/teacher/dashboard'} className="text-sm font-semibold" text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-purple-300">
+        <Link href={auth.role === 'admin' ? '/admin/dashboard' : '/teacher/dashboard'} className="text-sm font-semibold text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-purple-300">
           ← Kembali ke Dashboard
         </Link>
         <p className="mt-5 text-xs font-black uppercase tracking-widest text-blue-600 dark:text-purple-300">Pusat Referensi Guru</p>
