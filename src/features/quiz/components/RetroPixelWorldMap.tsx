@@ -7,6 +7,7 @@
 // - Tampilan fokus pada papan peta utama (daftar topik telah dipindahkan ke tab Riwayat)
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { Lock, Zap, Crown, Flame, Calendar, Award } from 'lucide-react';
 import { formatDate } from '@/lib/formatDate';
@@ -145,20 +146,20 @@ export function RetroPixelWorldMap({
 
   // Dynamic mouse-follow coordinates with viewport edge clamping
   const tooltipWidth = 270;
-  const tooltipHeight = 160;
+  const tooltipHeight = 176;
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
   // Position tooltip to the right of cursor; flip to left if near right edge
-  let tooltipX = mousePos.x + 18;
+  let tooltipX = mousePos.x + 12;
   if (tooltipX + tooltipWidth > windowWidth - 16) {
-    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 18);
+    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 12);
   }
 
   // Position tooltip below cursor; flip above if near bottom edge
-  let tooltipY = mousePos.y + 18;
+  let tooltipY = mousePos.y + 12;
   if (tooltipY + tooltipHeight > windowHeight - 16) {
-    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 18);
+    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 12);
   }
 
   return (
@@ -217,7 +218,7 @@ export function RetroPixelWorldMap({
           </svg>
 
           {/* ── Hovered Node Dynamic Mouse-Follow HUD (Nama Topik, Score Quiz, Tanggal Pertemuan) ── */}
-          {hoveredNode && (
+          {hoveredNode && typeof document !== 'undefined' && createPortal((
             <div
               style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
               className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
@@ -282,10 +283,10 @@ export function RetroPixelWorldMap({
                 Klik node untuk membuka detail &amp; materi
               </p>
             </div>
-          )}
+          ), document.body)}
 
           {/* ── Hovered Final Boss Dynamic Mouse-Follow HUD ── */}
-          {hoveredBoss && !hoveredNode && (
+          {hoveredBoss && !hoveredNode && typeof document !== 'undefined' && createPortal((
             <div
               style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
               className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-red-500/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
@@ -326,7 +327,7 @@ export function RetroPixelWorldMap({
                 Klik untuk melihat detail &amp; memulai Ujian Akhir
               </p>
             </div>
-          )}
+          ), document.body)}
 
           {/* ── Interactive Map Pins for EVERY Single Topic ── */}
           {nodes.map((node, idx) => {
