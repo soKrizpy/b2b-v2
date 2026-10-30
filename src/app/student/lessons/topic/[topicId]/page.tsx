@@ -104,19 +104,19 @@ export default async function TopicPage({ params }: Props) {
           {learningPath.length > 0 && (
             <a href="#materi" className="flex items-center gap-2 rounded-xl bg-sky-50 dark:bg-sky-900/20 px-3 py-2.5 text-sm font-semibold text-sky-800 dark:text-sky-200 hover:ring-1 hover:ring-sky-300 transition">
               <span aria-hidden="true">📖</span>
-              <span>1. Pelajari materi <span className="block text-xs font-normal opacity-75">{learningPath.length} langkah</span></span>
+              <span>Pelajari materi <span className="block text-xs font-normal opacity-75">{learningPath.length} langkah</span></span>
             </a>
           )}
           {challenges.length > 0 && (
             <a href="#tantangan" className="flex items-center gap-2 rounded-xl bg-amber-50 dark:bg-amber-900/20 px-3 py-2.5 text-sm font-semibold text-amber-800 dark:text-amber-200 hover:ring-1 hover:ring-amber-300 transition">
               <span aria-hidden="true">🎯</span>
-              <span>2. Praktikkan <span className="block text-xs font-normal opacity-75">{challenges.length} tantangan</span></span>
+              <span>Praktikkan <span className="block text-xs font-normal opacity-75">{challenges.length} tantangan</span></span>
             </a>
           )}
           {quizState.questions.length > 0 && (
             <a href="#quiz" className="flex items-center gap-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 px-3 py-2.5 text-sm font-semibold text-indigo-800 dark:text-indigo-200 hover:ring-1 hover:ring-indigo-300 transition">
               <span aria-hidden="true">📝</span>
-              <span>3. Uji pemahaman <span className="block text-xs font-normal opacity-75">{quizState.questions.length} soal quiz</span></span>
+              <span>Uji pemahaman <span className="block text-xs font-normal opacity-75">{quizState.questions.length} soal quiz</span></span>
             </a>
           )}
         </div>
