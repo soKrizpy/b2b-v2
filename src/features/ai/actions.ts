@@ -55,11 +55,20 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
   "module_order": 0,
   "level": "${level}",
   "gamification_type": "mimo",
+  "module_exam_policy": {
+    "required": true,
+    "availability": "only_after_all_published_topics_in_this_module_are_completed",
+    "scope": "one_final_exam_for_the_whole_module_not_one_exam_per_topic",
+    "recommended_question_count": 20
+  },
   "topics": [
     {
       "topic_title": "${topicTitle}",
       "topic_order": 0,
       "description": "<2-3 sentence topic overview in ${lang}>",
+      "slides": [
+        { "slide_number": 1, "title": "<slide title>", "content": "<clear age-appropriate explanation in ${lang}>", "visual_hint": "<suggested diagram or illustration>" }
+      ],
       "nodes": [
         {
           "node_id": "node-01",
@@ -124,6 +133,18 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
           "options": ["A", "B", "C", "D"],
           "answer_index": 2,
           "explanation": "<why option C is correct, in ${lang}>"
+        },
+        {
+          "question": "<question 4 in ${lang}>",
+          "options": ["A", "B", "C", "D"],
+          "answer_index": 3,
+          "explanation": "<why option D is correct, in ${lang}>"
+        },
+        {
+          "question": "<question 5 in ${lang}>",
+          "options": ["A", "B", "C", "D"],
+          "answer_index": 0,
+          "explanation": "<why option A is correct, in ${lang}>"
         }
       ],
       "challenge": {
@@ -136,6 +157,11 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
   ]
 }
 
+STRICT CONTENT RULES:
+- Generate between 10 and 20 slides for this topic (inclusive); never fewer than 10 or more than 20. Every slide must teach one coherent concept with a useful explanation and a visual_hint.
+- Generate exactly 5 quiz questions for this topic. Each question must have exactly 4 options, one correct answer_index (0-3), and a meaningful explanation.
+- Keep the module final exam separate from topic quizzes. Do not attach or unlock an exam on an individual topic. The module exam is available only after the student completes every published topic in the module; it assesses concepts across the entire module. The module-level policy metadata above must be preserved in the generated JSON.
+- Keep the challenge submission_type as "link"; students must submit a working public project URL.
 Make the content engaging, age-appropriate (10-16 years old), and educational.
 All text must be in ${lang}.
 Return ONLY the JSON object, nothing else.
