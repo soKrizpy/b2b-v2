@@ -1,7 +1,7 @@
 'use client';
 
 import type { MeetingWithStudents } from '@/features/sessions/queries';
-import { getDateKey, isLive } from '@/lib/formatDate';
+import { APP_TIME_ZONE, getDateKey, isLive } from '@/lib/formatDate';
 
 export function toDateKey(date: Date): string {
   return getDateKey(date) ?? '';
@@ -15,7 +15,7 @@ export function formatTimeRange(dateIso: string): string {
   const start = new Date(dateIso);
   const end = new Date(start.getTime() + 60 * 60 * 1000);
   const fmt = (d: Date) =>
-    d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+    d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: APP_TIME_ZONE });
   return `${fmt(start)}–${fmt(end)} WIB`;
 }
 
@@ -59,9 +59,9 @@ export function MonthCalendar({
 }: MonthCalendarProps) {
   const todayKey = toDateKey(new Date());
 
-  const firstDay = new Date(year, month, 1);
-  const startDow = firstDay.getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(Date.UTC(year, month, 1, 12));
+  const startDow = firstDay.getUTCDay();
+  const daysInMonth = new Date(Date.UTC(year, month + 1, 0, 12)).getUTCDate();
 
   const cells: (number | null)[] = [
     ...Array(startDow).fill(null),
@@ -124,7 +124,7 @@ export function MonthCalendar({
             );
           }
 
-          const cellDate = new Date(year, month, day);
+          const cellDate = new Date(Date.UTC(year, month, day, 12));
           const key = toDateKey(cellDate);
           const isSelected = isSameDateKey(key, selectedKey);
           const isToday = isSameDateKey(key, todayKey);
@@ -162,7 +162,7 @@ export function MonthCalendar({
                 const live = isLive(m.meeting_date);
                 const done = m.is_completed;
                 const timeStr = new Date(m.meeting_date).toLocaleTimeString('id-ID', {
-                  hour: '2-digit', minute: '2-digit', hour12: false,
+                  hour: '2-digit', minute: '2-digit', hour12: false, timeZone: APP_TIME_ZONE,
                 });
                 const studentFirst = m.meeting_students[0]?.students?.full_name?.split(' ')[0] ?? '';
                 return (

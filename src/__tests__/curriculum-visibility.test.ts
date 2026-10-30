@@ -162,20 +162,12 @@ describe('Quest Map and topic visibility', () => {
 
     await expect(updateTopicAction(null, formData)).resolves.toEqual({
       success: false,
-      error: 'Topik harus memiliki setidaknya satu slide instruksional valid sebelum dipublikasikan. Target 10–20 slide disarankan jika materi sumber mendukung. Saat ini: 0.',
+      error: 'Topik hanya boleh dipublikasikan jika memiliki 10–20 node pembelajaran valid (termasuk challenge). Saat ini: 0.',
     });
     expect(state.updates).toBe(0);
   });
 
-  it('allows publishing a topic with authored source content below the 10-slide target', async () => {
-    state.topicLessonContent = {
-      learningPath: [{
-        id: 'source-slide-1',
-        type: 'lesson',
-        title: 'Satu konsep dari sumber',
-        content: 'Materi yang benar-benar tersedia dari sumber.',
-      }],
-    };
+  it('rejects publishing a topic with authored source content below the required 10-node minimum', async () => {
     const formData = new FormData();
     formData.set('id', '10');
     formData.set('module_id', '1');
@@ -183,17 +175,40 @@ describe('Quest Map and topic visibility', () => {
     formData.set('status', 'published');
     formData.set('order_index', '1');
 
-    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({ success: true });
-    expect(state.updates).toBe(1);
+    state.topicLessonContent = {
+      learningPath: [{
+        id: 'source-slide-1',
+        type: 'lesson',
+        title: 'Satu konsep dari sumber',
+        content: 'Materi yang benar-benar tersedia dari sumber.',
+      }],
+      quiz: Array.from({ length: 5 }, (_, index) => ({
+        question: `Question ${index + 1}`,
+        options: ['A', 'B', 'C', 'D'],
+        answer_index: 0,
+        explanation: 'A',
+      })),
+    };
+    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({
+      success: false,
+      error: expect.stringContaining('Saat ini: 1.'),
+    });
+    expect(state.updates).toBe(0);
   });
 
-  it('allows publishing a topic with exactly ten valid instructional slides', async () => {
+  it('allows publishing a topic with exactly ten valid instructional slides and five quiz questions', async () => {
     state.topicLessonContent = {
       learningPath: Array.from({ length: 10 }, (_, index) => ({
         id: `slide-${index + 1}`,
         type: 'lesson',
         title: `Materi ${index + 1}`,
         content: 'Penjelasan materi yang cukup.',
+      })),
+      quiz: Array.from({ length: 5 }, (_, index) => ({
+        question: `Question ${index + 1}`,
+        options: ['A', 'B', 'C', 'D'],
+        answer_index: 0,
+        explanation: 'A',
       })),
     };
     const formData = new FormData();

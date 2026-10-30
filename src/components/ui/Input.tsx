@@ -25,6 +25,7 @@ export function Input({ label, error, hint, className = "", ...props }: InputPro
           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
           dark:focus:ring-purple-500/50 dark:focus:border-purple-400
           transition-all duration-200
+          ${props.type === "datetime-local" ? "[color-scheme:light] dark:[color-scheme:dark]" : ""}
           disabled:bg-slate-50 dark:disabled:bg-slate-800 disabled:cursor-not-allowed
           ${error 
             ? "border-red-400 focus:ring-red-400/70 bg-red-50/30 dark:bg-red-950/20 dark:border-red-500/50" 

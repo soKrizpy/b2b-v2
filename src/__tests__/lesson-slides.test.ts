@@ -55,7 +55,7 @@ describe('instructional lesson slides', () => {
     expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
   });
 
-  it('ignores quiz, challenge, unknown, malformed, and empty-content entries', () => {
+  it('ignores quiz markers, unknown, malformed, and empty-content entries while counting authored challenges', () => {
     const learningPath = [
       ...Array.from({ length: 9 }, (_, i) => slide(i)),
       { type: 'quiz', title: 'Quiz', content: 'Not a lesson slide' },
@@ -67,8 +67,8 @@ describe('instructional lesson slides', () => {
       [],
     ];
     const slides = getInstructionalSlides(learningPath);
-    expect(slides).toHaveLength(9);
-    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
+    expect(slides).toHaveLength(10);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(true);
   });
 
   it('requires practice nodes to have instructions, options, and a matching correct answer', () => {

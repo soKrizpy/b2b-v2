@@ -103,12 +103,22 @@ export const topicImportSchema = z.object({
   topic_order:  z.number().int().min(0),
   description:  z.string().optional(),
   project_link: z.string().url().optional().or(z.literal('')),
-  nodes:        z.array(nodeSchema),
-  /** Up to 5 graded quiz questions unlocked after teacher marks session complete. */
-  quiz:         z.array(quizQuestionSchema).max(5).optional(),
+  /** Every topic must contain 10–20 authored interactive nodes, including challenge nodes. */
+  nodes:        z.array(nodeSchema).min(10, 'Setiap topik wajib memiliki minimal 10 node interaktif.').max(20, 'Setiap topik maksimal memiliki 20 node interaktif.'),
+  /** Exactly 5 graded quiz questions, unlocked after the teacher submits the session report. */
+  quiz:         z.array(quizQuestionSchema).length(5, 'Setiap topik wajib memiliki tepat 5 soal quiz.'),
   /** Optional structured challenge definition that overrides free-form challenges table. */
   challenge:    topicChallengesSchema.optional(),
 }).strict().superRefine((topic, ctx) => {
+  const instructionalNodeCount = topic.nodes.filter((node) => node.type !== 'quiz').length;
+  if (instructionalNodeCount < 10) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['nodes'],
+      message: 'Setiap topik wajib memiliki minimal 10 node pembelajaran; marker quiz dihitung terpisah.',
+    });
+  }
+
   const seen = new Set<string>();
   for (const [index, node] of topic.nodes.entries()) {
     const key = node.node_id.trim().toLowerCase();

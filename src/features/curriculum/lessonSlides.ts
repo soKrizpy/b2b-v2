@@ -1,11 +1,11 @@
-/** Suggested authoring range; lesson length remains content-driven. */
+/** Required interactive-node range for each published topic. */
 export const MIN_LESSON_SLIDES = 10;
-/** Suggested upper authoring target, not a display or validation limit. */
+/** Maximum allowed interactive nodes per published topic. */
 export const MAX_LESSON_SLIDES = 20;
 
 export type LessonSlide = Record<string, unknown>;
 
-const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice']);
+const INSTRUCTIONAL_TYPES = new Set(['lesson', 'theory', 'code', 'practice', 'challenge']);
 
 function nonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
@@ -54,9 +54,10 @@ function isAuthoredInstructionalSlide(item: unknown): item is LessonSlide {
 
 /**
  * Normalize the authored learningPath for the Quest Map lesson modal.
- * Only supported instructional nodes with a title and substantive content count
- * as slides. Quiz/challenge markers, unknown types, and malformed/empty nodes do
- * not count as instructional slides. Authored lessons are never truncated.
+ * Supported instructional nodes and authored challenge nodes with a title and
+ * substantive content count toward the 10–20 node target. Quiz markers, unknown
+ * types, and malformed/empty nodes do not count as interactive slides.
+ * Authored lessons are never truncated.
  */
 export function getInstructionalSlides(learningPath: unknown): LessonSlide[] {
   if (!Array.isArray(learningPath)) return [];
@@ -64,15 +65,14 @@ export function getInstructionalSlides(learningPath: unknown): LessonSlide[] {
   return learningPath.filter(isAuthoredInstructionalSlide);
 }
 
-/** Whether an authored lesson falls inside the suggested 10–20 authoring range. */
+/** Whether a topic falls inside the required 10–20 interactive-node range. */
 export function isWithinSuggestedLessonSlideRange(slides: readonly unknown[]): boolean {
   return slides.length >= MIN_LESSON_SLIDES && slides.length <= MAX_LESSON_SLIDES;
 }
 
 /**
- * A topic can be published when it contains at least one real authored lesson
- * step. Ten to twenty slides remain the content target when the source supports
- * that depth; this check intentionally does not invent or require filler slides.
+ * Confirms that a topic contains at least one authored lesson step. Import and
+ * publication actions must additionally enforce the strict node range and quiz count.
  */
 export function hasAuthoredLessonContent(slides: readonly unknown[]): boolean {
   return slides.length > 0;

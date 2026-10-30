@@ -67,10 +67,23 @@ const challenge = {
   submission_type: 'link',
   xp: 35,
 };
+const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
+  node_id: `node-${index + 1}`,
+  order: index,
+  type: 'theory' as const,
+  title: `Materi ${index + 1}`,
+  content: `Isi materi ${index + 1}`,
+}));
+const quiz = Array.from({ length: 5 }, (_, index) => ({
+  question: `Pertanyaan ${index + 1}`,
+  options: ['A', 'B', 'C', 'D'],
+  answer_index: index % 4,
+  explanation: `Penjelasan ${index + 1}`,
+}));
 const payload = [{
   module_title: 'Modul idempoten',
   module_order: 0,
-  topics: [{ topic_title: 'Topik idempoten', topic_order: 0, nodes: [], challenge }],
+  topics: [{ topic_title: 'Topik idempoten', topic_order: 0, nodes: lessonNodes, quiz, challenge }],
 }];
 
 describe('curriculum challenge import idempotency', () => {

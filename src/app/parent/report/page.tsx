@@ -10,6 +10,7 @@
 import type { Metadata } from 'next';
 import { getParentReportData } from '@/features/parent-report/queries';
 import { ParentReportView } from '@/features/parent-report/components/ParentReportView';
+import { ParentReportMotion } from '@/features/parent-report/components/ParentReportMotion';
 
 export const metadata: Metadata = { title: 'Laporan Perkembangan Siswa — Bits2Bytes' };
 
@@ -25,14 +26,14 @@ export default async function ParentReportPage({ searchParams }: Props) {
   // ── Invalid / expired token ────────────────────────────────────────────────
   if (!data) {
     return (
-      <main className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="w-full max-w-md text-center space-y-5">
+      <main className="min-h-screen bg-[#f0f4f9] text-slate-900 dark:bg-[#020617] dark:text-slate-100 flex items-center justify-center p-6">
+        <div className="w-full max-w-md text-center space-y-5 rounded-3xl border border-blue-200 bg-white p-8 shadow-xl shadow-blue-900/5 dark:border-purple-500/30 dark:bg-[#0b0f19]">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-100 ring-1 ring-red-200 text-3xl mx-auto">
             🔒
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-800">Tautan Tidak Valid</h1>
-            <p className="mt-2 text-sm text-slate-500 leading-relaxed">
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">Tautan Tidak Valid</h1>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Tautan laporan ini sudah kadaluarsa atau tidak valid.
               Silakan hubungi pengajar untuk mendapatkan tautan baru.
             </p>
@@ -45,13 +46,18 @@ export default async function ParentReportPage({ searchParams }: Props) {
 
   // ── Valid token — render report ────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#080d18] dark:text-slate-100">
       {/* Branded top bar (no navigation — public page) */}
-      <header className="bg-white border-b border-slate-200 shadow-sm">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 h-14 flex items-center gap-2.5">
-          <span className="text-xl">🎓</span>
-          <span className="font-bold text-slate-900 text-sm">Bits2Bytes LMS</span>
-          <span className="text-slate-300 text-xs ml-auto">Laporan Orang Tua</span>
+      <header className="sticky top-0 z-20 border-b border-blue-200/80 bg-[#f0f4f9]/95 shadow-sm backdrop-blur-xl dark:border-purple-500/30 dark:bg-[#020617]/90">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 h-16 flex items-center gap-3">
+          <picture className="flex-shrink-0">
+            <source srcSet="/b2blight.webp" media="(prefers-color-scheme: dark)" />
+            <img src="/b2bdark.webp" alt="Bits2Bytes" className="h-10 w-auto object-contain" />
+          </picture>
+          <span className="font-extrabold tracking-tight text-slate-900 dark:text-white text-sm sm:text-base">
+            bits<span className="text-lime-500">2</span>bytes
+          </span>
+          <span className="ml-auto text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 text-right">Laporan Orang Tua</span>
         </div>
       </header>
 

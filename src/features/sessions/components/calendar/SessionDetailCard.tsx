@@ -65,20 +65,21 @@ export function SessionDetailCard({
         </span>
       </div>
 
-      {/* Title + session progress */}
+      {/* Title + stored curriculum association */}
       <div>
         <h4 className="font-extrabold text-slate-900 dark:text-white text-sm leading-snug line-clamp-2">
           {meeting.title}
         </h4>
+        <p className="mt-1 text-xs font-semibold text-slate-700 dark:text-slate-300 line-clamp-2">
+          Modul: {meeting.module_title ?? (meeting.module_id == null ? 'Belum dipetakan' : 'Modul #' + meeting.module_id)}
+        </p>
+        <p className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 line-clamp-2">
+          Topik: {meeting.topic_title ?? (meeting.topic_id == null ? 'Belum ditetapkan' : 'Topik #' + meeting.topic_id)}
+        </p>
         {meeting.session_count > 1 && (
           <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
             Sesi {meeting.session_number}/{meeting.session_count}
           </span>
-        )}
-        {meeting.topic_title && (
-          <p className="mt-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300 line-clamp-2">
-            Topik terbuka: {meeting.topic_title}
-          </p>
         )}
       </div>
 

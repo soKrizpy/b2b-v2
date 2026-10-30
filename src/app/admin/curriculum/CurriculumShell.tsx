@@ -4,6 +4,7 @@
 // Import/Export JSON is now per-module, handled in /admin/curriculum/[moduleId].
 
 import { useActionState, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { createModuleAction } from '@/features/curriculum/actions';
 
@@ -12,6 +13,8 @@ interface Props { children: React.ReactNode }
 export function CurriculumShell({ children }: Props) {
   const router              = useRouter();
   const [showCreate, setShowCreate] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [state, dispatch, pending]  = useActionState(createModuleAction, null);
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export function CurriculumShell({ children }: Props) {
       {children}
 
       {/* ── Create Module Modal ──────────────────────────────────────────── */}
-      {showCreate && (
+      {mounted && showCreate && createPortal((
         <div
           role="dialog"
           aria-modal="true"
@@ -72,7 +75,7 @@ export function CurriculumShell({ children }: Props) {
               {/* Title */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="new-mod-title" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  Judul Modul <span className="text-red-500">*</span>
+                  Judul Modul <span className="text-red-500 dark:text-red-400">*</span>
                 </label>
                 <input id="new-mod-title" name="title" required autoFocus
                   placeholder="contoh: Pengenalan HTML & CSS"
@@ -135,7 +138,7 @@ export function CurriculumShell({ children }: Props) {
             </form>
           </div>
         </div>
-      )}
+      ), document.body)}
     </>
   );
 }

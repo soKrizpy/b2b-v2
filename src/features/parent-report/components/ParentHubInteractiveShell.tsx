@@ -49,7 +49,7 @@ interface Props {
   latestTeacherNote: LatestTeacherNote | null;
 }
 
-type TabKey = 'all' | 'overview' | 'history' | 'achievements';
+type TabKey = 'all' | 'overview' | 'history' | 'portfolio' | 'certificates';
 
 // ── Section Divider ───────────────────────────────────────────────────────────
 
@@ -90,7 +90,7 @@ function PortfolioSection({ items }: { items: PortfolioItem[] }) {
           Belum Ada Portofolio Challenge
         </p>
         <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
-          Karya yang diselesaikan siswa dan telah disetujui guru akan tampil secara otomatis di galeri ini.
+          Setiap link karya yang dikirim siswa akan tersimpan di sini. Status review guru akan diperbarui otomatis.
         </p>
       </div>
     );
@@ -110,9 +110,9 @@ function PortfolioSection({ items }: { items: PortfolioItem[] }) {
               <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/80 flex items-center justify-center text-xl select-none group-hover:scale-105 transition-transform">
                 🎨
               </div>
-              <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-                <CheckCircle2 className="w-3 h-3" />
-                Terverifikasi
+              <span className={`inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border ${item.status === 'approved' ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' : item.status === 'needs_revision' ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800' : 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800'}`}>
+                {item.status === 'approved' ? <CheckCircle2 className="w-3 h-3" /> : null}
+                {item.status === 'approved' ? 'Disetujui' : item.status === 'needs_revision' ? 'Perlu Revisi' : 'Menunggu Review'}
               </span>
             </div>
 
@@ -127,10 +127,10 @@ function PortfolioSection({ items }: { items: PortfolioItem[] }) {
               </p>
             )}
 
-            {item.approvedAt && (
+            {item.submittedAt && (
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-2.5 flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
-                Disetujui {formatDate(item.approvedAt)}
+                Dikirim {formatDate(item.submittedAt)}{item.approvedAt ? ` · Disetujui ${formatDate(item.approvedAt)}` : ''}
               </p>
             )}
           </div>
@@ -257,7 +257,7 @@ export function ParentHubInteractiveShell({
         portfolioCount={portfolio.length}
         latestTeacherNote={latestTeacherNote}
         onJumpToTab={(tab) => {
-          if (tab === 'achievements') setActiveTab('achievements');
+          if (tab === 'achievements') setActiveTab('portfolio');
           else if (tab === 'history') setActiveTab('history');
           else if (tab === 'chart') setActiveTab('overview');
           else setActiveTab('all');
@@ -310,20 +310,29 @@ export function ParentHubInteractiveShell({
 
         <button
           type="button"
-          onClick={() => setActiveTab('achievements')}
+          onClick={() => setActiveTab('portfolio')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-            activeTab === 'achievements'
+            activeTab === 'portfolio'
+              ? 'bg-purple-600 text-white shadow-sm'
+              : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70'
+          }`}
+        >
+          <Palette className="w-3.5 h-3.5" />
+          <span>Portofolio Karya</span>
+          {portfolio.length > 0 && <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300 font-mono">{portfolio.length}</span>}
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('certificates')}
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+            activeTab === 'certificates'
               ? 'bg-purple-600 text-white shadow-sm'
               : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70'
           }`}
         >
           <Award className="w-3.5 h-3.5" />
-          <span>Karya & Sertifikat</span>
-          {(certificates.length > 0 || portfolio.length > 0) && (
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-mono">
-              {certificates.length + portfolio.length}
-            </span>
-          )}
+          <span>Sertifikat</span>
+          {certificates.length > 0 && <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-mono">{certificates.length}</span>}
         </button>
       </div>
 
@@ -378,11 +387,11 @@ export function ParentHubInteractiveShell({
       )}
 
       {/* Section 3: Portofolio Challenge */}
-      {(activeTab === 'all' || activeTab === 'achievements') && (
+      {(activeTab === 'all' || activeTab === 'portfolio') && (
         <section className="space-y-4">
           <SectionDivider
             icon={<Palette className="w-4 h-4" />}
-            label="Portofolio Challenge"
+            label="Portofolio Karya Siswa"
             count={portfolio.length}
           />
           <PortfolioSection items={portfolio} />
@@ -390,7 +399,7 @@ export function ParentHubInteractiveShell({
       )}
 
       {/* Section 4: Sertifikat Kelulusan */}
-      {(activeTab === 'all' || activeTab === 'achievements') && (
+      {(activeTab === 'all' || activeTab === 'certificates') && (
         <section className="space-y-4">
           <SectionDivider
             icon={<Award className="w-4 h-4" />}

@@ -6,6 +6,7 @@ on:
     branches:
       - fix/security-priority-audit
       - fix/preview-ui-polish-20261027
+      - fix/admin-user-detail-modal-viewport
   pull_request:
     branches:
       - main

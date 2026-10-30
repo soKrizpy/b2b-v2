@@ -8,6 +8,7 @@
 //   5. Attendance Detail & Edit Invoice Modals + Parent Link Copy Popup
 
 import { useState, useActionState, useEffect, useCallback, useTransition, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   Search,
@@ -106,7 +107,7 @@ function MetricCard({
       p-4 flex flex-col justify-between gap-3 shadow-sm hover:shadow-neon-blue dark:hover:shadow-neon-purple
       dark:shadow-[0_0_22px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
-      transition-all duration-300 ease-out cursor-pointer">
+      transition-all duration-300 ease-out">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
           {title}
@@ -182,14 +183,18 @@ function SendInvoiceModal({
     }
   };
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-lg shrink-0 bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col min-h-0 max-h-[calc(100dvh-1.5rem)]"
         onClick={(e) => e.stopPropagation()}
@@ -339,7 +344,7 @@ function SendInvoiceModal({
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Attendance Detail Modal ───────────────────────────────────────────────────
@@ -363,14 +368,18 @@ function AttendanceModal({
 
   const attended = rows.filter((r) => r.has_joined).length;
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-lg shrink-0 min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -432,7 +441,7 @@ function AttendanceModal({
           )}
         </div>
 
-        <div className="shrink-0 px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-between">
+        <div className="shrink-0 px-6 py-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
             Total Hadir:
             <span className="ml-2 text-[#7cc62f]">{attended} / {rows.length} Pertemuan</span>
@@ -441,14 +450,14 @@ function AttendanceModal({
             type="button"
             onClick={onClose}
             className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/15
-              text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/8 transition-colors"
+              text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
           >
             Tutup
           </button>
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Edit Invoice Modal ────────────────────────────────────────────────────────
@@ -481,14 +490,18 @@ function EditModal({
   const numAttended = Math.max(0, Math.min(parseInt(attended) || 0, invoice.total_meetings));
   const total = numAttended * numPrice;
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-md shrink-0 min-h-0 max-h-[calc(100dvh-1.5rem)] flex flex-col bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -524,7 +537,7 @@ function EditModal({
             </p>
           )}
 
-          <div className="flex items-center justify-between text-xs border-b border-slate-100 dark:border-white/8 pb-3">
+          <div className="flex items-center justify-between text-xs border-b border-slate-100 dark:border-white/10 pb-3">
             <span className="text-slate-500 dark:text-slate-400 font-medium">Total Pertemuan Kontak</span>
             <span className="font-bold text-slate-800 dark:text-white">{invoice.total_meetings}</span>
           </div>
@@ -578,7 +591,7 @@ function EditModal({
             />
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/8">
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/10">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Total Tagihan Baru</span>
             <span className="text-lg font-black text-[#7cc62f] tabular-nums">
               {fmt(total)}
@@ -590,7 +603,7 @@ function EditModal({
               type="button"
               onClick={onClose}
               className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/15
-                text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/8 transition-colors"
+                text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
             >
               Batal
             </button>
@@ -606,7 +619,7 @@ function EditModal({
         </form>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Parent Link Popup ─────────────────────────────────────────────────────────
@@ -621,25 +634,38 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
     });
   };
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-black/60
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60
         backdrop-blur-sm p-3 sm:p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl
+        className="my-auto w-full max-w-md shrink-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain bg-white dark:bg-[#0B0F19] rounded-3xl
           shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40
           dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 p-6 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
-            <LinkIcon className="w-5 h-5" />
+        <div className="flex items-center gap-3">
+          <img
+            src="/b2blight.webp"
+            alt="Logo resmi Bits2Bytes"
+            width={44}
+            height={44}
+            className="h-11 w-11 shrink-0 object-contain"
+          />
+          <div className="min-w-0">
+            <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+              <span>bits</span><span className="text-lime-500 dark:text-lime-400">2</span><span>bytes</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">
+              Link Laporan Orang Tua
+            </h3>
           </div>
-          <h3 className="font-extrabold text-slate-900 dark:text-white text-base">
-            Link Laporan Orang Tua
-          </h3>
         </div>
         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           Bagikan link ini kepada orang tua siswa. Berisi rincian kehadiran dan tagihan transparan tanpa perlu login.
@@ -672,14 +698,14 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
             type="button"
             onClick={onClose}
             className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/15
-              text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/8 transition-colors"
+              text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
           >
             Tutup
           </button>
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }
 
 // ── Main Shell Component ──────────────────────────────────────────────────────
@@ -830,17 +856,22 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
         return;
       }
       setLinkPending(inv.id);
-      const fd = new FormData();
-      fd.append('student_id', inv.student_id);
-      fd.append('invoice_id', inv.id);
-      const result = await createParentLink(null, fd);
-      setLinkPending(null);
-      if (result.success && result.data?.url) {
-        const url = result.data.url as string;
-        setLinkCache((prev) => ({ ...prev, [inv.id]: url }));
-        setPopupUrl(url);
-      } else if (!result.success) {
-        alert(result.error);
+      try {
+        const fd = new FormData();
+        fd.append('student_id', inv.student_id);
+        fd.append('invoice_id', inv.id);
+        const result = await createParentLink(null, fd);
+        if (result.success && result.data?.url) {
+          const url = result.data.url as string;
+          setLinkCache((prev) => ({ ...prev, [inv.id]: url }));
+          setPopupUrl(url);
+        } else if (!result.success) {
+          alert(result.error);
+        }
+      } catch (error) {
+        alert(error instanceof Error ? error.message : 'Gagal membuat link orang tua. Silakan coba lagi.');
+      } finally {
+        setLinkPending(null);
       }
     },
     [linkCache]
@@ -1152,7 +1183,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                         onClick={() => handleParentLink(inv)}
                         disabled={linkPending === inv.id}
                         className="flex-1 min-w-[90px] inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold
-                          bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-200
+                          bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200
                           hover:bg-slate-200 dark:hover:bg-white/15 transition-all border border-slate-200/60 dark:border-white/10"
                       >
                         <LinkIcon className="w-3.5 h-3.5" />
@@ -1163,7 +1194,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                         type="button"
                         onClick={() => setEditInv(inv)}
                         className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold
-                          bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-200
+                          bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200
                           hover:bg-slate-200 dark:hover:bg-white/15 transition-all border border-slate-200/60 dark:border-white/10"
                       >
                         <Edit2 className="w-3.5 h-3.5" />

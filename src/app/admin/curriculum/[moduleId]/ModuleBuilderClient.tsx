@@ -1,6 +1,7 @@
 'use client';
 // Module-scoped Import/Export toolbar + per-topic Preview & Edit panel.
 import { useState, useTransition, useRef, useActionState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   exportCurriculumJson,
@@ -110,7 +111,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     {typeof node.xp === 'number' && node.xp > 0 && (
                       <span className="text-[10px] text-amber-600 dark:text-amber-400 flex-shrink-0">+{node.xp}XP</span>
                     )}
-                    <span className="text-slate-400 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
                   </button>
 
                   {open && (
@@ -139,7 +140,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                     ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                     : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                                   }`}>
-                                <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                                <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                                 {opt}
                                 {opt === node.correctOption && (
                                   <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Benar</span>
@@ -208,7 +209,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                 ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                 : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
                               }`}>
-                            <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                            <span className="font-bold text-slate-400 dark:text-slate-500 mr-1.5">{['A','B','C','D'][oi]}.</span>
                             {opt}
                             {oi === q.answer_index && (
                               <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Kunci</span>
@@ -260,7 +261,7 @@ function TopicEditForm({
       <input type="hidden" name="module_id" value={moduleId} />
 
       {state && !state.success && !state.fields && (
-        <p role="alert" className="text-xs text-red-600 bg-red-50 dark:bg-red-900/20
+        <p role="alert" className="text-xs text-red-600 dark:text-red-300 bg-red-50 dark:bg-red-900/20
           rounded-lg px-3 py-2 ring-1 ring-red-200 dark:ring-red-700/40">
           {state.error}
         </p>
@@ -277,7 +278,7 @@ function TopicEditForm({
               text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-indigo-500
               ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-slate-700'}`} />
-          {err('title') && <p className="text-xs text-red-600">{err('title')}</p>}
+          {err('title') && <p className="text-xs text-red-600 dark:text-red-400">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -337,7 +338,7 @@ function TopicEditForm({
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-2 pt-1
-        border-t border-slate-100 dark:border-white/8">
+        border-t border-slate-100 dark:border-white/10">
         <button type="button" onClick={onClose}
           className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
             text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
@@ -369,10 +370,16 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
   // Import JSON state
   const [showImport, setShowImport] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
   const [text, setText]             = useState('');
   const [vs, setVs]                 = useState<ImportState>({ status: 'idle' });
   const [exporting, startExport]    = useTransition();
   const [importPending, startImport]= useTransition();
+  const [finalExamPending, startFinalExam] = useTransition();
+  const [finalExamMessage, setFinalExamMessage] = useState<string | null>(null);
+  const [finalExamError, setFinalExamError] = useState(false);
   const [delPending, startDel]      = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -431,6 +438,36 @@ export function ModuleBuilderClient({ module: mod }: Props) {
           status: 'error',
           msg: 'Import gagal diproses oleh server. Materi mungkin belum tersimpan; periksa dan coba lagi.',
         });
+      }
+    });
+  };
+
+  const handleGenerateFinalExam = () => {
+    const hasExistingExam = mod.description?.startsWith('FINAL_ASSESSMENT:') ?? false;
+    if (hasExistingExam && !window.confirm('Tryout akhir modul yang tersimpan akan diganti. Lanjutkan generate ulang?')) return;
+
+    setFinalExamMessage(null);
+    setFinalExamError(false);
+    startFinalExam(async () => {
+      try {
+        const response = await fetch('/api/ai/generate-final-assessment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ module_id: mod.id }),
+        });
+        const result = await response.json().catch(() => ({})) as {
+          success?: boolean;
+          data?: { topicCount: number; questionCount: number };
+          error?: string;
+        };
+        if (!response.ok || !result.success || !result.data) {
+          throw new Error(result.error || 'Gagal menyusun ujian akhir modul.');
+        }
+        setFinalExamMessage(`Tryout akhir berhasil dibuat dari ${result.data.topicCount} topik: ${result.data.questionCount} soal tersimpan.`);
+        router.refresh();
+      } catch (error) {
+        setFinalExamError(true);
+        setFinalExamMessage(error instanceof Error ? error.message : 'Gagal menyusun ujian akhir modul.');
       }
     });
   };
@@ -504,7 +541,32 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             validate(json);
           }}
         />
+
+        <button
+          type="button"
+          onClick={handleGenerateFinalExam}
+          disabled={finalExamPending || mod.topics.filter((topic) => topic.status === 'published').length === 0}
+          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
+            bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-sm
+            disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          title="Gemini menyusun 20 soal gabungan dari seluruh topik published"
+        >
+          {finalExamPending ? 'Menyusun 20 soal…' : (mod.description?.startsWith('FINAL_ASSESSMENT:') ? 'Generate Ulang Final Exam' : 'Generate Final Exam · 20 Soal')}
+        </button>
       </div>
+
+      {finalExamMessage && (
+        <p
+          role={finalExamError ? 'alert' : 'status'}
+          className={`rounded-xl px-4 py-3 text-sm ring-1 ${
+            finalExamError
+              ? 'bg-red-50 text-red-700 ring-red-200 dark:bg-red-950/30 dark:text-red-300 dark:ring-red-800/50'
+              : 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:ring-emerald-800/50'
+          }`}
+        >
+          {finalExamMessage}
+        </p>
+      )}
 
       {/* ── Topic list ───────────────────────────────────────────────────── */}
       <section>
@@ -635,7 +697,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-white/2">
+                    <div className="border-t border-slate-100 dark:border-white/10 bg-slate-50/40 dark:bg-white/5">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
@@ -658,7 +720,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
       </section>
 
       {/* ── Import modal ─────────────────────────────────────────────────── */}
-      {showImport && (
+      {mounted && showImport && createPortal((
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm p-3 sm:p-5"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
@@ -767,7 +829,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
     </div>
   );
 }

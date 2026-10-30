@@ -7,7 +7,7 @@
 //   - Zero color leaks: strict light/dark mode pairings with neon accents
 //   - Progress report draft & completion actions
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
 import {
   isToday,
@@ -213,24 +213,59 @@ function MeetingCard({
 
         {/* Row 3: Enrolled Students */}
         {m.meeting_students.length > 0 && (
-          <div className="space-y-1.5 pt-1">
+          <div className="space-y-2.5 pt-1">
             <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1">
               <i className="fa-solid fa-user-group text-[9px]" />
-              Siswa Terdaftar ({m.meeting_students.length})
+              Modul & Topik Siswa ({m.meeting_students.length})
             </p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="space-y-2">
               {m.meeting_students.map((ms) => (
-                <span
+                <div
                   key={ms.student_id}
-                  className="inline-flex items-center gap-1 text-xs font-bold
-                    bg-slate-100 dark:bg-zinc-800/80 text-slate-700 dark:text-zinc-200 px-2.5 py-1 rounded-xl
-                    border border-slate-200/80 dark:border-zinc-700/60 transition-colors"
+                  className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-zinc-700/70 dark:bg-zinc-800/50"
                 >
-                  <i className="fa-solid fa-user-graduate text-[10px] text-blue-500 dark:text-purple-400" />
-                  <span className="truncate max-w-[130px]">
-                    {ms.students?.full_name?.split(' ')[0] ?? 'Siswa'}
-                  </span>
-                </span>
+                  <p className="flex items-center gap-2 text-xs font-extrabold text-slate-800 dark:text-zinc-100">
+                    <i className="fa-solid fa-user-graduate text-blue-500 dark:text-purple-400" />
+                    {ms.students?.full_name ?? 'Siswa'}
+                  </p>
+                  {ms.assigned_modules && ms.assigned_modules.length > 0 ? (
+                    <div className="mt-2 space-y-2">
+                      {ms.assigned_modules.map((assignedModule) => (
+                        <div key={assignedModule.module_id} className="border-l-2 border-blue-300 pl-2.5 dark:border-purple-500/50">
+                          <p className="text-[11px] font-bold text-slate-700 dark:text-zinc-200">
+                            {assignedModule.module_title}
+                            <span className="ml-1.5 text-[9px] font-semibold uppercase text-slate-500 dark:text-zinc-400">
+                              {assignedModule.enrollment_status}
+                            </span>
+                          </p>
+                          {assignedModule.topics.length > 0 ? (
+                            <ul className="mt-1 space-y-1">
+                              {assignedModule.topics.map((topic) => (
+                                <li key={topic.topic_id}>
+                                  <a
+                                    href={`/teacher/lessons/topic/${topic.topic_id}`}
+                                    className="inline-flex items-start gap-1.5 text-[11px] font-semibold text-blue-700 hover:text-blue-900 hover:underline dark:text-purple-300 dark:hover:text-purple-200"
+                                  >
+                                    <i className="fa-solid fa-book-open mt-0.5 text-[9px]" />
+                                    <span>{topic.order_index}. {topic.topic_title}</span>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="mt-1 text-[10px] text-slate-500 dark:text-zinc-400">
+                              Belum ada topik yang diterbitkan.
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-1 text-[10px] text-amber-700 dark:text-amber-300">
+                      Belum ada modul yang ditetapkan untuk siswa ini.
+                    </p>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -259,44 +294,102 @@ function MeetingCard({
         )}
       </div>
 
-      {/* Row 5: Action Buttons */}
-      <div className="pt-4 mt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-2.5 flex-wrap">
-        {m.link_url && !completed && (
-          <a
-            href={m.link_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
-              text-xs font-black transition-all duration-200 shadow-md active:scale-95
-              ${
-                live
-                  ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/50'
-                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 dark:from-purple-600 dark:to-indigo-600 dark:hover:from-purple-500 dark:hover:to-indigo-500 text-white shadow-blue-500/20 dark:shadow-purple-500/20'
-              }`}
-          >
-            <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
-            <span>{live ? 'Masuk Kelas' : 'Buka Meeting'}</span>
-          </a>
-        )}
-
-        <div className={m.link_url && !completed ? 'flex-shrink-0' : 'w-full'}>
-          <TeacherCompleteAction
-            meetingId={m.id}
-            meetingTitle={m.title}
-            studentNames={studentNames}
-            buttonText={completed ? '✏️ Edit Laporan' : '✓ Tandai & Lapor'}
-            variant={completed ? 'secondary' : 'primary'}
-            className={m.link_url && !completed ? '' : 'w-full justify-center'}
-            initialReport={m.progress_report}
-            isCompleted={completed}
-            attendanceStudents={m.meeting_students.map((ms) => ({
-              studentId: ms.student_id,
-              studentName: ms.students?.full_name ?? 'Siswa',
-              status:
-                ms.attendance_status ?? (ms.has_joined ? 'hadir' : 'absen'),
-            }))}
-          />
+      {/* Row 5: The exact topic assigned to this meeting */}
+      {m.topic_id != null ? (
+        <div className="pt-3 space-y-2">
+          <div className="rounded-xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 dark:border-purple-500/30 dark:bg-purple-950/20">
+            <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Umum Pertemuan</p>
+            <p className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
+              {m.topic_title ?? 'Topik belum tersedia atau belum diterbitkan'}
+            </p>
+            {m.topic_title && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                <a href={`/teacher/lessons/topic/${m.topic_id}`} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-extrabold bg-white text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-zinc-900 dark:text-purple-300 dark:border-purple-500/30 dark:hover:bg-purple-500/20 transition-colors">
+                  <i className="fa-solid fa-book-open" /> Lihat Materi
+                </a>
+                <a href={`/teacher/lessons/topic/${m.topic_id}#panduan-mengajar`} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700 dark:hover:bg-zinc-700 transition-colors">
+                  <i className="fa-solid fa-chalkboard-user" /> Panduan Mengajar
+                </a>
+              </div>
+            )}
+          </div>
         </div>
+      ) : (
+        <div className="pt-3 rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 py-2.5 text-xs text-amber-800 dark:border-amber-500/30 dark:bg-amber-950/20 dark:text-amber-300">
+          <i className="fa-solid fa-circle-info mr-1.5" /> Topik belum ditetapkan untuk pertemuan ini. Hubungi admin untuk melengkapinya.
+        </div>
+      )}
+
+      {/* Row 6: Action Buttons */}
+      <div className="pt-4 mt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-2.5 flex-wrap">
+        {(() => {
+          const startsAt = new Date(m.meeting_date).getTime();
+          const joinOpensAt = startsAt - 10 * 60 * 1000;
+          const reportOpensAt = startsAt + 20 * 60 * 1000;
+          const canJoin = Boolean(m.link_url) && !completed && now.getTime() >= joinOpensAt;
+          const showCountdown = Boolean(m.link_url) && !completed && now.getTime() < joinOpensAt;
+          const canReport = completed || now.getTime() >= reportOpensAt;
+          const remainingSeconds = Math.max(0, Math.ceil((joinOpensAt - now.getTime()) / 1000));
+          const hours = Math.floor(remainingSeconds / 3600);
+          const minutes = Math.floor((remainingSeconds % 3600) / 60);
+          const seconds = remainingSeconds % 60;
+          const countdown = [hours, minutes, seconds]
+            .map((value) => String(value).padStart(2, '0'))
+            .join(':');
+
+          return (
+            <>
+              {showCountdown && (
+                <span
+                  aria-label={`Masuk kelas dalam ${countdown}`}
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+                    text-xs font-black font-mono tabular-nums bg-slate-100 dark:bg-zinc-800
+                    text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-zinc-700"
+                >
+                  <i className="fa-solid fa-clock" />
+                  {countdown}
+                </span>
+              )}
+              {canJoin && (
+                <a
+                  href={m.link_url ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+                    text-xs font-black transition-all duration-200 shadow-md active:scale-95
+                    ${
+                      live
+                        ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/50'
+                        : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 dark:from-purple-600 dark:to-indigo-600 dark:hover:from-purple-500 dark:hover:to-indigo-500 text-white shadow-blue-500/20 dark:shadow-purple-500/20'
+                    }`}
+                >
+                  <i className={`fa-solid fa-video ${live ? 'fa-beat-fade' : ''}`} />
+                  <span>Masuk Kelas</span>
+                </a>
+              )}
+              {canReport && (
+                <div className={m.link_url && !completed ? 'flex-shrink-0' : 'w-full'}>
+                  <TeacherCompleteAction
+                    meetingId={m.id}
+                    meetingTitle={m.title}
+                    studentNames={studentNames}
+                    buttonText={completed ? '✏️ Edit Laporan' : 'Kirim Laporan'}
+                    variant={completed ? 'secondary' : 'primary'}
+                    className={m.link_url && !completed ? '' : 'w-full justify-center'}
+                    initialReport={m.progress_report}
+                    isCompleted={completed}
+                    attendanceStudents={m.meeting_students.map((ms) => ({
+                      studentId: ms.student_id,
+                      studentName: ms.students?.full_name ?? 'Siswa',
+                      status:
+                        ms.attendance_status ?? (ms.has_joined ? 'hadir' : 'absen'),
+                    }))}
+                  />
+                </div>
+              )}
+            </>
+          );
+        })()}
       </div>
     </div>
   );
@@ -305,7 +398,12 @@ function MeetingCard({
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export function TeacherScheduleCards({ meetings, renderTimestamp }: Props) {
-  const now = useMemo(() => new Date(renderTimestamp), [renderTimestamp]);
+  const [clockNow, setClockNow] = useState(renderTimestamp);
+  useEffect(() => {
+    const timer = window.setInterval(() => setClockNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const now = useMemo(() => new Date(clockNow), [clockNow]);
   const nowMs = now.getTime();
 
   // Derive tab buckets

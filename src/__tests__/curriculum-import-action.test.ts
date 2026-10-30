@@ -67,17 +67,25 @@ describe('module curriculum import action', () => {
     state.thrownError = null;
   });
 
+  const validNodes = Array.from({ length: 10 }, (_, index) => ({
+    node_id: `node-${index + 1}`,
+    order: index,
+    type: 'lesson',
+    title: `Lesson ${index + 1}`,
+    content: `Lesson content ${index + 1}`,
+  }));
+  const validQuiz = Array.from({ length: 5 }, (_, index) => ({
+    question: `Question ${index + 1}`,
+    options: ['A', 'B', 'C', 'D'],
+    answer_index: index % 4,
+    explanation: `Explanation ${index + 1}`,
+  }));
   const payload = {
     topics: [{
       topic_title: 'Introduction',
       topic_order: 1,
-      nodes: [{
-        node_id: 'node-1',
-        order: 0,
-        type: 'lesson',
-        title: 'First lesson',
-        content: 'Lesson content',
-      }],
+      nodes: validNodes,
+      quiz: validQuiz,
     }],
   };
 

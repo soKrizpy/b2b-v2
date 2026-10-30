@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { curriculumJsonSchema } from '@/features/curriculum/validation';
+import { curriculumJsonSchema, topicImportSchema } from '@/features/curriculum/validation';
 import { exportCurriculumJson, importCurriculumJson, importCurriculumJsonForModule } from '@/features/curriculum/actions';
 
 type WriteRecord = { table: string; operation: string; values: unknown };
@@ -93,6 +93,12 @@ const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
   title: `Materi ${index + 1}`,
   content: `Isi materi ${index + 1}`,
 }));
+const validQuiz = Array.from({ length: 5 }, (_, index) => ({
+  question: `Pertanyaan ${index + 1}`,
+  options: ['A', 'B', 'C', 'D'],
+  answer_index: index % 4,
+  explanation: `Penjelasan ${index + 1}`,
+}));
 
 describe('curriculum JSON round-trip workflow', () => {
   beforeEach(() => {
@@ -124,14 +130,14 @@ describe('curriculum JSON round-trip workflow', () => {
         module_title: 'Modul A',
         module_order: 0,
         topics: [
-          { topic_title: 'Topik A1', topic_order: 0, nodes: [] },
-          { topic_title: 'Topik A2', topic_order: 1, nodes: [] },
+          { topic_title: 'Topik A1', topic_order: 0, nodes: lessonNodes, quiz: validQuiz },
+          { topic_title: 'Topik A2', topic_order: 1, nodes: lessonNodes, quiz: validQuiz },
         ],
       },
       {
         module_title: 'Modul B',
         module_order: 1,
-        topics: [{ topic_title: 'Topik B1', topic_order: 0, nodes: [] }],
+        topics: [{ topic_title: 'Topik B1', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
       },
     ]);
 
@@ -140,7 +146,7 @@ describe('curriculum JSON round-trip workflow', () => {
     expect(state.appliedWrites.filter((write) => write.table === 'topics')).toHaveLength(3);
   });
 
-  it('publishes a topic with its authored slide content without inventing filler to reach ten', async () => {
+  it('rejects a topic with fewer than ten authored nodes instead of inventing filler', async () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul sumber ringkas',
       module_order: 0,
@@ -148,14 +154,12 @@ describe('curriculum JSON round-trip workflow', () => {
         topic_title: 'Satu topik dari sumber',
         topic_order: 0,
         nodes: [{ node_id: 'source-1', order: 0, type: 'theory', title: 'Konsep autentik', content: 'Penjelasan yang bersumber.' }],
+        quiz: validQuiz,
       }],
     }]);
 
-    expect(result).toMatchObject({ success: true, stats: { modules: 1, topics: 1 } });
-    expect(state.appliedWrites.find((write) => write.table === 'topics')?.values).toMatchObject({
-      status: 'published',
-      lesson_content: { learningPath: [{ title: 'Konsep autentik', content: 'Penjelasan yang bersumber.' }] },
-    });
+    expect(result.success).toBe(false);
+    expect(state.writes).toEqual([]);
   });
 
   it('stores lesson, quiz, assessment, and structured challenge payloads without losing authored node order', async () => {
@@ -167,7 +171,7 @@ describe('curriculum JSON round-trip workflow', () => {
         topic_title: 'Gerak Sprite',
         topic_order: 1,
         nodes: lessonNodes,
-        quiz: [{ question: 'Apa hasilnya?', options: ['A', 'B', 'C', 'D'], answer_index: 0, explanation: 'A benar.' }],
+        quiz: validQuiz,
         challenge: {
           title: 'Buat animasi',
           instructions: 'Kirim tautan project.',
@@ -207,7 +211,7 @@ describe('curriculum JSON round-trip workflow', () => {
   });
 
   it('exports final assessment, quiz, challenge rows, xp sidecar, and original node ordering', async () => {
-    const quiz = [{ question: 'Soal?', options: ['A', 'B', 'C', 'D'], answer_index: 1, explanation: 'B benar' }];
+    const quiz = validQuiz;
     state.exportModules = [{
       id: 41,
       title: 'Scratch Dasar',
@@ -221,7 +225,13 @@ describe('curriculum JSON round-trip workflow', () => {
         description: null,
         project_link: null,
         lesson_content: {
-          learningPath: [{ id: 'authored-8', type: 'lesson', title: 'Kedelapan', order: 8, explanation: 'Materi 8' }],
+          learningPath: Array.from({ length: 10 }, (_, index) => ({
+            id: `authored-${index + 8}`,
+            type: 'lesson',
+            title: `Materi ${index + 8}`,
+            order: index + 8,
+            explanation: `Penjelasan materi ${index + 8}`,
+          })),
           quiz,
           challenge: [{ xp: 45 }],
         },
@@ -253,7 +263,7 @@ describe('curriculum JSON round-trip workflow', () => {
   });
 
   it('round-trips imported topic materials, quiz, challenge, and final assessment through export', async () => {
-    const quiz = [{ question: 'Soal round-trip?', options: ['A', 'B', 'C', 'D'], answer_index: 2, explanation: 'C benar.' }];
+    const quiz = validQuiz;
     const challenge = { title: 'Kirim project', instructions: 'Lampirkan tautan.', submission_type: 'link' as const, xp: 55 };
     const importPayload = [{
       module_title: 'Round-trip module',
@@ -291,45 +301,16 @@ describe('curriculum JSON round-trip workflow', () => {
     expect(topic.challenge).toEqual(challenge);
   });
 
-  it('imports and exports the Scratch pilot learningPath without losing its authored steps', async () => {
+  it('blocks the legacy Scratch module until every topic meets the 10–20 node rule', async () => {
     const payload: unknown = JSON.parse(readFileSync('public/curriculum/scratch-game-development.json', 'utf8'));
-    const validated = curriculumJsonSchema.parse(payload);
+    const [module] = payload as Array<{ topics: unknown[] }>;
+    expect(module.topics).toHaveLength(10);
+    expect(topicImportSchema.safeParse(module.topics[0]).success).toBe(true);
+    expect(module.topics.slice(1).some((topic) => !topicImportSchema.safeParse(topic).success)).toBe(true);
+
     const result = await importCurriculumJson(payload);
-    expect(result).toMatchObject({ success: true, stats: { modules: 1, topics: 10 } });
-
-    const moduleWrite = state.appliedWrites.find((write) => write.table === 'modules')?.values as Record<string, unknown>;
-    const firstTopicWrite = state.appliedWrites.find((write) => write.table === 'topics')?.values as Record<string, unknown>;
-    const lessonContent = firstTopicWrite.lesson_content as { learningPath: Array<Record<string, unknown>>; quiz: unknown };
-    expect(lessonContent.learningPath).toHaveLength(10);
-    expect(lessonContent.learningPath.map((node) => node.id)).toEqual(validated[0].topics[0].nodes.map((node) => node.node_id));
-    expect(lessonContent.learningPath.map((node) => node.type)).toEqual(validated[0].topics[0].nodes.map((node) => node.type));
-    expect(lessonContent.quiz).toEqual(validated[0].topics[0].quiz);
-
-    state.exportModules = [{
-      id: state.nextModuleId,
-      title: moduleWrite.title,
-      description: moduleWrite.description,
-      level: moduleWrite.level,
-      gamification_type: moduleWrite.gamification_type,
-      topics: [{
-        id: state.nextTopicId,
-        title: firstTopicWrite.title,
-        order_index: firstTopicWrite.order_index,
-        description: firstTopicWrite.description,
-        project_link: firstTopicWrite.project_link,
-        lesson_content: lessonContent,
-      }],
-    }];
-    const firstChallenge = state.appliedWrites.find((write) => write.table === 'challenges')?.values as Record<string, unknown>;
-    state.challengeRows = [{ id: 501, topic_id: state.nextTopicId, ...firstChallenge }];
-
-    const exported = await exportCurriculumJson();
-    expect(exported.success).toBe(true);
-    if (!exported.success) return;
-    const [exportedModule] = exported.data as Array<{ topics: Array<{ nodes: Array<Record<string, unknown>>; quiz: unknown }> }>;
-    expect(exportedModule.topics[0].nodes).toHaveLength(10);
-    expect(exportedModule.topics[0].nodes.map((node) => node.node_id)).toEqual(validated[0].topics[0].nodes.map((node) => node.node_id));
-    expect(exportedModule.topics[0].quiz).toEqual(validated[0].topics[0].quiz);
+    expect(result.success).toBe(false);
+    expect(state.writes).toEqual([]);
   });
 
   it('rejects multi-module arrays in an import scoped to one module instead of importing only the first', async () => {
@@ -347,7 +328,7 @@ describe('curriculum JSON round-trip workflow', () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul gagal',
       module_order: 0,
-      topics: [{ topic_title: 'Topik gagal', topic_order: 0, nodes: [] }],
+      topics: [{ topic_title: 'Topik gagal', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
     }]);
     expect(result).toMatchObject({ success: false });
     if (!result.success) expect(result.error).toContain('parsial mungkin sudah tersimpan');
@@ -361,7 +342,7 @@ describe('curriculum JSON round-trip workflow', () => {
     const result = await importCurriculumJson([{
       module_title: 'Modul gagal dibuat',
       module_order: 0,
-      topics: [{ topic_title: 'Topik tidak ditulis', topic_order: 0, nodes: [] }],
+      topics: [{ topic_title: 'Topik tidak ditulis', topic_order: 0, nodes: lessonNodes, quiz: validQuiz }],
     }]);
 
     expect(result).toMatchObject({ success: false });
@@ -378,7 +359,8 @@ describe('curriculum JSON round-trip workflow', () => {
       topics: [{
         topic_title: 'Topik challenge gagal',
         topic_order: 0,
-        nodes: [],
+        nodes: lessonNodes,
+        quiz: validQuiz,
         challenge: { title: 'Challenge', instructions: 'Kirim link', submission_type: 'link' },
       }],
     }]);
@@ -397,7 +379,8 @@ describe('curriculum JSON round-trip workflow', () => {
       topics: [{
         topic_title: 'Topik sidecar gagal',
         topic_order: 0,
-        nodes: [],
+        nodes: lessonNodes,
+        quiz: validQuiz,
         challenge: { title: 'Challenge', instructions: 'Kirim link', submission_type: 'link' },
       }],
     }]);
@@ -426,7 +409,14 @@ describe('curriculum JSON round-trip workflow', () => {
         id: 81,
         title: 'Topik tanpa challenge aktif',
         order_index: 0,
-        lesson_content: { learningPath: [], activeChallengeIds: [] },
+        lesson_content: {
+          learningPath: lessonNodes.map((node) => ({
+            id: node.node_id, order: node.order, type: node.type,
+            title: node.title, content: node.content,
+          })),
+          quiz: validQuiz,
+          activeChallengeIds: [],
+        },
       }],
     }];
     state.challengeRows = [{ id: 501, topic_id: 81, title: 'Challenge lama', instructions: 'Riwayat', allows_file_upload: false }];

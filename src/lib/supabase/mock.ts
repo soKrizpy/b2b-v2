@@ -189,6 +189,12 @@ function createInitialMockStore(): MockStore {
         user_metadata: { full_name: 'Kak Budi Santoso', role: 'teacher' },
       },
       {
+        id: 'student-demo-john',
+        email: 'john.demo@student.mylms.app',
+        password: '123456',
+        user_metadata: { full_name: 'John', role: 'student' },
+      },
+      {
         id: 'student-demo-1',
         email: '08123456789@student.mylms.app',
         password: '123456',
@@ -217,6 +223,13 @@ function createInitialMockStore(): MockStore {
         created_at: yesterday,
       },
       {
+        id: 'student-demo-john',
+        role: 'student',
+        full_name: 'John',
+        email: 'john.demo@student.mylms.app',
+        created_at: yesterday,
+      },
+      {
         id: 'student-demo-1',
         role: 'student',
         full_name: 'Raka Pratama',
@@ -232,6 +245,21 @@ function createInitialMockStore(): MockStore {
       },
     ],
     students: [
+      {
+        id: 'student-demo-john',
+        email_or_phone: 'john.demo@student.mylms.app',
+        full_name: 'John',
+        grade: '5 SD',
+        bio: 'Akun dummy untuk pengujian invoice.',
+        mpin: '123456',
+        avatar_id: 'robot',
+        title_id: null,
+        coins: 0,
+        total_xp: 0,
+        equipped_hat_id: null,
+        inventory: [],
+        created_at: yesterday,
+      },
       {
         id: 'student-demo-1',
         email_or_phone: '08123456789',
@@ -321,7 +349,8 @@ function createInitialMockStore(): MockStore {
       { student_id: 'student-demo-1', module_id: 1, status: 'active' },
       { student_id: 'student-demo-2', module_id: 1, status: 'active' },
     ],
-    meetings: scratchTopicsData.map((t, idx) => ({
+    meetings: [
+      ...scratchTopicsData.map((t, idx) => ({
       id: idx + 1,
       title: `Sesi ${idx + 1}: ${t.topic_title}`,
       meeting_date: idx === 0 ? yesterday : idx === 1 ? inTwoHours : nextWeek,
@@ -339,6 +368,22 @@ function createInitialMockStore(): MockStore {
           : null,
       created_at: yesterday,
     })),
+      ...Array.from({ length: 9 }, (_, idx) => ({
+        id: 101 + idx,
+        title: `John — Pertemuan ${idx + 1}/9`,
+        meeting_date: new Date(prevMonthDate.getFullYear(), prevMonthDate.getMonth(), idx + 2, 10, 0, 0).toISOString(),
+        link_url: 'https://example.com/dummy-meeting',
+        notes: 'Data dummy khusus pengujian invoice; bukan pertemuan nyata.',
+        session_count: 9,
+        session_number: idx + 1,
+        series_id: 'series-john-dummy',
+        teacher_id: 'teacher-demo-1',
+        is_completed: true,
+        completion_status: 'selesai',
+        progress_report: 'Data dummy invoice test.',
+        created_at: yesterday,
+      })),
+    ],
     meeting_students: [
       {
         meeting_id: 1,
@@ -364,6 +409,12 @@ function createInitialMockStore(): MockStore {
         has_joined: true,
         attendance_status: 'hadir',
       },
+      ...Array.from({ length: 9 }, (_, idx) => ({
+        meeting_id: 101 + idx,
+        student_id: 'student-demo-john',
+        has_joined: idx < 8,
+        attendance_status: idx < 8 ? 'hadir' : 'tidak_hadir',
+      })),
     ],
     quizzes: [],
     quiz_questions: [],
@@ -485,6 +536,18 @@ function createInitialMockStore(): MockStore {
         total_amount: 500000,
         bank_account: 'BCA 1234567890 a/n Bits2Bytes Edukasi',
         status: 'paid',
+        created_at: yesterday,
+      },
+      {
+        id: 'inv-demo-john-prev-month',
+        student_id: 'student-demo-john',
+        month_year: prevMonthYear,
+        total_meetings: 9,
+        attended_meetings: 8,
+        price_per_meeting: 125000,
+        total_amount: 1000000,
+        bank_account: 'DATA DUMMY — bukan rekening pembayaran',
+        status: 'draft',
         created_at: yesterday,
       },
       {

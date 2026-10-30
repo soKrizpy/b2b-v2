@@ -66,6 +66,7 @@ export const updateSessionSchema = z.object({
   session_count:  z.coerce.number().int().min(1).optional(),
   session_number: z.coerce.number().int().min(1).optional(),
   module_id:      z.coerce.number().int().positive().optional(),
+  topic_id:       z.coerce.number().int().positive().optional(),
 });
 
 export type UpdateSessionInput = z.infer<typeof updateSessionSchema>;

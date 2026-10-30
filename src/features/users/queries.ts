@@ -73,6 +73,7 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
   const [
     { data, error },
     { data: meetingStudents },
+    { data: directTeacherStudents },
     { data: meetings },
     { data: teacherProfiles },
     { data: quizAttempts },
@@ -93,6 +94,12 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
       .from('meeting_students')
       .select('meeting_id, student_id, has_joined') as unknown as Promise<{
         data: Array<{ meeting_id: number; student_id: string; has_joined: boolean }> | null;
+        error: unknown;
+      }>,
+    db
+      .from('teacher_students')
+      .select('teacher_id, student_id') as unknown as Promise<{
+        data: Array<{ teacher_id: string; student_id: string }> | null;
         error: unknown;
       }>,
     db.from('meetings').select('id, teacher_id'),
@@ -121,6 +128,15 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
   const sessionMap = new Map<string, number>();
   // student_id -> Map<teacher_id, session_count>
   const studentTeachersMap = new Map<string, Map<string, number>>();
+
+  // Include direct mentor assignments, even when no class meeting exists yet.
+  (directTeacherStudents ?? []).forEach((assignment) => {
+    if (!studentTeachersMap.has(assignment.student_id)) {
+      studentTeachersMap.set(assignment.student_id, new Map());
+    }
+    const tMap = studentTeachersMap.get(assignment.student_id)!;
+    if (!tMap.has(assignment.teacher_id)) tMap.set(assignment.teacher_id, 0);
+  });
 
   (meetingStudents ?? []).forEach((ms) => {
     if (ms.has_joined) {

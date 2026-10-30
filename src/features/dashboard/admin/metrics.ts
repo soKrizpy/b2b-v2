@@ -1,46 +1,61 @@
-﻿// src/features/dashboard/admin/metrics.ts
-// Derives operational KPI metrics from already-fetched meeting data.
+// src/features/dashboard/admin/metrics.ts
+// Derives operational KPI metrics from already-fetched database records.
 // Pure functions — no extra DB calls.
 
 import { isLive, isToday, isUpcoming } from '@/lib/formatDate';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
 
 export interface AdminMetrics {
-  /** Meetings currently in progress right now. */
   liveNowCount: number;
-  /** Meetings scheduled for today (any time). */
   todayTotalCount: number;
-  /** Distinct students with at least one upcoming session. */
-  activeStudentsCount: number;
-  /** Upcoming meetings that have no valid link_url. */
+  totalStudentsCount: number;
+  totalTeachersCount: number;
+  upcomingSessionsCount: number;
   needsAttentionCount: number;
+}
+
+export interface AdminRosterCounts {
+  studentsCount: number;
+  teachersCount: number;
 }
 
 function hasValidLink(url: string | null | undefined): boolean {
   if (!url || !url.trim()) return false;
-  try { new URL(url); return true; } catch { return false; }
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 export function computeAdminMetrics(
   meetings: MeetingWithStudents[],
-  now: Date = new Date()
+  now: Date = new Date(),
+  roster: AdminRosterCounts = { studentsCount: 0, teachersCount: 0 }
 ): AdminMetrics {
-  const liveNowCount = meetings.filter((m) => isLive(m.meeting_date, now)).length;
-
-  const todayTotalCount = meetings.filter((m) => isToday(m.meeting_date, now)).length;
-
-  // Active students = distinct student_ids across all upcoming sessions
-  const upcomingStudentIds = new Set<string>();
-  meetings
-    .filter((m) => !m.is_completed && isUpcoming(m.meeting_date, now))
-    .forEach((m) =>
-      m.meeting_students.forEach((ms) => upcomingStudentIds.add(ms.student_id))
-    );
-  const activeStudentsCount = upcomingStudentIds.size;
-
-  const needsAttentionCount = meetings.filter(
-    (m) => !m.is_completed && isUpcoming(m.meeting_date, now) && !hasValidLink(m.link_url)
+  const liveNowCount = meetings.filter((meeting) =>
+    !meeting.is_completed && isLive(meeting.meeting_date, now)
   ).length;
 
-  return { liveNowCount, todayTotalCount, activeStudentsCount, needsAttentionCount };
+  const todayTotalCount = meetings.filter((meeting) =>
+    isToday(meeting.meeting_date, now)
+  ).length;
+
+  const upcomingMeetings = meetings.filter((meeting) =>
+    !meeting.is_completed && isUpcoming(meeting.meeting_date, now)
+  );
+
+  const needsAttentionCount = upcomingMeetings.filter((meeting) =>
+    !hasValidLink(meeting.link_url)
+  ).length;
+
+  return {
+    liveNowCount,
+    todayTotalCount,
+    totalStudentsCount: roster.studentsCount,
+    totalTeachersCount: roster.teachersCount,
+    upcomingSessionsCount: upcomingMeetings.length,
+    needsAttentionCount,
+  };
 }

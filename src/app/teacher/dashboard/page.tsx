@@ -59,7 +59,7 @@ export default async function TeacherDashboardPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1 drop-shadow-sm">
-            Halo kembali, {teacherName}! 👋
+            Selamat datang kembali, {teacherName}! 👋
           </h1>
 
           <div className="mt-5 flex items-center gap-3 flex-wrap">

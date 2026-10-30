@@ -114,13 +114,22 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
 
 // ── Result shapes ─────────────────────────────────────────────────────────────
 
+export interface StudentAssignedModule {
+  module_id: number;
+  module_title: string;
+  enrollment_status: string;
+  topics: Array<{ topic_id: number; topic_title: string; order_index: number }>;
+}
+
 export interface MeetingWithStudents extends MeetingRow {
+  module_title?: string | null;
   topic_title?: string | null;
   meeting_students: Array<{
     student_id: string;
     has_joined: boolean;
     attendance_status: AttendanceStatus;
     students: Pick<StudentRow, 'id' | 'full_name' | 'email_or_phone'> | null;
+    assigned_modules?: StudentAssignedModule[];
   }>;
 }
 
@@ -140,7 +149,7 @@ export interface StudentOption {
 // ── Query helpers shared between cookie client and admin client ───────────────
 
 const MEETING_SELECT = `
-  id, title, meeting_date, link_url, notes,
+  id, title, meeting_date, link_url, notes, teacher_id,
   session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students (
@@ -152,7 +161,7 @@ const MEETING_SELECT = `
 `.trim();
 
 const MEETING_SELECT_INNER = `
-  id, title, meeting_date, link_url, notes,
+  id, title, meeting_date, link_url, notes, teacher_id,
   session_count, session_number, series_id, module_id, topic_id,
   is_completed, completion_status, progress_report, created_at,
   meeting_students!inner (
@@ -169,6 +178,96 @@ const MEETING_SELECT_INNER = `
  * All meetings sorted ascending by meeting_date.
  * Admin-only — bypasses RLS via the admin client.
  */
+async function enrichMeetingsWithStudentCurriculum(
+  meetings: MeetingWithStudents[],
+  logPrefix: string
+): Promise<MeetingWithStudents[]> {
+  const db = createSupabaseAdminClient();
+  const studentIds = [...new Set(meetings.flatMap((meeting) =>
+    meeting.meeting_students.map((student) => student.student_id)
+  ))];
+  const topicIds = [...new Set(meetings.flatMap((meeting) =>
+    meeting.topic_id == null ? [] : [meeting.topic_id]
+  ))];
+  const moduleIds = [...new Set(meetings.flatMap((meeting) =>
+    meeting.module_id == null ? [] : [meeting.module_id]
+  ))];
+
+  const [topicResult, moduleResult, assignmentResult] = await Promise.all([
+    topicIds.length > 0
+      ? db.from('topics').select('id, title').eq('status', 'published').in('id', topicIds)
+      : Promise.resolve({ data: [], error: null }),
+    moduleIds.length > 0
+      ? db.from('modules').select('id, title').in('id', moduleIds)
+      : Promise.resolve({ data: [], error: null }),
+    studentIds.length > 0
+      ? db.from('student_modules').select(`
+          student_id, status,
+          modules (
+            id, title,
+            topics ( id, title, order_index, status )
+          )
+        `).in('student_id', studentIds)
+      : Promise.resolve({ data: [], error: null }),
+  ]);
+
+  if (topicResult.error) console.error(`[${logPrefix}] meeting topic mapping`, topicResult.error.message);
+  if (moduleResult.error) console.error(`[${logPrefix}] meeting module mapping`, moduleResult.error.message);
+  if (assignmentResult.error) console.error(`[${logPrefix}] student module mapping`, assignmentResult.error.message);
+
+  const titlesByTopic = new Map<number, string>(
+    ((topicResult.data ?? []) as Array<{ id: number; title: string }>).map((topic) => [topic.id, topic.title])
+  );
+  const moduleTitles = new Map<number, string | null>(
+    ((moduleResult.data ?? []) as Array<{ id: number; title: string | null }>).map((module) => [module.id, module.title])
+  );
+  const modulesByStudent = new Map<string, StudentAssignedModule[]>();
+
+  type AssignmentRow = {
+    student_id: string;
+    status: string;
+    modules: {
+      id: number;
+      title: string;
+      topics: Array<{ id: number; title: string; order_index: number; status: string }>;
+    } | null;
+  };
+
+  for (const row of (assignmentResult.data ?? []) as unknown as AssignmentRow[]) {
+    if (!row.modules) continue;
+    const assignedModule: StudentAssignedModule = {
+      module_id: row.modules.id,
+      module_title: row.modules.title,
+      enrollment_status: row.status,
+      topics: (row.modules.topics ?? [])
+        .filter((topic) => topic.status === 'published')
+        .sort((a, b) => a.order_index - b.order_index)
+        .map((topic) => ({
+          topic_id: topic.id,
+          topic_title: topic.title,
+          order_index: topic.order_index,
+        })),
+    };
+    const current = modulesByStudent.get(row.student_id) ?? [];
+    current.push(assignedModule);
+    modulesByStudent.set(row.student_id, current);
+  }
+
+  return meetings.map((meeting) => ({
+    ...meeting,
+    module_title: meeting.module_id == null ? null : moduleTitles.get(meeting.module_id) ?? null,
+    topic_title: meeting.topic_id == null ? null : titlesByTopic.get(meeting.topic_id) ?? null,
+    meeting_students: meeting.meeting_students.map((student) => ({
+      ...student,
+      assigned_modules: modulesByStudent.get(student.student_id) ?? [],
+    })),
+  }));
+}
+
+/**
+ * All meetings sorted ascending by meeting_date.
+ * Admin-only — bypasses RLS via the admin client.
+ */
 export async function getSessionsForAdmin(): Promise<MeetingWithStudents[]> {
   const db = createSupabaseAdminClient();
   const { data, error } = await db
@@ -180,30 +279,7 @@ export async function getSessionsForAdmin(): Promise<MeetingWithStudents[]> {
     console.error('[getSessionsForAdmin]', error.message);
     return [];
   }
-  const meetings = (data ?? []) as unknown as MeetingWithStudents[];
-  const topicIds = [...new Set(meetings.flatMap((meeting) => meeting.topic_id == null ? [] : [meeting.topic_id]))];
-  if (topicIds.length === 0) return meetings;
-
-  const { data: topics, error: topicsError } = await (db
-    .from('topics')
-    .select('id, title')
-    .in('id', topicIds) as unknown as Promise<{
-      data: Array<{ id: number; title: string }> | null;
-      error: { message: string } | null;
-    }>);
-  if (topicsError) {
-    console.error('[getSessionsForAdmin] topic mapping', topicsError.message);
-    return meetings;
-  }
-
-  const titlesByTopic = new Map<number, string>();
-  for (const topic of topics ?? []) {
-    titlesByTopic.set(topic.id, topic.title);
-  }
-  return meetings.map((meeting) => ({
-    ...meeting,
-    topic_title: meeting.topic_id == null ? null : titlesByTopic.get(meeting.topic_id) ?? null,
-  }));
+  return enrichMeetingsWithStudentCurriculum((data ?? []) as unknown as MeetingWithStudents[], 'getSessionsForAdmin');
 }
 
 /**
@@ -225,7 +301,7 @@ export async function getSessionsForTeacher(
     console.error('[getSessionsForTeacher]', error.message);
     return [];
   }
-  return (data ?? []) as unknown as MeetingWithStudents[];
+  return enrichMeetingsWithStudentCurriculum((data ?? []) as unknown as MeetingWithStudents[], 'getSessionsForTeacher');
 }
 
 /**

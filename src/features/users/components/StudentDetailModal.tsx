@@ -4,6 +4,7 @@
 // Tabs: Learning Path (assign active module) | Riwayat | Pencapaian | Sertifikat
 
 import { useState, useActionState, useTransition, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
@@ -120,14 +121,14 @@ function LearningPathTab({
                   {isActive ? (
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
                       bg-emerald-100 text-emerald-700 ring-emerald-200
-                      dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/40">
+                      dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/40 dark:text-emerald-300 dark:ring-emerald-700/40">
                       ✓ Aktif
                     </span>
                   ) : (
                     <>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
                         bg-slate-100 text-slate-600 ring-slate-200
-                        dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">
+                        dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:text-slate-300 dark:ring-slate-700">
                         ⏸ Dijeda
                       </span>
                       <form action={dispatch}>
@@ -138,7 +139,7 @@ function LearningPathTab({
                           disabled={pending}
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
                             bg-white text-indigo-600 ring-indigo-200 hover:bg-indigo-50
-                            dark:bg-white/5 dark:text-indigo-400 dark:ring-indigo-700/40
+                            dark:bg-white/5 dark:text-indigo-300 dark:ring-indigo-700/40 dark:text-indigo-400 dark:ring-indigo-700/40
                             dark:hover:bg-indigo-900/20
                             disabled:opacity-50 transition-colors cursor-pointer"
                         >
@@ -344,7 +345,7 @@ function EnrolledTeacherTab({
                   onClick={() => handleUnenroll(t.id)}
                   className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold
                     text-red-600 hover:text-red-700 hover:bg-red-500/10
-                    dark:text-red-400 dark:hover:bg-red-500/20
+                    dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-500/20
                     transition-all active:scale-95 disabled:opacity-50"
                 >
                   Lepas Guru
@@ -435,8 +436,12 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 
 export function StudentDetailModal({ student: s, allModules, allTeachers, onClose }: Props) {
   const [tab, setTab] = useState<Tab>('path');
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal((
     /* Backdrop */
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain
@@ -543,5 +548,5 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 }

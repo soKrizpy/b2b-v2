@@ -100,7 +100,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             className={`p-2 rounded-xl text-xs font-medium ring-1 transition-colors
               ${showEdit
                 ? 'ring-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300'
-                : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
+                : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600 dark:hover:text-indigo-300'
               }`}
           >
             ✏️
