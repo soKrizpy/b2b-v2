@@ -211,7 +211,7 @@ describe('curriculum JSON round-trip workflow', () => {
   });
 
   it('exports final assessment, quiz, challenge rows, xp sidecar, and original node ordering', async () => {
-    const quiz = [{ question: 'Soal?', options: ['A', 'B', 'C', 'D'], answer_index: 1, explanation: 'B benar' }];
+    const quiz = validQuiz;
     state.exportModules = [{
       id: 41,
       title: 'Scratch Dasar',
@@ -225,7 +225,13 @@ describe('curriculum JSON round-trip workflow', () => {
         description: null,
         project_link: null,
         lesson_content: {
-          learningPath: [{ id: 'authored-8', type: 'lesson', title: 'Kedelapan', order: 8, explanation: 'Materi 8' }],
+          learningPath: Array.from({ length: 10 }, (_, index) => ({
+            id: `authored-${index + 8}`,
+            type: 'lesson',
+            title: `Materi ${index + 8}`,
+            order: index + 8,
+            explanation: `Penjelasan materi ${index + 8}`,
+          })),
           quiz,
           challenge: [{ xp: 45 }],
         },
