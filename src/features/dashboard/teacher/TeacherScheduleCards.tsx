@@ -213,24 +213,59 @@ function MeetingCard({
 
         {/* Row 3: Enrolled Students */}
         {m.meeting_students.length > 0 && (
-          <div className="space-y-1.5 pt-1">
+          <div className="space-y-2.5 pt-1">
             <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1">
               <i className="fa-solid fa-user-group text-[9px]" />
-              Siswa Terdaftar ({m.meeting_students.length})
+              Modul & Topik Siswa ({m.meeting_students.length})
             </p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="space-y-2">
               {m.meeting_students.map((ms) => (
-                <span
+                <div
                   key={ms.student_id}
-                  className="inline-flex items-center gap-1 text-xs font-bold
-                    bg-slate-100 dark:bg-zinc-800/80 text-slate-700 dark:text-zinc-200 px-2.5 py-1 rounded-xl
-                    border border-slate-200/80 dark:border-zinc-700/60 transition-colors"
+                  className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-zinc-700/70 dark:bg-zinc-800/50"
                 >
-                  <i className="fa-solid fa-user-graduate text-[10px] text-blue-500 dark:text-purple-400" />
-                  <span className="truncate max-w-[130px]">
-                    {ms.students?.full_name?.split(' ')[0] ?? 'Siswa'}
-                  </span>
-                </span>
+                  <p className="flex items-center gap-2 text-xs font-extrabold text-slate-800 dark:text-zinc-100">
+                    <i className="fa-solid fa-user-graduate text-blue-500 dark:text-purple-400" />
+                    {ms.students?.full_name ?? 'Siswa'}
+                  </p>
+                  {ms.assigned_modules && ms.assigned_modules.length > 0 ? (
+                    <div className="mt-2 space-y-2">
+                      {ms.assigned_modules.map((assignedModule) => (
+                        <div key={assignedModule.module_id} className="border-l-2 border-blue-300 pl-2.5 dark:border-purple-500/50">
+                          <p className="text-[11px] font-bold text-slate-700 dark:text-zinc-200">
+                            {assignedModule.module_title}
+                            <span className="ml-1.5 text-[9px] font-semibold uppercase text-slate-500 dark:text-zinc-400">
+                              {assignedModule.enrollment_status}
+                            </span>
+                          </p>
+                          {assignedModule.topics.length > 0 ? (
+                            <ul className="mt-1 space-y-1">
+                              {assignedModule.topics.map((topic) => (
+                                <li key={topic.topic_id}>
+                                  <a
+                                    href={`/teacher/lessons/topic/${topic.topic_id}`}
+                                    className="inline-flex items-start gap-1.5 text-[11px] font-semibold text-blue-700 hover:text-blue-900 hover:underline dark:text-purple-300 dark:hover:text-purple-200"
+                                  >
+                                    <i className="fa-solid fa-book-open mt-0.5 text-[9px]" />
+                                    <span>{topic.order_index}. {topic.topic_title}</span>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="mt-1 text-[10px] text-slate-500 dark:text-zinc-400">
+                              Belum ada topik yang diterbitkan.
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-1 text-[10px] text-amber-700 dark:text-amber-300">
+                      Belum ada modul yang ditetapkan untuk siswa ini.
+                    </p>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -263,7 +298,7 @@ function MeetingCard({
       {m.topic_id != null ? (
         <div className="pt-3 space-y-2">
           <div className="rounded-xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 dark:border-purple-500/30 dark:bg-purple-950/20">
-            <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Pertemuan Ini</p>
+            <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-purple-300">Topik Umum Pertemuan</p>
             <p className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
               {m.topic_title ?? 'Topik belum tersedia atau belum diterbitkan'}
             </p>
