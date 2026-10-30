@@ -90,7 +90,7 @@ function PortfolioSection({ items }: { items: PortfolioItem[] }) {
           Belum Ada Portofolio Challenge
         </p>
         <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
-          Karya yang diselesaikan siswa dan telah disetujui guru akan tampil secara otomatis di galeri ini.
+          Setiap link karya yang dikirim siswa akan tersimpan di sini. Status review guru akan diperbarui otomatis.
         </p>
       </div>
     );
