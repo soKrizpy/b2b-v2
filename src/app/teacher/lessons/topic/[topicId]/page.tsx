@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
-import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getModuleById, getTopicById } from '@/features/curriculum/queries';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
 
