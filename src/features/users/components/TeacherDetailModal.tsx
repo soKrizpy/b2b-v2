@@ -269,7 +269,7 @@ function EnrolledStudentsSection({
           {/* List of candidates */}
           <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-1">
             {availableStudents.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-3 text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic py-3 text-center">
                 {allStudents.length === 0
                   ? 'Tidak ada data siswa.'
                   : 'Semua siswa yang cocok sudah terdaftar.'}
