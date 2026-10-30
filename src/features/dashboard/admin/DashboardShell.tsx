@@ -231,6 +231,12 @@ export function DashboardShell({
               </span>
             )}
             <Link
+              href="/teacher/lessons"
+              className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
+            >
+              Panduan Mengajar & Topik →
+            </Link>
+            <Link
               href="/admin/sessions"
               className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
             >
