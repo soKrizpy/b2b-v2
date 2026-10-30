@@ -1,6 +1,6 @@
 // src/features/curriculum/queries.ts
 // Read-side query helpers for modules and topics.
-// All queries use the admin client (bypasses RLS) â€” called only from
+// All queries use the admin client (bypasses RLS) — called only from
 // Server Components, Server Actions, and Route Handlers.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
@@ -83,7 +83,7 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
   if (topErr) { console.error('[getStudentModulesWithTopics] topics', topErr.message); }
 
   const topicList = (topics ?? []) as unknown as TopicRow[];
-  const topicIds  = topicList.map((t) => t.id);
+  const topicIds = topicList.map((t) => t.id);
 
   // 4. Challenge counts per topic (filtered by topicIds in SQL)
   const challengeCountMap = new Map<number, number>();
@@ -158,8 +158,8 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
 
   if (topErr) console.error('[getAllModulesWithTopics] topics', topErr.message);
 
-  const topicList  = (topics ?? []) as unknown as TopicRow[];
-  const topicIds   = topicList.map((t) => t.id);
+  const topicList = (topics ?? []) as unknown as TopicRow[];
+  const topicIds = topicList.map((t) => t.id);
 
   const challengeCountMap = new Map<number, number>();
   if (topicIds.length > 0) {
@@ -281,11 +281,11 @@ export async function getStudentModuleProgress(
     }
 
     return {
-      moduleId:         modId,
-      totalTopics:      total,
-      completedTopics:  completed,
+      moduleId: modId,
+      totalTopics: total,
+      completedTopics: completed,
       isModuleComplete: total > 0 && completed >= total,
-      hasAssessment:    hasAssessmentMap.get(modId) ?? false,
+      hasAssessment: hasAssessmentMap.get(modId) ?? false,
     };
   });
 }
@@ -324,37 +324,57 @@ export async function getStudentCompletedTopics(studentId: string): Promise<Topi
 export async function getTeacherModulesWithTopics(teacherId: string): Promise<ModuleWithTopics[]> {
   const db = createSupabaseAdminClient();
 
-  const [{ data: meetings }, { data: directStudents }] = await Promise.all([
+  const [{ data: meetings, error: meetingsError }, { data: directStudents, error: directStudentsError }] = await Promise.all([
     db.from('meetings').select('id').eq('teacher_id', teacherId) as unknown as Promise<{
       data: Array<{ id: number }> | null;
+      error: { message: string } | null;
     }>,
     db.from('teacher_students').select('student_id').eq('teacher_id', teacherId) as unknown as Promise<{
       data: Array<{ student_id: string }> | null;
+      error: { message: string } | null;
     }>,
   ]);
 
+  if (meetingsError || directStudentsError) {
+    console.error('[getTeacherModulesWithTopics] teacher relationships', {
+      meetings: meetingsError?.message,
+      directStudents: directStudentsError?.message,
+    });
+    return [];
+  }
+
   const meetingIds = (meetings ?? []).map((meeting) => meeting.id);
-  const [{ data: meetingStudents },] = await Promise.all([
-    meetingIds.length > 0
-      ? db.from('meeting_students').select('student_id').in('meeting_id', meetingIds) as unknown as Promise<{
-          data: Array<{ student_id: string }> | null;
-        }>
-      : Promise.resolve({ data: [] as Array<{ student_id: string }> }),
-  ]);
+  const meetingStudentsResult = meetingIds.length > 0
+    ? await db.from('meeting_students').select('student_id').in('meeting_id', meetingIds) as unknown as {
+        data: Array<{ student_id: string }> | null;
+        error: { message: string } | null;
+      }
+    : { data: [] as Array<{ student_id: string }>, error: null };
+
+  if (meetingStudentsResult.error) {
+    console.error('[getTeacherModulesWithTopics] meeting students', meetingStudentsResult.error.message);
+    return [];
+  }
 
   const studentIds = Array.from(new Set([
     ...(directStudents ?? []).map((row) => row.student_id),
-    ...(meetingStudents ?? []).map((row) => row.student_id),
+    ...(meetingStudentsResult.data ?? []).map((row) => row.student_id),
   ]));
   if (studentIds.length === 0) return [];
 
-  const { data: enrollments } = await db
+  const { data: enrollments, error: enrollmentError } = await db
     .from('student_modules')
     .select('module_id')
     .in('student_id', studentIds)
     .eq('status', 'active') as unknown as {
       data: Array<{ module_id: number }> | null;
+      error: { message: string } | null;
     };
+
+  if (enrollmentError) {
+    console.error('[getTeacherModulesWithTopics] active enrollments', enrollmentError.message);
+    return [];
+  }
 
   const moduleIds = Array.from(new Set((enrollments ?? []).map((row) => row.module_id)));
   if (moduleIds.length === 0) return [];
@@ -386,16 +406,21 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
   const challengeCounts = new Map<number, number>();
 
   if (topicIds.length > 0) {
-    const { data: challenges } = await db
+    const { data: challenges, error: challengeError } = await db
       .from('challenges')
       .select('topic_id')
       .in('topic_id', topicIds) as unknown as {
         data: Array<{ topic_id: number }> | null;
+        error: { message: string } | null;
       };
 
-    (challenges ?? []).forEach((challenge) => {
-      challengeCounts.set(challenge.topic_id, (challengeCounts.get(challenge.topic_id) ?? 0) + 1);
-    });
+    if (challengeError) {
+      console.error('[getTeacherModulesWithTopics] challenge counts', challengeError.message);
+    } else {
+      (challenges ?? []).forEach((challenge) => {
+        challengeCounts.set(challenge.topic_id, (challengeCounts.get(challenge.topic_id) ?? 0) + 1);
+      });
+    }
   }
 
   return ((modules ?? []) as unknown as ModuleRow[]).map((module) => ({
