@@ -392,6 +392,7 @@ export async function reviewSubmission(
 
   revalidatePath('/teacher/submissions', 'layout');
   revalidatePath('/student/lessons', 'layout');
+  revalidatePath('/student/parent-hub', 'page');
 
   return {
     success: true,
@@ -468,6 +469,7 @@ export async function bulkApproveSubmissions(
 
   revalidatePath('/teacher/submissions', 'layout');
   revalidatePath('/student/lessons', 'layout');
+  revalidatePath('/student/parent-hub', 'page');
 
   return {
     success: true,
