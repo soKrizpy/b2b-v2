@@ -18,7 +18,7 @@ export default async function AdminDashboardPage() {
     getStudentOptions(),
   ]);
   const renderTimestamp = Date.now();
-  const metrics = computeAdminMetrics(meetings, new Date(renderTimestamp));
+  const metrics = computeAdminMetrics(meetings, new Date(renderTimestamp), {\n    studentsCount: students.length,\n    teachersCount: teachers.length,\n  });
   return (
     <DashboardShell
       meetings={meetings}
