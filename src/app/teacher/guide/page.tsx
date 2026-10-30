@@ -3,6 +3,12 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
 import { getTeacherModulesWithTopics } from '@/features/curriculum/queries';
+import type { LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
+
+function getLearningNodes(value: unknown): LearningNode[] {
+  const content = value as { learningPath?: unknown } | null;
+  return Array.isArray(content?.learningPath) ? content.learningPath as LearningNode[] : [];
+}
 
 export const metadata: Metadata = { title: 'Panduan Mengajar — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -96,6 +102,33 @@ export default async function TeacherGuidePage() {
                           <h3 className="font-extrabold text-slate-900 dark:text-white">{topic.title}</h3>
                           {topic.description && (
                             <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">{topic.description}</p>
+                          )}
+                          {getLearningNodes(topic.lesson_content).length > 0 && (
+                            <div className="mt-3 rounded-xl bg-slate-50 dark:bg-zinc-950/60 p-3">
+                              <p className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                Materi dan langkah pembelajaran
+                              </p>
+                              <ol className="mt-2 space-y-3">
+                                {getLearningNodes(topic.lesson_content).map((node, index) => (
+                                  <li key={node.id ?? `${topic.id}-step-${index}`} className="text-sm">
+                                    <p className="font-bold text-slate-800 dark:text-slate-200">
+                                      {index + 1}. {node.title}
+                                      <span className="ml-2 text-[10px] font-semibold uppercase text-slate-400 dark:text-slate-500">{node.type}</span>
+                                    </p>
+                                    {(node.explanation ?? node.content ?? node.instructions) && (
+                                      <p className="mt-1 whitespace-pre-line leading-relaxed text-slate-600 dark:text-slate-300">
+                                        {node.explanation ?? node.content ?? node.instructions}
+                                      </p>
+                                    )}
+                                    {node.tips && node.tips.length > 0 && (
+                                      <ul className="mt-1 list-disc pl-5 text-xs text-slate-500 dark:text-slate-400">
+                                        {node.tips.map((tip, tipIndex) => <li key={tipIndex}>{tip}</li>)}
+                                      </ul>
+                                    )}
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
                           )}
                           <div className="mt-2 flex flex-wrap gap-2 text-xs">
                             {topic.challenge_count > 0 && (
