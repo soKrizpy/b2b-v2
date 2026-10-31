@@ -232,7 +232,7 @@ export async function deleteUser(
 
 export type SetModuleResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 export async function setActiveStudentModule(
   _prev: SetModuleResult | null,
@@ -436,6 +436,7 @@ export async function enrollStudentsToTeacher(
     return {
       success: false,
       error: `Berhasil: ${successCount}; gagal: ${failedCount}. Detail: ${failures.join(' | ')}`,
+      partialSuccess: successCount > 0,
     };
   }
 
