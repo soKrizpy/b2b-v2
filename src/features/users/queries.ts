@@ -215,6 +215,7 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
     { data: profiles, error },
     { data: meetings },
     { data: mStudents },
+    { data: directTS },
     { data: students },
   ] = await Promise.all([
     db
@@ -224,6 +225,7 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
       .order('full_name', { ascending: true }),
     db.from('meetings').select('id, teacher_id'),
     db.from('meeting_students').select('meeting_id, student_id'),
+    db.from('teacher_students').select('teacher_id, student_id'),
     db.from('students').select('id, full_name, email_or_phone, grade'),
   ]);
 
@@ -266,19 +268,31 @@ export async function getAllTeachers(): Promise<TeacherRecord[]> {
     }
   });
 
-  // Map teacher_id -> Map<student_id, session_count>
-  const teacherStudentsMap = new Map<string, Map<string, number>>();
+  // Count class sessions separately; mentorship membership comes only from teacher_students.
+  const sessionCountByTeacherStudent = new Map<string, Map<string, number>>();
   (mStudents ?? []).forEach((ms) => {
     const row = ms as { meeting_id: number; student_id: string };
     for (const [tid, mids] of teacherMeetingIds) {
       if (mids.includes(row.meeting_id)) {
-        if (!teacherStudentsMap.has(tid)) {
-          teacherStudentsMap.set(tid, new Map());
+        if (!sessionCountByTeacherStudent.has(tid)) {
+          sessionCountByTeacherStudent.set(tid, new Map());
         }
-        const sMap = teacherStudentsMap.get(tid)!;
-        sMap.set(row.student_id, (sMap.get(row.student_id) ?? 0) + 1);
+        const counts = sessionCountByTeacherStudent.get(tid)!;
+        counts.set(row.student_id, (counts.get(row.student_id) ?? 0) + 1);
       }
     }
+  });
+
+  const teacherStudentsMap = new Map<string, Map<string, number>>();
+  (directTS ?? []).forEach((ts) => {
+    const row = ts as { teacher_id: string; student_id: string };
+    if (!teacherStudentsMap.has(row.teacher_id)) {
+      teacherStudentsMap.set(row.teacher_id, new Map());
+    }
+    teacherStudentsMap.get(row.teacher_id)!.set(
+      row.student_id,
+      sessionCountByTeacherStudent.get(row.teacher_id)?.get(row.student_id) ?? 0,
+    );
   });
 
   return profileRows.map((row) => {
