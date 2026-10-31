@@ -304,7 +304,7 @@ function StudentDesktopTable({
                   <div className="inline-flex items-center gap-1.5
                     bg-slate-100 dark:bg-white/10 px-2 py-1 rounded-lg
                     border border-transparent dark:border-white/5">
-                    <span className="text-[10px] text-slate-400">🔑</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-300" aria-hidden="true">🔑</span>
                     <span className="text-xs font-mono font-bold tracking-widest text-slate-800 dark:text-slate-100">{s.mpin}</span>
                   </div>
                 </td>

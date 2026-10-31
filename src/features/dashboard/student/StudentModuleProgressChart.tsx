@@ -31,6 +31,47 @@ interface ChartDataPoint {
   xpEarned: number;
 }
 
+
+function XAxisTick({ x, y, payload }: {
+  x?: number;
+  y?: number;
+  payload?: { value?: string };
+}) {
+  return (
+    <text
+      x={x}
+      y={y}
+      dy={4}
+      textAnchor="middle"
+      className="fill-slate-600 dark:fill-slate-300"
+      fontSize={11}
+      fontWeight={600}
+    >
+      {payload?.value}
+    </text>
+  );
+}
+
+function YAxisTick({ x, y, payload }: {
+  x?: number;
+  y?: number;
+  payload?: { value?: string | number };
+}) {
+  return (
+    <text
+      x={x}
+      y={y}
+      dx={-4}
+      dy={4}
+      textAnchor="end"
+      className="fill-slate-600 dark:fill-slate-300"
+      fontSize={11}
+    >
+      {payload?.value}
+    </text>
+  );
+}
+
 export function StudentModuleProgressChart({
   completedTopics,
   allModules = [],
@@ -206,14 +247,14 @@ export function StudentModuleProgressChart({
       {/* ── Metric Summary Cards ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-3.5 shadow-xs">
-          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+          <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">
             Topik Selesai
           </p>
           <div className="flex items-baseline gap-2">
             <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {totalPeriodCompleted}
             </span>
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
               / {totalPeriodTarget} target
             </span>
           </div>
@@ -341,13 +382,13 @@ export function StudentModuleProgressChart({
                   dataKey="label"
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                  tick={<XAxisTick />}
                 />
                 <YAxis
                   allowDecimals={false}
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 11 }}
+                  tick={<YAxisTick />}
                 />
                 <Tooltip
                   content={({ active, payload }) => {

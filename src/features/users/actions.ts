@@ -232,7 +232,7 @@ export async function deleteUser(
 
 export type SetModuleResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 export async function setActiveStudentModule(
   _prev: SetModuleResult | null,
@@ -280,7 +280,7 @@ export async function setActiveStudentModule(
 
 export type ResetPasswordResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 export async function resetTeacherPassword(
   _prev: ResetPasswordResult | null,
@@ -307,12 +307,11 @@ export async function resetTeacherPassword(
 
 export type EnrollActionResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 /**
- * Enrolls a teacher to a student.
- * Links all existing meetings of the student to the teacher.
- * If no meeting exists, creates a dedicated mentorship class meeting.
+ * Enrolls a teacher as the student's long-term mentor.
+ * This relation is independent from scheduled class assignments.
  */
 export async function enrollTeacherToStudent(
   studentId: string,
@@ -322,7 +321,7 @@ export async function enrollTeacherToStudent(
   if (!auth.ok) return { success: false, error: auth.message };
 
   if (auth.role === 'teacher' && auth.user.id !== teacherId) {
-    return { success: false, error: 'Guru hanya dapat mendaftarkan siswa ke kelasnya sendiri.' };
+    return { success: false, error: 'Guru hanya dapat mendaftarkan siswa ke bimbingannya sendiri.' };
   }
 
   const sId = studentId?.trim();
@@ -330,97 +329,46 @@ export async function enrollTeacherToStudent(
   if (!sId || !tId) return { success: false, error: 'Siswa dan guru wajib dipilih.' };
 
   const db = createSupabaseAdminClient();
-
-  const [{ data: student }, { data: teacherProfile }] = await Promise.all([
+  const [{ data: student, error: studentError }, { data: teacherProfile, error: teacherError }] = await Promise.all([
     db.from('students').select('id, full_name').eq('id', sId).maybeSingle() as unknown as Promise<{
       data: { id: string; full_name: string } | null;
+      error: { message: string } | null;
     }>,
     db.from('profiles').select('id, full_name, role').eq('id', tId).eq('role', 'teacher').maybeSingle() as unknown as Promise<{
       data: { id: string; full_name: string | null; role: string } | null;
+      error: { message: string } | null;
     }>,
   ]);
 
+  if (studentError) return { success: false, error: `Gagal memeriksa siswa: ${studentError.message}` };
+  if (teacherError) return { success: false, error: `Gagal memeriksa guru: ${teacherError.message}` };
   if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
   if (!teacherProfile) return { success: false, error: 'Data guru tidak ditemukan.' };
 
-  const teacherName = teacherProfile.full_name ?? 'Guru';
+  const { error: enrollmentError } = await (db
+    .from('teacher_students')
+    .upsert(
+      { teacher_id: tId, student_id: sId } as never,
+      { onConflict: 'teacher_id,student_id' }
+    ) as unknown as Promise<{ error: { message: string } | null }>);
 
-  // 0. Direct mentorship record in teacher_students table
-  try {
-    await (db
-      .from('teacher_students')
-      .upsert(
-        { teacher_id: tId, student_id: sId } as never,
-        { onConflict: 'teacher_id,student_id' }
-      ) as unknown as Promise<unknown>);
-  } catch {
-    // Non-fatal if table not migrated yet
-  }
-
-  // 1. Fetch meeting IDs where student is a member
-  const { data: studentMeetings } = await (db
-    .from('meeting_students')
-    .select('meeting_id')
-    .eq('student_id', sId) as unknown as Promise<{
-      data: Array<{ meeting_id: number }> | null;
-    }>);
-
-  const meetingIds = (studentMeetings ?? []).map((m) => m.meeting_id);
-
-  if (meetingIds.length > 0) {
-    // Assign teacher to all student meetings
-    await (db
-      .from('meetings')
-      .update({ teacher_id: tId } as never)
-      .in('id', meetingIds) as unknown as Promise<unknown>);
-  }
-
-  // 2. Ensure at least one active meeting exists linking teacher and student
-  const { data: directMeetings } = await (db
-    .from('meetings')
-    .select('id, meeting_students!inner(student_id)')
-    .eq('teacher_id', tId)
-    .eq('meeting_students.student_id', sId)
-    .limit(1) as unknown as Promise<{ data: unknown[] | null }>);
-
-  if (!directMeetings || directMeetings.length === 0) {
-    const meetingDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const { data: newMeeting } = await (db
-      .from('meetings')
-      .insert({
-        title: `Kelas Bimbingan: ${teacherName} - ${student.full_name}`,
-        teacher_id: tId,
-        meeting_date: meetingDate,
-        link_url: 'https://meet.google.com',
-        session_count: 1,
-        session_number: 1,
-        is_completed: false,
-      } as never)
-      .select('id')
-      .single() as unknown as Promise<{ data: { id: number } | null }>);
-
-    if (newMeeting) {
-      await (db.from('meeting_students').insert({
-        meeting_id: newMeeting.id,
-        student_id: sId,
-        has_joined: false,
-      } as never) as unknown as Promise<unknown>);
-    }
+  if (enrollmentError) {
+    return { success: false, error: `Gagal menyimpan relasi bimbingan: ${enrollmentError.message}` };
   }
 
   revalidateAll();
-  revalidatePath('/admin/sessions', 'layout');
   revalidatePath('/teacher/dashboard', 'layout');
-  revalidatePath('/student/dashboard', 'layout');
+  revalidatePath('/teacher/students', 'layout');
 
   return {
     success: true,
-    message: `Berhasil mendaftarkan guru ${teacherName} ke siswa ${student.full_name}! 🎉`,
+    message: `Berhasil mendaftarkan ${student.full_name} sebagai siswa bimbingan ${teacherProfile.full_name ?? 'guru'}.`,
   };
 }
 
 /**
- * Unenrolls a teacher from a student by unlinking meetings where teacher_id matches.
+ * Removes only the long-term mentorship relation.
+ * Scheduled classes and completed meeting history are left unchanged.
  */
 export async function unenrollTeacherFromStudent(
   studentId: string,
@@ -430,7 +378,7 @@ export async function unenrollTeacherFromStudent(
   if (!auth.ok) return { success: false, error: auth.message };
 
   if (auth.role === 'teacher' && auth.user.id !== teacherId) {
-    return { success: false, error: 'Guru hanya dapat membatalkan siswa dari kelasnya sendiri.' };
+    return { success: false, error: 'Guru hanya dapat membatalkan siswa dari bimbingannya sendiri.' };
   }
 
   const sId = studentId?.trim();
@@ -438,47 +386,28 @@ export async function unenrollTeacherFromStudent(
   if (!sId || !tId) return { success: false, error: 'Siswa dan guru wajib ditentukan.' };
 
   const db = createSupabaseAdminClient();
+  const { error } = await (db
+    .from('teacher_students')
+    .delete()
+    .eq('teacher_id', tId)
+    .eq('student_id', sId) as unknown as Promise<{ error: { message: string } | null }>);
 
-  // 0. Remove from teacher_students table
-  try {
-    await (db
-      .from('teacher_students')
-      .delete()
-      .eq('teacher_id', tId)
-      .eq('student_id', sId) as unknown as Promise<unknown>);
-  } catch {
-    // Non-fatal if table not migrated yet
-  }
-
-  const { data: studentMeetings } = await (db
-    .from('meeting_students')
-    .select('meeting_id')
-    .eq('student_id', sId) as unknown as Promise<{
-      data: Array<{ meeting_id: number }> | null;
-    }>);
-
-  const meetingIds = (studentMeetings ?? []).map((m) => m.meeting_id);
-  if (meetingIds.length > 0) {
-    await (db
-      .from('meetings')
-      .update({ teacher_id: null } as never)
-      .in('id', meetingIds)
-      .eq('teacher_id', tId) as unknown as Promise<unknown>);
+  if (error) {
+    return { success: false, error: `Gagal menghapus relasi bimbingan: ${error.message}` };
   }
 
   revalidateAll();
-  revalidatePath('/admin/sessions', 'layout');
   revalidatePath('/teacher/dashboard', 'layout');
-  revalidatePath('/student/dashboard', 'layout');
+  revalidatePath('/teacher/students', 'layout');
 
   return {
     success: true,
-    message: 'Berhasil membatalkan enroll guru dari siswa.',
+    message: 'Relasi guru dan siswa bimbingan berhasil dihapus. Jadwal dan riwayat kelas tetap utuh.',
   };
 }
 
 /**
- * Bulk enrolls multiple students to a teacher.
+ * Bulk enrolls multiple students and reports partial failures accurately.
  */
 export async function enrollStudentsToTeacher(
   teacherId: string,
@@ -488,7 +417,7 @@ export async function enrollStudentsToTeacher(
   if (!auth.ok) return { success: false, error: auth.message };
 
   if (auth.role === 'teacher' && auth.user.id !== teacherId) {
-    return { success: false, error: 'Guru hanya dapat mendaftarkan siswa ke kelasnya sendiri.' };
+    return { success: false, error: 'Guru hanya dapat mendaftarkan siswa ke bimbingannya sendiri.' };
   }
 
   const tId = teacherId?.trim();
@@ -497,13 +426,23 @@ export async function enrollStudentsToTeacher(
     return { success: false, error: 'Pilih minimal satu siswa untuk di-enroll.' };
   }
 
-  for (const sId of studentIds) {
-    await enrollTeacherToStudent(sId, tId);
+  const results = await Promise.all(studentIds.map((sId) => enrollTeacherToStudent(sId, tId)));
+  const failedCount = results.filter((result) => !result.success).length;
+  if (failedCount > 0) {
+    const failures = results
+      .map((result, index) => result.success ? null : `${studentIds[index]}: ${result.error}`)
+      .filter((failure): failure is string => Boolean(failure));
+    const successCount = results.length - failedCount;
+    return {
+      success: false,
+      error: `Berhasil: ${successCount}; gagal: ${failedCount}. Detail: ${failures.join(' | ')}`,
+      partialSuccess: successCount > 0,
+    };
   }
 
   return {
     success: true,
-    message: `Berhasil mendaftarkan ${studentIds.length} siswa ke guru terpilih! 🎉`,
+    message: `Berhasil mendaftarkan ${studentIds.length} siswa sebagai siswa bimbingan.`,
   };
 }
 

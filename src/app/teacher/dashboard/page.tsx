@@ -59,7 +59,7 @@ export default async function TeacherDashboardPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1 drop-shadow-sm">
-            Halo kembali, {teacherName}! 👋
+            Selamat datang kembali, {teacherName}! 👋
           </h1>
 
           <div className="mt-5 flex items-center gap-3 flex-wrap">
@@ -80,6 +80,38 @@ export default async function TeacherDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Jadwal Kelas (Tabbed 3-Column Grid) ─────────────── */}
+      <section>
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-white/10 to-transparent" />
+          <h2 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap flex items-center gap-2">
+            <i className="fa-solid fa-calendar-days text-blue-500 dark:text-purple-400" /> Jadwal Kelas Guru
+          </h2>
+          <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
+        </div>
+        <TeacherScheduleCards meetings={meetings} renderTimestamp={renderTimestamp} />
+      </section>
+
+      {/* ── Teacher Guide Quick Link ─────────────────────────── */}
+      <Link
+        href="/teacher/guide"
+        className="flex items-center gap-4 rounded-2xl px-5 py-4
+          bg-white dark:bg-zinc-900/80 border border-emerald-200/70 dark:border-emerald-500/30
+          hover:border-emerald-400 dark:hover:border-emerald-500/60 hover:shadow-md
+          transition-all duration-200 group"
+      >
+        <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+          <i className="fa-solid fa-book-open text-emerald-700 dark:text-emerald-300" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-extrabold text-sm text-slate-900 dark:text-white">Panduan Mengajar</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Lihat topik aktif siswa, deskripsi materi, dan sumber belajar
+          </p>
+        </div>
+        <i className="fa-solid fa-chevron-right text-slate-400 dark:text-slate-600 group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors" />
+      </Link>
 
       {/* ── Mentored Students Quick Link ─────────────────────── */}
       <Link
@@ -102,18 +134,6 @@ export default async function TeacherDashboardPage() {
         </div>
         <i className="fa-solid fa-chevron-right text-slate-400 dark:text-slate-600 group-hover:text-blue-500 dark:group-hover:text-purple-400 transition-colors" />
       </Link>
-
-      {/* ── Jadwal Kelas (Tabbed 3-Column Grid) ─────────────── */}
-      <section>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-white/10 to-transparent" />
-          <h2 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap flex items-center gap-2">
-            <i className="fa-solid fa-calendar-days text-blue-500 dark:text-purple-400" /> Jadwal Kelas Guru
-          </h2>
-          <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
-        </div>
-        <TeacherScheduleCards meetings={meetings} renderTimestamp={renderTimestamp} />
-      </section>
     </div>
   );
 }

@@ -60,7 +60,7 @@ export function AddStudentForm({ onSuccess }: Props) {
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
               ${err('mpin') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
           {err('mpin') && <p className="text-xs text-red-600">{err('mpin')}</p>}
-          <p className="text-xs text-slate-400">Siswa login menggunakan PIN ini</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Siswa login menggunakan PIN ini</p>
         </div>
 
         {/* Grade */}

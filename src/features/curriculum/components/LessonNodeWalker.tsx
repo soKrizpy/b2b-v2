@@ -73,7 +73,7 @@ function ProgressBar({
           Node {current}/{total}
         </span>
         <span className="font-bold text-amber-600 dark:text-amber-400">
-          ⭐ {xpEarned}/{totalXp} XP
+          ⭐ {xpEarned}/{totalXp} XP langkah
         </span>
       </div>
       <div className="h-2 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
@@ -337,7 +337,7 @@ function CompletedState({
       <div>
         <p className="text-xl font-extrabold text-slate-900 dark:text-white">Materi Selesai!</p>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-          Kamu mengumpulkan <span className="font-bold text-amber-600 dark:text-amber-400">+{xpEarned} XP</span> dari node materi ini.
+          Total nilai XP dari langkah materi yang kamu lewati: <span className="font-bold text-amber-600 dark:text-amber-400">{xpEarned} XP</span>.
         </p>
       </div>
       <p className="text-sm text-indigo-600 dark:text-indigo-400 font-semibold">
@@ -361,11 +361,6 @@ export function LessonNodeWalker({ nodes, onComplete }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [xpEarned,   setXpEarned]   = useState(0);
   const [done,       setDone]        = useState(false);
-
-  // Filter out the bare "quiz" marker node if it's the last item —
-  // it's a structural marker, not a content node
-  const contentNodes = nodes.filter((n) => n.type !== 'quiz' || n.title !== 'Uji Pengetahuanmu');
-  // Actually keep quiz marker nodes — they serve as a visual gate
 
   const totalXp = nodes.reduce((s, n) => s + (n.xp ?? 0), 0);
 

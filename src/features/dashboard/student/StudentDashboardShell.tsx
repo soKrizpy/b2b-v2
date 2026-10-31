@@ -175,6 +175,30 @@ export function StudentDashboardShell({
         {/* ── LEFT COL (2/3): Hero + Pod ── */}
         <div className="lg:col-span-2 space-y-6 order-1">
 
+          {/* Primary action: attend the next teacher-led live class */}
+          <section className="space-y-3" aria-labelledby="next-class-heading">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-purple-300">
+                  Prioritas Belajar
+                </p>
+                <h2 id="next-class-heading" className="text-lg font-black text-slate-900 dark:text-white">
+                  Kelas Berikutnya
+                </h2>
+              </div>
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                Belajar langsung bersama guru
+              </span>
+            </div>
+            <div className="w-full">
+              <TownSquarePod
+                meeting={townSquareMeeting}
+                gamData={gamData}
+                currentStudentId={studentId}
+              />
+            </div>
+          </section>
+
           {/* Hero Realm Welcome Card — seamless adaptive atmosphere */}
           <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-7 text-white shadow-xl
             transition-all duration-500 hover:shadow-2xl
@@ -305,15 +329,6 @@ export function StudentDashboardShell({
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Town Square Pod */}
-          <div className="w-full">
-            <TownSquarePod
-              meeting={townSquareMeeting}
-              gamData={gamData}
-              currentStudentId={studentId}
-            />
           </div>
 
         </div>

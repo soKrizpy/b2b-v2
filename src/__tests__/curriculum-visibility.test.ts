@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getAllStudents, getStudentsForTeacher } from '@/features/users/queries';
 import { updateTopicAction } from '@/features/curriculum/actions';
 
 const state = vi.hoisted(() => ({
@@ -7,6 +8,7 @@ const state = vi.hoisted(() => ({
   updates: 0,
   inserts: 0,
   topicLessonContent: null as unknown,
+  teacherRowsByTable: {} as Record<string, unknown[]>,
 }));
 
 vi.mock('@/lib/auth', () => ({
@@ -106,6 +108,7 @@ vi.mock('@/lib/supabase/admin', () => ({
               },
             ],
             challenges: [],
+            ...state.teacherRowsByTable,
           };
 
           const rows = (rowsByTable[table] ?? []).filter((row) =>
@@ -129,6 +132,7 @@ describe('Quest Map and topic visibility', () => {
     state.updates = 0;
     state.inserts = 0;
     state.topicLessonContent = null;
+    state.teacherRowsByTable = {};
   });
 
   it('loads only active enrollments and published topics without assigning modules', async () => {
@@ -165,5 +169,200 @@ describe('Quest Map and topic visibility', () => {
       error: 'Topik harus memiliki minimal satu node materi sebelum dipublikasikan.',
     });
     expect(state.updates).toBe(0);
+  });
+});
+
+
+describe('teacher guide curriculum scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      meetings: [
+        { id: 10, is_completed: true, teacher_id: 'teacher-1' },
+        { id: 11, is_completed: false, teacher_id: 'teacher-1' },
+      ],
+      meeting_students: [
+        { meeting_id: 10, student_id: 'former-student' },
+        { meeting_id: 11, student_id: 'current-student' },
+      ],
+      teacher_students: [],
+      student_modules: [
+        { student_id: 'former-student', module_id: 2, status: 'active' },
+        { student_id: 'current-student', module_id: 1, status: 'active' },
+      ],
+      modules: [
+        {
+          id: 1,
+          title: 'Current module',
+          description: null,
+          level: 'beginner',
+          gamification_type: 'mimo',
+          is_active: true,
+          created_at: '2026-01-01T00:00:00.000Z',
+        },
+        {
+          id: 2,
+          title: 'Former module',
+          description: null,
+          level: 'beginner',
+          gamification_type: 'mimo',
+          is_active: true,
+          created_at: '2026-01-02T00:00:00.000Z',
+        },
+      ],
+      topics: [
+        {
+          id: 20,
+          module_id: 1,
+          title: 'Current published topic',
+          order_index: 1,
+          description: null,
+          project_link: null,
+          topic_link: null,
+          engine_topic_id: null,
+          lesson_content: null,
+          status: 'published',
+          published_at: null,
+          created_at: '2026-01-01T00:00:00.000Z',
+        },
+        {
+          id: 21,
+          module_id: 2,
+          title: 'Former published topic',
+          order_index: 1,
+          description: null,
+          project_link: null,
+          topic_link: null,
+          engine_topic_id: null,
+          lesson_content: null,
+          status: 'published',
+          published_at: null,
+          created_at: '2026-01-02T00:00:00.000Z',
+        },
+      ],
+      challenges: [],
+    };
+  });
+
+  it('does not expose curriculum through completed historical meetings', async () => {
+    const { getTeacherModulesWithTopics } = await import('@/features/curriculum/queries');
+    const modules = await getTeacherModulesWithTopics('teacher-1');
+
+    expect(modules.map((module) => module.title)).toEqual(['Current module']);
+    expect(modules[0].topics.map((topic) => topic.title)).toEqual([
+      'Current published topic',
+    ]);
+    expect(state.queries.find((query) => query.table === 'meetings')?.filters).toContainEqual([
+      'eq',
+      'is_completed',
+      false,
+    ]);
+  });
+});
+
+
+describe('teacher student roster scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      meetings: [
+        { id: 30, is_completed: true, teacher_id: 'teacher-1' },
+        { id: 31, is_completed: false, teacher_id: 'teacher-1' },
+      ],
+      meeting_students: [
+        { meeting_id: 30, student_id: 'history-only-student', has_joined: true },
+        { meeting_id: 31, student_id: 'class-student', has_joined: false },
+      ],
+      teacher_students: [
+        { teacher_id: 'teacher-1', student_id: 'mentor-student' },
+      ],
+      students: [
+        {
+          id: 'class-student',
+          full_name: 'Class Student',
+          email_or_phone: 'class@example.test',
+          grade: '4',
+          total_xp: 10,
+          coins: 2,
+          student_modules: [],
+        },
+        {
+          id: 'mentor-student',
+          full_name: 'Mentor Student',
+          email_or_phone: 'mentor@example.test',
+          grade: '5',
+          total_xp: 20,
+          coins: 3,
+          student_modules: [],
+        },
+      ],
+    };
+  });
+
+  it('excludes completed meeting history but retains direct mentorship students', async () => {
+    const students = await getStudentsForTeacher('teacher-1');
+
+    expect(students.map((student) => student.id).sort()).toEqual([
+      'class-student',
+      'mentor-student',
+    ]);
+    expect(students.find((student) => student.id === 'mentor-student')?.session_count).toBe(0);
+    expect(state.queries.find((query) => query.table === 'meetings')?.filters).toContainEqual([
+      'eq',
+      'is_completed',
+      false,
+    ]);
+    expect(state.queries.find((query) => query.table === 'teacher_students')?.filters).toContainEqual([
+      'eq',
+      'teacher_id',
+      'teacher-1',
+    ]);
+  });
+});
+
+
+describe('student mentor roster scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      students: [
+        {
+          id: 'student-1',
+          full_name: 'Student One',
+          email_or_phone: 'student@example.test',
+          grade: '4',
+          bio: null,
+          mpin: '123456',
+          total_xp: 0,
+          coins: 0,
+          created_at: '2026-01-01T00:00:00.000Z',
+          student_modules: [],
+        },
+      ],
+      meeting_students: [
+        { meeting_id: 40, student_id: 'student-1', has_joined: true },
+      ],
+      meetings: [
+        { id: 40, teacher_id: 'teacher-2' },
+      ],
+      profiles: [
+        { id: 'teacher-1', role: 'teacher', full_name: 'Mentor Teacher' },
+        { id: 'teacher-2', role: 'teacher', full_name: 'Class Teacher' },
+      ],
+      teacher_students: [
+        { teacher_id: 'teacher-1', student_id: 'student-1' },
+      ],
+      quiz_attempts: [],
+      certificates: [],
+    };
+  });
+
+  it('uses teacher_students for the student mentor tab, not meeting assignments', async () => {
+    const students = await getAllStudents();
+
+    expect(students).toHaveLength(1);
+    expect(students[0].teachers.map((teacher) => teacher.id)).toEqual(['teacher-1']);
+    expect(students[0].teachers[0].full_name).toBe('Mentor Teacher');
+    expect(students[0].teachers[0].session_count).toBe(0);
   });
 });

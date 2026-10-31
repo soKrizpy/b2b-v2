@@ -175,6 +175,7 @@ function EnrolledStudentsSection({
       } else {
         toast.error(res.error);
         setFeedback({ success: false, message: res.error });
+        if (res.partialSuccess) router.refresh();
       }
     });
   }
@@ -253,7 +254,7 @@ function EnrolledStudentsSection({
 
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <input
               type="text"
               value={search}
@@ -269,7 +270,7 @@ function EnrolledStudentsSection({
           {/* List of candidates */}
           <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-1">
             {availableStudents.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-3 text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic py-3 text-center">
                 {allStudents.length === 0
                   ? 'Tidak ada data siswa.'
                   : 'Semua siswa yang cocok sudah terdaftar.'}

@@ -60,6 +60,7 @@ const ROLE_NAV: Record<
     { href: '/teacher/dashboard',   label: 'Dasbor',      icon: LayoutDashboard },
     { href: '/teacher/students',    label: 'Siswa Saya',  icon: GraduationCap },
     { href: '/teacher/submissions', label: 'Tugas Siswa', icon: FileCheck2 },
+    { href: '/teacher/guide',       label: 'Panduan Guru', icon: BookOpen },
   ],
   student: [
     { href: '/student/dashboard',    label: 'Town Square',      icon: Sparkles },
