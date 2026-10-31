@@ -175,6 +175,7 @@ function EnrolledStudentsSection({
       } else {
         toast.error(res.error);
         setFeedback({ success: false, message: res.error });
+        if (res.partialSuccess) router.refresh();
       }
     });
   }
