@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getStudentsForTeacher } from '@/features/users/queries';
 import { updateTopicAction } from '@/features/curriculum/actions';
 
 const state = vi.hoisted(() => ({
@@ -255,6 +256,66 @@ describe('teacher guide curriculum scope', () => {
       'eq',
       'is_completed',
       false,
+    ]);
+  });
+});
+
+
+describe('teacher student roster scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      meetings: [
+        { id: 30, is_completed: true, teacher_id: 'teacher-1' },
+        { id: 31, is_completed: false, teacher_id: 'teacher-1' },
+      ],
+      meeting_students: [
+        { meeting_id: 30, student_id: 'history-only-student', has_joined: true },
+        { meeting_id: 31, student_id: 'class-student', has_joined: false },
+      ],
+      teacher_students: [
+        { teacher_id: 'teacher-1', student_id: 'mentor-student' },
+      ],
+      students: [
+        {
+          id: 'class-student',
+          full_name: 'Class Student',
+          email_or_phone: 'class@example.test',
+          grade: '4',
+          total_xp: 10,
+          coins: 2,
+          student_modules: [],
+        },
+        {
+          id: 'mentor-student',
+          full_name: 'Mentor Student',
+          email_or_phone: 'mentor@example.test',
+          grade: '5',
+          total_xp: 20,
+          coins: 3,
+          student_modules: [],
+        },
+      ],
+    };
+  });
+
+  it('excludes completed meeting history but retains direct mentorship students', async () => {
+    const students = await getStudentsForTeacher('teacher-1');
+
+    expect(students.map((student) => student.id).sort()).toEqual([
+      'class-student',
+      'mentor-student',
+    ]);
+    expect(students.find((student) => student.id === 'mentor-student')?.session_count).toBe(0);
+    expect(state.queries.find((query) => query.table === 'meetings')?.filters).toContainEqual([
+      'eq',
+      'is_completed',
+      false,
+    ]);
+    expect(state.queries.find((query) => query.table === 'teacher_students')?.filters).toContainEqual([
+      'eq',
+      'teacher_id',
+      'teacher-1',
     ]);
   });
 });
