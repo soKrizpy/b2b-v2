@@ -7,6 +7,7 @@ const state = vi.hoisted(() => ({
   updates: 0,
   inserts: 0,
   topicLessonContent: null as unknown,
+  teacherRowsByTable: {} as Record<string, unknown[]>,
 }));
 
 vi.mock('@/lib/auth', () => ({
@@ -51,6 +52,7 @@ vi.mock('@/lib/supabase/admin', () => ({
         ) => {
           state.queries.push({ table, filters: query.filters });
           const rowsByTable: Record<string, unknown[]> = {
+            ...state.teacherRowsByTable,
             student_modules: [
               { student_id: 'student-1', module_id: 1, status: 'active' },
               { student_id: 'student-1', module_id: 2, status: 'paused' },
@@ -129,6 +131,7 @@ describe('Quest Map and topic visibility', () => {
     state.updates = 0;
     state.inserts = 0;
     state.topicLessonContent = null;
+    state.teacherRowsByTable = {};
   });
 
   it('loads only active enrollments and published topics without assigning modules', async () => {
@@ -165,5 +168,93 @@ describe('Quest Map and topic visibility', () => {
       error: 'Topik harus memiliki minimal satu node materi sebelum dipublikasikan.',
     });
     expect(state.updates).toBe(0);
+  });
+});
+
+
+describe('teacher guide curriculum scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      meetings: [
+        { id: 10, is_completed: true, teacher_id: 'teacher-1' },
+        { id: 11, is_completed: false, teacher_id: 'teacher-1' },
+      ],
+      meeting_students: [
+        { meeting_id: 10, student_id: 'former-student' },
+        { meeting_id: 11, student_id: 'current-student' },
+      ],
+      teacher_students: [],
+      student_modules: [
+        { student_id: 'former-student', module_id: 2, status: 'active' },
+        { student_id: 'current-student', module_id: 1, status: 'active' },
+      ],
+      modules: [
+        {
+          id: 1,
+          title: 'Current module',
+          description: null,
+          level: 'beginner',
+          gamification_type: 'mimo',
+          is_active: true,
+          created_at: '2026-01-01T00:00:00.000Z',
+        },
+        {
+          id: 2,
+          title: 'Former module',
+          description: null,
+          level: 'beginner',
+          gamification_type: 'mimo',
+          is_active: true,
+          created_at: '2026-01-02T00:00:00.000Z',
+        },
+      ],
+      topics: [
+        {
+          id: 20,
+          module_id: 1,
+          title: 'Current published topic',
+          order_index: 1,
+          description: null,
+          project_link: null,
+          topic_link: null,
+          engine_topic_id: null,
+          lesson_content: null,
+          status: 'published',
+          published_at: null,
+          created_at: '2026-01-01T00:00:00.000Z',
+        },
+        {
+          id: 21,
+          module_id: 2,
+          title: 'Former published topic',
+          order_index: 1,
+          description: null,
+          project_link: null,
+          topic_link: null,
+          engine_topic_id: null,
+          lesson_content: null,
+          status: 'published',
+          published_at: null,
+          created_at: '2026-01-02T00:00:00.000Z',
+        },
+      ],
+      challenges: [],
+    };
+  });
+
+  it('does not expose curriculum through completed historical meetings', async () => {
+    const { getTeacherModulesWithTopics } = await import('@/features/curriculum/queries');
+    const modules = await getTeacherModulesWithTopics('teacher-1');
+
+    expect(modules.map((module) => module.title)).toEqual(['Current module']);
+    expect(modules[0].topics.map((topic) => topic.title)).toEqual([
+      'Current published topic',
+    ]);
+    expect(state.queries.find((query) => query.table === 'meetings')?.filters).toContainEqual([
+      'eq',
+      'is_completed',
+      false,
+    ]);
   });
 });
