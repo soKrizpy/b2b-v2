@@ -52,7 +52,6 @@ vi.mock('@/lib/supabase/admin', () => ({
         ) => {
           state.queries.push({ table, filters: query.filters });
           const rowsByTable: Record<string, unknown[]> = {
-            ...state.teacherRowsByTable,
             student_modules: [
               { student_id: 'student-1', module_id: 1, status: 'active' },
               { student_id: 'student-1', module_id: 2, status: 'paused' },
@@ -108,6 +107,7 @@ vi.mock('@/lib/supabase/admin', () => ({
               },
             ],
             challenges: [],
+            ...state.teacherRowsByTable,
           };
 
           const rows = (rowsByTable[table] ?? []).filter((row) =>
