@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
-import { getStudentsForTeacher } from '@/features/users/queries';
+import { getAllStudents, getStudentsForTeacher } from '@/features/users/queries';
 import { updateTopicAction } from '@/features/curriculum/actions';
 
 const state = vi.hoisted(() => ({
@@ -317,5 +317,52 @@ describe('teacher student roster scope', () => {
       'teacher_id',
       'teacher-1',
     ]);
+  });
+});
+
+
+describe('student mentor roster scope', () => {
+  beforeEach(() => {
+    state.queries = [];
+    state.teacherRowsByTable = {
+      students: [
+        {
+          id: 'student-1',
+          full_name: 'Student One',
+          email_or_phone: 'student@example.test',
+          grade: '4',
+          bio: null,
+          mpin: '123456',
+          total_xp: 0,
+          coins: 0,
+          created_at: '2026-01-01T00:00:00.000Z',
+          student_modules: [],
+        },
+      ],
+      meeting_students: [
+        { meeting_id: 40, student_id: 'student-1', has_joined: true },
+      ],
+      meetings: [
+        { id: 40, teacher_id: 'teacher-2' },
+      ],
+      profiles: [
+        { id: 'teacher-1', role: 'teacher', full_name: 'Mentor Teacher' },
+        { id: 'teacher-2', role: 'teacher', full_name: 'Class Teacher' },
+      ],
+      teacher_students: [
+        { teacher_id: 'teacher-1', student_id: 'student-1' },
+      ],
+      quiz_attempts: [],
+      certificates: [],
+    };
+  });
+
+  it('uses teacher_students for the student mentor tab, not meeting assignments', async () => {
+    const students = await getAllStudents();
+
+    expect(students).toHaveLength(1);
+    expect(students[0].teachers.map((teacher) => teacher.id)).toEqual(['teacher-1']);
+    expect(students[0].teachers[0].full_name).toBe('Mentor Teacher');
+    expect(students[0].teachers[0].session_count).toBe(0);
   });
 });
