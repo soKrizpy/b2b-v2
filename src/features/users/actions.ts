@@ -280,7 +280,7 @@ export async function setActiveStudentModule(
 
 export type ResetPasswordResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 export async function resetTeacherPassword(
   _prev: ResetPasswordResult | null,
