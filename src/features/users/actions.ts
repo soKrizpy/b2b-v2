@@ -307,7 +307,7 @@ export async function resetTeacherPassword(
 
 export type EnrollActionResult =
   | { success: true;  message: string }
-  | { success: false; error: string };
+  | { success: false; error: string; partialSuccess?: boolean };
 
 /**
  * Enrolls a teacher as the student's long-term mentor.
