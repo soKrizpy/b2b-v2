@@ -325,7 +325,7 @@ export async function getTeacherModulesWithTopics(teacherId: string): Promise<Mo
   const db = createSupabaseAdminClient();
 
   const [{ data: meetings, error: meetingsError }, { data: directStudents, error: directStudentsError }] = await Promise.all([
-    db.from('meetings').select('id').eq('teacher_id', teacherId) as unknown as Promise<{
+    db.from('meetings').select('id').eq('teacher_id', teacherId).eq('is_completed', false) as unknown as Promise<{
       data: Array<{ id: number }> | null;
       error: { message: string } | null;
     }>,
