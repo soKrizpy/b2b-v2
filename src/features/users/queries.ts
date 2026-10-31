@@ -327,7 +327,8 @@ export async function getStudentsForTeacher(teacherId: string): Promise<TeacherS
   const { data: teacherMeetings } = await (db
     .from('meetings')
     .select('id')
-    .eq('teacher_id', teacherId) as unknown as Promise<{ data: Array<{ id: number }> | null }>);
+    .eq('teacher_id', teacherId)
+    .eq('is_completed', false) as unknown as Promise<{ data: Array<{ id: number }> | null }>);
 
   const mIds = (teacherMeetings ?? []).map((m) => m.id);
 
