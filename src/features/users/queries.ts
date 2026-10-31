@@ -75,6 +75,7 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
     { data: meetingStudents },
     { data: meetings },
     { data: teacherProfiles },
+    { data: directTeacherStudents },
     { data: quizAttempts },
     { data: certs },
   ] = await Promise.all([
@@ -97,6 +98,7 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
       }>,
     db.from('meetings').select('id, teacher_id'),
     db.from('profiles').select('id, full_name').eq('role', 'teacher'),
+    db.from('teacher_students').select('teacher_id, student_id'),
     db.from('quiz_attempts').select('student_id'),
     db.from('certificates').select('student_id'),
   ]);
@@ -117,10 +119,9 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
     if (m.teacher_id) meetingTeacherMap.set(m.id, m.teacher_id);
   });
 
-  // Build lookup maps
+  // Attendance and scheduled-session counts remain separate from mentorship membership.
   const sessionMap = new Map<string, number>();
-  // student_id -> Map<teacher_id, session_count>
-  const studentTeachersMap = new Map<string, Map<string, number>>();
+  const sessionCountByTeacherStudent = new Map<string, Map<string, number>>();
 
   (meetingStudents ?? []).forEach((ms) => {
     if (ms.has_joined) {
@@ -128,12 +129,28 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
     }
     const tid = meetingTeacherMap.get(ms.meeting_id);
     if (tid) {
-      if (!studentTeachersMap.has(ms.student_id)) {
-        studentTeachersMap.set(ms.student_id, new Map());
+      if (!sessionCountByTeacherStudent.has(tid)) {
+        sessionCountByTeacherStudent.set(tid, new Map());
       }
-      const tMap = studentTeachersMap.get(ms.student_id)!;
-      tMap.set(tid, (tMap.get(tid) ?? 0) + 1);
+      const counts = sessionCountByTeacherStudent.get(tid)!;
+      counts.set(ms.student_id, (counts.get(ms.student_id) ?? 0) + 1);
     }
+  });
+
+  // student_id -> Map<teacher_id, session_count>; membership comes only from teacher_students.
+  const studentTeachersMap = new Map<string, Map<string, number>>();
+  (directTeacherStudents ?? []).forEach((relation) => {
+    const { teacher_id: teacherId, student_id: studentId } = relation as {
+      teacher_id: string;
+      student_id: string;
+    };
+    if (!studentTeachersMap.has(studentId)) {
+      studentTeachersMap.set(studentId, new Map());
+    }
+    studentTeachersMap.get(studentId)!.set(
+      teacherId,
+      sessionCountByTeacherStudent.get(teacherId)?.get(studentId) ?? 0,
+    );
   });
 
   const quizMap = new Map<string, number>();
