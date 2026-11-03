@@ -227,7 +227,7 @@ export async function deleteUser(
 }
 
 // ── setActiveStudentModule ────────────────────────────────────────────────────
-// Atomically sets one module as 'active' for a student and pauses all others.
+// Activates one module for a student without affecting any other enrollment.
 // Creates the student_modules row if it doesn't exist yet.
 
 export type SetModuleResult =
@@ -249,17 +249,7 @@ export async function setActiveStudentModule(
 
   const db = createSupabaseAdminClient();
 
-  // 1. Set ALL existing enrollments for this student to 'paused'
-  const { error: pauseErr } = await (db
-    .from('student_modules')
-    .update({ status: 'paused' } as never)
-    .eq('student_id', studentId) as unknown as Promise<{ error: { message: string } | null }>);
-
-  if (pauseErr) {
-    return { success: false, error: `Gagal menonaktifkan modul lain: ${pauseErr.message}` };
-  }
-
-  // 2. Upsert the target module as 'active'
+  // Upsert the target module as 'active'. Other enrollments are left untouched.
   const { error: upsertErr } = await (db
     .from('student_modules')
     .upsert(
@@ -273,7 +263,42 @@ export async function setActiveStudentModule(
 
   revalidatePath('/admin/users', 'layout');
   revalidatePath('/student/lessons', 'layout');
-  return { success: true, message: 'Modul aktif berhasil diubah.' };
+  return { success: true, message: 'Modul berhasil diaktifkan.' };
+}
+
+// ── pauseStudentModule ────────────────────────────────────────────────────────
+// Independently pauses one module for a student without affecting any other enrollment.
+// Creates the student_modules row if it doesn't exist yet.
+
+export async function pauseStudentModule(
+  _prev: SetModuleResult | null,
+  formData: FormData
+): Promise<SetModuleResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+
+  const studentId = (formData.get('student_id') as string | null)?.trim();
+  const moduleId  = Number(formData.get('module_id'));
+
+  if (!studentId) return { success: false, error: 'student_id wajib diisi.' };
+  if (!moduleId || isNaN(moduleId)) return { success: false, error: 'module_id tidak valid.' };
+
+  const db = createSupabaseAdminClient();
+
+  const { error: upsertErr } = await (db
+    .from('student_modules')
+    .upsert(
+      { student_id: studentId, module_id: moduleId, status: 'paused' } as never,
+      { onConflict: 'student_id,module_id' }
+    ) as unknown as Promise<{ error: { message: string } | null }>);
+
+  if (upsertErr) {
+    return { success: false, error: `Gagal menjeda modul: ${upsertErr.message}` };
+  }
+
+  revalidatePath('/admin/users', 'layout');
+  revalidatePath('/student/lessons', 'layout');
+  return { success: true, message: 'Modul berhasil dijeda.' };
 }
 
 // ── resetTeacherPassword ──────────────────────────────────────────────────────

@@ -51,7 +51,8 @@ export async function getChallengeById(challengeId: number): Promise<ChallengeRo
  */
 export async function getChallengesWithSubmissions(
   topicId: number,
-  studentId: string
+  studentId: string,
+  activeChallengeIds?: number[]
 ): Promise<ChallengeWithSubmission[]> {
   const db = createSupabaseAdminClient();
 
@@ -63,7 +64,13 @@ export async function getChallengesWithSubmissions(
 
   if (chErr || !challenges?.length) return [];
 
-  const challengeIds = (challenges as unknown as ChallengeRow[]).map((c) => c.id);
+  const activeIds = activeChallengeIds === undefined ? null : new Set(activeChallengeIds);
+  const visibleChallenges = activeIds
+    ? (challenges as unknown as ChallengeRow[]).filter((challenge) => activeIds.has(challenge.id))
+    : challenges as unknown as ChallengeRow[];
+  if (!visibleChallenges.length) return [];
+
+  const challengeIds = visibleChallenges.map((c) => c.id);
 
   const { data: subs, error: subErr } = await db
     .from('challenge_submissions')
@@ -82,7 +89,11 @@ export async function getChallengesWithSubmissions(
     if (!latestSubMap.has(s.challenge_id)) latestSubMap.set(s.challenge_id, s);
   });
 
-  return (challenges as unknown as ChallengeRow[]).map((c) => ({
+  const orderedChallenges = activeIds
+    ? [...visibleChallenges].sort((a, b) => activeChallengeIds!.indexOf(a.id) - activeChallengeIds!.indexOf(b.id))
+    : visibleChallenges;
+
+  return orderedChallenges.map((c) => ({
     ...c,
     submission: latestSubMap.get(c.id) ?? null,
   }));

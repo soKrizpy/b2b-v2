@@ -2,7 +2,8 @@
 // Tryout layout: 70% question area / 30% sidebar with grid + timer + submit.
 import { useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { submitFinalAssessment, type AssessmentActionResult } from '@/features/quiz/actions';
+import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
+import { submitFinalAssessment } from '@/features/quiz/actions';
 import type { FinalAssessment } from '@/features/curriculum/validation';
 
 interface Props {
@@ -82,29 +83,31 @@ export function TryoutClient({ moduleId, assessment }: Props) {
 
   // ── Results screen ──────────────────────────────────────────────────────────
   if (state?.success) {
-    const tierEmoji = state.tier === 'excellent' ? '🏆' : state.tier === 'achievement' ? '🥇' : '🥉';
-    const tierLabel = state.tier === 'excellent' ? 'Excellent' : state.tier === 'achievement' ? 'Achievement' : 'Completion';
+    const tier = CERTIFICATE_TIER_CONFIG[state.tier as keyof typeof CERTIFICATE_TIER_CONFIG];
     return (
-      <div className="max-w-xl mx-auto py-16 text-center flex flex-col items-center gap-6">
-        <span className="text-7xl">{tierEmoji}</span>
-        <div>
-          <p className="text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">
-            {state.score} / 100
-          </p>
-          <p className="mt-2 text-lg font-bold text-slate-700 dark:text-slate-200">
-            {tierLabel} Certificate
-          </p>
+      <div className="max-w-xl mx-auto py-12 px-4 text-center">
+        <article
+          role="article"
+          aria-label={`${tier.label} Certificate`}
+          className={`relative overflow-hidden rounded-3xl border-4 border-double p-8 shadow-2xl ring-2 ${tier.bg} ${tier.color} ${tier.ring}`}
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.3em] opacity-70">Bits2Bytes Learning Academy</p>
+          <span className="mt-5 block text-7xl" aria-hidden="true">{tier.medal}</span>
+          <p className="mt-4 text-xs font-bold uppercase tracking-[0.25em] opacity-70">Certificate of Learning</p>
+          <h2 className="mt-2 text-3xl font-black">{tier.label}</h2>
+          <p className="mt-4 text-4xl font-extrabold tabular-nums">{state.score}<span className="text-lg font-semibold opacity-60"> / 100</span></p>
           {state.certificateNumber && (
-            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500 font-mono">
-              #{state.certificateNumber}
-            </p>
+            <p className="mt-4 text-xs font-mono opacity-70">#{state.certificateNumber}</p>
           )}
-          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{state.message}</p>
+          <p className="mt-4 text-sm">{tier.description}</p>
+          <p className="mt-3 text-xs opacity-70">{state.message}</p>
+        </article>
+        <div className="mt-6">
+          <button onClick={() => router.push('/student/lessons')}
+            className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">
+            Kembali ke Pelajaran
+          </button>
         </div>
-        <button onClick={() => router.push('/student/lessons')}
-          className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">
-          Kembali ke Pelajaran
-        </button>
       </div>
     );
   }

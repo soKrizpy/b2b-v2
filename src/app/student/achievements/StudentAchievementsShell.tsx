@@ -29,6 +29,8 @@ interface Props {
   certificates:     CertificateWithModule[];
   completedTopics:  TopicProgressSummary[];
   allModules:       ModuleWithTopics[];
+  /** Full published topic count per module — used for correct mastery % even when modules are paused. */
+  moduleTopicCounts?: Array<{ moduleId: number; publishedCount: number }>;
 }
 
 export function StudentAchievementsShell({
@@ -37,6 +39,7 @@ export function StudentAchievementsShell({
   certificates,
   completedTopics,
   allModules,
+  moduleTopicCounts,
 }: Props) {
   const [activeFilter, setActiveFilter] = useState<'all' | 'badges' | 'certs' | 'targets'>('all');
 
@@ -44,7 +47,11 @@ export function StudentAchievementsShell({
   const currentLvl = lvl?.currentLevel ?? 1;
   const advTitle = getAdventurerTitle(currentLvl);
 
-  const totalPossibleTopics = allModules.reduce((acc, m) => acc + (m.topics?.length || 0), 0);
+  // Use full published counts when available to avoid inflating mastery %
+  // when paused modules only surface completed topics.
+  const totalPossibleTopics = moduleTopicCounts
+    ? moduleTopicCounts.reduce((acc, c) => acc + c.publishedCount, 0)
+    : allModules.reduce((acc, m) => acc + (m.topics?.length || 0), 0);
   const masteryPercentage = totalPossibleTopics > 0
     ? Math.round((completedTopics.length / totalPossibleTopics) * 100)
     : 0;

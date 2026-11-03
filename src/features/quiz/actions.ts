@@ -10,6 +10,7 @@ import { extractTopicQuiz } from '@/features/curriculum/validation';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
+import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -391,16 +392,14 @@ export async function submitFinalAssessment(
   revalidatePath('/student/dashboard', 'layout');
   revalidatePath('/student/lessons', 'layout');
 
-  const tierLabel =
-    tier === 'achievement' ? '🥇 Achievement' :
-    tier === 'excellent'   ? '🥈 Excellent' : '🥉 Completion';
+  const tierConfig = CERTIFICATE_TIER_CONFIG[tier];
 
   return {
     success: true,
     score,
     tier,
     certificateNumber: certNumber,
-    message: `Tryout selesai! Skor ${score} — ${tierLabel} Certificate diterbitkan (${certNumber}).`,
+    message: `Tryout selesai! Skor ${score} — ${tierConfig.label} Certificate diterbitkan (${certNumber}).`,
   };
 }
 

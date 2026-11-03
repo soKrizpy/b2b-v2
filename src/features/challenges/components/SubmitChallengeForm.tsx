@@ -6,6 +6,8 @@ import type { ChallengeRow, SubmissionRow } from '@/types/database';
 interface Props {
   challenge: ChallengeRow;
   existingSubmission: SubmissionRow | null;
+  /** When true, hides the submission form (review-only mode for paused modules). */
+  reviewOnly?: boolean;
 }
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
@@ -14,7 +16,7 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   needs_revision: { label: 'Perlu Revisi',     className: 'bg-red-100 text-red-800' },
 };
 
-export function SubmitChallengeForm({ challenge, existingSubmission }: Props) {
+export function SubmitChallengeForm({ challenge, existingSubmission, reviewOnly = false }: Props) {
   const [state, dispatch, pending] = useActionState(submitChallenge, null);
 
   const status = existingSubmission?.status;
@@ -44,6 +46,13 @@ export function SubmitChallengeForm({ challenge, existingSubmission }: Props) {
         </div>
       )}
 
+      {/* Review-only notice for paused modules */}
+      {reviewOnly && (
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic">
+          📖 Mode review — modul ini sedang dijeda. Pengiriman jawaban tidak tersedia.
+        </p>
+      )}
+
       {/* Success message */}
       {state?.success && (
         <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded px-3 py-2">
@@ -56,8 +65,8 @@ export function SubmitChallengeForm({ challenge, existingSubmission }: Props) {
         <p className="text-sm text-red-600" role="alert">{state.error}</p>
       )}
 
-      {/* Form — hidden when approved or pending */}
-      {!isApproved && !isPending && (
+      {/* Form — hidden when approved, pending, or in review-only mode */}
+      {!isApproved && !isPending && !reviewOnly && (
         <form action={dispatch} className="flex flex-col gap-3">
           <input type="hidden" name="challenge_id" value={challenge.id} />
 

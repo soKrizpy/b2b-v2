@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { requireAdmin, requireRole, getAuthUser } from '@/lib/auth';
 import { awardRewardEvent } from '@/features/pet/lib/rewardActions';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 
@@ -203,14 +204,19 @@ export async function submitChallenge(
 
   const { data: topic, error: topicError } = await (db
     .from('topics')
-    .select('id, module_id, status')
+    .select('id, module_id, status, lesson_content')
     .eq('id', challenge.topic_id)
     .maybeSingle() as unknown as Promise<{
-      data: { id: number; module_id: number; status: string } | null;
+      data: { id: number; module_id: number; status: string; lesson_content: unknown } | null;
       error: { message: string } | null;
     }>);
   if (topicError || !topic || topic.status !== 'published') {
     return { success: false, error: 'Topik challenge tidak tersedia.' };
+  }
+
+  const activeChallengeIds = getActiveChallengeIds(topic.lesson_content);
+  if (activeChallengeIds !== undefined && !activeChallengeIds.includes(challenge_id)) {
+    return { success: false, error: 'Challenge ini sudah tidak aktif.' };
   }
 
   const { data: enrollment, error: enrollmentError } = await (db

@@ -12,14 +12,50 @@ interface Props {
   isUnlocked: boolean;
   isLocked:   boolean;
   bestScore:  number;
+  /** When true, shows prior results only — hides the quiz form (review-only for paused modules). */
+  reviewOnly?: boolean;
 }
 
-export function TopicQuizWidget({ topicId, questions, attempts, isUnlocked, isLocked, bestScore }: Props) {
+export function TopicQuizWidget({ topicId, questions, attempts, isUnlocked, isLocked, bestScore, reviewOnly = false }: Props) {
   const [selected, setSelected]     = useState<Record<number, number>>({});
   const [submitted, setSubmitted]   = useState(false);
   const [state, dispatch, pending]  = useActionState(submitTopicQuiz, null);
 
   if (questions.length === 0) return null;
+
+  // Review-only mode: paused module — show prior results if any, no new attempt
+  if (reviewOnly) {
+    if (attempts.length === 0) {
+      return (
+        <div className="rounded-2xl ring-1 ring-slate-200 dark:ring-white/10 bg-white dark:bg-[var(--surface)] p-5">
+          <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
+            📝 Quiz Topik — Mode Review
+          </p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 italic">
+            Belum ada percobaan quiz yang tersimpan untuk topik ini.
+          </p>
+        </div>
+      );
+    }
+    const tier = bestScore >= 80 ? '🥇' : bestScore >= 70 ? '🥈' : '🥉';
+    return (
+      <div className="rounded-2xl ring-1 ring-slate-200 dark:ring-white/10 bg-white dark:bg-[var(--surface)] p-5">
+        <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
+          📝 Quiz Topik — Mode Review
+        </p>
+        <div className="flex items-center gap-3 py-3">
+          <span className="text-3xl">{tier}</span>
+          <div>
+            <p className="text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">{bestScore}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Skor terbaik ({attempts.length} percobaan)</p>
+          </div>
+        </div>
+        <p className="text-xs text-slate-400 dark:text-slate-500 italic mt-1">
+          📖 Modul dijeda — quiz baru tidak tersedia.
+        </p>
+      </div>
+    );
+  }
 
   // Locked (2 attempts used) — show best score
   if (isLocked) {

@@ -5,6 +5,9 @@ const state = vi.hoisted(() => ({
   existingTopics: [{ id: 5, title: 'Introduction' }],
   topicsReadError: null as { message: string } | null,
   topicUpdateError: null as { message: string } | null,
+  moduleUpdateError: null as { message: string } | null,
+  challengeReadError: null as { message: string } | null,
+  writes: [] as string[],
   thrownError: null as Error | null,
 }));
 
@@ -19,7 +22,7 @@ vi.mock('next/cache', () => ({
 
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
-    from: () => {
+    from: (table: string) => {
       let operation: 'select' | 'update' | null = null;
       const query = {
         select: () => {
@@ -28,9 +31,11 @@ vi.mock('@/lib/supabase/admin', () => ({
         },
         update: () => {
           operation = 'update';
+          state.writes.push(table);
           return query;
         },
         eq: () => query,
+        order: () => query,
         then: (
           resolve: (value: unknown) => unknown,
           reject?: (reason: unknown) => unknown,
@@ -39,8 +44,10 @@ vi.mock('@/lib/supabase/admin', () => ({
             return Promise.reject(state.thrownError).then(resolve, reject);
           }
           const result = operation === 'select'
-            ? { data: state.topicsReadError ? null : state.existingTopics, error: state.topicsReadError }
-            : { error: state.topicUpdateError };
+            ? table === 'challenges'
+              ? { data: null, error: state.challengeReadError }
+              : { data: state.topicsReadError ? null : state.existingTopics, error: state.topicsReadError }
+            : { error: table === 'modules' ? state.moduleUpdateError : state.topicUpdateError };
           return Promise.resolve(result).then(resolve, reject);
         },
       };
@@ -54,6 +61,9 @@ describe('module curriculum import action', () => {
     state.existingTopics = [{ id: 5, title: 'Introduction' }];
     state.topicsReadError = null;
     state.topicUpdateError = null;
+    state.moduleUpdateError = null;
+    state.challengeReadError = null;
+    state.writes = [];
     state.thrownError = null;
   });
 
@@ -80,13 +90,64 @@ describe('module curriculum import action', () => {
     });
   });
 
+  it('preflights challenge reads before writing module assessment or topic changes', async () => {
+    state.challengeReadError = { message: 'challenge table unavailable' };
+    const topicWithChallenge = {
+      ...payload.topics[0],
+      challenge: { title: 'New challenge', instructions: 'Submit work', submission_type: 'link' as const },
+    };
+    const result = await importCurriculumJsonForModule(23, {
+      ...payload,
+      final_assessment: {
+        title: 'Tryout',
+        duration_minutes: 30,
+        questions: Array.from({ length: 20 }, (_, index) => ({
+          id: index + 1,
+          question: `Question ${index + 1}`,
+          options: ['A', 'B', 'C', 'D'],
+          answer_index: 0,
+          explanation: 'A',
+        })),
+      },
+      topics: [topicWithChallenge],
+    });
+
+    expect(result).toEqual({ success: false, error: 'Gagal membaca challenge topik "Introduction": challenge table unavailable' });
+    expect(state.writes).toEqual([]);
+  });
+
   it('returns a database update error instead of reporting a successful import', async () => {
     state.topicUpdateError = { message: 'update rejected' };
+    const result = await importCurriculumJsonForModule(23, payload);
 
-    await expect(importCurriculumJsonForModule(23, payload)).resolves.toEqual({
+    expect(result).toMatchObject({
       success: false,
-      error: 'Gagal memperbarui topik "Introduction": update rejected',
+      error: expect.stringContaining('Gagal memperbarui topik "Introduction": update rejected'),
     });
+    if (!result.success) expect(result.error).toContain('perubahan parsial mungkin sudah tersimpan');
+  });
+
+  it('reports partial-write risk when the module assessment update fails before topic writes', async () => {
+    state.moduleUpdateError = { message: 'assessment update rejected' };
+    const finalAssessment = {
+      title: 'Tryout',
+      duration_minutes: 30,
+      questions: Array.from({ length: 20 }, (_, index) => ({
+        id: index + 1,
+        question: `Question ${index + 1}`,
+        options: ['A', 'B', 'C', 'D'],
+        answer_index: 0,
+        explanation: 'A',
+      })),
+    };
+
+    const result = await importCurriculumJsonForModule(23, { ...payload, final_assessment: finalAssessment });
+    expect(result).toMatchObject({ success: false });
+    if (!result.success) {
+      expect(result.error).toContain('Gagal memperbarui tryout modul: assessment update rejected');
+      expect(result.error).toContain('perubahan parsial mungkin sudah tersimpan');
+    }
+    expect(state.writes).toEqual(['modules']);
   });
 
   it('logs and returns an error when the database request throws', async () => {
@@ -95,7 +156,7 @@ describe('module curriculum import action', () => {
 
     await expect(importCurriculumJsonForModule(23, payload)).resolves.toEqual({
       success: false,
-      error: 'Import gagal saat menyimpan kurikulum: connection reset. Sebagian perubahan mungkin sudah tersimpan.',
+      error: 'Import gagal saat membaca data sebelum menyimpan: connection reset',
     });
     expect(errorSpy).toHaveBeenCalledWith('[importCurriculumJsonForModule] Import failed', {
       moduleId: 23,

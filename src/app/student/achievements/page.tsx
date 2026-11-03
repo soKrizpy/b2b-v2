@@ -7,7 +7,7 @@ import { getSessionUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getStudentGamificationData } from '@/features/pet/lib/petQueries';
 import { getStudentCertificates } from '@/features/certificates/queries';
-import { getStudentModulesWithTopics, getStudentCompletedTopics } from '@/features/curriculum/queries';
+import { getStudentModulesWithTopics, getStudentCompletedTopics, getPublishedTopicCountsByModules } from '@/features/curriculum/queries';
 import { StudentAchievementsShell } from './StudentAchievementsShell';
 
 export const metadata: Metadata = {
@@ -31,6 +31,11 @@ export default async function StudentAchievementsPage() {
     getStudentCompletedTopics(user.id),
   ]);
 
+  // Fetch full published topic counts independently of enrollment status so that
+  // the mastery percentage denominator stays accurate even when modules are paused
+  // (paused modules only return completed topics in allModules, which would inflate the %).
+  const moduleTopicCounts = await getPublishedTopicCountsByModules(allModules.map((m) => m.id));
+
   return (
     <StudentAchievementsShell
       studentName={studentName}
@@ -38,6 +43,7 @@ export default async function StudentAchievementsPage() {
       certificates={certificates}
       completedTopics={completedTopics}
       allModules={allModules}
+      moduleTopicCounts={moduleTopicCounts}
     />
   );
 }

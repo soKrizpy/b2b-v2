@@ -16,49 +16,113 @@
             "node_id": "scr-101-n1",
             "order": 1,
             "type": "lesson",
-            "title": "Panggung Ajaib & Titik Pusat (0, 0)",
-            "content": "Panggung Scratch adalah dunia tempat Sprite kita beraksi. Luasnya 480 piksel horisontal dan 360 piksel vertikal. Titik paling tengah panggung disebut titik asal (origin) dengan koordinat X: 0 dan Y: 0.",
-            "xp": 15
+            "title": "Panggung Scratch: ruang gerak 480 × 360",
+            "content": "Panggung Scratch adalah area tempat Sprite bergerak. Ukurannya 480 piksel lebar dan 360 piksel tinggi. Karena itu, posisi Sprite ditulis dengan dua angka: X untuk mendatar dan Y untuk tegak.",
+            "xp": 10
           },
           {
             "node_id": "scr-101-n2",
             "order": 2,
-            "type": "quiz",
-            "title": "Cek Pemahaman: Arah Sumbu Horisontal & Vertikal",
-            "content": "Jika kita ingin menggerakkan roket ke arah kanan, nilai koordinat manakah yang harus ditambah?",
+            "type": "practice",
+            "title": "Temukan titik asal",
+            "instructions": "Sprite berada tepat di tengah panggung. Pasangan koordinat manakah yang menunjukkan titik asal?",
             "options": [
-              "Nilai sumbu X positif",
-              "Nilai sumbu X negatif",
-              "Nilai sumbu Y positif",
-              "Ubah ukuran kostum"
+              "X: 0, Y: 0",
+              "X: 240, Y: 180",
+              "X: -240, Y: 0",
+              "X: 0, Y: -180"
             ],
-            "correct_option": "Nilai sumbu X positif",
-            "xp": 20
+            "correct_option": "X: 0, Y: 0",
+            "xp": 10
           },
           {
             "node_id": "scr-101-n3",
             "order": 3,
-            "type": "code",
-            "title": "Blok Gerak Esensial: Teleportasi vs Meluncur",
-            "content": "Perhatikan perbedaan kedua blok gerak berikut:\n\n1. `go to x: [100] y: [50]` → Seketika berpindah tempat dalam 0 detik (teleportasi).\n2. `glide [2] secs to x: [100] y: [50]` → Meluncur mulus selama 2 detik menuju titik target.",
-            "code_language": "scratch",
-            "code_content": "// Teleportasi Instan\ngo to x: (0) y: (0)\n\n// Meluncur Halus\nglide (1.5) secs to x: (180) y: (120)",
-            "xp": 20
+            "type": "lesson",
+            "title": "Sumbu X mengatur gerak mendatar",
+            "content": "Nilai X menentukan posisi kiri atau kanan. Angka X yang lebih besar menggeser Sprite ke kanan; angka yang lebih kecil menggesernya ke kiri. Titik tengah berada di X: 0.",
+            "xp": 10
           },
           {
             "node_id": "scr-101-n4",
             "order": 4,
+            "type": "code",
+            "title": "Kenali batas kiri dan kanan",
+            "content": "Pada panggung standar, rentang X adalah -240 sampai +240. Contoh ini menempatkan Sprite ke sisi kiri lalu sisi kanan.",
+            "code_language": "scratch",
+            "code_content": "go to x: (-240) y: (0) // sisi kiri\ngo to x: (240) y: (0)  // sisi kanan",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n5",
+            "order": 5,
+            "type": "lesson",
+            "title": "Sumbu Y mengatur gerak tegak",
+            "content": "Nilai Y menentukan posisi atas atau bawah. Nilai Y positif berada di atas titik asal; nilai negatif berada di bawahnya. Rentang Y panggung standar adalah -180 sampai +180.",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n6",
+            "order": 6,
             "type": "practice",
-            "title": "Latihan Menentukan Koordinat Sudut Layar",
-            "instructions": "Manakah koordinat yang tepat untuk meletakkan Sprite roket di pojok kanan atas panggung?",
+            "title": "Baca pasangan koordinat",
+            "instructions": "Sprite berada pada X: 120, Y: -60. Posisi apakah yang ditunjukkan pasangan ini?",
+            "options": [
+              "Di kanan dan di bawah titik asal",
+              "Di kiri dan di atas titik asal",
+              "Tepat di titik asal",
+              "Di kanan dan di atas titik asal"
+            ],
+            "correct_option": "Di kanan dan di bawah titik asal",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n7",
+            "order": 7,
+            "type": "code",
+            "title": "Pindah seketika dengan go to",
+            "content": "Blok go to langsung menempatkan Sprite pada koordinat tujuan. Sprite tidak menempuh animasi perjalanan di antara titik awal dan titik tujuan.",
+            "code_language": "scratch",
+            "code_content": "when green flag clicked\ngo to x: (0) y: (0)",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n8",
+            "order": 8,
+            "type": "lesson",
+            "title": "Bandingkan go to dan glide",
+            "content": "Gunakan go to untuk perpindahan seketika. Gunakan glide ketika Sprite perlu bergerak halus selama durasi tertentu menuju koordinat tujuan. Keduanya memakai target X dan Y.",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n9",
+            "order": 9,
+            "type": "practice",
+            "title": "Hitung perubahan nilai X",
+            "instructions": "Sprite mulai dari X: 50. Setelah blok change x by -20 dijalankan, berapa nilai X barunya?",
+            "options": [
+              "30",
+              "70",
+              "-20",
+              "50"
+            ],
+            "correct_option": "30",
+            "xp": 10
+          },
+          {
+            "node_id": "scr-101-n10",
+            "order": 10,
+            "type": "practice",
+            "title": "Siapkan rute empat sudut roket",
+            "instructions": "Roket akan mengunjungi empat sudut panggung. Pasangan koordinat mana yang merupakan sudut kanan atas?",
             "options": [
               "X: 240, Y: 180",
-              "X: -240, Y: -180",
-              "X: 0, Y: 0",
-              "X: 240, Y: -180"
+              "X: -240, Y: 180",
+              "X: 240, Y: -180",
+              "X: -240, Y: -180"
             ],
             "correct_option": "X: 240, Y: 180",
-            "xp": 25
+            "xp": 10
           }
         ],
         "quiz": [

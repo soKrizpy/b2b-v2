@@ -69,3 +69,12 @@ export function getInstructionalSlides(learningPath: unknown): LessonSlide[] {
 export function hasRequiredLessonSlideCount(slides: readonly unknown[]): boolean {
   return slides.length >= MIN_LESSON_SLIDES && slides.length <= MAX_LESSON_SLIDES;
 }
+
+/**
+ * A topic can be published when it contains at least one real authored lesson
+ * step. Ten to twenty slides remain the content target when the source supports
+ * that depth; this check intentionally does not invent or require filler slides.
+ */
+export function hasAuthoredLessonContent(slides: readonly unknown[]): boolean {
+  return slides.length > 0;
+}

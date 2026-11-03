@@ -4,7 +4,7 @@
 // Renders each learningPath node one at a time with XP accumulation.
 // Node types: lesson | code | practice (MCQ) | challenge | quiz (marker)
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 
 // ── Node types (mirrors the lesson engine JSON + curriculum validation.ts) ────
 
@@ -17,6 +17,7 @@ export type NodeType =
 
 export interface LearningNode {
   id?:            string;
+  node_id?:       string;
   type:           string;
   title:          string;
   xp?:            number;
@@ -45,6 +46,8 @@ export interface LearningNode {
 interface Props {
   nodes:    LearningNode[];
   topicId:  number;
+  /** Authenticated student scope for browser-only lesson resume state. */
+  studentId?: string;
   /** Called when all nodes are stepped through */
   onComplete?: () => void;
 }
@@ -76,7 +79,14 @@ function ProgressBar({
           ⭐ {xpEarned}/{totalXp} XP
         </span>
       </div>
-      <div className="h-2 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
+      <div
+        role="progressbar"
+        aria-label="Progress materi"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct}
+        className="h-2 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden"
+      >
         <div
           className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
           style={{ width: `${pct}%` }}
@@ -357,21 +367,87 @@ function CompletedState({
 
 // ── Main walker ───────────────────────────────────────────────────────────────
 
-export function LessonNodeWalker({ nodes, onComplete }: Props) {
+export function LessonNodeWalker({ nodes, topicId, studentId, onComplete }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [xpEarned,   setXpEarned]   = useState(0);
+  const [completedIndexes, setCompletedIndexes] = useState<Set<number>>(() => new Set());
   const [done,       setDone]        = useState(false);
+  const [progressReady, setProgressReady] = useState(false);
 
-  // Filter out the bare "quiz" marker node if it's the last item —
-  // it's a structural marker, not a content node
-  const contentNodes = nodes.filter((n) => n.type !== 'quiz' || n.title !== 'Uji Pengetahuanmu');
-  // Actually keep quiz marker nodes — they serve as a visual gate
+  const storageKey = studentId
+    ? `b2b:lesson-progress:v1:${studentId}:${topicId}`
+    : null;
+  const nodeSignature = JSON.stringify(nodes);
+  const nodeKeys = useMemo(
+    () => nodes.map((node, index) => node.id ?? node.node_id ?? `${index}:${node.type}:${node.title}`),
+    [nodes]
+  );
+
+  useEffect(() => {
+    if (!storageKey) {
+      setProgressReady(true);
+      return;
+    }
+
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) {
+        const saved: unknown = JSON.parse(raw);
+        if (saved && typeof saved === 'object') {
+          const value = saved as {
+            signature?: unknown;
+            completedNodeKeys?: unknown;
+            currentNodeKey?: unknown;
+            done?: unknown;
+          };
+          if (value.signature === nodeSignature && Array.isArray(value.completedNodeKeys)) {
+            const completed = new Set<number>();
+            value.completedNodeKeys.forEach((key) => {
+              const index = nodeKeys.indexOf(key as string);
+              if (index >= 0) completed.add(index);
+            });
+            const currentIndex = typeof value.currentNodeKey === 'string'
+              ? nodeKeys.indexOf(value.currentNodeKey)
+              : 0;
+            setCompletedIndexes(completed);
+            setCurrentIdx(Math.max(0, currentIndex));
+            setDone(value.done === true && completed.size === nodes.length && nodes.length > 0);
+          }
+        }
+      }
+    } catch {
+      // Browser storage is an optional resume convenience, never an authority.
+    } finally {
+      setProgressReady(true);
+    }
+  }, [nodeKeys, nodeSignature, nodes.length, storageKey]);
+
+  useEffect(() => {
+    if (!progressReady || !storageKey) return;
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({
+        signature: nodeSignature,
+        completedNodeKeys: nodeKeys.filter((_, index) => completedIndexes.has(index)),
+        currentNodeKey: nodeKeys[currentIdx] ?? null,
+        done,
+      }));
+    } catch {
+      // Storage can be disabled or full; lesson navigation still works in memory.
+    }
+  }, [completedIndexes, currentIdx, done, nodeKeys, nodeSignature, progressReady, storageKey]);
 
   const totalXp = nodes.reduce((s, n) => s + (n.xp ?? 0), 0);
+  const xpEarned = nodes.reduce(
+    (sum, node, index) => sum + (completedIndexes.has(index) ? node.xp ?? 0 : 0),
+    0
+  );
 
   const advance = useCallback(() => {
-    const node = nodes[currentIdx];
-    setXpEarned((prev) => prev + (node?.xp ?? 0));
+    setCompletedIndexes((current) => {
+      if (current.has(currentIdx)) return current;
+      const next = new Set(current);
+      next.add(currentIdx);
+      return next;
+    });
 
     if (currentIdx >= nodes.length - 1) {
       setDone(true);
@@ -383,14 +459,12 @@ export function LessonNodeWalker({ nodes, onComplete }: Props) {
 
   const restart = useCallback(() => {
     setCurrentIdx(0);
-    setXpEarned(0);
     setDone(false);
   }, []);
 
   if (nodes.length === 0) return null;
 
   const node = nodes[currentIdx];
-  const cfg  = NODE_TYPE_LABEL[node?.type ?? ''] ?? NODE_TYPE_LABEL.lesson;
 
   return (
     <div className="bg-white dark:bg-[var(--surface)] rounded-3xl ring-1
@@ -400,7 +474,7 @@ export function LessonNodeWalker({ nodes, onComplete }: Props) {
       <div className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700
         px-5 py-4">
         <ProgressBar
-          current={done ? nodes.length : currentIdx}
+          current={done ? nodes.length : currentIdx + 1}
           total={nodes.length}
           xpEarned={xpEarned}
           totalXp={totalXp}
@@ -413,7 +487,21 @@ export function LessonNodeWalker({ nodes, onComplete }: Props) {
           <CompletedState xpEarned={xpEarned} onRestart={restart} />
         </div>
       ) : (
-        <div className="px-5 py-5">
+        <div className="px-5 py-5" aria-live="polite">
+          {currentIdx > 0 && (
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="button"
+                onClick={() => setCurrentIdx((index) => Math.max(0, index - 1))}
+                className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/5 sm:w-auto"
+              >
+                ← Kembali ke langkah sebelumnya
+              </button>
+              <span className="self-center text-xs font-bold text-slate-500 dark:text-slate-400">
+                Langkah {currentIdx + 1} dari {nodes.length}
+              </span>
+            </div>
+          )}
           {/* Node header */}
           <div className="flex items-start justify-between gap-3 mb-4">
             <div className="min-w-0">

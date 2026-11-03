@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
   setActiveStudentModule,
+  pauseStudentModule,
   enrollTeacherToStudent,
   unenrollTeacherFromStudent,
   type SetModuleResult,
@@ -67,22 +68,35 @@ function LearningPathTab({
   allModules: ModuleRow[];
 }) {
   const router = useRouter();
-  const [result, dispatch, pending] = useActionState<SetModuleResult | null, FormData>(
+  const [activateResult, activateDispatch, activatePending] = useActionState<SetModuleResult | null, FormData>(
     setActiveStudentModule,
     null,
   );
+  const [pauseResult, pauseDispatch, pausePending] = useActionState<SetModuleResult | null, FormData>(
+    pauseStudentModule,
+    null,
+  );
 
-  // Refresh page data after successful assign
+  // Refresh page data and show toast after either action succeeds or fails
   useEffect(() => {
-    if (result?.success) {
-      toast.success(result.message);
+    if (activateResult?.success) {
+      toast.success(activateResult.message);
       router.refresh();
-    } else if (result && !result.success) {
-      toast.error(result.error);
+    } else if (activateResult && !activateResult.success) {
+      toast.error(activateResult.error);
     }
-  }, [result, router]);
+  }, [activateResult, router]);
 
-  const activeModule = student.modules.find((m) => m.status === 'active');
+  useEffect(() => {
+    if (pauseResult?.success) {
+      toast.success(pauseResult.message);
+      router.refresh();
+    } else if (pauseResult && !pauseResult.success) {
+      toast.error(pauseResult.error);
+    }
+  }, [pauseResult, router]);
+
+  const isPending = activatePending || pausePending;
 
   // Modules not yet assigned to this student at all
   const assignedIds = new Set(student.modules.map((m) => m.module_id));
@@ -118,11 +132,29 @@ function LearningPathTab({
                   </span>
                   <LevelBadge level={m.level} />
                   {isActive ? (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
-                      bg-emerald-100 text-emerald-700 ring-emerald-200
-                      dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/40">
-                      ✓ Aktif
-                    </span>
+                    <>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
+                        bg-emerald-100 text-emerald-700 ring-emerald-200
+                        dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/40">
+                        ✓ Aktif
+                      </span>
+                      {/* Independent pause — does NOT affect other modules */}
+                      <form action={pauseDispatch}>
+                        <input type="hidden" name="student_id" value={student.id} />
+                        <input type="hidden" name="module_id"  value={m.module_id} />
+                        <button
+                          type="submit"
+                          disabled={isPending}
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
+                            bg-white text-amber-600 ring-amber-200 hover:bg-amber-50
+                            dark:bg-white/5 dark:text-amber-400 dark:ring-amber-700/40
+                            dark:hover:bg-amber-900/20
+                            disabled:opacity-50 transition-colors cursor-pointer"
+                        >
+                          {pausePending ? '…' : 'Jeda'}
+                        </button>
+                      </form>
+                    </>
                   ) : (
                     <>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
@@ -130,19 +162,20 @@ function LearningPathTab({
                         dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">
                         ⏸ Dijeda
                       </span>
-                      <form action={dispatch}>
+                      {/* Independent activate — does NOT pause other modules */}
+                      <form action={activateDispatch}>
                         <input type="hidden" name="student_id" value={student.id} />
                         <input type="hidden" name="module_id"  value={m.module_id} />
                         <button
                           type="submit"
-                          disabled={pending}
+                          disabled={isPending}
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full ring-1 flex-shrink-0
                             bg-white text-indigo-600 ring-indigo-200 hover:bg-indigo-50
                             dark:bg-white/5 dark:text-indigo-400 dark:ring-indigo-700/40
                             dark:hover:bg-indigo-900/20
                             disabled:opacity-50 transition-colors cursor-pointer"
                         >
-                          {pending ? '…' : 'Aktifkan'}
+                          {activatePending ? '…' : 'Aktifkan'}
                         </button>
                       </form>
                     </>
@@ -169,7 +202,7 @@ function LearningPathTab({
             text-slate-400 dark:text-slate-500 mb-2 px-1">
             Tambah &amp; Aktifkan Modul Baru
           </p>
-          <form action={dispatch} className="flex items-center gap-2">
+          <form action={activateDispatch} className="flex items-center gap-2">
             <input type="hidden" name="student_id" value={student.id} />
             <select
               name="module_id"
@@ -179,45 +212,43 @@ function LearningPathTab({
                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="">— Pilih modul —</option>
-              {unassigned.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.title} {m.level ? `(${m.level})` : ''}
+              {unassigned.map((mod) => (
+                <option key={mod.id} value={mod.id}>
+                  {mod.title} {mod.level ? `(${mod.level})` : ''}
                 </option>
               ))}
             </select>
             <button
               type="submit"
-              disabled={pending}
+              disabled={isPending}
               className="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-bold
                 bg-indigo-600 hover:bg-indigo-700 text-white
                 disabled:opacity-50 transition-colors"
             >
-              {pending ? '…' : '+ Aktifkan'}
+              {activatePending ? '…' : '+ Aktifkan'}
             </button>
           </form>
         </div>
       )}
 
       {/* ── Action feedback ── */}
-      {result && (
+      {(activateResult || pauseResult) && (
         <p className={`text-xs px-3 py-2 rounded-xl ring-1 ${
-          result.success
+          (activateResult?.success || pauseResult?.success)
             ? 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-900/10 dark:text-emerald-300 dark:ring-emerald-700/40'
             : 'bg-red-50 text-red-700 ring-red-200 dark:bg-red-900/10 dark:text-red-300 dark:ring-red-700/40'
         }`}>
-          {result.success ? `✓ ${result.message}` : `✗ ${result.error}`}
+          {activateResult?.success ? `✓ ${activateResult.message}` :
+           pauseResult?.success    ? `✓ ${pauseResult.message}` :
+           activateResult && !activateResult.success ? `✗ ${activateResult.error}` :
+           pauseResult && !pauseResult.success ? `✗ ${pauseResult.error}` : ''}
         </p>
       )}
 
-      {/* Note on active module behaviour */}
-      {activeModule && (
-        <p className="text-[10px] text-slate-400 dark:text-slate-500 px-1 leading-relaxed">
-          Quest Map siswa menampilkan modul aktif:{' '}
-          <span className="font-semibold text-slate-600 dark:text-slate-300">
-            {activeModule.title}
-          </span>. Mengaktifkan modul lain akan menjeda yang ini.
-        </p>
-      )}
+      {/* Note on independent module management */}
+      <p className="text-[10px] text-slate-400 dark:text-slate-500 px-1 leading-relaxed">
+        Modul dapat diaktifkan dan dijeda secara mandiri. Siswa dapat belajar beberapa modul aktif sekaligus.
+      </p>
     </div>
   );
 }

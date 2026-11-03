@@ -48,3 +48,5 @@ scratch/
 .vscode/
 node_modules
 node_modules
+
+supabase/.temp/

@@ -7,12 +7,13 @@ import { getAuthUser } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getStudentModulesWithTopics, getTopicById } from '@/features/curriculum/queries';
 import { getChallengesWithSubmissions } from '@/features/challenges/queries';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
-import { getInstructionalSlides, hasRequiredLessonSlideCount } from '@/features/curriculum/lessonSlides';
+import { getInstructionalSlides, hasAuthoredLessonContent, isWithinSuggestedLessonSlideRange } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Topik — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -43,35 +44,57 @@ export default async function TopicPage({ params }: Props) {
   if (!topic || topic.status !== 'published') notFound();
 
   const db = createSupabaseAdminClient();
+  // Accept both active and paused enrollments. Paused = review-only, active = full gating.
   const { data: enrollment, error: enrollmentError } = await (db
     .from('student_modules')
-    .select('module_id')
+    .select('module_id, status')
     .eq('student_id', auth.user.id)
     .eq('module_id', topic.module_id)
-    .eq('status', 'active')
+    .in('status', ['active', 'paused'])
     .maybeSingle() as unknown as Promise<{
-      data: { module_id: number } | null;
+      data: { module_id: number; status: 'active' | 'paused' } | null;
       error: { message: string } | null;
     }>);
   if (enrollmentError || !enrollment) notFound();
 
-  // The map is not a security boundary: block direct URLs for future locked topics.
+  // ── Paused module: review-only access ────────────────────────────────────
+  // Topic must be published (checked above) AND student must have completed it.
+  let reviewOnly = false;
+  if (enrollment.status === 'paused') {
+    const { data: progress } = await (db
+      .from('topic_progress')
+      .select('id')
+      .eq('student_id', auth.user.id)
+      .eq('topic_id', id)
+      .maybeSingle() as unknown as Promise<{
+        data: { id: number } | null;
+        error: unknown;
+      }>);
+    if (!progress) notFound(); // not completed → no access
+    reviewOnly = true;
+    // Skip meeting-based gating for paused modules — fall through to rendering below.
+  } else {
+    // ── Active module: existing meeting-based unlock gating ───────────────
+    // The map is not a security boundary: block direct URLs for future locked topics.
   const enrolledModules = await getStudentModulesWithTopics(auth.user.id);
   const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
   const questProgress = enrolledModule
     ? await getQuestMapData(auth.user.id, enrolledModule)
     : null;
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === id);
-  if (!topicNode || topicNode.status === 'LOCKED') notFound();
+  if (!topicNode || !topicNode.isUnlocked) notFound();
+  }
 
-  // The lesson modal is the intended entry point, but direct URLs must not bypass
-  // the minimum authored lesson coverage required before challenge work.
+  // Keep the authored slide count visible as guidance without blocking source
+  // material that legitimately contains fewer than ten steps.
   const lessonContent = topic.lesson_content as Record<string, unknown> | null;
   const lessonSlides = getInstructionalSlides(lessonContent?.learningPath);
-  if (!hasRequiredLessonSlideCount(lessonSlides)) redirect('/student/lessons');
+  const lessonHasContent = hasAuthoredLessonContent(lessonSlides);
+  const meetsSlideTarget = isWithinSuggestedLessonSlideRange(lessonSlides);
+  const activeChallengeIds = getActiveChallengeIds(lessonContent);
 
   const [challenges, quizState] = await Promise.all([
-    getChallengesWithSubmissions(id, auth.user.id),
+    lessonHasContent ? getChallengesWithSubmissions(id, auth.user.id, activeChallengeIds) : Promise.resolve([]),
     getTopicQuizState(id, auth.user.id),
   ]);
 
@@ -138,8 +161,16 @@ export default async function TopicPage({ params }: Props) {
             </h2>
             <div className="flex-1 h-px bg-gradient-to-l from-slate-200 dark:from-white/10 to-transparent" />
           </div>
-          <LessonNodeWalker nodes={learningPath} topicId={id} />
+          <LessonNodeWalker nodes={learningPath} topicId={id} studentId={auth.user.id} />
         </section>
+      )}
+
+      {!meetsSlideTarget && (
+        <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+          {lessonHasContent
+            ? `Materi memiliki ${lessonSlides.length} slide instruksional. Target 10–20 slide disarankan jika sumber materi mendukung; challenge tetap tersedia setelah materi yang ada dipelajari.`
+            : `Materi topik ini belum memiliki slide instruksional (${lessonSlides.length}/10 menuju target). Challenge akan tersedia setelah materi autentik ditambahkan; tidak ada slide pengisi yang dibuat.`}
+        </div>
       )}
 
       {/* ── Challenges ──────────────────────────────────────────────────────── */}
@@ -172,7 +203,7 @@ export default async function TopicPage({ params }: Props) {
                 )}
               </div>
               <div className="px-5 py-4">
-                <SubmitChallengeForm challenge={ch} existingSubmission={ch.submission} />
+                <SubmitChallengeForm challenge={ch} existingSubmission={ch.submission} reviewOnly={reviewOnly} />
               </div>
             </div>
           ))}
@@ -192,6 +223,7 @@ export default async function TopicPage({ params }: Props) {
             isUnlocked={quizState.isUnlocked}
             isLocked={quizState.isLocked}
             bestScore={quizState.bestScore}
+            reviewOnly={reviewOnly}
           />
         </div>
       )}

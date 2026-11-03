@@ -31,7 +31,7 @@ export function CertificateBadge({ cert, variant = 'compact' }: CertificateBadge
 
   return (
     <div
-      className={`rounded-2xl ring-1 p-5 flex items-start gap-4
+      className={`rounded-2xl border-2 border-double ring-1 p-5 flex items-start gap-4 shadow-sm
         ${cfg.bg} ${cfg.ring}`}
       role="article"
       aria-label={`${cfg.label} Certificate untuk ${cert.module_title ?? 'modul ini'}`}

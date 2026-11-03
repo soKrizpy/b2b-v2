@@ -12,7 +12,7 @@ export const quizQuestionSchema = z.object({
   options:     z.array(z.string().min(1)).length(4, 'Harus tepat 4 pilihan jawaban'),
   answer_index: z.number().int().min(0).max(3, 'answer_index harus 0–3'),
   explanation: z.string().min(1, 'Penjelasan wajib diisi'),
-});
+}).strict();
 
 export type QuizQuestion = z.infer<typeof quizQuestionSchema>;
 
@@ -21,9 +21,38 @@ export type QuizQuestion = z.infer<typeof quizQuestionSchema>;
 export const topicChallengeSchema = z.object({
   title:           z.string().min(1),
   instructions:    z.string().min(1),
-  submission_type: z.literal('link'),
+  submission_type: z.enum(['link', 'file']),
   xp:              z.number().int().min(0).default(30),
-});
+}).strict();
+
+export const topicChallengesSchema = z.union([
+  topicChallengeSchema,
+  z.array(topicChallengeSchema).superRefine((challenges, ctx) => {
+    const seen = new Set<string>();
+    for (const [index, challenge] of challenges.entries()) {
+      const key = [
+        challenge.title.trim().toLowerCase(),
+        challenge.instructions.trim().toLowerCase(),
+        challenge.submission_type,
+      ].join('\u0000');
+      if (seen.has(key)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: [index],
+          message: 'Definisi challenge duplikat dalam topik.',
+        });
+      }
+      seen.add(key);
+    }
+  }),
+]);
+
+export function normalizeTopicChallenges(
+  challenge: TopicChallenge | TopicChallenge[] | undefined
+): TopicChallenge[] | undefined {
+  if (challenge === undefined) return undefined;
+  return Array.isArray(challenge) ? challenge : [challenge];
+}
 
 export type TopicChallenge = z.infer<typeof topicChallengeSchema>;
 
@@ -35,7 +64,7 @@ export const assessmentQuestionSchema = z.object({
   options:      z.array(z.string().min(1)).length(4, 'Harus tepat 4 pilihan jawaban'),
   answer_index: z.number().int().min(0).max(3),
   explanation:  z.string().min(1),
-});
+}).strict();
 
 export type AssessmentQuestion = z.infer<typeof assessmentQuestionSchema>;
 
@@ -45,7 +74,7 @@ export const finalAssessmentSchema = z.object({
   questions:         z
     .array(assessmentQuestionSchema)
     .length(20, 'Final assessment harus memiliki tepat 20 soal'),
-});
+}).strict();
 
 export type FinalAssessment = z.infer<typeof finalAssessmentSchema>;
 
@@ -63,7 +92,7 @@ export const nodeSchema = z.object({
   correct_option: z.string().optional(),
   instructions:   z.string().optional(),
   xp:             z.number().int().min(0).default(0),
-});
+}).strict();
 
 export type NodeImport = z.infer<typeof nodeSchema>;
 
@@ -74,11 +103,20 @@ export const topicImportSchema = z.object({
   topic_order:  z.number().int().min(0),
   description:  z.string().optional(),
   project_link: z.string().url().optional().or(z.literal('')),
-  nodes:        z.array(nodeSchema).default([]),
+  nodes:        z.array(nodeSchema),
   /** Up to 5 graded quiz questions unlocked after teacher marks session complete. */
   quiz:         z.array(quizQuestionSchema).max(5).optional(),
   /** Optional structured challenge definition that overrides free-form challenges table. */
-  challenge:    topicChallengeSchema.optional(),
+  challenge:    topicChallengesSchema.optional(),
+}).strict().superRefine((topic, ctx) => {
+  const seen = new Set<string>();
+  for (const [index, node] of topic.nodes.entries()) {
+    const key = node.node_id.trim().toLowerCase();
+    if (seen.has(key)) {
+      ctx.addIssue({ code: 'custom', path: ['nodes', index, 'node_id'], message: 'node_id harus unik dalam topik.' });
+    }
+    seen.add(key);
+  }
 });
 
 export type TopicImport = z.infer<typeof topicImportSchema>;
@@ -91,17 +129,39 @@ export const moduleImportSchema = z.object({
   description:       z.string().optional(),
   level:             z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
   gamification_type: z.enum(['mimo', 'duolingo', 'boardgame', 'quest', 'flashcard']).default('mimo'),
-  topics:            z.array(topicImportSchema).default([]),
+  topics:            z.array(topicImportSchema).min(1, 'Modul harus memiliki minimal satu topik.'),
   /** Final 20-question tryout — unlocks when all topics are complete. */
   final_assessment:  finalAssessmentSchema.optional(),
+}).strict().superRefine((module, ctx) => {
+  const seen = new Set<string>();
+  for (const [index, topic] of module.topics.entries()) {
+    const key = topic.topic_title.trim().toLowerCase();
+    if (seen.has(key)) {
+      ctx.addIssue({ code: 'custom', path: ['topics', index, 'topic_title'], message: 'Judul topik harus unik dalam modul.' });
+    }
+    seen.add(key);
+  }
 });
 
 export type ModuleImport = z.infer<typeof moduleImportSchema>;
 
 // ── Top-level schema ──────────────────────────────────────────────────────────
 
+const moduleListSchema = z.array(moduleImportSchema)
+  .min(1, 'JSON harus berisi minimal satu modul')
+  .superRefine((modules, ctx) => {
+    const seen = new Set<string>();
+    for (const [index, module] of modules.entries()) {
+      const key = module.module_title.trim().toLowerCase();
+      if (seen.has(key)) {
+        ctx.addIssue({ code: 'custom', path: [index, 'module_title'], message: 'Judul modul harus unik dalam file import.' });
+      }
+      seen.add(key);
+    }
+  });
+
 export const curriculumJsonSchema = z.union([
-  z.array(moduleImportSchema).min(1, 'JSON harus berisi minimal satu modul'),
+  moduleListSchema,
   moduleImportSchema.transform((m) => [m]),
 ]);
 
@@ -163,9 +223,9 @@ export function encodeFinalAssessment(fa: FinalAssessment): string {
   return `FINAL_ASSESSMENT:${JSON.stringify(fa)}`;
 }
 
-/** Certificate tier from a 0-100 score. (>=85 Excellent, >=75 Achievement, <75 Completion) */
+/** Certificate tier from a 0-100 score. (86-100 Excellent, 75-85 Achievement, <75 Participant) */
 export function scoreToCertificateTier(score: number): 'excellent' | 'achievement' | 'completion' {
-  if (score >= 85) return 'excellent';
+  if (score >= 86) return 'excellent';
   if (score >= 75) return 'achievement';
   return 'completion';
 }

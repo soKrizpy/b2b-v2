@@ -26,14 +26,16 @@ export default async function AssessmentPage({ params }: Props) {
   if (auth.role !== 'student') redirect('/');
 
   const db = createSupabaseAdminClient();
+  // Accept both active and paused enrollments so existing certificates remain
+  // accessible even when a module has been paused after completion.
   const { data: enrollment, error: enrollmentError } = await (db
     .from('student_modules')
-    .select('module_id')
+    .select('module_id, status')
     .eq('student_id', auth.user.id)
     .eq('module_id', id)
-    .eq('status', 'active')
+    .in('status', ['active', 'paused'])
     .maybeSingle() as unknown as Promise<{
-      data: { module_id: number } | null;
+      data: { module_id: number; status: 'active' | 'paused' } | null;
       error: { message: string } | null;
     }>);
   if (enrollmentError || !enrollment) notFound();
@@ -72,23 +74,37 @@ export default async function AssessmentPage({ params }: Props) {
   if (existingCert) {
     const cfg = TIER_CONFIG[existingCert.tier as keyof typeof TIER_CONFIG];
     return (
-      <div className="max-w-xl mx-auto py-16 text-center flex flex-col items-center gap-5">
-        <span className="text-7xl">{cfg.medal}</span>
-        <div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">
-            {cfg.label} Certificate
-          </p>
-          <p className="text-3xl font-black tabular-nums mt-1">{existingCert.score}/100</p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-1">
-            #{existingCert.certificate_number}
-          </p>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-            {cfg.description}
-          </p>
-        </div>
+      <div className="max-w-xl mx-auto py-12 px-4 text-center">
+        <article className={`rounded-3xl border-4 border-double p-8 shadow-2xl ring-2 ${cfg.bg} ${cfg.color} ${cfg.ring}`}>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] opacity-70">Bits2Bytes Learning Academy</p>
+          <span className="mt-5 block text-7xl" aria-hidden="true">{cfg.medal}</span>
+          <p className="mt-4 text-xs font-bold uppercase tracking-[0.25em] opacity-70">Certificate of Learning</p>
+          <h1 className="mt-2 text-3xl font-black">{cfg.label}</h1>
+          <p className="mt-4 text-4xl font-extrabold tabular-nums">{existingCert.score}<span className="text-lg font-semibold opacity-60"> / 100</span></p>
+          <p className="mt-4 text-xs font-mono opacity-70">#{existingCert.certificate_number}</p>
+          <p className="mt-4 text-sm">{cfg.description}</p>
+        </article>
         <Link href="/student/lessons"
-          className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700">
+          className="inline-block mt-6 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700">
           Kembali ke Pelajaran
+        </Link>
+      </div>
+    );
+  }
+
+  // Paused module: certificate already shown above if present.
+  // New assessment attempts require an active enrollment.
+  if (enrollment.status === 'paused') {
+    return (
+      <div className="max-w-xl mx-auto py-16 text-center space-y-4">
+        <p className="text-4xl">🔒</p>
+        <h1 className="text-xl font-extrabold text-slate-900 dark:text-white">Tryout tidak tersedia</h1>
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          Modul ini sedang dijeda. Kamu masih bisa mereview topik yang sudah selesai di Quest Map.
+        </p>
+        <Link href="/student/lessons"
+          className="inline-block px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700">
+          Kembali ke Quest Map
         </Link>
       </div>
     );
@@ -138,7 +154,7 @@ export default async function AssessmentPage({ params }: Props) {
             return (
               <div key={tier}
                 className={`text-xs px-3 py-1.5 rounded-full ring-1 font-semibold ${cfg.bg} ${cfg.color} ${cfg.ring}`}>
-                {cfg.medal} {cfg.label}: {tier === 'excellent' ? '≥85' : tier === 'achievement' ? '≥75' : '<75'}
+                {cfg.medal} {cfg.label}: {cfg.scoreRange}
               </div>
             );
           })}

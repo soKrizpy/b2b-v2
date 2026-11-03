@@ -12,6 +12,8 @@ import { Lock, Zap, Crown, Flame, Calendar, Award } from 'lucide-react';
 import { formatDate } from '@/lib/formatDate';
 import type { QuestTopicNode } from '@/features/quiz/questMapQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
+import { getMapPinCoordinates, getScratchMapTheme } from '@/features/quiz/scratchMapConfig';
+import { ScratchPixelMapScene } from './ScratchPixelMapScene';
 
 interface Props {
   moduleTitle: string;
@@ -24,60 +26,6 @@ interface Props {
   selectedNodeId?: number | null;
   onSelectNode: (node: QuestTopicNode) => void;
   onSelectFinalBoss: () => void;
-}
-
-// ── Continuous Archipelago Guide Path across the 16:9 Island Terrain ──────────
-// Winding journey through islands, mountain passes, royal bridge, central kingdom,
-// southeast lush isle, and culminating at the volcanic peak.
-const MAP_GUIDE_PATH = [
-  { x: 14, y: 80 }, // 0. Southwest Coastal Castle
-  { x: 19, y: 85 }, // 1. Golden Sand Beach
-  { x: 25, y: 74 }, // 2. Valley Outpost
-  { x: 22, y: 60 }, // 3. Western Green Meadows
-  { x: 24, y: 48 }, // 4. Riverside Bridge Crossing
-  { x: 27, y: 38 }, // 5. Mountain Bastion
-  { x: 20, y: 32 }, // 6. Western Mountain Pass
-  { x: 15, y: 34 }, // 7. High Alpine Village
-  { x: 24, y: 22 }, // 8. Snow Peak Ascent
-  { x: 32, y: 24 }, // 9. Northern Foothills
-  { x: 38, y: 24 }, // 10. Highland Settlement
-  { x: 41, y: 32 }, // 11. Estuary Waypoint
-  { x: 46, y: 35 }, // 12. Great Northern Stone Bridge
-  { x: 53, y: 44 }, // 13. Royal Citadel Courtyard
-  { x: 55, y: 48 }, // 14. Central Royal Palace
-  { x: 60, y: 37 }, // 15. Keep Tower
-  { x: 48, y: 56 }, // 16. Meadow Orchard
-  { x: 62, y: 53 }, // 17. Imperial Port
-  { x: 58, y: 63 }, // 18. South Quay Pier
-  { x: 48, y: 64 }, // 19. Lagoon Beach
-  { x: 68, y: 67 }, // 20. Sea Channel
-  { x: 72, y: 74 }, // 21. Southeast Island Harbor
-  { x: 66, y: 82 }, // 22. Tropical Palm Cove
-  { x: 75, y: 84 }, // 23. Southern Forest
-  { x: 80, y: 78 }, // 24. Sapphire Crater Lake
-  { x: 85, y: 68 }, // 25. Granite Ridge
-  { x: 88, y: 76 }, // 26. Eastern Lighthouse Coast
-  { x: 76, y: 42 }, // 27. Volcano Strait Pass
-  { x: 74, y: 32 }, // 28. Obsidian Lava Fields
-  { x: 80, y: 26 }, // 29. Dragon Crater Foothills
-];
-
-export function getPinCoordinates(index: number, total: number) {
-  if (total <= 1) return MAP_GUIDE_PATH[0];
-
-  const t = Math.min(1, Math.max(0, index / Math.max(1, total - 1)));
-  const numSegments = MAP_GUIDE_PATH.length - 1;
-  const rawIdx = t * numSegments;
-  const segIdx = Math.min(numSegments - 1, Math.floor(rawIdx));
-  const segT = rawIdx - segIdx;
-
-  const p0 = MAP_GUIDE_PATH[segIdx];
-  const p1 = MAP_GUIDE_PATH[segIdx + 1];
-
-  const x = Math.round((p0.x + (p1.x - p0.x) * segT) * 10) / 10;
-  const y = Math.round((p0.y + (p1.y - p0.y) * segT) * 10) / 10;
-
-  return { x, y };
 }
 
 // ── Retro Pixel Adventurer Sprite ─────────────────────────────────────────────
@@ -117,6 +65,8 @@ function PixelAdventurerSprite() {
 }
 
 export function RetroPixelWorldMap({
+  moduleTitle,
+  moduleLevel,
   nodes,
   activeNode,
   moduleComplete,
@@ -129,12 +79,16 @@ export function RetroPixelWorldMap({
   const [hoveredNode, setHoveredNode] = useState<QuestTopicNode | null>(null);
   const [hoveredBoss, setHoveredBoss] = useState(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [baseImageFailed, setBaseImageFailed] = useState(false);
+
+  const scratchTheme = getScratchMapTheme(moduleTitle, moduleLevel);
 
   const totalCount = nodes.length;
+  const localTopicNumbers = nodes.map((_, index) => index + 1);
   const isDense = totalCount > 14;
 
   // Build sequential SVG connection points for ALL nodes
-  const points = nodes.map((_, i) => getPinCoordinates(i, totalCount));
+  const points = nodes.map((_, i) => getMapPinCoordinates(i, totalCount));
   const bossCoord = { x: 84, y: 22 }; // Top-right volcano summit for Final Boss
 
   // SVG polyline string connecting each node
@@ -172,17 +126,25 @@ export function RetroPixelWorldMap({
         <div className="absolute inset-0 pointer-events-none z-20 shadow-[inset_0_0_60px_rgba(2,6,23,0.8)] border border-amber-300/30 rounded-[20px]" />
 
         {/* 16:9 Aspect Ratio Map Board */}
-        <div className="relative w-full aspect-[16/9] min-h-[460px] sm:min-h-[560px] lg:min-h-[640px]">
-          {/* Base Pixel Art Illustration Image */}
-          <Image
-            src="/images/retro_world_map.jpg"
-            alt="MAP Eksplorasi Petualangan Belajar"
-            fill
-            priority
-            referrerPolicy="no-referrer"
-            className="object-cover object-center select-none"
-            sizes="(max-width: 1200px) 100vw, 1200px"
-          />
+        <div className="relative w-full aspect-[16/9]">
+          {scratchTheme ? (
+            <ScratchPixelMapScene theme={scratchTheme} />
+          ) : baseImageFailed ? (
+            <div role="img" aria-label="Latar peta ekspedisi" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,#14532d_0%,#0f3c35_42%,#164e63_72%,#082f49_100%)]">
+              <div className="absolute inset-x-[8%] bottom-[15%] h-[42%] rounded-[35%] border-8 border-amber-200/40 bg-emerald-800/80 shadow-[0_0_0_16px_rgba(217,190,120,.24)]" />
+            </div>
+          ) : (
+            <Image
+              src="/images/retro_world_map.jpg"
+              alt="MAP Eksplorasi Petualangan Belajar"
+              fill
+              priority
+              referrerPolicy="no-referrer"
+              onError={() => setBaseImageFailed(true)}
+              className="object-cover object-center select-none"
+              sizes="(max-width: 1200px) 100vw, 1200px"
+            />
+          )}
 
           {/* Atmosphere Fog / Cloud Drift Overlays */}
           <div className="absolute inset-0 pointer-events-none z-10 bg-gradient-to-t from-slate-950/40 via-transparent to-slate-950/20" />
@@ -330,7 +292,7 @@ export function RetroPixelWorldMap({
 
           {/* ── Interactive Map Pins for EVERY Single Topic ── */}
           {nodes.map((node, idx) => {
-            const coord = getPinCoordinates(idx, totalCount);
+            const coord = getMapPinCoordinates(idx, totalCount);
             const isCompleted = node.status === 'COMPLETED';
             const isNeedsQuiz = node.status === 'NEEDS_QUIZ';
             const isActive    = node.status === 'ACTIVE_NEXT';
@@ -350,6 +312,16 @@ export function RetroPixelWorldMap({
                 {/* Map Pin Button */}
                 <button
                   type="button"
+                  aria-label={`${node.topic.title}, pertemuan ${node.sessionNumber}, ${
+                    node.status === 'LOCKED'
+                      ? 'terkunci'
+                      : node.status === 'COMPLETED'
+                        ? 'selesai, buka materi kembali'
+                        : node.status === 'NEEDS_QUIZ'
+                          ? 'kuis tersedia'
+                          : 'materi tersedia'
+                  }`}
+                  aria-current={isActive ? 'step' : undefined}
                   onClick={() => onSelectNode(node)}
                   onMouseEnter={(e) => {
                     setMousePos({ x: e.clientX, y: e.clientY });
@@ -359,7 +331,7 @@ export function RetroPixelWorldMap({
                     setMousePos({ x: e.clientX, y: e.clientY });
                   }}
                   onMouseLeave={() => setHoveredNode(null)}
-                  className={`group relative flex items-center justify-center transition-all duration-300 select-none
+                  className={`group relative flex items-center justify-center transition-all duration-300 select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200
                     ${isSelected ? 'scale-125 z-40 ring-4 ring-cyan-300' : 'hover:scale-125 hover:z-40'}
                     ${
                       isDense
@@ -392,7 +364,7 @@ export function RetroPixelWorldMap({
                     ) : isLocked ? (
                       <Lock className={isDense ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
                     ) : (
-                      idx + 1
+                      localTopicNumbers[idx]
                     )}
                   </span>
 
@@ -409,7 +381,7 @@ export function RetroPixelWorldMap({
                         ? 'bg-cyan-950/90 text-cyan-300 border-cyan-400/60'
                         : 'bg-slate-950/80 text-slate-400 border-slate-700/60'
                     }`}>
-                      #{idx + 1}
+                      #{localTopicNumbers[idx]}
                     </span>
                   </div>
                 </button>

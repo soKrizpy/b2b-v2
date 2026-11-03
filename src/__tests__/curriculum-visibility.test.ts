@@ -131,17 +131,23 @@ describe('Quest Map and topic visibility', () => {
     state.topicLessonContent = null;
   });
 
-  it('loads only active enrollments and published topics without assigning modules', async () => {
+  it('loads active and paused enrollments, published topics for active modules, and completed topics only for paused', async () => {
     const modules = await getStudentModulesWithTopics('student-1');
 
-    expect(modules).toHaveLength(1);
-    expect(modules[0].id).toBe(1);
-    expect(modules[0].topics.map((topic) => topic.title)).toEqual(['Published topic']);
+    // Both active and paused modules are returned
+    expect(modules).toHaveLength(2);
+    // Active module gets all published topics
+    const activeModule = modules.find((m) => m.id === 1);
+    expect(activeModule?.topics.map((topic) => topic.title)).toEqual(['Published topic']);
+    // Paused module gets only completed topics (none — topic_progress is empty in this mock)
+    const pausedModule = modules.find((m) => m.id === 2);
+    expect(pausedModule?.topics).toHaveLength(0);
+    expect(pausedModule?.enrollmentStatus).toBe('paused');
     expect(state.queries).toContainEqual({
       table: 'student_modules',
       filters: [
         ['eq', 'student_id', 'student-1'],
-        ['eq', 'status', 'active'],
+        ['in', 'status', ['active', 'paused']],
       ],
     });
     expect(state.queries.find((query) => query.table === 'topics')?.filters).toContainEqual([
@@ -162,19 +168,19 @@ describe('Quest Map and topic visibility', () => {
 
     await expect(updateTopicAction(null, formData)).resolves.toEqual({
       success: false,
-      error: 'Topik harus memiliki 10–20 slide instruksional valid (teori, kode, atau latihan lengkap) sebelum dipublikasikan. Saat ini: 0.',
+      error: 'Topik harus memiliki setidaknya satu slide instruksional valid sebelum dipublikasikan. Target 10–20 slide disarankan jika materi sumber mendukung. Saat ini: 0.',
     });
     expect(state.updates).toBe(0);
   });
 
-  it('rejects publishing a topic with only nine valid instructional slides', async () => {
+  it('allows publishing a topic with authored source content below the 10-slide target', async () => {
     state.topicLessonContent = {
-      learningPath: Array.from({ length: 9 }, (_, index) => ({
-        id: `slide-${index + 1}`,
+      learningPath: [{
+        id: 'source-slide-1',
         type: 'lesson',
-        title: `Materi ${index + 1}`,
-        content: 'Penjelasan materi yang cukup.',
-      })),
+        title: 'Satu konsep dari sumber',
+        content: 'Materi yang benar-benar tersedia dari sumber.',
+      }],
     };
     const formData = new FormData();
     formData.set('id', '10');
@@ -183,11 +189,8 @@ describe('Quest Map and topic visibility', () => {
     formData.set('status', 'published');
     formData.set('order_index', '1');
 
-    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({
-      success: false,
-      error: expect.stringContaining('Saat ini: 9.'),
-    });
-    expect(state.updates).toBe(0);
+    await expect(updateTopicAction(null, formData)).resolves.toMatchObject({ success: true });
+    expect(state.updates).toBe(1);
   });
 
   it('allows publishing a topic with exactly ten valid instructional slides', async () => {

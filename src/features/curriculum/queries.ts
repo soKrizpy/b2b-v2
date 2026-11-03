@@ -4,6 +4,7 @@
 // Server Components, Server Actions, and Route Handlers.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
 import type { ModuleRow, TopicRow } from '@/types/database';
 
 // ── Result shapes ─────────────────────────────────────────────────────────────
@@ -14,6 +15,24 @@ export interface TopicWithChallengeCount extends TopicRow {
 
 export interface ModuleWithTopics extends ModuleRow {
   topics: TopicWithChallengeCount[];
+}
+
+/** Student-facing module with enrollment context. */
+export interface StudentModuleWithTopics extends ModuleWithTopics {
+  enrollmentStatus: 'active' | 'paused';
+}
+
+function countVisibleChallenges(topicList: TopicRow[], challengeRows: Array<{ id: number; topic_id: number }>): Map<number, number> {
+  const topicsById = new Map(topicList.map((topic) => [topic.id, topic]));
+  const counts = new Map<number, number>();
+  for (const challenge of challengeRows) {
+    const topic = topicsById.get(challenge.topic_id);
+    if (!topic) continue;
+    const activeIds = getActiveChallengeIds(topic.lesson_content);
+    if (activeIds !== undefined && !activeIds.includes(challenge.id)) continue;
+    counts.set(challenge.topic_id, (counts.get(challenge.topic_id) ?? 0) + 1);
+  }
+  return counts;
 }
 
 // ── Modules ───────────────────────────────────────────────────────────────────
@@ -44,19 +63,21 @@ export async function getModuleById(moduleId: number): Promise<ModuleRow | null>
 }
 
 /**
- * All modules the student is currently enrolled in (status = 'active').
- * Returns modules with their published topics and challenge counts.
+ * All modules the student is enrolled in (active OR paused).
+ * Active modules: returns all published topics.
+ * Paused modules: returns only topics the student has completed (in topic_progress).
+ * Each returned module includes enrollmentStatus so downstream consumers can branch.
  */
-export async function getStudentModulesWithTopics(studentId: string): Promise<ModuleWithTopics[]> {
+export async function getStudentModulesWithTopics(studentId: string): Promise<StudentModuleWithTopics[]> {
   const db = createSupabaseAdminClient();
 
-  // 1. Enrolled module ids
+  // 1. Enrolled module ids + enrollment status (active OR paused)
   const { data: enrollments, error: enErr } = await db
     .from('student_modules')
-    .select('module_id')
+    .select('module_id, status')
     .eq('student_id', studentId)
-    .eq('status', 'active') as unknown as {
-      data: Array<{ module_id: number }>;
+    .in('status', ['active', 'paused']) as unknown as {
+      data: Array<{ module_id: number; status: 'active' | 'paused' }>;
       error: { message: string } | null;
     };
 
@@ -64,7 +85,24 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
 
   const moduleIds = enrollments.map((e) => e.module_id);
 
-  // 2 & 3. Fetch Modules and Published Topics in parallel
+  // Build a lookup: moduleId → enrollment status
+  const statusByModule = new Map(enrollments.map((e) => [e.module_id, e.status]));
+
+  // 2. Only fetch topic_progress when there are paused enrollments (avoids unnecessary round-trip)
+  const hasPaused = enrollments.some((e) => e.status === 'paused');
+  let completedTopicIds = new Set<number>();
+  if (hasPaused) {
+    const { data: progressRows } = await db
+      .from('topic_progress')
+      .select('topic_id')
+      .eq('student_id', studentId) as unknown as {
+        data: Array<{ topic_id: number }> | null;
+        error: unknown;
+      };
+    completedTopicIds = new Set((progressRows ?? []).map((p) => p.topic_id));
+  }
+
+  // 3. Fetch Modules and Published Topics in parallel
   const [{ data: modules, error: modErr }, { data: topics, error: topErr }] = await Promise.all([
     db
       .from('modules')
@@ -76,7 +114,8 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
       .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
       .in('module_id', moduleIds)
       .eq('status', 'published')
-      .order('order_index', { ascending: true }),
+      .order('order_index', { ascending: true })
+      .order('id', { ascending: true }),
   ]);
 
   if (modErr || !modules?.length) return [];
@@ -86,27 +125,37 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<Mo
   const topicIds  = topicList.map((t) => t.id);
 
   // 4. Challenge counts per topic (filtered by topicIds in SQL)
-  const challengeCountMap = new Map<number, number>();
+  let challengeCountMap = new Map<number, number>();
   if (topicIds.length > 0) {
     const { data: challenges } = await db
       .from('challenges')
-      .select('topic_id')
+      .select('id, topic_id')
       .in('topic_id', topicIds) as unknown as {
-        data: Array<{ topic_id: number }>;
+        data: Array<{ id: number; topic_id: number }>;
         error: unknown;
       };
-
-    (challenges ?? []).forEach((c) => {
-      challengeCountMap.set(c.topic_id, (challengeCountMap.get(c.topic_id) ?? 0) + 1);
-    });
+    challengeCountMap = countVisibleChallenges(topicList, challenges ?? []);
   }
 
-  return (modules as unknown as ModuleRow[]).map((mod) => ({
-    ...mod,
-    topics: topicList
-      .filter((t) => t.module_id === mod.id)
-      .map((t) => ({ ...t, challenge_count: challengeCountMap.get(t.id) ?? 0 })),
-  }));
+  return (modules as unknown as ModuleRow[]).map((mod) => {
+    const enrollmentStatus = statusByModule.get(mod.id) ?? 'active';
+    const allModuleTopics = topicList.filter((t) => t.module_id === mod.id);
+
+    // Paused modules: only topics that are published AND completed by the student.
+    // Active modules: all published topics (existing behaviour).
+    const visibleTopics = enrollmentStatus === 'paused'
+      ? allModuleTopics.filter((t) => completedTopicIds.has(t.id))
+      : allModuleTopics;
+
+    return {
+      ...mod,
+      enrollmentStatus,
+      topics: visibleTopics.map((t) => ({
+        ...t,
+        challenge_count: challengeCountMap.get(t.id) ?? 0,
+      })),
+    };
+  });
 }
 
 // ── Topics ────────────────────────────────────────────────────────────────────
@@ -118,7 +167,8 @@ export async function getTopicsByModuleId(moduleId: number): Promise<TopicRow[]>
     .from('topics')
     .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
     .eq('module_id', moduleId)
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true })
+    .order('id', { ascending: true });
 
   if (error) { console.error('[getTopicsByModuleId]', error.message); return []; }
   return (data ?? []) as unknown as TopicRow[];
@@ -154,26 +204,24 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
     .from('topics')
     .select('id, module_id, title, order_index, description, project_link, topic_link, engine_topic_id, lesson_content, status, published_at, created_at')
     .in('module_id', moduleIds)
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true })
+    .order('id', { ascending: true });
 
   if (topErr) console.error('[getAllModulesWithTopics] topics', topErr.message);
 
   const topicList  = (topics ?? []) as unknown as TopicRow[];
   const topicIds   = topicList.map((t) => t.id);
 
-  const challengeCountMap = new Map<number, number>();
+  let challengeCountMap = new Map<number, number>();
   if (topicIds.length > 0) {
     const { data: challenges } = await db
       .from('challenges')
-      .select('topic_id')
+      .select('id, topic_id')
       .in('topic_id', topicIds) as unknown as {
-        data: Array<{ topic_id: number }>;
+        data: Array<{ id: number; topic_id: number }>;
         error: unknown;
       };
-
-    (challenges ?? []).forEach((c) => {
-      challengeCountMap.set(c.topic_id, (challengeCountMap.get(c.topic_id) ?? 0) + 1);
-    });
+    challengeCountMap = countVisibleChallenges(topicList, challenges ?? []);
   }
 
   return (modules as unknown as ModuleRow[]).map((mod) => ({
@@ -187,6 +235,42 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
 /** All modules with their topics and challenge counts. Admin curriculum view. */
 export async function getAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
   return fetchAllModulesWithTopics();
+}
+
+/**
+ * Returns the published topic count per module.
+ * Used by the achievements page to compute mastery percentage correctly
+ * even when some modules are paused (which would otherwise shrink the count).
+ */
+export async function getPublishedTopicCountsByModules(
+  moduleIds: number[]
+): Promise<Array<{ moduleId: number; publishedCount: number }>> {
+  if (moduleIds.length === 0) return [];
+
+  const db = createSupabaseAdminClient();
+  const { data, error } = await db
+    .from('topics')
+    .select('id, module_id')
+    .in('module_id', moduleIds)
+    .eq('status', 'published') as unknown as {
+      data: Array<{ id: number; module_id: number }> | null;
+      error: { message: string } | null;
+    };
+
+  if (error) {
+    console.error('[getPublishedTopicCountsByModules]', error.message);
+    return moduleIds.map((id) => ({ moduleId: id, publishedCount: 0 }));
+  }
+
+  const countByModule = new Map<number, number>();
+  for (const row of data ?? []) {
+    countByModule.set(row.module_id, (countByModule.get(row.module_id) ?? 0) + 1);
+  }
+
+  return moduleIds.map((id) => ({
+    moduleId: id,
+    publishedCount: countByModule.get(id) ?? 0,
+  }));
 }
 
 

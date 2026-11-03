@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   getInstructionalSlides,
+  hasAuthoredLessonContent,
   hasRequiredLessonSlideCount,
   MAX_LESSON_SLIDES,
   MIN_LESSON_SLIDES,
@@ -26,6 +27,12 @@ describe('instructional lesson slides', () => {
     const slides = getInstructionalSlides(Array.from({ length: 9 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MIN_LESSON_SLIDES - 1);
     expect(hasRequiredLessonSlideCount(slides)).toBe(false);
+    expect(hasAuthoredLessonContent(slides)).toBe(true);
+  });
+
+  it('keeps an empty topic unpublished without requiring filler slides for authored material', () => {
+    expect(hasAuthoredLessonContent([])).toBe(false);
+    expect(hasAuthoredLessonContent(getInstructionalSlides([slide(1)]))).toBe(true);
   });
 
   it('accepts exactly 10 valid authored instructional slides', () => {
