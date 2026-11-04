@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SignOutButton } from '@/features/auth/components/SignOutButton';
-import { TeacherAdminChatbot } from '@/features/ai/components/TeacherAdminChatbot';
+import { isFeatureEnabled, type FeatureGroup } from '@/lib/featureConfig';
 import type { UserRole } from '@/types/roles';
 
 // ── Role Configurations ───────────────────────────────────────────────────────
@@ -45,27 +45,64 @@ const ROLE_PILL_CLASS: Record<UserRole, string> = {
   student: 'bg-indigo-500/10 text-indigo-700 border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300',
 };
 
-const ROLE_NAV: Record<
-  UserRole,
-  Array<{ href: string; label: string; icon: React.ElementType }>
-> = {
+// ── Navigation structure (grouped + feature-gated) ────────────────────────────
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+  /** When set, the item only renders if this feature flag is enabled. */
+  feature?: FeatureGroup;
+}
+
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const ROLE_NAV: Record<UserRole, NavGroup[]> = {
   admin: [
-    { href: '/admin/dashboard',  label: 'Dasbor',    icon: LayoutDashboard },
-    { href: '/admin/sessions',   label: 'Jadwal',    icon: Calendar },
-    { href: '/admin/curriculum', label: 'Kurikulum', icon: BookOpen },
-    { href: '/admin/users',      label: 'Pengguna',  icon: Users },
-    { href: '/admin/invoices',   label: 'Invoice',   icon: Receipt },
+    {
+      label: 'Kelola',
+      items: [
+        { href: '/admin/dashboard',  label: 'Dasbor',     icon: LayoutDashboard },
+        { href: '/admin/curriculum', label: 'Kurikulum',  icon: BookOpen },
+        { href: '/admin/sessions',   label: 'Jadwal',     icon: Calendar },
+        { href: '/admin/users',      label: 'Pengguna',   icon: Users },
+      ],
+    },
+    {
+      label: 'Operasional',
+      items: [
+        { href: '/admin/invoices', label: 'Invoice', icon: Receipt, feature: 'billing' },
+      ],
+    },
   ],
   teacher: [
-    { href: '/teacher/dashboard',   label: 'Dasbor',      icon: LayoutDashboard },
-    { href: '/teacher/students',    label: 'Siswa Saya',  icon: GraduationCap },
-    { href: '/teacher/submissions', label: 'Tugas Siswa', icon: FileCheck2 },
+    {
+      label: 'Mengajar',
+      items: [
+        { href: '/teacher/dashboard',   label: 'Dasbor',       icon: LayoutDashboard },
+        { href: '/teacher/students',     label: 'Siswa Saya',   icon: GraduationCap },
+        { href: '/teacher/submissions',  label: 'Tugas Siswa',  icon: FileCheck2 },
+      ],
+    },
   ],
   student: [
-    { href: '/student/dashboard',    label: 'Town Square',      icon: Sparkles },
-    { href: '/student/lessons',      label: 'Quest Map',        icon: Map },
-    { href: '/student/achievements', label: 'Lencana & Target', icon: Trophy },
-    { href: '/student/parent-hub',   label: 'Parent Hub',       icon: HeartHandshake },
+    {
+      label: 'Belajar',
+      items: [
+        { href: '/student/dashboard', label: 'Jadwal', icon: Sparkles },
+        { href: '/student/lessons',   label: 'Materi', icon: Map },
+      ],
+    },
+    {
+      label: 'Profil',
+      items: [
+        { href: '/student/achievements', label: 'Pencapaian', icon: Trophy },
+        { href: '/student/parent-hub',   label: 'Parent Hub', icon: HeartHandshake, feature: 'parentPortal' },
+      ],
+    },
   ],
 };
 
@@ -80,8 +117,10 @@ interface DashboardAppShellProps {
   role: UserRole;
   fullName: string | null;
   currentPath: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   maxWidthClass?: string;
+  /** Optional slot for extra elements rendered at the shell root (e.g. AI chatbot). */
+  headerExtras?: React.ReactNode;
 }
 
 export function DashboardAppShell({
@@ -90,6 +129,7 @@ export function DashboardAppShell({
   currentPath,
   children,
   maxWidthClass = 'max-w-7xl',
+  headerExtras,
 }: DashboardAppShellProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -99,12 +139,27 @@ export function DashboardAppShell({
     setMounted(true);
   }, []);
 
-  const navItems = ROLE_NAV[role];
+  // Compute visible nav groups (filter out items gated by disabled features).
+  const navGroups = useMemo(
+    () =>
+      ROLE_NAV[role]
+        .map((group) => ({
+          ...group,
+          items: group.items.filter(
+            (item) => !item.feature || isFeatureEnabled(item.feature)
+          ),
+        }))
+        .filter((group) => group.items.length > 0),
+    [role]
+  );
+
+  // Flatten all visible items for active-state derivation and mobile nav.
+  const navItems = useMemo(() => navGroups.flatMap((g) => g.items), [navGroups]);
   const pillClass = ROLE_PILL_CLASS[role];
 
   // During SSR / initial client hydration, align activePath with currentPath
   // Once mounted, follow live clientPathname
-  const activePath = mounted ? (clientPathname || currentPath) : (currentPath || navItems[0].href);
+  const activePath = mounted ? (clientPathname || currentPath) : (currentPath || navItems[0]?.href);
 
   // Derive active item label for header display
   const activeItem = useMemo(() => {
@@ -164,45 +219,66 @@ export function DashboardAppShell({
           </Link>
         </div>
 
-        {/* Sidebar Nav Items */}
-        <nav className="flex-1 p-3 flex flex-col gap-1.5 overflow-y-auto">
-          {navItems.map((item) => {
-            const active = activePath.startsWith(item.href);
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                title={collapsed ? item.label : undefined}
-                className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-extrabold
-                  transition-colors duration-200 cursor-pointer group
-                  ${active
-                    ? 'text-blue-700 dark:text-purple-300'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-purple-100 hover:bg-blue-50/50 dark:hover:bg-purple-950/40'
-                  } ${collapsed ? 'justify-center px-0' : ''}`}
-              >
-                {active && (
-                  <motion.span
-                    layoutId={`sidebar-active-pill-${role}`}
-                    transition={SPRING_TRANSITION}
-                    className="absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/60 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/60 dark:shadow-neon-purple"
-                  />
-                )}
-                <Icon className={`relative z-10 w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${active ? 'text-blue-600 dark:text-purple-300' : ''}`} />
-                {!collapsed && (
-                  <span className="relative z-10 truncate">{item.label}</span>
-                )}
-                {active && !collapsed && (
-                  <motion.span
-                    layoutId={`sidebar-active-dot-${role}`}
-                    transition={SPRING_TRANSITION}
-                    className="relative z-10 ml-auto w-1.5 h-1.5 rounded-full bg-[#7cc62f] shadow-sm shadow-[#7cc62f]"
-                  />
-                )}
-              </Link>
-            );
-          })}
+        {/* Sidebar Nav Items — grouped */}
+        <nav className="flex-1 p-3 flex flex-col gap-0.5 overflow-y-auto">
+          {navGroups.map((group, groupIdx) => (
+            <div key={group.label}>
+              {/* Group separator line + label (hidden when collapsed) */}
+              {groupIdx > 0 && (
+                <div className="my-2 flex items-center gap-2 px-1">
+                  <div className="flex-1 h-px bg-blue-200/60 dark:bg-purple-500/20" />
+                  {!collapsed && (
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-600 whitespace-nowrap">
+                      {group.label}
+                    </span>
+                  )}
+                  <div className="flex-1 h-px bg-blue-200/60 dark:bg-purple-500/20" />
+                </div>
+              )}
+              {/* First group label (only shown when not collapsed) */}
+              {groupIdx === 0 && !collapsed && (
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-600 px-3.5 pt-1 pb-1.5">
+                  {group.label}
+                </p>
+              )}
+              {group.items.map((item) => {
+                const active = activePath.startsWith(item.href);
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    title={collapsed ? item.label : undefined}
+                    className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-extrabold
+                      transition-colors duration-200 cursor-pointer group
+                      ${active
+                        ? 'text-blue-700 dark:text-purple-300'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-purple-100 hover:bg-blue-50/50 dark:hover:bg-purple-950/40'
+                      } ${collapsed ? 'justify-center px-0' : ''}`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId={`sidebar-active-pill-${role}`}
+                        transition={SPRING_TRANSITION}
+                        className="absolute inset-0 rounded-2xl bg-blue-500/10 border border-blue-400/60 shadow-neon-blue dark:bg-purple-500/20 dark:border-purple-500/60 dark:shadow-neon-purple"
+                      />
+                    )}
+                    <Icon className={`relative z-10 w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${active ? 'text-blue-600 dark:text-purple-300' : ''}`} />
+                    {!collapsed && (
+                      <span className="relative z-10 truncate">{item.label}</span>
+                    )}
+                    {active && !collapsed && (
+                      <motion.span
+                        layoutId={`sidebar-active-dot-${role}`}
+                        transition={SPRING_TRANSITION}
+                        className="relative z-10 ml-auto w-1.5 h-1.5 rounded-full bg-[#7cc62f] shadow-sm shadow-[#7cc62f]"
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         {/* Sidebar Bottom Collapse Toggle */}
@@ -369,10 +445,8 @@ export function DashboardAppShell({
         })}
       </nav>
 
-      {/* ── AI Copilot for Guru and Admin ONLY ── */}
-      {(role === 'teacher' || role === 'admin') && (
-        <TeacherAdminChatbot role={role} />
-      )}
+      {/* ── Optional extras slot (e.g. AI chatbot injected via layout) ── */}
+      {headerExtras}
     </div>
   );
 }

@@ -32,6 +32,28 @@ function formatDate(iso: string | null) {
 }
 
 
+// ── MPIN Chip dengan toggle reveal ───────────────────────────────────────────────────────
+
+function MpinChip({ mpin }: { mpin: string }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold
+      bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-100
+      border border-transparent dark:border-white/5">
+      <span className="text-[10px] text-slate-400">🔑</span>
+      <span className="tracking-widest">{revealed ? mpin : '••••'}</span>
+      <button
+        type="button"
+        onClick={() => setRevealed((v) => !v)}
+        title={revealed ? 'Sembunyikan PIN' : 'Tampilkan PIN'}
+        className="ml-0.5 text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 rounded"
+      >
+        {revealed ? '🙈' : '👁'}
+      </button>
+    </span>
+  );
+}
+
 function ColHeader({ children }: { children: React.ReactNode }) {
   return (
     <th className="px-4 py-3 text-left text-[10px] font-black uppercase tracking-wider
@@ -160,12 +182,7 @@ function StudentCard({
             📌 {s.grade}
           </span>
         )}
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono font-bold
-          bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-100
-          border border-transparent dark:border-white/5">
-          🔑 {s.mpin}
-        </span>
-      </div>
+        <MpinChip mpin={s.mpin} />      </div>
 
       {/* Modules */}
       <div className="flex flex-col gap-1">
@@ -301,12 +318,7 @@ function StudentDesktopTable({
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   {s.grade && <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 mb-1">{s.grade}</p>}
-                  <div className="inline-flex items-center gap-1.5
-                    bg-slate-100 dark:bg-white/10 px-2 py-1 rounded-lg
-                    border border-transparent dark:border-white/5">
-                    <span className="text-[10px] text-slate-400">🔑</span>
-                    <span className="text-xs font-mono font-bold tracking-widest text-slate-800 dark:text-slate-100">{s.mpin}</span>
-                  </div>
+                  <MpinChip mpin={s.mpin} />
                 </td>
                 <td className="px-4 py-3"><ModuleBadges titles={s.module_titles} /></td>
                 <td className="px-4 py-3 whitespace-nowrap">

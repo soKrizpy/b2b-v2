@@ -44,8 +44,8 @@ export const createSessionSchema = z.object({
   meeting_date:   futureDatetime,
   link_url:       absoluteUrl,
   notes:          z.string().max(1000).optional(),
-  session_count:  z.coerce.number().int().min(1).max(20).default(1),
-  session_number: z.coerce.number().int().min(1).max(20).default(1),
+  session_count:  z.coerce.number().int().min(1).default(1),
+  session_number: z.coerce.number().int().min(1).default(1),
   module_id:      z.coerce.number().int().positive('Pilih modul kurikulum yang valid.'),
   student_ids:    z
     .array(z.string().uuid('ID siswa tidak valid'))
@@ -63,8 +63,8 @@ export const updateSessionSchema = z.object({
   meeting_date:   futureDatetime.optional(),
   link_url:       absoluteUrl.optional(),
   notes:          z.string().max(1000).optional(),
-  session_count:  z.coerce.number().int().min(1).max(20).optional(),
-  session_number: z.coerce.number().int().min(1).max(20).optional(),
+  session_count:  z.coerce.number().int().min(1).optional(),
+  session_number: z.coerce.number().int().min(1).optional(),
   module_id:      z.coerce.number().int().positive().optional(),
 });
 

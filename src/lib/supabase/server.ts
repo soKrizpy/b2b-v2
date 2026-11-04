@@ -15,26 +15,41 @@ import {
   getMockStore,
   getPreviewFallbackSession,
   clearPreviewFallbackSession,
+  isMockModeEnabled,
 } from './mock';
 import { createSupabaseAdminClient } from './admin';
 
-// Cookie options only used for the Kiro preview iframe mock sessions.
-// Do NOT apply these to real Supabase auth-token cookies — partitioned: true
-// breaks session reads in Server Actions on production first-party domains.
-const MOCK_COOKIE_OPTS = {
-  path: '/',
-  sameSite: 'none' as const,
-  secure: true,
-  partitioned: true,
-  httpOnly: false,
-};
+// Cookie options for mock sessions. In mock mode (local dev), always use
+// SameSite=Lax without Secure so cookies work on http://localhost.
+// In production (Vercel), use SameSite=None; Secure; Partitioned for
+// cross-origin iframe compatibility.
+const isDevMode = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+const MOCK_COOKIE_OPTS = isDevMode
+  ? {
+      path: '/',
+      sameSite: 'lax' as const,
+      secure: false,
+      httpOnly: false,
+    }
+  : {
+      path: '/',
+      sameSite: 'none' as const,
+      secure: true,
+      partitioned: true,
+      httpOnly: false,
+    };
 
 export async function createSupabaseServerClient(options?: { forceRealIfConfigured?: boolean }) {
   const cookieStore = await cookies();
 
+  // When mock mode is active via NEXT_PUBLIC_USE_MOCK, forceRealIfConfigured has no effect.
+  const effectiveOptions = isMockModeEnabled()
+    ? { ...options, forceRealIfConfigured: false }
+    : options;
+
   const mockUserId = cookieStore.get(MOCK_SESSION_COOKIE)?.value;
   const hasMockSession = Boolean(
-    !options?.forceRealIfConfigured &&
+    !effectiveOptions?.forceRealIfConfigured &&
       mockUserId &&
       getMockStore().users.some((u) => u.id === mockUserId)
   );
@@ -45,7 +60,7 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
   );
 
   // If browser blocked cookies in cross-origin preview iframe, fall back to active server-side preview session
-  if (!options?.forceRealIfConfigured && !hasRealSbCookie && !hasMockSession) {
+  if (!effectiveOptions?.forceRealIfConfigured && !hasRealSbCookie && !hasMockSession) {
     const fallback = getPreviewFallbackSession();
     if (fallback) {
       if (fallback.isMock) {

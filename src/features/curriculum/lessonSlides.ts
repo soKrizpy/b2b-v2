@@ -1,5 +1,6 @@
-/** Minimum and maximum authored instructional slides shown before a topic challenge. */
+/** Suggested authoring range; lesson length remains content-driven. */
 export const MIN_LESSON_SLIDES = 10;
+/** Suggested upper authoring target, not a display or validation limit. */
 export const MAX_LESSON_SLIDES = 20;
 
 export type LessonSlide = Record<string, unknown>;
@@ -55,18 +56,16 @@ function isAuthoredInstructionalSlide(item: unknown): item is LessonSlide {
  * Normalize the authored learningPath for the Quest Map lesson modal.
  * Only supported instructional nodes with a title and substantive content count
  * as slides. Quiz/challenge markers, unknown types, and malformed/empty nodes do
- * not count toward the minimum. Valid authored slides are capped at 20.
+ * not count as instructional slides. Authored lessons are never truncated.
  */
 export function getInstructionalSlides(learningPath: unknown): LessonSlide[] {
   if (!Array.isArray(learningPath)) return [];
 
-  return learningPath
-    .filter(isAuthoredInstructionalSlide)
-    .slice(0, MAX_LESSON_SLIDES);
+  return learningPath.filter(isAuthoredInstructionalSlide);
 }
 
-/** A topic lesson is ready to advance only when 10–20 valid slides are shown. */
-export function hasRequiredLessonSlideCount(slides: readonly unknown[]): boolean {
+/** Whether an authored lesson falls inside the suggested 10–20 authoring range. */
+export function isWithinSuggestedLessonSlideRange(slides: readonly unknown[]): boolean {
   return slides.length >= MIN_LESSON_SLIDES && slides.length <= MAX_LESSON_SLIDES;
 }
 

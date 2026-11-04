@@ -43,8 +43,14 @@ export function SignInForm({ redirectTo }: { redirectTo?: string }) {
       if (result.success) {
         setIsRedirecting(true);
         if (typeof document !== "undefined" && Array.isArray(result.sessionCookies)) {
+          // On localhost (HTTP), SameSite=None;Secure won't stick — use Lax instead.
+          const isLocalhost = typeof window !== "undefined" &&
+            (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+          const cookieAttrs = isLocalhost
+            ? "path=/; max-age=604800; SameSite=Lax"
+            : "path=/; max-age=604800; SameSite=None; Secure; Partitioned";
           for (const c of result.sessionCookies) {
-            document.cookie = `${c.name}=${encodeURIComponent(c.value)}; path=/; max-age=604800; SameSite=None; Secure; Partitioned`;
+            document.cookie = `${c.name}=${encodeURIComponent(c.value)}; ${cookieAttrs}`;
           }
         }
         if (typeof window !== "undefined") {

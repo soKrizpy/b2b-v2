@@ -7,10 +7,9 @@ import { getSessionsForTeacher } from "@/features/sessions/queries";
 import { getStudentsForTeacher } from "@/features/users/queries";
 import { TeacherScheduleCards } from "@/features/dashboard/teacher/TeacherScheduleCards";
 import { isUpcoming, isLive, formatDateTime } from "@/lib/formatDate";
-import { AnnouncementBanner } from "@/features/announcements/components/AnnouncementBanner";
+import { isFeatureEnabled } from "@/lib/featureConfig";
 import { HeroAtmosphere } from "@/components/common/HeroAtmosphere";
 import Link from "next/link";
-
 export const metadata: Metadata = { title: "Dasbor Guru — Bits2Bytes" };
 export const dynamic = "force-dynamic";
 
@@ -34,8 +33,8 @@ export default async function TeacherDashboardPage() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* ── Active Announcement Banners ──────────────────────── */}
-      <AnnouncementBanner role="teachers" />
+      {/* ── Active Announcement Banners (announcements flag) ──────────────── */}
+      {isFeatureEnabled("announcements") && <TeacherAnnouncementBanner />}
 
       {/* ── Greeting hero ("Today's Focus") with seamless theme atmosphere ── */}
       <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-8 text-white shadow-xl transition-all duration-500
@@ -116,4 +115,15 @@ export default async function TeacherDashboardPage() {
       </section>
     </div>
   );
+}
+
+// ── TeacherAnnouncementBanner ────────────────────────────────────────────────
+// Async server component wrapper — only rendered when announcements flag is on.
+// Keeps the main page component free of a static AnnouncementBanner import.
+
+async function TeacherAnnouncementBanner() {
+  const { AnnouncementBanner } = await import(
+    "@/features/announcements/components/AnnouncementBanner"
+  );
+  return <AnnouncementBanner role="teachers" />;
 }

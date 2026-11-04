@@ -9,7 +9,7 @@ import {
   markSessionComplete,
   type ActionResult,
 } from '@/features/sessions/actions';
-import { draftProgressReport } from '@/features/ai/actions';
+import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import { Modal } from '@/components/ui/Modal';
 import { MeetingForm } from './MeetingForm';
 import { Button } from '@/components/ui/Button';
@@ -151,6 +151,8 @@ export function AdminSessionActions({
     fd.append('student_names', studentNames || 'siswa');
     fd.append('topic_hint', meeting.notes ?? '');
     startAi(async () => {
+      // Dynamic import — AI module not bundled when aiAssistant flag is off.
+      const { draftProgressReport } = await import('@/features/ai/actions');
       const r = await draftProgressReport(null, fd);
       if (r.success) setReport(r.data);
       else setAiError(r.error);
@@ -299,6 +301,8 @@ export function AdminSessionActions({
               </p>
             </div>
           </div>
+          {/* AI draft button — only when aiAssistant flag is enabled */}
+          {FEATURE_FLAGS.aiAssistant && (
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -329,6 +333,7 @@ export function AdminSessionActions({
               </span>
             )}
           </div>
+          )}
 
           {aiError && (
             <p className="text-xs text-red-500 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200">

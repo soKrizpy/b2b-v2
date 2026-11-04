@@ -18,12 +18,10 @@ export async function POST() {
     redirectTo: '/login',
   });
 
-  const deleteOpts = {
-    path: '/',
-    sameSite: 'none' as const,
-    secure: true,
-    partitioned: true,
-  };
+  const isDevMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+  const deleteOpts = isDevMock
+    ? { path: '/', sameSite: 'lax' as const, secure: false }
+    : { path: '/', sameSite: 'none' as const, secure: true, partitioned: true };
 
   response.cookies.delete({ name: 'b2b_role', ...deleteOpts });
   response.cookies.delete({ name: MOCK_SESSION_COOKIE, ...deleteOpts });

@@ -45,12 +45,21 @@ export async function middleware(request: NextRequest) {
     request: { headers: requestHeaders },
   });
 
-  const iframeCookieOpts = {
-    path: '/',
-    sameSite: 'none' as const,
-    secure: true,
-    partitioned: true,
-  };
+  // In mock mode (local dev), use Lax without Secure so cookies work on http://localhost.
+  // In production, use None; Secure; Partitioned for cross-origin iframe compatibility.
+  const isDevMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+  const iframeCookieOpts = isDevMock
+    ? {
+        path: '/',
+        sameSite: 'lax' as const,
+        secure: false,
+      }
+    : {
+        path: '/',
+        sameSite: 'none' as const,
+        secure: true,
+        partitioned: true,
+      };
 
   const mockUserId = request.cookies.get(MOCK_SESSION_COOKIE)?.value;
   const hasMockSession = Boolean(

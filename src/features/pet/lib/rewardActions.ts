@@ -5,11 +5,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { REWARDS, type RewardEvent } from './levelCalc';
+import { REWARDS, type RewardEvent } from '@/lib/rewards/config';
+import type { RewardResult } from '@/lib/rewards/types';
 
-export type RewardResult =
-  | { success: true;  newXp: number; newCoins: number; message: string }
-  | { success: false; error: string };
+// Re-export for backward compatibility with any pet-internal consumers.
+export type { RewardResult } from '@/lib/rewards/types';
 
 /**
  * Awards XP and Coins to a student and persists the result atomically.

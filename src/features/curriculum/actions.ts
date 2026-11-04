@@ -530,7 +530,7 @@ export async function createModuleAction(
   if (!title) return { success: false, error: 'Judul modul wajib diisi.', fields: { title: 'Wajib diisi.' } };
 
   const db = createSupabaseAdminClient();
-  const { data, error } = await (db
+  const { error } = await (db
     .from('modules')
     .insert({ title, description, level, gamification_type } as never)
     .select('id')

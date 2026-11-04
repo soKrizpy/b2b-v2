@@ -4,11 +4,8 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  markSessionComplete,
-  updateSessionReport,
-} from '@/features/sessions/actions';
-import { draftProgressReport } from '@/features/ai/actions';
+import { markSessionComplete, updateSessionReport } from '@/features/sessions/actions';
+import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Input';
@@ -102,6 +99,8 @@ export function TeacherCompleteAction({
     fd.append('student_names', studentNames ?? 'siswa');
     fd.append('topic_hint', '');
     startAi(async () => {
+      // Dynamic import so AI module is not bundled when aiAssistant flag is off.
+      const { draftProgressReport } = await import('@/features/ai/actions');
       const r = await draftProgressReport(null, fd);
       if (r.success) setReport(r.data);
       else setAiError(r.error);
@@ -135,7 +134,8 @@ export function TeacherCompleteAction({
             )}
           </p>
 
-          {/* AI draft button */}
+          {/* AI draft button — only when aiAssistant flag is enabled */}
+          {FEATURE_FLAGS.aiAssistant && (
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -166,6 +166,7 @@ export function TeacherCompleteAction({
               </span>
             )}
           </div>
+          )}
 
           {aiError && (
             <p

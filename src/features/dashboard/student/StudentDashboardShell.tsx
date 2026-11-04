@@ -16,6 +16,7 @@ import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
 import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
+import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import type { TownSquareMeeting } from '@/features/sessions/queries';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
@@ -49,16 +50,17 @@ interface SessionItem {
 interface Props {
   studentId:          string;
   studentName:        string;
-  gamData:            StudentGamificationData | null;
-  certificates:       CertificateWithModule[];
-  townSquareMeeting:  TownSquareMeeting | null;
-  invoices:           InvoiceRow[];
   upcoming:           SessionItem[];
   past:               SessionItem[];
   /** Topics with NEEDS_QUIZ status — drives the mission banner */
   needsQuizTopics:    Array<{ id: number; title: string }>;
   completedTopics?:   TopicProgressSummary[];
   allModules?:        ModuleWithTopics[];
+  // ── Extension props (undefined when feature flag is off) ──────────────────
+  gamData?:           StudentGamificationData | null;
+  certificates?:      CertificateWithModule[];
+  townSquareMeeting?: TownSquareMeeting | null;
+  invoices?:          InvoiceRow[];
 }
 
 // ── Section Header Component ─────────────────────────────────────────────────
@@ -135,10 +137,10 @@ function NeedsQuizBanner({
 export function StudentDashboardShell({
   studentId,
   studentName,
-  gamData,
-  certificates,
-  townSquareMeeting,
-  invoices,
+  gamData = null,
+  certificates = [],
+  townSquareMeeting = null,
+  invoices = [],
   upcoming,
   past,
   needsQuizTopics,
@@ -164,7 +166,7 @@ export function StudentDashboardShell({
   return (
     <div className="space-y-6 animate-fade-in-up">
       {/* ── Announcement Banner ── */}
-      <AnnouncementBanner role="students" />
+      {FEATURE_FLAGS.announcements && <AnnouncementBanner role="students" />}
 
       {/* ── NEEDS_QUIZ Mission Banner ── */}
       <NeedsQuizBanner topics={needsQuizTopics} />
@@ -408,7 +410,7 @@ export function StudentDashboardShell({
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Sertifikat Diraih</span>
-                <span className="font-bold text-amber-500">{certificates.length} Lencana</span>
+                <span className="font-bold text-amber-500">{FEATURE_FLAGS.certificates ? `${certificates.length} Lencana` : '—'}</span>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Status Kuis</span>
@@ -426,7 +428,7 @@ export function StudentDashboardShell({
           </div>
 
           {/* Quick Certificates */}
-          {certificates.length > 0 && (
+          {FEATURE_FLAGS.certificates && certificates.length > 0 && (
             <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40 p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                 <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
@@ -545,8 +547,10 @@ export function StudentDashboardShell({
         </section>
       )}
 
-      {/* ── Billing Notice Modal ── */}
-      <BillingNoticeModal invoices={invoices.filter((inv) => inv.status === 'sent')} />
+      {/* ── Billing Notice Modal (billing flag + sent invoices) ── */}
+      {FEATURE_FLAGS.billing && invoices.length > 0 && (
+        <BillingNoticeModal invoices={invoices.filter((inv) => inv.status === 'sent')} />
+      )}
 
       {/* ── Level-Up Celebration Modal ── */}
       <LevelUpCelebrationModal
@@ -559,7 +563,7 @@ export function StudentDashboardShell({
       />
 
       {/* ── Cosmetic Shop & Dressing Room Modal ── */}
-      {mounted && isShopModalOpen && gamData && (
+      {FEATURE_FLAGS.gamification && mounted && isShopModalOpen && gamData && (
         <CosmeticShopModal
           studentName={studentName}
           coins={gamData.coins}

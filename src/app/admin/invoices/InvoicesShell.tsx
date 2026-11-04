@@ -106,7 +106,7 @@ function MetricCard({
       p-4 flex flex-col justify-between gap-3 shadow-sm hover:shadow-neon-blue dark:hover:shadow-neon-purple
       dark:shadow-[0_0_22px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25
       hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
-      transition-all duration-300 ease-out cursor-pointer">
+      transition-all duration-300 ease-out">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
           {title}
@@ -707,7 +707,8 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
   const [linkCache, setLinkCache] = useState<Record<string, string>>({});
   const [linkPending, setLinkPending] = useState<string | null>(null);
 
-  const showReminder = new Date().getDate() <= 7;
+  const [reminderDismissed, setReminderDismissed] = useState(false);
+  const showReminder = new Date().getDate() <= 7 && !reminderDismissed;
 
   // ── Filtered list ──
   const filteredInvoices = useMemo(() => {
@@ -991,9 +992,19 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
       {showReminder && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/40 px-4 py-3 flex items-center gap-3">
           <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
-          <p className="text-xs text-amber-800 dark:text-amber-300 font-medium">
+          <p className="text-xs text-amber-800 dark:text-amber-300 font-medium flex-1">
             <strong>Pengingat Awal Bulan:</strong> Mohon generate dan kirim invoice tagihan pertemuan bulan lalu kepada orang tua murid.
           </p>
+          <button
+            type="button"
+            onClick={() => setReminderDismissed(true)}
+            title="Tutup pengingat"
+            className="flex-shrink-0 text-amber-500 hover:text-amber-700 dark:hover:text-amber-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg p-0.5"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" />
+            </svg>
+          </button>
         </div>
       )}
 

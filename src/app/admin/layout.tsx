@@ -4,6 +4,7 @@ import { getAuthUser } from "@/lib/auth";
 import { ROLE_DASHBOARD_MAP } from "@/lib/constants";
 import { redirect } from "next/navigation";
 import { DashboardAppShell } from "@/components/DashboardAppShell";
+import { isFeatureEnabled } from "@/lib/featureConfig";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const [auth, headersList] = await Promise.all([
@@ -15,8 +16,22 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { user } = auth;
   const pathname = headersList.get("x-pathname") ?? "";
   const fullName: string | null = user.user_metadata?.full_name ?? user.email ?? null;
+
+  // Inject AI chatbot via slot so the shared shell stays feature-agnostic.
+  let headerExtras: React.ReactNode = null;
+  if (isFeatureEnabled("aiAssistant")) {
+    const { TeacherAdminChatbot } = await import("@/features/ai/components/TeacherAdminChatbot");
+    headerExtras = <TeacherAdminChatbot role="admin" />;
+  }
+
   return (
-    <DashboardAppShell role="admin" fullName={fullName} currentPath={pathname} maxWidthClass="max-w-7xl">
+    <DashboardAppShell
+      role="admin"
+      fullName={fullName}
+      currentPath={pathname}
+      maxWidthClass="max-w-7xl"
+      headerExtras={headerExtras}
+    >
       {children}
     </DashboardAppShell>
   );

@@ -6,6 +6,7 @@ import { MonthCalendar } from '@/features/sessions/components/calendar/MonthCale
 import { HistoryView } from '@/features/sessions/components/history/HistoryView';
 import { SessionDetailCard } from '@/features/sessions/components/calendar/SessionDetailCard';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
+import { LegacyMeetingMapper } from '@/features/sessions/components/LegacyMeetingMapper';
 import { formatDate, formatTime, getDateKey } from '@/lib/formatDate';
 import type {
   MeetingWithStudents,
@@ -87,7 +88,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
       });
       const timeStr = formatTime(m.meeting_date);
       const studentNames = m.meeting_students.map((ms) => ms.students?.full_name ?? '').join('; ');
-      const teacher = '';
+      const teacher = m.teacher_id ? (teacherMap.get(m.teacher_id) ?? '') : '';
       const status = m.is_completed ? 'Selesai' : /live/i.test(m.meeting_date) ? 'Live' : 'Mendatang';
       return [dateStr, timeStr, m.title, studentNames, teacher, status, m.notes ?? '']
         .map((v) => `"${String(v).replace(/"/g, '""')}"`)
@@ -176,6 +177,9 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
           </span>
         </button>
       </div>
+
+      {/* Legacy meeting mapper — hanya muncul jika ada meeting tanpa series_id */}
+      <LegacyMeetingMapper meetings={meetings} />
 
       {/* Calendar View */}
       {viewTab === 'calendar' && (

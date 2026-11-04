@@ -57,7 +57,7 @@ export function MeetingForm({
     meeting?.meeting_students?.map((ms) => ms.student_id) ?? []
   );
   const [editMode, setEditMode] = useState<'single' | 'series'>('single');
-  const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null }>>([]);
+  const [moduleOptions, setModuleOptions] = useState<Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number }>>([]);
   const [selectedModuleId, setSelectedModuleId] = useState(meeting?.module_id == null ? '' : String(meeting.module_id));
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function MeetingForm({
     let active = true;
     fetch('/api/curriculum/modules', { cache: 'no-store' })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error('Gagal memuat modul')))
-      .then((data: Array<{ id: number; title: string | null; level: string | null }>) => {
+      .then((data: Array<{ id: number; title: string | null; level: string | null; publishedTopicCount: number }>) => {
         if (active) setModuleOptions(Array.isArray(data) ? data : []);
       })
       .catch(() => {
@@ -80,6 +80,7 @@ export function MeetingForm({
 
   const err = (field: string) =>
     state && !state.success ? state.fields?.[field] : undefined;
+  const selectedModule = moduleOptions.find((module) => String(module.id) === selectedModuleId);
 
   const toggleStudent = (id: string) =>
     setSelectedStudents((prev) =>
@@ -155,20 +156,27 @@ export function MeetingForm({
           >
             <option value="">— Pilih modul —</option>
             {moduleOptions.map((module) => (
-              <option key={module.id} value={module.id}>
-                {module.title ?? `Modul ${module.id}`}{module.level ? ` · ${module.level}` : ''}
+              <option key={module.id} value={module.id} disabled={module.publishedTopicCount < 1}>
+                {module.title ?? `Modul ${module.id}`}{module.level ? ` · ${module.level}` : ''} · {module.publishedTopicCount} topik
               </option>
             ))}
           </select>
           {err('module_id') && <p className="text-xs text-red-600">{err('module_id')}</p>}
           {moduleOptions.length === 0 && <p className="text-xs text-amber-600">Modul aktif tidak tersedia atau gagal dimuat.</p>}
-          <p className="text-xs text-slate-500">Sesi ke-N akan dipasangkan ke topik ke-N sesuai urutan topik terpublikasi.</p>
+          <p className="text-xs text-slate-500">
+            {selectedModule && selectedModule.publishedTopicCount > 0
+              ? `Jadwal akan berisi ${selectedModule.publishedTopicCount} sesi mingguan, satu untuk setiap topik terpublikasi.`
+              : 'Pilih modul dengan topik terpublikasi. Sesi ke-N dipasangkan ke topik ke-N sesuai urutan topik.'}
+          </p>
+          <input type="hidden" name="session_count" value={selectedModule?.publishedTopicCount ?? ''} />
         </div>
       ) : (
         <div className="rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-2.5 text-sm">
           <span className="font-medium">Modul kurikulum: </span>
           {meeting?.module_id ? (moduleOptions.find((module) => module.id === meeting.module_id)?.title ?? `ID ${meeting.module_id}`) : 'Belum terhubung (jadwal lama)'}
-          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tetap terkunci dari kuis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
+          {meeting?.topic_title && <p className="mt-1 text-xs text-indigo-700 dark:text-indigo-300">Topik terkait: {meeting.topic_title}</p>}
+          {meeting?.module_id != null && meeting.topic_id == null && <p className="mt-1 text-xs text-amber-600">Topik jadwal ini belum dipasangkan secara permanen.</p>}
+          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tidak membuka topik secara otomatis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
         </div>
       )}
 
@@ -217,19 +225,6 @@ export function MeetingForm({
         placeholder="https://zoom.us/j/..."
         error={err('link_url')}
       />
-
-      {/* Session count — create mode only */}
-      {mode === 'create' && (
-        <Input
-          label="Jumlah Sesi (1 = single, >1 = seri mingguan)"
-          name="session_count"
-          type="number"
-          min={1}
-          max={20}
-          defaultValue={1}
-          error={err('session_count')}
-        />
-      )}
 
       {/* Notes */}
       <Textarea

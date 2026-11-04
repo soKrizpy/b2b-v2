@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
+import { isFeatureEnabled, type FeatureGroup } from "@/lib/featureConfig";
 import type { UserRole } from "@/types/roles";
 
 // ── Role config ───────────────────────────────────────────────────────────────
@@ -28,30 +29,71 @@ const ROLE_ICON: Record<UserRole, string> = {
   student: "🎮",
 };
 
-const ROLE_NAV: Record<UserRole, Array<{ href: string; label: string; icon: string }>> = {
-  admin: [
-    { href: "/admin/dashboard",  label: "Dasbor",    icon: "🏠" },
-    { href: "/admin/sessions",   label: "Jadwal",    icon: "📅" },
-    { href: "/admin/curriculum", label: "Kurikulum", icon: "📖" },
-    { href: "/admin/users",      label: "Pengguna",  icon: "👥" },
-    { href: "/admin/invoices",   label: "Invoice",   icon: "🧾" },
-  ],
-  teacher: [
-    { href: "/teacher/dashboard",   label: "Dasbor",     icon: "🏠" },
-    { href: "/teacher/submissions", label: "Submissions", icon: "📝" },
-  ],
-  student: [
-    { href: "/student/dashboard",    label: "Town Square",      icon: "🏰" },
-    { href: "/student/lessons",      label: "Quest Map",        icon: "🗺️" },
-    { href: "/student/achievements", label: "Lencana & Target", icon: "🏆" },
-    { href: "/student/parent-hub",   label: "Parent Hub",       icon: "👨‍👩‍👧" },
-  ],
-};
-
 const ROLE_ACTIVE: Record<UserRole, string> = {
   admin:   "bg-[#7cc62f]/10 text-slate-900 dark:bg-[#7cc62f]/15 dark:text-white ring-1 ring-[#7cc62f]/30",
   teacher: "bg-sky-50 text-sky-800 dark:bg-sky-900/30 dark:text-sky-200 ring-1 ring-sky-200/60",
   student: "bg-indigo-50 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 ring-1 ring-indigo-200/60",
+};
+
+// ── Navigation structure (grouped + feature-gated) ────────────────────────────
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: string;
+  /** When set, the item only renders if this feature flag is enabled. */
+  feature?: FeatureGroup;
+}
+
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const ROLE_NAV: Record<UserRole, NavGroup[]> = {
+  admin: [
+    {
+      label: "Kelola",
+      items: [
+        { href: "/admin/dashboard",  label: "Dasbor",    icon: "🏠" },
+        { href: "/admin/curriculum", label: "Kurikulum", icon: "📖" },
+        { href: "/admin/sessions",   label: "Jadwal",    icon: "📅" },
+        { href: "/admin/users",      label: "Pengguna",  icon: "👥" },
+      ],
+    },
+    {
+      label: "Operasional",
+      items: [
+        { href: "/admin/invoices", label: "Invoice", icon: "🧾", feature: "billing" },
+      ],
+    },
+  ],
+  teacher: [
+    {
+      label: "Mengajar",
+      items: [
+        { href: "/teacher/dashboard",    label: "Dasbor",       icon: "🏠" },
+        { href: "/teacher/students",     label: "Siswa Saya",   icon: "🎓" },
+        { href: "/teacher/submissions",  label: "Tugas Siswa",  icon: "📝" },
+      ],
+    },
+  ],
+  student: [
+    {
+      label: "Belajar",
+      items: [
+        { href: "/student/dashboard", label: "Jadwal", icon: "📅" },
+        { href: "/student/lessons",   label: "Materi", icon: "🗺️" },
+      ],
+    },
+    {
+      label: "Profil",
+      items: [
+        { href: "/student/achievements", label: "Pencapaian", icon: "🏆" },
+        { href: "/student/parent-hub",   label: "Parent Hub", icon: "👨‍👩‍👧", feature: "parentPortal" },
+      ],
+    },
+  ],
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -63,8 +105,20 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
-  const navItems  = ROLE_NAV[role];
-  const pillClass = ROLE_PILL_CLASS[role];
+  // Filter each group's items by feature flag, drop empty groups.
+  const navGroups = ROLE_NAV[role]
+    .map((group) => ({
+      ...group,
+      items: group.items.filter(
+        (item) => !item.feature || isFeatureEnabled(item.feature)
+      ),
+    }))
+    .filter((group) => group.items.length > 0);
+
+  // Flatten for active-state lookup and mobile nav.
+  const navItems = navGroups.flatMap((g) => g.items);
+
+  const pillClass   = ROLE_PILL_CLASS[role];
   const activeClass = ROLE_ACTIVE[role];
 
   return (
@@ -81,8 +135,7 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
           <div className="flex items-center gap-5">
 
             {/* Logo */}
-            <Link href={navItems[0].href} className="flex items-center gap-2.5 group flex-shrink-0">
-              {/* Light logo — hidden in dark mode */}
+            <Link href={navItems[0]?.href ?? "/"} className="flex items-center gap-2.5 group flex-shrink-0">
               <Image
                 src="/b2blight.webp"
                 alt="bits2bytes"
@@ -91,7 +144,6 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
                 className="dark:hidden rounded-lg"
                 priority
               />
-              {/* Dark logo — hidden in light mode */}
               <Image
                 src="/b2bdark.webp"
                 alt="bits2bytes"
@@ -100,24 +152,20 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
                 className="hidden dark:block rounded-lg"
                 priority
               />
-              {/* Brand wordmark */}
               <span className="hidden sm:block text-sm font-black tracking-tight select-none">
                 <span className="text-slate-900 dark:text-purple-50">bits</span>
                 <span className="text-[#7cc62f]">2</span>
                 <span className="text-slate-900 dark:text-purple-50">bytes</span>
               </span>
-
-              {/* Role pill — sits right next to the wordmark */}
               <span className={`hidden sm:inline-flex items-center gap-1 text-[10px] font-extrabold
                 uppercase tracking-widest px-2 py-0.5 rounded-full ring-1 ${pillClass}`}>
                 {ROLE_ICON[role]} {ROLE_LABEL[role]}
               </span>
             </Link>
 
-            {/* Divider */}
             <div className="hidden sm:block h-5 w-px bg-blue-300/40 dark:bg-purple-500/30" />
 
-            {/* Nav items */}
+            {/* Nav — flat items (groups only shown in sidebar) */}
             <nav className="hidden sm:flex items-center gap-0.5" aria-label="Main navigation">
               {navItems.map(({ href, label, icon }) => {
                 const active = currentPath?.startsWith(href);
@@ -146,8 +194,6 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
           {/* ── Right side: theme toggle + user pill + sign-out ─ */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
-
-            {/* User pill */}
             <div className="hidden sm:flex items-center gap-2 rounded-xl px-3 py-1.5 border
               bg-white border-blue-400/40
               dark:bg-[#0B0F19] dark:border-purple-500/40 shadow-xs">
@@ -161,13 +207,12 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
                 {fullName ?? "–"}
               </span>
             </div>
-
             <SignOutButton />
           </div>
         </div>
       </div>
 
-      {/* ── Smartphone Bottom Navbar (Icon only, fixed at bottom) ───────── */}
+      {/* ── Mobile Bottom Nav Bar ───────────────────────────────────────── */}
       <nav
         className="sm:hidden fixed bottom-0 left-0 right-0 z-50
           bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl
@@ -189,7 +234,7 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
                 transition-all duration-200 active:scale-95
                 ${active
                   ? `${activeClass} shadow-md scale-105`
-                  : 'text-slate-400 dark:text-slate-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/8'
+                  : "text-slate-400 dark:text-slate-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/8"
                 }`}
             >
               {active && (
@@ -197,7 +242,7 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
               )}
               <span className="text-xl leading-none">{icon}</span>
               <span className={`text-[9px] font-bold leading-tight tracking-wide
-                ${active ? 'text-slate-800 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>
+                ${active ? "text-slate-800 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
                 {label}
               </span>
             </Link>
@@ -207,5 +252,3 @@ export function AppHeader({ role, fullName, currentPath }: AppHeaderProps) {
     </header>
   );
 }
-
-

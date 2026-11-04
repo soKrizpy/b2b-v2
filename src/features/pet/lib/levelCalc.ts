@@ -59,20 +59,12 @@ export function calculateLevel(totalXp: number): LevelProgress {
 }
 
 // ── Reward configuration ──────────────────────────────────────────────────────
+// REWARDS and RewardEvent now live in the neutral @/lib/rewards module so
+// core features can reference reward events without importing the pet feature.
+// Re-exported here for backward compatibility with existing pet-internal imports.
 
-/** Configurable reward amounts by event type. Extend as needed. */
-export const REWARDS = {
-  /** A teacher approves a student's challenge submission. */
-  CHALLENGE_APPROVED: { xp: 30, coins: 10 },
-  /** A student completes a theory/code node (future: progress tracking). */
-  NODE_COMPLETED:     { xp: 10, coins:  2 },
-  /** A student completes a quiz node with 100% correct answers. */
-  QUIZ_PERFECT:       { xp: 25, coins:  5 },
-  /** A student completes all topics in a module. */
-  MODULE_COMPLETED:   { xp: 100, coins: 50 },
-} as const;
-
-export type RewardEvent = keyof typeof REWARDS;
+export { REWARDS } from '@/lib/rewards/config';
+export type { RewardEvent } from '@/lib/rewards/config';
 
 // ── Status messages ───────────────────────────────────────────────────────────
 

@@ -22,12 +22,6 @@ interface Props {
 
 const ITEMS_PER_PAGE = 9;
 
-function activityLabel(m: MeetingWithStudents, now: Date): string {
-  if (m.is_completed) return `Kelas "${m.title}" selesai`;
-  if (isLive(m.meeting_date, now)) return `Kelas "${m.title}" sedang berlangsung`;
-  return `Jadwal: "${m.title}"`;
-}
-
 function activityIcon(m: MeetingWithStudents, now: Date): string {
   if (m.is_completed)         return '✓';
   if (isLive(m.meeting_date, now)) return '🔴';
@@ -127,10 +121,10 @@ export function DashboardShell({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            Pusat Kontrol Operasional Admin
+            Dasbor Admin
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 mt-1 font-medium">
-            Pantau jadwal, kelas live, dan aktivitas pembelajaran secara real-time.
+            Pantau jadwal, kelas live, dan aktivitas hari ini.
           </p>
         </div>
 
@@ -195,15 +189,24 @@ export function DashboardShell({
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#0B0F19] border-2 border-amber-500/40 dark:border-amber-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(245,158,11,0.22)] ring-1 ring-amber-500/20 dark:ring-amber-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-300 inline-flex items-center gap-2">
-            <i className="fa-solid fa-triangle-exclamation text-amber-500 dark:text-amber-400" />
-            PERLU TINDAKAN
-          </span>
+        <Link
+          href="/admin/sessions"
+          className="bg-white dark:bg-[#0B0F19] border-2 border-amber-500/40 dark:border-amber-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(245,158,11,0.22)] ring-1 ring-amber-500/20 dark:ring-amber-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200 block group"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-300 inline-flex items-center gap-2">
+              <i className="fa-solid fa-triangle-exclamation text-amber-500 dark:text-amber-400" />
+              PERLU TINDAKAN
+            </span>
+            <i className="fa-solid fa-arrow-right text-amber-400 dark:text-amber-500 text-xs opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
-            {metrics.needsAttentionCount} <span className="text-xs font-bold text-amber-600 dark:text-amber-300">(No Link)</span>
+            {metrics.needsAttentionCount}
           </p>
-        </div>
+          <p className="text-[11px] font-medium text-amber-600 dark:text-amber-400 mt-1">
+            {metrics.needsAttentionCount === 0 ? 'Semua sesi sudah punya link' : 'Sesi tanpa link meeting'}
+          </p>
+        </Link>
       </div>
 
       {/* Main Today's Schedule Card */}
@@ -229,7 +232,7 @@ export function DashboardShell({
               href="/admin/sessions"
               className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
             >
-              Lihat Seluruh Jadwal →
+              Kelola Jadwal →
             </Link>
           </div>
         </div>
@@ -363,9 +366,17 @@ export function DashboardShell({
       {/* Grid Split: Recent Activity & Operational Quick Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
-          <h2 className="text-base font-black text-slate-900 dark:text-white inline-flex items-center gap-2 mb-4">
-            <i className="fa-solid fa-clock-rotate-left text-blue-500 dark:text-cyan-400" /> Aktivitas Terkini
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-black text-slate-900 dark:text-white inline-flex items-center gap-2">
+              <i className="fa-solid fa-clock-rotate-left text-blue-500 dark:text-cyan-400" /> Aktivitas Terkini
+            </h2>
+            <Link
+              href="/admin/sessions"
+              className="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 inline-flex items-center gap-1 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1"
+            >
+              Lihat semua →
+            </Link>
+          </div>
 
           <div className="space-y-3">
             {recentActivity.map((m) => (
@@ -374,13 +385,18 @@ export function DashboardShell({
                 className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/70 dark:bg-zinc-900/60 border border-blue-100 dark:border-zinc-800/80 hover:border-blue-400 dark:hover:border-purple-500/50 transition-colors duration-200"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-base">{activityIcon(m, renderNow)}</span>
+                  <span className="text-base flex-shrink-0">{activityIcon(m, renderNow)}</span>
                   <div className="min-w-0">
                     <p className="text-xs font-black text-slate-800 dark:text-slate-200 truncate">
-                      {activityLabel(m, renderNow)}
+                      {m.title}
                     </p>
                     <p className="text-[11px] font-medium text-slate-600 dark:text-slate-300 mt-0.5">
                       {formatDate(m.meeting_date)} · {formatTime(m.meeting_date)}
+                      {m.meeting_students.length > 0 && (
+                        <span className="ml-1.5 text-slate-500 dark:text-slate-400">
+                          · {m.meeting_students.length} siswa
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>

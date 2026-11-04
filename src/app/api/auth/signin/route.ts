@@ -52,14 +52,28 @@ export async function POST(req: NextRequest) {
       ? phoneToEmail(identifier)
       : identifier.trim();
 
-    const cookieOpts = {
-      path: '/',
-      sameSite: 'none' as const,
-      secure: true,
-      partitioned: true,
-      httpOnly: false,
-      maxAge: 60 * 60 * 24 * 7,
-    };
+    // On localhost (HTTP), SameSite=None requires Secure which isn't available.
+    // Use Lax + no Secure flag so cookies work in dev without HTTPS.
+    const isLocalhost =
+      req.headers.get('host')?.startsWith('localhost') ||
+      req.headers.get('host')?.startsWith('127.0.0.1');
+
+    const cookieOpts = isLocalhost
+      ? {
+          path: '/',
+          sameSite: 'lax' as const,
+          secure: false,
+          httpOnly: false,
+          maxAge: 60 * 60 * 24 * 7,
+        }
+      : {
+          path: '/',
+          sameSite: 'none' as const,
+          secure: true,
+          partitioned: true,
+          httpOnly: false,
+          maxAge: 60 * 60 * 24 * 7,
+        };
 
     const supabase = await createSupabaseServerClient({ forceRealIfConfigured: true });
     let { data: authData, error: authError } = await supabase.auth.signInWithPassword({

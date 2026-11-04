@@ -510,7 +510,12 @@ export function getMockStore(): MockStore {
   return globalForMock.__b2bMockStore;
 }
 
+export function isMockModeEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+}
+
 export function isSupabaseConfigured(): boolean {
+  if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
   const anon = getSupabaseAnonKey();
   return Boolean(url.startsWith('http') && isValidSupabaseKey(anon));
@@ -527,6 +532,7 @@ export function isValidServiceRoleJwt(raw?: string): boolean {
 }
 
 export function isSupabaseAdminConfigured(): boolean {
+  if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
   return Boolean(url.startsWith('http') && isValidServiceRoleJwt());
 }

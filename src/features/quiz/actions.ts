@@ -11,6 +11,7 @@ import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
+import { isFeatureEnabled } from '@/lib/featureConfig';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -136,8 +137,8 @@ export async function submitTopicQuiz(
     ? await getQuestMapData(studentId, enrolledModule)
     : null;
   const topicNode = questProgress?.nodes.find((node) => node.topic.id === topic_id);
-  if (!topicNode || topicNode.status === 'LOCKED') {
-    return { success: false, error: 'Selesaikan topik sebelumnya di Quest Map terlebih dahulu.' };
+  if (!topicNode || !topicNode.isUnlocked) {
+    return { success: false, error: 'Topik akan terbuka saat sesi topik ini dimulai.' };
   }
 
   const questions = extractTopicQuiz(topicRow.lesson_content);
@@ -288,25 +289,27 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Kamu belum terdaftar aktif pada modul ini.' };
   }
 
-  // Check if already certificated
-  const { data: existing } = await (db
-    .from('certificates')
-    .select('id, score, tier, certificate_number')
-    .eq('student_id', studentId)
-    .eq('module_id', module_id)
-    .maybeSingle() as unknown as Promise<{
-      data: { id: number; score: number; tier: string; certificate_number: string } | null;
-      error: unknown;
-    }>);
+  // Check if already certificated (only when certificates feature is enabled)
+  if (isFeatureEnabled('certificates')) {
+    const { data: existing } = await (db
+      .from('certificates')
+      .select('id, score, tier, certificate_number')
+      .eq('student_id', studentId)
+      .eq('module_id', module_id)
+      .maybeSingle() as unknown as Promise<{
+        data: { id: number; score: number; tier: string; certificate_number: string } | null;
+        error: unknown;
+      }>);
 
-  if (existing) {
-    return {
-      success: true,
-      score:   existing.score,
-      tier:    existing.tier,
-      certificateNumber: existing.certificate_number,
-      message: `Kamu sudah mendapatkan sertifikat untuk modul ini (${existing.certificate_number}).`,
-    };
+    if (existing) {
+      return {
+        success: true,
+        score:   existing.score,
+        tier:    existing.tier,
+        certificateNumber: existing.certificate_number,
+        message: `Kamu sudah mendapatkan sertifikat untuk modul ini (${existing.certificate_number}).`,
+      };
+    }
   }
 
   // Fetch module description (contains encoded final_assessment)
@@ -365,41 +368,54 @@ export async function submitFinalAssessment(
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
 
-  // Generate certificate number: B2B-YYYYMM-XXXX
-  const now    = new Date();
-  const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}`;
-  const { count } = await (db
-    .from('certificates')
-    .select('id', { count: 'exact', head: true }) as unknown as Promise<{
-      count: number;
-      data: null;
-      error: unknown;
-    }>);
-  const certNumber = `${prefix}-${String((count ?? 0) + 1).padStart(4, '0')}`;
+  // ── Certificate award (gated by certificates feature flag) ───────────────
+  if (isFeatureEnabled('certificates')) {
+    // Generate certificate number: B2B-YYYYMM-XXXX
+    const now    = new Date();
+    const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const { count } = await (db
+      .from('certificates')
+      .select('id', { count: 'exact', head: true }) as unknown as Promise<{
+        count: number;
+        data: null;
+        error: unknown;
+      }>);
+    const certNumber = `${prefix}-${String((count ?? 0) + 1).padStart(4, '0')}`;
 
-  const { error: certErr } = await (db
-    .from('certificates')
-    .insert({
-      student_id:         studentId,
-      module_id,
+    const { error: certErr } = await (db
+      .from('certificates')
+      .insert({
+        student_id:         studentId,
+        module_id,
+        score,
+        tier,
+        certificate_number: certNumber,
+      } as never) as unknown as Promise<{ error: { message: string } | null }>);
+
+    if (certErr) return { success: false, error: `Gagal menerbitkan sertifikat: ${certErr.message}` };
+
+    revalidatePath('/student/dashboard', 'layout');
+    revalidatePath('/student/lessons', 'layout');
+
+    const tierConfig = CERTIFICATE_TIER_CONFIG[tier];
+    return {
+      success: true,
       score,
       tier,
-      certificate_number: certNumber,
-    } as never) as unknown as Promise<{ error: { message: string } | null }>);
+      certificateNumber: certNumber,
+      message: `Tryout selesai! Skor ${score} — ${tierConfig.label} Certificate diterbitkan (${certNumber}).`,
+    };
+  }
 
-  if (certErr) return { success: false, error: `Gagal menerbitkan sertifikat: ${certErr.message}` };
-
+  // Certificates disabled — return score only.
   revalidatePath('/student/dashboard', 'layout');
   revalidatePath('/student/lessons', 'layout');
-
-  const tierConfig = CERTIFICATE_TIER_CONFIG[tier];
 
   return {
     success: true,
     score,
     tier,
-    certificateNumber: certNumber,
-    message: `Tryout selesai! Skor ${score} — ${tierConfig.label} Certificate diterbitkan (${certNumber}).`,
+    message: `Tryout selesai! Skor kamu ${score}.`,
   };
 }
 
@@ -418,6 +434,11 @@ export async function awardQuizReward(
   const auth = await getAuthUser();
   if (!auth.ok) return { success: false, error: auth.message };
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
+
+  // Gamification disabled — skip reward silently.
+  if (!isFeatureEnabled('gamification')) {
+    return { success: true, xpEarned: 0, coinsEarned: 0, newXp: 0, newCoins: 0 };
+  }
 
   const topicId = Number(formData.get('topic_id')) || 0;
   const attemptNum = Number(formData.get('attempt_num'));

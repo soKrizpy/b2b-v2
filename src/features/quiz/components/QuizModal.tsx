@@ -6,7 +6,7 @@
 
 import { useState, useActionState, useEffect, useTransition, useRef } from 'react';
 import { submitTopicQuiz, awardQuizReward, type QuizActionResult, type RewardResult } from '@/features/quiz/actions';
-import { explainQuizAnswer } from '@/features/ai/actions';
+import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import type { QuizQuestion } from '@/features/curriculum/validation';
 import type { TopicQuizAttemptRow } from '@/types/database';
 
@@ -151,6 +151,8 @@ function BreakdownCard({
     fd.append('explanation',  b.explanation);
     fd.append('topic_title',  topicTitle);
     startAi(async () => {
+      // Dynamic import so the AI module is never bundled when flag is off.
+      const { explainQuizAnswer } = await import('@/features/ai/actions');
       const r = await explainQuizAnswer(null, fd);
       setAiPending(false);
       if (r.success) setAiText(r.data);
@@ -179,8 +181,8 @@ function BreakdownCard({
         💡 {b.explanation}
       </p>
 
-      {/* AI deeper explanation — only for wrong answers */}
-      {!b.isCorrect && !aiText && (
+      {/* AI deeper explanation — only for wrong answers AND when aiAssistant is enabled */}
+      {FEATURE_FLAGS.aiAssistant && !b.isCorrect && !aiText && (
         <button
           type="button"
           onClick={handleExplain}
