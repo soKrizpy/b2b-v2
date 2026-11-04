@@ -64,7 +64,7 @@ function cleanPhoneForWa(phone: string | null): string {
 const STATUS_CFG = {
   draft: {
     label: 'Draft',
-    badge: 'bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/20',
+    badge: 'bg-slate-500/10 text-slate-700 dark:text-slate-300 dark:bg-slate-500/15 border border-slate-500/20',
     dot: 'bg-slate-400',
   },
   sent:  {

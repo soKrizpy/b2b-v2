@@ -16,7 +16,8 @@ export function AddStudentForm({ onSuccess }: Props) {
   return (
     <form action={dispatch} className="flex flex-col gap-4">
       {state && !state.success && !state.fields && (
-        <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200">
+        <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2 ring-1 ring-red-200
+          dark:text-rose-300 dark:bg-rose-950/40 dark:ring-rose-800/50">
           {state.error}
         </p>
       )}
@@ -32,7 +33,7 @@ export function AddStudentForm({ onSuccess }: Props) {
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
               ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
-          {err('full_name') && <p className="text-xs text-red-600">{err('full_name')}</p>}
+          {err('full_name') && <p className="text-xs text-red-600 dark:text-rose-400">{err('full_name')}</p>}
         </div>
 
         {/* Contact */}
@@ -45,7 +46,7 @@ export function AddStudentForm({ onSuccess }: Props) {
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
               ${err('contact') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
-          {err('contact') && <p className="text-xs text-red-600">{err('contact')}</p>}
+          {err('contact') && <p className="text-xs text-red-600 dark:text-rose-400">{err('contact')}</p>}
         </div>
 
         {/* MPIN */}
@@ -59,7 +60,7 @@ export function AddStudentForm({ onSuccess }: Props) {
               bg-white dark:bg-white/5 text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
               ${err('mpin') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
-          {err('mpin') && <p className="text-xs text-red-600">{err('mpin')}</p>}
+          {err('mpin') && <p className="text-xs text-red-600 dark:text-rose-400">{err('mpin')}</p>}
           <p className="text-xs text-slate-400">Siswa login menggunakan PIN ini</p>
         </div>
 
