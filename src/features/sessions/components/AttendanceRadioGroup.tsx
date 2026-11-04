@@ -27,7 +27,7 @@ export function AttendanceRadioGroup({
 }: AttendanceRadioGroupProps) {
   if (students.length === 0) {
     return (
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-500 dark:text-slate-400">
         Belum ada siswa yang terdaftar pada sesi ini.
       </p>
     );

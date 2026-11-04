@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - fix/security-priority-audit
+      - fix/chatbot-retry-main-sync-20261028
+      - feat/multi-module-access
   pull_request:
     branches:
       - main

@@ -1,0 +1,61 @@
+name: Application test and build validation
+
+on:
+  push:
+    branches:
+      - fix/fail-closed-supabase-config-20261028
+      - fix/dashboard-loading-modal-main-20261028
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/lib/supabase/mock.ts"
+      - "src/__tests__/supabase-config-fail-closed.test.ts"
+      - "src/components/DashboardLoadingModal.tsx"
+      - "src/app/admin/loading.tsx"
+      - "src/app/teacher/loading.tsx"
+      - "src/features/sessions/components/AdminSessionActions.tsx"
+      - "src/features/sessions/components/CreateSessionModal.tsx"
+      - "src/features/sessions/components/MeetingForm.tsx"
+      - "src/features/sessions/components/TeacherCompleteAction.tsx"
+      - "src/features/sessions/components/AttendanceRadioGroup.tsx"
+      - "src/components/ui/Input.tsx"
+      - "src/app/admin/curriculum/ModuleAccordion.tsx"
+      - "src/app/admin/curriculum/[moduleId]/ModuleBuilderClient.tsx"
+      - "src/app/admin/invoices/InvoicesShell.tsx"
+      - "src/features/dashboard/student/StudentDashboardShell.tsx"
+      - "src/features/dashboard/student/StudentModuleProgressChart.tsx"
+      - "src/features/dashboard/teacher/TeacherStudentsWidget.tsx"
+      - "src/features/teacher/students/TeacherStudentsList.tsx"
+      - "src/features/teacher/students/TeacherStudentDetail.tsx"
+      - "src/app/student/assessment/[moduleId]/TryoutClient.tsx"
+      - "src/features/challenges/components/ReviewForm.tsx"
+      - ".github/workflows/supabase-config-safety.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-validation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run regression and unit tests
+        run: npm test
+      - name: Type-check TypeScript
+        run: npx tsc --noEmit
+      - name: Production build
+        run: npm run build

@@ -518,8 +518,8 @@ function EditModal({
           <input type="hidden" name="total_meetings" value={invoice.total_meetings} />
 
           {state && !state.success && (
-            <p role="alert" className="text-xs text-red-600 bg-red-50 dark:bg-red-900/20
-              rounded-xl px-3 py-2 border border-red-200 dark:border-red-700/40">
+            <p role="alert" className="text-xs text-red-600 dark:text-rose-300 bg-red-50 dark:bg-rose-950/30
+              rounded-xl px-3 py-2 border border-red-200 dark:border-rose-800/50">
               {state.error}
             </p>
           )}
