@@ -66,7 +66,7 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
 
         {/* Current password display (masked) */}
         <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl
-          bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10">
+          bg-[var(--surface-raised)] border border-[var(--border)]">
           <span className="text-[10px] text-slate-400 dark:text-slate-500">🔒 Password</span>
           <span className="flex-1 font-mono text-sm text-slate-400 dark:text-slate-500 tracking-widest">
             &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
@@ -86,8 +86,8 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
             minLength={8}
             placeholder="Password baru (min. 8 karakter)"
             className="w-full pr-10 pl-3 py-2.5 rounded-xl text-sm
-              bg-white dark:bg-[#0f0f1a] text-slate-900 dark:text-white
-              border border-slate-200 dark:border-white/15
+              bg-[var(--surface)] text-slate-900 dark:text-white
+              border border-[var(--border)]
               placeholder:text-slate-400 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-violet-500/50"
           />
@@ -260,8 +260,8 @@ function EnrolledStudentsSection({
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari nama, kelas, atau kontak siswa…"
               className="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs
-                bg-white dark:bg-[#0f0f1a] text-slate-900 dark:text-white
-                border border-slate-200 dark:border-white/10
+                bg-[var(--surface)] text-slate-900 dark:text-white
+                border border-[var(--border)]
                 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
@@ -284,7 +284,7 @@ function EnrolledStudentsSection({
                     className={`flex items-center gap-2.5 p-2 rounded-xl cursor-pointer text-xs transition-colors border ${
                       checked
                         ? 'bg-violet-500/15 border-violet-500/30 text-violet-900 dark:text-violet-200'
-                        : 'bg-white dark:bg-[#151522] border-slate-200/80 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/10'
+                        : 'bg-[var(--surface)] border-slate-200/80 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/10'
                     }`}
                   >
                     <input
@@ -331,7 +331,7 @@ function EnrolledStudentsSection({
 
       {/* Currently enrolled list */}
       {enrolled.length === 0 ? (
-        <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
+        <div className="p-4 rounded-xl bg-[var(--surface-raised)] border border-dashed border-[var(--border)] text-center">
           <span className="text-2xl mb-1 block" aria-hidden="true">🎓</span>
           <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
             Belum Ada Siswa Bimbingan
@@ -346,7 +346,7 @@ function EnrolledStudentsSection({
             <li
               key={s.id}
               className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border
-                bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10"
+                bg-[var(--surface-raised)] border-[var(--border)]"
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-8 h-8 rounded-lg bg-[#7cc62f]/15 text-[#5fa31f] dark:bg-[#7cc62f]/25 dark:text-[#a3e05a] font-black text-xs flex items-center justify-center flex-shrink-0">
@@ -397,17 +397,17 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
+        className="relative w-full sm:max-w-md bg-[var(--surface)]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col max-h-[90dvh] overflow-hidden
-          border-2 border-slate-200/90 dark:border-purple-500/40
-          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
+          border-2 border-[var(--border)]
+          
           animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
         <div className="flex items-start gap-4 px-5 pt-5 pb-4
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-[var(--border)] flex-shrink-0">
 
           {/* Avatar */}
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600
@@ -442,7 +442,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
             type="button"
             onClick={onClose}
             className="flex-shrink-0 w-8 h-8 rounded-xl
-              bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300
+              bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300
               hover:bg-slate-200 dark:hover:bg-white/20 hover:text-slate-900 dark:hover:text-white
               flex items-center justify-center text-sm font-bold transition-all duration-150
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
@@ -453,8 +453,8 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
         </div>
 
         {/* ── Stats row ── */}
-        <div className="flex items-stretch divide-x divide-slate-100 dark:divide-white/8
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+        <div className="flex items-stretch divide-x divide-slate-100 dark:divide-[var(--border)]
+          border-b border-[var(--border)] flex-shrink-0">
           <StatCard value={t.session_count} label="Sesi Ditugaskan" icon="📅" />
           <StatCard value={t.student_count} label="Siswa Terdaftar"  icon="🎓" />
         </div>
@@ -468,7 +468,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
               Akses Login
             </p>
             <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl
-              bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10">
+              bg-[var(--surface-raised)] border border-[var(--border)]">
               <span className="text-base" aria-hidden="true">📧</span>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Email</p>
@@ -486,7 +486,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
           <PasswordResetForm teacherId={t.id} />
 
           {/* Danger zone */}
-          <div className="flex flex-col gap-2 pt-3 border-t border-slate-100 dark:border-white/8">
+          <div className="flex flex-col gap-2 pt-3 border-t border-[var(--border)]">
             <p className="text-[10px] font-black uppercase tracking-wide text-red-500/70 px-1">
               Zona Berbahaya
             </p>
