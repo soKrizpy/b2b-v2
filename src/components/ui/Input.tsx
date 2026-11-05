@@ -20,15 +20,15 @@ export function Input({ label, error, hint, className = "", ...props }: InputPro
       <input
         id={id}
         {...props}
-        className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-purple-50
-          bg-white dark:bg-[#0B0F19] placeholder:text-slate-400 dark:placeholder:text-slate-500
+        className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-white
+          bg-white dark:bg-[var(--surface-raised)] placeholder:text-slate-400 dark:placeholder:text-slate-500
           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
-          dark:focus:ring-purple-500/50 dark:focus:border-purple-400
+          dark:focus:ring-[var(--border-hover)] dark:focus:border-[var(--border-hover)]
           transition-all duration-200
-          disabled:bg-slate-50 dark:disabled:bg-slate-800 disabled:cursor-not-allowed
+          disabled:bg-slate-50 dark:disabled:bg-[var(--surface)] disabled:cursor-not-allowed
           ${error 
             ? "border-red-400 focus:ring-red-400/70 dark:focus:ring-rose-500/60 bg-red-50/30 dark:bg-red-950/20 dark:border-red-500/50" 
-            : "border-blue-500/50 dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 shadow-sm"
+            : "border-blue-500/50 dark:border-[var(--border)] hover:border-blue-500 dark:hover:border-[var(--border-hover)] shadow-sm"
           }
           ${className}`}
       />
@@ -62,15 +62,15 @@ export function Textarea({ label, error, hint, className = "", ...props }: Texta
         id={id}
         {...props}
         rows={props.rows ?? 3}
-        className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-purple-50
-          bg-white dark:bg-[#0B0F19] placeholder:text-slate-400 dark:placeholder:text-slate-500
+        className={`rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 dark:text-white
+          bg-white dark:bg-[var(--surface-raised)] placeholder:text-slate-400 dark:placeholder:text-slate-500
           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
-          dark:focus:ring-purple-500/50 dark:focus:border-purple-400
+          dark:focus:ring-[var(--border-hover)] dark:focus:border-[var(--border-hover)]
           transition-all duration-200 resize-y
-          disabled:bg-slate-50 dark:disabled:bg-slate-800 disabled:cursor-not-allowed
+          disabled:bg-slate-50 dark:disabled:bg-[var(--surface)] disabled:cursor-not-allowed
           ${error 
             ? "border-red-400 focus:ring-red-400/70 dark:focus:ring-rose-500/60 dark:border-red-500/50" 
-            : "border-blue-500/50 dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 shadow-sm"
+            : "border-blue-500/50 dark:border-[var(--border)] hover:border-blue-500 dark:hover:border-[var(--border-hover)] shadow-sm"
           }
           ${className}`}
       />
