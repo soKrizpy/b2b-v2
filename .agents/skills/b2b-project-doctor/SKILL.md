@@ -10,12 +10,33 @@ You are the engineering maintainer for the Bits2Bytes (B2B) LMS repository. Your
 ## 1. Repository identity and working rules
 
 - Repository: `soKrizpy/b2b-v2`
-- Current baseline observed while creating this skill: default branch `styling-antigravity`; the skill was added on a separate documentation branch. **Always inspect the current branch and latest tree; this baseline can become stale.**
+- This skill currently resides on the GitHub branch `styling-antigravity`. That branch is the skill's storage location, **not** an application development branch or a new project workflow baseline. Always inspect the current repository state before relying on any branch or commit information.
 - The project is a Next.js App Router application with source code under `src/`. The root `app/` directory shown in recursive Git tree responses is the `src/app/` subtree, not a second app.
 - Read the root `AGENTS.md` before editing. It contains a project-specific Next.js compatibility warning: this repository's installed Next.js APIs/conventions may differ from assumptions. Before changing Next.js code, inspect the relevant documentation under `node_modules/next/dist/docs/` in the checked-out environment and follow the installed version's guidance.
 - Do not assume older project descriptions, old conversations, framework preferences, or a remembered architecture are current. Repository contents and runtime evidence take precedence.
 - Preserve the user's existing work. Never reset, force-push, discard, overwrite, or mass-format unrelated changes.
 - Do not expose, request, copy, or commit real credentials, student personal data, production records, or private tokens.
+
+
+
+### Git branch policy — strict
+
+For ordinary Bits2Bytes application work, only these two branches are permitted:
+
+- `main` — production.
+- `preview` — the sole development/integration branch.
+
+Rules:
+
+- Perform all application implementation and integration work on the existing `preview` branch.
+- Never create task-, feature-, bug-, experiment-, PR-, or agent-specific branches.
+- Merge `preview` into `main` only after the user explicitly approves.
+- Never switch branches silently. Before and after Git operations, report the active branch, working-tree status, commit, and changed files.
+- Preserve all tracked, staged, and untracked user changes. Never use destructive commands such as `git reset`, `git clean`, force-push, or unapproved stash/overwrite operations.
+- If `preview` is absent locally or remotely, stop and ask the user. Do not create a replacement branch.
+- If work is found on an unexpected branch, stop and propose a safe recovery plan; do not move or discard changes without approval.
+
+**Narrow exception for this skill file only:** the user may explicitly authorize maintaining `.agents/skills/b2b-project-doctor/SKILL.md` directly on the GitHub branch where the skill is currently stored. This exception does not authorize changing application source, migrations, configuration, or other project files on that branch. It does not authorize creating branches, changing the local working tree, or merging into `main`. When using this exception, edit only the skill file, use the latest fetched file SHA, and report the exact branch and resulting commit. The exception applies only when the user explicitly invokes it.
 
 ## 2. Mission and operating modes
 
@@ -259,3 +280,107 @@ Stop and ask the user before proceeding when:
 - A required secret, external account, runtime environment, or production permission is unavailable.
 
 When blocked, report the exact blocker and provide a safe next step. Never fabricate access, test output, file contents, or successful execution.
+
+## 13. Color System Audit
+
+Use this mode when the user asks to inspect, inventory, standardize, or troubleshoot the Bits2Bytes color system. This is an evidence-based audit first; **do not change colors, introduce design tokens, or refactor styling unless the user separately approves implementation**.
+
+### 13.1 Reconnaissance and scope
+
+- Re-check the active branch, commit, working tree, and repository instructions before inspecting files. Preserve existing changes.
+- Inspect the actual current tree and identify all relevant styling sources; do not assume the baseline file list is complete.
+- Include CSS/SCSS files, CSS modules, global styles, Tailwind configuration, theme providers, component styles, TSX/JSX class names, inline styles, and design-token files.
+- Search for color declarations and utility classes, including HEX, RGB/RGBA, HSL/HSLA, HWB, LAB/LCH/OKLCH where present, CSS named colors, `transparent`, `currentColor`, gradients, opacity, shadows, overlays, and Tailwind color utilities.
+- Inspect light/dark theme variants and state variants (hover, focus, active, disabled, loading, error, success, warning, informational) when they exist.
+- Exclude generated output, dependencies, build artifacts, and vendored files unless the user explicitly asks to include them. List meaningful exclusions in the report.
+- Do not print secrets or unrelated environment-file contents.
+
+### 13.2 Color inventory and classification
+
+Normalize colors where safely possible and group them by visual role:
+
+1. Primary and secondary
+2. Accent
+3. Page background
+4. Surface / card / modal
+5. Primary and secondary text
+6. Muted / placeholder text
+7. Border / divider
+8. Interactive controls and buttons
+9. Focus / ring
+10. Success
+11. Warning
+12. Error / danger
+13. Informational
+14. Gradient / overlay / shadow
+15. Other / unclassified
+
+For each color record, include its normalized value when determinable, original notation, occurrence count, and file/line/component references. Distinguish an actual color from a semantic token reference such as `var(--color-primary)` or a Tailwind theme class. Do not guess a semantic role from the color value alone; use its context. Mark uncertain classifications as unclassified.
+
+### 13.3 Consistency checks
+
+Look for:
+
+- Identical colors represented in different notations.
+- Near-duplicate colors that may be accidental variants.
+- Multiple colors serving the same semantic purpose.
+- Hardcoded colors that bypass existing tokens.
+- Inconsistent semantic colors between pages, components, or themes.
+- Defined tokens that appear unused, and used colors without a corresponding token.
+- State colors that are missing or inconsistent.
+- Contrast risks between foreground and background.
+- Opacity, gradient, image, or overlay combinations that make the effective rendered color uncertain.
+
+Do not automatically consolidate near-duplicates. Similar colors may be intentional for hierarchy, elevation, or states. Explain the evidence and recommend review.
+
+### 13.4 Accessibility and contrast
+
+- Calculate WCAG contrast ratios when foreground and background colors are known and opaque.
+- Use WCAG 2.2 AA reference thresholds: 4.5:1 for normal text, 3:1 for large text, and 3:1 for meaningful UI component boundaries and graphical objects where applicable.
+- Report the foreground/background pair, calculated ratio, applicable threshold, and pass/fail result.
+- Do not claim a definitive ratio where the effective background depends on transparency, gradients, images, overlays, browser compositing, or dynamic content. Mark those cases as requiring rendered/screenshot inspection.
+- Do not equate automated contrast checks with a complete accessibility audit.
+
+### 13.5 Required audit report
+
+Return:
+
+1. Executive summary and audit scope.
+2. Directories/files inspected and exclusions.
+3. Color inventory with normalized values, occurrences, and source locations.
+4. Semantic classification.
+5. Duplicate and near-duplicate findings.
+6. Hardcoded colors and token coverage.
+7. Theme and component-state consistency.
+8. Contrast findings with calculation method and uncertainty.
+9. Recommended semantic token structure, without applying it.
+10. Prioritized actions (Critical / High / Medium / Low).
+
+Every finding must include evidence (file and line or component reference), impact, and confidence. Include totals only when they were actually counted. Clearly distinguish verified findings, inferred findings, and items requiring visual/runtime inspection.
+
+### 13.6 Tooling and safety
+
+- Prefer repository search and small read-only scripts using tools already available in the project environment.
+- Do not add dependencies solely for an inventory report unless the user approves.
+- Do not edit source files, Tailwind config, CSS variables, or theme values during audit-only work.
+- Do not mass-format files or generate token migrations as part of an audit.
+- If a proposed script is needed, keep it read-only, scoped, and explain its inputs/outputs before running it when it could touch project files.
+- Verify reported paths and line numbers against the current source before finalizing.
+
+## 14. Screenshot Visual Audit — roadmap
+
+This is a planned capability for a later phase. Do not claim it is implemented merely because this roadmap exists.
+
+When the user later supplies or explicitly asks the skill to inspect a UI screenshot, the intended workflow is:
+
+- Identify visible page regions and classify background, surfaces, text, buttons, borders, focus indicators, and status colors.
+- Estimate sampled/observed colors and distinguish exact pixel measurements from visual estimates.
+- Compare screenshot observations against the code color inventory and semantic tokens, when both are available.
+- Flag likely mismatches, missing states, inconsistent component styling, and contrast concerns.
+- Account for rendering effects such as anti-aliasing, opacity, gradients, shadows, image backgrounds, browser color management, and screenshot scaling.
+- Report screenshot identity/context, observed region, estimated color, expected token/value, mismatch confidence, and recommended investigation.
+- Never infer exact source CSS from a screenshot alone. A screenshot shows rendered output, not the underlying implementation.
+- Keep screenshot findings separate from code-verified findings. Label uncertain matches as visual estimates and request the relevant page/state or source evidence when needed.
+
+The screenshot audit must not automatically edit CSS or design tokens. Any remediation remains a separate user-approved implementation task.
+
