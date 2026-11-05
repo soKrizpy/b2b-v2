@@ -70,13 +70,13 @@ export function MonthCalendar({
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <div className="bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 overflow-hidden">
+    <div className="bg-white dark:bg-[var(--surface)] border-2 border-blue-400/40 dark:border-[var(--border)] rounded-2xl shadow-sm dark:ring-1 dark:ring-[var(--border)] overflow-hidden">
       {/* Calendar header */}
-      <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-900/60">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-slate-200 dark:border-[var(--border)] bg-slate-50/70 dark:bg-[var(--surface-raised)]">
         <button
           type="button"
           onClick={onPrev}
-          className="w-8 h-8 rounded-xl flex items-center justify-center border border-blue-500/30 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
           aria-label="Bulan sebelumnya"
         >
           ‹
@@ -88,7 +88,7 @@ export function MonthCalendar({
           <button
             type="button"
             onClick={onToday}
-            className="text-xs font-extrabold px-3 py-1 rounded-lg border border-blue-500/40 dark:border-cyan-500/30 bg-blue-50 dark:bg-cyan-950/40 text-blue-700 dark:text-cyan-300 hover:bg-blue-100 dark:hover:bg-cyan-900/60 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="text-xs font-extrabold px-3 py-1 rounded-lg border border-blue-500/40 dark:border-[var(--border)] bg-blue-50 dark:bg-[var(--surface-raised)] text-blue-700 dark:text-cyan-300 hover:bg-blue-100 dark:hover:bg-[var(--table-hover)] transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
           >
             Hari Ini
           </button>
@@ -96,7 +96,7 @@ export function MonthCalendar({
         <button
           type="button"
           onClick={onNext}
-          className="w-8 h-8 rounded-xl flex items-center justify-center border border-blue-500/30 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
           aria-label="Bulan berikutnya"
         >
           ›
@@ -104,7 +104,7 @@ export function MonthCalendar({
       </div>
 
       {/* Day headers */}
-      <div className="grid grid-cols-7 border-b border-slate-200 dark:border-zinc-800 bg-slate-100/50 dark:bg-zinc-900/40">
+      <div className="grid grid-cols-7 border-b border-slate-200 dark:border-[var(--border)] bg-slate-100/50 dark:bg-[var(--surface-raised)]">
         {IDN_DAYS_SHORT.map((d) => (
           <div key={d} className="py-2.5 text-center text-[11px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-wider">
             {d}
@@ -119,7 +119,7 @@ export function MonthCalendar({
             return (
               <div
                 key={`blank-${idx}`}
-                className="min-h-[80px] sm:min-h-[92px] border-b border-r border-slate-100 dark:border-zinc-900/60 bg-slate-50/40 dark:bg-zinc-950/40 last:border-r-0"
+                className="min-h-[80px] sm:min-h-[92px] border-b border-r border-slate-100 dark:border-[var(--border)] bg-slate-50/40 dark:bg-[var(--surface)] last:border-r-0"
               />
             );
           }
@@ -136,12 +136,12 @@ export function MonthCalendar({
               key={key}
               type="button"
               onClick={() => onSelectDate(key)}
-              className={`min-h-[80px] sm:min-h-[92px] p-1.5 sm:p-2 text-left border-b border-r border-slate-200/70 dark:border-zinc-800/80 transition-all flex flex-col gap-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-400 overflow-hidden ${
+              className={`min-h-[80px] sm:min-h-[92px] p-1.5 sm:p-2 text-left border-b border-r border-slate-200/70 dark:border-[var(--border)] transition-all flex flex-col gap-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-400 overflow-hidden ${
                 isColRight ? 'border-r-0' : ''
               } ${
                 isSelected
-                  ? 'bg-blue-50/80 dark:bg-purple-950/40 ring-1 ring-blue-500/50 dark:ring-purple-500/60 shadow-sm'
-                  : 'hover:bg-blue-50/40 dark:hover:bg-zinc-900/50'
+                  ? 'bg-blue-50/80 dark:bg-[var(--table-hover)] ring-1 ring-blue-500/50 dark:ring-[var(--border-hover)] shadow-sm'
+                  : 'hover:bg-blue-50/40 dark:hover:bg-[var(--table-hover)]'
               }`}
             >
               {/* Day number */}
