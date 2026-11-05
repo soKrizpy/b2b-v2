@@ -61,7 +61,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
               ${err('password') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('password') && <p className="text-xs text-red-600 dark:text-rose-400">{err('password')}</p>}
-          <p className="text-xs text-slate-400">Guru login menggunakan email + password ini</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Guru login menggunakan email + password ini</p>
         </div>
       </div>
 
