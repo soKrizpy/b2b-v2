@@ -186,7 +186,7 @@ export function MeetingForm({
           htmlFor="meeting-teacher"
           className="text-sm font-medium text-slate-700 dark:text-slate-200"
         >
-          Guru <span className="text-slate-400 dark:text-slate-500 font-normal">(opsional)</span>
+          Guru <span className="text-slate-500 dark:text-slate-400 font-normal">(opsional)</span>
         </label>
         <select
           id="meeting-teacher"
@@ -267,7 +267,7 @@ export function MeetingForm({
           divide-y divide-slate-100 dark:divide-[var(--border)] shadow-sm"
         >
           {students.length === 0 && (
-            <p className="px-4 py-3 text-xs text-slate-400 dark:text-slate-500 italic">
+            <p className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 italic">
               Belum ada siswa terdaftar.
             </p>
           )}
@@ -288,7 +288,7 @@ export function MeetingForm({
                 <span className="text-sm font-medium text-slate-800 dark:text-slate-100 flex-1 min-w-0 truncate">
                   {s.full_name}
                   {s.grade && (
-                    <span className="ml-1.5 text-xs text-slate-400 dark:text-slate-400 font-normal">
+                    <span className="ml-1.5 text-xs text-slate-500 dark:text-slate-400 dark:text-slate-400 font-normal">
                       Kelas {s.grade}
                     </span>
                   )}
