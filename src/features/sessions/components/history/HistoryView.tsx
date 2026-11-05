@@ -64,7 +64,7 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
           placeholder="Cari nama murid..."
           value={searchStudent}
           onChange={(e) => setSearchStudent(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-[var(--surface)] border-2 border-slate-200/90 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50 shadow-sm transition-all"
+          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-[var(--surface)] border-2 border-slate-200/90 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)] shadow-sm transition-all"
         />
       </div>
 
