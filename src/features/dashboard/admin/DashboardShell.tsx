@@ -130,7 +130,7 @@ export function DashboardShell({
 
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative flex-1 sm:flex-initial min-w-[260px]">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-400 text-sm">
+            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 dark:text-slate-400 dark:text-slate-400 text-sm">
               <i className="fa-solid fa-magnifying-glass" />
             </span>
             <input
@@ -144,7 +144,7 @@ export function DashboardShell({
               <button
                 type="button"
                 onClick={() => { setSearchQuery(''); setPage(1); }}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
               >
                 <i className="fa-solid fa-xmark" />
               </button>
