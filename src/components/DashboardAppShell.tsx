@@ -172,15 +172,15 @@ export function DashboardAppShell({
       {/* ── 1. Desktop & Laptop Left Sidebar (>= 768px / md) ────────────────── */}
       <aside
         className={`hidden md:flex flex-col fixed top-0 left-0 bottom-0 z-40
-          bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-xl
-          border-r border-blue-400/40 dark:border-purple-500/40
-          shadow-md dark:shadow-purple-950/20
+          bg-white/95 dark:bg-[var(--surface)] backdrop-blur-xl
+          border-r border-blue-400/40 dark:border-[var(--border)]
+          shadow-md dark:shadow-black/20
           transition-all duration-300 ease-in-out ${
             collapsed ? 'w-20' : 'w-64'
           }`}
       >
         {/* Sidebar Header / Logo */}
-        <div className="h-16 flex items-center px-4 border-b border-blue-400/30 dark:border-purple-500/30 justify-between">
+        <div className="h-16 flex items-center px-4 border-b border-blue-400/30 dark:border-[var(--border)] justify-between">
           <Link href={navItems[0].href} className="flex items-center gap-3 overflow-hidden">
             <Image
               src="/b2blight.webp"
@@ -282,12 +282,12 @@ export function DashboardAppShell({
         </nav>
 
         {/* Sidebar Bottom Collapse Toggle */}
-        <div className="p-3 border-t border-blue-400/30 dark:border-purple-500/30">
+        <div className="p-3 border-t border-blue-400/30 dark:border-[var(--border)]">
           <button
             type="button"
             onClick={() => setCollapsed((v) => !v)}
             className="w-full flex items-center justify-center gap-2 p-2.5 rounded-2xl text-xs font-bold
-              bg-slate-100 dark:bg-white/5 border border-blue-400/30 dark:border-purple-500/30
+              bg-slate-100 dark:bg-white/5 border border-blue-400/30 dark:border-[var(--border)]
               text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white
               hover:border-blue-400/50 dark:hover:border-purple-500/50 transition-all active:scale-95"
           >
@@ -310,8 +310,8 @@ export function DashboardAppShell({
         {/* Top Header */}
         <header
           className="sticky top-0 z-30 h-16 border-b transition-colors
-            bg-white/90 dark:bg-[#020617]/90
-            border-blue-400/40 dark:border-purple-500/40
+            bg-white/90 dark:bg-[var(--background)]
+            border-blue-400/40 dark:border-[var(--border)]
             backdrop-blur-xl shadow-xs"
         >
           <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
@@ -364,7 +364,7 @@ export function DashboardAppShell({
 
               {/* User Profile Pill */}
               <div className="hidden sm:flex items-center gap-2 rounded-xl px-3 py-1.5 border
-                bg-slate-50 border-blue-400/40 dark:bg-[#0B0F19] dark:border-purple-500/40 shadow-xs">
+                bg-slate-50 border-blue-400/40 dark:bg-[#0B0F19] dark:border-[var(--border)] shadow-xs">
                 <div className="w-5 h-5 rounded-md bg-[#7cc62f] flex items-center justify-center flex-shrink-0">
                   <span suppressHydrationWarning className="text-[10px] text-white font-black">
                     {(fullName ?? '?')[0].toUpperCase()}
@@ -401,8 +401,8 @@ export function DashboardAppShell({
       {/* ── 3. Mobile & Tablet Sticky Bottom Nav Bar (< 768px / md) ───────── */}
       <nav
         className="md:hidden fixed bottom-0 inset-x-0 z-50 h-16
-          bg-white/95 dark:bg-[#020617]/95 backdrop-blur-2xl
-          border-t border-blue-400/40 dark:border-purple-500/40
+          bg-white/95 dark:bg-[var(--background)] backdrop-blur-2xl
+          border-t border-blue-400/40 dark:border-[var(--border)]
           shadow-[0_-4px_25px_rgba(59,130,246,0.15)] dark:shadow-[0_-4px_25px_rgba(168,85,247,0.3)]
           px-4 flex items-center justify-around gap-1
           pb-[calc(0.25rem+env(safe-area-inset-bottom))]"
