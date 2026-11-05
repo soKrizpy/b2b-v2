@@ -72,7 +72,7 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
             &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
           </span>
           <span className="text-[10px] px-2 py-0.5 rounded-full font-bold
-            bg-slate-200 dark:bg-white/10 text-slate-500 dark:text-slate-400">
+            bg-[var(--surface-raised)] text-slate-500 dark:text-slate-400">
             Tersembunyi
           </span>
         </div>
@@ -239,7 +239,7 @@ function EnrolledStudentsSection({
 
       {/* Enrollment Picker Box */}
       {showPicker && (
-        <div className="p-3.5 rounded-2xl bg-violet-500/5 dark:bg-white/5 border border-violet-500/20 dark:border-white/10 flex flex-col gap-3">
+        <div className="p-3.5 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <p className="text-xs font-bold text-slate-900 dark:text-white">
               Pilih Siswa untuk Di-enroll
@@ -284,7 +284,7 @@ function EnrolledStudentsSection({
                     className={`flex items-center gap-2.5 p-2 rounded-xl cursor-pointer text-xs transition-colors border ${
                       checked
                         ? 'bg-violet-500/15 border-violet-500/30 text-violet-900 dark:text-violet-200'
-                        : 'bg-[var(--surface)] border-slate-200/80 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/10'
+                        : 'bg-[var(--surface)] border-[var(--border)] hover:bg-[var(--table-hover)]'
                     }`}
                   >
                     <input
@@ -443,7 +443,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
             onClick={onClose}
             className="flex-shrink-0 w-8 h-8 rounded-xl
               bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300
-              hover:bg-slate-200 dark:hover:bg-white/20 hover:text-slate-900 dark:hover:text-white
+              hover:bg-[var(--table-hover)] hover:text-slate-900 dark:hover:text-white
               flex items-center justify-center text-sm font-bold transition-all duration-150
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             aria-label="Tutup"
