@@ -672,7 +672,7 @@ function ParentLinkPopup({ url, onClose }: { url: string; onClose: () => void })
             type="button"
             onClick={onClose}
             className="px-4 py-2 rounded-xl text-xs font-bold border border-[var(--border)]
-              text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/8 transition-colors"
+              text-slate-600 dark:text-slate-400 hover:bg-[var(--table-hover)] transition-colors"
           >
             Tutup
           </button>
@@ -1164,7 +1164,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                         disabled={linkPending === inv.id}
                         className="flex-1 min-w-[90px] inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold
                           bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200
-                          hover:bg-slate-200 dark:hover:bg-white/15 transition-all border border-[var(--border)]"
+                          hover:bg-[var(--table-hover)] transition-all border border-[var(--border)]"
                       >
                         <LinkIcon className="w-3.5 h-3.5" />
                         <span>{linkPending === inv.id ? '⏳' : linkCache[inv.id] ? 'Salin' : 'Link Ortu'}</span>
@@ -1175,7 +1175,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                         onClick={() => setEditInv(inv)}
                         className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold
                           bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200
-                          hover:bg-slate-200 dark:hover:bg-white/15 transition-all border border-[var(--border)]"
+                          hover:bg-[var(--table-hover)] transition-all border border-[var(--border)]"
                       >
                         <Edit2 className="w-3.5 h-3.5" />
                         <span>Edit</span>
