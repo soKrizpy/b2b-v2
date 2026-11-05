@@ -40,13 +40,13 @@ function MpinChip({ mpin }: { mpin: string }) {
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold
       bg-[var(--surface-raised)] text-slate-800 dark:text-slate-100
       border border-[var(--border)]">
-      <span className="text-[10px] text-slate-400">🔑</span>
+      <span className="text-[10px] text-slate-500 dark:text-slate-400">🔑</span>
       <span className="tracking-widest">{revealed ? mpin : '••••'}</span>
       <button
         type="button"
         onClick={() => setRevealed((v) => !v)}
         title={revealed ? 'Sembunyikan PIN' : 'Tampilkan PIN'}
-        className="ml-0.5 text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 rounded"
+        className="ml-0.5 text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 rounded"
       >
         {revealed ? '🙈' : '👁'}
       </button>
@@ -65,7 +65,7 @@ function ColHeader({ children }: { children: React.ReactNode }) {
 
 function ModuleBadges({ titles }: { titles: string[] }) {
   if (titles.length === 0) {
-    return <span className="text-xs italic text-slate-400 dark:text-slate-500">Belum ada modul</span>;
+    return <span className="text-xs italic text-slate-500 dark:text-slate-400">Belum ada modul</span>;
   }
   const first = titles[0];
   const rest  = titles.length - 1;
@@ -93,7 +93,7 @@ function EmptyState({ icon, message }: { icon: string; message: string }) {
       bg-[var(--surface)] py-16 px-6 text-center">
       <span className="text-4xl mb-3" aria-hidden="true">{icon}</span>
       <p className="font-bold text-slate-700 dark:text-slate-100 text-sm">{message}</p>
-      <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
         Klik tombol &ldquo;Tambah&rdquo; di atas untuk menambahkan.
       </p>
     </div>
@@ -168,7 +168,7 @@ function StudentCard({
             {s.email_or_phone}
           </p>
         </div>
-        <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 flex-shrink-0 mt-0.5">
+        <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0 mt-0.5">
           {formatDate(s.created_at)}
         </span>
       </div>
@@ -186,7 +186,7 @@ function StudentCard({
 
       {/* Modules */}
       <div className="flex flex-col gap-1">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Modul Aktif
         </p>
         <ModuleBadges titles={s.module_titles} />
@@ -238,7 +238,7 @@ function TeacherCard({
             {t.email ?? 'Email tidak tersedia'}
           </p>
         </div>
-        <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 flex-shrink-0 mt-0.5">
+        <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 flex-shrink-0 mt-0.5">
           {formatDate(t.created_at)}
         </span>
       </div>
@@ -534,7 +534,7 @@ export function UsersShell({ students, teachers, allModules }: Props) {
       {/* ── Search bar ── */}
       <div className="relative">
         <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-400"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400 dark:text-slate-400"
           aria-hidden="true"
         />
         <input
