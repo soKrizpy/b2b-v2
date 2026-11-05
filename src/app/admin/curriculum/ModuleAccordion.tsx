@@ -45,12 +45,12 @@ export function ModuleAccordion({ module: mod }: Props) {
   const displayDesc = hasFinalAssessment ? null : mod.description;
 
   return (
-    <div className={`relative bg-white dark:bg-[#0B0F19] rounded-2xl border-2 shadow-sm
+    <div className={`relative bg-white dark:bg-[var(--surface)] rounded-2xl border-2 shadow-sm
       transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md hover:z-10 overflow-hidden
       ${pendingDel ? 'opacity-50 pointer-events-none' : ''}
       ${showEdit
         ? 'border-indigo-400 dark:border-purple-500 shadow-[0_0_20px_rgba(99,102,241,0.2)] dark:shadow-[0_0_25px_rgba(168,85,247,0.25)]'
-        : 'border-blue-400/35 dark:border-purple-500/40 hover:border-blue-500 dark:hover:border-purple-400 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]'}`}>
+        : 'border-blue-400/35 dark:border-[var(--border)] hover:border-blue-500 dark:hover:border-purple-400 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]'}`}>
 
       {/* ── Card header ──────────────────────────────────────────────────── */}
       <div className="px-5 py-4 flex items-start gap-3">
@@ -63,9 +63,9 @@ export function ModuleAccordion({ module: mod }: Props) {
               ${LEVEL_COLOR[mod.level ?? 'beginner']}`}>
               {LEVEL_LABELS[mod.level ?? 'beginner'] ?? mod.level}
             </span>
-            <span className="text-[10px] font-semibold bg-slate-100 dark:bg-white/10
+            <span className="text-[10px] font-semibold bg-slate-100 dark:bg-[var(--surface-raised)]
               text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full ring-1
-              ring-slate-200 dark:ring-white/15">
+              ring-slate-200 dark:ring-[var(--border)]">
               {mod.topics.length} Topik
             </span>
             {hasFinalAssessment && (
@@ -100,7 +100,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             className={`p-2 rounded-xl text-xs font-medium ring-1 transition-colors
               ${showEdit
                 ? 'ring-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300'
-                : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
+                : 'ring-slate-200 dark:ring-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
               }`}
           >
             ✏️
@@ -124,7 +124,7 @@ export function ModuleAccordion({ module: mod }: Props) {
           <Link
             href={`/admin/curriculum/${mod.id}`}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold
-              bg-slate-900 dark:bg-white text-white dark:text-slate-900
+              bg-slate-900 dark:bg-purple-600 text-white dark:text-white
               hover:opacity-90 transition-opacity shadow-sm"
           >
             Edit &amp; Build
@@ -137,7 +137,7 @@ export function ModuleAccordion({ module: mod }: Props) {
 
       {/* ── Inline edit form ─────────────────────────────────────────────── */}
       {showEdit && (
-        <div className="px-5 pb-5 pt-1 border-t border-slate-100 dark:border-white/8 bg-slate-50/60 dark:bg-white/3">
+        <div className="px-5 pb-5 pt-1 border-t border-slate-100 dark:border-[var(--border)] bg-slate-50/60 dark:bg-[var(--surface-raised)]">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 mt-3">
             Edit Metadata Modul
           </p>
@@ -162,9 +162,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                 </label>
                 <input id={`mod-title-${mod.id}`} name="title" required
                   defaultValue={mod.title ?? ''}
-                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
+                  className="rounded-lg border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]" />
               </div>
 
               {/* Level */}
@@ -173,9 +173,9 @@ export function ModuleAccordion({ module: mod }: Props) {
                   className="text-xs font-semibold text-slate-600 dark:text-slate-300">Level</label>
                 <select id={`mod-level-${mod.id}`} name="level"
                   defaultValue={mod.level ?? 'beginner'}
-                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
+                  className="rounded-lg border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
@@ -188,16 +188,16 @@ export function ModuleAccordion({ module: mod }: Props) {
                   className="text-xs font-semibold text-slate-600 dark:text-slate-300">Deskripsi</label>
                 <textarea id={`mod-desc-${mod.id}`} name="description" rows={2}
                   defaultValue={hasFinalAssessment ? '' : (mod.description ?? '')}
-                  className="rounded-lg border border-slate-300 dark:border-purple-500/40 px-3 py-2 text-sm resize-y
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50"
+                  className="rounded-lg border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm resize-y
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
                   placeholder="Deskripsi singkat modul…" />
               </div>
             </div>
 
             <div className="flex justify-end gap-2 pt-1">
               <button type="button" onClick={() => setShowEdit(false)}
-                className="px-4 py-2 text-sm rounded-lg ring-1 ring-slate-200 dark:ring-white/15
+                className="px-4 py-2 text-sm rounded-lg ring-1 ring-slate-200 dark:ring-[var(--border)]
                   text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5">
                 Batal
               </button>
