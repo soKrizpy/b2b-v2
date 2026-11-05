@@ -168,9 +168,9 @@ export function AnnouncementManager() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 flex flex-col gap-5 transition-all duration-300">
+    <div className="bg-[var(--surface)] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 flex flex-col gap-5 transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 flex-wrap border-b border-slate-100 dark:border-white/5 pb-4">
+      <div className="flex items-center justify-between gap-3 flex-wrap border-b border-slate-100 dark:border-[var(--border)] pb-4">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
             <Megaphone className="w-5 h-5" />
@@ -193,7 +193,7 @@ export function AnnouncementManager() {
           }}
           className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all duration-200 active:scale-95 shadow-sm ${
             showForm
-              ? 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-200'
+              ? 'bg-slate-200 dark:bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200'
               : 'bg-purple-600 hover:bg-purple-700 text-white'
           }`}
         >
@@ -213,7 +213,7 @@ export function AnnouncementManager() {
 
       {/* Form Creator / Editor */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-slate-50/80 dark:bg-white/5 border-2 border-slate-200/90 dark:border-purple-500/30 rounded-2xl p-4 flex flex-col gap-4 animate-fade-in-up">
+        <form onSubmit={handleSubmit} className="bg-slate-50/80 dark:bg-[var(--surface-raised)] border-2 border-slate-200/90 dark:border-[var(--border)] rounded-2xl p-4 flex flex-col gap-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-extrabold uppercase tracking-wider text-purple-700 dark:text-purple-300">
               {editingId ? '✏️ Edit Pengumuman' : '📢 Form Pengumuman Baru'}
@@ -228,7 +228,7 @@ export function AnnouncementManager() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Contoh: 🚀 Pembaruan Jadwal Sesi Pembelajaran"
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
@@ -240,7 +240,7 @@ export function AnnouncementManager() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Tuliskan pesan lengkap pengumuman di sini..."
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
@@ -251,7 +251,7 @@ export function AnnouncementManager() {
               <select
                 value={target}
                 onChange={(e) => setTarget(e.target.value as AnnouncementTarget)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               >
                 <option value="all">🌐 Semua Pengguna (Siswa &amp; Guru)</option>
                 <option value="students">🎓 Khusus Siswa</option>
@@ -265,7 +265,7 @@ export function AnnouncementManager() {
               <select
                 value={urgency}
                 onChange={(e) => setUrgency(e.target.value as AnnouncementUrgency)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               >
                 <option value="info">🔵 Info Normal</option>
                 <option value="warning">🟡 Peringatan (Warning)</option>
@@ -280,7 +280,7 @@ export function AnnouncementManager() {
                 type="date"
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                className="w-full px-3 py-2 rounded-xl text-xs font-bold bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40"
               />
             </div>
           </div>
@@ -293,16 +293,16 @@ export function AnnouncementManager() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/banner.png"
-              className="w-full px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full px-3.5 py-2 rounded-xl text-xs bg-[var(--surface)] border border-slate-200 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-2 pt-2 border-t border-slate-200/60 dark:border-white/5">
+          <div className="flex justify-end gap-2 pt-2 border-t border-slate-200/60 dark:border-[var(--border)]">
             <button
               type="button"
               onClick={resetForm}
-              className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-white/15 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-[var(--border)] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
             >
               Batal
             </button>
@@ -323,7 +323,7 @@ export function AnnouncementManager() {
         </h4>
 
         {announcements.length === 0 ? (
-          <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl">
+          <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6 border-2 border-dashed border-slate-200 dark:border-[var(--border)] rounded-2xl">
             Belum ada pengumuman aktif. Klik &ldquo;Buat Pengumuman&rdquo; di atas untuk menambahkan.
           </p>
         ) : (
@@ -337,8 +337,8 @@ export function AnnouncementManager() {
                   key={ann.id}
                   className={`p-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                     ann.is_active
-                      ? 'bg-white dark:bg-white/5 border-slate-200/90 dark:border-purple-500/30 dark:shadow-[0_0_12px_rgba(168,85,247,0.12)]'
-                      : 'bg-slate-50 dark:bg-white/2 border-slate-200/60 dark:border-white/5 opacity-60'
+                      ? 'bg-white dark:bg-[var(--surface-raised)] border-slate-200/90 dark:border-[var(--border)] dark:shadow-sm'
+                      : 'bg-slate-50 dark:bg-[var(--surface-raised)] border-slate-200/60 dark:border-[var(--border)] opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">
@@ -353,7 +353,7 @@ export function AnnouncementManager() {
                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${ucfg.badge}`}>
                           {ucfg.label}
                         </span>
-                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300">
                           {targetLabels[ann.target]}
                         </span>
                       </div>
@@ -403,7 +403,7 @@ export function AnnouncementManager() {
                         <button
                           type="button"
                           onClick={() => setConfirmDeleteId(null)}
-                          className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300"
+                          className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300"
                           title="Batal"
                         >
                           Batal
