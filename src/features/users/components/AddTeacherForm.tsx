@@ -30,7 +30,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
           </label>
           <input id="t-name" name="full_name" required placeholder="Dewi Rahayu"
             className={`rounded-lg border px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+              bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
               ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
           {err('full_name') && <p className="text-xs text-red-600 dark:text-rose-400">{err('full_name')}</p>}
@@ -43,7 +43,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
           </label>
           <input id="t-email" name="email" type="email" required placeholder="guru@b2b.id"
             className={`rounded-lg border px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+              bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
               ${err('email') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
           {err('email') && <p className="text-xs text-red-600 dark:text-rose-400">{err('email')}</p>}
@@ -57,7 +57,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
           <input id="t-pw" name="password" type="password" required minLength={8}
             placeholder="Minimal 8 karakter"
             className={`rounded-lg border px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+              bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
               ${err('password') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
           {err('password') && <p className="text-xs text-red-600 dark:text-rose-400">{err('password')}</p>}
@@ -65,7 +65,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-white/8">
+      <div className="flex justify-end pt-2 border-t border-[var(--border)]">
         <button type="submit" disabled={pending}
           className="px-5 py-2.5 text-sm font-bold rounded-xl text-white
             bg-violet-600 hover:bg-violet-700 disabled:opacity-50 transition-colors shadow-sm">
