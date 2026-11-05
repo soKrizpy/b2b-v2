@@ -323,7 +323,7 @@ export function AnnouncementManager() {
         </h4>
 
         {announcements.length === 0 ? (
-          <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6 border-2 border-dashed border-slate-200 dark:border-[var(--border)] rounded-2xl">
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center py-6 border-2 border-dashed border-slate-200 dark:border-[var(--border)] rounded-2xl">
             Belum ada pengumuman aktif. Klik &ldquo;Buat Pengumuman&rdquo; di atas untuk menambahkan.
           </p>
         ) : (
@@ -361,7 +361,7 @@ export function AnnouncementManager() {
                         {ann.content}
                       </p>
                       {ann.expires_at && (
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 inline-flex items-center gap-1">
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 inline-flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           <span>Kadaluarsa: {ann.expires_at}</span>
                         </p>
@@ -377,7 +377,7 @@ export function AnnouncementManager() {
                       className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${
                         ann.is_active
                           ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
-                          : 'text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10'
                       }`}
                     >
                       {ann.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
