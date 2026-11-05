@@ -64,12 +64,12 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
           placeholder="Cari nama murid..."
           value={searchStudent}
           onChange={(e) => setSearchStudent(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-[#0B0F19] border-2 border-slate-200/90 dark:border-purple-500/40 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50 shadow-sm transition-all"
+          className="w-full pl-9 pr-4 py-2.5 text-xs rounded-xl bg-white dark:bg-[var(--surface)] border-2 border-slate-200/90 dark:border-[var(--border)] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50 shadow-sm transition-all"
         />
       </div>
 
       {filteredGroups.size === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200/80 dark:border-purple-500/30 py-16 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200/80 dark:border-[var(--border)] py-16 text-center">
           <div className="text-3xl mb-2">📥</div>
           <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">Belum ada riwayat kelas selesai</p>
         </div>
@@ -77,11 +77,11 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
         Array.from(filteredGroups.entries()).map(([studentName, sessions]) => {
           const isExpanded = expandedStudents.has(studentName);
           return (
-            <div key={studentName} className="bg-white dark:bg-[#0B0F19] border-2 border-slate-200/90 dark:border-purple-500/40 rounded-2xl overflow-hidden shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20">
+            <div key={studentName} className="bg-white dark:bg-[var(--surface)] border-2 border-slate-200/90 dark:border-[var(--border)] rounded-2xl overflow-hidden shadow-sm dark:ring-1 dark:ring-[var(--border)]">
               <button
                 type="button"
                 onClick={() => toggleStudent(studentName)}
-                className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 dark:hover:bg-[var(--table-hover)] transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-extrabold text-slate-900 dark:text-white">
@@ -97,7 +97,7 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
               </button>
 
               {isExpanded && (
-                <div className="border-t border-slate-100 dark:border-slate-800 p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="border-t border-slate-100 dark:border-[var(--border)] p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {sessions.map((m) => (
                     <SessionDetailCard
                       key={m.id}
