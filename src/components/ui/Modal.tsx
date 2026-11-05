@@ -74,7 +74,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-blue-50
+            className="p-1.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-700 hover:bg-blue-50
               dark:hover:bg-[var(--table-hover)] dark:hover:text-white
               transition-all duration-150 active:scale-95"
             aria-label="Tutup"
