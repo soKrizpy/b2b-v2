@@ -67,7 +67,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
   if (nodes.length === 0 && quizQuestions.length === 0) {
     return (
       <div className="px-4 pb-4 pt-2">
-        <p className="text-xs text-slate-400 dark:text-slate-500 italic">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic">
           Topik ini belum memiliki node atau quiz. Import JSON untuk menambahkan materi.
         </p>
       </div>
@@ -80,7 +80,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
       {/* Nodes */}
       {nodes.length > 0 && (
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
             {nodes.length} Node Materi
           </p>
           <ol className="flex flex-col gap-1.5">
@@ -110,7 +110,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     {typeof node.xp === 'number' && node.xp > 0 && (
                       <span className="text-[10px] text-amber-600 dark:text-amber-400 flex-shrink-0">+{node.xp}XP</span>
                     )}
-                    <span className="text-slate-400 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-[10px] flex-shrink-0">{open ? '▲' : '▼'}</span>
                   </button>
 
                   {open && (
@@ -118,7 +118,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                       border border-slate-200 dark:border-[var(--border)] px-4 py-3 space-y-2.5">
                       {body && (
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
                             Konten
                           </p>
                           <p className="text-xs text-slate-700 dark:text-slate-200 whitespace-pre-wrap leading-relaxed">
@@ -128,7 +128,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                       )}
                       {Array.isArray(node.options) && node.options.length > 0 && (
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
                             Pilihan Jawaban
                           </p>
                           <ol className="flex flex-col gap-1">
@@ -139,7 +139,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                     ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                     : 'ring-slate-200 dark:ring-[var(--border)] text-slate-600 dark:text-slate-300'
                                   }`}>
-                                <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                                <span className="font-bold text-slate-500 dark:text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
                                 {opt}
                                 {opt === node.correctOption && (
                                   <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Benar</span>
@@ -151,7 +151,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                       )}
                       {node.code && (
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
                             Kode ({node.code.language})
                           </p>
                           <pre className="text-xs font-mono bg-slate-900 dark:bg-black/60 text-emerald-400 p-3 rounded-lg overflow-x-auto">
@@ -171,7 +171,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
       {/* Quiz questions */}
       {quizQuestions.length > 0 && (
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
             {quizQuestions.length} Soal Quiz
           </p>
           <ol className="flex flex-col gap-1.5">
@@ -208,7 +208,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                 ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
                                 : 'ring-slate-200 dark:ring-[var(--border)] text-slate-600 dark:text-slate-300'
                               }`}>
-                            <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
+                            <span className="font-bold text-slate-500 dark:text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
                             {opt}
                             {oi === q.answer_index && (
                               <span className="ml-2 text-[10px] text-emerald-600 dark:text-emerald-400">✓ Kunci</span>
@@ -516,7 +516,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
           <div className="flex flex-col items-center justify-center rounded-2xl
             border-2 border-dashed border-blue-400/40 dark:border-[var(--border)]
             bg-white dark:bg-[var(--surface)] dark:shadow-[0_0_20px_rgba(168,85,247,0.12)] py-12 text-center">
-            <p className="text-slate-400 dark:text-slate-500 text-sm">
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
               Belum ada topik. Import JSON di atas untuk menambahkan materi.
             </p>
           </div>
@@ -675,7 +675,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 </p>
               </div>
               <button type="button" onClick={() => setShowImport(false)} disabled={isImporting}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
+                className="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
                 aria-label="Tutup">×</button>
             </div>
 
@@ -715,7 +715,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                     text-slate-700 dark:text-slate-300 transition-colors">
                   📁 Pilih File .json
                 </button>
-                <span className="text-xs text-slate-400 dark:text-slate-500">atau tempel JSON di bawah</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">atau tempel JSON di bawah</span>
               </div>
 
               <textarea value={text} onChange={(e) => { setText(e.target.value); setVs({ status: 'idle' }); }}
