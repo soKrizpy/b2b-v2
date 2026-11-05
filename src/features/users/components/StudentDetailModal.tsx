@@ -511,8 +511,8 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
             </p>
             {/* MPIN visible */}
             <div className="mt-1.5 inline-flex items-center gap-1.5
-              bg-[var(--surface-raised)] px-2.5 py-1 rounded-lg">
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">🔑 MPIN</span>
+              bg-[var(--surface-raised)] border border-[var(--border)] px-2.5 py-1 rounded-lg">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400">🔑 MPIN</span>
               <span className="text-xs font-mono font-bold tracking-widest
                 text-slate-700 dark:text-slate-200">
                 {s.mpin}
