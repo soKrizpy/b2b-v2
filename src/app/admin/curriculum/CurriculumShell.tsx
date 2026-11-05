@@ -26,7 +26,7 @@ export function CurriculumShell({ children }: Props) {
           type="button"
           onClick={() => setShowCreate(true)}
           className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold
-            bg-slate-900 dark:bg-white text-white dark:text-slate-900
+            bg-slate-900 dark:bg-purple-600 text-white dark:text-white
             rounded-xl shadow-sm hover:opacity-90 active:scale-95 transition-all"
         >
           <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
@@ -48,10 +48,10 @@ export function CurriculumShell({ children }: Props) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={(e) => { if (e.target === e.currentTarget && !pending) setShowCreate(false); }}
         >
-          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden">
+          <div className="w-full max-w-md bg-white dark:bg-[var(--surface)] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-[var(--border)] dark:shadow-xl dark:ring-1 dark:ring-[var(--border)] overflow-hidden">
 
             {/* Header */}
-            <div className="px-6 py-4 border-b border-slate-100 dark:border-purple-500/25 flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-[var(--border)] flex items-center justify-between">
               <h2 id="create-module-title" className="font-bold text-slate-900 dark:text-white text-base">
                 Buat Modul Baru
               </h2>
@@ -77,11 +77,11 @@ export function CurriculumShell({ children }: Props) {
                 <input id="new-mod-title" name="title" required autoFocus
                   placeholder="contoh: Pengenalan HTML & CSS"
                   className={`rounded-xl border px-3.5 py-2.5 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]
                     ${state && !state.success && state.fields?.title
                       ? 'border-red-400'
-                      : 'border-slate-300 dark:border-purple-500/40'}`} />
+                      : 'border-slate-300 dark:border-[var(--border)]'}`} />
                 {state && !state.success && state.fields?.title && (
                   <p className="text-xs text-red-600 dark:text-red-400">{state.fields.title}</p>
                 )}
@@ -96,9 +96,9 @@ export function CurriculumShell({ children }: Props) {
                   Level
                 </label>
                 <select id="new-mod-level" name="level" defaultValue="beginner"
-                  className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50">
+                  className="rounded-xl border border-slate-300 dark:border-[var(--border)] px-3.5 py-2.5 text-sm
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
@@ -112,22 +112,22 @@ export function CurriculumShell({ children }: Props) {
                 </label>
                 <textarea id="new-mod-desc" name="description" rows={3}
                   placeholder="Deskripsi singkat isi modul ini…"
-                  className="rounded-xl border border-slate-300 dark:border-purple-500/40 px-3.5 py-2.5 text-sm resize-y
-                    bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white
-                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50" />
+                  className="rounded-xl border border-slate-300 dark:border-[var(--border)] px-3.5 py-2.5 text-sm resize-y
+                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]" />
               </div>
 
               {/* Footer */}
               <div className="flex justify-end gap-2.5 pt-2 border-t border-slate-100 dark:border-white/8">
                 <button type="button" onClick={() => setShowCreate(false)} disabled={pending}
                   className="px-4 py-2.5 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
-                    text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5
+                    text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[var(--table-hover)]
                     disabled:opacity-40 transition-colors">
                   Batal
                 </button>
                 <button type="submit" disabled={pending}
                   className="px-5 py-2.5 text-sm font-bold rounded-xl text-white
-                    bg-slate-900 dark:bg-white dark:text-slate-900
+                    bg-slate-900 dark:bg-purple-600 dark:text-white
                     hover:opacity-90 disabled:opacity-50 transition-all shadow-sm">
                   {pending ? 'Membuat…' : '+ Buat Modul'}
                 </button>
