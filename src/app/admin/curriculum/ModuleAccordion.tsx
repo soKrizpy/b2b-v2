@@ -137,7 +137,7 @@ export function ModuleAccordion({ module: mod }: Props) {
 
       {/* ── Inline edit form ─────────────────────────────────────────────── */}
       {showEdit && (
-        <div className="px-5 pb-5 pt-1 border-t border-slate-100 dark:border-[var(--border)] bg-slate-50/60 dark:bg-[var(--surface-raised)]">
+        <div className="px-5 pb-5 pt-1 border-t border-slate-100 dark:border-[var(--border)] bg-slate-50/60 dark:bg-[var(--surface)]">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 mt-3">
             Edit Metadata Modul
           </p>
@@ -163,7 +163,7 @@ export function ModuleAccordion({ module: mod }: Props) {
                 <input id={`mod-title-${mod.id}`} name="title" required
                   defaultValue={mod.title ?? ''}
                   className="rounded-lg border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
-                    bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                    bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]" />
               </div>
 
@@ -198,11 +198,11 @@ export function ModuleAccordion({ module: mod }: Props) {
             <div className="flex justify-end gap-2 pt-1">
               <button type="button" onClick={() => setShowEdit(false)}
                 className="px-4 py-2 text-sm rounded-lg ring-1 ring-slate-200 dark:ring-[var(--border)]
-                  text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5">
+                  text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[var(--table-hover)]">
                 Batal
               </button>
               <button type="submit" disabled={editPending}
-                className="px-4 py-2 text-sm font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700
+                className="px-4 py-2 text-sm font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-700
                   text-white shadow-sm disabled:opacity-50 transition-colors">
                 {editPending ? 'Menyimpan…' : 'Simpan'}
               </button>
