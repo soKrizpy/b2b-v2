@@ -52,7 +52,7 @@ export function SessionDetailCard({
     : 'Belum ditentukan';
 
   return (
-    <div className={`bg-white dark:bg-[var(--surface)] border-2 rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
+    <div className={`bg-[var(--surface)] border-2 rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
       live
         ? 'border-rose-400 dark:border-rose-600 ring-1 ring-rose-400/30 dark:ring-rose-800/60 '
         : 'border-slate-200/90 dark:border-[var(--border)] hover:border-blue-400 dark:hover:border-[var(--border-hover)]'
@@ -84,13 +84,13 @@ export function SessionDetailCard({
 
       {/* Chips */}
       <div className="space-y-1.5 text-xs">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-indigo-50/80 text-indigo-900 border border-indigo-200/60 dark:bg-indigo-950/80 dark:text-indigo-200 dark:border-indigo-700/50">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[var(--surface-raised)] text-slate-800 border border-slate-200 dark:text-slate-200 dark:border-[var(--border)]">
           <span className="flex-shrink-0">👨‍🎓</span>
           <span className="font-bold truncate">
             {studentNames.length > 0 ? studentNames.join(', ') : 'Belum ditentukan'}
           </span>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-purple-50/80 text-purple-900 border border-purple-200/60 dark:bg-purple-950/80 dark:text-purple-200 dark:border-purple-700/50">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[var(--surface-raised)] text-slate-800 border border-slate-200 dark:text-slate-200 dark:border-[var(--border)]">
           <span className="flex-shrink-0">👨‍🏫</span>
           <span className="font-bold truncate">{teacherName}</span>
         </div>
@@ -104,7 +104,7 @@ export function SessionDetailCard({
 
       {/* Progress report */}
       {meeting.progress_report && (
-        <p className="text-xs text-slate-500 dark:text-slate-400 italic line-clamp-2 bg-slate-50 dark:bg-[var(--surface-raised)]/40 p-2 rounded-lg">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic line-clamp-2 bg-[var(--surface-raised)] border border-slate-200 dark:border-[var(--border)] p-2 rounded-lg">
           📝 {meeting.progress_report}
         </p>
       )}
