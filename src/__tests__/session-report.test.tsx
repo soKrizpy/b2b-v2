@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AdminSessionActions } from '@/features/sessions/components/AdminSessionActions';
-import { updateSessionReport } from '@/features/sessions/actions';
+import { markSessionComplete, updateSessionReport } from '@/features/sessions/actions';
 import type { MeetingWithStudents } from '@/features/sessions/queries';
 import { TeacherCompleteAction } from '@/features/sessions/components/TeacherCompleteAction';
 import { localDatetimeToIso } from '@/features/sessions/components/MeetingForm';
@@ -20,15 +20,27 @@ const state = vi.hoisted(() => ({
     attendance_status: 'absen',
   })),
   dbError: null as { message: string } | null,
-  authRole: 'teacher' as 'admin' | 'teacher',
+  authRole: 'teacher' as 'admin' | 'teacher' | 'student',
+  actorId: 'test-user-id',
+  meetingTeacherId: 'test-user-id' as string | null,
+  authFailure: null as null | 'unauthenticated' | 'forbidden',
+  rpcCalls: [] as Array<{ functionName: string; args: Record<string, unknown> }>,
 }));
 
 vi.mock('@/lib/auth', () => ({
-  requireAdminOrTeacher: async () => ({
-    ok: true,
-    user: { id: 'test-user-id' },
-    role: state.authRole,
-  }),
+  requireAdminOrTeacher: async () => {
+    if (state.authFailure) {
+      return {
+        ok: false,
+        status: state.authFailure === 'unauthenticated' ? 401 : 403,
+        message: state.authFailure === 'unauthenticated' ? 'Sesi tidak ditemukan.' : 'Akses ditolak.',
+      };
+    }
+    if (state.authRole === 'student') {
+      return { ok: false, status: 403, message: 'Aksi ini memerlukan hak akses admin atau teacher.' };
+    }
+    return { ok: true, user: { id: state.actorId }, role: state.authRole };
+  },
 }));
 
 vi.mock('@/lib/supabase/admin', () => ({
@@ -42,8 +54,7 @@ vi.mock('@/lib/supabase/admin', () => ({
             }
             return {
               data: {
-                teacher_id:
-                  state.authRole === 'admin' ? 'assigned-teacher-id' : 'test-user-id',
+                teacher_id: state.meetingTeacherId,
               },
               error: null,
             };
@@ -52,6 +63,7 @@ vi.mock('@/lib/supabase/admin', () => ({
       }),
     }),
     rpc: async (functionName: string, args: Record<string, unknown>) => {
+      state.rpcCalls.push({ functionName, args });
       if (state.dbError) return { data: null, error: state.dbError };
       if (functionName !== 'save_meeting_report') {
         return { data: null, error: { message: 'Unknown RPC' } };
@@ -113,6 +125,10 @@ describe('completed session report editing', () => {
     }));
     state.dbError = null;
     state.authRole = 'teacher';
+    state.actorId = 'test-user-id';
+    state.meetingTeacherId = 'test-user-id';
+    state.authFailure = null;
+    state.rpcCalls = [];
   });
 
   it('updates only the report and preserves completion and student links', async () => {
@@ -135,6 +151,7 @@ describe('completed session report editing', () => {
       success: true,
       message: 'Laporan kelas berhasil diperbarui.',
     });
+    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('test-user-id');
 
     const independentlyReadMeetingRow = { ...state.meeting };
     const independentlyReadStudentLinks = [...state.studentLinks];
@@ -183,6 +200,103 @@ describe('completed session report editing', () => {
       success: false,
       error: 'Gagal memperbarui laporan: permission denied for table meetings',
     });
+    expect(state.meeting.progress_report).toBe('Old report');
+  });
+
+  it('allows an admin to update a meeting assigned to another teacher', async () => {
+    state.authRole = 'admin';
+    state.actorId = 'admin-user-id';
+    state.meetingTeacherId = 'different-teacher-id';
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'Admin report');
+    formData.set('attendance_statuses', JSON.stringify([
+      { student_id: 'student-1', status: 'hadir' },
+      { student_id: 'student-2', status: 'absen' },
+      { student_id: 'student-3', status: 'absen' },
+      { student_id: 'student-4', status: 'absen' },
+    ]));
+
+    await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: true });
+    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('admin-user-id');
+  });
+
+  it('rejects a teacher who does not own the meeting before calling RPC', async () => {
+    state.meetingTeacherId = 'another-teacher-id';
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'Should not be saved');
+    formData.set('attendance_statuses', '[]');
+
+    await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: false });
+    expect(state.rpcCalls).toHaveLength(0);
+    expect(state.meeting.progress_report).toBe('Old report');
+  });
+
+  it.each([
+    ['student', null],
+    ['teacher', 'unauthenticated'],
+  ] as const)('rejects %s access before calling RPC', async (role, authFailure) => {
+    state.authRole = role;
+    state.authFailure = authFailure;
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'Should not be saved');
+    formData.set('attendance_statuses', '[]');
+
+    await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: false });
+    expect(state.rpcCalls).toHaveLength(0);
+  });
+
+  it('uses the verified server actor and ignores any client-supplied actor ID', async () => {
+    state.actorId = 'verified-session-user';
+    state.meetingTeacherId = 'verified-session-user';
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('actor_id', 'forged-client-user');
+    formData.set('progress_report', 'Edited report');
+    formData.set('attendance_statuses', JSON.stringify([
+      { student_id: 'student-1', status: 'hadir' },
+      { student_id: 'student-2', status: 'absen' },
+      { student_id: 'student-3', status: 'absen' },
+      { student_id: 'student-4', status: 'absen' },
+    ]));
+
+    await updateSessionReport(null, formData);
+    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('verified-session-user');
+  });
+
+  it('rejects invalid attendance before calling RPC', async () => {
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'Edited report');
+    formData.set('attendance_statuses', JSON.stringify([
+      { student_id: 'student-1', status: 'unknown' },
+    ]));
+
+    await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: false });
+    expect(state.rpcCalls).toHaveLength(0);
+  });
+
+  it('rejects a report over 5,000 characters before calling RPC', async () => {
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'x'.repeat(5001));
+    formData.set('attendance_statuses', '[]');
+
+    await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: false });
+    expect(state.rpcCalls).toHaveLength(0);
+  });
+
+  it('rejects an unsupported completion status before calling RPC', async () => {
+    const formData = new FormData();
+    formData.set('id', '41');
+    formData.set('progress_report', 'Completed report');
+    formData.set('completion_status', 'done');
+    formData.set('attendance_statuses', '[]');
+
+    await expect(markSessionComplete(null, formData)).resolves.toMatchObject({ success: false });
+    expect(state.rpcCalls).toHaveLength(0);
   });
 
   it('does not allow report-only edits to complete an open session', async () => {

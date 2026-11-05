@@ -33,6 +33,7 @@ const attendanceInputSchema = z.array(
     status: z.enum(ATTENDANCE_STATUSES),
   })
 );
+const progressReportSchema = z.string().max(5000, 'Laporan maksimal 5.000 karakter.');
 
 const REVALIDATE_PATHS = [
   '/admin/dashboard',
@@ -498,6 +499,29 @@ async function saveMeetingReport(
     };
   }
 
+  const rawReport = formData.get('progress_report');
+  const parsedReport = progressReportSchema.safeParse(
+    rawReport === null ? '' : rawReport
+  );
+  if (!parsedReport.success) {
+    return { success: false, error: parsedReport.error.issues[0]?.message ?? 'Laporan tidak valid.' };
+  }
+
+  const rawCompletionStatus = formData.get('completion_status');
+  let completionStatus: string | null = null;
+  if (markCompleted) {
+    if (rawCompletionStatus === null || rawCompletionStatus === '') {
+      completionStatus = 'selesai';
+    } else if (typeof rawCompletionStatus === 'string') {
+      completionStatus = rawCompletionStatus;
+    } else {
+      return { success: false, error: 'Status penyelesaian tidak valid.' };
+    }
+  }
+  if (completionStatus !== null && completionStatus !== 'selesai') {
+    return { success: false, error: 'Status penyelesaian tidak valid.' };
+  }
+
   const db = createSupabaseAdminClient();
 
   // The RPC uses a privileged server client, so enforce teacher-to-meeting
@@ -521,6 +545,7 @@ async function saveMeetingReport(
     functionName: 'save_meeting_report',
     args: {
       p_meeting_id: number;
+      p_actor_id: string;
       p_progress_report: string;
       p_attendance: Json;
       p_mark_completed: boolean;
@@ -529,12 +554,11 @@ async function saveMeetingReport(
   ) => Promise<{ error: { message: string } | null }>;
   const { error } = await callSaveMeetingReport('save_meeting_report', {
     p_meeting_id: meetingId,
-    p_progress_report: (formData.get('progress_report') as string) || '',
+    p_actor_id: actorId,
+    p_progress_report: parsedReport.data,
     p_attendance: parsedAttendance.data as Json,
     p_mark_completed: markCompleted,
-    p_completion_status: markCompleted
-      ? (formData.get('completion_status') as string) || 'selesai'
-      : null,
+    p_completion_status: completionStatus,
   });
 
   if (error) {
