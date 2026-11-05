@@ -99,7 +99,7 @@ export function ModuleAccordion({ module: mod }: Props) {
             title="Edit metadata modul"
             className={`p-2 rounded-xl text-xs font-medium ring-1 transition-colors
               ${showEdit
-                ? 'ring-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300'
+                ? 'ring-indigo-300 bg-indigo-50 dark:bg-[var(--surface-raised)] dark:ring-[var(--border-hover)] text-indigo-700 dark:text-purple-300'
                 : 'ring-slate-200 dark:ring-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-500 dark:text-slate-400 hover:ring-indigo-300 hover:text-indigo-600'
               }`}
           >
