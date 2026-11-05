@@ -109,7 +109,7 @@ function LearningPathTab({
       {student.modules.length > 0 ? (
         <div>
           <p className="text-[10px] font-bold uppercase tracking-wide
-            text-slate-400 dark:text-slate-500 mb-2 px-1">
+            text-slate-500 dark:text-slate-400 mb-2 px-1">
             Modul Terdaftar · {student.modules.filter((m) => m.status === 'active').length} aktif
             {student.modules.some((m) => m.status !== 'active') &&
               ` · ${student.modules.filter((m) => m.status !== 'active').length} dijeda`}
@@ -189,7 +189,7 @@ function LearningPathTab({
         <div className="flex flex-col items-center gap-3 py-8 text-center">
           <span className="text-4xl" aria-hidden="true">📚</span>
           <p className="font-bold text-slate-700 dark:text-slate-100 text-sm">Belum Ada Modul</p>
-          <p className="text-xs text-slate-400 dark:text-slate-400 max-w-[200px]">
+          <p className="text-xs text-slate-500 dark:text-slate-400 dark:text-slate-400 max-w-[200px]">
             Pilih modul di bawah untuk mengaktifkan.
           </p>
         </div>
@@ -199,7 +199,7 @@ function LearningPathTab({
       {unassigned.length > 0 && (
         <div>
           <p className="text-[10px] font-bold uppercase tracking-wide
-            text-slate-400 dark:text-slate-500 mb-2 px-1">
+            text-slate-500 dark:text-slate-400 mb-2 px-1">
             Tambah &amp; Aktifkan Modul Baru
           </p>
           <form action={activateDispatch} className="flex items-center gap-2">
@@ -246,7 +246,7 @@ function LearningPathTab({
       )}
 
       {/* Note on independent module management */}
-      <p className="text-[10px] text-slate-400 dark:text-slate-500 px-1 leading-relaxed">
+      <p className="text-[10px] text-slate-500 dark:text-slate-400 px-1 leading-relaxed">
         Modul dapat diaktifkan dan dijeda secara mandiri. Siswa dapat belajar beberapa modul aktif sekaligus.
       </p>
     </div>
@@ -329,7 +329,7 @@ function EnrolledTeacherTab({
       {/* Currently Enrolled Teachers */}
       <div>
         <div className="flex items-center justify-between mb-2 px-1">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
             Guru Pembimbing Saat Ini
           </p>
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-700 dark:text-violet-300">
@@ -343,7 +343,7 @@ function EnrolledTeacherTab({
             <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
               Belum Ada Guru Pembimbing
             </p>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               Pilih guru di bawah untuk menugaskan ke siswa ini.
             </p>
           </div>
@@ -363,7 +363,7 @@ function EnrolledTeacherTab({
                     <p className="text-xs font-extrabold text-slate-900 dark:text-white truncate">
                       {t.full_name ?? 'Guru'}
                     </p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500">
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
                       {t.session_count > 0 ? `${t.session_count} pertemuan terhubung` : 'Kelas terdaftar'}
                     </p>
                   </div>
@@ -393,7 +393,7 @@ function EnrolledTeacherTab({
         </p>
 
         {availableTeachers.length === 0 ? (
-          <p className="text-xs text-slate-400 dark:text-slate-500 italic">
+          <p className="text-xs text-slate-500 dark:text-slate-400 italic">
             Semua guru yang terdaftar telah di-enroll ke siswa ini.
           </p>
         ) : (
@@ -438,7 +438,7 @@ function PlaceholderTab({ icon, label }: { icon: string; label: string }) {
     <div className="flex flex-col items-center gap-3 py-12 text-center">
       <span className="text-5xl" aria-hidden="true">{icon}</span>
       <p className="font-bold text-slate-700 dark:text-white text-sm">{label}</p>
-      <p className="text-xs text-slate-400 dark:text-slate-500">
+      <p className="text-xs text-slate-500 dark:text-slate-400">
         Fitur ini akan segera tersedia.
       </p>
     </div>
