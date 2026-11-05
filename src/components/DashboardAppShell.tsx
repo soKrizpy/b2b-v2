@@ -364,7 +364,7 @@ export function DashboardAppShell({
 
               {/* User Profile Pill */}
               <div className="hidden sm:flex items-center gap-2 rounded-xl px-3 py-1.5 border
-                bg-slate-50 border-blue-400/40 dark:bg-[#0B0F19] dark:border-[var(--border)] shadow-xs">
+                bg-slate-50 border-blue-400/40 dark:bg-[var(--surface)] dark:border-[var(--border)] shadow-xs">
                 <div className="w-5 h-5 rounded-md bg-[#7cc62f] flex items-center justify-center flex-shrink-0">
                   <span suppressHydrationWarning className="text-[10px] text-white font-black">
                     {(fullName ?? '?')[0].toUpperCase()}
