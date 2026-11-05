@@ -101,8 +101,8 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
       {/* Panel */}
       {open && (
-        <div className="mt-4 rounded-2xl bg-zinc-900/90 border border-purple-500/30
-          shadow-xl shadow-purple-900/20 backdrop-blur-md p-5 flex flex-col gap-4">
+        <div className="mt-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)]
+          shadow-xl shadow-slate-900/10 dark:shadow-purple-900/20 backdrop-blur-md p-5 flex flex-col gap-4">
 
           {/* Header */}
           <div className="flex items-center justify-between gap-2">
@@ -111,15 +111,15 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
                 <Sparkles className="w-4 h-4 text-purple-300" />
               </div>
               <div>
-                <p className="text-sm font-black text-white leading-none">AI Curriculum Generator</p>
-                <p className="text-[10px] text-zinc-400 mt-0.5">Asisten Gemini AI Bits2Bytes</p>
+                <p className="text-sm font-black text-slate-900 dark:text-white leading-none">AI Curriculum Generator</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Asisten Gemini AI Bits2Bytes</p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700
-                flex items-center justify-center text-zinc-400 hover:text-white text-xs transition-colors"
+              className="w-7 h-7 rounded-lg bg-[var(--surface-raised)] hover:bg-[var(--table-hover)] border border-[var(--border)]
+                flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white text-xs transition-colors"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -128,7 +128,7 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             {/* Topic title */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-topic" className="text-xs font-bold text-zinc-300">
+              <label htmlFor="ai-topic" className="text-xs font-bold text-slate-700 dark:text-slate-300">
                 Judul Topik <span className="text-red-400">*</span>
               </label>
               <input
@@ -139,15 +139,15 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
                 required
                 disabled={loading}
                 placeholder="Contoh: Pengenalan Variabel di Python"
-                className="rounded-xl border border-zinc-700 bg-zinc-800/80 px-3.5 py-2.5
-                  text-sm text-white placeholder:text-zinc-500
-                  focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] px-3.5 py-2.5
+                  text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500
+                  focus:outline-none focus:ring-2 focus:ring-[var(--border-hover)] disabled:opacity-50"
               />
             </div>
 
             {/* Level */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="ai-level" className="text-xs font-bold text-zinc-300">Level Pembelajaran</label>
+              <label htmlFor="ai-level" className="text-xs font-bold text-slate-700 dark:text-slate-300">Level Pembelajaran</label>
               <select
                 id="ai-level"
                 name="level"
@@ -189,18 +189,18 @@ export function AiCurriculumGenerator({ moduleTitle, onGenerated }: Props) {
 
           {/* Error Message */}
           {error && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-start gap-2.5 animate-fade-in">
-              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-red-300 leading-relaxed">{error}</p>
+            <div className="rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/40 px-4 py-3 flex items-start gap-2.5 animate-fade-in">
+              <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-red-700 dark:text-red-300 leading-relaxed">{error}</p>
             </div>
           )}
 
           {/* Success Message */}
           {success && (
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30
+            <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40
               px-4 py-3 flex items-start gap-2.5 animate-fade-in">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-emerald-300 font-bold leading-relaxed">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-emerald-700 dark:text-emerald-300 font-bold leading-relaxed">
                 JSON kurikulum berhasil dibuat! Konten otomatis disematkan ke editor JSON di bawah.
                 Silakan review dan klik &ldquo;Import JSON Materi&rdquo; untuk menyimpan ke database.
               </p>
