@@ -152,7 +152,7 @@ export function MeetingForm({
             value={selectedModuleId}
             onChange={(event) => setSelectedModuleId(event.target.value)}
             required
-            className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
+            className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white dark:[color-scheme:dark] focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
           >
             <option value="">— Pilih modul —</option>
             {moduleOptions.map((module) => (
@@ -161,9 +161,9 @@ export function MeetingForm({
               </option>
             ))}
           </select>
-          {err('module_id') && <p className="text-xs text-red-600">{err('module_id')}</p>}
-          {moduleOptions.length === 0 && <p className="text-xs text-amber-600">Modul aktif tidak tersedia atau gagal dimuat.</p>}
-          <p className="text-xs text-slate-500">
+          {err('module_id') && <p className="text-xs text-red-600 dark:text-red-400">{err('module_id')}</p>}
+          {moduleOptions.length === 0 && <p className="text-xs text-amber-600 dark:text-amber-400">Modul aktif tidak tersedia atau gagal dimuat.</p>}
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             {selectedModule && selectedModule.publishedTopicCount > 0
               ? `Jadwal akan berisi ${selectedModule.publishedTopicCount} sesi mingguan, satu untuk setiap topik terpublikasi.`
               : 'Pilih modul dengan topik terpublikasi. Sesi ke-N dipasangkan ke topik ke-N sesuai urutan topik.'}
@@ -175,8 +175,8 @@ export function MeetingForm({
           <span className="font-medium">Modul kurikulum: </span>
           {meeting?.module_id ? (moduleOptions.find((module) => module.id === meeting.module_id)?.title ?? `ID ${meeting.module_id}`) : 'Belum terhubung (jadwal lama)'}
           {meeting?.topic_title && <p className="mt-1 text-xs text-indigo-700 dark:text-indigo-300">Topik terkait: {meeting.topic_title}</p>}
-          {meeting?.module_id != null && meeting.topic_id == null && <p className="mt-1 text-xs text-amber-600">Topik jadwal ini belum dipasangkan secara permanen.</p>}
-          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600">Jadwal lama tidak membuka topik secara otomatis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
+          {meeting?.module_id != null && meeting.topic_id == null && <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">Topik jadwal ini belum dipasangkan secara permanen.</p>}
+          {!meeting?.module_id && <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">Jadwal lama tidak membuka topik secara otomatis. Buat seri jadwal baru untuk menghubungkan modul tanpa menebak data historis.</p>}
         </div>
       )}
 
@@ -193,7 +193,7 @@ export function MeetingForm({
           name="teacher_id"
           defaultValue={meeting?.teacher_id ?? ''}
           className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm
-            bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
+            bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white dark:[color-scheme:dark] focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
         >
           <option value="">— Pilih guru —</option>
           {teachers.map((t) => (
