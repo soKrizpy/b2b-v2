@@ -192,7 +192,7 @@ export function MeetingForm({
           id="meeting-teacher"
           name="teacher_id"
           defaultValue={meeting?.teacher_id ?? ''}
-          className="rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 text-sm
+          className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm
             bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
         >
           <option value="">— Pilih guru —</option>
