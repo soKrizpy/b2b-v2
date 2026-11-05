@@ -125,7 +125,7 @@ export function LegacyMeetingMapper({ meetings }: Props) {
           <label className="block">
             <span className="sr-only">Cari jadwal lama</span>
             <input value={filter} onChange={(event) => setFilter(event.target.value)} placeholder="Cari judul, ID jadwal, atau nama siswa…"
-              className="w-full rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-[var(--surface-raised)] px-3 py-2 text-sm text-slate-900 dark:text-white" />
+              className="w-full rounded-xl border border-slate-300 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] px-3 py-2 text-sm text-slate-900 dark:text-white" />
           </label>
           <div className="space-y-3 max-h-[36rem] overflow-y-auto pr-1">
             {visibleMeetings.map((meeting) => {
@@ -141,7 +141,7 @@ export function LegacyMeetingMapper({ meetings }: Props) {
                 <article key={meeting.id} className="rounded-xl border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface)] p-3 sm:p-4 space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <p className="font-bold text-sm text-slate-900 dark:text-white">{meeting.title} <span className="font-normal text-slate-500">#{meeting.id}</span></p>
+                      <p className="font-bold text-sm text-slate-900 dark:text-white">{meeting.title} <span className="font-normal text-slate-500 dark:text-slate-400">#{meeting.id}</span></p>
                       <p className="text-xs text-slate-600 dark:text-slate-400">{date} · Guru: {meeting.teacher_id ? (meeting.teacher_id.slice(0, 8) + '…') : 'belum ditentukan'}</p>
                       <p className="text-xs text-slate-600 dark:text-slate-400">{meeting.meeting_students.length} siswa: {names.length ? names.join(', ') : 'nama siswa tidak tersedia'}</p>
                     </div>
@@ -151,7 +151,7 @@ export function LegacyMeetingMapper({ meetings }: Props) {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                       Modul
                       <select value={current.moduleId} disabled={meeting.module_id != null} onChange={(event) => setSelection((prev) => ({ ...prev, [meeting.id]: { moduleId: event.target.value, sessionNumber: '' } }))}
-                        className="mt-1 block w-full rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-[var(--surface-raised)] px-2.5 py-2 text-sm disabled:opacity-70">
+                        className="mt-1 block w-full rounded-lg border border-slate-300 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] px-2.5 py-2 text-sm disabled:opacity-70">
                         <option value="">Pilih modul</option>
                         {modules.filter((module) => module.publishedTopicCount > 0).map((module) => <option key={module.id} value={module.id}>{module.title ?? `Modul ${module.id}`} · {module.publishedTopicCount} topik</option>)}
                       </select>
@@ -159,7 +159,7 @@ export function LegacyMeetingMapper({ meetings }: Props) {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                       Sesi / topik
                       <select value={current.sessionNumber} disabled={!selectedModule} onChange={(event) => setSelection((prev) => ({ ...prev, [meeting.id]: { ...current, sessionNumber: event.target.value } }))}
-                        className="mt-1 block w-full rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-[var(--surface-raised)] px-2.5 py-2 text-sm disabled:opacity-60">
+                        className="mt-1 block w-full rounded-lg border border-slate-300 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] px-2.5 py-2 text-sm disabled:opacity-60">
                         <option value="">Pilih sesi</option>
                         {selectedModule?.publishedTopics.map((topic, index) => <option key={topic.id} value={index + 1}>Sesi {index + 1}: {topic.title}</option>)}
                       </select>
