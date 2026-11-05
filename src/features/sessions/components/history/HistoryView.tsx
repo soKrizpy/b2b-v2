@@ -58,7 +58,7 @@ export function HistoryView({ meetings, teachers, students, teacherMap }: Histor
     <div className="space-y-4">
       {/* Search */}
       <div className="relative max-w-sm">
-        <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-sm">🔍</span>
+        <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-400 text-sm">🔍</span>
         <input
           type="text"
           placeholder="Cari nama murid..."
