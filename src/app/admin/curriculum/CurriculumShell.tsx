@@ -56,7 +56,7 @@ export function CurriculumShell({ children }: Props) {
                 Buat Modul Baru
               </h2>
               <button type="button" onClick={() => setShowCreate(false)} disabled={pending}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
+                className="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none disabled:opacity-40"
                 aria-label="Tutup">×</button>
             </div>
 
@@ -108,7 +108,7 @@ export function CurriculumShell({ children }: Props) {
               {/* Description */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="new-mod-desc" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  Deskripsi <span className="text-slate-400 dark:text-slate-500 font-normal">(opsional)</span>
+                  Deskripsi <span className="text-slate-500 dark:text-slate-400 font-normal">(opsional)</span>
                 </label>
                 <textarea id="new-mod-desc" name="description" rows={3}
                   placeholder="Deskripsi singkat isi modul ini…"
