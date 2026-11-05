@@ -301,7 +301,7 @@ function SendInvoiceModal({
                 <div key={inv.id} className="flex items-center justify-between text-xs py-1 border-b border-[var(--border)] last:border-0">
                   <div className="min-w-0">
                     <p className="font-bold text-slate-900 dark:text-white truncate">{inv.student_full_name}</p>
-                    <p className="text-[10px] text-slate-400 truncate">{inv.student_email_or_phone}</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{inv.student_email_or_phone}</p>
                   </div>
                   <span className="font-bold text-emerald-600 dark:text-emerald-400 tabular-nums flex-shrink-0 ml-2">
                     {fmt(inv.total_amount)}
@@ -396,9 +396,9 @@ function AttendanceModal({
 
         <div className="px-6 py-4 max-h-80 overflow-y-auto">
           {loading ? (
-            <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6">Memuat detail kehadiran…</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 text-center py-6">Memuat detail kehadiran…</p>
           ) : rows.length === 0 ? (
-            <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6">
+            <p className="text-xs text-slate-500 dark:text-slate-400 text-center py-6">
               Tidak ada pertemuan ditemukan untuk bulan ini.
             </p>
           ) : (
@@ -413,7 +413,7 @@ function AttendanceModal({
                     <p className="text-xs font-bold text-slate-800 dark:text-white truncate">
                       {i + 1}. {r.title}
                     </p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                       {r.meeting_date ? formatDate(r.meeting_date) : '—'}
                     </p>
                   </div>
@@ -935,7 +935,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
         <div className="flex items-center justify-between gap-3 flex-wrap pt-2 border-t border-[var(--border)]">
           {/* Search input */}
           <div className="relative flex-1 min-w-[240px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" aria-hidden="true" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400" aria-hidden="true" />
             <input
               type="search"
               value={search}
@@ -950,7 +950,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-white"
               >
                 ✕
               </button>
@@ -959,7 +959,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
 
           {/* Status Filter */}
           <div className="flex items-center gap-2">
-            <Filter className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            <Filter className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as 'all' | 'draft' | 'sent' | 'paid')}
@@ -1059,7 +1059,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
               ? 'Tidak ada invoice yang sesuai dengan filter.'
               : 'Belum ada invoice untuk periode bulan ini.'}
           </p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs">
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs">
             {search || statusFilter !== 'all'
               ? 'Coba ganti kata kunci pencarian atau ubah filter status.'
               : `Klik "Generate Invoice" di atas untuk membuat tagihan otomatis berdasarkan kehadiran.`}
@@ -1076,10 +1076,10 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                 onClick={toggleSelectAll}
                 className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300"
               >
-                {allSelected ? <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" /> : <Square className="w-4 h-4 text-slate-400" />}
+                {allSelected ? <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" /> : <Square className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
                 <span>Pilih Semua ({filteredInvoices.length})</span>
               </button>
-              <span className="text-[10px] font-bold uppercase text-slate-400">
+              <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400">
                 {filteredInvoices.length} Item
               </span>
             </div>
@@ -1104,7 +1104,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                       <button
                         type="button"
                         onClick={() => toggleSelect(inv.id)}
-                        className="mt-0.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        className="mt-0.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                       >
                         {isSelected ? (
                           <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -1128,7 +1128,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                     {/* Body: Attendance & Financial Total */}
                     <div className="bg-[var(--surface-raised)] rounded-xl p-3 flex items-center justify-between gap-2 border border-[var(--border)]">
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-0.5">
                           Kehadiran
                         </span>
                         <div className="flex items-center gap-1.5">
@@ -1147,7 +1147,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                       </div>
 
                       <div className="text-right">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-0.5">
                           Total Tagihan
                         </span>
                         <span className="text-sm font-black text-[#7cc62f] tabular-nums block">
@@ -1222,7 +1222,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                         {allSelected ? (
                           <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                         ) : (
-                          <Square className="w-4 h-4 text-slate-400" />
+                          <Square className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                         )}
                       </button>
                     </th>
@@ -1262,7 +1262,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                           <button
                             type="button"
                             onClick={() => toggleSelect(inv.id)}
-                            className="flex items-center text-slate-400 hover:text-indigo-600"
+                            className="flex items-center text-slate-500 dark:text-slate-400 hover:text-indigo-600"
                           >
                             {isSelected ? (
                               <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -1277,7 +1277,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                           <p className="font-bold text-slate-900 dark:text-white text-xs">
                             {inv.student_full_name}
                           </p>
-                          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                             {inv.student_email_or_phone}
                           </p>
                         </td>
@@ -1292,7 +1292,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                               type="button"
                               onClick={() => setAttnInv(inv)}
                               title="Lihat detail kehadiran"
-                              className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+                              className="p-1 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
                             >
                               <Eye className="w-3.5 h-3.5" />
                             </button>
@@ -1304,7 +1304,7 @@ export function InvoicesShell({ invoices, selectedMonth }: Props) {
                           <p className="font-extrabold text-slate-900 dark:text-white tabular-nums">
                             {fmt(inv.total_amount)}
                           </p>
-                          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                             {inv.attended_meetings} × {fmt(inv.price_per_meeting)}
                           </p>
                         </td>
