@@ -291,7 +291,7 @@ function EnrolledStudentsSection({
                       type="checkbox"
                       checked={checked}
                       onChange={() => {}}
-                      className="rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                      className="rounded border border-slate-300 dark:border-[var(--border)] text-violet-600 focus:ring-violet-500"
                     />
                     <div className="flex-1 min-w-0">
                       <p className="font-bold truncate text-slate-900 dark:text-white">{s.full_name}</p>
