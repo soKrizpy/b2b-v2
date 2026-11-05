@@ -152,7 +152,7 @@ export function MeetingForm({
             value={selectedModuleId}
             onChange={(event) => setSelectedModuleId(event.target.value)}
             required
-            className="rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 text-sm bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white"
+            className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
           >
             <option value="">— Pilih modul —</option>
             {moduleOptions.map((module) => (
@@ -171,7 +171,7 @@ export function MeetingForm({
           <input type="hidden" name="session_count" value={selectedModule?.publishedTopicCount ?? ''} />
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 dark:border-purple-500/30 px-3.5 py-2.5 text-sm">
+        <div className="rounded-xl border border-slate-200 dark:border-[var(--border)] px-3.5 py-2.5 text-sm bg-white dark:bg-[var(--surface-raised)]">
           <span className="font-medium">Modul kurikulum: </span>
           {meeting?.module_id ? (moduleOptions.find((module) => module.id === meeting.module_id)?.title ?? `ID ${meeting.module_id}`) : 'Belum terhubung (jadwal lama)'}
           {meeting?.topic_title && <p className="mt-1 text-xs text-indigo-700 dark:text-indigo-300">Topik terkait: {meeting.topic_title}</p>}
@@ -193,7 +193,7 @@ export function MeetingForm({
           name="teacher_id"
           defaultValue={meeting?.teacher_id ?? ''}
           className="rounded-xl border border-slate-200 dark:border-purple-500/40 px-3.5 py-2.5 text-sm
-            bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50"
+            bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
         >
           <option value="">— Pilih guru —</option>
           {teachers.map((t) => (
@@ -263,8 +263,8 @@ export function MeetingForm({
           </p>
         )}
         <div
-          className="rounded-xl border border-slate-200 dark:border-purple-500/30 max-h-48 overflow-y-auto
-          divide-y divide-slate-100 dark:divide-white/10 shadow-sm"
+          className="rounded-xl border border-slate-200 dark:border-[var(--border)] max-h-48 overflow-y-auto
+          divide-y divide-slate-100 dark:divide-[var(--border)] shadow-sm"
         >
           {students.length === 0 && (
             <p className="px-4 py-3 text-xs text-slate-400 dark:text-slate-500 italic">
@@ -277,7 +277,7 @@ export function MeetingForm({
               <label
                 key={s.id}
                 className={`flex items-center gap-3 px-4 py-2.5 cursor-pointer select-none transition-colors
-                  ${checked ? 'bg-indigo-50/80 dark:bg-purple-950/40' : 'hover:bg-slate-50 dark:hover:bg-white/5'}`}
+                  ${checked ? 'bg-indigo-50/80 dark:bg-[var(--table-hover)]' : 'hover:bg-slate-50 dark:hover:bg-[var(--table-hover)]'}`}
               >
                 <input
                   type="checkbox"
@@ -336,7 +336,7 @@ export function MeetingForm({
         </div>
       )}
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-white/10">
+      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-[var(--border)]">
         <Button type="submit" loading={pending} className="min-w-[140px]">
           {mode === 'create' ? '✨ Buat Jadwal' : '💾 Simpan Perubahan'}
         </Button>
