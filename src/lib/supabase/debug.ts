@@ -6,7 +6,7 @@ import {
   getSupabaseAnonKey,
   getSupabaseServiceRoleKey,
   isValidSupabaseKey,
-} from './mock';
+} from './env';
 
 export interface MaskedEnvCheck {
   defined: boolean;

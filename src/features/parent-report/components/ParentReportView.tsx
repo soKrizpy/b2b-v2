@@ -4,6 +4,7 @@
 
 import { formatDate, formatDateTime } from '@/lib/formatDate';
 import { CertificateBadge } from '@/features/certificates/components/CertificateBadge';
+import { ShieldCheck, GraduationCap, CheckCircle2, BookOpen, Star, Award, CalendarDays } from 'lucide-react';
 import type { ParentReportData, InvoiceSummary } from '../queries';
 
 interface ParentReportViewProps {
@@ -167,7 +168,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <div className="rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-500 to-violet-600 p-7 text-white shadow-lg">
         <div className="flex items-center gap-3 mb-2">
-          <i className="fa-solid fa-shield-halved fa-beat-fade text-violet-300 text-xl" aria-hidden="true" />
+          <ShieldCheck className="w-5 h-5 text-violet-300" aria-hidden="true" />
           <p className="text-indigo-200 text-sm font-medium">Laporan Perkembangan Terverifikasi</p>
         </div>
         <h1 className="text-2xl font-extrabold">{studentName}</h1>
@@ -178,13 +179,13 @@ export function ParentReportView({ data }: ParentReportViewProps) {
         {/* Summary strip */}
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: 'Kelas Selesai', value: totalSessions,   icon: 'fa-graduation-cap', anim: 'fa-fade',      color: 'text-violet-200' },
-            { label: 'Kehadiran',     value: `${attendedCount}/${totalScheduled}`, icon: 'fa-circle-check', anim: '',            color: 'text-emerald-200' },
-            { label: 'Materi',        value: totalTopics,     icon: 'fa-book-open',     anim: '',            color: 'text-sky-200' },
-            { label: 'Total XP',      value: totalXp,         icon: 'fa-star',          anim: 'fa-fade',      color: 'text-amber-200' },
-          ].map(({ label, value, icon, anim, color }) => (
+            { label: 'Kelas Selesai', value: totalSessions,   Icon: GraduationCap, color: 'text-violet-200' },
+            { label: 'Kehadiran',     value: `${attendedCount}/${totalScheduled}`, Icon: CheckCircle2, color: 'text-emerald-200' },
+            { label: 'Materi',        value: totalTopics,     Icon: BookOpen,      color: 'text-sky-200' },
+            { label: 'Total XP',      value: totalXp,         Icon: Star,          color: 'text-amber-200' },
+          ].map(({ label, value, Icon, color }) => (
             <div key={label} className="bg-white/15 rounded-xl px-3 py-3 text-center backdrop-blur-sm">
-              <i className={`fa-solid ${icon} ${anim} ${color} text-xl mb-1 block`} aria-hidden="true" />
+              <Icon className={`w-5 h-5 ${color} mb-1 mx-auto`} aria-hidden="true" />
               <div className="text-xl font-extrabold leading-tight">{value}</div>
               <div className="text-xs text-indigo-100 mt-0.5">{label}</div>
             </div>
@@ -200,7 +201,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       {/* ── Session history ───────────────────────────────────────────────── */}
       <section>
         <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i className="fa-solid fa-calendar-days text-indigo-500" aria-hidden="true" /> Riwayat Kelas
+          <CalendarDays className="w-4 h-4 text-indigo-500" aria-hidden="true" /> Riwayat Kelas
         </h2>
 
         {completedSessions.length === 0 ? (
@@ -251,15 +252,14 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       {completedTopics.length > 0 && (
         <section>
           <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <i className="fa-solid fa-book-open text-sky-500" aria-hidden="true" /> Materi Interaktif
-          </h2>
+          <BookOpen className="w-4 h-4 text-sky-500" aria-hidden="true" /> Materi Interaktif          </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {completedTopics.map((topic) => (
               <div key={topic.engine_topic_id}
                 className="bg-white rounded-xl ring-1 ring-slate-200 shadow-sm px-5 py-4 flex items-center gap-4 group hover:ring-amber-200 transition-all">
                 <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center text-amber-500 text-lg group-hover:scale-110 transition-transform"
                   aria-hidden="true">
-                  <i className="fa-solid fa-star fa-fade" />
+                  <Star className="w-5 h-5 text-amber-500 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-slate-800 text-sm truncate">{topic.topic_title}</p>
@@ -277,7 +277,7 @@ export function ParentReportView({ data }: ParentReportViewProps) {
       {certificates.length > 0 && (
         <section>
           <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <i className="fa-solid fa-award text-amber-500 hover:fa-bounce cursor-default" aria-hidden="true" /> Sertifikat
+            <Award className="w-4 h-4 text-amber-500" aria-hidden="true" /> Sertifikat
           </h2>
           <div className="flex flex-col gap-3">
             {certificates.map((cert) => (

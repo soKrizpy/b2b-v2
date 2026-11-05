@@ -3,7 +3,7 @@ import {
   getSupabaseAnonKey,
   getSupabaseUrl,
   isSupabaseConfigured,
-} from '@/lib/supabase/mock';
+} from '@/lib/supabase/env';
 
 // This is a syntactically valid fixture only. It is not a real project key.
 const VALID_TEST_ANON_KEY = `eyJ${'x'.repeat(90)}.${'y'.repeat(24)}.${'z'.repeat(24)}`;

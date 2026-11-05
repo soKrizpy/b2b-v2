@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getInstructionalSlides,
   hasAuthoredLessonContent,
-  hasRequiredLessonSlideCount,
+  isWithinSuggestedLessonSlideRange,
   MAX_LESSON_SLIDES,
   MIN_LESSON_SLIDES,
 } from '@/features/curriculum/lessonSlides';
@@ -20,13 +20,13 @@ describe('instructional lesson slides', () => {
   it('returns no slides for missing or non-array learningPath data', () => {
     expect(getInstructionalSlides(null)).toEqual([]);
     expect(getInstructionalSlides({ learningPath: [] })).toEqual([]);
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(undefined))).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(undefined))).toBe(false);
   });
 
   it('does not count fewer than 10 authored instructional slides', () => {
     const slides = getInstructionalSlides(Array.from({ length: 9 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MIN_LESSON_SLIDES - 1);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
     expect(hasAuthoredLessonContent(slides)).toBe(true);
   });
 
@@ -38,21 +38,21 @@ describe('instructional lesson slides', () => {
   it('accepts exactly 10 valid authored instructional slides', () => {
     const slides = getInstructionalSlides(Array.from({ length: 10 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MIN_LESSON_SLIDES);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(true);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(true);
   });
 
   it('accepts exactly 20 valid authored instructional slides', () => {
     const slides = getInstructionalSlides(Array.from({ length: 20 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MAX_LESSON_SLIDES);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(true);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(true);
   });
 
-  it('caps more than 20 valid authored instructional slides at 20', () => {
+  it('preserves all authored instructional slides above the suggested range', () => {
     const slides = getInstructionalSlides(Array.from({ length: 25 }, (_, i) => slide(i)));
-    expect(slides).toHaveLength(MAX_LESSON_SLIDES);
+    expect(slides).toHaveLength(25);
     expect(slides[0].id).toBe('slide-0');
-    expect(slides[slides.length - 1]?.id).toBe('slide-19');
-    expect(hasRequiredLessonSlideCount(slides)).toBe(true);
+    expect(slides[slides.length - 1]?.id).toBe('slide-24');
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
   });
 
   it('ignores quiz, challenge, unknown, malformed, and empty-content entries', () => {
@@ -68,7 +68,7 @@ describe('instructional lesson slides', () => {
     ];
     const slides = getInstructionalSlides(learningPath);
     expect(slides).toHaveLength(9);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
   });
 
   it('requires practice nodes to have instructions, options, and a matching correct answer', () => {

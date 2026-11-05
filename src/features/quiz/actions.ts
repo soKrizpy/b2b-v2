@@ -11,7 +11,6 @@ import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
-import { isFeatureEnabled } from '@/lib/featureConfig';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -289,8 +288,8 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Kamu belum terdaftar aktif pada modul ini.' };
   }
 
-  // Check if already certificated (only when certificates feature is enabled)
-  if (isFeatureEnabled('certificates')) {
+  // Check if already certificated
+  {
     const { data: existing } = await (db
       .from('certificates')
       .select('id, score, tier, certificate_number')
@@ -368,8 +367,8 @@ export async function submitFinalAssessment(
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
 
-  // ── Certificate award (gated by certificates feature flag) ───────────────
-  if (isFeatureEnabled('certificates')) {
+  // ── Certificate award ────────────────────────────────────────────────────
+  {
     // Generate certificate number: B2B-YYYYMM-XXXX
     const now    = new Date();
     const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -406,17 +405,6 @@ export async function submitFinalAssessment(
       message: `Tryout selesai! Skor ${score} — ${tierConfig.label} Certificate diterbitkan (${certNumber}).`,
     };
   }
-
-  // Certificates disabled — return score only.
-  revalidatePath('/student/dashboard', 'layout');
-  revalidatePath('/student/lessons', 'layout');
-
-  return {
-    success: true,
-    score,
-    tier,
-    message: `Tryout selesai! Skor kamu ${score}.`,
-  };
 }
 
 // ── awardQuizReward ───────────────────────────────────────────────────────────
@@ -434,11 +422,6 @@ export async function awardQuizReward(
   const auth = await getAuthUser();
   if (!auth.ok) return { success: false, error: auth.message };
   if (auth.role !== 'student') return { success: false, error: 'Siswa only.' };
-
-  // Gamification disabled — skip reward silently.
-  if (!isFeatureEnabled('gamification')) {
-    return { success: true, xpEarned: 0, coinsEarned: 0, newXp: 0, newCoins: 0 };
-  }
 
   const topicId = Number(formData.get('topic_id')) || 0;
   const attemptNum = Number(formData.get('attempt_num'));

@@ -39,7 +39,7 @@ export default async function LoginPage({ searchParams }: Props) {
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl
             bg-gradient-to-br from-indigo-500 to-violet-600
-            shadow-2xl shadow-indigo-500/40 mb-5 animate-float ring-2 ring-white/20 overflow-hidden p-2">
+            shadow-2xl shadow-indigo-500/40 mb-5 ring-2 ring-white/20 overflow-hidden p-2">
             <Image
               src="/logo-b2b-dark.svg"
               alt="Bits2Bytes Logo"

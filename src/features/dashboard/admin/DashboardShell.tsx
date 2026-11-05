@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { Search, X, Video, CalendarDays, GraduationCap, TriangleAlert, ArrowRight, Calendar, History } from 'lucide-react';
 import { CreateSessionModal } from '@/features/sessions/components/CreateSessionModal';
 import { AdminSessionActions } from '@/features/sessions/components/AdminSessionActions';
 import type {
@@ -131,7 +132,7 @@ export function DashboardShell({
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative flex-1 sm:flex-initial min-w-[260px]">
             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-400 text-sm">
-              <i className="fa-solid fa-magnifying-glass" />
+              <Search className="w-4 h-4" />
             </span>
             <input
               type="text"
@@ -146,7 +147,7 @@ export function DashboardShell({
                 onClick={() => { setSearchQuery(''); setPage(1); }}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg"
               >
-                <i className="fa-solid fa-xmark" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -160,7 +161,7 @@ export function DashboardShell({
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-emerald-500/40 dark:border-emerald-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(16,185,129,0.22)] ring-1 ring-emerald-500/20 dark:ring-emerald-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <div className="flex items-center justify-between">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 inline-flex items-center gap-2">
-              <i className="fa-solid fa-video text-rose-500 animate-pulse" />
+              <Video className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
               LIVE SEKARANG
             </span>
           </div>
@@ -171,7 +172,7 @@ export function DashboardShell({
 
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-blue-500/40 dark:border-blue-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(59,130,246,0.22)] ring-1 ring-blue-500/20 dark:ring-blue-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300 inline-flex items-center gap-2">
-            <i className="fa-solid fa-calendar-days text-blue-500 dark:text-blue-400" />
+            <CalendarDays className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
             TOTAL HARI INI
           </span>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
@@ -181,7 +182,7 @@ export function DashboardShell({
 
         <div className="bg-white dark:bg-[#0B0F19] border-2 border-purple-500/40 dark:border-purple-500/50 rounded-3xl p-5 sm:p-6 shadow-sm dark:shadow-[0_0_25px_rgba(168,85,247,0.22)] ring-1 ring-purple-500/20 dark:ring-purple-500/30 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200">
           <span className="text-xs font-extrabold uppercase tracking-wider text-purple-700 dark:text-purple-300 inline-flex items-center gap-2">
-            <i className="fa-solid fa-user-graduate text-purple-500 dark:text-purple-400" />
+            <GraduationCap className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
             MURID AKTIF
           </span>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
@@ -195,10 +196,10 @@ export function DashboardShell({
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-300 inline-flex items-center gap-2">
-              <i className="fa-solid fa-triangle-exclamation text-amber-500 dark:text-amber-400" />
+              <TriangleAlert className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               PERLU TINDAKAN
             </span>
-            <i className="fa-solid fa-arrow-right text-amber-400 dark:text-amber-500 text-xs opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tabular-nums tracking-tight">
             {metrics.needsAttentionCount}
@@ -214,7 +215,7 @@ export function DashboardShell({
         <div className="p-4 sm:p-6 border-b border-slate-200/80 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/70 dark:bg-zinc-900/60">
           <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white inline-flex items-center gap-2">
-              <i className="fa-solid fa-calendar-day text-blue-500 dark:text-cyan-400" /> Jadwal Kelas Hari Ini
+              <Calendar className="w-4 h-4 text-blue-500 dark:text-cyan-400" /> Jadwal Kelas Hari Ini
             </h2>
             <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-blue-500/10 dark:bg-cyan-500/15 text-blue-700 dark:text-cyan-300 border border-blue-500/20 dark:border-cyan-500/30 tabular-nums">
               {todayMeetings.length} Sesi Hari Ini
@@ -368,7 +369,7 @@ export function DashboardShell({
         <div className="lg:col-span-2 bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-3xl p-6 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-black text-slate-900 dark:text-white inline-flex items-center gap-2">
-              <i className="fa-solid fa-clock-rotate-left text-blue-500 dark:text-cyan-400" /> Aktivitas Terkini
+              <History className="w-4 h-4 text-blue-500 dark:text-cyan-400" /> Aktivitas Terkini
             </h2>
             <Link
               href="/admin/sessions"

@@ -377,13 +377,11 @@ export function StudentAchievementBadges({
 
                   {badge.unlocked ? (
                     <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/25">
-                      <i className="fa-solid fa-circle-check text-[10px]" />
-                      Diraih
+                      ✓ Diraih
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-200/60 dark:bg-slate-800 px-2 py-0.5 rounded-full">
-                      <i className="fa-solid fa-lock text-[9px]" />
-                      Terkunci
+                      🔒 Terkunci
                     </span>
                   )}
                 </div>

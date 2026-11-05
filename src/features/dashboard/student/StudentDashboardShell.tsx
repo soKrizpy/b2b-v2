@@ -166,7 +166,7 @@ export function StudentDashboardShell({
   return (
     <div className="space-y-6 animate-fade-in-up">
       {/* ── Announcement Banner ── */}
-      {FEATURE_FLAGS.announcements && <AnnouncementBanner role="students" />}
+      <AnnouncementBanner role="students" />
 
       {/* ── NEEDS_QUIZ Mission Banner ── */}
       <NeedsQuizBanner topics={needsQuizTopics} />
@@ -189,12 +189,11 @@ export function StudentDashboardShell({
 
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               <div
-                className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 dark:bg-purple-500/15 blur-3xl"
-                style={{ animation: 'heroAmbientBreathing 6s ease-in-out infinite' }}
+                className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 dark:bg-purple-500/15 blur-3xl animate-pulse"
               />
               <div
-                className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-indigo-400/15 dark:bg-indigo-600/15 blur-3xl"
-                style={{ animation: 'heroAmbientBreathing 8s ease-in-out infinite 2s' }}
+                className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-indigo-400/15 dark:bg-indigo-600/15 blur-3xl animate-pulse"
+                style={{ animationDelay: '2s' }}
               />
             </div>
 
@@ -410,7 +409,7 @@ export function StudentDashboardShell({
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Sertifikat Diraih</span>
-                <span className="font-bold text-amber-500">{FEATURE_FLAGS.certificates ? `${certificates.length} Lencana` : '—'}</span>
+                <span className="font-bold text-amber-500">{certificates.length} Lencana</span>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Status Kuis</span>
@@ -428,7 +427,7 @@ export function StudentDashboardShell({
           </div>
 
           {/* Quick Certificates */}
-          {FEATURE_FLAGS.certificates && certificates.length > 0 && (
+          {certificates.length > 0 && (
             <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40 p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                 <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
@@ -563,7 +562,7 @@ export function StudentDashboardShell({
       />
 
       {/* ── Cosmetic Shop & Dressing Room Modal ── */}
-      {FEATURE_FLAGS.gamification && mounted && isShopModalOpen && gamData && (
+      {mounted && isShopModalOpen && gamData && (
         <CosmeticShopModal
           studentName={studentName}
           coins={gamData.coins}

@@ -18,6 +18,10 @@ import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
 import { PeerInspectModal } from '@/features/dashboard/student/modals/PeerInspectModal';
 import { CyberFantasyAvatar } from '@/components/avatar/CyberFantasyAvatar';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
+import {
+  Crown, GraduationCap, Plus, Landmark, Video, CalendarX,
+  DoorOpen, Clock, CheckCircle2, Check, Lock, Users, TriangleAlert,
+} from 'lucide-react';
 
 interface Props {
   meeting:      TownSquareMeeting | null;
@@ -108,7 +112,7 @@ function TeacherSeat({ name }: { name: string | null }) {
         </div>
         {/* Crown Icon */}
         <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-base select-none drop-shadow-md">
-          <i className="fa-solid fa-crown text-amber-300" />
+          <Crown className="w-4 h-4 text-amber-300" />
         </span>
       </div>
       <div className="text-center">
@@ -118,7 +122,7 @@ function TeacherSeat({ name }: { name: string | null }) {
         <span className="text-[9px] font-extrabold uppercase tracking-wider
           bg-amber-500/10 text-amber-600 dark:text-amber-300
           px-2.5 py-0.5 rounded-full border border-amber-500/25 inline-flex items-center gap-1">
-          <i className="fa-solid fa-graduation-cap text-[9px]" /> Pengajar
+          <GraduationCap className="w-3 h-3" /> Pengajar
         </span>
       </div>
     </div>
@@ -140,7 +144,7 @@ function StudentSeat({
         <div className="w-16 h-16 rounded-3xl border-2 border-dashed border-blue-200/80
           dark:border-zinc-700/80 flex items-center justify-center text-slate-400
           dark:text-zinc-500 text-base font-bold bg-slate-50/40 dark:bg-zinc-950/40 shadow-inner">
-          <i className="fa-solid fa-plus text-xs" />
+          <Plus className="w-3 h-3" />
         </div>
         <p className="text-[11px] text-slate-400 dark:text-zinc-500 font-bold">
           Kosong
@@ -195,7 +199,7 @@ function StateA_EmptyState() {
         </div>
         <div>
           <span className="text-[10px] font-extrabold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5 mb-0.5">
-            <i className="fa-solid fa-landmark" /> Town Square Pod
+            <Landmark className="w-3 h-3" /> Town Square Pod
           </span>
           <h4 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
             Tidak ada kelas live hari ini — Lanjutkan petualanganmu! 🎮
@@ -206,15 +210,12 @@ function StateA_EmptyState() {
         </div>
       </div>
 
-      <button
-        disabled
-        className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold
+        <button disabled className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold
           bg-slate-100 dark:bg-zinc-800 text-slate-400 dark:text-zinc-500
-          border border-slate-200 dark:border-zinc-700/60 cursor-not-allowed opacity-75 flex-shrink-0"
-      >
-        <i className="fa-solid fa-calendar-xmark" />
-        <span>Tidak Ada Jadwal</span>
-      </button>
+          border border-slate-200 dark:border-zinc-700/60 cursor-not-allowed opacity-75 flex-shrink-0">
+          <CalendarX className="w-3.5 h-3.5" />
+          <span>Tidak Ada Jadwal</span>
+        </button>
     </div>
   );
 }
@@ -284,7 +285,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <p className="text-[9px] font-black uppercase tracking-widest text-cyan-400 mb-0.5 flex items-center gap-1.5">
-                <i className="fa-solid fa-landmark text-cyan-400" /> Town Square Pod
+                <Landmark className="w-3 h-3" /> Town Square Pod
               </p>
               <h3 className="font-extrabold text-sm leading-tight truncate">
                 {sessionLabel}{activeMeeting.title}
@@ -297,7 +298,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
               {isMounted && isLive && (
                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black
                   text-white bg-rose-600 px-2.5 py-1 rounded-full shadow-md shadow-rose-500/30">
-                  <i className="fa-solid fa-video fa-beat-fade text-white" /> LIVE NOW
+                  <Video className="w-3 h-3 text-white animate-pulse" /> LIVE NOW
                 </span>
               )}
 
@@ -310,7 +311,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
                       : 'bg-blue-500/10 dark:bg-purple-500/20 text-blue-600 dark:text-purple-300 border-blue-500/25 dark:border-purple-500/30'
                   }`}
                 >
-                  <i className={`fa-solid ${isGateUnlocked ? 'fa-door-open text-emerald-400' : 'fa-clock text-blue-500 dark:text-purple-400'}`} />
+                  {isGateUnlocked ? <DoorOpen className="w-3 h-3 text-emerald-400" /> : <Clock className="w-3 h-3 text-blue-500 dark:text-purple-400" />}
                   {isGateUnlocked ? `PINTU BUKA (${displayCountdown})` : displayCountdown}
                 </span>
               )}
@@ -318,7 +319,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
               {isMounted && isFinished && (
                 <span className="inline-flex items-center gap-1 text-[10px] font-bold
                   text-emerald-400 bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30">
-                  <i className="fa-solid fa-circle-check text-emerald-400" /> SELESAI
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> SELESAI
                 </span>
               )}
             </div>
@@ -338,7 +339,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
             <div className="flex-1 h-px bg-blue-100 dark:bg-purple-500/20" />
             <span className="text-[9px] font-black uppercase tracking-widest
               text-blue-600/70 dark:text-purple-300/70 whitespace-nowrap px-1 flex items-center gap-1">
-              <i className="fa-solid fa-user-group text-blue-500 dark:text-purple-400 text-[10px]" /> Meja Belajar
+              <Users className="w-3 h-3 text-blue-500 dark:text-purple-400" /> Meja Belajar
             </span>
             <div className="flex-1 h-px bg-blue-100 dark:bg-purple-500/20" />
           </div>
@@ -371,7 +372,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
             <div className="mt-2 rounded-2xl bg-amber-500/10
               border border-amber-500/20 px-3.5 py-3 text-center cursor-default">
               <p className="text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center justify-center gap-2">
-                <i className="fa-solid fa-triangle-exclamation text-amber-500" /> Link kelas belum disematkan guru
+                <TriangleAlert className="w-4 h-4 text-amber-500" /> Link kelas belum disematkan guru
               </p>
             </div>
           ) : isGateUnlocked ? (
@@ -380,7 +381,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
               border border-emerald-500/40 p-3.5 text-center shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                  <i className="fa-solid fa-door-open text-emerald-500" />
+                  <DoorOpen className="w-3.5 h-3.5 text-emerald-500" />
                   {isLive ? 'Kelas Sedang Berlangsung!' : 'Pintu Kelas Terbuka! (Masuk Lebih Awal)'}
                 </span>
                 <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-300 uppercase tracking-widest bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/30">
@@ -398,7 +399,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
                   shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.02] active:scale-[0.98]
                   cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400"
               >
-                <i className="fa-solid fa-video fa-beat-fade text-sm text-white" />
+                <Video className="w-4 h-4 text-white animate-pulse" />
                 <span>Masuk Kelas Sekarang (Zoom / GMeet)</span>
               </a>
             </div>
@@ -408,7 +409,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
               border border-blue-200/80 dark:border-purple-500/20 p-3.5 text-center cursor-default">
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="font-extrabold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                  <i className="fa-solid fa-clock text-blue-500 dark:text-purple-400" />
+                  <Clock className="w-3.5 h-3.5 text-blue-500 dark:text-purple-400" />
                   Hitung Mundur Waktu Kelas Dimulai
                 </span>
                 <span
@@ -426,7 +427,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
                   border border-slate-300/50 dark:border-zinc-700/60
                   cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
               >
-                <i className="fa-solid fa-lock text-slate-400 dark:text-zinc-500" />
+                <Lock className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" />
                 <span>Masuk Kelas (Aktif 5 menit sebelum mulai)</span>
               </button>
             </div>
@@ -436,7 +437,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
               border border-emerald-500/20 p-3.5 text-center cursor-default">
               <div className="flex items-center justify-center gap-2 text-xs font-bold
                 text-emerald-600 dark:text-emerald-300 mb-2">
-                <i className="fa-solid fa-circle-check text-emerald-500" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                 <span>Kelas Hari Ini Telah Selesai</span>
               </div>
               <button
@@ -446,7 +447,7 @@ export function TownSquarePod({ meeting, nextMeeting, gamData }: Props) {
                   border border-emerald-500/30 cursor-default opacity-85
                   flex items-center justify-center gap-2"
               >
-                <i className="fa-solid fa-check text-emerald-500" />
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
                 <span>Kelas Selesai</span>
               </button>
             </div>

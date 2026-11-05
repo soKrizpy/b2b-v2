@@ -7,7 +7,6 @@ import { getSessionUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
 import { getQuestMapData } from '@/features/quiz/questMapQueries';
-import { isFeatureEnabled } from '@/lib/featureConfig';
 import { SimpleTopicList } from '@/app/student/lessons/SimpleTopicList';
 
 export const metadata: Metadata = { title: 'Materi — Bits2Bytes' };
@@ -66,39 +65,20 @@ export default async function LessonsPage({ searchParams }: Props) {
   }));
   const accessibleCount = accessibleModules.length;
 
-  // ── Quest Map (pixel-art presentation — flag-gated) ──────────────────────
-  if (isFeatureEnabled('questMap')) {
-    // Certificates are only needed for the pixel-art map (cert display on nodes).
-    let cert: { tier: string; score: number; certificate_number: string } | null = null;
-    if (isFeatureEnabled('certificates')) {
-      const { getStudentCertificates } = await import('@/features/certificates/queries');
-      const certificates = await getStudentCertificates(user.id);
-      cert = certificates.find((c) => c.module_id === mod.id) ?? null;
-    }
+  // ── Quest Map (always rendered) ──────────────────────────────────────────
+  const { getStudentCertificates } = await import('@/features/certificates/queries');
+  const certificates = await getStudentCertificates(user.id);
+  const cert = certificates.find((c) => c.module_id === mod.id) ?? null;
 
-    const { QuestMapClient } = await import('@/app/student/lessons/QuestMapClient');
+  const { QuestMapClient } = await import('@/app/student/lessons/QuestMapClient');
 
-    return (
-      <div className="flex flex-col gap-6 animate-fade-in-up">
-        <LessonsHeader isQuestMap />
-        <QuestMapClient
-          questData={questData}
-          cert={cert}
-          studentId={user.id}
-          allModules={allModulesMeta}
-          currentModuleId={mod.id}
-          accessibleCount={accessibleCount}
-        />
-      </div>
-    );
-  }
-
-  // ── Simple topic list (fallback presentation) ─────────────────────────────
   return (
     <div className="flex flex-col gap-6 animate-fade-in-up">
-      <LessonsHeader />
-      <SimpleTopicList
+      <LessonsHeader isQuestMap />
+      <QuestMapClient
         questData={questData}
+        cert={cert}
+        studentId={user.id}
         allModules={allModulesMeta}
         currentModuleId={mod.id}
         accessibleCount={accessibleCount}
@@ -115,7 +95,7 @@ function LessonsHeader({ isQuestMap = false }: { isQuestMap?: boolean }) {
       <p className="text-xs font-black uppercase tracking-widest
         text-cyan-600 dark:text-cyan-400 mb-1 flex items-center gap-1.5">
         {isQuestMap ? (
-          <><i className="fa-solid fa-map-location-dot text-cyan-400" /> Quest Map</>
+          <>🗺️ Quest Map</>
         ) : (
           '📖 Materi Belajar'
         )}

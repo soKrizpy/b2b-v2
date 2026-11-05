@@ -68,7 +68,7 @@ export default async function ParentHubPage() {
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="text-[10px] font-black uppercase tracking-widest text-purple-200 mb-1 flex items-center gap-1.5">
-              <i className="fa-solid fa-users text-purple-200" /> Parent Hub
+              👪 Parent Hub
             </p>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
               Laporan Perkembangan

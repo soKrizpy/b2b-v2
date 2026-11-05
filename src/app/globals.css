@@ -1,228 +1,81 @@
-/* Google Fonts Inter removed — Geist loaded via next/font */
+/* src/app/globals.css — minimal clean theme */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Interactive Neon Theme Architecture ────────────────────────────────────── */
+/* ── CSS custom properties ──────────────────────────────────────────────── */
 :root {
-  /* Light Mode: Electric Blueish Neon Theme */
-  --background:      #f0f4f9; /* soft slate-blue page background, easy on the eyes */
-  --foreground:      #0f172a; /* dark slate text (slate-900) */
-  --surface:         #ffffff; /* white elevated card background */
-  --surface-raised:  #f8fafc; /* slightly raised surface */
-  --border:          rgba(59, 130, 246, 0.28); /* dominant electric blue border */
-  --border-hover:    #2563eb; /* electric blue hover border (blue-600) */
-  --glow-hover:      0 0 20px rgba(59, 130, 246, 0.35); /* electric blue neon glow */
-  --muted:           #64748b; /* slate-500 secondary text */
-  --table-hover:     #eff6ff; /* light blue-50 table hover */
-
-  /* bits2bytes brand green */
-  --brand:           #7cc62f;
-  --brand-dark:      #5fa31f;
-
-  /* Header */
-  --header-bg:       rgba(240, 244, 249, 0.92);
-  --header-border:   rgba(59, 130, 246, 0.40);
-
-  /* Blue / Indigo accents */
-  --accent-500:      #3b82f6;
-  --accent-600:      #2563eb;
+  --background:   #ffffff;
+  --foreground:   #0f172a;  /* slate-900 */
+  --surface:      #f8fafc;  /* slate-50  */
+  --border:       #e2e8f0;  /* slate-200 */
+  --muted:        #64748b;  /* slate-500 */
+  --accent:       #4f46e5;  /* indigo-600 */
+  --accent-light: #6366f1;  /* indigo-500 */
+  --brand:        #7cc62f;
+  --brand-dark:   #5fa31f;
 }
 
 .dark {
-  /* Dark Mode: Purpleish Neon Theme */
-  --background:      #020617; /* deep dark slate page background (slate-950) */
-  --foreground:      #faf5ff; /* crisp off-white purple-50 text */
-  --surface:         #0b0f19; /* dark elevated card background */
-  --surface-raised:  #151a2d; /* slightly raised surface */
-  --border:          rgba(168, 85, 247, 0.35); /* dominant electric purple border */
-  --border-hover:    #c084fc; /* purple-400 hover border */
-  --glow-hover:      0 0 20px rgba(168, 85, 247, 0.45); /* intense purple neon glow */
-  --muted:           #94a3b8; /* slate-400 secondary text */
-  --table-hover:     #1e1338; /* dark purple table hover */
-
-  --header-bg:       rgba(2, 6, 23, 0.90);
-  --header-border:   rgba(168, 85, 247, 0.35);
-
-  --accent-500:      #a855f7;
-  --accent-600:      #9333ea;
+  color-scheme: dark;
+  --background:   #0f172a;  /* slate-900 */
+  --foreground:   #f1f5f9;  /* slate-100 */
+  --surface:      #1e293b;  /* slate-800 */
+  --border:       #334155;  /* slate-700 */
+  --muted:        #94a3b8;  /* slate-400 */
+  --accent:       #6366f1;  /* indigo-500 */
+  --accent-light: #818cf8;  /* indigo-400 */
 }
 
-/* ── Base resets ───────────────────────────────────────────── */
+/* ── Base resets ─────────────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
 
 body {
-  background:    var(--background);
-  color:         var(--foreground);
-  font-family:   var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  background: var(--background);
+  color:      var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ── Custom scrollbar ─────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 9999px; }
-.dark ::-webkit-scrollbar-thumb { background: #c084fc; }
-
-/* ── Keyframes ───────────────────────────────────────────── */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
+/* ── Keyframes (exactly two) ─────────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes floatY {
-  0%, 100% { transform: translateY(0px);   }
-  50%       { transform: translateY(-10px); }
-}
-@keyframes pulseDot {
-  0%, 100% { transform: scale(1);   opacity: 1;   }
-  50%       { transform: scale(1.4); opacity: 0.7; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
 }
 
-/* ── Fog of War Keyframes ─────────────────────────────────── */
+/* Quest-map fog (kept here because QuestMapClient uses them via className) */
 @keyframes fogDriftSlow {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  50%      { transform: translate(-20px, 10px) scale(1.08); opacity: 0.85; }
+  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.6; }
+  50%       { transform: translate(-20px, 10px) scale(1.08); opacity: 0.85; }
 }
 @keyframes fogWispDrift {
-  0%   { transform: translateX(-25%) translateY(0); opacity: 0.3; }
-  50%  { transform: translateX(15%) translateY(-6px); opacity: 0.7; }
-  100% { transform: translateX(-25%) translateY(0); opacity: 0.3; }
-}
-@keyframes fogPulseGlow {
-  0%, 100% { opacity: 0.3; filter: blur(12px); }
-  50%      { opacity: 0.65; filter: blur(18px); }
+  0%   { transform: translateX(-25%) translateY(0);       opacity: 0.3; }
+  50%  { transform: translateX(15%) translateY(-6px);     opacity: 0.7; }
+  100% { transform: translateX(-25%) translateY(0);       opacity: 0.3; }
 }
 
-/* Progress shimmer/sparkle/neon-pulse keyframes removed */
-
-.animate-fade-in-up       { animation: fadeInUp 0.4s ease both; }
-.animate-fade-in          { animation: fadeIn   0.3s ease both; }
-.animate-float            { animation: floatY   3s   ease-in-out infinite; }
-.animate-pulse-dot        { animation: pulseDot 1.5s ease-in-out infinite; }
-.animate-fog-slow         { animation: fogDriftSlow 16s ease-in-out infinite; }
-.animate-fog-wisp         { animation: fogWispDrift 10s ease-in-out infinite; }
-.animate-fog-glow         { animation: fogPulseGlow 6s ease-in-out infinite; }
-
-/* ── Hero Card Subtle Nebula Breathing Glow ────────── */
-
-@keyframes heroAmbientBreathing {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale3d(1, 1, 1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale3d(1.12, 1.12, 1);
-  }
+/* Cloud drift used by HeroAtmosphere */
+@keyframes cloudDrift {
+  from { transform: translateX(-320px); }
+  to   { transform: translateX(calc(100vw + 200px)); }
 }
 
-.stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger > *:nth-child(2) { animation-delay: 0.10s; }
-.stagger > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger > *:nth-child(4) { animation-delay: 0.20s; }
-.stagger > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger > *:nth-child(6) { animation-delay: 0.30s; }
+/* ── Animation utility classes ───────────────────────────────────────────── */
+.animate-fade-in   { animation: fadeIn  0.3s ease both; }
+.animate-slide-in  { animation: slideIn 0.3s ease both; }
+/* Keep legacy alias so existing class usage still works */
+.animate-fade-in-up { animation: slideIn 0.4s ease both; }
+.animate-fog-slow  { animation: fogDriftSlow 16s ease-in-out infinite; }
+.animate-fog-wisp  { animation: fogWispDrift 10s ease-in-out infinite; }
+.animate-fog-glow  { animation: fogDriftSlow 6s ease-in-out infinite; }
 
-/* Glass neon card */
-.glass {
-  background: rgba(255, 255, 255, 0.90);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(59, 130, 246, 0.5);
-  box-shadow: 0 4px 20px -2px rgba(59, 130, 246, 0.12);
-}
-.dark .glass {
-  background: rgba(11, 15, 25, 0.88);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  box-shadow: 0 4px 20px -2px rgba(168, 85, 247, 0.15);
-}
-
-/* Surface utilities */
-.surface        { background-color: var(--surface); }
-.surface-raised { background-color: var(--surface-raised); }
-.border-token   { border-color: var(--border); }
-.text-muted     { color: var(--muted); }
-
-/* Interactive Neon Component Tokens */
-.neon-card {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 10px -1px rgba(59, 130, 246, 0.08);
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
-.dark .neon-card {
-  box-shadow: 0 2px 14px -1px rgba(168, 85, 247, 0.15);
-}
-
-.neon-card-interactive {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  box-shadow: 0 2px 8px -2px rgba(59, 130, 246, 0.08);
-}
-
-.neon-card-interactive:hover {
-  transform: scale(1.02) translateY(-2px);
-  border-color: var(--border-hover);
-  box-shadow: var(--glow-hover);
-}
-
-.neon-input {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--foreground);
-  transition: all 0.2s ease;
-}
-
-.neon-input:focus {
-  border-color: var(--border-hover);
-  box-shadow: var(--glow-hover);
-  outline: none;
-}
-
-.neon-table-container {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px -2px rgba(59, 130, 246, 0.08);
-}
-
-.neon-table-row {
-  border-bottom: 1px solid var(--border);
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.neon-table-row:hover {
-  background-color: var(--table-hover);
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.dark .gradient-text {
-  background: linear-gradient(135deg, #7cc62f, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* ── Surface utilities ───────────────────────────────────────────────────── */
+.surface       { background-color: var(--surface); }
+.border-token  { border-color: var(--border); }
+.text-muted    { color: var(--muted); }

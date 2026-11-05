@@ -1,18 +1,13 @@
 'use client';
 // src/features/pet/components/CyberPetWidget.tsx
-// Main-stage Cyber Pet companion widget for the Student Dashboard.
-//
-// Smooth Motion Architecture:
-//   • Butter-smooth 60/120fps GPU float & shadow breathing (hardware-composited, zero stutter)
-//   • Interactive elastic click/hover bounce via Anime.js v4 layered on inner frame
+// Cyber Pet companion widget for the Student Dashboard.
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { animate } from 'animejs';
+import { useState } from 'react';
 import { calculateLevel, getPetStatus } from '../lib/levelCalc';
 import type { StudentGamificationData } from '../lib/petQueries';
 import { CyberPetRenderer } from '@/components/avatar/CyberPetRenderer';
 import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, HeartPulse, Coins } from 'lucide-react';
 
 interface CyberPetWidgetProps extends StudentGamificationData {
   justLevelledUp?: boolean;
@@ -34,72 +29,7 @@ export function CyberPetWidget({
 
   const [isShopOpen, setIsShopOpen] = useState(false);
 
-  // Refs for the animated elements
-  const avatarRef = useRef<HTMLDivElement>(null);
-  const shadowRef = useRef<HTMLDivElement>(null);
-  const bounceRef = useRef<HTMLDivElement>(null);
-  const isBouncingRef = useRef(false);
-
-  // ── Anime.js v4 Idle Float & Ground Shadow Breathing ───────────────────────
-  useEffect(() => {
-    if (compact) return;
-
-    const avatarEl = avatarRef.current;
-    const shadowEl = shadowRef.current;
-    if (!avatarEl) return;
-
-    // Smooth sinusoidal floating using native Anime.js v4
-    const floatAnim = animate(avatarEl, {
-      translateY: [-7, 7],
-      rotate: [-1.2, 1.2],
-      duration: 2400,
-      alternate: true,
-      loop: true,
-      ease: 'inOutSine',
-    });
-
-    let shadowAnim: ReturnType<typeof animate> | null = null;
-    if (shadowEl) {
-      shadowAnim = animate(shadowEl, {
-        scaleX: [0.85, 1.15],
-        scaleY: [0.85, 1.15],
-        opacity: [0.18, 0.38],
-        duration: 2400,
-        alternate: true,
-        loop: true,
-        ease: 'inOutSine',
-      });
-    }
-
-    return () => {
-      try {
-        floatAnim?.pause();
-        shadowAnim?.pause();
-      } catch {
-        // Safe cleanup
-      }
-    };
-  }, [compact]);
-
-  // ── Click / Hover Interactive Bounce ───────────────────────────────────────
-  const handleBounce = useCallback(() => {
-    const el = bounceRef.current;
-    if (!el || isBouncingRef.current) return;
-
-    isBouncingRef.current = true;
-
-    animate(el, {
-      scale:    [1, 1.18, 0.94, 1.06, 1],
-      rotate:   [0, -5, 5, -2, 0],
-      duration: 550,
-      ease:     'outElastic(1, .6)',
-      onComplete: () => {
-        isBouncingRef.current = false;
-      },
-    });
-  }, []);
-
-  const activePetId = equippedCosmetics?.petId || avatarId || 'cat';
+  const activePetId  = equippedCosmetics?.petId || avatarId || 'cat';
   const activePetHat = equippedCosmetics?.petHatId || null;
 
   return (
@@ -111,16 +41,10 @@ export function CyberPetWidget({
       >
         {/* ── Avatar stage ─────────────────────────────────────────── */}
         <div className={`flex flex-col items-center gap-2 ${compact ? '' : 'w-full'}`}>
-
-          {/* Smooth Anime.js float wrapper */}
+          {/* Float animation via CSS */}
           <div
-            ref={avatarRef}
             className={`relative flex-shrink-0 cursor-pointer select-none ${compact ? 'w-20 h-20' : 'w-32 h-32'}`}
-            onClick={handleBounce}
-            onMouseEnter={handleBounce}
-            role="img"
-            aria-label={`Pet ${fullName} — klik untuk berinteraksi`}
-            style={{ willChange: 'transform' }}
+            style={{ animation: 'slideIn 0.4s ease both' }}
           >
             {/* Level badge */}
             <div
@@ -133,15 +57,12 @@ export function CyberPetWidget({
               {level.currentLevel}
             </div>
 
-            {/* Inner bounce container for interactive triggers */}
             <div
-              ref={bounceRef}
               className="w-full h-full rounded-3xl overflow-hidden
                 bg-gradient-to-br from-blue-50/80 to-indigo-100/80
                 dark:from-slate-900 dark:to-purple-950/60
                 border border-blue-300/40 dark:border-purple-500/40 shadow-lg p-2
-                flex items-center justify-center transition-shadow duration-300 hover:shadow-cyan-500/20"
-              style={{ transformOrigin: 'center center' }}
+                flex items-center justify-center"
             >
               <CyberPetRenderer
                 petId={activePetId}
@@ -152,17 +73,15 @@ export function CyberPetWidget({
             </div>
           </div>
 
-          {/* Synchronized Anime.js ground shadow */}
+          {/* Ground shadow */}
           {!compact && (
             <div
-              ref={shadowRef}
               aria-hidden="true"
-              className="w-20 h-2.5 rounded-full bg-blue-900/15 dark:bg-purple-900/35 blur-sm"
-              style={{ transformOrigin: 'center center', willChange: 'transform, opacity' }}
+              className="w-20 h-2.5 rounded-full bg-blue-900/15 dark:bg-purple-900/35 blur-sm animate-pulse"
             />
           )}
 
-          {/* Quick Wardrobe / Shop Button */}
+          {/* Shop Button */}
           {!compact && (
             <button
               type="button"
@@ -188,7 +107,7 @@ export function CyberPetWidget({
             className="text-xs font-bold text-blue-700 dark:text-purple-300 text-center flex items-center justify-center gap-1.5"
             aria-live="polite"
           >
-            <i className="fa-solid fa-heart-pulse text-rose-500 fa-beat text-xs" aria-hidden="true" />
+            <HeartPulse className="w-3.5 h-3.5 text-rose-500 animate-pulse" aria-hidden="true" />
             {status}
           </p>
 
@@ -232,10 +151,10 @@ export function CyberPetWidget({
           <div
             data-pet-coins
             className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20
-              rounded-2xl px-4 py-2 w-fit group/coin shadow-sm"
+              rounded-2xl px-4 py-2 w-fit shadow-sm"
             aria-label={`${coins} koin`}
           >
-            <i className="fa-solid fa-coins text-amber-400 text-lg group-hover/coin:fa-bounce" aria-hidden="true" />
+            <Coins className="w-5 h-5 text-amber-400" aria-hidden="true" />
             <span
               data-pet-coin-count
               className="text-base font-black text-amber-600 dark:text-amber-300 tabular-nums"

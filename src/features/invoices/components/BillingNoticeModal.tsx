@@ -11,6 +11,7 @@
 //     contacts admin.
 
 import { useState, useEffect } from 'react';
+import { Receipt } from 'lucide-react';
 import type { InvoiceRow } from '@/types/database';
 
 interface Props {
@@ -189,7 +190,7 @@ export function BillingNoticeModal({ invoices }: Props) {
               shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40
               hover:-translate-y-0.5 active:scale-95 transition-all duration-150"
           >
-            <i className="fa-solid fa-file-invoice text-[11px]" />
+            <Receipt className="w-3 h-3 text-[11px]" />
             Lihat Detail
           </a>
         </div>

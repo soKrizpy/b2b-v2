@@ -3,7 +3,7 @@
 // All helpers that need to bypass RLS use the admin client (server-only).
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { sanitizeEnvVal, isValidSupabaseKey } from '@/lib/supabase/mock';
+import { sanitizeEnvVal, isValidSupabaseKey } from '@/lib/supabase/env';
 import type { MeetingRow, StudentRow } from '@/types/database';
 import type { AttendanceStatus } from '@/types/sessions';
 

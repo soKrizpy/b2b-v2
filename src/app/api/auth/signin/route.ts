@@ -3,15 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import {
-  isSupabaseAdminConfigured,
-  matchMockUserCredentials,
-  MOCK_SESSION_COOKIE,
-  setPreviewFallbackSession,
-} from '@/lib/supabase/mock';
+import { isValidServiceRoleJwt, getSupabaseServiceRoleKey } from '@/lib/supabase/env';
 import { resolveUserRole } from '@/features/auth/lib/resolveRole';
 import { ROLE_DASHBOARD_MAP, PROTECTED_PREFIXES } from '@/lib/constants';
 import { signInSchema, isPhoneNumber, phoneToEmail } from '@/features/auth/validation';
+import type { UserRole } from '@/types/roles';
 
 function isSafeRedirect(path: string, role: string): boolean {
   if (!path.startsWith('/') || path.startsWith('//')) return false;
@@ -53,50 +49,29 @@ export async function POST(req: NextRequest) {
       : identifier.trim();
 
     // On localhost (HTTP), SameSite=None requires Secure which isn't available.
-    // Use Lax + no Secure flag so cookies work in dev without HTTPS.
     const isLocalhost =
       req.headers.get('host')?.startsWith('localhost') ||
       req.headers.get('host')?.startsWith('127.0.0.1');
 
     const cookieOpts = isLocalhost
-      ? {
-          path: '/',
-          sameSite: 'lax' as const,
-          secure: false,
-          httpOnly: false,
-          maxAge: 60 * 60 * 24 * 7,
-        }
-      : {
-          path: '/',
-          sameSite: 'none' as const,
-          secure: true,
-          partitioned: true,
-          httpOnly: false,
-          maxAge: 60 * 60 * 24 * 7,
-        };
+      ? { path: '/', sameSite: 'lax' as const, secure: false, httpOnly: false, maxAge: 60 * 60 * 24 * 7 }
+      : { path: '/', sameSite: 'none' as const, secure: true, partitioned: true, httpOnly: false, maxAge: 60 * 60 * 24 * 7 };
 
-    const supabase = await createSupabaseServerClient({ forceRealIfConfigured: true });
+    const supabase = await createSupabaseServerClient();
     let { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    // If student phone login failed and email is 08xxx@student.mylms.app or 8xxx@student.mylms.app,
-    // retry with the alternate leading-zero format (e.g. 85721252529@student.mylms.app)
-    if (
-      (authError || !authData.user) &&
-      email.endsWith('@student.mylms.app')
-    ) {
+    // Retry with alternate leading-zero format for student phone logins
+    if ((authError || !authData.user) && email.endsWith('@student.mylms.app')) {
       const altEmail = email.startsWith('08')
         ? email.slice(1)
         : email.startsWith('8')
         ? `0${email}`
         : null;
       if (altEmail) {
-        const altAttempt = await supabase.auth.signInWithPassword({
-          email: altEmail,
-          password,
-        });
+        const altAttempt = await supabase.auth.signInWithPassword({ email: altEmail, password });
         if (!altAttempt.error && altAttempt.data.user) {
           authData = altAttempt.data;
           authError = null;
@@ -104,56 +79,25 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (
-      authError?.message?.toLowerCase().includes('email not confirmed') &&
-      isSupabaseAdminConfigured()
-    ) {
-      try {
-        const adminClient = createSupabaseAdminClient();
-        const { data: listData } = await adminClient.auth.admin.listUsers({ perPage: 1000 });
-        const targetUser = listData?.users?.find(
-          (u) => u.email?.toLowerCase() === email.toLowerCase()
-        );
-        if (targetUser) {
-          await adminClient.auth.admin.updateUserById(targetUser.id, { email_confirm: true });
-          const retry = await supabase.auth.signInWithPassword({ email, password });
-          authData = retry.data;
-          authError = retry.error;
+    // Auto-confirm email if service role key is available
+    if (authError?.message?.toLowerCase().includes('email not confirmed')) {
+      const serviceKey = getSupabaseServiceRoleKey();
+      if (isValidServiceRoleJwt(serviceKey)) {
+        try {
+          const adminClient = createSupabaseAdminClient();
+          const { data: listData } = await adminClient.auth.admin.listUsers({ perPage: 1000 });
+          const targetUser = listData?.users?.find(
+            (u) => u.email?.toLowerCase() === email.toLowerCase()
+          );
+          if (targetUser) {
+            await adminClient.auth.admin.updateUserById(targetUser.id, { email_confirm: true });
+            const retry = await supabase.auth.signInWithPassword({ email, password });
+            authData = retry.data;
+            authError = retry.error;
+          }
+        } catch {
+          // ignore and fall through
         }
-      } catch {
-        // ignore and fall through
-      }
-    }
-
-    // Fallback to built-in demo/admin/teacher/student accounts when real Supabase rejects or is unseeded
-    if (authError || !authData.user) {
-      const mockUser = matchMockUserCredentials(email, password);
-      if (mockUser) {
-        const role = mockUser.user_metadata.role ?? 'student';
-        const destination = isSafeRedirect(redirectTo ?? '', role)
-          ? redirectTo!
-          : ROLE_DASHBOARD_MAP[role];
-
-        setPreviewFallbackSession({
-          user: mockUser,
-          role,
-          accessToken: null,
-          isMock: true,
-        });
-
-        const sessionCookies = [
-          { name: MOCK_SESSION_COOKIE, value: mockUser.id },
-          { name: 'b2b_role', value: role },
-        ];
-
-        const response = NextResponse.json({
-          success: true,
-          redirectTo: destination,
-          sessionCookies,
-        });
-        response.cookies.set(MOCK_SESSION_COOKIE, mockUser.id, cookieOpts);
-        response.cookies.set('b2b_role', role, cookieOpts);
-        return response;
       }
     }
 
@@ -161,54 +105,33 @@ export async function POST(req: NextRequest) {
       const errMsg = authError?.message ?? '';
       if (errMsg.toLowerCase().includes('email not confirmed')) {
         return NextResponse.json(
-          {
-            success: false,
-            error:
-              'Email belum dikonfirmasi di Supabase. Silakan konfirmasi user di menu Supabase Authentication → Users, atau matikan "Confirm email" di Auth Providers.',
-          },
+          { success: false, error: 'Email belum dikonfirmasi di Supabase. Silakan konfirmasi user di menu Supabase Authentication → Users.' },
           { status: 401 }
         );
       }
-      if (errMsg.toLowerCase().includes('invalid api key') || errMsg.toLowerCase().includes('fetch failed')) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Koneksi ke Supabase gagal (${errMsg}). Periksa NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY.`,
-          },
-          { status: 500 }
-        );
-      }
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Login gagal. Periksa kembali email/nomor dan password/PIN kamu.',
-        },
+        { success: false, error: 'Login gagal. Periksa kembali email/nomor dan password/PIN kamu.' },
         { status: 401 }
       );
     }
 
     const user = authData.user;
-    const role = await resolveUserRole(user.id, user);
+    const role = await resolveUserRole(user.id, user) as UserRole | undefined;
 
     if (!role) {
       await supabase.auth.signOut();
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Akun ini belum dikonfigurasi. Hubungi administrator.',
-        },
+        { success: false, error: 'Akun ini belum dikonfigurasi. Hubungi administrator.' },
         { status: 403 }
       );
     }
 
+    // Stamp role into user_metadata if missing
     try {
       if (user.user_metadata?.role !== role) {
-        if (typeof supabase.auth.updateUser === 'function') {
-          await supabase.auth.updateUser({
-            data: { ...user.user_metadata, role },
-          });
-        }
-        if (isSupabaseAdminConfigured()) {
+        await supabase.auth.updateUser({ data: { ...user.user_metadata, role } });
+        const serviceKey = getSupabaseServiceRoleKey();
+        if (isValidServiceRoleJwt(serviceKey)) {
           const adminClient = createSupabaseAdminClient();
           await adminClient.auth.admin.updateUserById(user.id, {
             user_metadata: { ...user.user_metadata, role },
@@ -219,46 +142,18 @@ export async function POST(req: NextRequest) {
       console.error('[api/auth/signin] failed to stamp user_metadata.role:', err);
     }
 
-    setPreviewFallbackSession({
-      user: {
-        ...user,
-        user_metadata: {
-          ...user.user_metadata,
-          role,
-        },
-      },
-      role,
-      accessToken: authData.session?.access_token ?? null,
-      isMock: false,
-    });
-
     const destination = isSafeRedirect(redirectTo ?? '', role)
       ? redirectTo!
       : ROLE_DASHBOARD_MAP[role];
 
     const cookieStore = await cookies();
-    const sbCookies = cookieStore
-      .getAll()
-      .filter((c) => c.name.startsWith('sb-'));
-
+    const sbCookies = cookieStore.getAll().filter((c) => c.name.startsWith('sb-'));
     const sessionCookies = [
       ...sbCookies.map((c) => ({ name: c.name, value: c.value })),
       { name: 'b2b_role', value: role },
     ];
 
-    const response = NextResponse.json({
-      success: true,
-      redirectTo: destination,
-      sessionCookies,
-    });
-
-    response.cookies.delete({
-      name: MOCK_SESSION_COOKIE,
-      path: '/',
-      sameSite: 'none',
-      secure: true,
-      partitioned: true,
-    });
+    const response = NextResponse.json({ success: true, redirectTo: destination, sessionCookies });
     for (const c of sbCookies) {
       response.cookies.set(c.name, c.value, cookieOpts);
     }
@@ -268,10 +163,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error('[api/auth/signin] unexpected error:', err);
     return NextResponse.json(
-      {
-        success: false,
-        error: err instanceof Error ? err.message : 'Terjadi kesalahan saat masuk. Silakan coba lagi.',
-      },
+      { success: false, error: err instanceof Error ? err.message : 'Terjadi kesalahan saat masuk. Silakan coba lagi.' },
       { status: 500 }
     );
   }

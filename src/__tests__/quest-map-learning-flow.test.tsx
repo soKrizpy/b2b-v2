@@ -42,6 +42,7 @@ function makeNode(status: QuestTopicNode['status']): QuestTopicNode {
     sessionNumber: 1,
     isSessionReportSubmitted: false,
     quizUnlocked: false,
+    isUnlocked: status !== 'LOCKED',
   };
 }
 
@@ -72,7 +73,7 @@ describe('Quest Map learning entry', () => {
     }
   );
 
-  it('keeps locked nodes on the map and does not route around the progression gate', () => {
+  it('keeps locked nodes on the map and does not route around the meeting gate', () => {
     renderMap('LOCKED');
 
     fireEvent.click(screen.getByRole('button', { name: 'Open Topik pertama' }));

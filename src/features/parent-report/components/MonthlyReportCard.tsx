@@ -9,6 +9,7 @@
 //   4. Archive download list: every month with sessions → "Unduh Laporan" print button
 
 import { useState, useCallback } from 'react';
+import { CalendarDays, Printer, MessageCircle, CalendarCheck, Award, CheckCircle2, Rocket, FileText, Download } from 'lucide-react';
 import type { MonthlySnapshot } from '@/features/parent-report/queries.student';
 import type { ReactNode } from 'react';
 
@@ -291,14 +292,14 @@ function printMonthReport(snap: MonthlySnapshot, studentName: string) {
 // ── Metric card (replaces old StatTile) ──────────────────────────────────────
 
 function MetricCard({
-  icon,
+  icon: Icon,
   iconColor,
   iconBg,
   value,
   label,
   sub,
 }: {
-  icon: string;
+  icon: React.ElementType;
   iconColor: string;
   iconBg: string;
   value: string;
@@ -306,32 +307,20 @@ function MetricCard({
   sub?: string;
 }) {
   return (
-    <div
-      className="bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm
-      hover:border-purple-400/50 dark:hover:border-purple-500/50 hover:shadow-md transition-all flex flex-col justify-between min-w-0"
-    >
+    <div className="bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm hover:border-purple-400/50 dark:hover:border-purple-500/50 hover:shadow-md transition-all flex flex-col justify-between min-w-0">
       <div className="flex items-center justify-between gap-2 mb-3">
-        <div
-          className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${iconBg}`}
-        >
-          <i className={`${icon} ${iconColor}`} />
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg}`}>
+          <Icon className={`w-5 h-5 ${iconColor}`} />
         </div>
         {sub && (
-          <span
-            className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border
-            border-zinc-200 dark:border-zinc-700 px-2.5 py-1 rounded-full text-right truncate max-w-[130px]"
-          >
+          <span className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-1 rounded-full text-right truncate max-w-[130px]">
             {sub}
           </span>
         )}
       </div>
       <div>
-        <p className="text-2xl font-bold font-mono text-zinc-900 dark:text-zinc-100 tabular-nums leading-none">
-          {value}
-        </p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mt-2 font-medium">
-          {label}
-        </p>
+        <p className="text-2xl font-bold font-mono text-zinc-900 dark:text-zinc-100 tabular-nums leading-none">{value}</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mt-2 font-medium">{label}</p>
       </div>
     </div>
   );
@@ -382,7 +371,7 @@ export function MonthlyReportCard({
           htmlFor="month-select"
           className="text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 whitespace-nowrap"
         >
-          <i className="fa-solid fa-calendar-days text-purple-500 dark:text-purple-400 mr-1.5" />
+          <CalendarDays className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400 mr-1.5 inline" />
           Pilih Bulan
         </label>
         <select
@@ -411,7 +400,7 @@ export function MonthlyReportCard({
             shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40
             hover:-translate-y-0.5 active:scale-95 transition-all duration-150 whitespace-nowrap"
         >
-          <i className="fa-solid fa-print text-[10px]" />
+          <Printer className="w-3 h-3" />
           Unduh / Cetak
         </button>
         <button
@@ -422,7 +411,7 @@ export function MonthlyReportCard({
             hover:bg-emerald-100 dark:hover:bg-emerald-900/60 active:scale-95 transition-all whitespace-nowrap"
           title="Kirim ringkasan bulan ini ke WhatsApp"
         >
-          <i className="fa-brands fa-whatsapp text-sm text-emerald-600 dark:text-emerald-400" />
+          <MessageCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           Kirim WA
         </button>
       </div>
@@ -430,7 +419,7 @@ export function MonthlyReportCard({
       {/* ── 4 Metric cards — reactive to selected month ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          icon="fa-solid fa-calendar-check"
+          icon={CalendarCheck}
           iconColor="text-cyan-600 dark:text-cyan-400"
           iconBg="bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800"
           value={`${snap.attendanceRate}%`}
@@ -438,19 +427,15 @@ export function MonthlyReportCard({
           sub={`${snap.attendedCount}/${snap.totalScheduled} Sesi`}
         />
         <MetricCard
-          icon="fa-solid fa-award"
+          icon={Award}
           iconColor="text-amber-600 dark:text-amber-400"
           iconBg="bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800"
           value={snap.avgQuizScore > 0 ? `${snap.avgQuizScore}%` : '—'}
           label="Rata-Rata Kuis"
-          sub={
-            snap.avgQuizScore > 0
-              ? scoreLabel(snap.avgQuizScore)
-              : 'Belum Ada Kuis'
-          }
+          sub={snap.avgQuizScore > 0 ? scoreLabel(snap.avgQuizScore) : 'Belum Ada Kuis'}
         />
         <MetricCard
-          icon="fa-solid fa-circle-check"
+          icon={CheckCircle2}
           iconColor="text-emerald-600 dark:text-emerald-400"
           iconBg="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800"
           value={String(totalCompletedSessions)}
@@ -458,7 +443,7 @@ export function MonthlyReportCard({
           sub="Semua Waktu"
         />
         <MetricCard
-          icon="fa-solid fa-rocket"
+          icon={Rocket}
           iconColor="text-purple-600 dark:text-purple-400"
           iconBg="bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800"
           value={certCount > 0 ? `${certCount} Sertifikat` : 'Aktif'}
@@ -508,7 +493,7 @@ export function MonthlyReportCard({
       {archiveMonths.length > 0 && (
         <div>
           <p className="text-sm font-extrabold text-zinc-800 dark:text-zinc-100 mb-4 flex items-center gap-2">
-            <i className="fa-solid fa-file-lines text-purple-500 dark:text-purple-400" />
+            <FileText className="w-4 h-4 text-purple-500 dark:text-purple-400" />
             Arsip Laporan {studentName}
           </p>
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 overflow-hidden shadow-sm">
@@ -592,7 +577,7 @@ export function MonthlyReportCard({
                         hover:bg-purple-100 dark:hover:bg-purple-900/50 hover:text-purple-700 dark:hover:text-purple-200
                         hover:scale-[1.02] active:scale-95 transition-all whitespace-nowrap"
                     >
-                      <i className="fa-solid fa-download text-[9px]" />
+                      <Download className="w-3 h-3" />
                       Download
                     </button>
                   </span>

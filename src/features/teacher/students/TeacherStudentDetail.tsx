@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import type { TeacherStudentProfile } from '@/features/users/teacherStudentQueries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
-import { FEATURE_FLAGS } from '@/lib/featureConfig';
 
 type Tab = 'overview' | 'questmap' | 'badges' | 'submissions' | 'sessions';
 
@@ -387,8 +386,7 @@ export function TeacherStudentDetail({ student }: Props) {
             )}
           </div>
 
-          {/* Certificates — only when certificates feature is enabled */}
-          {FEATURE_FLAGS.certificates && (
+          {/* Certificates */}
           <div>
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
               <ScrollText className="w-4 h-4 text-indigo-500" /> Sertifikat ({student.certificates.length})
@@ -429,7 +427,6 @@ export function TeacherStudentDetail({ student }: Props) {
               </div>
             )}
           </div>
-          )}
         </div>
       )}
 

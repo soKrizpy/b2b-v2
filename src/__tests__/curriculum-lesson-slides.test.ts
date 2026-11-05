@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   getInstructionalSlides,
-  hasRequiredLessonSlideCount,
-  MAX_LESSON_SLIDES,
+  isWithinSuggestedLessonSlideRange,
   MIN_LESSON_SLIDES,
 } from '@/features/curriculum/lessonSlides';
 
@@ -28,21 +27,21 @@ describe('Quest Map lesson slide coverage', () => {
   });
 
   it('requires at least 10 authored slides before the challenge is available', () => {
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(nodes(9)))).toBe(false);
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(nodes(10)))).toBe(true);
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(nodes(9)))).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(nodes(10)))).toBe(true);
   });
 
-  it('caps the lesson at 20 slides and accepts the maximum', () => {
+  it('keeps lessons longer than the suggested range intact', () => {
     const slides = getInstructionalSlides(nodes(25));
 
-    expect(slides).toHaveLength(MAX_LESSON_SLIDES);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(true);
+    expect(slides).toHaveLength(25);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
     expect(MIN_LESSON_SLIDES).toBe(10);
   });
 
   it('handles missing or invalid learning paths without inventing slides', () => {
     expect(getInstructionalSlides(null)).toEqual([]);
     expect(getInstructionalSlides('not an array')).toEqual([]);
-    expect(hasRequiredLessonSlideCount([])).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange([])).toBe(false);
   });
 });
