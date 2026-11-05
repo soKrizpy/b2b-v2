@@ -354,6 +354,7 @@ export function AdminSessionActions({
           <Textarea
             label="Catatan Progress (laporan untuk orang tua)"
             value={report}
+            maxLength={5000}
             onChange={(e) => setReport(e.target.value)}
             rows={4}
             placeholder="Topik yang dipelajari, perkembangan siswa…"

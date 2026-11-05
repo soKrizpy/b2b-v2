@@ -189,6 +189,7 @@ export function TeacherCompleteAction({
           <Textarea
             label="Catatan Progress"
             value={report}
+            maxLength={5000}
             onChange={(e) => setReport(e.target.value)}
             rows={6}
             placeholder="Topik yang dipelajari hari ini, perkembangan siswa, catatan untuk orang tua…"

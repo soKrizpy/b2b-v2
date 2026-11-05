@@ -529,6 +529,7 @@ export interface Database {
       save_meeting_report: {
         Args: {
           p_meeting_id: number;
+          p_actor_id: string;
           p_progress_report: string;
           p_attendance: Json;
           p_mark_completed: boolean;
