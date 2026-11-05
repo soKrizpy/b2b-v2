@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for help with ignoring files.
 
 # dependencies
 /node_modules
@@ -43,6 +43,14 @@ next-env.d.ts
 
 # agent scratch files
 .agents/
+# Keep only the committed project skill; all other agent scratch remains ignored.
+!.agents/
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/b2b-project-doctor/
+.agents/skills/b2b-project-doctor/*
+!.agents/skills/b2b-project-doctor/SKILL.md
 scratch/
 .aistudio/
 .vscode/
