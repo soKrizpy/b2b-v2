@@ -38,7 +38,7 @@ function MpinChip({ mpin }: { mpin: string }) {
   const [revealed, setRevealed] = useState(false);
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold
-      bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-100
+      bg-[var(--surface-raised)] text-slate-800 dark:text-slate-100
       border border-transparent dark:border-white/5">
       <span className="text-[10px] text-slate-400">🔑</span>
       <span className="tracking-widest">{revealed ? mpin : '••••'}</span>
@@ -89,8 +89,8 @@ function ModuleBadges({ titles }: { titles: string[] }) {
 function EmptyState({ icon, message }: { icon: string; message: string }) {
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl
-      border-2 border-dashed border-slate-200/90 dark:border-purple-500/30
-      bg-white dark:bg-[#0B0F19] py-16 px-6 text-center">
+      border-2 border-dashed border-slate-200/90 dark:border-[var(--border)]
+      bg-[var(--surface)] py-16 px-6 text-center">
       <span className="text-4xl mb-3" aria-hidden="true">{icon}</span>
       <p className="font-bold text-slate-700 dark:text-slate-100 text-sm">{message}</p>
       <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
@@ -119,8 +119,8 @@ function Pagination({
           onClick={onPrev}
           disabled={page === 1}
           className="px-3 py-1.5 text-xs font-bold rounded-xl
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-300
-            border border-slate-200 dark:border-white/10
+            bg-[var(--surface-raised)] text-slate-700 dark:text-slate-300
+            border border-[var(--border)]
             hover:bg-slate-200 dark:hover:bg-white/15
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
@@ -130,8 +130,8 @@ function Pagination({
           onClick={onNext}
           disabled={page === totalPages}
           className="px-3 py-1.5 text-xs font-bold rounded-xl
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-300
-            border border-slate-200 dark:border-white/10
+            bg-[var(--surface-raised)] text-slate-700 dark:text-slate-300
+            border border-[var(--border)]
             hover:bg-slate-200 dark:hover:bg-white/15
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
@@ -148,9 +148,9 @@ function StudentCard({
   s, onDetail,
 }: { s: StudentRecord; onDetail: (s: StudentRecord) => void }) {
   return (
-    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border-2 border-blue-400/40 dark:border-purple-500/40
-      shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
-      hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
+    <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)]
+      shadow-sm  p-4 flex flex-col gap-3  
+      hover:border-[var(--border-hover)] hover:border-[var(--border-hover)] hover:scale-[1.02] hover:-translate-y-0.5
       transition-all duration-300 ease-out cursor-pointer">
 
       {/* Header row */}
@@ -177,7 +177,7 @@ function StudentCard({
       <div className="flex flex-wrap gap-1.5">
         {s.grade && (
           <span className="px-2.5 py-1 rounded-lg text-xs font-semibold
-            bg-slate-100 dark:bg-white/8 text-slate-700 dark:text-slate-200
+            bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200
             border border-slate-200/60 dark:border-white/8">
             📌 {s.grade}
           </span>
@@ -193,7 +193,7 @@ function StudentCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-white/5">
+      <div className="flex items-center gap-2 pt-1 border-t border-[var(--border)]">
         <button
           type="button"
           onClick={() => onDetail(s)}
@@ -218,9 +218,9 @@ function TeacherCard({
   t, onDetail,
 }: { t: TeacherRecord; onDetail: (t: TeacherRecord) => void }) {
   return (
-    <div className="bg-white dark:bg-[#0B0F19] rounded-2xl border-2 border-blue-400/40 dark:border-purple-500/40
-      shadow-sm dark:shadow-[0_0_20px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 p-4 flex flex-col gap-3 hover:shadow-neon-blue dark:hover:shadow-neon-purple
-      hover:border-blue-500 dark:hover:border-purple-400 hover:scale-[1.02] hover:-translate-y-0.5
+    <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)]
+      shadow-sm  p-4 flex flex-col gap-3  
+      hover:border-[var(--border-hover)] hover:border-[var(--border-hover)] hover:scale-[1.02] hover:-translate-y-0.5
       transition-all duration-300 ease-out cursor-pointer">
 
       {/* Header row */}
@@ -260,7 +260,7 @@ function TeacherCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-white/5">
+      <div className="flex items-center gap-2 pt-1 border-t border-[var(--border)]">
         <button
           type="button"
           onClick={() => onDetail(t)}
@@ -285,10 +285,10 @@ function StudentDesktopTable({
   students, onDetail,
 }: { students: StudentRecord[]; onDetail: (s: StudentRecord) => void }) {
   return (
-    <div className="rounded-2xl overflow-hidden border-2 border-blue-400/40 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
+    <div className="rounded-2xl overflow-hidden border border-[var(--border)] shadow-sm ">
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
-          <thead className="bg-blue-50/70 dark:bg-purple-950/40 border-b border-blue-200/80 dark:border-purple-500/25">
+          <thead className="bg-[var(--surface-raised)] border-b border-[var(--border)]">
             <tr>
               <ColHeader>Nama &amp; Kontak</ColHeader>
               <ColHeader>Kelas &amp; Akses</ColHeader>
@@ -297,11 +297,11 @@ function StudentDesktopTable({
               <ColHeader>Aksi</ColHeader>
             </tr>
           </thead>
-          <tbody className="divide-y divide-blue-100 dark:divide-purple-500/20">
+          <tbody className="divide-y divide-[var(--border)]">
             {students.map((s) => (
               <tr key={s.id}
-                className="bg-white dark:bg-[#0B0F19]
-                  hover:bg-slate-50 dark:hover:bg-purple-950/25
+                className="bg-[var(--surface)]
+                  hover:bg-[var(--table-hover)]
                   transition-colors duration-150 group">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -352,10 +352,10 @@ function TeacherDesktopTable({
   teachers, onDetail,
 }: { teachers: TeacherRecord[]; onDetail: (t: TeacherRecord) => void }) {
   return (
-    <div className="rounded-2xl overflow-hidden border-2 border-blue-400/40 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25">
+    <div className="rounded-2xl overflow-hidden border border-[var(--border)] shadow-sm ">
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
-          <thead className="bg-blue-50/70 dark:bg-purple-950/40 border-b border-blue-200/80 dark:border-purple-500/25">
+          <thead className="bg-[var(--surface-raised)] border-b border-[var(--border)]">
             <tr>
               <ColHeader>Nama &amp; Email</ColHeader>
               <ColHeader>Sesi &amp; Siswa</ColHeader>
@@ -363,11 +363,11 @@ function TeacherDesktopTable({
               <ColHeader>Aksi</ColHeader>
             </tr>
           </thead>
-          <tbody className="divide-y divide-blue-100 dark:divide-purple-500/20">
+          <tbody className="divide-y divide-[var(--border)]">
             {teachers.map((t) => (
               <tr key={t.id}
-                className="bg-white dark:bg-[#0B0F19]
-                  hover:bg-slate-50 dark:hover:bg-purple-950/25
+                className="bg-[var(--surface)]
+                  hover:bg-[var(--table-hover)]
                   transition-colors duration-150">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -489,8 +489,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         {/* Tab switcher */}
         <div className="flex items-center gap-1
-          bg-slate-100 dark:bg-[#0B0F19] p-1 rounded-xl
-          border-2 border-slate-200/60 dark:border-purple-500/30 dark:shadow-[0_0_15px_rgba(168,85,247,0.12)]">
+          bg-[var(--surface-raised)] p-1 rounded-xl
+          border-2 border-slate-200/60 dark:border-[var(--border)] ">
           {([
             { id: 'students', label: 'Siswa', count: students.length },
             { id: 'teachers', label: 'Guru',  count: teachers.length },
@@ -500,7 +500,7 @@ export function UsersShell({ students, teachers, allModules }: Props) {
               className={`px-4 py-1.5 rounded-lg text-xs font-extrabold transition-all duration-200
                 flex items-center gap-1.5
                 ${tab === id
-                  ? 'bg-white dark:bg-purple-950/60 text-slate-900 dark:text-purple-200 shadow-sm border border-slate-200/80 dark:border-purple-500/40'
+                  ? 'bg-white dark:bg-purple-950/60 text-slate-900 dark:text-purple-200 shadow-sm border border-slate-200/80 dark:border-[var(--border)]'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/5'
                 }`}>
               {label}
@@ -543,8 +543,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder={tab === 'students' ? 'Cari nama atau kontak siswa…' : 'Cari nama atau email guru…'}
           className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm
-            bg-white dark:bg-[#0B0F19]
-            border-2 border-slate-200/90 dark:border-purple-500/40
+            bg-[var(--surface)]
+            border-2 border-[var(--border)]
             text-slate-900 dark:text-white
             placeholder:text-slate-400 dark:placeholder:text-slate-500
             focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-purple-500/50
@@ -577,8 +577,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
 
       {/* ── Collapsible add form ── */}
       {showAdd && (
-        <div className="bg-white dark:bg-[#0B0F19] rounded-2xl
-          border-2 border-slate-200/90 dark:border-purple-500/40 shadow-sm dark:shadow-[0_0_25px_rgba(168,85,247,0.18)] p-5 animate-fade-in-up">
+        <div className="bg-[var(--surface)] rounded-2xl
+          border-2 border-[var(--border)] shadow-sm  p-5 animate-fade-in-up">
           <h2 className="text-sm font-extrabold text-slate-800 dark:text-white mb-4">
             {tab === 'students' ? '🎓 Tambah Siswa Baru' : '📚 Tambah Guru Baru'}
           </h2>
