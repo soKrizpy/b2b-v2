@@ -39,7 +39,7 @@ function MpinChip({ mpin }: { mpin: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold
       bg-[var(--surface-raised)] text-slate-800 dark:text-slate-100
-      border border-transparent dark:border-white/5">
+      border border-[var(--border)]">
       <span className="text-[10px] text-slate-400">🔑</span>
       <span className="tracking-widest">{revealed ? mpin : '••••'}</span>
       <button
@@ -121,7 +121,7 @@ function Pagination({
           className="px-3 py-1.5 text-xs font-bold rounded-xl
             bg-[var(--surface-raised)] text-slate-700 dark:text-slate-300
             border border-[var(--border)]
-            hover:bg-slate-200 dark:hover:bg-white/15
+            hover:bg-[var(--table-hover)]
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
           ← Sebelumnya
@@ -132,7 +132,7 @@ function Pagination({
           className="px-3 py-1.5 text-xs font-bold rounded-xl
             bg-[var(--surface-raised)] text-slate-700 dark:text-slate-300
             border border-[var(--border)]
-            hover:bg-slate-200 dark:hover:bg-white/15
+            hover:bg-[var(--table-hover)]
             disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
         >
           Berikutnya →
@@ -178,7 +178,7 @@ function StudentCard({
         {s.grade && (
           <span className="px-2.5 py-1 rounded-lg text-xs font-semibold
             bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200
-            border border-slate-200/60 dark:border-white/8">
+            border border-[var(--border)]">
             📌 {s.grade}
           </span>
         )}
@@ -500,14 +500,14 @@ export function UsersShell({ students, teachers, allModules }: Props) {
               className={`px-4 py-1.5 rounded-lg text-xs font-extrabold transition-all duration-200
                 flex items-center gap-1.5
                 ${tab === id
-                  ? 'bg-white dark:bg-purple-950/60 text-slate-900 dark:text-purple-200 shadow-sm border border-slate-200/80 dark:border-[var(--border)]'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/5'
+                  ? 'bg-[var(--surface)] text-slate-900 dark:text-white shadow-sm border border-[var(--border)]'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-[var(--table-hover)]'
                 }`}>
               {label}
               <span className={`tabular-nums text-[10px] px-1.5 py-0.5 rounded-full font-bold
                 ${tab === id
-                  ? 'bg-slate-100 dark:bg-white/20 text-slate-700 dark:text-white'
-                  : 'bg-slate-200/80 dark:bg-white/10 text-slate-600 dark:text-slate-300'
+                  ? 'bg-[var(--surface)] text-slate-700 dark:text-white'
+                  : 'bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300'
                 }`}>
                 {count}
               </span>
@@ -556,8 +556,8 @@ export function UsersShell({ students, teachers, allModules }: Props) {
             onClick={() => handleSearchChange('')}
             className="absolute right-3 top-1/2 -translate-y-1/2
               w-5 h-5 rounded-full flex items-center justify-center
-              bg-slate-200 dark:bg-white/15 text-slate-500 dark:text-slate-400
-              hover:bg-slate-300 dark:hover:bg-white/20 text-xs font-bold transition-all"
+              bg-[var(--surface-raised)] text-slate-500 dark:text-slate-400
+              hover:bg-[var(--table-hover)] text-xs font-bold transition-all"
             aria-label="Hapus pencarian"
           >
             ✕
