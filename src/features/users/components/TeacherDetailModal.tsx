@@ -57,7 +57,7 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-[10px] font-black uppercase tracking-wide text-slate-400 dark:text-slate-500 px-1">
+      <p className="text-[10px] font-black uppercase tracking-wide text-slate-500 dark:text-slate-400 px-1">
         Reset Password Akses
       </p>
 
@@ -67,8 +67,8 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
         {/* Current password display (masked) */}
         <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl
           bg-[var(--surface-raised)] border border-[var(--border)]">
-          <span className="text-[10px] text-slate-400 dark:text-slate-500">🔒 Password</span>
-          <span className="flex-1 font-mono text-sm text-slate-400 dark:text-slate-500 tracking-widest">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400">🔒 Password</span>
+          <span className="flex-1 font-mono text-sm text-slate-500 dark:text-slate-400 tracking-widest">
             &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
           </span>
           <span className="text-[10px] px-2 py-0.5 rounded-full font-bold
@@ -95,7 +95,7 @@ function PasswordResetForm({ teacherId }: { teacherId: string }) {
             type="button"
             onClick={() => setShow((v) => !v)}
             className="absolute right-3 top-1/2 -translate-y-1/2
-              text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-white
+              text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white
               transition-colors"
             aria-label={show ? 'Sembunyikan password' : 'Tampilkan password'}
           >
@@ -199,7 +199,7 @@ function EnrolledStudentsSection({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <p className="text-[10px] font-black uppercase tracking-wide text-slate-400 dark:text-slate-500 px-1">
+          <p className="text-[10px] font-black uppercase tracking-wide text-slate-500 dark:text-slate-400 px-1">
             Siswa Bimbingan
           </p>
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-700 dark:text-violet-300">
@@ -253,7 +253,7 @@ function EnrolledStudentsSection({
 
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <input
               type="text"
               value={search}
@@ -269,7 +269,7 @@ function EnrolledStudentsSection({
           {/* List of candidates */}
           <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-1">
             {availableStudents.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-3 text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic py-3 text-center">
                 {allStudents.length === 0
                   ? 'Tidak ada data siswa.'
                   : 'Semua siswa yang cocok sudah terdaftar.'}
@@ -295,7 +295,7 @@ function EnrolledStudentsSection({
                     />
                     <div className="flex-1 min-w-0">
                       <p className="font-bold truncate text-slate-900 dark:text-white">{s.full_name}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
                         {s.email_or_phone} {s.grade ? `· ${s.grade}` : ''}
                       </p>
                     </div>
@@ -336,7 +336,7 @@ function EnrolledStudentsSection({
           <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
             Belum Ada Siswa Bimbingan
           </p>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
             Klik tombol &ldquo;+ Enroll Siswa&rdquo; di atas untuk mendaftarkan siswa ke guru ini.
           </p>
         </div>
@@ -356,7 +356,7 @@ function EnrolledStudentsSection({
                   <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                     {s.full_name}
                   </p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
                     {s.email_or_phone} {s.grade ? `· ${s.grade}` : ''} · {s.session_count} pertemuan
                   </p>
                 </div>
@@ -429,7 +429,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               {t.email ?? 'Email tidak tersedia'}
             </p>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
               Terdaftar: {t.created_at
                 ? new Date(t.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
                 : '—'
@@ -464,14 +464,14 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
 
           {/* Access / Email row */}
           <div className="flex flex-col gap-2">
-            <p className="text-[10px] font-black uppercase tracking-wide text-slate-400 dark:text-slate-500 px-1">
+            <p className="text-[10px] font-black uppercase tracking-wide text-slate-500 dark:text-slate-400 px-1">
               Akses Login
             </p>
             <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl
               bg-[var(--surface-raised)] border border-[var(--border)]">
               <span className="text-base" aria-hidden="true">📧</span>
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Email</p>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Email</p>
                 <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
                   {t.email ?? 'Tidak tersedia'}
                 </p>
@@ -496,7 +496,7 @@ export function TeacherDetailModal({ teacher: t, allStudents = [], onClose }: Pr
                 role="teacher"
                 name={t.full_name ?? t.email ?? t.id}
               />
-              <p className="text-xs text-slate-400 dark:text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Hapus akun guru secara permanen.
               </p>
             </div>
