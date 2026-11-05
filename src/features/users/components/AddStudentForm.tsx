@@ -32,7 +32,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('full_name') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('full_name') && <p className="text-xs text-red-600 dark:text-rose-400">{err('full_name')}</p>}
         </div>
 
@@ -45,7 +45,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('contact') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('contact') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('contact') && <p className="text-xs text-red-600 dark:text-rose-400">{err('contact')}</p>}
         </div>
 
@@ -59,7 +59,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm font-mono tracking-widest
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]
-              ${err('mpin') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('mpin') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('mpin') && <p className="text-xs text-red-600 dark:text-rose-400">{err('mpin')}</p>}
           <p className="text-xs text-slate-400">Siswa login menggunakan PIN ini</p>
         </div>
@@ -70,7 +70,7 @@ export function AddStudentForm({ onSuccess }: Props) {
             Kelas / Grade
           </label>
           <input id="s-grade" name="grade" placeholder="SD Kelas 4"
-            className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
+            className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]" />
         </div>
@@ -82,7 +82,7 @@ export function AddStudentForm({ onSuccess }: Props) {
           Catatan / Bio
         </label>
         <textarea id="s-bio" name="bio" rows={2} placeholder="Catatan singkat tentang siswa…"
-          className="rounded-lg border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
+          className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm resize-y
             bg-[var(--surface)] text-slate-900 dark:text-white
             placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7cc62f]" />
       </div>
