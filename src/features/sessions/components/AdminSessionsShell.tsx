@@ -141,7 +141,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 dark:focus:ring-[var(--border-hover)] dark:focus:border-[var(--border-hover)]"
           >
             📤 Export CSV
           </button>
