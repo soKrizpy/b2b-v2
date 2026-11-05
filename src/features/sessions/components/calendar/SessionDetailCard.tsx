@@ -52,10 +52,10 @@ export function SessionDetailCard({
     : 'Belum ditentukan';
 
   return (
-    <div className={`bg-white dark:bg-[#0B0F19] border-2 rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
+    <div className={`bg-white dark:bg-[var(--surface)] border-2 rounded-2xl p-4 flex flex-col gap-3 shadow-sm transition-all hover:shadow-md ${
       live
-        ? 'border-rose-400 dark:border-rose-600 ring-1 ring-rose-400/30 dark:ring-rose-800/60 dark:shadow-[0_0_15px_rgba(244,63,94,0.2)]'
-        : 'border-slate-200/90 dark:border-purple-500/40 hover:border-blue-400 dark:hover:border-purple-400 dark:shadow-[0_0_15px_rgba(168,85,247,0.12)]'
+        ? 'border-rose-400 dark:border-rose-600 ring-1 ring-rose-400/30 dark:ring-rose-800/60 '
+        : 'border-slate-200/90 dark:border-[var(--border)] hover:border-blue-400 dark:hover:border-[var(--border-hover)]'
     }`}>
       {/* Card top: status + time */}
       <div className="flex items-center justify-between gap-2">
@@ -71,7 +71,7 @@ export function SessionDetailCard({
           {meeting.title}
         </h4>
         {meeting.session_count > 1 && (
-          <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+          <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-700 dark:text-slate-200">
             Sesi {meeting.session_number}/{meeting.session_count}
           </span>
         )}
@@ -104,13 +104,13 @@ export function SessionDetailCard({
 
       {/* Progress report */}
       {meeting.progress_report && (
-        <p className="text-xs text-slate-500 dark:text-slate-400 italic line-clamp-2 bg-slate-50 dark:bg-slate-800/40 p-2 rounded-lg">
+        <p className="text-xs text-slate-500 dark:text-slate-400 italic line-clamp-2 bg-slate-50 dark:bg-[var(--surface-raised)]/40 p-2 rounded-lg">
           📝 {meeting.progress_report}
         </p>
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+      <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-[var(--border)]">
         {meeting.link_url ? (
           <a
             href={meeting.link_url}
