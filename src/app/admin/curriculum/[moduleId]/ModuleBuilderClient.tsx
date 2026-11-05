@@ -85,7 +85,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
           </p>
           <ol className="flex flex-col gap-1.5">
             {nodes.map((node, idx) => {
-              const cfg  = NODE_TYPE_LABEL[node.type] ?? { label: node.type, color: 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 ring-slate-200 dark:ring-white/15' };
+              const cfg  = NODE_TYPE_LABEL[node.type] ?? { label: node.type, color: 'bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300 ring-slate-200 dark:ring-[var(--border)]' };
               const open = expandedNode === idx;
               const body = node.explanation || node.content || node.instructions;
 
@@ -95,8 +95,8 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                     type="button"
                     onClick={() => setExpandedNode(open ? null : idx)}
                     className="w-full text-left flex items-start gap-2 px-3 py-2.5 rounded-xl
-                      bg-slate-50 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10
-                      hover:ring-slate-300 dark:hover:ring-white/20 transition-all"
+                      bg-slate-50 dark:bg-[var(--surface-raised)] ring-1 ring-slate-200 dark:ring-[var(--border)]
+                      hover:ring-slate-300 dark:hover:ring-[var(--border-hover)] transition-all"
                   >
                     <span className="text-slate-300 dark:text-slate-600 tabular-nums text-[10px] w-4 text-right mt-0.5 flex-shrink-0">
                       {idx + 1}.
@@ -114,8 +114,8 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                   </button>
 
                   {open && (
-                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[#0B0F19]
-                      border border-slate-200 dark:border-purple-500/30 px-4 py-3 space-y-2.5">
+                    <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[var(--surface)]
+                      border border-slate-200 dark:border-[var(--border)] px-4 py-3 space-y-2.5">
                       {body && (
                         <div>
                           <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">
@@ -137,7 +137,7 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
                                 className={`text-xs px-3 py-1.5 rounded-lg ring-1
                                   ${opt === node.correctOption
                                     ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
-                                    : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
+                                    : 'ring-slate-200 dark:ring-[var(--border)] text-slate-600 dark:text-slate-300'
                                   }`}>
                                 <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
                                 {opt}
@@ -199,14 +199,14 @@ function TopicPreviewPanel({ topic }: { topic: TopicRow }) {
 
                   {open && (
                     <div className="ml-6 mt-1 rounded-xl bg-white dark:bg-[var(--surface)]
-                      ring-1 ring-slate-200 dark:ring-white/10 px-4 py-3 space-y-2.5">
+                      ring-1 ring-slate-200 dark:ring-[var(--border)] px-4 py-3 space-y-2.5">
                       <ol className="flex flex-col gap-1">
                         {q.options.map((opt, oi) => (
                           <li key={oi}
                             className={`text-xs px-3 py-1.5 rounded-lg ring-1
                               ${oi === q.answer_index
                                 ? 'ring-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 font-semibold'
-                                : 'ring-slate-200 dark:ring-white/10 text-slate-600 dark:text-slate-300'
+                                : 'ring-slate-200 dark:ring-[var(--border)] text-slate-600 dark:text-slate-300'
                               }`}>
                             <span className="font-bold text-slate-400 mr-1.5">{['A','B','C','D'][oi]}.</span>
                             {opt}
@@ -273,10 +273,10 @@ function TopicEditForm({
             Judul Topik *
           </label>
           <input name="title" required defaultValue={topic.title}
-            className={`rounded-xl border px-3 py-2 text-sm bg-white dark:bg-white/5
+            className={`rounded-xl border px-3 py-2 text-sm bg-white dark:bg-[var(--surface-raised)]
               text-slate-900 dark:text-white placeholder:text-slate-400
               focus:outline-none focus:ring-2 focus:ring-indigo-500
-              ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('title') ? 'border-red-400' : 'border-slate-300 dark:border-[var(--border)]'}`} />
           {err('title') && <p className="text-xs text-red-600 dark:text-rose-400">{err('title')}</p>}
         </div>
         <div className="flex flex-col gap-1">
@@ -284,8 +284,8 @@ function TopicEditForm({
             Urutan
           </label>
           <input name="order_index" type="number" min={0} defaultValue={topic.order_index}
-            className="w-20 rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-              bg-white dark:bg-white/5 text-slate-900 dark:text-white
+            className="w-20 rounded-xl border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
+              bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white
               focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
       </div>
@@ -296,7 +296,7 @@ function TopicEditForm({
           Status
         </label>
         <select name="status" defaultValue={topic.status ?? 'draft'}
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
+          className="rounded-xl border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
             bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
             focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="draft">○ Draft — tidak terlihat siswa</option>
@@ -318,8 +318,8 @@ function TopicEditForm({
         </label>
         <textarea name="description" rows={3} defaultValue={topic.description ?? ''}
           placeholder="Instruksi atau deskripsi topik ini…"
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm resize-y
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm resize-y
+            bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white placeholder:text-slate-400
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
@@ -330,16 +330,16 @@ function TopicEditForm({
         </label>
         <input name="project_link" type="url" defaultValue={topic.project_link ?? ''}
           placeholder="https://scratch.mit.edu/projects/..."
-          className="rounded-xl border border-slate-300 dark:border-white/15 px-3 py-2 text-sm
-            bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+          className="rounded-xl border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm
+            bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white placeholder:text-slate-400
             focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-2 pt-1
-        border-t border-slate-100 dark:border-white/8">
+        border-t border-slate-100 dark:border-[var(--border)]">
         <button type="button" onClick={onClose}
-          className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-white/15
+          className="px-4 py-2 text-sm rounded-xl ring-1 ring-slate-200 dark:ring-[var(--border)]
             text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
           Batal
         </button>
@@ -485,7 +485,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         <button type="button" onClick={handleExport} disabled={exporting}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold
-            ring-1 ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5
+            ring-1 ring-slate-200 dark:ring-[var(--border)] bg-white dark:bg-[var(--surface-raised)]
             text-slate-700 dark:text-slate-300 rounded-xl shadow-sm
             hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-40 transition-all">
           <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
@@ -514,8 +514,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
         {mod.topics.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl
-            border-2 border-dashed border-blue-400/40 dark:border-purple-500/30
-            bg-white dark:bg-[#0B0F19] dark:shadow-[0_0_20px_rgba(168,85,247,0.12)] py-12 text-center">
+            border-2 border-dashed border-blue-400/40 dark:border-[var(--border)]
+            bg-white dark:bg-[var(--surface)] dark:shadow-[0_0_20px_rgba(168,85,247,0.12)] py-12 text-center">
             <p className="text-slate-400 dark:text-slate-500 text-sm">
               Belum ada topik. Import JSON di atas untuk menambahkan materi.
             </p>
@@ -529,13 +529,13 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
               return (
                 <div key={topic.id}
-                  className={`bg-white dark:bg-[#0B0F19] rounded-2xl border-2 overflow-hidden
+                  className={`bg-white dark:bg-[var(--surface)] rounded-2xl border-2 overflow-hidden
                     transition-all duration-200 shadow-sm
                     ${panel === 'edit'
                       ? 'border-indigo-400 dark:border-purple-400 ring-2 ring-indigo-500/20 dark:ring-purple-500/30 shadow-neon-blue dark:shadow-neon-purple'
                       : panel === 'preview'
-                      ? 'border-blue-400/60 dark:border-purple-500/50 dark:shadow-[0_0_25px_rgba(168,85,247,0.18)]'
-                      : 'border-blue-400/45 dark:border-purple-500/45 dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20'
+                      ? 'border-blue-400/60 dark:border-[var(--border)] dark:shadow-[0_0_25px_rgba(168,85,247,0.18)]'
+                      : 'border-blue-400/45 dark:border-[var(--border)] dark:shadow-[0_0_20px_rgba(168,85,247,0.15)] dark:ring-1 dark:ring-purple-500/20'
                     }`}>
 
                   {/* ── Topic header row ──────────────────────────────── */}
@@ -569,8 +569,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                           {/* Node count */}
                           {nodeCount > 0 && (
                             <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400
-                              bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-full ring-1
-                              ring-slate-200 dark:ring-white/15">
+                              bg-slate-100 dark:bg-[var(--surface-raised)] px-2 py-0.5 rounded-full ring-1
+                              ring-slate-200 dark:ring-[var(--border)]">
                               {nodeCount} node
                             </span>
                           )}
@@ -603,8 +603,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         title="Pratinjau konten"
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'preview'
-                            ? 'ring-slate-400 bg-slate-100 dark:bg-white/15 text-slate-800 dark:text-white'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-white/25'
+                            ? 'ring-slate-400 bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-800 dark:text-white'
+                            : 'ring-slate-200 dark:ring-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300 hover:ring-slate-300 dark:hover:ring-[var(--border-hover)]'
                           }`}>
                         {panel === 'preview' ? '▲ Tutup' : '👁 Preview'}
                       </button>
@@ -616,7 +616,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold ring-1 transition-all
                           ${panel === 'edit'
                             ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-200'
-                            : 'ring-slate-200 dark:ring-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-indigo-600/60'
+                            : 'ring-slate-200 dark:ring-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300 hover:ring-indigo-300 dark:hover:ring-[var(--border-hover)]'
                           }`}>
                         ✏️ Edit
                       </button>
@@ -635,7 +635,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
 
                   {/* ── Preview panel ──────────────────────────────────── */}
                   {panel === 'preview' && (
-                    <div className="border-t border-slate-100 dark:border-white/8 bg-slate-50/40 dark:bg-white/2">
+                    <div className="border-t border-slate-100 dark:border-[var(--border)] bg-slate-50/40 dark:bg-[var(--surface-raised)]">
                       <TopicPreviewPanel topic={topic as unknown as TopicRow} />
                     </div>
                   )}
@@ -662,10 +662,10 @@ export function ModuleBuilderClient({ module: mod }: Props) {
         <div role="dialog" aria-modal="true" aria-labelledby="import-modal-title"
           className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm pt-12 px-4"
           onClick={(e) => { if (e.target === e.currentTarget && !isImporting) setShowImport(false); }}>
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-purple-500/40 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[85vh]">
+          <div className="w-full max-w-2xl bg-white dark:bg-[var(--surface)] rounded-2xl shadow-2xl border-2 border-blue-400/50 dark:border-[var(--border)] dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35 overflow-hidden flex flex-col max-h-[85vh]">
 
             {/* Header */}
-            <div className="px-6 py-4 border-b border-slate-100 dark:border-white/8 flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-[var(--border)] flex items-center justify-between">
               <div>
                 <h2 id="import-modal-title" className="font-bold text-slate-900 dark:text-white">
                   Import JSON Materi
@@ -682,7 +682,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             {/* Body */}
             <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
 
-              <details className="text-xs border border-slate-200 dark:border-white/10 rounded-xl">
+              <details className="text-xs border border-slate-200 dark:border-[var(--border)] rounded-xl">
                 <summary className="px-4 py-3 cursor-pointer font-semibold text-slate-700 dark:text-slate-300 select-none hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl">
                   Format JSON yang diharapkan (klik untuk lihat)
                 </summary>
@@ -710,7 +710,7 @@ export function ModuleBuilderClient({ module: mod }: Props) {
                 <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onFile}
                   className="sr-only" id="builder-file-input" disabled={isImporting} />
                 <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isImporting}
-                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-white/15
+                  className="px-4 py-2 text-sm font-medium border border-slate-300 dark:border-[var(--border)]
                     rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                     text-slate-700 dark:text-slate-300 transition-colors">
                   📁 Pilih File .json
@@ -721,8 +721,8 @@ export function ModuleBuilderClient({ module: mod }: Props) {
               <textarea value={text} onChange={(e) => { setText(e.target.value); setVs({ status: 'idle' }); }}
                 rows={13} disabled={isImporting} spellCheck={false}
                 placeholder='{ "topics": [...], "final_assessment": { ... } }'
-                className="w-full rounded-xl border border-slate-300 dark:border-white/15 px-3.5 py-3
-                  text-xs font-mono resize-y bg-white dark:bg-white/5 text-slate-900 dark:text-white
+                className="w-full rounded-xl border border-slate-300 dark:border-[var(--border)] px-3.5 py-3
+                  text-xs font-mono resize-y bg-white dark:bg-[var(--surface-raised)] text-slate-900 dark:text-white
                   placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500
                   disabled:opacity-40" />
 
@@ -733,24 +733,24 @@ export function ModuleBuilderClient({ module: mod }: Props) {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t border-slate-100 dark:border-white/8 flex items-center justify-between gap-3">
+            <div className="px-6 py-4 border-t border-slate-100 dark:border-[var(--border)] flex items-center justify-between gap-3">
               {vs.status === 'done' ? (
                 <button type="button" onClick={() => { setShowImport(false); setVs({ status: 'idle' }); setText(''); }}
-                  className="px-5 py-2.5 text-sm font-bold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900">
+                  className="px-5 py-2.5 text-sm font-bold rounded-xl bg-slate-900 dark:bg-purple-600 text-white dark:text-white">
                   Selesai
                 </button>
               ) : (
                 <>
                   <button type="button" onClick={() => validate(text)}
                     disabled={!text.trim() || isImporting}
-                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-white/15
+                    className="px-4 py-2.5 text-sm font-medium border border-slate-300 dark:border-[var(--border)]
                       rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                       text-slate-700 dark:text-slate-300 transition-colors">
                     Validasi JSON
                   </button>
                   <div className="flex gap-2">
                     <button type="button" onClick={() => setShowImport(false)} disabled={isImporting}
-                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-white/15 rounded-xl
+                      className="px-4 py-2.5 text-sm border border-slate-300 dark:border-[var(--border)] rounded-xl
                         hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-40
                         text-slate-700 dark:text-slate-300 transition-colors">
                       Batal
