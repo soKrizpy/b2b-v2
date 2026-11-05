@@ -206,7 +206,7 @@ function LearningPathTab({
             <input type="hidden" name="student_id" value={student.id} />
             <select
               name="module_id"
-              className="flex-1 min-w-0 rounded-xl border border-slate-200 dark:border-white/15
+              className="flex-1 min-w-0 rounded-xl border border-[var(--border)]
                 px-3 py-2 text-xs font-medium
                 bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -338,7 +338,7 @@ function EnrolledTeacherTab({
         </div>
 
         {enrolledTeachers.length === 0 ? (
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
+          <div className="p-4 rounded-xl bg-[var(--surface-raised)] border border-dashed border-[var(--border)] text-center">
             <span className="text-2xl mb-1 block" aria-hidden="true">👨‍🏫</span>
             <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
               Belum Ada Guru Pembimbing
@@ -387,7 +387,7 @@ function EnrolledTeacherTab({
       </div>
 
       {/* Form Enroll Guru Baru */}
-      <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10">
+      <div className="p-3.5 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)]">
         <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
           + Enroll Guru Pembimbing
         </p>
@@ -403,8 +403,8 @@ function EnrolledTeacherTab({
               onChange={(e) => setSelectedTeacherId(e.target.value)}
               required
               className="w-full px-3 py-2 rounded-xl text-xs font-medium
-                bg-white dark:bg-[#0f0f1a] text-slate-900 dark:text-white
-                border border-slate-200 dark:border-white/15
+                bg-[var(--surface)] text-slate-900 dark:text-white
+                border border-[var(--border)]
                 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
             >
               <option value="">-- Pilih Guru Pembimbing --</option>
@@ -476,17 +476,17 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-md bg-white dark:bg-[#0B0F19]
+        className="relative w-full sm:max-w-md bg-[var(--surface)]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col max-h-[90dvh] overflow-hidden
-          border-2 border-slate-200/90 dark:border-purple-500/40
-          dark:shadow-[0_0_35px_rgba(168,85,247,0.22)] dark:ring-1 dark:ring-purple-500/35
+          border-2 border-[var(--border)]
+          
           animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
         <div className="flex items-start gap-4 px-5 pt-5 pb-4
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+          border-b border-[var(--border)] flex-shrink-0">
 
           {/* Avatar */}
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600
@@ -511,7 +511,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
             </p>
             {/* MPIN visible */}
             <div className="mt-1.5 inline-flex items-center gap-1.5
-              bg-slate-100 dark:bg-white/8 px-2.5 py-1 rounded-lg">
+              bg-[var(--surface-raised)] px-2.5 py-1 rounded-lg">
               <span className="text-[10px] text-slate-400 dark:text-slate-500">🔑 MPIN</span>
               <span className="text-xs font-mono font-bold tracking-widest
                 text-slate-700 dark:text-slate-200">
@@ -525,7 +525,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
             type="button"
             onClick={onClose}
             className="flex-shrink-0 w-8 h-8 rounded-xl
-              bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300
+              bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300
               hover:bg-slate-200 dark:hover:bg-white/20 hover:text-slate-900 dark:hover:text-white
               flex items-center justify-center text-sm font-bold transition-all duration-150
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
@@ -536,8 +536,8 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         </div>
 
         {/* ── Stats row ── */}
-        <div className="flex items-stretch divide-x divide-slate-100 dark:divide-white/8
-          border-b border-slate-100 dark:border-white/8 flex-shrink-0">
+        <div className="flex items-stretch divide-x divide-slate-100 dark:divide-[var(--border)]
+          border-b border-[var(--border)] flex-shrink-0">
           <StatCard value={s.modules.length}  label="Modul"      icon="📖" />
           <StatCard value={s.session_count}   label="Pertemuan Hadir" icon="📅" />
           <StatCard value={s.quiz_count}      label="Quiz"       icon="🧠" />
