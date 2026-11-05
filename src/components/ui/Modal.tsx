@@ -53,21 +53,21 @@ export function Modal({
     >
       <div
         ref={dialogRef}
-        className={`w-full ${SIZE[size]} bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl
-          shadow-blue-500/10 dark:shadow-[0_0_35px_rgba(168,85,247,0.22)]
-          border-2 border-blue-400/50 dark:border-purple-500/40
-          ring-1 ring-blue-300/30 dark:ring-purple-500/35
+        className={`w-full ${SIZE[size]} bg-white dark:bg-[var(--surface)] rounded-2xl shadow-2xl
+          shadow-blue-500/10 
+          border-2 border-blue-400/50 dark:border-[var(--border)]
+          ring-1 ring-blue-300/30 dark:ring-[var(--border)]
           flex flex-col max-h-[calc(100dvh-2rem)] overflow-hidden animate-fade-in-up`}
       >
         {/* Header */}
         <div
           className="sticky top-0 z-10 flex shrink-0 items-center justify-between px-6 py-4
-          border-b border-blue-100 dark:border-purple-500/25
-          bg-gradient-to-r from-blue-50/70 to-white dark:from-purple-950/40 dark:to-[#0B0F19] rounded-t-2xl"
+          border-b border-blue-100 dark:border-[var(--border)]
+          bg-gradient-to-r from-blue-50/70 to-white dark:from-[var(--surface-raised)] dark:to-[var(--surface)] rounded-t-2xl"
         >
           <h2
             id="modal-title"
-            className="text-base font-bold text-slate-900 dark:text-purple-50 tracking-tight"
+            className="text-base font-bold text-slate-900 dark:text-white tracking-tight"
           >
             {title}
           </h2>
@@ -75,7 +75,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-blue-50
-              dark:hover:bg-purple-950/50 dark:hover:text-purple-200
+              dark:hover:bg-[var(--table-hover)] dark:hover:text-white
               transition-all duration-150 active:scale-95"
             aria-label="Tutup"
           >
