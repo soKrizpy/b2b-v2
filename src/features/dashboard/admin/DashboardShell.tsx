@@ -316,7 +316,7 @@ export function DashboardShell({
                             {m.meeting_students.map((ms) => (
                               <span
                                 key={ms.student_id}
-                                className="text-[11px] font-semibold bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-zinc-700 px-2 py-0.5 rounded-lg truncate max-w-[130px]"
+                                className="text-[11px] font-semibold bg-slate-100 dark:bg-[var(--surface-raised)] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-[var(--border)] px-2 py-0.5 rounded-lg truncate max-w-[130px]"
                               >
                                 {ms.students?.full_name ?? 'Siswa'}
                               </span>
