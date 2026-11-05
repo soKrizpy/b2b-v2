@@ -76,7 +76,7 @@ export function MonthCalendar({
         <button
           type="button"
           onClick={onPrev}
-          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
           aria-label="Bulan sebelumnya"
         >
           ‹
@@ -88,7 +88,7 @@ export function MonthCalendar({
           <button
             type="button"
             onClick={onToday}
-            className="text-xs font-extrabold px-3 py-1 rounded-lg border border-blue-500/40 dark:border-[var(--border)] bg-blue-50 dark:bg-[var(--surface-raised)] text-blue-700 dark:text-cyan-300 hover:bg-blue-100 dark:hover:bg-[var(--table-hover)] transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="text-xs font-extrabold px-3 py-1 rounded-lg border border-blue-500/40 dark:border-[var(--border)] bg-blue-50 dark:bg-[var(--surface-raised)] text-blue-700 dark:text-cyan-300 hover:bg-blue-100 dark:hover:bg-[var(--table-hover)] transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
           >
             Hari Ini
           </button>
@@ -96,7 +96,7 @@ export function MonthCalendar({
         <button
           type="button"
           onClick={onNext}
-          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="w-8 h-8 rounded-xl flex items-center justify-center border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] text-slate-800 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
           aria-label="Bulan berikutnya"
         >
           ›
@@ -136,7 +136,7 @@ export function MonthCalendar({
               key={key}
               type="button"
               onClick={() => onSelectDate(key)}
-              className={`min-h-[80px] sm:min-h-[92px] p-1.5 sm:p-2 text-left border-b border-r border-slate-200/70 dark:border-[var(--border)] transition-all flex flex-col gap-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-400 overflow-hidden ${
+              className={`min-h-[80px] sm:min-h-[92px] p-1.5 sm:p-2 text-left border-b border-r border-slate-200/70 dark:border-[var(--border)] transition-all flex flex-col gap-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)] overflow-hidden ${
                 isColRight ? 'border-r-0' : ''
               } ${
                 isSelected
