@@ -329,7 +329,7 @@ export function AdminSessionActions({
               )}
             </button>
             {report && !aiPending && (
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400">
                 (Edit sebelum menyimpan)
               </span>
             )}
