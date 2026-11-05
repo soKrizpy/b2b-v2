@@ -32,7 +32,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('full_name') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('full_name') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('full_name') && <p className="text-xs text-red-600 dark:text-rose-400">{err('full_name')}</p>}
         </div>
 
@@ -45,7 +45,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('email') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('email') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('email') && <p className="text-xs text-red-600 dark:text-rose-400">{err('email')}</p>}
         </div>
 
@@ -59,7 +59,7 @@ export function AddTeacherForm({ onSuccess }: Props) {
             className={`rounded-lg border px-3 py-2 text-sm
               bg-[var(--surface)] text-slate-900 dark:text-white
               placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500
-              ${err('password') ? 'border-red-400' : 'border-slate-300 dark:border-white/15'}`} />
+              ${err('password') ? 'border-red-400' : 'border-[var(--border)]'}`} />
           {err('password') && <p className="text-xs text-red-600 dark:text-rose-400">{err('password')}</p>}
           <p className="text-xs text-slate-400">Guru login menggunakan email + password ini</p>
         </div>
