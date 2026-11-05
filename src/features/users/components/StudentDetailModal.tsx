@@ -123,7 +123,7 @@ function LearningPathTab({
                     transition-all duration-150
                     ${isActive
                       ? 'bg-emerald-500/8 border-emerald-500/25 dark:bg-emerald-500/10 dark:border-emerald-500/30'
-                      : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10'
+                      : 'bg-slate-50 border-slate-200 dark:bg-[var(--surface-raised)] dark:border-[var(--border)]'
                     }`}>
                   <span className={`w-2 h-2 rounded-full flex-shrink-0
                     ${isActive ? 'bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'}`} />
@@ -208,7 +208,7 @@ function LearningPathTab({
               name="module_id"
               className="flex-1 min-w-0 rounded-xl border border-[var(--border)]
                 px-3 py-2 text-xs font-medium
-                bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
+                bg-[var(--surface)] text-slate-900 dark:text-white
                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="">— Pilih modul —</option>
@@ -526,7 +526,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
             onClick={onClose}
             className="flex-shrink-0 w-8 h-8 rounded-xl
               bg-[var(--surface-raised)] text-slate-600 dark:text-slate-300
-              hover:bg-slate-200 dark:hover:bg-white/20 hover:text-slate-900 dark:hover:text-white
+              hover:bg-[var(--table-hover)] hover:text-slate-900 dark:hover:text-white
               flex items-center justify-center text-sm font-bold transition-all duration-150
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             aria-label="Tutup"
@@ -555,7 +555,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
                 whitespace-nowrap transition-all duration-150
                 ${tab === id
                   ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-[var(--table-hover)] hover:text-slate-900 dark:hover:text-white'
                 }`}
             >
               <span>{icon}</span>
