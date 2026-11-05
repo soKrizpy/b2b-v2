@@ -124,7 +124,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
     <div className="space-y-6 animate-fade-in-up">
 
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-zinc-800">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-[var(--border)]">
         <div>
           <p className="text-xs font-black uppercase tracking-widest text-blue-600 dark:text-cyan-400 mb-1">
             Manajemen Jadwal
@@ -141,7 +141,7 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-blue-500/40 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-[var(--border)] bg-white dark:bg-[var(--surface-raised)] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[var(--table-hover)] shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
           >
             📤 Export CSV
           </button>
@@ -150,13 +150,13 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
       </div>
 
       {/* View Tabs */}
-      <div className="flex items-center gap-1.5 bg-slate-100/90 dark:bg-zinc-900/80 p-1.5 rounded-xl border border-blue-200/80 dark:border-purple-500/30 w-fit">
+      <div className="flex items-center gap-1.5 bg-slate-100/90 dark:bg-[var(--surface-raised)] p-1.5 rounded-xl border border-slate-200 dark:border-[var(--border)] w-fit">
         <button
           type="button"
           onClick={() => setViewTab('calendar')}
-          className={`px-4 py-2 rounded-lg text-xs font-extrabold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-400 ${
+          className={`px-4 py-2 rounded-lg text-xs font-extrabold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[var(--border-hover)] ${
             viewTab === 'calendar'
-              ? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-purple-300 border border-blue-500/40 dark:border-purple-500/40 shadow-sm'
+              ? 'bg-white dark:bg-[var(--surface)] text-blue-600 dark:text-purple-300 border border-blue-500/40 dark:border-[var(--border-hover)] shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
@@ -165,9 +165,9 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
         <button
           type="button"
           onClick={() => setViewTab('history')}
-          className={`px-4 py-2 rounded-lg text-xs font-extrabold transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-400 ${
+          className={`px-4 py-2 rounded-lg text-xs font-extrabold transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[var(--border-hover)] ${
             viewTab === 'history'
-              ? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-purple-300 border border-blue-500/40 dark:border-purple-500/40 shadow-sm'
+              ? 'bg-white dark:bg-[var(--surface)] text-blue-600 dark:text-purple-300 border border-blue-500/40 dark:border-[var(--border-hover)] shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
@@ -201,9 +201,9 @@ export function AdminSessionsShell({ meetings, teachers, students }: Props) {
 
           {/* Right: Detail Panel (lg:col-span-5 for 1280px laptop, xl:col-span-4 for desktop) */}
           <div className="lg:col-span-5 xl:col-span-4">
-            <div className="sticky top-6 bg-white dark:bg-[#0B0F19] border-2 border-blue-400/40 dark:border-purple-500/40 rounded-2xl shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.18)] dark:ring-1 dark:ring-purple-500/25 overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+            <div className="sticky top-6 bg-white dark:bg-[var(--surface)] border-2 border-blue-400/40 dark:border-[var(--border)] rounded-2xl shadow-sm dark:ring-1 dark:ring-[var(--border)] overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
               {/* Detail panel header */}
-              <div className="px-5 py-4 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-900/60">
+              <div className="px-5 py-4 border-b border-slate-200 dark:border-[var(--border)] bg-slate-50/70 dark:bg-[var(--surface-raised)]">
                 <p className="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-0.5">
                   {IDN_DAYS_LONG[selectedDateObj.getUTCDay()]}
                 </p>
