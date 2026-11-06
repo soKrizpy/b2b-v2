@@ -13,7 +13,7 @@ import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { SubmitChallengeForm } from '@/features/challenges/components/SubmitChallengeForm';
 import { TopicQuizWidget } from '@/features/quiz/components/TopicQuizWidget';
 import { LessonNodeWalker, type LearningNode } from '@/features/curriculum/components/LessonNodeWalker';
-import { getInstructionalSlides, hasAuthoredLessonContent, isWithinSuggestedLessonSlideRange } from '@/features/curriculum/lessonSlides';
+import { getInstructionalSlides, hasAuthoredLessonContent, hasRenderableCurriculumContent, isWithinSuggestedLessonSlideRange } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Topik — Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -41,7 +41,7 @@ export default async function TopicPage({ params }: Props) {
   if (auth.role !== 'student') redirect('/');
 
   const topic = await getTopicById(id);
-  if (!topic || topic.status !== 'published') notFound();
+  if (!topic || topic.status !== 'published' || !hasRenderableCurriculumContent(topic.lesson_content)) notFound();
 
   const db = createSupabaseAdminClient();
   // Accept both active and paused enrollments. Paused = review-only, active = full gating.
