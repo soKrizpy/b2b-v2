@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "sourceOfTruth": "public/curriculum/*.json",
+  "modules": [
+    {
+      "file": "tinkercad-3d-design.json",
+      "module_id": 27,
+      "module_title": "3D Design Beginner",
+      "status": "mapped"
+    },
+    {
+      "file": "scratchjr-visual-programming.json",
+      "module_id": 28,
+      "module_title": "ScratchJr — Petualangan Pemrograman Visual",
+      "status": "mapped"
+    },
+    {
+      "file": "scratch-beginner-12-topics.json",
+      "module_id": 29,
+      "module_title": "Scratch Beginner — 12 Topik",
+      "status": "mapped"
+    },
+    {
+      "file": "tinkercad-3d-beginner-12-topics.json",
+      "module_id": 30,
+      "module_title": "Tinkercad 3D Beginner — 12 Topik",
+      "status": "mapped"
+    },
+    {
+      "file": "python-fundamentals.json",
+      "module_id": null,
+      "module_title": "Python Fundamentals: Petualangan Dunia Coding",
+      "status": "template"
+    },
+    {
+      "file": "scratch-game-development.json",
+      "module_id": null,
+      "module_title": "Scratch Game Development: Petualangan Luar Angkasa",
+      "status": "template"
+    }
+  ],
+  "rules": [
+    "Mapped files must match the specified database module ID and title.",
+    "Template files are not live curriculum until an admin module is explicitly assigned.",
+    "Never infer a mapping from similar module or topic titles."
+  ]
+}
