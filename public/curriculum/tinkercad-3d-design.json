@@ -1680,6 +1680,7 @@
           "explanation": "Group memastikan seluruh desain tereksport sebagai satu mesh solid yang kohesif, bukan kumpulan komponen terpisah."
         }
       ]
-    }
+    },
+    "module_id": 27
   }
 ]
