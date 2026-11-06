@@ -123,7 +123,8 @@
           "instructions": "Buka Tinkercad (tinkercad.com) dan buat project baru. Bangun dadu 6 sisi berukuran 20x20x20 mm dengan titik-titik bola kecil (4mm) di setiap sisinya sesuai pola dadu asli (sisi 1 sampai 6). Beri warna berbeda untuk badannya. Group semua objek menjadi satu. Bagikan link project Tinkercad-mu!",
           "submission_type": "link",
           "xp": 35
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 2: Gantungan Kunci Nama Custom",
@@ -242,7 +243,8 @@
           "instructions": "Buat gantungan kunci di Tinkercad dengan namamu sendiri. Plat minimal 60x25x3 mm, teks timbul di atas permukaan, dan lubang ring diameter 5mm di salah satu ujungnya. Group semua menjadi satu kesatuan. Bagikan link project-mu!",
           "submission_type": "link",
           "xp": 40
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 3: Cangkir Mini & Pegangan",
@@ -361,7 +363,8 @@
           "instructions": "Buat cangkir mini di Tinkercad dengan teknik hollowing: diameter luar 40mm, tinggi 50mm, ketebalan dinding 2mm, dan tambahkan pegangan Torus di sampingnya. Group semua menjadi satu. Berikan warna favoritmu! Bagikan link-nya!",
           "submission_type": "link",
           "xp": 45
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 4: Meja & Kursi Taman Minimalis",
@@ -480,7 +483,8 @@
           "instructions": "Buat set meja taman (80x40mm papan, 4 kaki simetris) di Tinkercad. Gunakan fitur Align untuk memastikan kaki-kaki sejajar sempurna, dan Ruler untuk memverifikasi jarak. Bonus: tambahkan 2 kursi kecil di sisi meja. Bagikan link project-mu!",
           "submission_type": "link",
           "xp": 45
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 5: Roda Gigi & Piringan Jam Dinding",
@@ -599,7 +603,8 @@
           "instructions": "Buat piringan jam dinding di Tinkercad: piringan Cylinder diameter 100mm, lubang tengah 8mm, dan 12 penanda jam melingkar menggunakan teknik Duplicate + Rotate 30°. Group semua menjadi satu. Bagikan link-nya!",
           "submission_type": "link",
           "xp": 45
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 6: Karakter Mini Robot Geometri",
@@ -718,7 +723,8 @@
           "instructions": "Buat karakter robot atau monster lucu di Tinkercad menggunakan minimal 8 shape berbeda (Box, Sphere, Cylinder, Torus, dll). Pastikan proporsional dan ekspresif — tambahkan detail wajah! Group semua menjadi satu karakter. Bagikan link-nya!",
           "submission_type": "link",
           "xp": 50
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 7: Gantungan Kunci Tanda Tangan (Scribble)",
@@ -837,7 +843,8 @@
           "instructions": "Gunakan tool Scribble di Tinkercad untuk menggambar tanda tanganmu atau sketsa hewan favorit. Atur ketebalan 3mm. Tambahkan plat basis dan lubang ring. Group semua menjadi satu. Bagikan link project-mu!",
           "submission_type": "link",
           "xp": 50
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 8: Rumah Impian Miniatur",
@@ -956,7 +963,8 @@
           "instructions": "Bangun rumah miniatur di Tinkercad dengan 4 dinding, atap berbentuk prisma/segitiga, minimal 1 pintu berlubang, dan 2 jendela berlubang. Gunakan warna yang berbeda untuk setiap elemen. Group semua menjadi satu. Bagikan link-nya!",
           "submission_type": "link",
           "xp": 55
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 9: Tempat Pensil Multi-Kompartemen",
@@ -1075,7 +1083,8 @@
           "instructions": "Desain tempat pensil di Tinkercad: ukuran luar 75x30x100mm, ketebalan dinding 2mm, hollow interior, dan 2 sekat yang membagi menjadi 3 kompartemen. Verifikasi dengan Ruler bahwa setiap slot minimal 9mm lebar. Bagikan link-nya!",
           "submission_type": "link",
           "xp": 50
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 10: Medali dari Import SVG",
@@ -1194,7 +1203,8 @@
           "instructions": "Download file SVG dari Flaticon atau SVGRepo (pilih ikon favoritmu). Import ke Tinkercad, atur height 3mm. Buat basis Cylinder diameter 60mm, posisikan SVG di atas basis, tambahkan lubang ring, dan Group semua. Bagikan link project-mu!",
           "submission_type": "link",
           "xp": 55
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 11: Benteng Abad Pertengahan",
@@ -1313,7 +1323,8 @@
           "instructions": "Bangun benteng abad pertengahan di Tinkercad: 4 tembok persegi, 4 menara silinder di sudut, gigi bergerigi di atas setidaknya 1 tembok (min 5 merlons), dan 1 gerbang berlubang. Group semua menjadi satu. Bagikan link-nya!",
           "submission_type": "link",
           "xp": 60
-        }
+        },
+        "status": "published"
       },
       {
         "topic_title": "Project 12: Mobil Balap Mini Siap Cetak",
@@ -1432,7 +1443,8 @@
           "instructions": "Bangun mobil balap mini di Tinkercad: bodi aerodinamis, 4 roda Cylinder hitam, dan spoiler belakang. Lakukan checklist 3D print ready: ukur dimensi dengan Ruler, pastikan tidak ada objek melayang, wall thickness > 1.5mm. Group semua menjadi satu, lalu Export ke .STL. Bagikan link project DAN screenshot tombol Export-mu!",
           "submission_type": "link",
           "xp": 100
-        }
+        },
+        "status": "published"
       }
     ],
     "final_assessment": {
