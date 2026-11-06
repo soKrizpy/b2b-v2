@@ -26,7 +26,10 @@ export default async function TeacherDashboardPage() {
       .from('profiles')
       .select('full_name')
       .eq('id', user.id)
-      .maybeSingle(),
+      .maybeSingle() as unknown as Promise<{
+        data: { full_name: string | null } | null;
+        error: unknown;
+      }>,
   ]);
 
   const metadataName = typeof user.user_metadata?.full_name === 'string'
