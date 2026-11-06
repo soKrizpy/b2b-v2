@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getInstructionalSlides,
   hasAuthoredLessonContent,
-  hasRequiredLessonSlideCount,
+  isWithinSuggestedLessonSlideRange,
   MAX_LESSON_SLIDES,
   MIN_LESSON_SLIDES,
 } from '@/features/curriculum/lessonSlides';
@@ -20,10 +20,10 @@ describe('instructional lesson slides', () => {
   it('returns no slides for missing or non-array learningPath data', () => {
     expect(getInstructionalSlides(null)).toEqual([]);
     expect(getInstructionalSlides({ learningPath: [] })).toEqual([]);
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(undefined))).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(undefined))).toBe(false);
   });
 
-  it('does not count fewer than 10 authored instructional slides', () => {
+  it('keeps short authored lessons valid while flagging the suggested range', () => {
     const slides = getInstructionalSlides(Array.from({ length: 9 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MIN_LESSON_SLIDES - 1);
     expect(hasRequiredLessonSlideCount(slides)).toBe(false);
@@ -47,7 +47,7 @@ describe('instructional lesson slides', () => {
     expect(hasRequiredLessonSlideCount(slides)).toBe(true);
   });
 
-  it('caps more than 20 valid authored instructional slides at 20', () => {
+  it('does not truncate authored instructional slides above the suggested range', () => {
     const slides = getInstructionalSlides(Array.from({ length: 25 }, (_, i) => slide(i)));
     expect(slides).toHaveLength(MAX_LESSON_SLIDES);
     expect(slides[0].id).toBe('slide-0');
