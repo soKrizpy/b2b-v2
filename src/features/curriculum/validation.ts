@@ -124,6 +124,7 @@ export type TopicImport = z.infer<typeof topicImportSchema>;
 // ── Module schema ─────────────────────────────────────────────────────────────
 
 export const moduleImportSchema = z.object({
+  module_id: z.number().int().positive().optional(),
   module_title:      z.string().min(1, 'module_title wajib diisi').max(200),
   module_order:      z.number().int().min(0),
   description:       z.string().optional(),
