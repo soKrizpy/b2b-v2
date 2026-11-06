@@ -61,7 +61,7 @@ export function TeacherStudentsList({ students }: Props) {
               className="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs
                 bg-white dark:bg-zinc-800/70 text-slate-900 dark:text-white
                 border border-slate-200/80 dark:border-zinc-700/60
-                focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-purple-500/40 transition-all"
+                placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-purple-500/40 transition-all"
             />
           </div>
         )}
@@ -116,7 +116,7 @@ export function TeacherStudentsList({ students }: Props) {
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300 truncate mt-0.5">
                         {s.email_or_phone}
                       </p>
                     </div>
@@ -124,20 +124,20 @@ export function TeacherStudentsList({ students }: Props) {
 
                   {/* Module status */}
                   <div className="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-zinc-700/60">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-0.5 flex items-center gap-1">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-0.5 flex items-center gap-1">
                       <BookOpen className="w-3 h-3 text-blue-500 dark:text-purple-400" /> Modul Aktif
                     </p>
                     <p className="font-bold text-xs text-slate-800 dark:text-slate-200 truncate">
-                      {s.active_module ?? <span className="text-slate-400 dark:text-slate-600 font-normal italic">Belum ada</span>}
+                      {s.active_module ?? <span className="text-slate-600 dark:text-slate-300 font-normal italic">Belum ada</span>}
                     </p>
                   </div>
 
                   {/* Stats */}
                   <div className="flex items-center gap-3 text-[11px]">
-                    <span className="inline-flex items-center gap-1 font-bold text-amber-600 dark:text-amber-400">
+                    <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300">
                       <Sparkles className="w-3 h-3" /> {s.total_xp} XP
                     </span>
-                    <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-300">
                       <Coins className="w-3 h-3" /> {s.coins}
                     </span>
                     <span className="inline-flex items-center gap-1 font-bold text-blue-600 dark:text-blue-400">
