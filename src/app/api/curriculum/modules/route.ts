@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { apiUnauthorized, apiForbidden, apiInternalError } from '@/lib/errors';
+import { hasRenderableCurriculumContent } from '@/features/curriculum/lessonSlides';
 
 export async function GET(): Promise<Response> {
   const auth = await requireAdmin();
@@ -25,23 +26,24 @@ export async function GET(): Promise<Response> {
     }
     const { data: topics, error: topicsError } = await (db
       .from('topics')
-      .select('id, module_id, title, order_index')
+      .select('id, module_id, title, order_index, lesson_content')
       .in('module_id', modules.map((module) => module.id))
       .eq('status', 'published') as unknown as Promise<{
-        data: Array<{ id: number; module_id: number; title: string; order_index: number }> | null;
+        data: Array<{ id: number; module_id: number; title: string; order_index: number; lesson_content: unknown }> | null;
         error: { message: string } | null;
       }>);
     if (topicsError) return apiInternalError('Gagal memuat modul kurikulum.');
 
+    const readyTopics = (topics ?? []).filter((topic) => hasRenderableCurriculumContent(topic.lesson_content));
     const topicCounts = new Map<number, number>();
-    for (const topic of topics ?? []) {
+    for (const topic of readyTopics) {
       topicCounts.set(topic.module_id, (topicCounts.get(topic.module_id) ?? 0) + 1);
     }
 
-    return Response.json(modules.map((module) => ({
+    return Response.json(modules.filter((module) => (topicCounts.get(module.id) ?? 0) > 0).map((module) => ({
       ...module,
       publishedTopicCount: topicCounts.get(module.id) ?? 0,
-      publishedTopics: (topics ?? [])
+      publishedTopics: readyTopics
         .filter((topic) => topic.module_id === module.id)
         .sort((a, b) => a.order_index - b.order_index || a.id - b.id)
         .map((topic) => ({ id: topic.id, title: topic.title })),
