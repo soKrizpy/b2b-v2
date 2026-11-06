@@ -2061,5 +2061,6 @@
       }
     }
   ],
-  "description": "Kurikulum Scratch 3.0 untuk pemula yang bertahap dari mengenal editor dan blok hingga membuat karya interaktif. Topik 1–4: Mudah; 5–8: Sedang; 9–12: Lancar. Setiap topik berisi 10 slide instruksional, 5 soal kuis, dan satu challenge proyek."
+  "description": "Kurikulum Scratch 3.0 untuk pemula yang bertahap dari mengenal editor dan blok hingga membuat karya interaktif. Topik 1–4: Mudah; 5–8: Sedang; 9–12: Lancar. Setiap topik berisi 10 slide instruksional, 5 soal kuis, dan satu challenge proyek.",
+  "module_id": 29
 }
