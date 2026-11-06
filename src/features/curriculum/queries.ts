@@ -123,7 +123,8 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
   if (modErr || !modules?.length) return [];
   if (topErr) { console.error('[getStudentModulesWithTopics] topics', topErr.message); }
 
-  const topicList = (topics ?? []) as unknown as TopicRow[];
+  const topicList = ((topics ?? []) as unknown as TopicRow[])
+    .filter((topic) => hasRenderableCurriculumContent(topic.lesson_content));
   const topicIds  = topicList.map((t) => t.id);
 
   // 4. Challenge counts per topic (filtered by topicIds in SQL)
@@ -215,8 +216,7 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
 
   if (topErr) console.error('[getAllModulesWithTopics] topics', topErr.message);
 
-  const topicList  = ((topics ?? []) as unknown as TopicRow[])
-    .filter((topic) => hasRenderableCurriculumContent(topic.lesson_content));
+  const topicList  = (topics ?? []) as unknown as TopicRow[];
   const topicIds   = topicList.map((t) => t.id);
 
   let challengeCountMap = new Map<number, number>();
