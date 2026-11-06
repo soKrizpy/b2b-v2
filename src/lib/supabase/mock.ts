@@ -2,11 +2,12 @@
 // In-memory mock Supabase store & query builder used when Supabase environment
 // configuration is missing. Missing values must never silently target a hosted database.
 
-import {
-  scratchTopicsData,
-  scratchFinalAssessment,
-} from '@/features/curriculum/data/scratchModuleData';
+import scratchCurriculumData from '../../../public/curriculum/scratch-game-development.json';
 import { encodeFinalAssessment } from '@/features/curriculum/validation';
+
+const scratchModuleData = scratchCurriculumData[0];
+const scratchTopicsData = scratchModuleData.topics;
+const scratchFinalAssessment = scratchModuleData.final_assessment;
 
 export interface MockUser {
   id: string;
