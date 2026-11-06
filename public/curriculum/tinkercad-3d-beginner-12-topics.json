@@ -2009,5 +2009,6 @@
       }
     }
   ],
-  "description": "Kurikulum pemula untuk belajar desain 3D menggunakan Tinkercad. Level 1 (topik 1–4) mengenalkan ruang 3D dan bentuk dasar; Level 2 (topik 5–8) berfokus pada pengukuran dan penyusunan presisi; Level 3 (topik 9–12) mengembangkan pola, perakitan komponen, penyempurnaan, dan proyek produk akhir."
+  "description": "Kurikulum pemula untuk belajar desain 3D menggunakan Tinkercad. Level 1 (topik 1–4) mengenalkan ruang 3D dan bentuk dasar; Level 2 (topik 5–8) berfokus pada pengukuran dan penyusunan presisi; Level 3 (topik 9–12) mengembangkan pola, perakitan komponen, penyempurnaan, dan proyek produk akhir.",
+  "module_id": 30
 }
