@@ -388,6 +388,7 @@ export async function exportCurriculumJson(): Promise<
   }
 
   const payload = modules.map((mod) => ({
+    module_id: mod.id,
     module_title:      mod.title ?? '',
     module_order:      0,
     description:       extractModuleDescription(mod.description) ?? undefined,
