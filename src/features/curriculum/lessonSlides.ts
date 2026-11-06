@@ -1,3 +1,5 @@
+import { extractTopicQuiz, topicChallengesSchema } from './validation';
+
 /** Suggested authoring range; lesson length remains content-driven. */
 export const MIN_LESSON_SLIDES = 10;
 /** Suggested upper authoring target, not a display or validation limit. */
@@ -89,8 +91,22 @@ export function hasRenderableCurriculumContent(lessonContent: unknown): boolean 
     return false;
   }
 
-  const learningPath = (lessonContent as Record<string, unknown>).learningPath;
-  return hasAuthoredLessonContent(getInstructionalSlides(learningPath));
+  const content = lessonContent as Record<string, unknown>;
+  const learningPath = content.learningPath;
+  if (!hasAuthoredLessonContent(getInstructionalSlides(learningPath))) return false;
+
+  // If a quiz or challenge is present in the canonical JSON, it must validate.
+  // Invalid assessment data must not be silently treated as "no quiz".
+  if (content.quiz !== undefined) {
+    if (!Array.isArray(content.quiz) || extractTopicQuiz(content).length !== content.quiz.length) {
+      return false;
+    }
+  }
+  if (content.challenge !== undefined && !topicChallengesSchema.safeParse(content.challenge).success) {
+    return false;
+  }
+
+  return true;
 }
 
 
