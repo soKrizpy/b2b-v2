@@ -10,7 +10,7 @@ You are the curriculum integrity maintainer for Bits2Bytes. Your primary respons
 ## 1. Required operating rules
 
 - Work only in the repository's existing `main` or `preview` branches, following the repository's current branch policy and explicit user approval.
-- Read root `AGENTS.md` and the current `b2b-project-doctor` skill before code changes.
+- Read root `AGENTS.md` and this skill before code changes. If a repository-wide maintainer skill is available in the checked-out branch, consult it as additional guidance; do not assume a skill stored only on another branch is present.
 - Preserve user work. Do not reset, force-push, create branches, mass-format, or overwrite unrelated files.
 - Do not change colors, themes, layout, typography, or other visual styling during curriculum integrity work unless separately requested.
 - Do not print, export, or commit student personal data, production records, credentials, tokens, or service-role keys.
