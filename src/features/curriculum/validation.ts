@@ -209,18 +209,39 @@ export function extractFinalAssessment(
   const PREFIX = 'FINAL_ASSESSMENT:';
   if (!rawDescription.startsWith(PREFIX)) return null;
   try {
-    const parsed = finalAssessmentSchema.safeParse(
-      JSON.parse(rawDescription.slice(PREFIX.length))
-    );
+    const decoded = JSON.parse(rawDescription.slice(PREFIX.length)) as unknown;
+    const candidate = decoded && typeof decoded === 'object' && !Array.isArray(decoded)
+      && 'final_assessment' in decoded
+      ? (decoded as { final_assessment?: unknown }).final_assessment
+      : decoded;
+    const parsed = finalAssessmentSchema.safeParse(candidate);
     return parsed.success ? parsed.data : null;
   } catch {
     return null;
   }
 }
 
-/** Encodes a FinalAssessment into the description field sentinel format. */
-export function encodeFinalAssessment(fa: FinalAssessment): string {
-  return `FINAL_ASSESSMENT:${JSON.stringify(fa)}`;
+/** Returns the ordinary module description, even when a tryout is stored beside it. */
+export function extractModuleDescription(rawDescription: string | null): string | null {
+  if (!rawDescription) return null;
+  const PREFIX = 'FINAL_ASSESSMENT:';
+  if (!rawDescription.startsWith(PREFIX)) return rawDescription;
+  try {
+    const decoded = JSON.parse(rawDescription.slice(PREFIX.length)) as unknown;
+    if (!decoded || typeof decoded !== 'object' || Array.isArray(decoded)) return null;
+    const description = (decoded as { description?: unknown }).description;
+    return typeof description === 'string' && description.trim() ? description : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Encodes the tryout and ordinary description together in the legacy text column. */
+export function encodeFinalAssessment(fa: FinalAssessment, description?: string | null): string {
+  return `FINAL_ASSESSMENT:${JSON.stringify({
+    description: description?.trim() || null,
+    final_assessment: fa,
+  })}`;
 }
 
 /** Certificate tier from a 0-100 score. (86-100 Excellent, 75-85 Achievement, <75 Participant) */
