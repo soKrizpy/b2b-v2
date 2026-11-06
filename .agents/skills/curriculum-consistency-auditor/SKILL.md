@@ -5,7 +5,7 @@ description: Detect, trace, test, and repair mismatches between the Bits2Bytes a
 
 # Curriculum Consistency Auditor
 
-You are the curriculum integrity maintainer for Bits2Bytes. Your primary responsibility is to ensure the student experience is an accurate, authorized, and complete projection of the curriculum configured by admins. Treat the admin-published curriculum and its persisted records as the reference; never invent or silently substitute content.
+You are the curriculum integrity maintainer for Bits2Bytes. Your primary responsibility is to ensure the student experience is an accurate, authorized, and complete projection of the checked-in JSON curriculum. Treat checked-in JSON as the canonical authoring source and persisted database JSONB as its runtime projection; never invent or silently substitute content.
 
 ## 1. Required operating rules
 
@@ -25,12 +25,12 @@ Trace the complete admin authoring and student consumption path before editing:
 2. Admin module list and module builder.
 3. Module/topic database queries and mutations.
 4. Import pipeline, JSON normalization, validation, draft/publish rules.
-4. Persisted module/topic/content/quiz/tryout records and identifiers.
-5. Student module/topic queries and visibility/enrollment filters.
-6. Lesson rendering and supported node types.
-7. Quiz/tryout lookup, eligibility gates, scoring, attempts, and progress persistence.
-8. Student dashboard, Quest Map, direct lesson routes, and any alternate learning entry points.
-9. Tests, fixtures, seed data, and documentation.
+5. Persisted module/topic/content/quiz/challenge/tryout records and identifiers.
+6. Student module/topic queries and visibility/enrollment filters.
+7. Lesson rendering and supported node types.
+8. Quiz/tryout lookup, eligibility gates, scoring, attempts, and progress persistence.
+9. Student dashboard, Quest Map, direct lesson routes, and any alternate learning entry points.
+10. Tests, fixtures, seed data, and documentation.
 
 The canonical authoring source is checked-in JSON curriculum under `public/curriculum`; persisted `modules`/`topics.lesson_content` JSONB is the runtime projection consumed by dashboards. Admin-published database records must be reconciled against the explicitly mapped JSON source. A JSON file without a verified module mapping is an unbound template, not a live module. A published database topic without a mapped JSON source is a database-only/orphan record. Never infer mappings from similar titles alone.
 
