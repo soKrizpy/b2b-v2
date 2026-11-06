@@ -119,7 +119,7 @@ describe('curriculum JSON round-trip workflow', () => {
   });
 
   it('keeps every mapped curriculum JSON file explicitly registered', () => {
-    const registry = JSON.parse(readFileSync('public/curriculum/registry.json', 'utf8').replace(/^\\uFEFF/, '')) as {
+    const registry = JSON.parse(readFileSync('public/curriculum/registry.json', 'utf8').replace(/^\uFEFF/, '')) as {
       modules: Array<{ file: string; module_id: number | null; module_title: string; status: 'mapped' | 'template' }>;
     };
 
