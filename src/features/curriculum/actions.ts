@@ -565,11 +565,14 @@ export async function updateModuleAction(
   if (!title) return { success: false, error: 'Judul modul wajib diisi.', fields: { title: 'Wajib diisi.' } };
 
   const db = createSupabaseAdminClient();
-  const { data: existingModule, error: readError } = await db
+  const { data: existingModule, error: readError } = await (db
     .from('modules')
     .select('description')
     .eq('id', id)
-    .maybeSingle();
+    .maybeSingle() as unknown as Promise<{
+      data: { description: string | null } | null;
+      error: { message: string } | null;
+    }>);
   if (readError || !existingModule) {
     return { success: false, error: readError?.message ?? 'Modul tidak ditemukan.' };
   }
