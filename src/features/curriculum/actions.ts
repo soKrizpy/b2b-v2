@@ -127,6 +127,10 @@ async function persistTopicChallenges(
   return { error: null, activeIds };
 }
 
+function toDatabaseLevel(level: string): string {
+  return level === 'advanced' ? 'advance' : level;
+}
+
 function importFailure(message: string, writeStarted: boolean): CurriculumActionResult {
   return {
     success: false,
@@ -224,7 +228,7 @@ export async function importCurriculumJson(
       let moduleId = plan.existingId;
       if (moduleId !== undefined) {
         const moduleUpdate: Record<string, unknown> = {
-          level: plan.mod.level,
+          level: toDatabaseLevel(plan.mod.level),
           gamification_type: plan.mod.gamification_type,
         };
         if (plan.mod.final_assessment) moduleUpdate.description = encodeFinalAssessment(plan.mod.final_assessment);
@@ -374,7 +378,7 @@ export async function exportCurriculumJson(): Promise<
     module_title:      mod.title ?? '',
     module_order:      0,
     description:       mod.description?.startsWith('FINAL_ASSESSMENT:') ? undefined : mod.description ?? undefined,
-    level:             (mod.level as ModuleImport['level']) ?? 'beginner',
+    level:             mod.level === 'advance' ? 'advanced' : ((mod.level as ModuleImport['level']) ?? 'beginner'),
     gamification_type: (mod.gamification_type as ModuleImport['gamification_type']) ?? 'mimo',
     final_assessment:  extractFinalAssessment(mod.description ?? null) ?? undefined,
     topics: mod.topics.map((topic) => {
@@ -532,7 +536,7 @@ export async function createModuleAction(
   const db = createSupabaseAdminClient();
   const { error } = await (db
     .from('modules')
-    .insert({ title, description, level, gamification_type } as never)
+    .insert({ title, description, level: toDatabaseLevel(level), gamification_type } as never)
     .select('id')
     .single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
 
@@ -562,7 +566,7 @@ export async function updateModuleAction(
   const db = createSupabaseAdminClient();
   const { error } = await (db
     .from('modules')
-    .update({ title, description, level, gamification_type } as never)
+    .update({ title, description, level: toDatabaseLevel(level), gamification_type } as never)
     .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
 
   if (error) return { success: false, error: error.message };
