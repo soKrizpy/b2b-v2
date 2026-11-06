@@ -35,6 +35,7 @@ function makeNode(status: QuestTopicNode['status']): QuestTopicNode {
       lesson_content: { learningPath: [] },
     } as unknown as QuestTopicNode['topic'],
     status,
+    isUnlocked: status !== 'LOCKED',
     hasQuiz: true,
     attemptsUsed: 0,
     bestScore: 0,
