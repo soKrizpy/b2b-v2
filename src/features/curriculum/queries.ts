@@ -5,6 +5,7 @@
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { getActiveChallengeIds } from '@/features/challenges/activeChallengeIds';
+import { hasRenderableCurriculumContent } from './lessonSlides';
 import type { ModuleRow, TopicRow } from '@/types/database';
 
 // ── Result shapes ─────────────────────────────────────────────────────────────
@@ -108,6 +109,7 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
       .from('modules')
       .select('id, title, description, level, gamification_type, is_active, created_at')
       .in('id', moduleIds)
+      .eq('is_active', true)
       .order('created_at', { ascending: false }),
     db
       .from('topics')
@@ -137,12 +139,12 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
     challengeCountMap = countVisibleChallenges(topicList, challenges ?? []);
   }
 
-  return (modules as unknown as ModuleRow[]).map((mod) => {
+  const studentModules = (modules as unknown as ModuleRow[]).map((mod) => {
     const enrollmentStatus = statusByModule.get(mod.id) ?? 'active';
     const allModuleTopics = topicList.filter((t) => t.module_id === mod.id);
 
-    // Paused modules: only topics that are published AND completed by the student.
-    // Active modules: all published topics (existing behaviour).
+    // Paused modules: only JSON-ready topics already completed by the student.
+    // Active modules: only published topics with renderable lesson_content JSON.
     const visibleTopics = enrollmentStatus === 'paused'
       ? allModuleTopics.filter((t) => completedTopicIds.has(t.id))
       : allModuleTopics;
@@ -156,6 +158,10 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
       })),
     };
   });
+
+  // Do not expose active enrollments whose curriculum has not been authored
+  // in the canonical JSON format yet. Paused rows remain for review filtering.
+  return studentModules.filter((mod) => mod.enrollmentStatus === 'paused' || mod.topics.length > 0);
 }
 
 // ── Topics ────────────────────────────────────────────────────────────────────
@@ -209,7 +215,8 @@ async function fetchAllModulesWithTopics(): Promise<ModuleWithTopics[]> {
 
   if (topErr) console.error('[getAllModulesWithTopics] topics', topErr.message);
 
-  const topicList  = (topics ?? []) as unknown as TopicRow[];
+  const topicList  = ((topics ?? []) as unknown as TopicRow[])
+    .filter((topic) => hasRenderableCurriculumContent(topic.lesson_content));
   const topicIds   = topicList.map((t) => t.id);
 
   let challengeCountMap = new Map<number, number>();
@@ -250,10 +257,10 @@ export async function getPublishedTopicCountsByModules(
   const db = createSupabaseAdminClient();
   const { data, error } = await db
     .from('topics')
-    .select('id, module_id')
+    .select('id, module_id, lesson_content')
     .in('module_id', moduleIds)
     .eq('status', 'published') as unknown as {
-      data: Array<{ id: number; module_id: number }> | null;
+      data: Array<{ id: number; module_id: number; lesson_content: unknown }> | null;
       error: { message: string } | null;
     };
 
@@ -264,6 +271,7 @@ export async function getPublishedTopicCountsByModules(
 
   const countByModule = new Map<number, number>();
   for (const row of data ?? []) {
+    if (!hasRenderableCurriculumContent(row.lesson_content)) continue;
     countByModule.set(row.module_id, (countByModule.get(row.module_id) ?? 0) + 1);
   }
 
@@ -309,7 +317,7 @@ export async function getStudentModuleProgress(
       error: unknown;
     };
 
-  const topics = topicsData ?? [];
+  const topics = (topicsData ?? []).filter((topic) => hasRenderableCurriculumContent(topic.lesson_content));
 
   // Fetch all quiz attempts for this student (across these topics)
   const topicIds = topics.map((t) => t.id);
