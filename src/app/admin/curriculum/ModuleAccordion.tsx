@@ -48,7 +48,7 @@ export function ModuleAccordion({ module: mod }: Props) {
   const publishedTopics = mod.topics.filter((topic) => topic.status === 'published');
   const jsonReadyTopics = publishedTopics.filter((topic) => hasRenderableCurriculumContent(topic.lesson_content)).length;
   const missingJsonTopics = publishedTopics.length - jsonReadyTopics;
-  const displayDesc = hasFinalAssessment ? null : mod.description;
+  const displayDesc = extractModuleDescription(mod.description);
 
   return (
     <div className={`relative bg-white dark:bg-[var(--surface)] rounded-2xl border-2 shadow-sm
@@ -205,7 +205,7 @@ export function ModuleAccordion({ module: mod }: Props) {
                 <label htmlFor={`mod-desc-${mod.id}`}
                   className="text-xs font-semibold text-slate-600 dark:text-slate-300">Deskripsi</label>
                 <textarea id={`mod-desc-${mod.id}`} name="description" rows={2}
-                  defaultValue={hasFinalAssessment ? '' : (mod.description ?? '')}
+                  defaultValue={displayDesc ?? ''}
                   className="rounded-lg border border-slate-300 dark:border-[var(--border)] px-3 py-2 text-sm resize-y
                     bg-white dark:bg-[var(--surface)] text-slate-900 dark:text-white
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]"
