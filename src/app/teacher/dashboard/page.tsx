@@ -33,7 +33,7 @@ export default async function TeacherDashboardPage() {
     ? user.user_metadata.full_name.trim()
     : '';
   const displayName = teacherProfile.data?.full_name?.trim() || metadataName || user.email?.split('@')[0] || 'Guru';
-  const teacherFirstName = displayName.split(/\\s+/)[0] || 'Guru';
+  const teacherFirstName = displayName.split(/\s+/)[0] || 'Guru';
 
   const renderTimestamp = Date.now();
   const renderNow = new Date(renderTimestamp);
