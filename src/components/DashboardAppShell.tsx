@@ -228,7 +228,7 @@ export function DashboardAppShell({
                 <div className="my-2 flex items-center gap-2 px-1">
                   <div className="flex-1 h-px bg-blue-200/60 dark:bg-purple-500/20" />
                   {!collapsed && (
-                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-600 whitespace-nowrap">
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-600 dark:text-slate-300 whitespace-nowrap">
                       {group.label}
                     </span>
                   )}
@@ -237,7 +237,7 @@ export function DashboardAppShell({
               )}
               {/* First group label (only shown when not collapsed) */}
               {groupIdx === 0 && !collapsed && (
-                <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-600 px-3.5 pt-1 pb-1.5">
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-600 dark:text-slate-300 px-3.5 pt-1 pb-1.5">
                   {group.label}
                 </p>
               )}
