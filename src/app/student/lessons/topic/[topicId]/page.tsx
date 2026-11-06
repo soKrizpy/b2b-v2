@@ -90,6 +90,7 @@ export default async function TopicPage({ params }: Props) {
   const lessonContent = topic.lesson_content as Record<string, unknown> | null;
   const lessonSlides = getInstructionalSlides(lessonContent?.learningPath);
   const lessonHasContent = hasAuthoredLessonContent(lessonSlides);
+  if (!lessonHasContent) notFound();
   const meetsSlideTarget = isWithinSuggestedLessonSlideRange(lessonSlides);
   const activeChallengeIds = getActiveChallengeIds(lessonContent);
 
