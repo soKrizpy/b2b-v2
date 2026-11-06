@@ -152,6 +152,25 @@ describe('curriculum JSON round-trip workflow', () => {
     state.nextChallengeId = 501;
   });
 
+  it('keeps explicitly draft topics in draft even when their JSON lesson content is valid', async () => {
+    const result = await importCurriculumJson([{
+      module_title: 'Draft JSON module',
+      module_order: 0,
+      level: 'beginner',
+      gamification_type: 'mimo',
+      topics: [{
+        topic_title: 'Draft lesson',
+        topic_order: 0,
+        status: 'draft',
+        nodes: lessonNodes,
+      }],
+    }]);
+
+    expect(result.success).toBe(true);
+    const topicInsert = state.appliedWrites.find((write) => write.table === 'topics');
+    expect((topicInsert?.values as { status?: string } | undefined)?.status).toBe('draft');
+  });
+
   it('rejects missing or unknown content before any database write', async () => {
     const invalidPayload = [{
       module_title: 'Modul',
