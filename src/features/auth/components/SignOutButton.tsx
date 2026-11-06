@@ -41,7 +41,7 @@ export function SignOutButton() {
       onClick={handleSignOut}
       disabled={pending}
       className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium
-        text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30
+        text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30
         transition-all duration-150 disabled:opacity-50 active:scale-95 group"
       title="Keluar"
     >
