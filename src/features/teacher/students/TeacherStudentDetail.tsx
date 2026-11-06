@@ -38,8 +38,8 @@ function isSupabaseStorageImage(url: string): boolean {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  pending:  { label: 'Menunggu Review', color: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border-amber-200/60 dark:border-amber-700/40' },
-  approved: { label: 'Disetujui', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200/60 dark:border-emerald-700/40' },
+  pending:  { label: 'Menunggu Review', color: 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 border-amber-200/60 dark:border-amber-700/40' },
+  approved: { label: 'Disetujui', color: 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200/60 dark:border-emerald-700/40' },
   rejected: { label: 'Ditolak', color: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 border-rose-200/60 dark:border-rose-700/40' },
 };
 
@@ -116,7 +116,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
               key={t.topic_id}
               className="flex items-center gap-3 py-2 border-b border-slate-50 dark:border-zinc-800 last:border-0"
             >
-              <span className="text-xs font-black text-slate-400 dark:text-slate-600 w-5 text-center">{i + 1}</span>
+              <span className="text-xs font-black text-slate-600 dark:text-slate-300 w-5 text-center">{i + 1}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{t.title}</p>
               </div>
@@ -131,7 +131,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
                   </span>
                 </div>
               ) : (
-                <span className="text-[10px] text-slate-400 dark:text-slate-600 italic">Belum quiz</span>
+                <span className="text-[10px] text-slate-600 dark:text-slate-300 italic">Belum quiz</span>
               )}
             </div>
           ))}
@@ -139,7 +139,7 @@ function ModuleAccordion({ mod }: { mod: TeacherStudentProfile['modules'][number
       )}
 
       {open && mod.topics.length === 0 && (
-        <p className="px-4 py-3 text-xs text-slate-400 dark:text-slate-600 italic border-t border-slate-100 dark:border-zinc-700/60">
+        <p className="px-4 py-3 text-xs text-slate-600 dark:text-slate-300 italic border-t border-slate-100 dark:border-zinc-700/60">
           Tidak ada topik di modul ini.
         </p>
       )}
@@ -350,7 +350,7 @@ export function TeacherStudentDetail({ student }: Props) {
             </h2>
             {student.badges.length === 0 ? (
               <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-8 text-center">
-                <p className="text-sm font-bold text-slate-400 dark:text-slate-600">Belum ada badge</p>
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada badge</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -378,7 +378,7 @@ export function TeacherStudentDetail({ student }: Props) {
                     {b.description && (
                       <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-relaxed">{b.description}</p>
                     )}
-                    <p className="text-[10px] text-slate-400 dark:text-slate-600">
+                    <p className="text-[10px] text-slate-600 dark:text-slate-300">
                       {formatDate(b.earned_at, { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
                   </div>
@@ -395,7 +395,7 @@ export function TeacherStudentDetail({ student }: Props) {
             </h2>
             {student.certificates.length === 0 ? (
               <div className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-zinc-800 p-8 text-center">
-                <p className="text-sm font-bold text-slate-400 dark:text-slate-600">Belum ada sertifikat</p>
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Belum ada sertifikat</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -418,7 +418,7 @@ export function TeacherStudentDetail({ student }: Props) {
                     <div className="text-right flex-shrink-0">
                       <div className="flex items-center gap-1 justify-end mb-1">
                         <Star className="w-3 h-3 text-amber-500" />
-                        <span className="text-sm font-black text-amber-600 dark:text-amber-400">{c.score}%</span>
+                        <span className="text-sm font-black text-amber-700 dark:text-amber-300">{c.score}%</span>
                       </div>
                       <p className="text-[10px] text-slate-400 dark:text-slate-500">
                         {formatDate(c.issued_at, { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -470,7 +470,7 @@ export function TeacherStudentDetail({ student }: Props) {
                       )}
                     </div>
                     <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                      <p className="text-[10px] text-slate-400 dark:text-slate-600">
+                      <p className="text-[10px] text-slate-600 dark:text-slate-300">
                         {formatDate(sub.submitted_at, { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                       {sub.submission_url && (
