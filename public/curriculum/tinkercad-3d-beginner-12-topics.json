@@ -1,0 +1,2013 @@
+{
+  "module_title": "Tinkercad 3D Beginner — 12 Topik",
+  "module_order": 3,
+  "level": "beginner",
+  "gamification_type": "mimo",
+  "topics": [
+    {
+      "topic_title": "Berkenalan dengan Tinkercad 3D",
+      "topic_order": 0,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu Desain 3D?",
+          "xp": 5,
+          "content": "Desain 3D adalah cara membuat model yang memiliki panjang, lebar, dan tinggi. Di Tinkercad, kamu menyusun bentuk digital di ruang kerja, mengubah ukurannya, lalu menggabungkannya menjadi benda yang kamu inginkan. Mulailah dari bentuk sederhana sebelum mencoba model yang rumit."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Kenali Sumbu X, Y, dan Z",
+          "xp": 5,
+          "content": "Ruang 3D memakai tiga arah utama. Sumbu X bergerak ke kiri dan kanan, sumbu Y ke depan dan belakang, sedangkan sumbu Z mengatur tinggi atau rendah. Membayangkan ketiga arah ini membantumu memahami mengapa sebuah benda bisa berada di atas bidang kerja atau bergeser ke samping."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Dari Bentuk Datar ke Benda 3D",
+          "xp": 5,
+          "content": "Lingkaran di kertas hanya memiliki panjang dan lebar, sedangkan silinder memiliki tinggi sehingga menjadi benda 3D. Kubus, bola, tabung, dan kerucut merupakan contoh bentuk dasar yang dapat digunakan sebagai bagian dari model yang lebih kompleks."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengenal Area Kerja Tinkercad",
+          "xp": 5,
+          "content": "Editor Tinkercad memiliki area kerja utama untuk melihat dan menyusun benda, panel bentuk untuk menambahkan objek, serta alat untuk mengubah tampilan dan properti objek. Kenali lokasi area-area tersebut sebelum mulai mendesain agar kamu tahu tempat mengambil bentuk dan tempat memeriksa hasilnya."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Membaca Grid di Bidang Kerja",
+          "xp": 5,
+          "content": "Grid adalah pola garis pada bidang kerja yang menjadi panduan posisi dan jarak. Garis grid membantu memperkirakan lokasi benda, tetapi ukuran sebenarnya tetap perlu diperiksa dengan alat ukuran jika proyek membutuhkan presisi. Gunakan grid sebagai titik awal untuk meletakkan bentuk dengan rapi."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mengenal Panel Bentuk Dasar",
+          "xp": 5,
+          "content": "Panel bentuk menyediakan objek siap pakai seperti kotak, bola, silinder, dan bentuk lainnya. Seret sebuah bentuk ke bidang kerja untuk menambahkannya. Jika belum memahami semua pilihan, gunakan satu bentuk terlebih dahulu dan perhatikan pegangan yang muncul saat objek dipilih."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Melihat Model dari Beberapa Arah",
+          "xp": 5,
+          "content": "Model dapat dilihat dari atas, samping, depan, atau sudut miring. Putar sudut pandang untuk memeriksa tinggi dan posisi, bukan hanya tampilan dari atas. Jika objek terlihat menempel pada grid dari satu arah, pandangan lain dapat membantu memastikan bentuknya memang berada di tempat yang tepat."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Mulai dengan Satu Bentuk",
+          "xp": 5,
+          "content": "Untuk desain pertama, letakkan satu kotak di bidang kerja. Pilih objek, ubah ukuran sedikit, lalu geser ke posisi yang mudah dilihat. Hindari menambahkan banyak bentuk sekaligus; satu perubahan pada satu waktu membuatmu lebih mudah mengerti hubungan antara tindakan dan hasil."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Pilih Bentuk yang Tepat",
+          "xp": 10,
+          "content": "Pilih bentuk dasar yang paling tepat untuk membuat badan balok sederhana. Periksa opsi dan tentukan apakah tujuan utamanya berupa benda dengan sisi datar, benda bulat, atau bentuk runcing. Setelah memilih, letakkan satu bentuk dan amati tampilannya dari dua arah.",
+          "instructions": "Untuk membuat badan kotak sederhana, bentuk dasar mana yang paling sesuai?",
+          "options": [
+            "Box/Kotak",
+            "Teks",
+            "Workplane",
+            "Penggaris"
+          ],
+          "correct_option": "Box/Kotak"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Checklist Desain Pertama",
+          "xp": 5,
+          "content": "Sebelum menyatakan desain pertama selesai, periksa apakah bentuk terlihat di area kerja, ukurannya masuk akal, posisinya tidak keluar dari bidang, dan nama desain mudah dikenali. Putar sudut pandang dan pastikan kamu memahami benda yang sudah dibuat sebelum melanjutkan ke topik berikutnya."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Desain 3D Pertamaku",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali."
+        }
+      ],
+      "description": "Level Mudah. Mengenal ruang 3D, editor Tinkercad, bentuk dasar, grid, dan cara membuat desain pertama.",
+      "quiz": [
+        {
+          "options": [
+            "Memiliki panjang, lebar, dan tinggi",
+            "Hanya memiliki warna",
+            "Selalu berbentuk lingkaran",
+            "Hanya memiliki dua sisi"
+          ],
+          "question": "Apa yang membuat sebuah objek disebut 3D?",
+          "explanation": "Benda 3D memiliki dimensi panjang, lebar, dan tinggi.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Kiri dan kanan",
+            "Depan dan belakang",
+            "Atas dan bawah",
+            "Warna dan tekstur"
+          ],
+          "question": "Sumbu Z biasanya menunjukkan arah…",
+          "explanation": "Sumbu Z menunjukkan tinggi atau rendah.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Mengirim pesan ke guru",
+            "Menambahkan bentuk dasar ke desain",
+            "Mengubah kata sandi",
+            "Mematikan grid permanen"
+          ],
+          "question": "Apa fungsi panel bentuk di Tinkercad?",
+          "explanation": "Panel bentuk menyediakan objek yang dapat diletakkan di ruang kerja.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Agar warna berubah otomatis",
+            "Agar hanya terlihat dari atas",
+            "Untuk memastikan akun tersimpan",
+            "Untuk memeriksa tinggi dan posisi dari arah berbeda"
+          ],
+          "question": "Mengapa sudut pandang perlu diputar saat memeriksa model?",
+          "explanation": "Pandangan berbeda membantu memeriksa dimensi dan posisi yang tidak terlihat dari satu arah.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Menambahkan puluhan bentuk sekaligus",
+            "Mulai dengan satu bentuk dan uji hasilnya",
+            "Tidak memilih objek",
+            "Mengabaikan posisi bentuk"
+          ],
+          "question": "Langkah yang baik untuk pemula saat mulai desain adalah…",
+          "explanation": "Satu bentuk membuat hubungan antara tindakan dan hasil lebih mudah dipahami.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Desain 3D Pertamaku",
+        "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Mengenal Grid, Workplane, dan Sudut Pandang",
+      "topic_order": 1,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Grid sebagai Panduan Posisi",
+          "xp": 5,
+          "content": "Grid membantu memperkirakan jarak dan susunan benda di atas bidang kerja. Garis grid adalah panduan visual, bukan pengganti pengukuran tepat. Perhatikan jarak antarobjek dan gunakan garis sebagai acuan awal agar desain tidak tampak diletakkan secara acak."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Apa Itu Workplane?",
+          "xp": 5,
+          "content": "Workplane adalah bidang tempat bentuk baru diletakkan atau diedit. Bidang kerja utama biasanya berupa alas datar. Memahami bidang ini membantu kamu tahu dari mana objek mulai ditempatkan dan mengapa menaruh bentuk pada permukaan tertentu bisa membantu merakit model."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Menaruh Bentuk di Workplane",
+          "xp": 5,
+          "content": "Seret bentuk ke Workplane lalu lepaskan saat posisinya sesuai. Amati apakah bentuk berada di atas alas dan tidak melayang atau terlalu jauh dari area kerja. Setelah itu, putar tampilan untuk memeriksa apakah objek benar-benar berada pada posisi yang kamu harapkan."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Putar Sudut Pandang",
+          "xp": 5,
+          "content": "Putar sudut pandang untuk melihat objek dari depan, samping, belakang, atau atas. Perubahan ini mengubah cara kamu melihat ruang, bukan letak benda itu sendiri. Gunakan pandangan atas untuk menyusun posisi mendatar dan pandangan miring untuk memeriksa tinggi."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Zoom dan Geser Tampilan",
+          "xp": 5,
+          "content": "Zoom mendekat membantu memeriksa detail kecil, sedangkan zoom menjauh membantu melihat seluruh rancangan. Menggeser tampilan membuat area kerja bergerak di layar tanpa memindahkan objek. Jika model hilang dari layar, gunakan navigasi untuk menemukan kembali area desain."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Bedakan Memindahkan Objek dan Tampilan",
+          "xp": 5,
+          "content": "Memindahkan objek mengubah lokasi benda dalam ruang 3D. Memutar tampilan hanya mengubah arah kamera virtual saat melihat model. Coba lakukan keduanya secara terpisah dan amati bahwa objek yang sama tetap berada pada posisi yang sama ketika kamu hanya memutar sudut pandang."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Baca Posisi dari Beberapa Arah",
+          "xp": 5,
+          "content": "Benda dapat tampak sejajar dari atas tetapi sebenarnya berbeda ketinggian. Periksa dari sudut miring untuk melihat apakah bentuk berada di alas yang sama. Gunakan kombinasi pandangan atas dan miring sebagai kebiasaan sebelum mengirim pekerjaan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Mengembalikan Tampilan yang Nyaman",
+          "xp": 5,
+          "content": "Tampilan yang terlalu dekat atau mengarah ke area kosong dapat membuat model sulit ditemukan. Gunakan kontrol navigasi untuk kembali ke area yang berisi objek dan pilih tampilan yang memperlihatkan seluruh desain. Ini lebih aman daripada langsung menghapus bentuk yang seolah-olah hilang."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Tempatkan Bentuk",
+          "xp": 10,
+          "content": "Letakkan satu kotak pada grid, lalu geser sudut pandang dan zoom untuk memeriksa lokasi yang sama. Jangan menarik objek ketika tujuanmu hanya ingin melihatnya dari arah berbeda. Perhatikan perbedaan antara perubahan posisi objek dan perubahan tampilan layar.",
+          "instructions": "Jika ingin melihat sisi lain objek tanpa mengubah letak objek, kamu perlu…",
+          "options": [
+            "Menghapus objek",
+            "Memutar sudut pandang",
+            "Mengubah ukuran objek",
+            "Menggunakan Group"
+          ],
+          "correct_option": "Memutar sudut pandang"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Periksa Posisi Terakhir",
+          "xp": 5,
+          "content": "Periksa bahwa bentuk masih berada di area desain dan dapat dilihat dengan jelas. Pastikan kamu dapat menunjukkan bagian atas, samping, dan dasar objek melalui perubahan sudut pandang. Jika posisi tidak sesuai, pilih objek dan pindahkan secara sengaja, kemudian periksa kembali."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Bentuk pada Bidang Kerja",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat desain berisi tiga bentuk dasar di atas Workplane. Susun dengan jarak yang disengaja, lalu gunakan tampilan atas dan miring untuk memeriksa posisi serta tinggi tiap bentuk. Kirim tautan desain. Kriteria: tiga bentuk terlihat, berada dalam area kerja, dan penataan dapat dipahami dari dua sudut pandang."
+        }
+      ],
+      "description": "Level Mudah. Menggunakan grid, bidang kerja (Workplane), dan navigasi sudut pandang untuk menempatkan bentuk secara terencana.",
+      "quiz": [
+        {
+          "options": [
+            "Memberi panduan visual posisi dan jarak",
+            "Mengubah objek menjadi animasi",
+            "Membuat kata sandi",
+            "Mengirim tautan"
+          ],
+          "question": "Grid paling berguna untuk…",
+          "explanation": "Grid membantu memperkirakan posisi dan jarak saat menyusun objek.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Panel untuk memilih akun",
+            "Bentuk berwarna merah",
+            "Bidang tempat objek diletakkan atau diedit",
+            "Fitur untuk mengekspor video"
+          ],
+          "question": "Workplane adalah…",
+          "explanation": "Workplane adalah bidang kerja tempat bentuk disusun.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Ukuran objek selalu bertambah",
+            "Lokasi objek berpindah",
+            "Warna objek hilang",
+            "Cara pandang terhadap objek"
+          ],
+          "question": "Apa yang berubah saat kamu hanya memutar sudut pandang?",
+          "explanation": "Navigasi sudut pandang mengubah perspektif melihat, bukan posisi objek.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Nama akun",
+            "Tinggi dan posisi relatif objek",
+            "Riwayat browser",
+            "Pilihan warna teks"
+          ],
+          "question": "Pandangan miring membantu memeriksa…",
+          "explanation": "Pandangan miring memudahkan pemeriksaan tinggi serta apakah bentuk melayang atau menempel pada alas.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Langsung menghapus semua bentuk",
+            "Membuat proyek baru tanpa memeriksa",
+            "Gunakan navigasi untuk menemukan kembali desain",
+            "Mengganti semua warna"
+          ],
+          "question": "Objek tampak hilang karena tampilan mengarah ke area kosong. Langkah pertama yang tepat adalah…",
+          "explanation": "Objek mungkin masih ada; gunakan zoom/pan/view controls untuk menemukannya.",
+          "answer_index": 2
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Bentuk pada Bidang Kerja",
+        "instructions": "Buat desain berisi tiga bentuk dasar di atas Workplane. Susun dengan jarak yang disengaja, lalu gunakan tampilan atas dan miring untuk memeriksa posisi serta tinggi tiap bentuk. Kirim tautan desain. Kriteria: tiga bentuk terlihat, berada dalam area kerja, dan penataan dapat dipahami dari dua sudut pandang.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Mengenal Bentuk Dasar dan Warna",
+      "topic_order": 2,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Kotak, Silinder, Bola, dan Kerucut",
+          "xp": 5,
+          "content": "Kotak cocok sebagai alas atau dinding, silinder cocok sebagai tiang, bola dapat menjadi ornamen, dan kerucut dapat digunakan sebagai atap atau hiasan. Bentuk dasar bukan hanya objek akhir, melainkan bahan untuk membangun benda yang lebih rumit."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Bentuk untuk Bagian Bangunan",
+          "xp": 5,
+          "content": "Bayangkan rumah sederhana sebagai alas, dinding, dan atap. Pilih bentuk yang sesuai untuk masing-masing bagian sebelum menyusunnya. Perencanaan ini membuat kamu lebih mudah menentukan berapa bentuk yang dibutuhkan dan di mana setiap bagian harus ditempatkan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Membedakan Bentuk Solid dan Hole",
+          "xp": 5,
+          "content": "Bentuk solid menambahkan volume pada model. Bentuk Hole digunakan untuk mengurangi volume ketika digabungkan dengan solid. Pada tahap ini, fokuslah pada bentuk solid terlebih dahulu; pelajari penggunaan Hole lebih terperinci pada topik khusus nanti."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Tambahkan Beberapa Bentuk",
+          "xp": 5,
+          "content": "Tambahkan bentuk satu per satu dan letakkan sesuai fungsi. Gunakan alas lebar, dinding yang berdiri di atasnya, dan bentuk atap yang diletakkan di bagian atas. Setelah setiap langkah, ubah sudut pandang untuk memastikan bagian tidak saling berjauhan atau bertumpuk secara tidak sengaja."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Pilih Warna dengan Tujuan",
+          "xp": 5,
+          "content": "Warna dapat memisahkan bagian rumah agar lebih mudah dibaca, misalnya dinding satu warna dan atap warna lain. Warna yang berbeda tidak memperbaiki geometri yang keliru, jadi pastikan bentuk tersusun dengan benar sebelum memperindah tampilannya."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Susun Alas dan Dinding",
+          "xp": 5,
+          "content": "Mulai dari alas dan dinding. Alas menjadi rujukan untuk menempatkan bagian lain. Letakkan dinding pada posisi yang direncanakan dan periksa dari samping apakah bagian bawahnya berada pada ketinggian yang tepat."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Buat Atap Sederhana",
+          "xp": 5,
+          "content": "Atap rumah dapat dibuat dari bentuk atap yang tersedia atau bentuk sederhana lain yang sesuai dengan tujuan. Jika menggunakan bentuk yang perlu diputar, perhatikan pegangan rotasi dan lakukan perubahan bertahap. Atap sebaiknya menutupi bagian atas tanpa menutupi seluruh dinding."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Cek Bentuk dari Sisi Berbeda",
+          "xp": 5,
+          "content": "Model rumah perlu diperiksa dari atas, depan, dan samping. Pandangan atas membantu melihat apakah dinding tersusun pada alas; pandangan samping membantu memeriksa atap dan tinggi. Jika suatu bagian terlihat tidak seimbang, pindahkan atau ubah ukurannya sebelum menambahkan detail."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Bentuk Rumah",
+          "xp": 10,
+          "content": "Pilih bentuk untuk dinding, alas, dan atap. Tentukan bentuk mana yang paling masuk akal untuk masing-masing bagian. Setelah menyusun rumah sederhana, periksa hasil dari dua sudut pandang dan pastikan setiap bagian dapat dikenali.",
+          "instructions": "Bentuk apa yang paling mudah digunakan sebagai badan utama rumah sederhana?",
+          "options": [
+            "Kotak/Box",
+            "Teks melengkung",
+            "Penggaris",
+            "Ikon kamera"
+          ],
+          "correct_option": "Kotak/Box"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Rapikan Komposisi",
+          "xp": 5,
+          "content": "Rapikan komposisi dengan menghindari bagian yang terlalu jauh, tertutup, atau tidak seimbang. Gunakan warna untuk membedakan fungsi, bukan menutupi susunan yang keliru. Simpan desain dengan nama yang menjelaskan isi proyek."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Rumah dari Bentuk Sederhana",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat model rumah mini dari sekurangnya tiga bentuk: alas, badan rumah, dan atap. Gunakan setidaknya dua warna untuk membedakan bagian, lalu periksa susunan dari depan dan samping. Kirim tautan desain. Kriteria: tiga bagian utama terlihat, tidak saling terpisah tanpa tujuan, serta warna mendukung keterbacaan."
+        }
+      ],
+      "description": "Level Mudah. Memilih bentuk dasar, menggabungkan bentuk sebagai rancangan rumah sederhana, dan menggunakan warna untuk memperjelas bagian.",
+      "quiz": [
+        {
+          "options": [
+            "Teks",
+            "Kotak/Box",
+            "Tombol pengaturan",
+            "Garis pandang"
+          ],
+          "question": "Bentuk yang cocok menjadi alas rumah adalah…",
+          "explanation": "Kotak dapat menjadi alas datar yang stabil untuk dinding.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menambah volume pada model",
+            "Mengubah nama file",
+            "Menggeser kamera saja",
+            "Menghapus akun"
+          ],
+          "question": "Bentuk solid memiliki fungsi untuk…",
+          "explanation": "Bentuk solid menambahkan volume ke desain.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengganti fungsi Workplane",
+            "Membuat semua ukuran benar otomatis",
+            "Membedakan bagian agar mudah dibaca",
+            "Menghapus bentuk yang bertumpuk"
+          ],
+          "question": "Warna sebaiknya digunakan untuk…",
+          "explanation": "Warna membantu membedakan bagian, tetapi tidak menggantikan penataan bentuk yang benar.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Agar link otomatis tersimpan",
+            "Agar warna menjadi seragam",
+            "Agar semua bentuk berubah menjadi bulat",
+            "Untuk memeriksa tinggi dan susunan bagian"
+          ],
+          "question": "Mengapa model perlu diperiksa dari samping?",
+          "explanation": "Tampilan samping membantu memeriksa tinggi dan hubungan antarbentuk.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Atap, warna, lalu hapus alas",
+            "Alas, dinding, lalu atap",
+            "Warna saja tanpa bentuk",
+            "Atap di bawah alas"
+          ],
+          "question": "Urutan yang masuk akal untuk membangun rumah adalah…",
+          "explanation": "Alas dan badan rumah menjadi acuan untuk menempatkan atap.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Rumah dari Bentuk Sederhana",
+        "instructions": "Buat model rumah mini dari sekurangnya tiga bentuk: alas, badan rumah, dan atap. Gunakan setidaknya dua warna untuk membedakan bagian, lalu periksa susunan dari depan dan samping. Kirim tautan desain. Kriteria: tiga bagian utama terlihat, tidak saling terpisah tanpa tujuan, serta warna mendukung keterbacaan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Memindahkan, Memutar, dan Mengubah Ukuran",
+      "topic_order": 3,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Pegangan untuk Memindahkan",
+          "xp": 5,
+          "content": "Saat objek dipilih, pegangan dan kontrol muncul di sekitarnya. Gunakan kontrol pindah untuk menggeser objek ke lokasi baru. Perhatikan perubahan posisi dengan pandangan miring agar kamu mengetahui apakah objek bergeser mendatar atau juga berubah ketinggian."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Gerak pada Sumbu X dan Y",
+          "xp": 5,
+          "content": "Geser objek ke kiri-kanan pada arah X dan ke depan-belakang pada arah Y. Gerakkan sedikit demi sedikit dan perhatikan grid. Jika bagian robot harus berada tepat di tengah badan, tentukan posisi badan dahulu lalu atur bagian lain relatif terhadapnya."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Mengatur Tinggi pada Sumbu Z",
+          "xp": 5,
+          "content": "Arah Z mengatur tinggi. Jika sebuah bentuk terlihat melayang di atas alas, periksa posisinya pada sumbu Z dan turunkan sampai sesuai. Pada robot, tinggi kepala, badan, tangan, dan kaki perlu diatur supaya bagian tampak tersambung secara visual."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Putar Objek Secara Bertahap",
+          "xp": 5,
+          "content": "Gunakan pegangan rotasi untuk memutar benda ke arah yang diinginkan. Sudut yang ditampilkan membantu membuat perubahan terukur. Hindari memutar berulang tanpa mengecek hasil; putar sedikit, amati, lalu lanjutkan sampai orientasi sesuai."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Mengubah Ukuran dengan Pegangan",
+          "xp": 5,
+          "content": "Pegangan ukuran dapat memperlebar, memperdalam, atau meninggikan bentuk. Ubah ukuran satu dimensi jika ingin mengubah proporsi, atau pertahankan proporsi yang sama jika bentuk harus tetap seimbang. Gunakan angka ukuran yang tampil ketika kamu perlu ketepatan lebih tinggi."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Memahami Proporsi",
+          "xp": 5,
+          "content": "Proporsi adalah perbandingan ukuran antarbagiannya. Kepala robot bisa lebih kecil daripada badan, sementara kaki dan tangan cukup besar untuk terlihat jelas. Tidak perlu membuat semua bagian sama ukuran; tentukan rasio berdasarkan desain yang ingin dibuat."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Bangun Badan dan Kepala Robot",
+          "xp": 5,
+          "content": "Mulai dari badan robot sebagai bentuk terbesar. Tempatkan kepala di atas badan dan periksa apakah kedua bentuk berada pada sumbu tengah. Jangan buru-buru menggabungkan bentuk; simpan bagian sebagai objek terpisah selama masih perlu penyesuaian."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Tambahkan Lengan dan Kaki",
+          "xp": 5,
+          "content": "Tambahkan lengan dan kaki dari bentuk yang sesuai. Putar lengan agar mengarah ke luar dan letakkan kaki di bawah badan. Periksa dari depan agar kiri-kanan tampak seimbang dan dari samping agar bentuk tidak terlalu menjorok ke depan atau belakang."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Transformasi yang Tepat",
+          "xp": 10,
+          "content": "Jika ingin membuat lengan lebih panjang, gunakan resize; jika hanya ingin mengubah arah lengan, gunakan rotate. Pilih alat berdasarkan perubahan yang diperlukan. Latihan ini membantu membedakan tiga tindakan yang tampak mirip tetapi hasilnya berbeda.",
+          "instructions": "Jika panjang lengan sudah tepat tetapi arahnya salah, alat yang paling sesuai adalah…",
+          "options": [
+            "Rotate/Putar",
+            "Hole",
+            "Group",
+            "Ruler"
+          ],
+          "correct_option": "Rotate/Putar"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Periksa Robot dari Beberapa Arah",
+          "xp": 5,
+          "content": "Periksa robot dari depan, samping, dan atas. Pastikan kepala berada di atas badan, lengan menghadap arah yang masuk akal, dan kaki tidak melayang. Lakukan koreksi kecil secara berurutan supaya kamu tahu perubahan mana yang memperbaiki model."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Robot Geometris Sederhana",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Rakit robot dari minimal lima bentuk terpisah: badan, kepala, dua lengan, dan dua kaki (bentuk boleh disederhanakan). Gunakan move, rotate, dan resize sesuai kebutuhan. Periksa tampak depan dan samping, lalu kirim tautan desain. Kriteria: bagian tubuh mudah dikenali, proporsi masuk akal, dan tidak ada bagian yang melayang tanpa sengaja."
+        }
+      ],
+      "description": "Level Mudah. Menguasai transformasi dasar untuk menyusun robot geometris sederhana dari kotak, silinder, dan bentuk lain.",
+      "quiz": [
+        {
+          "options": [
+            "Mengubah warna",
+            "Memindahkan posisi objek",
+            "Menghapus volume",
+            "Membuat soal"
+          ],
+          "question": "Alat Move digunakan untuk…",
+          "explanation": "Move mengubah lokasi objek di ruang kerja.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Sumbu warna",
+            "Sumbu waktu",
+            "Sumbu Z",
+            "Sumbu audio"
+          ],
+          "question": "Untuk mengubah tinggi objek di ruang 3D, perhatikan arah…",
+          "explanation": "Sumbu Z menunjukkan arah tinggi atau rendah.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Rotate",
+            "Ruler",
+            "Hole",
+            "Group"
+          ],
+          "question": "Jika bentuk harus menghadap arah lain, gunakan…",
+          "explanation": "Rotate mengubah orientasi objek.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Jumlah warna di panel",
+            "Nama model",
+            "Ukuran grid saja",
+            "Perbandingan ukuran antarbagian"
+          ],
+          "question": "Proporsi berarti…",
+          "explanation": "Proporsi membantu bagian model terlihat seimbang satu sama lain.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Hapus seluruh model",
+            "Ubah satu bagian, lalu periksa ulang",
+            "Acak semua posisi",
+            "Ubah semua warna"
+          ],
+          "question": "Cara paling aman untuk memperbaiki robot yang miring adalah…",
+          "explanation": "Perubahan bertahap memudahkan menemukan sumber masalah dan mengevaluasi perbaikan.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Robot Geometris Sederhana",
+        "instructions": "Rakit robot dari minimal lima bentuk terpisah: badan, kepala, dua lengan, dan dua kaki (bentuk boleh disederhanakan). Gunakan move, rotate, dan resize sesuai kebutuhan. Periksa tampak depan dan samping, lalu kirim tautan desain. Kriteria: bagian tubuh mudah dikenali, proporsi masuk akal, dan tidak ada bagian yang melayang tanpa sengaja.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Pengukuran dengan Ruler",
+      "topic_order": 4,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Mengapa Ukuran Perlu Tepat?",
+          "xp": 5,
+          "content": "Ukuran yang konsisten membuat model lebih mudah disusun dan dibandingkan dengan rencana. Jika membuat wadah atau papan nama, dimensi alas perlu cukup besar untuk bagian yang diletakkan di atasnya. Perkiraan mata dapat membantu, tetapi angka dimensi lebih andal untuk persyaratan ukuran tertentu."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Letakkan Ruler di Bidang Kerja",
+          "xp": 5,
+          "content": "Ruler dapat diletakkan pada bidang kerja untuk membantu membaca lokasi dan ukuran. Letakkan di area dekat objek yang sedang diukur. Setelah ruler terlihat, pilih objek dan amati nilai ukur yang tersedia, lalu gunakan nilai itu sebagai panduan untuk koreksi."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Baca Dimensi X, Y, dan Z",
+          "xp": 5,
+          "content": "Dimensi X, Y, dan Z biasanya masing-masing menggambarkan panjang pada tiga arah utama. Saat mendesain balok, nilai X dan Y menentukan ukuran alas, sedangkan Z menunjukkan tinggi. Baca ketiga nilai, bukan hanya yang terlihat pada pandangan atas."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Masukkan Ukuran yang Ditentukan",
+          "xp": 5,
+          "content": "Pilih objek lalu ubah nilai ukuran sesuai target desain. Misalnya, jika tugas meminta balok 40 × 20 × 10 mm, periksa ketiga dimensi dan ubah setiap nilai yang belum sesuai. Jangan berasumsi perubahan satu sisi akan selalu membuat semua ukuran benar."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Ubah Satuan dan Snap Grid dengan Sadar",
+          "xp": 5,
+          "content": "Snap grid membantu objek berpindah pada langkah tertentu; langkah grid yang besar dapat mempercepat susunan kasar, tetapi bisa menyulitkan koreksi kecil. Sesuaikan langkah gerak saat membutuhkan penempatan halus. Perhatikan satuan yang digunakan agar angka dalam tugas ditafsirkan dengan benar."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Buat Balok dengan Dimensi Tepat",
+          "xp": 5,
+          "content": "Buat balok dengan dimensi yang diberikan guru. Masukkan atau atur nilai X, Y, dan Z secara berurutan, kemudian periksa kembali masing-masing nilai. Jika kamu mengubah ukuran dengan menyeret pegangan, gunakan pemeriksaan angka setelahnya untuk memastikan hasil sesuai target."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Periksa Jarak Antarbagian",
+          "xp": 5,
+          "content": "Ukuran saja tidak menjamin susunan benar jika jarak antarbenda terlalu dekat atau terlalu jauh. Gunakan ruler dan grid untuk memperkirakan jarak. Untuk komponen yang akan saling menempel, pastikan ada pertemuan yang masuk akal tanpa celah besar yang tidak direncanakan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Gunakan Ruler sebagai Acuan",
+          "xp": 5,
+          "content": "Ruler menjadi acuan untuk membuat ukuran dan posisi lebih mudah dibaca. Bandingkan angka setelah perubahan; jika angka tidak sama dengan target, koreksi satu dimensi terlebih dahulu. Hindari mengukur berdasarkan screenshot saja karena tampilan zoom dapat membuat objek terlihat lebih besar atau kecil."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Pilih Dimensi Benar",
+          "xp": 10,
+          "content": "Jika objek perlu dibuat lebih pendek tetapi lebarnya sudah tepat, cari dimensi yang mewakili panjang itu dan ubah hanya nilai tersebut. Periksa semua angka setelah koreksi. Latihan ini membantumu memilih dimensi yang relevan alih-alih mengubah keseluruhan bentuk tanpa kontrol.",
+          "instructions": "Untuk memastikan tinggi sebuah balok sesuai ukuran target, nilai mana yang perlu diperiksa?",
+          "options": [
+            "Z",
+            "Warna objek",
+            "Nama desain",
+            "Jumlah tab browser"
+          ],
+          "correct_option": "Z"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Catat Ukuran Akhir",
+          "xp": 5,
+          "content": "Catat ukuran akhir yang penting bagi proyek, seperti panjang, lebar, dan tinggi. Jika objek punya beberapa komponen, catat dimensi masing-masing komponen utama. Catatan ini membantu ketika kamu perlu memperbaiki, mengulang, atau menjelaskan alasan sebuah model dibuat dengan ukuran tertentu."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Objek dengan Ukuran yang Ditentukan",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat balok dengan dimensi target 40 × 20 × 10 mm (X × Y × Z), atau unit angka yang disepakati guru. Gunakan Ruler untuk memeriksa ketiga dimensi. Tambahkan satu bentuk kecil sebagai penanda, tetapi jangan ubah ukuran balok utama dari target. Kirim tautan desain beserta catatan ukuran. Kriteria: ketiga dimensi utama tepat dan dapat diperiksa."
+        }
+      ],
+      "description": "Level Sedang. Menggunakan Ruler dan angka dimensi untuk membuat objek dengan ukuran terencana dan konsisten.",
+      "quiz": [
+        {
+          "options": [
+            "Mengubah model menjadi gambar 2D",
+            "Membaca posisi dan ukuran objek",
+            "Membuat objek transparan",
+            "Membagi akun"
+          ],
+          "question": "Ruler berguna untuk…",
+          "explanation": "Ruler membantu membaca dimensi dan posisi sehingga model bisa dibuat lebih presisi.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Warna",
+            "Panjang pada layar saja",
+            "Tinggi",
+            "Nama objek"
+          ],
+          "question": "Dalam X × Y × Z, nilai Z mewakili…",
+          "explanation": "Z menunjukkan tinggi atau rendah dalam ruang 3D.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Memeriksa kembali ketiga dimensi",
+            "Menghapus ruler",
+            "Mengubah semua warna",
+            "Menutup desain"
+          ],
+          "question": "Target ukuran balok adalah 40 × 20 × 10. Apa yang perlu dilakukan setelah mengubah ukuran?",
+          "explanation": "Pemeriksaan ketiga angka memastikan tidak ada dimensi yang tertinggal atau berubah tanpa sengaja.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Zoom selalu mengubah dimensi model",
+            "Zoom menghapus garis grid",
+            "Zoom mengunci objek",
+            "Ukuran tampak di layar berubah mengikuti tampilan, bukan ukuran sebenarnya"
+          ],
+          "question": "Mengapa zoom bukan alat ukur yang andal?",
+          "explanation": "Zoom memengaruhi ukuran tampilan di layar; angka dimensi memberi ukuran model.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Mengubah seluruh dimensi secara acak",
+            "Mengubah nilai Z lalu memeriksa ulang",
+            "Mengganti nama objek",
+            "Membuat objek baru setiap kali"
+          ],
+          "question": "Jika hanya tinggi yang perlu diubah, pendekatan yang baik adalah…",
+          "explanation": "Koreksi satu dimensi yang relevan menjaga ukuran lain tetap sesuai.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Objek dengan Ukuran yang Ditentukan",
+        "instructions": "Buat balok dengan dimensi target 40 × 20 × 10 mm (X × Y × Z), atau unit angka yang disepakati guru. Gunakan Ruler untuk memeriksa ketiga dimensi. Tambahkan satu bentuk kecil sebagai penanda, tetapi jangan ubah ukuran balok utama dari target. Kirim tautan desain beserta catatan ukuran. Kriteria: ketiga dimensi utama tepat dan dapat diperiksa.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Align dan Mirror",
+      "topic_order": 5,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Masalah Susunan yang Tidak Sejajar",
+          "xp": 5,
+          "content": "Objek yang terlihat hampir sejajar bisa memiliki posisi tengah yang sedikit berbeda. Perbedaan kecil ini membuat model tampak miring atau tidak seimbang. Align membantu meletakkan beberapa objek berdasarkan tepi atau titik tengah yang sama."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Pilih Objek yang Akan Disejajarkan",
+          "xp": 5,
+          "content": "Pilih dua atau lebih objek yang ingin disejajarkan, lalu aktifkan Align. Pegangan yang muncul menunjukkan arah dan pilihan penyelarasan. Pastikan objek yang dipilih benar-benar bagian yang ingin diatur, sebab tindakan ini memengaruhi semua objek dalam pilihan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Kenali Titik dan Sumbu Align",
+          "xp": 5,
+          "content": "Align menyediakan titik penyelarasan di arah X, Y, dan Z. Memilih titik tengah pada satu arah akan menempatkan objek sejajar dengan pusat pilihan lainnya di arah tersebut. Kamu tidak perlu menyelaraskan semua arah jika hanya satu arah yang perlu diperbaiki."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Tengahkan Objek terhadap Objek Lain",
+          "xp": 5,
+          "content": "Untuk membuat bagian robot tepat di tengah badan, pilih badan dan bagian yang ingin diposisikan, lalu gunakan titik tengah pada arah yang sesuai. Lakukan satu arah demi satu arah agar hasil mudah dipahami dan kamu tidak memindahkan objek ke posisi tak diinginkan."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Cek Hasil Align dari Atas dan Samping",
+          "xp": 5,
+          "content": "Periksa hasil dari atas dan samping setelah Align. Tampak atas dapat memastikan benda berada di tengah kiri-kanan atau depan-belakang; tampak samping dapat memeriksa ketinggian. Jika dua objek perlu menempel, alignment posisi tidak otomatis menjamin kedalaman atau kontaknya benar."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Apa Fungsi Mirror?",
+          "xp": 5,
+          "content": "Mirror membalik orientasi sebuah bentuk pada sumbu tertentu. Alat ini berguna ketika membuat pasangan bentuk yang saling berlawanan arah, seperti lengan kiri dan kanan atau sayap. Mirror tidak membuat ukuran objek menjadi sama dengan objek lain; ia mengubah arah pembalikan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Pilih Arah Pembalikan",
+          "xp": 5,
+          "content": "Pilih sumbu pembalikan berdasarkan bagian yang ingin dicerminkan. Perhatikan pratinjau atau hasil dan cek sisi yang berubah. Jika pembalikan membuat bagian menghadap arah yang tidak sesuai, gunakan Undo lalu pilih sumbu yang berbeda."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Membuat Pasangan Kiri dan Kanan",
+          "xp": 5,
+          "content": "Untuk membuat pasangan kiri-kanan, duplikasi objek yang sudah benar lalu gunakan Mirror pada salinannya. Geser salinan ke sisi yang berlawanan dan periksa jarak keduanya. Cara ini dapat mengurangi kebutuhan membuat dua bagian dari awal."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Align atau Mirror?",
+          "xp": 10,
+          "content": "Gunakan Align ketika dua bagian perlu berada pada garis atau titik tengah yang sama. Gunakan Mirror ketika kamu perlu membalik orientasi. Pilih alat sesuai masalah yang hendak diselesaikan, lalu periksa hasil dari pandangan berbeda.",
+          "instructions": "Kepala robot sedikit bergeser dari tengah badan. Alat yang paling sesuai untuk memperbaiki posisi tengah adalah…",
+          "options": [
+            "Hole",
+            "Align",
+            "Mirror",
+            "Ruler saja"
+          ],
+          "correct_option": "Align"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Periksa Simetri Model",
+          "xp": 5,
+          "content": "Model simetris memiliki sisi yang seimbang atau saling mencerminkan sesuai desain. Periksa jarak kiri-kanan, tinggi, dan orientasi pasangan. Jangan menganggap semua desain harus simetris; gunakan simetri saat membantu fungsi atau tampilan proyek."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Model Simetris",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat sebuah model sederhana dengan badan tengah dan dua komponen kiri-kanan. Sejajarkan salah satu komponen menggunakan Align, lalu buat pasangannya dan gunakan Mirror bila bentuk perlu dibalik. Kirim tautan desain. Kriteria: pasangan terletak seimbang, arah komponen masuk akal, dan hasil diperiksa dari depan serta atas."
+        }
+      ],
+      "description": "Level Sedang. Menggunakan Align untuk menyelaraskan objek dan Mirror untuk membaliknya agar model lebih simetris.",
+      "quiz": [
+        {
+          "options": [
+            "Objek perlu disejajarkan atau dipusatkan",
+            "Objek perlu dilubangi",
+            "Objek harus disimpan sebagai gambar",
+            "Warna harus diacak"
+          ],
+          "question": "Align paling tepat digunakan ketika…",
+          "explanation": "Align mengatur posisi objek berdasarkan tepi atau titik tengah.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengukur tinggi",
+            "Mengganti unit",
+            "Membalik orientasi objek pada sumbu tertentu",
+            "Menggabungkan semua bentuk"
+          ],
+          "question": "Mirror digunakan untuk…",
+          "explanation": "Mirror membalik bentuk atau orientasinya pada sumbu yang dipilih.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Memilih objek yang benar untuk disejajarkan",
+            "Memperbesar layar maksimum",
+            "Mengganti warna seluruh model",
+            "Menghapus grid"
+          ],
+          "question": "Sebelum memakai Align, hal terpenting adalah…",
+          "explanation": "Align memengaruhi semua objek yang dipilih, jadi pemilihan objek perlu teliti.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Membuat warna berbeda saja",
+            "Membesarkan badan",
+            "Menggunakan Hole",
+            "Duplikasi lalu Mirror dan posisikan salinannya"
+          ],
+          "question": "Untuk membuat lengan kiri dan kanan yang saling bercermin, langkah efisien adalah…",
+          "explanation": "Duplikasi dan Mirror memudahkan membuat pasangan bagian yang saling mencerminkan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Agar tombol berubah warna",
+            "Untuk memastikan posisi dan kontak benar dalam 3D",
+            "Agar objek otomatis terkunci",
+            "Agar semua ukuran dihapus"
+          ],
+          "question": "Sesudah Align, mengapa model tetap perlu diperiksa dari sisi lain?",
+          "explanation": "Align pada satu sumbu tidak otomatis menjamin semua dimensi dan kontak tepat.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Model Simetris",
+        "instructions": "Buat sebuah model sederhana dengan badan tengah dan dua komponen kiri-kanan. Sejajarkan salah satu komponen menggunakan Align, lalu buat pasangannya dan gunakan Mirror bila bentuk perlu dibalik. Kirim tautan desain. Kriteria: pasangan terletak seimbang, arah komponen masuk akal, dan hasil diperiksa dari depan serta atas.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Group dan Ungroup",
+      "topic_order": 6,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Mengapa Bentuk Digabung?",
+          "xp": 5,
+          "content": "Banyak model tersusun dari beberapa bentuk dasar. Group membantu menggabungkan bentuk terpilih menjadi satu unit sehingga lebih mudah dipindah, disalin, atau diolah bersama. Sebelum menggabungkan, pastikan bentuk memang dimaksudkan menjadi satu bagian dari model."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Pilih Bentuk yang Terkait",
+          "xp": 5,
+          "content": "Pilih semua bentuk yang ingin digabungkan dengan menahan Shift atau menggunakan cara seleksi yang tersedia. Periksa batas pilihan agar tidak ada bentuk penting yang tertinggal atau ikut terpilih secara tidak sengaja. Baru setelah itu jalankan Group."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Gunakan Group dengan Sadar",
+          "xp": 5,
+          "content": "Group sebaiknya digunakan ketika susunan bagian sudah sesuai. Jika objek masih perlu digeser satu per satu, tunggu sampai penempatan dasar selesai. Menggabungkan terlalu cepat dapat membuatmu harus memisahkan kembali bagian hanya untuk melakukan koreksi kecil."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Apa yang Berubah Setelah Group?",
+          "xp": 5,
+          "content": "Setelah Group, objek yang dipilih berperilaku sebagai kelompok. Bentuk-bentuknya dapat dipindah bersama dan pada alur kerja tertentu dapat digabungkan sifat solid/hole. Periksa tampilan setelah grouping karena hasil geometri dapat berubah tergantung jenis bentuk dan susunannya."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Warna dan Komponen",
+          "xp": 5,
+          "content": "Bentuk yang digabungkan dapat memiliki pengaturan warna yang tergantung pada opsi dan versi editor. Jangan menjadikan warna sebagai satu-satunya petunjuk apakah grouping berhasil. Periksa apakah bagian bergerak bersama dan apakah siluet keseluruhan sesuai tujuan."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Gunakan Ungroup untuk Memperbaiki",
+          "xp": 5,
+          "content": "Ungroup memisahkan kembali kelompok agar bagian-bagiannya bisa diedit secara terpisah. Gunakan saat kamu harus memperbaiki posisi satu komponen atau mengganti satu bagian. Setelah koreksi, kamu dapat Group lagi bila model memang harus diperlakukan sebagai satu unit."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Simpan Salinan Sebelum Perubahan Besar",
+          "xp": 5,
+          "content": "Sebelum perubahan besar, pertimbangkan menggandakan desain atau mencatat bentuk awal. Ini memberi titik kembali jika hasil grouping tidak sesuai perkiraan. Biasakan mengubah satu hal, memeriksa hasil, lalu lanjutkan jika sudah benar."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Membuat Badan Berlapis",
+          "xp": 5,
+          "content": "Untuk badan berlapis, tempatkan dua atau tiga bentuk pada posisi yang direncanakan. Periksa tumpang tindihnya, lalu Group jika ingin memindahkannya sebagai satu bagian. Jika lapisan harus tetap dapat diedit terpisah, biarkan sebagai objek individual."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Periksa Hasil Gabungan",
+          "xp": 10,
+          "content": "Periksa apakah kelompok bergerak sebagai satu unit dan bentuknya tidak berubah dengan cara yang tidak diinginkan. Jika ada bagian yang hilang atau siluetnya aneh, gunakan Undo atau Ungroup untuk memeriksa susunan. Jangan lanjut ke detail sampai hasil dasar benar.",
+          "instructions": "Kamu perlu mengubah posisi satu bagian dari objek yang sudah digabung. Tindakan yang paling sesuai adalah…",
+          "options": [
+            "Group lagi berulang kali",
+            "Ubah warna saja",
+            "Ungroup, edit bagiannya, lalu Group kembali jika perlu",
+            "Hapus desain"
+          ],
+          "correct_option": "Ungroup, edit bagiannya, lalu Group kembali jika perlu"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Latihan: Group atau Ungroup?",
+          "xp": 5,
+          "content": "Gunakan Group untuk membuat beberapa bentuk bertindak sebagai satu unit. Gunakan Ungroup ketika kamu perlu mengedit salah satu bagian secara terpisah. Pilih tindakan berdasarkan apakah bagian-bagian masih perlu dikendalikan satu per satu."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Benda dari Beberapa Bentuk",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat satu benda sederhana dari minimal empat bentuk yang saling berhubungan, misalnya lencana geometri atau badan alat kecil. Atur bagian terlebih dahulu, Group saat susunan sudah benar, lalu uji apakah seluruh benda bergerak bersama. Jika perlu, Ungroup dan perbaiki satu bagian. Kirim tautan desain. Kriteria: minimal empat bentuk pembentuk, grouping dipakai dengan tujuan jelas, dan model tetap rapi."
+        }
+      ],
+      "description": "Level Sedang. Menggabungkan bentuk menjadi satu objek kerja menggunakan Group, serta mengembalikan bagian untuk diedit dengan Ungroup.",
+      "quiz": [
+        {
+          "options": [
+            "Menggabungkan bentuk terpilih agar bekerja sebagai satu unit",
+            "Memutar sudut pandang",
+            "Mengatur kata sandi",
+            "Menampilkan kisi saja"
+          ],
+          "question": "Fungsi utama Group adalah…",
+          "explanation": "Group menggabungkan bentuk terpilih untuk diperlakukan sebagai satu unit kerja.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Sebelum objek apa pun ditempatkan",
+            "Ketika bentuk sudah tersusun sesuai rencana",
+            "Saat ingin melihat dari atas",
+            "Ketika perlu mengukur saja"
+          ],
+          "question": "Kapan sebaiknya menggunakan Group?",
+          "explanation": "Mengelompokkan setelah penempatan dasar benar mengurangi koreksi ulang.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menghapus semua file",
+            "Mengukur warna",
+            "Membuat lubang otomatis",
+            "Memisahkan kelompok agar komponen dapat diedit"
+          ],
+          "question": "Ungroup berguna untuk…",
+          "explanation": "Ungroup mengembalikan bagian kelompok menjadi komponen yang dapat diedit terpisah.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Terus menambahkan detail",
+            "Mengabaikan perubahan",
+            "Undo atau Ungroup lalu periksa bentuknya",
+            "Hapus seluruh proyek tanpa pemeriksaan"
+          ],
+          "question": "Jika hasil Group tidak sesuai harapan, langkah yang baik adalah…",
+          "explanation": "Memeriksa susunan setelah grouping membantu menemukan penyebab perubahan geometri.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Bagian mungkin masih perlu dipindah dan disunting secara terpisah",
+            "Group selalu menghapus warna",
+            "Group mematikan grid",
+            "Bentuk tak bisa dipilih lagi selamanya"
+          ],
+          "question": "Mengapa tidak semua bentuk perlu langsung di-Group?",
+          "explanation": "Selama susunan belum final, bentuk terpisah lebih mudah disesuaikan.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Benda dari Beberapa Bentuk",
+        "instructions": "Buat satu benda sederhana dari minimal empat bentuk yang saling berhubungan, misalnya lencana geometri atau badan alat kecil. Atur bagian terlebih dahulu, Group saat susunan sudah benar, lalu uji apakah seluruh benda bergerak bersama. Jika perlu, Ungroup dan perbaiki satu bagian. Kirim tautan desain. Kriteria: minimal empat bentuk pembentuk, grouping dipakai dengan tujuan jelas, dan model tetap rapi.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Menggunakan Hole untuk Membuat Rongga",
+      "topic_order": 7,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Solid Menambah, Hole Mengurangi",
+          "xp": 5,
+          "content": "Solid menambah volume; Hole menandai bentuk yang akan dikurangi dari solid ketika keduanya digabungkan. Untuk membuat lubang, bentuk Hole harus beririsan dengan bagian solid yang ingin dipotong. Jika Hole hanya berada di sampingnya, tidak ada bagian yang terpotong."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Pilih Bentuk Pemotong",
+          "xp": 5,
+          "content": "Pilih bentuk pemotong sesuai bentuk rongga. Silinder Hole dapat membuat lubang bundar; kotak Hole dapat membuat ruang persegi. Ukuran pemotong perlu cukup besar untuk melewati bagian yang ingin dipotong, tetapi tidak boleh memakan terlalu banyak bagian lain."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Letakkan Hole Melewati Dinding",
+          "xp": 5,
+          "content": "Posisikan Hole sehingga melewati dinding atau badan objek sesuai tujuan. Periksa dari samping apakah pemotong masuk ke seluruh ketebalan yang ingin dibuka. Jika pemotong berhenti sebelum menembus permukaan, hasilnya dapat menjadi cekungan, bukan lubang tembus."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Atur Ukuran dan Posisi Rongga",
+          "xp": 5,
+          "content": "Atur panjang, lebar, tinggi, dan posisi Hole. Untuk lubang tembus dari atas ke bawah, tingginya harus melewati ketebalan bagian yang ingin dihilangkan. Beri ruang secukupnya dan periksa apakah posisi lubang berada di tengah atau di lokasi yang diinginkan."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Group untuk Menerapkan Pemotongan",
+          "xp": 5,
+          "content": "Setelah solid dan Hole diposisikan, pilih keduanya lalu Group untuk menerapkan pengurangan. Periksa hasil dari beberapa arah. Jika rongga belum tampak, pastikan Hole benar-benar berbenturan dengan solid dan jenis objek disetel sebagai Hole sebelum penggabungan."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Cek Tembus atau Tidak",
+          "xp": 5,
+          "content": "Lubang tembus terlihat terbuka dari kedua sisi yang dituju; cekungan hanya masuk sebagian. Putar pandangan atau lihat dari bawah untuk membedakan keduanya. Pengecekan ini penting saat membuat lubang untuk gantungan, kabel, atau wadah."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Rongga dan Ketebalan Dinding",
+          "xp": 5,
+          "content": "Dinding yang terlalu tipis bisa membuat model rapuh atau kurang jelas secara visual. Sisakan ketebalan yang cukup mengelilingi rongga. Untuk proyek sederhana, gunakan proporsi yang mudah dilihat dan periksa agar pemotong tidak menghapus seluruh badan objek."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Buat Wadah Sederhana",
+          "xp": 5,
+          "content": "Buat wadah dari bentuk dasar berongga atau gunakan Hole untuk mengurangi bagian tengah sebuah solid. Atur pemotong agar menyisakan dasar dan dinding. Setelah Group, lihat bagian dalam dari atas dan pastikan dasar tidak ikut terpotong secara tidak sengaja."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Perbaiki Lubang yang Salah Posisi",
+          "xp": 10,
+          "content": "Jika lubang berada di tempat yang salah, gunakan Undo bila baru saja dibuat atau Ungroup jika perlu mengatur ulang komponen. Posisikan Hole kembali dengan pemeriksaan pandangan atas dan samping, lalu Group ulang dan cek hasilnya.",
+          "instructions": "Untuk membuat lubang bundar pada balok, bentuk yang paling sesuai disetel menjadi Hole adalah…",
+          "options": [
+            "Kotak besar yang tak menyentuh balok",
+            "Silinder yang menembus area balok yang ingin dibuka",
+            "Teks di luar balok",
+            "Bola yang diletakkan jauh"
+          ],
+          "correct_option": "Silinder yang menembus area balok yang ingin dibuka"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Latihan: Memilih Cara Membuat Rongga",
+          "xp": 5,
+          "content": "Hole cocok ketika kamu perlu mengurangi volume dari bentuk solid. Memakai bentuk solid lain dan menutupinya tidak membuat rongga yang sebenarnya. Pastikan pemotong disetel menjadi Hole, beririsan dengan solid, lalu digabungkan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Wadah atau Balok Berlubang",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat wadah sederhana atau balok dengan setidaknya satu lubang yang jelas. Gunakan satu bentuk solid dan bentuk Hole yang beririsan, lalu Group untuk memotong. Periksa hasil dari atas dan samping/bawah untuk memastikan rongga sesuai rencana dan dinding masih tersisa. Kirim tautan desain. Kriteria: lubang terlihat, tidak memotong bagian yang salah, dan ketebalan dinding masuk akal."
+        }
+      ],
+      "description": "Level Sedang. Menggunakan bentuk Hole untuk mengurangi material dan membuat rongga, lubang, atau tempat sederhana.",
+      "quiz": [
+        {
+          "options": [
+            "Menambah warna",
+            "Membesarkan grid",
+            "Mengurangi volume solid saat digabungkan",
+            "Mengubah sudut kamera"
+          ],
+          "question": "Dalam Tinkercad, fungsi Hole adalah…",
+          "explanation": "Hole menjadi pemotong ketika digabungkan dengan solid yang beririsan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Berada jauh di samping balok",
+            "Beririsan dengan bagian balok yang ingin dipotong",
+            "Memiliki warna yang sama",
+            "Tidak dipilih saat Group"
+          ],
+          "question": "Agar Hole memotong sebuah balok, Hole harus…",
+          "explanation": "Pemotong harus beririsan dengan solid agar volume dapat dikurangi.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Group keduanya",
+            "Mematikan akun",
+            "Mengubah nama Workplane",
+            "Membuat screenshot saja"
+          ],
+          "question": "Apa yang perlu dilakukan setelah menempatkan solid dan Hole dengan tepat?",
+          "explanation": "Group menerapkan pengurangan volume dari bentuk Hole terhadap solid.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Melihat warna saja",
+            "Melihat ukuran layar",
+            "Menghapus solid",
+            "Memeriksa dari beberapa sisi termasuk sisi keluar lubang"
+          ],
+          "question": "Cara memeriksa lubang tembus adalah…",
+          "explanation": "Pandangan berbeda menunjukkan apakah rongga benar-benar tembus.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Agar warna bisa diganti",
+            "Agar grid menghilang",
+            "Agar model memiliki struktur yang cukup dan mudah dibaca",
+            "Agar objek berubah menjadi 2D"
+          ],
+          "question": "Mengapa dinding wadah tidak boleh terlalu tipis?",
+          "explanation": "Ketebalan yang cukup membantu menjaga bentuk dan membuat rongga terlihat jelas.",
+          "answer_index": 2
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Wadah atau Balok Berlubang",
+        "instructions": "Buat wadah sederhana atau balok dengan setidaknya satu lubang yang jelas. Gunakan satu bentuk solid dan bentuk Hole yang beririsan, lalu Group untuk memotong. Periksa hasil dari atas dan samping/bawah untuk memastikan rongga sesuai rencana dan dinding masih tersisa. Kirim tautan desain. Kriteria: lubang terlihat, tidak memotong bagian yang salah, dan ketebalan dinding masuk akal.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Duplicate dan Pola Berulang",
+      "topic_order": 8,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Kapan Perlu Duplicate?",
+          "xp": 5,
+          "content": "Duplicate mempercepat pekerjaan ketika beberapa bagian bentuknya sama, seperti tiang pagar atau cincin pada menara. Pastikan bentuk pertama sudah benar sebelum digandakan; kesalahan ukuran atau posisi pada bentuk pertama bisa berulang pada seluruh salinan."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Buat Satu Unit yang Benar",
+          "xp": 5,
+          "content": "Buat satu unit, periksa ukuran dan orientasinya, lalu gunakan unit itu sebagai acuan. Jika unit belum benar, perbaiki terlebih dahulu. Unit yang konsisten membuat pola berulang lebih mudah disusun dan lebih rapi."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Duplikasi dan Geser Salinan",
+          "xp": 5,
+          "content": "Gunakan Duplicate untuk membuat salinan, lalu pindahkan salinan ke lokasi berikutnya. Setelah langkah pertama selesai, cek apakah jaraknya sesuai. Jika hasil pertama tepat, duplikasi berikutnya bisa menggunakan perpindahan yang sama untuk menjaga pola."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Pahami Duplicate-Repeat",
+          "xp": 5,
+          "content": "Pada alur Duplicate-Repeat, perubahan posisi atau ukuran setelah duplikasi dapat dipakai sebagai langkah pengulangan untuk salinan berikutnya. Uji dengan beberapa objek dahulu agar kamu tahu jarak dan arah yang akan diulang. Jangan membuat puluhan salinan sebelum memeriksa ritmenya."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Pilih Jarak yang Konsisten",
+          "xp": 5,
+          "content": "Jarak yang konsisten membuat pagar atau kolom tampak teratur. Pilih jarak berdasarkan lebar objek serta ruang yang ingin ditinggalkan. Gunakan grid sebagai bantuan dan periksa apakah bagian ujung terlalu rapat atau justru terlalu berjauhan."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Bangun Pola pada Garis Lurus",
+          "xp": 5,
+          "content": "Untuk membuat pagar, susun satu tiang lalu duplikasi sepanjang garis. Periksa arah baris, jarak antar-tiangan, dan apakah semua salinan berada pada tinggi yang sama. Jika baris menyimpang, perbaiki beberapa posisi sebelum melanjutkan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Buat Susunan Bertingkat",
+          "xp": 5,
+          "content": "Menara dapat dibangun dengan unit yang diulang pada ketinggian berbeda atau dengan komponen bertingkat yang ukurannya berubah. Pastikan setiap lapisan berada di tengah sesuai desain. Pola yang baik memiliki aturan yang jelas: jarak, tinggi, ukuran, atau urutan yang berulang."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Periksa Batas dan Jumlah Objek",
+          "xp": 5,
+          "content": "Salinan yang terlalu banyak atau berada di luar area dapat membuat model berantakan. Hitung unit yang diperlukan, hapus duplikat yang tidak dipakai, dan periksa batas desain dari atas. Gunakan penamaan jika komponen penting perlu dikenali saat proyek makin besar."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Pola Berulang",
+          "xp": 10,
+          "content": "Jika ingin pola berulang dengan jarak yang sama, ubah posisi salinan pertama secara terukur. Periksa tiga atau empat unit awal, lalu gunakan metode yang sama untuk sisanya. Ini lebih mudah daripada menebak posisi masing-masing secara terpisah.",
+          "instructions": "Apa yang harus diperiksa pada tiga salinan pertama sebelum melanjutkan duplikasi dalam jumlah besar?",
+          "options": [
+            "Jarak, arah, dan tinggi unit",
+            "Warna latar browser",
+            "Nama akun",
+            "Jumlah tab"
+          ],
+          "correct_option": "Jarak, arah, dan tinggi unit"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Rapikan Pola Akhir",
+          "xp": 5,
+          "content": "Sebelum selesai, cek jumlah objek, jarak antar-unit, kelurusan baris, serta tinggi yang sama. Putar sudut pandang agar kesalahan yang tersembunyi dari atas juga terlihat. Rapikan salinan yang tumpang tindih atau keluar dari rancangan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Pagar atau Menara Berpola",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Buat pagar dengan minimal enam tiang atau menara bertingkat dengan minimal enam unit berulang. Gunakan Duplicate dan upayakan jarak serta arah konsisten. Periksa dari atas dan samping, lalu kirim tautan desain. Kriteria: ada pola yang jelas, salinan rapi, dan tidak ada unit yang bertumpuk atau keluar dari barisan tanpa sengaja."
+        }
+      ],
+      "description": "Level Lancar. Menggandakan objek dan menggunakan gerakan berulang untuk membuat pola pagar, tiang, atau menara yang konsisten.",
+      "quiz": [
+        {
+          "options": [
+            "Agar grid selalu berwarna",
+            "Kesalahan pada unit pertama bisa terulang pada salinan",
+            "Agar desain tidak dapat disimpan",
+            "Agar semua objek hilang"
+          ],
+          "question": "Mengapa lebih baik memastikan unit pertama benar sebelum Duplicate berkali-kali?",
+          "explanation": "Unit awal menjadi acuan untuk semua salinan, sehingga perlu diperiksa terlebih dahulu.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Nama browser",
+            "Warna kursor",
+            "Jarak dan arah tiang",
+            "Ukuran layar saja"
+          ],
+          "question": "Untuk membuat pagar rapi, faktor yang perlu konsisten adalah…",
+          "explanation": "Jarak dan arah konsisten membuat pola tampak teratur.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Mengulang perpindahan atau perubahan yang sama pada salinan berikutnya",
+            "Menghapus objek otomatis",
+            "Mematikan semua alat",
+            "Mengubah objek menjadi Hole"
+          ],
+          "question": "Apa manfaat alur Duplicate-Repeat?",
+          "explanation": "Langkah duplikasi yang terukur dapat diulang sehingga pola lebih efisien.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Langsung menyalin sebanyak mungkin",
+            "Tidak mengukur jarak",
+            "Mengubah setiap salinan acak",
+            "Menguji beberapa salinan pertama"
+          ],
+          "question": "Sebelum membuat puluhan salinan, sebaiknya…",
+          "explanation": "Menguji beberapa salinan awal membantu memastikan jarak dan arah sebelum pola diperbesar.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Mengubah semua warna",
+            "Memperbaiki posisi dan memeriksa ulang pola",
+            "Membuat proyek baru",
+            "Mengabaikannya"
+          ],
+          "question": "Jika satu salinan berada di luar barisan, pendekatan terbaik adalah…",
+          "explanation": "Koreksi posisi yang meleset menjaga pola konsisten.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Pagar atau Menara Berpola",
+        "instructions": "Buat pagar dengan minimal enam tiang atau menara bertingkat dengan minimal enam unit berulang. Gunakan Duplicate dan upayakan jarak serta arah konsisten. Periksa dari atas dan samping, lalu kirim tautan desain. Kriteria: ada pola yang jelas, salinan rapi, dan tidak ada unit yang bertumpuk atau keluar dari barisan tanpa sengaja.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Merakit Objek dari Banyak Bentuk",
+      "topic_order": 9,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Pecah Produk Menjadi Komponen",
+          "xp": 5,
+          "content": "Model kompleks lebih mudah dibuat jika dipecah menjadi komponen, misalnya mobil terdiri dari badan, roda, dan detail; robot terdiri dari badan, kepala, lengan, dan kaki. Tentukan komponen utama sebelum menambahkan detail agar struktur tidak menjadi tumpukan bentuk tanpa rencana."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Buat Sketsa atau Rencana Sederhana",
+          "xp": 5,
+          "content": "Buat rencana sederhana dengan menuliskan bagian utama dan hubungan antarbagian. Untuk mobil mini, badan menjadi acuan dan roda ditempatkan di sisi bawah. Untuk robot, badan menjadi pusat yang mengatur posisi kepala serta anggota tubuh."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Mulai dari Bagian Utama",
+          "xp": 5,
+          "content": "Mulai dari bagian utama yang menentukan ukuran keseluruhan. Setelah badan diletakkan, tempatkan bagian lain relatif terhadapnya. Cara ini membantu menjaga proporsi dan mencegah komponen penting tersebar terlalu jauh dari pusat model."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Pilih Bentuk untuk Setiap Komponen",
+          "xp": 5,
+          "content": "Pilih bentuk berdasarkan fungsi visualnya. Kotak dapat menjadi badan, silinder dapat menjadi roda atau poros, dan bola dapat menjadi lampu atau detail. Bentuk tidak harus selalu menyerupai komponen nyata secara sempurna; fokus dahulu pada siluet dan keterbacaan model."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tempatkan Komponen terhadap Badan",
+          "xp": 5,
+          "content": "Atur komponen terhadap badan dengan Move dan Rotate, lalu periksa dari beberapa arah. Gunakan Align untuk memusatkan bagian yang harus sejajar. Pastikan bagian seperti roda terlihat terpasang pada badan, bukan menempel jauh di luarnya atau tertutup total."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Gunakan Align dan Group Secara Tepat",
+          "xp": 5,
+          "content": "Group dapat digunakan untuk menyatukan subkomponen yang selesai disusun. Tidak semua objek harus digabung sekaligus; komponen seperti roda atau aksesori mungkin lebih mudah diperbaiki jika tetap terpisah. Gunakan tool berdasarkan kebutuhan penyuntingan berikutnya."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Tambahkan Detail Tanpa Berlebihan",
+          "xp": 5,
+          "content": "Detail membantu memperjelas fungsi tetapi terlalu banyak detail dapat membuat model ramai dan sulit diedit. Tambahkan detail setelah siluet utama benar, misalnya lampu sederhana pada mobil atau panel kecil pada robot. Setiap detail sebaiknya mempunyai alasan visual."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Periksa Tabrakan dan Celah",
+          "xp": 5,
+          "content": "Bentuk yang saling menembus tanpa tujuan dapat merusak tampilan, sedangkan celah terlalu besar bisa membuat komponen tampak terlepas. Putar model dan periksa area sambungan, termasuk dari bawah bila perlu. Perbaiki posisi atau ukuran sesuai hubungan komponen yang direncanakan."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Pilih Urutan Perakitan",
+          "xp": 10,
+          "content": "Pikirkan urutan perakitan: badan, komponen besar, detail kecil, lalu finishing. Pilih langkah yang memberi acuan stabil untuk bagian berikutnya. Tidak ada satu urutan mutlak untuk semua desain, tetapi bagian utama umumnya membantu mengatur posisi bagian pendukung.",
+          "instructions": "Saat mulai merakit mobil mini, bagian mana yang sebaiknya dijadikan acuan untuk menempatkan roda?",
+          "options": [
+            "Badan mobil",
+            "Warna latar",
+            "Ruler di panel",
+            "Nama proyek"
+          ],
+          "correct_option": "Badan mobil"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Model dari Semua Arah",
+          "xp": 5,
+          "content": "Uji model dari atas, depan, samping, dan sudut miring. Pastikan komponen dapat dikenali dan hubungan antarbagian logis. Hapus detail yang tidak membantu, dan perbaiki komponen yang tampak melayang atau menutupi bagian penting."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Mobil Mini atau Robot",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Pilih membuat mobil mini atau robot dari sekurangnya enam bentuk. Rencanakan bagian utama terlebih dahulu, lalu tambahkan komponen yang berhubungan dengannya. Gunakan Move/Rotate dan Align bila perlu; Group hanya jika susunan bagian sudah tepat. Kirim tautan desain. Kriteria: minimal enam bentuk, komponen utama mudah dikenali, sambungan masuk akal, dan model diperiksa dari tiga arah."
+        }
+      ],
+      "description": "Level Lancar. Merencanakan komponen, menyusun beberapa bentuk secara terstruktur, dan merakit mobil mini atau robot.",
+      "quiz": [
+        {
+          "options": [
+            "Menambahkan bentuk tanpa rencana",
+            "Membagi produk menjadi komponen",
+            "Menggunakan warna saja",
+            "Menghindari tampilan samping"
+          ],
+          "question": "Cara yang membantu mengelola model kompleks adalah…",
+          "explanation": "Memecah desain menjadi komponen membuat perakitan lebih terstruktur.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Badan mobil",
+            "Warna desain",
+            "Panel akun",
+            "Tombol zoom"
+          ],
+          "question": "Untuk menempatkan roda pada mobil, acuan yang paling masuk akal adalah…",
+          "explanation": "Badan mobil menentukan ukuran dan lokasi komponen lain seperti roda.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Sebelum ada bentuk utama dan tanpa tujuan",
+            "Sambil mengabaikan posisi",
+            "Setelah siluet utama benar",
+            "Hanya sesudah semua objek dihapus"
+          ],
+          "question": "Kapan detail sebaiknya ditambahkan?",
+          "explanation": "Bentuk utama yang benar memudahkan penambahan detail secara terarah.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Group tidak pernah berguna",
+            "Semua objek wajib terpisah selamanya",
+            "Agar ukuran tidak dapat diperiksa",
+            "Komponen mungkin masih perlu diedit secara mandiri"
+          ],
+          "question": "Mengapa Group tidak selalu dilakukan pada semua bentuk sejak awal?",
+          "explanation": "Menjaga komponen terpisah dapat memudahkan koreksi selama proses rakit.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Nama file",
+            "Celah, tabrakan, atau komponen melayang",
+            "Warna tombol browser",
+            "Kata sandi"
+          ],
+          "question": "Pemeriksaan dari bawah atau samping membantu menemukan…",
+          "explanation": "Sudut berbeda menunjukkan sambungan dan posisi yang tidak tampak dari atas.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Mobil Mini atau Robot",
+        "instructions": "Pilih membuat mobil mini atau robot dari sekurangnya enam bentuk. Rencanakan bagian utama terlebih dahulu, lalu tambahkan komponen yang berhubungan dengannya. Gunakan Move/Rotate dan Align bila perlu; Group hanya jika susunan bagian sudah tepat. Kirim tautan desain. Kriteria: minimal enam bentuk, komponen utama mudah dikenali, sambungan masuk akal, dan model diperiksa dari tiga arah.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Menyempurnakan Desain dan Memeriksa Ukuran",
+      "topic_order": 10,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Gunakan Daftar Periksa Desain",
+          "xp": 5,
+          "content": "Penyempurnaan dimulai dengan daftar periksa: bentuk utama jelas, ukuran masuk akal, komponen tersusun, tidak ada bagian yang melayang, dan desain sesuai tujuan. Daftar ini membantu melihat masalah secara sistematis, bukan hanya mengubah hal yang pertama terlihat."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Tinjau Proporsi Keseluruhan",
+          "xp": 5,
+          "content": "Proporsi memengaruhi apakah model tampak seimbang dan mudah dikenali. Bandingkan tinggi, lebar, dan ketebalan bagian. Jika satu komponen terlihat terlalu besar, ubah ukurannya bertahap dan periksa bagaimana perubahan itu memengaruhi bagian lain."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Periksa Dimensi dengan Ruler",
+          "xp": 5,
+          "content": "Gunakan Ruler untuk memeriksa dimensi penting, terutama jika proyek memiliki ukuran target. Pastikan perubahan kosmetik tidak membuat ukuran utama melenceng. Periksa dimensi pada satuan yang dipakai dalam desain dan catat yang harus dipertahankan."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Periksa Simetri dan Alignment",
+          "xp": 5,
+          "content": "Periksa apakah komponen yang seharusnya simetris benar-benar seimbang. Gunakan Align untuk koreksi posisi dan Mirror untuk membalik komponen bila sesuai. Tidak semua desain harus simetris, jadi bandingkan dengan rancangan awal dan maksud desainnya."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Cari Celah dan Tumpang Tindih",
+          "xp": 5,
+          "content": "Celah tidak disengaja dapat membuat model terlihat terpisah, sedangkan tumpang tindih bisa menutupi detail atau mengubah hasil Group. Putar model dan periksa sambungan dari beberapa arah. Perbaiki posisi atau ukuran komponen yang saling mengganggu."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Sederhanakan Detail yang Tidak Perlu",
+          "xp": 5,
+          "content": "Detail yang tidak membantu fungsi atau keterbacaan dapat dikurangi. Model yang lebih sederhana lebih mudah dipahami dan disunting. Pertahankan fitur yang penting untuk tujuan produk, misalnya lubang pada gantungan nama atau ruang pada tempat alat tulis."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Perbaiki Satu Masalah Sekaligus",
+          "xp": 5,
+          "content": "Pilih satu masalah yang paling berpengaruh, perbaiki, lalu periksa ulang. Jika beberapa dimensi diubah sekaligus, lebih sulit mengetahui perubahan mana yang menghasilkan dampak tertentu. Bekerja bertahap memudahkan evaluasi dan pembatalan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Bandingkan dengan Tujuan Awal",
+          "xp": 5,
+          "content": "Bandingkan hasil dengan tujuan awal: apakah bentuk digunakan untuk fungsi yang dimaksud, apakah komponen berada pada lokasi yang benar, dan apakah dimensi sesuai rencana? Periksa ukuran, fungsi, dan tampilan secara terpisah agar satu aspek yang baik tidak menutupi masalah lainnya."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Latihan: Tentukan Prioritas Perbaikan",
+          "xp": 10,
+          "content": "Jika model tidak simetris tetapi seharusnya simetris, perbaiki alignment sebelum mengubah warna. Jika ukuran utama salah, ukur terlebih dahulu sebelum menambah detail. Prioritas perbaikan sebaiknya mengikuti masalah yang paling memengaruhi bentuk dan fungsi.",
+          "instructions": "Model terlihat menarik, tetapi ukuran utama tidak sesuai instruksi. Apa yang sebaiknya diprioritaskan?",
+          "options": [
+            "Menambah warna baru",
+            "Memperbesar zoom saja",
+            "Mengukur dan memperbaiki dimensi utama",
+            "Membagikan link sebelum memeriksa"
+          ],
+          "correct_option": "Mengukur dan memperbaiki dimensi utama"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Catat Perubahan Final",
+          "xp": 5,
+          "content": "Catat perubahan final yang dilakukan, misalnya memperkecil ornamen, menengahkan komponen, atau menambah ketebalan dinding. Dokumentasi singkat membantu kamu menjelaskan proses desain dan memudahkan perbaikan berikutnya jika ada masukan dari guru."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Audit dan Perbaikan Model",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Ambil satu model dari topik sebelumnya atau buat model sederhana dengan beberapa komponen. Lakukan pemeriksaan proporsi, ukuran dengan Ruler, alignment/simetri bila relevan, serta celah dan tumpang tindih. Perbaiki sekurangnya tiga masalah atau jelaskan tiga pemeriksaan yang menunjukkan model sudah benar. Kirim tautan desain dan ringkasan perubahan. Kriteria: perbaikan terencana, ukuran penting diperiksa, dan hasil akhir dibandingkan dengan tujuan."
+        }
+      ],
+      "description": "Level Lancar. Melakukan pemeriksaan kualitas, memperbaiki proporsi, jarak, simetri, dan dimensi agar model siap dipresentasikan.",
+      "quiz": [
+        {
+          "options": [
+            "Memeriksa kualitas secara sistematis",
+            "Mengubah seluruh objek menjadi kotak",
+            "Menghapus riwayat desain",
+            "Mengunci semua ukuran secara otomatis"
+          ],
+          "question": "Apa tujuan daftar periksa desain?",
+          "explanation": "Daftar periksa membantu mengevaluasi model berdasarkan beberapa kriteria yang jelas.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengubah warna",
+            "Mengukur dan memperbaiki dimensi utama",
+            "Mengabaikan target",
+            "Memperbanyak detail"
+          ],
+          "question": "Jika ukuran utama tidak sesuai instruksi, langkah paling tepat adalah…",
+          "explanation": "Dimensi yang diminta harus benar sebelum memperindah desain.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Agar model tidak dapat dibuka",
+            "Agar semua bentuk berubah",
+            "Agar mudah mengetahui dampak setiap perubahan",
+            "Agar ukuran tidak bisa dilihat"
+          ],
+          "question": "Mengapa perbaikan sebaiknya dilakukan satu masalah pada satu waktu?",
+          "explanation": "Perubahan bertahap membuat hasil lebih mudah dievaluasi dan dibatalkan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Nama desain menjadi panjang",
+            "Grid menjadi hilang selamanya",
+            "Ukuran selalu tepat",
+            "Detail tertutup atau hasil bentuk berubah"
+          ],
+          "question": "Tumpang tindih yang tidak disengaja bisa menyebabkan…",
+          "explanation": "Objek yang saling bertumpuk tanpa tujuan dapat mengganggu bentuk dan keterbacaan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Langsung selesai tanpa diuji",
+            "Dibandingkan dengan tujuan awal dan diperiksa dari berbagai arah",
+            "Selalu dibuat lebih rumit",
+            "Semua bagian dihapus"
+          ],
+          "question": "Setelah penyempurnaan, model sebaiknya…",
+          "explanation": "Evaluasi akhir memastikan model sesuai fungsi, ukuran, dan rancangan.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Audit dan Perbaikan Model",
+        "instructions": "Ambil satu model dari topik sebelumnya atau buat model sederhana dengan beberapa komponen. Lakukan pemeriksaan proporsi, ukuran dengan Ruler, alignment/simetri bila relevan, serta celah dan tumpang tindih. Perbaiki sekurangnya tiga masalah atau jelaskan tiga pemeriksaan yang menunjukkan model sudah benar. Kirim tautan desain dan ringkasan perubahan. Kriteria: perbaikan terencana, ukuran penting diperiksa, dan hasil akhir dibandingkan dengan tujuan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Proyek Akhir: Produk 3D Buatan Sendiri",
+      "topic_order": 11,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Pilih Produk yang Bisa Diselesaikan",
+          "xp": 5,
+          "content": "Pilih produk yang sesuai waktu dan kemampuan, misalnya gantungan nama, plakat kecil, atau tempat alat tulis sederhana. Produk yang baik memiliki fungsi yang dapat dijelaskan, bentuk utama yang jelas, dan jumlah komponen yang dapat kamu kelola."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Rencanakan Fungsi dan Ukuran",
+          "xp": 5,
+          "content": "Sebelum membuat model, tentukan perkiraan panjang, lebar, dan tinggi serta ruang yang diperlukan untuk nama atau barang yang akan ditaruh. Gunakan ukuran yang realistis untuk contoh proyek, dan tulis dimensi target agar dapat diperiksa di akhir."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Tentukan Bentuk Dasar Produk",
+          "xp": 5,
+          "content": "Pecah produk menjadi bentuk dasar. Gantungan nama mungkin terdiri dari pelat dan lubang, plakat terdiri dari alas dan bidang nama, sedangkan tempat alat tulis membutuhkan badan dan ruang kosong di dalam. Pilih teknik yang benar-benar mendukung fungsi produk."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Buat Alas atau Badan Utama",
+          "xp": 5,
+          "content": "Buat alas atau badan utama terlebih dahulu. Pastikan dimensi dan orientasinya benar karena bagian lain akan bergantung padanya. Gunakan Ruler untuk memeriksa ukuran penting dan atur pandangan supaya keseluruhan badan terlihat jelas."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tambahkan Bagian Fungsional",
+          "xp": 5,
+          "content": "Tambahkan bagian fungsional, bukan hanya ornamen: lubang untuk gantungan, bidang nama pada plakat, atau ruang untuk pensil. Tempatkan dan ukur setiap bagian dengan hati-hati. Periksa bahwa bagian tambahan tidak terlalu kecil atau tertutup oleh badan utama."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Gunakan Hole jika Perlu Rongga",
+          "xp": 5,
+          "content": "Gunakan Hole jika produk benar-benar membutuhkan rongga atau lubang. Pastikan bentuk pemotong beririsan dengan solid pada area yang ingin dikurangi, lalu Group dan periksa hasilnya dari beberapa arah. Jika produk tidak memerlukan lubang, jangan menambahkan Hole tanpa tujuan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Atur Komponen agar Rapi",
+          "xp": 5,
+          "content": "Gunakan Align untuk memusatkan bagian, Duplicate untuk bagian berulang, dan Group bila beberapa bentuk sudah selesai menjadi satu komponen. Pilih alat sesuai kebutuhan. Simpan komponen terpisah jika masih perlu revisi individual."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Periksa Ukuran dan Proporsi",
+          "xp": 5,
+          "content": "Periksa ukuran utama, jarak antarbagian, ketebalan, dan proporsi. Untuk gantungan nama, lubang jangan terlalu dekat ke tepi pelat; untuk tempat alat tulis, rongga harus cukup dalam; untuk plakat, bidang nama harus terlihat jelas. Koreksi sebelum mempresentasikan model."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "practice",
+          "title": "Siapkan Presentasi Desain",
+          "xp": 10,
+          "content": "Presentasikan model dengan nama yang menjelaskan produk. Tunjukkan sudut pandang yang membantu melihat fungsi utama, dan jelaskan alat yang digunakan seperti Align, Hole, Group, atau Ruler. Sertakan tautan desain yang bisa dibuka guru dan catatan ukuran jika diminta.",
+          "instructions": "Sebelum membangun produk akhir, tindakan pertama yang paling membantu adalah…",
+          "options": [
+            "Menambahkan ornamen sebanyak mungkin",
+            "Menentukan fungsi, komponen, dan ukuran target",
+            "Menggunakan Group pada bentuk acak",
+            "Mengabaikan ukuran"
+          ],
+          "correct_option": "Menentukan fungsi, komponen, dan ukuran target"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Daftar Periksa Proyek Akhir",
+          "xp": 5,
+          "content": "Proyek akhir dianggap siap setelah bentuk utama benar, fungsi dapat dijelaskan, ukuran penting sudah diperiksa, komponen tertata, dan hasil akhir sudah dilihat dari beberapa sudut. Sebutkan satu keputusan desain dan satu hal yang akan kamu perbaiki jika punya waktu tambahan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek Akhir: Produk 3D Pilihanku",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
+          "instructions": "Pilih satu produk: gantungan nama, plakat, atau tempat alat tulis sederhana. Bangun dari beberapa bentuk dasar; gunakan Ruler untuk dimensi penting dan Hole bila produk membutuhkan rongga atau lubang. Terapkan Align, Duplicate, dan Group bila relevan. Kirim tautan model serta ringkasan fungsi, komponen, ukuran utama, dan satu perbaikan yang kamu lakukan. Kriteria: fungsi jelas, komponen tersusun, ukuran diperiksa, dan model dapat ditinjau dari beberapa arah."
+        }
+      ],
+      "description": "Level Lancar. Merencanakan dan membuat produk akhir, seperti gantungan nama, plakat, atau tempat alat tulis sederhana, lalu meninjau dimensinya.",
+      "quiz": [
+        {
+          "options": [
+            "Menentukan fungsi, komponen, dan ukuran target",
+            "Menghapus semua bentuk dasar",
+            "Menambahkan warna tanpa rencana",
+            "Melewatkan pemeriksaan"
+          ],
+          "question": "Sebelum mulai membangun produk akhir, sebaiknya…",
+          "explanation": "Perencanaan membantu memilih bentuk dan menetapkan ukuran sebelum perakitan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Duplicate saja",
+            "Mirror saja",
+            "Hole lalu Group dengan pelat",
+            "Zoom"
+          ],
+          "question": "Untuk membuat lubang gantungan pada pelat, alat yang sesuai adalah…",
+          "explanation": "Hole mengurangi volume pelat untuk membuat lubang ketika digabungkan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Menambah detail dekorasi",
+            "Memastikan ukuran utama sesuai rencana",
+            "Membuat model transparan",
+            "Mengubah bahasa aplikasi"
+          ],
+          "question": "Apa fungsi Ruler pada proyek akhir?",
+          "explanation": "Ruler membantu memeriksa dimensi produk.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Agar warna tersimpan",
+            "Supaya objek otomatis ter-group",
+            "Agar ukuran tidak perlu dicatat",
+            "Untuk memeriksa tinggi, sambungan, rongga, dan bentuk keseluruhan"
+          ],
+          "question": "Kenapa model akhir perlu dilihat dari beberapa arah?",
+          "explanation": "Pandangan berbeda dapat mengungkap masalah yang tak terlihat dari satu sisi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Tautan desain dan penjelasan fungsi serta keputusan desain",
+            "Hanya nama akun",
+            "Kumpulan bentuk tanpa keterangan",
+            "Screenshot grid kosong"
+          ],
+          "question": "Presentasi proyek yang baik memuat…",
+          "explanation": "Tautan dan penjelasan membantu guru meninjau hasil serta memahami tujuan model.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek Akhir: Produk 3D Pilihanku",
+        "instructions": "Pilih satu produk: gantungan nama, plakat, atau tempat alat tulis sederhana. Bangun dari beberapa bentuk dasar; gunakan Ruler untuk dimensi penting dan Hole bila produk membutuhkan rongga atau lubang. Terapkan Align, Duplicate, dan Group bila relevan. Kirim tautan model serta ringkasan fungsi, komponen, ukuran utama, dan satu perbaikan yang kamu lakukan. Kriteria: fungsi jelas, komponen tersusun, ukuran diperiksa, dan model dapat ditinjau dari beberapa arah.",
+        "submission_type": "link"
+      }
+    }
+  ],
+  "description": "Kurikulum pemula untuk belajar desain 3D menggunakan Tinkercad. Level 1 (topik 1–4) mengenalkan ruang 3D dan bentuk dasar; Level 2 (topik 5–8) berfokus pada pengukuran dan penyusunan presisi; Level 3 (topik 9–12) mengembangkan pola, perakitan komponen, penyempurnaan, dan proyek produk akhir."
+}
