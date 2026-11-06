@@ -23,6 +23,7 @@ const LEVEL_COLOR: Record<string, string> = {
   beginner:     'bg-sky-50 text-sky-700 ring-sky-200 dark:bg-sky-900/30 dark:text-sky-300 dark:ring-sky-700/40',
   intermediate: 'bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:ring-amber-700/40',
   advanced:     'bg-red-50 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-300 dark:ring-red-700/40',
+  advance:      'bg-red-50 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-300 dark:ring-red-700/40',
 };
 
 export function ModuleAccordion({ module: mod }: Props) {
