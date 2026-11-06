@@ -7,6 +7,7 @@ const state = vi.hoisted(() => ({
     has_joined: true,
     meetings: {
       module_id: 5,
+      topic_id: 12,
       is_completed: false,
       session_number: 1,
       progress_report: null as string | null,
@@ -26,7 +27,7 @@ vi.mock('@/lib/supabase/admin', () => ({
         maybeSingle: async () => {
           isSingle = true;
           return table === 'topics'
-            ? { data: { id: 12, module_id: 5, order_index: 0, lesson_content: { quiz: [{ question: 'Q?' }] } }, error: null }
+            ? { data: { id: 12, module_id: 5, order_index: 0, lesson_content: { quiz: [{ question: 'Q?', options: ['A', 'B', 'C', 'D'], answer_index: 0, explanation: 'A benar.' }] } }, error: null }
             : { data: null, error: null };
         },
         then: (resolve: (result: { data: unknown; error: null }) => unknown, reject?: (error: unknown) => unknown) => {
@@ -48,7 +49,7 @@ describe('topic quiz teacher-report gate', () => {
     state.meeting = {
       meeting_id: 70,
       has_joined: true,
-      meetings: { module_id: 5, is_completed: false, session_number: 1, progress_report: null },
+      meetings: { module_id: 5, topic_id: 12, is_completed: false, session_number: 1, progress_report: null },
     };
   });
 
@@ -58,6 +59,7 @@ describe('topic quiz teacher-report gate', () => {
 
     state.meeting.meetings = {
       module_id: 5,
+      topic_id: 12,
       is_completed: true,
       session_number: 1,
       progress_report: 'Sesi dan materi telah dibahas.',
