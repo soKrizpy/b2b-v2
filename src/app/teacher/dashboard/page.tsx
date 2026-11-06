@@ -10,6 +10,7 @@ import { isUpcoming, isLive, formatDateTime } from "@/lib/formatDate";
 import { isFeatureEnabled } from "@/lib/featureConfig";
 import { HeroAtmosphere } from "@/components/common/HeroAtmosphere";
 import Link from "next/link";
+
 export const metadata: Metadata = { title: "Dasbor Guru — Bits2Bytes" };
 export const dynamic = "force-dynamic";
 
@@ -28,8 +29,11 @@ export default async function TeacherDashboardPage() {
     (m) => !m.is_completed && isUpcoming(m.meeting_date, renderNow)
   );
 
-  const teacherName = user.user_metadata?.full_name?.split(" ")[0] ?? "Guru";
-  const hasLive = upcoming.some((m) => isLive(m.meeting_date, renderNow));
+  // Live sessions have already started, so they are intentionally absent from
+  // the upcoming list. Check the complete schedule for the live status banner.
+  const hasLive = meetings.some(
+    (m) => !m.is_completed && isLive(m.meeting_date, renderNow)
+  );
 
   return (
     <div className="space-y-8 animate-fade-in-up">
@@ -42,7 +46,6 @@ export default async function TeacherDashboardPage() {
           ? "bg-gradient-to-br from-rose-600 via-rose-700 to-indigo-800 border border-rose-400/50 shadow-rose-500/20 hover:border-rose-300/60 dark:from-slate-950 dark:via-rose-950 dark:to-slate-900 dark:border-rose-500/40 dark:shadow-rose-950/40"
           : "bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 border border-blue-400/50 shadow-blue-500/20 hover:border-blue-300/60 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 dark:border-purple-500/40 dark:shadow-purple-950/40"
         }`}>
-        {/* Seamless theme atmosphere: clouds & birds (light), stars & comets (dark) */}
         <HeroAtmosphere />
 
         <div className="relative z-10">
@@ -58,7 +61,7 @@ export default async function TeacherDashboardPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1 drop-shadow-sm">
-            Halo kembali, {teacherName}! 👋
+            Selamat datang kembali, Guru! 👋
           </h1>
 
           <div className="mt-5 flex items-center gap-3 flex-wrap">
