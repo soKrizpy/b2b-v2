@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { curriculumJsonSchema } from '@/features/curriculum/validation';
+import { curriculumJsonSchema, encodeFinalAssessment, extractFinalAssessment, extractModuleDescription } from '@/features/curriculum/validation';
 import { exportCurriculumJson, importCurriculumJson, importCurriculumJsonForModule } from '@/features/curriculum/actions';
 
 type WriteRecord = { table: string; operation: string; values: unknown };
@@ -96,6 +96,16 @@ const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
 }));
 
 describe('curriculum JSON round-trip workflow', () => {
+  it('preserves the ordinary module description beside the final assessment JSON', () => {
+    const description = 'Kurikulum 3D dari dasar hingga siap cetak.';
+    const encoded = encodeFinalAssessment(finalAssessment, description);
+
+    expect(extractFinalAssessment(encoded)).toEqual(finalAssessment);
+    expect(extractModuleDescription(encoded)).toBe(description);
+    expect(extractModuleDescription('Deskripsi modul biasa')).toBe('Deskripsi modul biasa');
+    expect(extractModuleDescription(`FINAL_ASSESSMENT:${JSON.stringify(finalAssessment)}`)).toBeNull();
+  });
+
   it('validates every checked-in curriculum JSON file against the canonical schema', () => {
     const files = readdirSync('public/curriculum')
       .filter((file) => file.endsWith('.json'))
