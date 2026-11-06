@@ -101,6 +101,7 @@ export type NodeImport = z.infer<typeof nodeSchema>;
 export const topicImportSchema = z.object({
   topic_title:  z.string().min(1, 'topic_title wajib diisi').max(200),
   topic_order:  z.number().int().min(0),
+  status:       z.enum(['draft', 'published']).optional(),
   description:  z.string().optional(),
   project_link: z.string().url().optional().or(z.literal('')),
   nodes:        z.array(nodeSchema),
