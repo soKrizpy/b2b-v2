@@ -19,7 +19,7 @@ import {
   type ModuleImport,
   type NodeImport,
 } from './validation';
-import { getInstructionalSlides, hasAuthoredLessonContent, MIN_LESSON_SLIDES, MAX_LESSON_SLIDES } from './lessonSlides';
+import { getInstructionalSlides, hasRenderableCurriculumContent, MIN_LESSON_SLIDES, MAX_LESSON_SLIDES } from './lessonSlides';
 
 // ── Return type ───────────────────────────────────────────────────────────────
 // Exported as a type — allowed in 'use server' files (type exports are erased
@@ -253,7 +253,7 @@ export async function importCurriculumJson(
         const { topic, existingTopic } = topicPlan;
         const topicTitle = topic.topic_title.trim();
         const lessonContent = buildLessonContent(topic, existingTopic?.lesson_content ?? null);
-        const lessonReady = hasAuthoredLessonContent(getInstructionalSlides(lessonContent.learningPath));
+        const lessonReady = hasRenderableCurriculumContent(lessonContent);
         const topicValues: Record<string, unknown> = {
           order_index: topic.topic_order,
           project_link: topic.project_link !== undefined ? (topic.project_link || null) : existingTopic?.project_link,
@@ -685,7 +685,7 @@ export async function importCurriculumJsonForModule(
         existingTopic?.lesson_content ?? null
       );
       const learningPath = lessonContent.learningPath;
-      const lessonReady = hasAuthoredLessonContent(getInstructionalSlides(learningPath));
+      const lessonReady = hasRenderableCurriculumContent(lessonContent);
       const topicStatus = lessonReady ? 'published' : 'draft';
 
       let topicId = existingTopic?.id;
@@ -777,10 +777,10 @@ export async function updateTopicAction(
     if (!topic) return { success: false, error: 'Topik tidak ditemukan.' };
     const lessonContent = topic.lesson_content as Record<string, unknown> | null;
     const slides = getInstructionalSlides(lessonContent?.learningPath);
-    if (!hasAuthoredLessonContent(slides)) {
+    if (!hasRenderableCurriculumContent(lessonContent)) {
       return {
         success: false,
-        error: `Topik harus memiliki setidaknya satu slide instruksional valid sebelum dipublikasikan. Target ${MIN_LESSON_SLIDES}–${MAX_LESSON_SLIDES} slide disarankan jika materi sumber mendukung. Saat ini: ${slides.length}.`,
+        error: `Materi JSON, quiz, atau challenge harus valid sebelum topik dipublikasikan. Target ${MIN_LESSON_SLIDES}–${MAX_LESSON_SLIDES} slide disarankan jika materi sumber mendukung. Slide valid saat ini: ${slides.length}.`,
       };
     }
   }
