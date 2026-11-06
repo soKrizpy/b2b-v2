@@ -405,5 +405,29 @@ export async function getStudentCompletedTopics(studentId: string): Promise<Topi
     console.error('[getStudentCompletedTopics]', error.message);
     return [];
   }
-  return (data ?? []) as TopicProgressSummary[];
+
+  const progressRows = (data ?? []) as TopicProgressSummary[];
+  const topicIds = [...new Set(progressRows.map((row) => row.topic_id))];
+  if (topicIds.length === 0) return [];
+
+  const { data: topics, error: topicsError } = await db
+    .from('topics')
+    .select('id, lesson_content')
+    .in('id', topicIds)
+    .eq('status', 'published') as unknown as {
+      data: Array<{ id: number; lesson_content: unknown }> | null;
+      error: { message: string } | null;
+    };
+
+  if (topicsError) {
+    console.error('[getStudentCompletedTopics] topic validation', topicsError.message);
+    return [];
+  }
+
+  const readyTopicIds = new Set(
+    (topics ?? [])
+      .filter((topic) => hasRenderableCurriculumContent(topic.lesson_content))
+      .map((topic) => topic.id),
+  );
+  return progressRows.filter((row) => readyTopicIds.has(row.topic_id));
 }
