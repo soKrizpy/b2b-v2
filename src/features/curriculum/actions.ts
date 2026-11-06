@@ -181,8 +181,8 @@ export async function importCurriculumJson(
     // Preflight every read needed by the complete payload before the first write.
     const { data: existingModules, error: modulesReadError } = await (db
       .from('modules')
-      .select('id, title') as unknown as Promise<{
-        data: Array<{ id: number; title: string }> | null;
+      .select('id, title, description') as unknown as Promise<{
+        data: Array<{ id: number; title: string; description: string | null }> | null;
         error: { message: string } | null;
       }>);
     if (modulesReadError || !existingModules) {
@@ -190,9 +190,14 @@ export async function importCurriculumJson(
     }
 
     const moduleIds = new Map(existingModules.map((row) => [row.title.toLowerCase().trim(), row.id]));
+    const modulesById = new Map(existingModules.map((row) => [row.id, row]));
     const plans: ModulePlan[] = [];
     for (const mod of modules) {
-      const existingId = moduleIds.get(mod.module_title.trim().toLowerCase());
+      const existingById = mod.module_id !== undefined ? modulesById.get(mod.module_id) : undefined;
+      if (mod.module_id !== undefined && !existingById) {
+        return importFailure(`module_id ${mod.module_id} tidak ditemukan. Import dibatalkan agar tidak membuat modul duplikat.`, false);
+      }
+      const existingId = mod.module_id ?? existingById?.id ?? moduleIds.get(mod.module_title.trim().toLowerCase());
       let existingTopics: ExistingTopic[] = [];
       if (existingId !== undefined) {
         const { data, error } = await (db.from('topics')
@@ -229,10 +234,17 @@ export async function importCurriculumJson(
       let moduleId = plan.existingId;
       if (moduleId !== undefined) {
         const moduleUpdate: Record<string, unknown> = {
+          title: normalizedTitle,
           level: toDatabaseLevel(plan.mod.level),
           gamification_type: plan.mod.gamification_type,
         };
-        if (plan.mod.final_assessment) moduleUpdate.description = encodeFinalAssessment(plan.mod.final_assessment, plan.mod.description);
+        if (plan.mod.final_assessment) {
+          const existingDescription = modulesById.get(moduleId)?.description ?? null;
+          moduleUpdate.description = encodeFinalAssessment(
+            plan.mod.final_assessment,
+            plan.mod.description ?? extractModuleDescription(existingDescription),
+          );
+        }
         else if (plan.mod.description !== undefined) moduleUpdate.description = plan.mod.description;
         writeStarted = true;
         const { error } = await (db.from('modules').update(moduleUpdate as never).eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
@@ -242,7 +254,7 @@ export async function importCurriculumJson(
         const { data, error } = await (db.from('modules').insert({
           title: normalizedTitle,
           description: plan.mod.final_assessment ? encodeFinalAssessment(plan.mod.final_assessment, plan.mod.description) : (plan.mod.description ?? null),
-          level: plan.mod.level,
+          level: toDatabaseLevel(plan.mod.level),
           gamification_type: plan.mod.gamification_type,
         } as never).select('id').single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
         if (error || !data) return importFailure(`Gagal membuat modul "${normalizedTitle}": ${error?.message ?? 'ID modul tidak dikembalikan.'}`, writeStarted);
