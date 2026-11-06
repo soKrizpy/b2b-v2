@@ -177,7 +177,8 @@
         "title": "Proyek: Karakter Menyeberangi Panggung",
         "instructions": "Buat satu proyek ScratchJr dengan latar pilihanmu dan satu karakter. Mulai dari sisi kiri, lalu sambungkan blok agar karakter bergerak ke kanan sedikitnya 4 langkah. Tambahkan satu gerakan kedua, misalnya ke atas atau melompat. Jalankan dengan bendera hijau, perbaiki jika tidak sesuai, lalu kirim tautan video/screenshot hasil atau tautan berkas proyek yang dapat dibuka guru. Kriteria: latar dan karakter dipilih, pemicu bendera hijau dipakai, minimal dua blok gerak berurutan, dan hasil diuji.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Mengenal Karakter dan Latar",
@@ -352,7 +353,8 @@
         "title": "Proyek: Tokoh di Tempat yang Tepat",
         "instructions": "Buat adegan bertema pilihanmu, misalnya kucing di taman atau ikan di laut. Pilih satu latar dan dua karakter (tokoh utama serta tokoh pendukung). Atur posisi agar tidak saling menutupi, lalu buat tokoh utama bergerak mendekati tokoh pendukung. Kirim tautan bukti berupa video/screenshot atau berkas proyek yang dapat dibuka guru. Kriteria: latar mendukung cerita, dua karakter memiliki peran jelas, dan posisi/gerakan mudah dipahami.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Membuat Karakter Berjalan dan Melompat",
@@ -527,7 +529,8 @@
         "title": "Proyek: Antar Karakter ke Tujuan",
         "instructions": "Pilih latar dan letakkan karakter di sisi kiri panggung. Tentukan tujuan di bagian lain panggung, lalu gunakan minimal tiga blok gerak untuk mengantar karakter ke sana; gunakan setidaknya dua arah berbeda atau satu blok Hop. Uji, sesuaikan jumlah langkah, dan kirim tautan video/screenshot atau berkas proyek. Kriteria: jalur memiliki urutan yang jelas, jumlah langkah masuk akal, dan karakter berakhir dekat tujuan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Menyusun Urutan Perintah",
@@ -702,7 +705,8 @@
         "title": "Proyek: Tiga Aksi dalam Urutan Tepat",
         "instructions": "Buat satu cerita pendek yang berisi tiga aksi dalam urutan tertentu, misalnya karakter berjalan, melompat, lalu menyapa. Susun blok sesuai rencana, tuliskan atau ucapkan urutan aksinya, lalu jalankan dan perbaiki bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tiga aksi jelas, urutan sesuai rencana, serta ada bukti pengujian.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Menggerakkan Karakter dengan Sentuhan",
@@ -885,7 +889,8 @@
         "title": "Proyek: Karakter yang Menjawab Ketukan",
         "instructions": "Buat adegan dengan satu karakter yang bereaksi hanya ketika disentuh. Gunakan Start on Tap untuk membuatnya menyapa lalu melakukan satu aksi gerak atau lompat. Tambahkan petunjuk di panggung agar penonton tahu harus mengetuk karakter. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pemicu sentuhan digunakan, ada dua aksi setelah sentuhan, dan interaksi diuji beberapa kali.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Ucapan, Ekspresi, dan Ukuran Karakter",
@@ -1068,7 +1073,8 @@
         "title": "Proyek: Tokoh dengan Ekspresi",
         "instructions": "Buat satu adegan dengan karakter yang berbicara dan menunjukkan emosi. Gunakan blok Say dan sedikitnya satu blok perubahan tampilan (Grow, Shrink, Hide, Show, atau Reset Size). Pastikan dialog muncul pada waktu yang tepat dan karakter terlihat jelas. Kirim tautan video/screenshot atau berkas proyek. Kriteria: dialog relevan, satu perubahan tampilan berfungsi, dan alur diuji dari awal.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Menambahkan Suara dan Musik",
@@ -1251,7 +1257,8 @@
         "title": "Proyek: Adegan dengan Suara",
         "instructions": "Buat adegan pendek dengan satu karakter. Sertakan setidaknya satu aksi gerak, satu efek Pop atau rekaman suara, dan gunakan Wait bila dibutuhkan untuk mengatur waktu. Pastikan suara sesuai dengan aksi. Kirim tautan video/screenshot yang memperlihatkan hasil beserta suara, atau tautan berkas proyek yang dapat dibuka guru. Kriteria: suara berfungsi, sesuai konteks, dan tidak bertumpuk hingga membingungkan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Gerakan Berulang dan Pengaturan Kecepatan",
@@ -1434,7 +1441,8 @@
         "title": "Proyek: Tarian Berulang",
         "instructions": "Buat tarian karakter yang berisi sedikitnya tiga aksi di dalam Repeat. Atur jumlah pengulangan agar tarian berhenti setelah beberapa putaran, atau gunakan Repeat Forever hanya jika memang diinginkan dan pastikan mudah dihentikan. Coba kecepatan berbeda dan tambahkan Wait bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pengulangan bekerja, tempo sesuai, dan perbedaan Repeat vs Repeat Forever dipilih dengan sengaja.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Dua Karakter Saling Berkomunikasi",
@@ -1617,7 +1625,8 @@
         "title": "Proyek: Salam dan Balasan Dua Karakter",
         "instructions": "Buat proyek dengan dua karakter. Karakter A bergerak mendekat dan mengirim pesan warna tertentu; karakter B memakai Start on Message dengan warna yang cocok untuk berbicara atau bergerak sebagai balasan. Tambahkan aksi penutup dan uji urutan dari awal. Kirim tautan video/screenshot atau berkas proyek. Kriteria: ada dua karakter, pesan terkirim, warna pemicu cocok, dan respons berjalan sesuai urutan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Membuat Cerita dengan Banyak Halaman",
@@ -1800,7 +1809,8 @@
         "title": "Proyek: Cerita Tiga Halaman",
         "instructions": "Buat cerita tiga halaman dengan bagian awal, tengah, dan akhir. Gunakan latar yang sesuai dan karakter utama yang tetap dikenali. Pakai Go to Page untuk berpindah dari satu adegan ke adegan berikutnya; uji seluruh cerita mulai dari halaman pertama. Kirim tautan video/screenshot atau berkas proyek. Kriteria: minimal tiga halaman, transisi otomatis berfungsi, dan akhir cerita menyelesaikan masalah atau tujuan tokoh.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Membuat Permainan Interaktif Sederhana",
@@ -1983,7 +1993,8 @@
         "title": "Proyek: Temukan Bintang",
         "instructions": "Buat permainan kecil dengan satu karakter pemain dan satu target, misalnya bintang. Tambahkan petunjuk cara bermain, lalu gunakan Start on Tap untuk gerak pemain atau Start on Bump untuk mendeteksi sentuhan target. Saat target tercapai, tampilkan respons menang berupa dialog atau suara. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tujuan jelas, kontrol berfungsi, target memberi respons, dan permainan diuji sebagai pemain.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Proyek Akhir: Cerita Petualangan Interaktif",
@@ -2166,7 +2177,8 @@
         "title": "Proyek Akhir: Cerita Interaktif 3 Adegan",
         "instructions": "Buat proyek ScratchJr bertema pilihanmu yang memiliki tiga adegan (atau halaman), satu tokoh utama, minimal satu tokoh pendukung, gerakan terurut, dialog, dan satu efek/rekaman suara. Tambahkan satu interaksi, misalnya Start on Tap atau respons saat karakter bertemu. Gunakan Go to Page bila berpindah halaman. Uji dari awal sampai akhir dan perbaiki minimal satu hal setelah tes. Kirim tautan video/screenshot atau tautan berkas proyek. Kriteria: alur awal-tengah-akhir jelas, minimal tiga halaman/adegan, interaksi berfungsi, dan bukti hasil dapat ditinjau guru.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     }
   ],
   "description": "Kurikulum pemrograman visual untuk pemula (sekitar usia 5–7 tahun). Materi bergerak dari konsep dasar menuju cerita multiadegan dan permainan interaktif. Level: 1–4 Mudah, 5–8 Sedang, 9–12 Lancar.",
