@@ -7,7 +7,7 @@ const state = vi.hoisted(() => ({
   role: 'student',
   userId: 'student-1',
   challenge: { id: 501, topic_id: 12 },
-  topic: { id: 12, module_id: 5, status: 'published', lesson_content: { activeChallengeIds: [501] } as unknown },
+  topic: { id: 12, module_id: 5, status: 'published', lesson_content: { learningPath: [{ type: 'lesson', title: 'Materi', content: 'Isi materi' }], activeChallengeIds: [501] } as unknown },
   enrollment: { module_id: 5, student_id: 'student-1', status: 'active' } as Row | null,
   submissions: [] as Row[],
   insertCount: 0,
@@ -21,10 +21,10 @@ vi.mock('@/lib/auth', () => ({
 }));
 vi.mock('@/features/pet/lib/rewardActions', () => ({ awardRewardEvent: vi.fn() }));
 vi.mock('@/features/curriculum/queries', () => ({
-  getStudentModulesWithTopics: async () => [{ id: 5, topics: [] }],
+  getStudentModulesWithTopics: async () => [{ id: 5, topics: [{ id: 12 }] }],
 }));
 vi.mock('@/features/quiz/questMapQueries', () => ({
-  getQuestMapData: async () => ({ nodes: [{ topic: { id: 12 }, status: 'AVAILABLE' }] }),
+  getQuestMapData: async () => ({ nodes: [{ topic: { id: 12 }, status: 'AVAILABLE', isUnlocked: true }] }),
 }));
 vi.mock('@/lib/supabase/admin', () => ({
   createSupabaseAdminClient: () => ({
