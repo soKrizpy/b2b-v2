@@ -271,8 +271,8 @@ export async function importCurriculumJson(
           order_index: topic.topic_order,
           project_link: topic.project_link !== undefined ? (topic.project_link || null) : existingTopic?.project_link,
           lesson_content: lessonContent,
-          status: lessonReady ? 'published' : 'draft',
-          published_at: lessonReady ? new Date().toISOString() : null,
+          status: lessonReady && topic.status !== 'draft' ? 'published' : 'draft',
+          published_at: lessonReady && topic.status !== 'draft' ? new Date().toISOString() : null,
         };
         if (topic.description !== undefined) topicValues.description = topic.description;
 
@@ -718,7 +718,7 @@ export async function importCurriculumJsonForModule(
       );
       const learningPath = lessonContent.learningPath;
       const lessonReady = hasRenderableCurriculumContent(lessonContent);
-      const topicStatus = lessonReady ? 'published' : 'draft';
+      const topicStatus = lessonReady && topic.status !== 'draft' ? 'published' : 'draft';
 
       let topicId = existingTopic?.id;
       if (topicId === undefined) {
