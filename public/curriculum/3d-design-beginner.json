@@ -1,0 +1,1365 @@
+{
+  "module_title": "3D Design Beginner",
+  "module_order": 0,
+  "level": "beginner",
+  "gamification_type": "mimo",
+  "topics": [
+    {
+      "topic_title": "Project 1: Dadu Mainan 6 Sisi",
+      "topic_order": 1,
+      "nodes": [
+        {
+          "node_id": "tc-101-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Mengenal Antarmuka & Navigasi Kamera Tinkercad",
+          "xp": 15,
+          "content": "Tinkercad adalah platform desain 3D berbasis browser yang gratis. Workspace utamanya terdiri dari: Workplane (bidang kerja), panel Shape di kanan, dan toolbar di atas. Navigasi kamera menggunakan tiga gerakan utama: klik kanan + drag untuk Orbit (memutar pandangan), scroll mouse untuk Zoom, dan klik tengah + drag untuk Pan (menggeser). Tombol 'Home View' di pojok kanan atas mereset tampilan ke sudut pandang isometrik standar."
+        },
+        {
+          "node_id": "tc-101-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Dadu: Kubus + Titik Bola",
+          "xp": 20,
+          "content": "Langkah demi langkah membangun dadu: buat kubus dasar, ubah dimensinya menjadi 20x20x20 mm, ganti warna menjadi merah, lalu tambahkan bola-bola kecil sebagai titik mata dadu dengan mengubah ukurannya menjadi 4x4x4 mm dan memposisikannya secara simetris pada setiap sisi.",
+          "code_content": "LANGKAH MEMBUAT DADU:\n\n1. Drag & drop 'Box' dari panel Shape ke workplane\n2. Klik kotak → ubah dimensi: W=20, L=20, H=20 (mm)\n3. Klik kotak warna → pilih merah\n4. Drag & drop 'Sphere' ke workplane\n5. Ubah dimensi Sphere: W=4, L=4, H=4 (mm)\n6. Posisikan bola di tengah sisi atas kubus\n7. Duplicate bola (Ctrl+D) untuk sisi-sisi lainnya\n8. Atur posisi tiap bola sesuai pola dadu asli\n9. Select semua objek → klik Group (Ctrl+G)",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-101-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Navigasi Kamera 3D",
+          "xp": 20,
+          "content": "Gerakan apa yang digunakan untuk memutar sudut pandang (orbit) kamera di Tinkercad?",
+          "options": [
+            "Klik kanan + drag",
+            "Scroll mouse ke atas",
+            "Klik kiri + drag",
+            "Tekan tombol Space"
+          ],
+          "correct_option": "Klik kanan + drag"
+        },
+        {
+          "node_id": "tc-101-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Mengubah Dimensi Objek",
+          "xp": 25,
+          "instructions": "Cara yang benar untuk mengubah dimensi objek yang sudah ada di workplane adalah?",
+          "options": [
+            "Klik objek lalu ubah nilai W, L, H di panel properti atau handle titik",
+            "Hapus objek dan buat baru dengan ukuran yang diinginkan",
+            "Klik kanan objek → Properties → Scale",
+            "Gunakan menu File → Resize"
+          ],
+          "correct_option": "Klik objek lalu ubah nilai W, L, H di panel properti atau handle titik"
+        }
+      ],
+      "description": "Membangun dadu mainan 6 sisi. Kamu akan belajar navigasi kamera 3D, meletakkan bentuk kubus dan bola dasar, serta mengubah ukuran dan warna objek.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Mereset tampilan kamera ke sudut pandang isometrik standar",
+            "Mengembalikan semua objek ke posisi awal",
+            "Menyimpan desain ke home folder",
+            "Menutup project dan kembali ke dashboard"
+          ],
+          "question": "Apa fungsi tombol 'Home View' di Tinkercad?",
+          "explanation": "Home View mereset posisi kamera ke sudut pandang isometrik default sehingga seluruh workplane terlihat.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "20 x 20 x 20 mm",
+            "100 x 100 x 100 mm",
+            "5 x 5 x 5 mm",
+            "50 x 50 x 50 mm"
+          ],
+          "question": "Berapa dimensi (mm) yang tepat untuk kubus dasar dadu mainan standar mini?",
+          "explanation": "Dadu mini berukuran 20x20x20 mm adalah ukuran yang proporsional dan nyaman untuk dicetak 3D.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Semua objek yang terpilih digabungkan menjadi satu Group",
+            "Semua objek dihapus dari workplane",
+            "Membuka menu Geometry settings",
+            "Membuat duplikat objek terpilih"
+          ],
+          "question": "Apa yang terjadi saat kamu menekan Ctrl+G di Tinkercad?",
+          "explanation": "Ctrl+G adalah shortcut Group di Tinkercad — menggabungkan beberapa objek menjadi satu kesatuan yang bisa dipindah bersama.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Zoom in dan zoom out tampilan kamera",
+            "Memutar objek yang terpilih",
+            "Memindahkan objek ke atas dan bawah",
+            "Mengubah ukuran objek"
+          ],
+          "question": "Gerakan scroll mouse di viewport Tinkercad berfungsi untuk?",
+          "explanation": "Scroll wheel mengontrol jarak zoom kamera — scroll ke depan untuk mendekat, scroll ke belakang untuk menjauh.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Panel Shape di sisi kanan",
+            "Toolbar di bagian atas",
+            "Workplane di tengah",
+            "Menu File di pojok kiri atas"
+          ],
+          "question": "Bagian antarmuka Tinkercad yang menyediakan berbagai bentuk dasar seperti Box, Sphere, dan Cylinder adalah?",
+          "explanation": "Panel Shape (Shape Panel) di sisi kanan workspace berisi koleksi bentuk dasar yang bisa di-drag ke workplane.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 2: Gantungan Kunci Nama Custom",
+      "topic_order": 2,
+      "nodes": [
+        {
+          "node_id": "tc-102-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Fitur Text & Cara Kerja Hole di Tinkercad",
+          "xp": 15,
+          "content": "Tinkercad memiliki shape 'Text' di panel Shapes yang mengkonversi teks menjadi objek 3D. Caranya: drag shape Text ke workplane, klik dua kali untuk mengedit isi teks, lalu atur ukuran font dan ketebalan (height) sesuai kebutuhan. Konsep Hole adalah fitur revolusioner Tinkercad: ubah warna objek apa pun menjadi abu-abu transparan (Hole) lalu Group dengan objek solid — bagian yang overlap otomatis terpotong menjadi rongga nyata."
+        },
+        {
+          "node_id": "tc-102-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Gantungan Kunci Langkah per Langkah",
+          "xp": 20,
+          "content": "Proses lengkap dari plat polos hingga gantungan kunci jadi dengan nama dan lubang ring.",
+          "code_content": "LANGKAH MEMBUAT GANTUNGAN KUNCI:\n\n1. Buat Box (plat): W=60, L=25, H=3 mm → warna kuning\n2. Drag shape 'Rounded Box' untuk sudut membulat, atau\n   gunakan Box biasa dan beri radius di properti\n3. Drag shape 'Text' ke workplane\n   → Klik dua kali → ketik namamu\n   → Atur ukuran font agar muat di plat\n   → Ubah Height=2 mm (sedikit lebih pendek dari plat)\n4. Posisikan Text di atas permukaan plat (Z = 3)\n5. Buat Cylinder kecil (diameter 5mm, H=5mm) → ubah ke HOLE\n6. Posisikan Cylinder Hole di ujung kiri plat\n7. Select semua → Ctrl+G (Group)\n8. Lubang ring otomatis terbentuk!",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-102-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Konsep Hole di Tinkercad",
+          "xp": 20,
+          "content": "Bagaimana cara membuat lubang (rongga) pada objek solid di Tinkercad?",
+          "options": [
+            "Ubah objek pemotong menjadi Hole lalu Group dengan objek solid",
+            "Gunakan tool Drill dari menu Edit",
+            "Klik kanan objek → Cut Hole",
+            "Tarik handle objek ke dalam hingga membentuk cekungan"
+          ],
+          "correct_option": "Ubah objek pemotong menjadi Hole lalu Group dengan objek solid"
+        },
+        {
+          "node_id": "tc-102-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Mengedit Isi Text Shape",
+          "xp": 25,
+          "instructions": "Cara mengganti teks pada shape Text yang sudah ada di workplane adalah?",
+          "options": [
+            "Klik dua kali pada shape Text lalu ketik teks baru",
+            "Klik kanan → Edit Text",
+            "Delete dan buat shape Text baru",
+            "Klik sekali lalu tekan F2"
+          ],
+          "correct_option": "Klik dua kali pada shape Text lalu ketik teks baru"
+        }
+      ],
+      "description": "Membuat plat gantungan kunci dengan tulisan nama dan lubang ring. Fokus pada fitur Text, pembuatan lubang dengan Hole, dan pengelompokan objek.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Abu-abu transparan/bergaris",
+            "Hitam pekat",
+            "Merah menyala",
+            "Tidak berubah warna"
+          ],
+          "question": "Saat objek diubah menjadi 'Hole' di Tinkercad, warna objek tersebut berubah menjadi?",
+          "explanation": "Objek Hole ditampilkan sebagai abu-abu transparan bergaris agar desainer bisa melihat posisinya.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Bagian objek solid yang beririsan dengan Hole terpotong menjadi rongga",
+            "Kedua objek melebur menjadi satu warna",
+            "Objek Hole berubah menjadi solid",
+            "Tidak terjadi perubahan apapun"
+          ],
+          "question": "Apa yang terjadi setelah objek Hole dan objek solid di-Group bersama?",
+          "explanation": "Group dengan Hole melakukan operasi boolean subtraction — area irisan dipotong dari objek solid.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Ctrl+G",
+            "Ctrl+H",
+            "Ctrl+M",
+            "Ctrl+B"
+          ],
+          "question": "Shortcut keyboard untuk meng-Group objek yang terpilih di Tinkercad adalah?",
+          "explanation": "Ctrl+G adalah shortcut Group di Tinkercad untuk menggabungkan beberapa objek menjadi satu.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar ring/gantungan logam bisa dimasukkan melewati lubang tersebut",
+            "Hanya untuk dekorasi visual",
+            "Untuk memperkuat struktur plat",
+            "Karena bentuk cylinder default dari Tinkercad"
+          ],
+          "question": "Untuk apa lubang ring pada gantungan kunci dibuat dengan Cylinder ber-diameter kecil?",
+          "explanation": "Lubang ring adalah titik fungsional gantungan kunci — ring logam dimasukkan melalui lubang ini.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Text",
+            "Letter",
+            "Font3D",
+            "Alphabet"
+          ],
+          "question": "Shape apa di Tinkercad yang secara langsung mengkonversi tulisan menjadi objek 3D?",
+          "explanation": "Shape 'Text' di panel Shapes Tinkercad menghasilkan objek 3D dari input teks yang bisa diatur font dan ketebalannya.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 3: Cangkir Mini & Pegangan",
+      "topic_order": 3,
+      "nodes": [
+        {
+          "node_id": "tc-103-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Teknik Hollowing: Membuat Objek Berongga",
+          "xp": 15,
+          "content": "Hollowing adalah teknik membuat objek solid menjadi berongga di dalamnya — persis seperti cangkir sungguhan. Caranya: buat silinder luar (badan cangkir), buat silinder dalam yang sedikit lebih kecil diameter dan lebih pendek tingginya, ubah silinder dalam menjadi Hole, posisikan tepat di tengah atas silinder luar, lalu Group keduanya. Hasilnya adalah tabung berongga yang menyerupai cangkir."
+        },
+        {
+          "node_id": "tc-103-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Cangkir Mini Step by Step",
+          "xp": 20,
+          "content": "Proses membangun cangkir mini dengan badan berongga dan pegangan melengkung.",
+          "code_content": "LANGKAH MEMBUAT CANGKIR MINI:\n\nBODAN CANGKIR:\n1. Cylinder luar: diameter=40mm, H=50mm → warna biru\n2. Cylinder dalam (Hole): diameter=36mm, H=48mm\n3. Posisikan Hole tepat di tengah, Z=2 (sisakan alas 2mm)\n4. Group keduanya → cangkir berongga jadi!\n\nPEGANGAN:\n5. Drag shape 'Torus' (donat) dari panel Shapes\n6. Ubah dimensi Torus: W=20, L=8, H=20mm\n7. Rotasi Torus 90° pada sumbu X\n8. Posisikan di samping badan cangkir (X sedikit di luar)\n9. Pastikan sebagian Torus menempel/overlap dengan badan\n10. Select badan + Torus → Group\n11. Cangkir dengan pegangan siap!",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-103-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Teknik Hollowing yang Benar",
+          "xp": 20,
+          "content": "Agar cangkir memiliki alas (tidak tembus sampai bawah), bagaimana posisi Cylinder Hole yang benar?",
+          "options": [
+            "Cylinder Hole tidak menyentuh alas — posisi Z-nya dimulai sedikit di atas 0",
+            "Cylinder Hole harus sama tingginya dengan badan luar",
+            "Cylinder Hole diposisikan di bawah workplane (Z negatif)",
+            "Cylinder Hole dibuat sama besar dengan badan luar"
+          ],
+          "correct_option": "Cylinder Hole tidak menyentuh alas — posisi Z-nya dimulai sedikit di atas 0"
+        },
+        {
+          "node_id": "tc-103-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Merotasi Objek di Tinkercad",
+          "xp": 25,
+          "instructions": "Cara merotasi objek pada sumbu tertentu di Tinkercad adalah?",
+          "options": [
+            "Klik objek lalu tarik handle panah melengkung (rotasi) yang muncul di setiap sumbu",
+            "Klik kanan → Rotate → Masukkan sudut",
+            "Tekan R pada keyboard lalu klik sumbu",
+            "Gunakan menu Transform → Rotate"
+          ],
+          "correct_option": "Klik objek lalu tarik handle panah melengkung (rotasi) yang muncul di setiap sumbu"
+        }
+      ],
+      "description": "Merancang cangkir mini dengan bagian dalam berongga dan pegangan. Fokus pada hollowing dengan Hole + Group dan penggabungan bentuk lengkung.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Agar tersisa dinding/ketebalan material yang membentuk sisi cangkir",
+            "Karena Hole tidak bisa memiliki ukuran sama dengan solid",
+            "Agar warna Hole tetap terlihat",
+            "Tidak ada alasan khusus, ukurannya bisa sama"
+          ],
+          "question": "Mengapa diameter Cylinder Hole harus lebih kecil dari Cylinder luar saat membuat cangkir?",
+          "explanation": "Selisih diameter luar dan dalam menentukan ketebalan dinding cangkir. Tanpa selisih, dinding akan nol dan objek tidak valid.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Torus",
+            "Ring",
+            "Circle",
+            "Donut"
+          ],
+          "question": "Shape Tinkercad berbentuk donat yang cocok digunakan sebagai pegangan cangkir adalah?",
+          "explanation": "Torus adalah shape berbentuk cincin/donat di Tinkercad, ideal untuk membuat pegangan cangkir melengkung.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "90 derajat pada sumbu X",
+            "45 derajat pada sumbu Z",
+            "180 derajat pada sumbu Y",
+            "0 derajat (tidak perlu dirotasi)"
+          ],
+          "question": "Berapa derajat rotasi yang diperlukan untuk mendirikan Torus agar berfungsi sebagai pegangan cangkir tegak?",
+          "explanation": "Torus secara default berbaring horizontal. Dirotasi 90° pada sumbu X agar berdiri vertikal sebagai pegangan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Boolean Subtraction (pengurangan)",
+            "Boolean Union (penggabungan)",
+            "Boolean Intersection (irisan)",
+            "Boolean Addition (penambahan)"
+          ],
+          "question": "Operasi matematika yang dilakukan Tinkercad ketika dua objek di-Group dengan salah satunya adalah Hole adalah?",
+          "explanation": "Hole + Group = Boolean Subtraction: volume objek Hole dipotong/dikurangi dari objek solid.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Membuat alas cangkir agar tidak tembus dan objek bisa berdiri",
+            "Menambah ketinggian visual cangkir",
+            "Mempermudah proses Group",
+            "Mengisi celah antara workplane dan objek"
+          ],
+          "question": "Apa tujuan menyisakan Z=2 mm (alas 2mm) saat memposisikan Cylinder Hole pada cangkir?",
+          "explanation": "Alas 2mm memastikan bagian bawah cangkir tetap solid (tidak berlubang) sehingga cangkir bisa berdiri dan menampung cairan.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 4: Meja & Kursi Taman Minimalis",
+      "topic_order": 4,
+      "nodes": [
+        {
+          "node_id": "tc-104-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Alat Align & Ruler: Presisi Adalah Segalanya",
+          "xp": 15,
+          "content": "Fitur Align (Sejajarkan) di Tinkercad memungkinkan pengaturan posisi beberapa objek secara presisi — rata kiri, rata kanan, tengah horizontal, tengah vertikal, dll. Akses via menu Edit → Align atau tekan L. Ruler (Penggaris) mengaktifkan pengukuran jarak antar objek secara real-time di workplane. Dua alat ini adalah kunci membuat desain yang simetris dan terukur seperti furnitur."
+        },
+        {
+          "node_id": "tc-104-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Meja Taman Langkah per Langkah",
+          "xp": 20,
+          "content": "Membuat meja taman dengan 4 kaki simetris menggunakan fitur Align.",
+          "code_content": "LANGKAH MEMBUAT MEJA TAMAN:\n\nPAPAN MEJA:\n1. Box: W=80, L=40, H=5mm → warna coklat kayu\n2. Posisikan di Z=40 (tinggi kaki nanti)\n\nKAKI MEJA (4 buah):\n3. Buat Cylinder: diameter=8, H=40mm → warna coklat\n4. Posisikan kaki 1 di pojok kiri depan\n5. Ctrl+D → duplicate → pindah ke pojok kanan depan\n6. Ulangi untuk 2 kaki belakang\n7. Select semua kaki → tekan L (Align)\n8. Atur 'Align to Center on X axis' untuk kaki depan\n9. Atur 'Align to Center on Y axis' untuk kaki kiri\n10. Select semua → Ctrl+G\n\nRULER:\n11. Aktifkan Ruler → ukur jarak antar kaki\n12. Pastikan jarak kiri-kanan dan depan-belakang sama",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-104-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Fungsi Fitur Align",
+          "xp": 20,
+          "content": "Shortcut keyboard untuk mengaktifkan fitur Align di Tinkercad adalah?",
+          "options": [
+            "L",
+            "A",
+            "Ctrl+A",
+            "Ctrl+L"
+          ],
+          "correct_option": "L"
+        },
+        {
+          "node_id": "tc-104-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Menggunakan Ruler dengan Tepat",
+          "xp": 25,
+          "instructions": "Kapan sebaiknya kamu mengaktifkan fitur Ruler di Tinkercad?",
+          "options": [
+            "Saat perlu mengukur jarak presisi antar objek di workplane",
+            "Hanya saat akan mencetak file STL",
+            "Untuk mengatur warna gradien objek",
+            "Saat ingin menduplikasi objek secara otomatis"
+          ],
+          "correct_option": "Saat perlu mengukur jarak presisi antar objek di workplane"
+        }
+      ],
+      "description": "Merancang set furnitur miniatur dengan posisi kaki-kaki yang simetris. Fokus pada alat Align untuk penyejajaran presisi dan pengukuran dengan Ruler.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Align",
+            "Snap",
+            "Grid",
+            "Lock"
+          ],
+          "question": "Fitur Tinkercad yang membantu menyejajarkan posisi beberapa objek secara presisi disebut?",
+          "explanation": "Fitur Align memungkinkan penyejajaran objek berdasarkan sumbu X, Y, atau Z — rata kiri, tengah, atau kanan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Buat 1 kaki → Duplicate (Ctrl+D) sebanyak 3 kali",
+            "Buat 4 kaki satu per satu secara manual",
+            "Gunakan fitur Auto-Leg dari menu Insert",
+            "Copy dari internet lalu paste"
+          ],
+          "question": "Untuk membuat 4 kaki meja yang identik dengan cepat, teknik yang tepat adalah?",
+          "explanation": "Duplicate (Ctrl+D) membuat salinan persis dari objek terpilih — cara tercepat untuk membuat komponen yang sama berulang.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Keempat kaki berjarak sama dari tepi meja dan saling sejajar satu sama lain",
+            "Kaki meja berbentuk simetris kiri-kanan dalam desain 2D",
+            "Semua kaki meja memiliki warna yang sama",
+            "Kaki meja dibuat dari material yang sama"
+          ],
+          "question": "Apa yang dimaksud dengan 'symmetrical placement' kaki meja?",
+          "explanation": "Simetris berarti posisi kaki-kaki meja berjarak sama satu sama lain dari tepi papan, menciptakan keseimbangan visual dan struktural.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar ukuran desain akurat dan sesuai saat dicetak 3D di dunia nyata",
+            "Karena mm adalah satu-satunya satuan yang didukung Tinkercad",
+            "Agar file STL lebih kecil ukurannya",
+            "Hanya konvensi visual, tidak berpengaruh pada cetakan"
+          ],
+          "question": "Mengapa dimensi desain menggunakan satuan milimeter (mm) di Tinkercad?",
+          "explanation": "Tinkercad menggunakan mm sebagai satuan nyata. Ukuran 80mm di Tinkercad = 80mm fisik saat dicetak 3D printer.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengukur jarak antar objek secara real-time di workplane",
+            "Membuat garis lurus di workplane",
+            "Mengatur skala keseluruhan desain",
+            "Menampilkan dimensi objek dalam satuan inci"
+          ],
+          "question": "Fitur Ruler di Tinkercad berfungsi untuk?",
+          "explanation": "Ruler menampilkan penggaris digital di workplane yang mengukur jarak secara akurat saat memposisikan objek.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 5: Roda Gigi & Piringan Jam Dinding",
+      "topic_order": 5,
+      "nodes": [
+        {
+          "node_id": "tc-105-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Duplicate & Repeat: Pola Berulang dalam Hitungan Detik",
+          "xp": 15,
+          "content": "Tinkercad memiliki fitur Duplicate (Ctrl+D) yang menyalin objek beserta transformasi terakhirnya. Jika kamu menduplikasi lalu merotasi 30°, duplikasi berikutnya akan otomatis merotasi 30° lagi dari posisi sebelumnya. Teknik ini sangat powerful untuk membuat pola melingkar: cukup tentukan sudut rotasi (360° dibagi jumlah elemen) lalu tekan Ctrl+D berulang kali."
+        },
+        {
+          "node_id": "tc-105-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membuat Piringan Jam dengan Pola Melingkar",
+          "xp": 20,
+          "content": "Menggunakan teknik Duplicate + Rotate untuk menempatkan 12 penanda jam secara melingkar.",
+          "code_content": "LANGKAH MEMBUAT PIRINGAN JAM:\n\nPIRINGAN DASAR:\n1. Cylinder: diameter=100mm, H=5mm → warna putih\n2. Cylinder tengah (lubang): diameter=8mm, H=6mm → Hole\n3. Group → piringan berlubang di tengah\n\nPENANDA JAM (12 titik):\n4. Buat Cylinder kecil: diameter=6mm, H=2mm → warna hitam\n5. Posisikan di tepi piringan (jarak 45mm dari pusat)\n6. Ctrl+D → duplicate\n7. Pindah sedikit, lalu ROTASI 30° pada sumbu Z\n   (360° ÷ 12 jam = 30° per langkah)\n8. Ctrl+D lagi → otomatis rotate 30° berikutnya\n9. Ulangi sampai 12 penanda terbentuk\n10. Select piringan + semua penanda → Group",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-105-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Sudut Rotasi Pola Melingkar",
+          "xp": 20,
+          "content": "Jika ingin menempatkan 8 elemen melingkar secara merata (360°), berapa sudut rotasi tiap elemen?",
+          "options": [
+            "45 derajat",
+            "30 derajat",
+            "60 derajat",
+            "90 derajat"
+          ],
+          "correct_option": "45 derajat"
+        },
+        {
+          "node_id": "tc-105-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Keistimewaan Ctrl+D Berulang",
+          "xp": 25,
+          "instructions": "Setelah menduplikasi objek (Ctrl+D) dan merotasinya 30°, apa yang terjadi saat Ctrl+D ditekan lagi?",
+          "options": [
+            "Duplikat baru otomatis menerapkan rotasi 30° berikutnya dari posisi terakhir",
+            "Objek asli ter-duplicate ke posisi yang sama persis",
+            "Semua objek terhapus dan dimulai dari awal",
+            "Tidak ada duplikasi tambahan, Ctrl+D hanya bisa sekali"
+          ],
+          "correct_option": "Duplikat baru otomatis menerapkan rotasi 30° berikutnya dari posisi terakhir"
+        }
+      ],
+      "description": "Membuat piringan jam dinding dengan elemen melingkar. Fokus pada fitur Duplicate & Repeat untuk penggandaan pola melingkar secara cepat.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "360 dibagi N",
+            "180 dibagi N",
+            "N dikali 30",
+            "90 dikali N"
+          ],
+          "question": "Rumus menghitung sudut rotasi untuk pola N elemen melingkar adalah?",
+          "explanation": "Lingkaran penuh = 360°. Untuk N elemen yang tersebar merata, setiap elemen berjarak 360°/N dari yang lain.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "30 derajat",
+            "45 derajat",
+            "60 derajat",
+            "15 derajat"
+          ],
+          "question": "Berapa sudut rotasi yang tepat untuk 12 penanda jam di piringan jam?",
+          "explanation": "360° ÷ 12 jam = 30°. Setiap penanda jam berjarak 30° dari penanda sebelumnya.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Ctrl+D",
+            "Ctrl+C → Ctrl+V",
+            "Ctrl+R",
+            "Ctrl+P"
+          ],
+          "question": "Shortcut keyboard untuk Duplicate di Tinkercad adalah?",
+          "explanation": "Ctrl+D adalah shortcut Duplicate di Tinkercad — membuat salinan langsung dari objek terpilih.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Duplicate mengingat transformasi terakhir sehingga pengulangan pola menjadi otomatis",
+            "Duplicate menghasilkan file yang lebih kecil",
+            "Duplicate tidak membutuhkan klik mouse sama sekali",
+            "Tidak ada perbedaan, keduanya identik"
+          ],
+          "question": "Apa keunggulan fitur Duplicate (Ctrl+D) dibanding Copy-Paste biasa di Tinkercad?",
+          "explanation": "Ctrl+D di Tinkercad mewarisi transformasi terakhir (posisi, rotasi, skala) ke duplikat berikutnya — fitur kunci untuk pola berulang.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "60 derajat",
+            "30 derajat",
+            "45 derajat",
+            "72 derajat"
+          ],
+          "question": "Untuk membuat roda gigi dengan 6 gigi, objek gigi harus ditempatkan setiap berapa derajat?",
+          "explanation": "360° ÷ 6 gigi = 60°. Setiap gigi ditempatkan 60° dari gigi sebelumnya.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 6: Karakter Mini Robot Geometri",
+      "topic_order": 6,
+      "nodes": [
+        {
+          "node_id": "tc-106-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Arsitektur Karakter 3D: Proportional Thinking",
+          "xp": 15,
+          "content": "Membangun karakter 3D yang menarik membutuhkan pemahaman rasio/proporsi antar bagian tubuh. Kepala biasanya 1/4 sampai 1/3 dari tinggi total badan. Lengan sepanjang setengah tinggi badan. Di Tinkercad, setiap bagian tubuh adalah shape terpisah yang diposisikan, dirotasi, dan akhirnya di-Group menjadi satu kesatuan. Teknik rotasi sudut (30°, 45°, 90°) sangat berguna untuk pose lengan, kaki, dan antena."
+        },
+        {
+          "node_id": "tc-106-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Robot Geometri Langkah per Langkah",
+          "xp": 20,
+          "content": "Membuat robot sederhana dengan kepala, badan, lengan, kaki, dan antena dari shape dasar.",
+          "code_content": "ANATOMI ROBOT GEOMETRI:\n\nKEPALA:\n1. Box: 25x25x25mm → warna abu-abu metalik\n2. Tambah 2 Sphere kecil (mata): diameter 6mm → putih\n3. Tambah Cylinder kecil hitam di tengah setiap mata\n\nBADAN:\n4. Box: 35x20x40mm → warna abu-abu lebih gelap\n5. Posisikan di bawah kepala (Z disesuaikan)\n\nLENGAN (2 buah):\n6. Cylinder: diameter=8mm, H=30mm\n7. Rotasi 45° untuk pose santai\n8. Posisikan di kiri dan kanan badan (duplicate)\n\nKAKI (2 buah):\n9. Box: 10x10x35mm → posisi di bawah badan\n\nANTENA:\n10. Cylinder tipis + Sphere kecil di ujung\n11. Posisikan di atas kepala\n\n12. Select semua → Ctrl+G",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-106-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Rasio Proporsi Karakter",
+          "xp": 20,
+          "content": "Dalam desain karakter, jika tinggi total robot 100mm, tinggi kepala yang proporsional adalah sekitar?",
+          "options": [
+            "25-33 mm (1/4 hingga 1/3 badan)",
+            "50 mm (setengah badan)",
+            "10 mm (1/10 badan)",
+            "Ukuran kepala tidak penting"
+          ],
+          "correct_option": "25-33 mm (1/4 hingga 1/3 badan)"
+        },
+        {
+          "node_id": "tc-106-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Memindahkan Objek pada Sumbu Z",
+          "xp": 25,
+          "instructions": "Untuk menumpuk kepala robot tepat di atas badannya, parameter apa yang perlu diatur?",
+          "options": [
+            "Nilai Z (ketinggian) kepala diatur = tinggi badan",
+            "Nilai X kepala diatur = lebar badan",
+            "Nilai Y kepala diatur = panjang badan",
+            "Scale badan hingga sama tinggi dengan kepala"
+          ],
+          "correct_option": "Nilai Z (ketinggian) kepala diatur = tinggi badan"
+        }
+      ],
+      "description": "Menyusun bentuk geometri menjadi karakter robot atau monster lucu. Fokus pada perakitan objek kompleks, rotasi sudut, dan penataan rasio antar bagian tubuh.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Sumbu Z",
+            "Sumbu X",
+            "Sumbu Y",
+            "Sumbu W"
+          ],
+          "question": "Dalam Tinkercad, sumbu apa yang mengontrol ketinggian/elevasi objek?",
+          "explanation": "Sumbu Z mengontrol posisi vertikal (ketinggian) objek di Tinkercad. Nilai Z positif = objek lebih tinggi dari workplane.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Menggabungkan semua bagian menjadi satu objek yang bisa dipindah/dirotasi bersama",
+            "Menyimpan desain ke cloud",
+            "Mengunci objek agar tidak bisa diedit",
+            "Mengeksport file STL"
+          ],
+          "question": "Apa tujuan dari operasi Group (Ctrl+G) setelah merakit semua bagian robot?",
+          "explanation": "Group menyatukan semua bagian sehingga robot bisa diperlakukan sebagai satu objek tunggal untuk manipulasi selanjutnya.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Duplicate lengan kiri, lalu Mirror (cermin) atau posisikan secara simetris di sisi kanan",
+            "Gambar ulang lengan kanan dari nol",
+            "Gunakan fitur Auto-Mirror dari menu Edit",
+            "Salin kode XML objek"
+          ],
+          "question": "Untuk membuat robot simetris kiri-kanan, cara terbaik setelah membuat lengan kiri adalah?",
+          "explanation": "Duplicate + Mirror atau pengaturan posisi simetris adalah cara efisien membuat bagian tubuh yang identik di kedua sisi.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Box (kubus/balok)",
+            "Sphere (bola)",
+            "Torus (donat)",
+            "Pyramid (piramida)"
+          ],
+          "question": "Shape dasar mana yang paling tepat untuk membuat badan robot yang kokoh dan boxy?",
+          "explanation": "Box menghasilkan bentuk kotak/persegi yang identik dengan estetika robot geometris klasik.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Proporsi yang baik membuat karakter terlihat menarik dan realistis secara visual",
+            "Tinkercad memerlukan rasio tertentu agar bisa di-export",
+            "Proporsi hanya penting untuk karakter manusia, tidak robot",
+            "Ukuran bagian tubuh tidak berpengaruh pada tampilan akhir"
+          ],
+          "question": "Mengapa penting mengatur rasio proporsi antar bagian tubuh karakter?",
+          "explanation": "Proporsi yang seimbang menciptakan kesan visual yang harmonis dan membuat karakter lebih menarik untuk dilihat.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 7: Gantungan Kunci Tanda Tangan (Scribble)",
+      "topic_order": 7,
+      "nodes": [
+        {
+          "node_id": "tc-107-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Scribble Tool: Dari Coretan 2D ke Objek 3D",
+          "xp": 15,
+          "content": "Scribble adalah shape unik Tinkercad yang membuka kanvas 2D di mana kamu bisa menggambar bebas dengan mouse atau stylus. Setelah selesai menggambar, Tinkercad otomatis mengkonversi hasil coretanmu menjadi objek 3D solid dengan ketebalan yang bisa diatur. Scribble menggunakan algoritma extrude — bentuk 2D 'diangkat' secara vertikal menjadi 3D."
+        },
+        {
+          "node_id": "tc-107-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membuat Gantungan Kunci Custom dengan Scribble",
+          "xp": 20,
+          "content": "Langkah menggunakan Scribble untuk membuat shape kustom dan mengintegrasikannya ke gantungan kunci.",
+          "code_content": "LANGKAH MENGGUNAKAN SCRIBBLE:\n\n1. Di panel Shapes, cari dan drag 'Scribble'\n   (biasanya di bagian 'Basic Shapes' atau search 'Scribble')\n2. Panel Scribble terbuka → kanvas 2D putih\n3. Pilih tool:\n   - Pen: menggambar garis bebas\n   - Eraser: menghapus bagian tertentu\n   - Fill: mengisi area tertutup\n4. Gambar tanda tanganmu atau sketsa hewan\n5. Klik 'Done' → Scribble jadi objek 3D!\n6. Atur Height (ketebalan) di properti: misal H=3mm\n\nINTEGRASI KE GANTUNGAN KUNCI:\n7. Buat plat Box tipis sebagai basis\n8. Posisikan hasil Scribble di atas plat\n9. Tambahkan Cylinder Hole untuk lubang ring\n10. Group semua → gantungan kunci custom siap!",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-107-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Prinsip Kerja Scribble",
+          "xp": 20,
+          "content": "Algoritma apa yang digunakan Scribble untuk mengkonversi gambar 2D menjadi objek 3D?",
+          "options": [
+            "Extrude — bentuk 2D diangkat secara vertikal menjadi solid 3D",
+            "Inflate — gambar 2D digelembungkan menjadi bola",
+            "Rotate — gambar 2D diputar 360° membentuk solid",
+            "Scan — gambar difoto dan dikonversi"
+          ],
+          "correct_option": "Extrude — bentuk 2D diangkat secara vertikal menjadi solid 3D"
+        },
+        {
+          "node_id": "tc-107-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Tips Gambar Scribble yang Baik",
+          "xp": 25,
+          "instructions": "Agar hasil Scribble menjadi objek 3D yang bersih dan solid, apa yang perlu diperhatikan saat menggambar?",
+          "options": [
+            "Pastikan garis gambar membentuk area tertutup (closed shape) tanpa celah",
+            "Gunakan sebanyak mungkin titik dan lekukan",
+            "Gambar harus tepat 100x100 piksel",
+            "Warna gambar harus hitam agar terkonversi"
+          ],
+          "correct_option": "Pastikan garis gambar membentuk area tertutup (closed shape) tanpa celah"
+        }
+      ],
+      "description": "Membuat gantungan kunci dari gambar tangan atau sketsa kustom menggunakan alat Scribble untuk mengkonversi gambar 2D menjadi objek 3D.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Di panel Shapes sebelah kanan, bisa dicari dengan keyword 'Scribble'",
+            "Di menu Tools → Freehand",
+            "Di toolbar atas bersama Select dan Move",
+            "Di menu File → Import Drawing"
+          ],
+          "question": "Di mana letak tool Scribble dalam antarmuka Tinkercad?",
+          "explanation": "Scribble adalah shape di panel Shapes Tinkercad. Drag ke workplane untuk membuka kanvas 2D.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Done",
+            "Export",
+            "Convert",
+            "Extrude"
+          ],
+          "question": "Setelah menggambar di kanvas Scribble, tombol apa yang mengkonversi gambar menjadi objek 3D?",
+          "explanation": "Tombol 'Done' di pojok atas kanan kanvas Scribble mengakhiri sesi menggambar dan mengkonversi hasilnya menjadi objek 3D.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Height",
+            "Depth",
+            "Thickness",
+            "Extrusion"
+          ],
+          "question": "Parameter Scribble mana yang menentukan ketebalan (tinggi) objek 3D hasil konversi?",
+          "explanation": "Parameter Height di properti objek Scribble mengontrol seberapa tebal objek 3D yang dihasilkan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Objek dengan rongga internal (berongga di dalam)",
+            "Tanda tangan 3D",
+            "Siluet hewan sederhana",
+            "Logo atau ikon kustom"
+          ],
+          "question": "Jenis karya apa yang TIDAK bisa dibuat dengan tool Scribble?",
+          "explanation": "Scribble hanya menghasilkan objek solid ekstrusi. Untuk membuat rongga internal, diperlukan teknik Hole + Group tambahan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Memungkinkan desain bentuk bebas yang tidak bisa dibuat dari shape geometris standar",
+            "Menghasilkan file yang lebih kecil dari shape biasa",
+            "Scribble otomatis menambahkan lubang ring",
+            "Hanya Scribble yang bisa menghasilkan objek berwarna"
+          ],
+          "question": "Mengapa teknik Scribble berguna untuk membuat gantungan kunci custom?",
+          "explanation": "Scribble membebaskan desainer dari keterbatasan shape geometris — apapun yang bisa digambar bisa menjadi objek 3D.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 8: Rumah Impian Miniatur",
+      "topic_order": 8,
+      "nodes": [
+        {
+          "node_id": "tc-108-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Arsitektur 3D: Komponen Bangunan dari Shape Dasar",
+          "xp": 15,
+          "content": "Sebuah rumah miniatur terdiri dari beberapa komponen: Dinding (Box tipis tinggi), Atap (Roof shape atau Pyramid/Prism), Pintu (lubang Box pada dinding), Jendela (lubang Box lebih kecil). Kunci tekniknya adalah membuat lubang pintu dan jendela menggunakan Hole + Group. Box ber-Hole diposisikan menembus dinding, lalu di-Group bersama dinding untuk memotong lubang yang presisi."
+        },
+        {
+          "node_id": "tc-108-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Rumah Miniatur Lengkap",
+          "xp": 20,
+          "content": "Proses membangun rumah miniatur dari alas hingga atap dengan pintu dan jendela berlubang.",
+          "code_content": "LANGKAH MEMBUAT RUMAH MINIATUR:\n\nALAS / LANTAI:\n1. Box: W=80, L=60, H=3mm → warna abu-abu\n\nDINDING:\n2. Dinding depan: Box 80x5x50mm → warna krem\n3. Dinding belakang: duplikat dinding depan\n4. Dinding kiri & kanan: Box 5x60x50mm (2 buah)\n5. Posisikan semua dinding di atas lantai\n\nPINTU & JENDELA:\n6. Pintu: Box 15x6x30mm → ubah ke HOLE\n   Posisikan menembus dinding depan\n7. Jendela: Box 12x6x12mm → ubah ke HOLE (buat 2 buah)\n   Posisikan di dinding depan kiri dan kanan\n8. Select dinding depan + Hole pintu + Hole jendela → Group\n\nATAP:\n9. Drag shape 'Roof' atau 'Pyramid' dari panel\n10. Atur ukuran = 84x64mm (sedikit lebih besar dari rumah)\n11. Posisikan di atas semua dinding\n\n12. Select semua → Ctrl+G",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-108-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Teknik Membuat Lubang Pintu",
+          "xp": 20,
+          "content": "Agar lubang pintu menembus dinding dengan bersih, bagaimana posisi Box Hole yang benar?",
+          "options": [
+            "Box Hole harus sedikit melampaui kedua sisi dinding agar potongan sempurna",
+            "Box Hole harus persis sama tebalnya dengan dinding",
+            "Box Hole diletakkan di luar dinding, tidak menyentuh",
+            "Box Hole diletakkan di dalam dinding tanpa melampaui sisi manapun"
+          ],
+          "correct_option": "Box Hole harus sedikit melampaui kedua sisi dinding agar potongan sempurna"
+        },
+        {
+          "node_id": "tc-108-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Shape Atap yang Tepat",
+          "xp": 25,
+          "instructions": "Shape Tinkercad mana yang paling tepat untuk membuat atap rumah berbentuk prisma segitiga?",
+          "options": [
+            "Shape 'Roof' atau 'Pyramid' dari panel Shapes",
+            "Box yang dirotasi 45 derajat",
+            "Cylinder yang dipotong setengah",
+            "Torus yang diratakan"
+          ],
+          "correct_option": "Shape 'Roof' atau 'Pyramid' dari panel Shapes"
+        }
+      ],
+      "description": "Merancang rumah miniatur dengan dinding, atap prisma, pintu, dan jendela berlubang. Fokus pada penggabungan elemen arsitektur dasar dan pemotongan celah.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Agar potongan lubang sempurna menembus seluruh ketebalan dinding tanpa sisa",
+            "Agar warna Hole terlihat lebih jelas",
+            "Karena Tinkercad tidak bisa memotong objek dengan ketebalan sama",
+            "Untuk memperkuat struktur dinding di sekitar pintu"
+          ],
+          "question": "Mengapa Box Hole untuk pintu perlu sedikit lebih tebal dari dinding?",
+          "explanation": "Jika Hole persis sama tebal, ada risiko permukaan z-fighting. Membuat Hole sedikit lebih tebal memastikan potongan bersih.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Pintu dan jendela",
+            "Atap dan lantai",
+            "Dinding dan pondasi",
+            "Tiang dan pagar"
+          ],
+          "question": "Komponen arsitektur mana yang menggunakan teknik Hole + Group di rumah miniatur?",
+          "explanation": "Pintu dan jendela adalah celah/lubang pada dinding — dibuat dengan menempatkan Box Hole lalu Group dengan dinding.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar atap menjorok keluar (overhang) menutupi dinding dari hujan — lebih realistis",
+            "Karena shape Roof di Tinkercad tidak bisa disesuaikan ukurannya",
+            "Agar atap mudah di-Group dengan dinding",
+            "Untuk menambah berat model agar stabil saat dicetak"
+          ],
+          "question": "Mengapa ukuran atap dibuat sedikit lebih besar dari dimensi rumah?",
+          "explanation": "Overhang atap adalah detail arsitektural realistis. Atap yang sedikit lebih lebar dari dinding menciptakan tampilan yang lebih autentik.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "1 kali — Group dinding depan saja bersama Hole-nya",
+            "4 kali — setiap dinding harus di-Group tersendiri",
+            "1 kali — Group semua dinding sekaligus",
+            "Tidak perlu Group, cukup ubah ke Hole"
+          ],
+          "question": "Jika rumah memiliki 4 dinding, berapa kali operasi Group diperlukan untuk melubangi pintu di dinding depan saja?",
+          "explanation": "Group hanya perlu dilakukan antara dinding depan dan Hole-nya. Dinding lain tidak terpengaruh.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Buat Box jendela → ubah ke Hole → posisikan pada dinding → Group dengan dinding",
+            "Group dinding dulu → baru tambahkan Hole",
+            "Ubah dinding ke Hole → tambahkan jendela solid",
+            "Potong dinding dengan Scissors tool → isi dengan material kaca"
+          ],
+          "question": "Urutan langkah yang benar untuk membuat jendela berlubang di dinding adalah?",
+          "explanation": "Alur Hole + Group: buat shape pemotong → ubah ke Hole → posisikan → Group dengan objek yang dipotong.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 9: Tempat Pensil Multi-Kompartemen",
+      "topic_order": 9,
+      "nodes": [
+        {
+          "node_id": "tc-109-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Desain Produk Fungsional: Wall Thickness & Toleransi",
+          "xp": 15,
+          "content": "Mendesain produk fungsional (bukan sekadar dekorasi) membutuhkan pertimbangan tambahan: Wall thickness (ketebalan dinding) minimal 1.5-2mm untuk cetak 3D agar tidak mudah patah. Toleransi ukuran: pensil standar berdiameter 7-8mm, jadi kompartemen dibuat 9-10mm agar mudah dimasukkan. Sekat antar kompartemen dibuat dari Box tipis yang diposisikan di dalam wadah."
+        },
+        {
+          "node_id": "tc-109-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Tempat Pensil 3 Kompartemen",
+          "xp": 20,
+          "content": "Membangun wadah pensil fungsional dengan hollow interior dan sekat pembagi.",
+          "code_content": "LANGKAH MEMBUAT TEMPAT PENSIL:\n\nWADAH LUAR:\n1. Box luar: W=75, L=30, H=100mm → warna biru\n\nLUBANG DALAM (HOLLOW):\n2. Box dalam (Hole): W=71, L=26, H=98mm\n   (2mm lebih kecil di setiap sisi = dinding 2mm)\n3. Posisikan tepat di tengah, Z=2 (alas 2mm)\n4. Group → wadah berongga jadi!\n\nSEKAT KOMPARTEMEN:\n5. Box sekat 1: W=2, L=26, H=96mm\n   Posisikan di X=25mm dari kiri\n6. Box sekat 2: W=2, L=26, H=96mm  \n   Posisikan di X=50mm dari kiri\n7. Group sekat dengan wadah\n   → 3 kompartemen terbentuk!\n\nDETAIL:\n8. Ukur dengan Ruler: pastikan tiap kompartemen ~23mm lebar\n9. Cek pensil standar (7-8mm) bisa masuk dengan mudah\n   (23mm > 8mm ✓ — bisa diisi 2-3 pensil per slot)\n10. Select semua → Ctrl+G",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-109-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Ketebalan Dinding Minimum",
+          "xp": 20,
+          "content": "Ketebalan dinding minimum yang disarankan untuk model cetak 3D agar tidak mudah patah adalah?",
+          "options": [
+            "1.5 - 2 mm",
+            "0.5 mm",
+            "5 - 10 mm",
+            "Tidak ada minimum tertentu"
+          ],
+          "correct_option": "1.5 - 2 mm"
+        },
+        {
+          "node_id": "tc-109-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Toleransi Ukuran Produk",
+          "xp": 25,
+          "instructions": "Jika pensil berdiameter 8mm, berapa ukuran minimum lubang kompartemen agar pensil mudah dimasukkan?",
+          "options": [
+            "9-10 mm (tambah toleransi 1-2mm)",
+            "8 mm tepat sama (presisi sempurna)",
+            "15-20 mm (banyak ruang kosong)",
+            "6 mm (lebih kecil agar pensil kencang)"
+          ],
+          "correct_option": "9-10 mm (tambah toleransi 1-2mm)"
+        }
+      ],
+      "description": "Membuat wadah pensil fungsional dengan sekat-sekat kompartemen dan ukuran siap pakai. Fokus pada desain produk fungsional dan ketebalan dinding.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Ketebalan dinding objek yang menentukan kekuatan struktural hasil cetak",
+            "Ukuran total objek dari satu sisi ke sisi lainnya",
+            "Jarak antara dua objek yang berdekatan",
+            "Tebal lapisan yang dicetak setiap putaran printer"
+          ],
+          "question": "Apa itu 'wall thickness' dalam konteks desain untuk cetak 3D?",
+          "explanation": "Wall thickness adalah ketebalan material dinding objek. Terlalu tipis (<1.5mm) berisiko patah saat dicetak atau digunakan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Toleransi diperlukan agar objek bisa dimasukkan dengan mudah",
+            "Printer 3D selalu mencetak 2mm lebih kecil dari desain",
+            "Agar objek tidak bisa dikeluarkan setelah dimasukkan",
+            "Tidak ada alasan khusus, hanya konvensi"
+          ],
+          "question": "Mengapa ukuran kompartemen harus dibuat 1-2mm lebih besar dari objek yang akan dimasukkan?",
+          "explanation": "Toleransi dimensi memastikan objek bisa masuk ke kompartemen. Tanpa toleransi, objek tidak akan muat karena sedikit variasi cetak.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Tambahkan Box tipis solid di posisi yang tepat di dalam wadah",
+            "Gunakan fitur Divider dari menu Edit",
+            "Buat Cylinder Hole yang menembus dinding samping",
+            "Pisahkan wadah menjadi beberapa objek terpisah"
+          ],
+          "question": "Cara membuat sekat di dalam wadah pensil adalah?",
+          "explanation": "Sekat adalah Box solid tipis yang diposisikan tegak di dalam wadah, membagi ruang interior menjadi kompartemen.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "71 mm",
+            "75 mm",
+            "73 mm",
+            "77 mm"
+          ],
+          "question": "Jika wadah luar 75mm lebar dan dinding 2mm di setiap sisi, berapa lebar interior efektif?",
+          "explanation": "Interior = lebar luar - (dinding kiri + dinding kanan) = 75 - 2 - 2 = 71mm.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengorganisir alat tulis berdasarkan jenis — pensil, pulpen, spidol terpisah",
+            "Membutuhkan lebih sedikit material filamen untuk dicetak",
+            "Lebih mudah didesain di Tinkercad",
+            "Tidak ada keuntungan khusus"
+          ],
+          "question": "Apa keuntungan desain tempat pensil multi-kompartemen dibanding satu lubang besar?",
+          "explanation": "Kompartemen terpisah memungkinkan organisasi yang lebih baik — setiap jenis alat tulis memiliki tempatnya sendiri.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 10: Medali dari Import SVG",
+      "topic_order": 10,
+      "nodes": [
+        {
+          "node_id": "tc-110-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Import SVG: Membawa Desain 2D ke Dunia 3D",
+          "xp": 15,
+          "content": "SVG (Scalable Vector Graphics) adalah format gambar vektor berbasis teks yang bisa diimpor langsung ke Tinkercad. Tinkercad mengkonversi path/kurva SVG menjadi objek 3D solid dengan ketebalan yang bisa diatur. Sumber SVG gratis: Flaticon, SVGRepo, OpenClipart. Pastikan file SVG berisi path yang bersih (tidak terlalu rumit) agar hasil konversi bagus. Akses import melalui menu Import di toolbar kiri Tinkercad."
+        },
+        {
+          "node_id": "tc-110-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membuat Medali 3D dari File SVG",
+          "xp": 20,
+          "content": "Proses lengkap dari download SVG hingga medali 3D siap cetak.",
+          "code_content": "LANGKAH MEMBUAT MEDALI DARI SVG:\n\nPERSIAPAN SVG:\n1. Buka flaticon.com atau svgrepo.com\n2. Cari ikon yang diinginkan (bintang, perisai, dll)\n3. Download format .SVG\n4. Pastikan ukuran file tidak terlalu besar (< 100KB)\n\nIMPORT KE TINKERCAD:\n5. Di Tinkercad → klik tombol 'Import' (toolbar kiri)\n6. Pilih file SVG dari komputer\n7. Atur Height (ketebalan): 2-3mm\n8. Atur Scale agar sesuai ukuran medali (50mm)\n9. Klik 'Import' → objek 3D muncul di workplane!\n\nMEMBUAT BASIS MEDALI:\n10. Cylinder: diameter=60mm, H=3mm → warna emas/kuning\n11. Posisikan SVG di atas Cylinder (Z=3)\n12. Cylinder lubang ring: diameter=6mm, H=5mm → Hole\n    Posisikan di tepi atas Cylinder\n13. Group semua → medali siap!",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-110-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Format File yang Bisa Diimpor",
+          "xp": 20,
+          "content": "Format file vektor apa yang bisa diimpor langsung ke Tinkercad untuk dijadikan objek 3D?",
+          "options": [
+            ".SVG",
+            ".PNG",
+            ".JPG",
+            ".GIF"
+          ],
+          "correct_option": ".SVG"
+        },
+        {
+          "node_id": "tc-110-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Parameter Penting Saat Import SVG",
+          "xp": 25,
+          "instructions": "Dua parameter utama yang perlu diatur saat mengimpor file SVG ke Tinkercad adalah?",
+          "options": [
+            "Height (ketebalan objek 3D) dan Scale (ukuran keseluruhan)",
+            "Color (warna) dan Transparency (transparansi)",
+            "Rotation (rotasi) dan Mirror (cermin)",
+            "Layer (lapisan) dan Opacity (opasitas)"
+          ],
+          "correct_option": "Height (ketebalan objek 3D) dan Scale (ukuran keseluruhan)"
+        }
+      ],
+      "description": "Mengimpor gambar vektor 2D dari file SVG dan mengolahnya menjadi medali timbul 3D. Fokus pada teknik import SVG, penyesuaian skala, dan penggabungan dengan basis medali.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Scalable Vector Graphics",
+            "Simple Visual Geometry",
+            "Solid Volume Graphic",
+            "Standard Vector Graph"
+          ],
+          "question": "Apa kepanjangan dari SVG?",
+          "explanation": "SVG (Scalable Vector Graphics) adalah format gambar berbasis XML yang menggunakan persamaan matematika untuk mendefinisikan bentuk.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "SVG berbasis vektor sehingga bisa dikonversi ke path 3D yang presisi tanpa pikselasi",
+            "SVG berukuran lebih kecil dari PNG",
+            "Tinkercad hanya mendukung format SVG",
+            "SVG otomatis berwarna emas saat diimpor"
+          ],
+          "question": "Mengapa SVG lebih baik dari PNG/JPG untuk diimpor ke Tinkercad?",
+          "explanation": "Vektor menggunakan kurva matematis (bukan piksel), sehingga Tinkercad bisa mengekstrak outline yang presisi untuk ekstrusi 3D.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Toolbar di sisi kiri workspace",
+            "Menu File → Open",
+            "Panel Shapes di kanan",
+            "Klik kanan di workplane → Import"
+          ],
+          "question": "Di mana tombol Import di Tinkercad untuk memasukkan file SVG?",
+          "explanation": "Tombol Import berada di toolbar kiri workspace Tinkercad, ditandai dengan ikon panah ke atas.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Flaticon.com atau SVGRepo.com",
+            "Shutterstock.com",
+            "Getty Images",
+            "Adobe Stock"
+          ],
+          "question": "Situs mana yang menyediakan file SVG gratis untuk digunakan di Tinkercad?",
+          "explanation": "Flaticon dan SVGRepo menyediakan ribuan ikon SVG gratis yang legal digunakan untuk proyek personal dan edukasi.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Buat basis Cylinder dan Group SVG di atasnya sebagai motif timbul",
+            "Langsung export ke STL tanpa modifikasi",
+            "Ubah SVG menjadi Hole lalu Group dengan Cylinder",
+            "Print langsung dari tampilan preview"
+          ],
+          "question": "Setelah SVG diimpor dan dijadikan objek 3D, langkah selanjutnya untuk membuat medali adalah?",
+          "explanation": "SVG solid ditempatkan di atas basis Cylinder sebagai motif timbul (embossed), keduanya di-Group menjadi medali utuh.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 11: Benteng Abad Pertengahan",
+      "topic_order": 11,
+      "nodes": [
+        {
+          "node_id": "tc-111-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "Proyek Kompleks: Strategi Desain Berlapis",
+          "xp": 15,
+          "content": "Proyek kompleks seperti benteng membutuhkan strategi: bangun komponen per komponen, baru gabungkan. Urutan yang baik: (1) Tembok utama, (2) Menara di setiap sudut, (3) Gigi benteng (merlons) di atas tembok dengan pola Duplicate+Rotate, (4) Gerbang berlubang, (5) Detail ornamen. Fitur Ungroup (Ctrl+Shift+G) berguna untuk mengedit kembali objek yang sudah pernah di-Group."
+        },
+        {
+          "node_id": "tc-111-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Benteng Langkah per Langkah",
+          "xp": 20,
+          "content": "Konstruksi benteng abad pertengahan dari tembok hingga gigi bergerigi.",
+          "code_content": "LANGKAH MEMBUAT BENTENG:\n\nALAS:\n1. Box: W=120, L=120, H=5mm → warna abu-abu batu\n\nTEMBOK (4 sisi):\n2. Tembok depan: W=120, L=8, H=60mm\n3. Tembok belakang: duplikat\n4. Tembok kiri/kanan: W=8, L=120, H=60mm (2 buah)\n5. Posisikan membentuk persegi\n\nMENARA SUDUT (4 buah):\n6. Cylinder: diameter=25, H=75mm (lebih tinggi dari tembok)\n7. Posisikan di 4 sudut tembok → Duplicate 3x\n\nGIGI BENTENG (MERLONS):\n8. Box: W=8, L=8, H=15mm → warna sama dengan tembok\n9. Tempatkan di atas tembok depan, jarak antar gigi = 8mm\n10. Duplicate menggunakan pola berulang\n\nGERBANG:\n11. Box Hole: W=20, L=10, H=40mm\n12. Posisikan di tengah tembok depan (bawah)\n13. Group dengan tembok depan\n\n14. Group semua → Ctrl+G",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-111-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Shortcut Ungroup",
+          "xp": 20,
+          "content": "Shortcut keyboard untuk memisahkan Group (Ungroup) di Tinkercad adalah?",
+          "options": [
+            "Ctrl+Shift+G",
+            "Ctrl+U",
+            "Ctrl+G lagi",
+            "Alt+G"
+          ],
+          "correct_option": "Ctrl+Shift+G"
+        },
+        {
+          "node_id": "tc-111-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Strategi Proyek Kompleks",
+          "xp": 25,
+          "instructions": "Dalam membangun proyek kompleks seperti benteng, urutan pengerjaan terbaik adalah?",
+          "options": [
+            "Bangun komponen per komponen secara terpisah, baru gabungkan di akhir",
+            "Buat seluruh desain dalam satu Group besar dari awal",
+            "Group semua objek sebelum diposisikan",
+            "Mulai dari detail kecil baru ke struktur besar"
+          ],
+          "correct_option": "Bangun komponen per komponen secara terpisah, baru gabungkan di akhir"
+        }
+      ],
+      "description": "Merancang benteng miniatur dengan menara silinder, tembok, dan gerbang bergerigi. Fokus pada kombinasi seluruh teknik: pola berulang, Align, Group/Ungroup, dan pembuatan celah.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "Box kecil yang di-Duplicate dengan jarak teratur di atas tembok",
+            "Menggunakan shape khusus 'Battlement' dari panel",
+            "Mengukir tembok dengan Scribble tool",
+            "Mengimpor file SVG benteng"
+          ],
+          "question": "Elemen 'merlons' (gigi bergerigi) di atas tembok benteng dibuat dengan teknik apa?",
+          "explanation": "Merlons dibuat dari Box kecil yang diduplikasi dengan jarak teratur di sepanjang tepi atas tembok.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Untuk fungsi pengawasan — penjaga bisa melihat lebih jauh dari menara yang tinggi",
+            "Karena Cylinder secara default lebih tinggi dari Box",
+            "Agar menara mudah dibedakan dari tembok saat diwarnai",
+            "Tinkercad tidak bisa membuat Cylinder sama tinggi dengan Box"
+          ],
+          "question": "Mengapa menara benteng dibuat lebih tinggi dari tembok utama?",
+          "explanation": "Dalam arsitektur benteng nyata, menara lebih tinggi untuk memberi keunggulan visual dan pertahanan. Ini mereplikasi detail historis tersebut.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Memisahkan objek-objek yang sebelumnya telah di-Group menjadi komponen individual",
+            "Menghapus seluruh Group dari workplane",
+            "Mengunci komponen agar tidak bisa di-Group",
+            "Memindahkan Group ke layer yang berbeda"
+          ],
+          "question": "Fitur Ungroup digunakan untuk?",
+          "explanation": "Ungroup (Ctrl+Shift+G) membatalkan Group sehingga tiap objek bisa diedit secara individual kembali.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Box Hole diposisikan menembus tembok, lalu Group bersama",
+            "Menghapus sebagian tembok secara manual",
+            "Menggunakan shape 'Gate' dari panel Shapes",
+            "Membelah tembok menjadi dua bagian"
+          ],
+          "question": "Teknik apa yang digunakan untuk membuat gerbang berlubang pada tembok benteng?",
+          "explanation": "Gerbang = Boolean Subtraction: Box Hole berbentuk lengkung/persegi menembus tembok, lalu di-Group bersama.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Lima atau lebih: Hole+Group, Duplicate, Align, Rotate, dan pola berulang",
+            "Hanya satu: Group semua shapes",
+            "Dua: Hole dan Group saja",
+            "Tiga: Box, Cylinder, dan Sphere"
+          ],
+          "question": "Proyek benteng menggabungkan berapa teknik dasar Tinkercad secara bersamaan?",
+          "explanation": "Benteng adalah proyek integrasi yang membutuhkan hampir semua teknik: hollowing, pola berulang, alignment, rotasi, dan Hole untuk gerbang.",
+          "answer_index": 0
+        }
+      ]
+    },
+    {
+      "topic_title": "Project 12: Mobil Balap Mini Siap Cetak",
+      "topic_order": 12,
+      "nodes": [
+        {
+          "node_id": "tc-112-n1",
+          "order": 0,
+          "type": "lesson",
+          "title": "3D Print Ready: Checklist Sebelum Ekspor STL",
+          "xp": 15,
+          "content": "Sebelum mengekspor file STL untuk dicetak, ada beberapa hal yang harus diperiksa: (1) Tidak ada objek melayang — semua objek harus menyentuh workplane atau objek lain. (2) Wall thickness minimal 1.5mm. (3) Tidak ada geometri yang saling overlap secara tidak sengaja. (4) Dimensi realistis — periksa ukuran total dalam mm. (5) Semua bagian sudah di-Group menjadi satu objek. File STL adalah format universal untuk mesin cetak 3D."
+        },
+        {
+          "node_id": "tc-112-n2",
+          "order": 1,
+          "type": "code",
+          "title": "Membangun Mobil Balap Mini",
+          "xp": 20,
+          "content": "Membangun mobil balap dari bodi aerodinamis hingga roda, kemudian mempersiapkan untuk cetak 3D.",
+          "code_content": "LANGKAH MEMBUAT MOBIL BALAP:\n\nBODI MOBIL:\n1. Box bawah: W=80, L=35, H=15mm → warna merah\n2. Box kabin: W=40, L=33, H=20mm\n   Posisikan di bagian tengah-belakang bodi\n3. Tambahkan shape 'Wedge' di depan untuk kesan aerodinamis\n\nRODA (4 buah):\n4. Cylinder: diameter=18, H=8mm → warna hitam\n5. Rotasi 90° pada sumbu X\n6. Posisikan roda depan kiri\n7. Duplicate → roda depan kanan (X berbeda)\n8. Duplicate 2x lagi → 2 roda belakang\n\nDETAIL SPOILER:\n9. Box tipis: W=40, L=5, H=5mm → merah\n   Posisikan di bagian belakang bodi, agak tinggi\n\nCHECKLIST 3D PRINT READY:\n10. Ruler → ukur total: pastikan ≈80x45x35mm\n11. Orbit kamera → cek tidak ada objek melayang\n12. Semua roda menyentuh workplane? ✓\n13. Wall thickness semua bagian > 1.5mm? ✓\n14. Select semua → Ctrl+G\n15. Menu Export → pilih .STL → Download!",
+          "code_language": "plaintext"
+        },
+        {
+          "node_id": "tc-112-n3",
+          "order": 2,
+          "type": "quiz",
+          "title": "Format Ekspor untuk Cetak 3D",
+          "xp": 20,
+          "content": "Format file yang digunakan sebagai standar universal untuk mesin cetak 3D adalah?",
+          "options": [
+            ".STL",
+            ".OBJ",
+            ".FBX",
+            ".DAE"
+          ],
+          "correct_option": ".STL"
+        },
+        {
+          "node_id": "tc-112-n4",
+          "order": 3,
+          "type": "practice",
+          "title": "Masalah Objek Melayang",
+          "xp": 25,
+          "instructions": "Mengapa objek melayang (floating object) harus dihindari dalam desain untuk cetak 3D?",
+          "options": [
+            "Printer 3D mencetak dari bawah ke atas — objek yang tidak menempel pada objek lain akan jatuh",
+            "Tinkercad tidak bisa mengekspor objek yang melayang",
+            "Objek melayang membuat file STL berukuran sangat besar",
+            "Hanya masalah estetika, tidak berpengaruh pada proses cetak"
+          ],
+          "correct_option": "Printer 3D mencetak dari bawah ke atas — objek yang tidak menempel pada objek lain akan jatuh"
+        }
+      ],
+      "description": "Merancang mobil balap mini dari bodi hingga roda, lalu menyiapkan file untuk dicetak 3D. Fokus pada pemeriksaan dimensi riil, memastikan tidak ada objek melayang, dan ekspor format STL.",
+      "project_link": "https://www.tinkercad.com",
+      "quiz": [
+        {
+          "options": [
+            "STereoLithography",
+            "Standard Template Library",
+            "Solid Three-dimensional Layout",
+            "Shape Transfer Language"
+          ],
+          "question": "Kepanjangan dari STL dalam konteks file cetak 3D adalah?",
+          "explanation": "STL (STereoLithography) adalah format file yang menyimpan geometri permukaan 3D sebagai mesh segitiga — standar industri cetak 3D.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Menu 'Export' di toolbar kiri atau tombol Export di pojok kanan atas",
+            "Menu File → Save As",
+            "Klik kanan di workplane → Export",
+            "Panel Shapes → Export shape"
+          ],
+          "question": "Di mana tombol untuk mengekspor file STL di Tinkercad?",
+          "explanation": "Tinkercad memiliki tombol Export di pojok kanan atas workspace, memungkinkan download dalam format STL, OBJ, atau SVG.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Objek yang tidak terhubung/menempel pada objek lain atau workplane",
+            "Objek yang memiliki transparansi atau material transparan",
+            "Objek dengan ukuran di bawah 1mm",
+            "Objek yang diposisikan di luar batas workplane"
+          ],
+          "question": "Apa yang dimaksud 'floating object' yang harus dihindari dalam desain 3D?",
+          "explanation": "Floating object adalah komponen yang tergantung di udara tanpa support. Printer 3D tidak bisa mencetak ini tanpa dukungan struktur.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar objek yang dicetak memiliki ukuran fisik yang sesuai dengan kebutuhan",
+            "Karena file STL tidak menyimpan informasi dimensi",
+            "Untuk menghitung harga material filamen",
+            "Tinkercad otomatis mengubah ukuran saat ekspor"
+          ],
+          "question": "Mengapa penting memeriksa dimensi final dalam mm sebelum mencetak?",
+          "explanation": "Dimensi di Tinkercad = dimensi fisik yang dicetak. Mobil 200mm akan dicetak sepanjang 200mm — penting untuk disesuaikan sebelum cetak.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Group semua komponen menjadi satu objek utuh",
+            "Mengubah semua warna menjadi putih",
+            "Memindahkan objek ke pusat workplane (0,0,0)",
+            "Menambahkan Shape teks dengan nama desainer"
+          ],
+          "question": "Langkah terakhir yang WAJIB dilakukan sebelum mengekspor file STL adalah?",
+          "explanation": "Group memastikan seluruh komponen tereksport sebagai satu mesh solid yang utuh — mencegah komponen terpisah saat dicetak.",
+          "answer_index": 0
+        }
+      ]
+    }
+  ],
+  "description": "Merupakan tingkat awal bagi para pemula 3D modeller untuk mempelajari bagaimana cara 3D Bekerja"
+}
