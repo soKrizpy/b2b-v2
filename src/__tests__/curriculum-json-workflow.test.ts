@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { curriculumJsonSchema } from '@/features/curriculum/validation';
 import { exportCurriculumJson, importCurriculumJson, importCurriculumJsonForModule } from '@/features/curriculum/actions';
 
@@ -95,6 +96,18 @@ const lessonNodes = Array.from({ length: 10 }, (_, index) => ({
 }));
 
 describe('curriculum JSON round-trip workflow', () => {
+  it('validates every checked-in curriculum JSON file against the canonical schema', () => {
+    const files = readdirSync('public/curriculum')
+      .filter((file) => file.endsWith('.json'))
+      .sort();
+
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) {
+      const payload = JSON.parse(readFileSync(join('public/curriculum', file), 'utf8'));
+      expect(curriculumJsonSchema.safeParse(payload).success, `Invalid curriculum JSON: ${file}`).toBe(true);
+    }
+  });
+
   beforeEach(() => {
     state.writes = [];
     state.appliedWrites = [];
