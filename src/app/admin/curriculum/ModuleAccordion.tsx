@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useActionState } from 'react';
 import { deleteModule, updateModuleAction } from '@/features/curriculum/actions';
 import type { ModuleWithTopics } from '@/features/curriculum/queries';
+import { hasRenderableCurriculumContent } from '@/features/curriculum/lessonSlides';
 
 interface Props { module: ModuleWithTopics }
 
@@ -42,6 +43,9 @@ export function ModuleAccordion({ module: mod }: Props) {
   };
 
   const hasFinalAssessment = (mod.description ?? '').startsWith('FINAL_ASSESSMENT:');
+  const publishedTopics = mod.topics.filter((topic) => topic.status === 'published');
+  const jsonReadyTopics = publishedTopics.filter((topic) => hasRenderableCurriculumContent(topic.lesson_content)).length;
+  const missingJsonTopics = publishedTopics.length - jsonReadyTopics;
   const displayDesc = hasFinalAssessment ? null : mod.description;
 
   return (
@@ -68,6 +72,12 @@ export function ModuleAccordion({ module: mod }: Props) {
               ring-slate-200 dark:ring-[var(--border)]">
               {mod.topics.length} Topik
             </span>
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ring-1 ${missingJsonTopics > 0
+              ? 'bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:ring-amber-700/40'
+              : 'bg-emerald-50 text-emerald-800 ring-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-700/40'
+            }`}>
+              JSON {jsonReadyTopics}/{publishedTopics.length}
+            </span>
             {hasFinalAssessment && (
               <span className="text-[10px] font-semibold bg-amber-50 dark:bg-amber-900/20
                 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full ring-1
@@ -81,6 +91,12 @@ export function ModuleAccordion({ module: mod }: Props) {
           <h3 className="font-bold text-slate-900 dark:text-white text-base leading-snug truncate">
             {mod.title}
           </h3>
+
+          {missingJsonTopics > 0 && (
+            <p className="text-[11px] text-amber-700 dark:text-amber-300 mt-1">
+              {missingJsonTopics} topik published belum memiliki materi JSON valid.
+            </p>
+          )}
 
           {/* Description (only when not overridden by final_assessment) */}
           {displayDesc && (
