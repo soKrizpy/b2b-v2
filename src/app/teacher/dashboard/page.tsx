@@ -2,6 +2,7 @@
 // Teacher dashboard — shows greeting hero with atmosphere and tabbed 3-column schedule.
 import type { Metadata } from "next";
 import { getSessionUser } from "@/lib/auth";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { getSessionsForTeacher } from "@/features/sessions/queries";
 import { getStudentsForTeacher } from "@/features/users/queries";
@@ -18,10 +19,21 @@ export default async function TeacherDashboardPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login");
 
-  const [meetings, mentoredStudents] = await Promise.all([
+  const [meetings, mentoredStudents, teacherProfile] = await Promise.all([
     getSessionsForTeacher(user.id),
     getStudentsForTeacher(user.id),
+    createSupabaseAdminClient()
+      .from('profiles')
+      .select('full_name')
+      .eq('id', user.id)
+      .maybeSingle(),
   ]);
+
+  const metadataName = typeof user.user_metadata?.full_name === 'string'
+    ? user.user_metadata.full_name.trim()
+    : '';
+  const displayName = teacherProfile.data?.full_name?.trim() || metadataName || user.email?.split('@')[0] || 'Guru';
+  const teacherFirstName = displayName.split(/\\s+/)[0] || 'Guru';
 
   const renderTimestamp = Date.now();
   const renderNow = new Date(renderTimestamp);
@@ -61,7 +73,7 @@ export default async function TeacherDashboardPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1 drop-shadow-sm">
-            Selamat datang kembali, Guru! 👋
+            Selamat datang kembali, {teacherFirstName}! 👋
           </h1>
 
           <div className="mt-5 flex items-center gap-3 flex-wrap">
