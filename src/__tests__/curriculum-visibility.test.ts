@@ -85,10 +85,24 @@ vi.mock('@/lib/supabase/admin', () => ({
                 project_link: null,
                 topic_link: null,
                 engine_topic_id: null,
-                lesson_content: { learningPath: [{ id: 'node-1' }] },
+                lesson_content: { learningPath: [{ id: 'node-1', type: 'lesson', title: 'Materi valid', content: 'Isi materi.' }] },
                 status: 'published',
                 published_at: null,
                 created_at: '2026-01-01T00:00:00.000Z',
+              },
+              {
+                id: 12,
+                module_id: 1,
+                title: 'Published topic without JSON',
+                order_index: 3,
+                description: null,
+                project_link: null,
+                topic_link: null,
+                engine_topic_id: null,
+                lesson_content: null,
+                status: 'published',
+                published_at: null,
+                created_at: '2026-01-03T00:00:00.000Z',
               },
               {
                 id: 11,
@@ -154,6 +168,11 @@ describe('Quest Map and topic visibility', () => {
       'eq',
       'status',
       'published',
+    ]);
+    expect(state.queries.find((query) => query.table === 'modules')?.filters).toContainEqual([
+      'eq',
+      'is_active',
+      true,
     ]);
     expect(state.inserts).toBe(0);
   });
