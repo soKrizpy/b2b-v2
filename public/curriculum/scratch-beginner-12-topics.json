@@ -171,7 +171,8 @@
         "title": "Proyek: Kartu Perkenalan Interaktif",
         "instructions": "Buat proyek baru dengan satu latar dan dua sprite. Saat bendera hijau diklik, sprite utama bergerak lalu memperkenalkan diri menggunakan blok say. Sprite kedua memberi balasan ketika diklik. Beri nama proyek dan sprite dengan jelas, uji kedua interaksi, lalu kirim tautan proyek Scratch yang dapat dibuka guru. Kriteria: ada dua sprite, satu skrip bendera hijau, satu skrip klik sprite, dan kedua aksi berjalan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Gerak Sprite dan Koordinat Panggung",
@@ -350,7 +351,8 @@
         "title": "Proyek: Jelajahi Empat Titik",
         "instructions": "Buat sprite bergerak dari titik awal ke tiga titik tujuan di panggung. Gunakan setidaknya satu blok Go to dan satu Glide, lalu tambahkan dialog ketika tujuan akhir tercapai. Pastikan sprite tetap terlihat. Kirim tautan proyek dan jelaskan koordinat mana yang mengubah posisi mendatar serta vertikal.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Event dan Urutan Skrip",
@@ -521,7 +523,8 @@
         "title": "Proyek: Kartu Ucapan dengan Dua Cara",
         "instructions": "Buat satu sprite utama dan satu sprite pendukung. Bendera hijau memulai sapaan; klik sprite utama membuatnya menampilkan kalimat kedua; tombol spasi membuat sprite pendukung bergerak. Gunakan setidaknya tiga event dan urutan blok yang mudah dipahami. Uji semua pemicu secara terpisah, lalu kirim tautan proyek.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Tampilan, Kostum, dan Latar",
@@ -692,7 +695,8 @@
         "title": "Proyek: Cerita dengan Dua Latar",
         "instructions": "Buat cerita pendek yang berpindah antara dua backdrop. Gunakan dialog pada kedua adegan, setidaknya dua kostum untuk satu sprite, dan satu perubahan ukuran atau efek. Pastikan latar dan kostum awal diatur saat bendera hijau diklik. Kirim tautan proyek dan jelaskan blok mana yang memicu perpindahan adegan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Suara, Jeda, dan Pengulangan",
@@ -863,7 +867,8 @@
         "title": "Proyek: Animasi dengan Irama",
         "instructions": "Buat animasi minimal empat langkah yang menggunakan Repeat, pergantian kostum, Wait, dan sedikitnya satu suara. Pilih apakah suara perlu selesai sebelum aksi selanjutnya atau boleh menjadi latar. Uji agar jumlah pengulangan tepat dan suara tidak menumpuk. Kirim tautan proyek beserta penjelasan singkat tentang pilihan timing-mu.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Sensing dan Kondisi if/else",
@@ -1034,7 +1039,8 @@
         "title": "Proyek: Target yang Memberi Respons",
         "instructions": "Buat karakter dan target. Saat karakter menyentuh target, tampilkan pesan. Tambahkan kondisi lain, misalnya jika karakter menyentuh tepi maka ia kembali ke posisi aman. Pastikan pesan atau hadiah tidak muncul berulang tanpa sengaja. Uji saat menyentuh target, tidak menyentuh target, dan menyentuh tepi; lalu kirim tautan proyek.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Variabel, Skor, dan Status Permainan",
@@ -1205,7 +1211,8 @@
         "title": "Proyek: Tantangan dengan Skor dan Kesempatan",
         "instructions": "Buat mini permainan sederhana dengan variabel score dan lives. Reset keduanya saat bendera hijau diklik, tambahkan poin ketika target berhasil disentuh, dan kurangi lives ketika pemain terkena penghalang. Tampilkan pesan menang atau selesai dengan kondisi yang jelas. Pastikan satu kejadian tidak menghitung poin berulang; kirim tautan proyek dan jelaskan cara kerja kedua variabel.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Operator, Perbandingan, dan Angka Acak",
@@ -1376,7 +1383,8 @@
         "title": "Proyek: Tantangan dengan Aturan Logika",
         "instructions": "Rancang proyek yang memiliki satu target nilai dan satu perilaku acak. Misalnya, sprite muncul pada posisi acak dan hanya menampilkan pesan berhasil jika skor minimal mencapai target. Tambahkan satu aturan dengan AND atau OR yang masuk akal. Uji keadaan di bawah batas, tepat pada batas, dan di atas batas; kirim tautan serta jelaskan logikanya.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Broadcast dan Komunikasi Antar-Sprite",
@@ -1547,7 +1555,8 @@
         "title": "Proyek: Adegan Terkoordinasi",
         "instructions": "Buat tiga sprite yang berpartisipasi dalam sebuah adegan. Bendera hijau memulai alur; sprite pertama mengirim pesan saat selesai, sprite kedua merespons dan mengirim pesan berikutnya, lalu sprite ketiga menutup adegan. Gunakan minimal dua pesan dengan nama yang jelas dan pilih satu titik yang perlu Broadcast and wait. Uji urutannya lalu kirim tautan proyek.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Klon Sprite dan Pengelolaan Objek",
@@ -1718,7 +1727,8 @@
         "title": "Proyek: Hujan Objek Terkendali",
         "instructions": "Buat satu sprite yang menghasilkan beberapa klon secara terbatas. Setiap klon muncul pada posisi acak di bagian atas panggung, bergerak ke bawah, kemudian menghapus dirinya. Batasi jumlah atau durasi pembuatan, dan pastikan sprite asal tetap tersedia. Uji beberapa kali lalu kirim tautan proyek dan jelaskan bagaimana kamu mencegah klon menumpuk.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Debugging dan Desain Interaksi",
@@ -1889,7 +1899,8 @@
         "title": "Proyek: Uji dan Perbaiki untuk Pengguna",
         "instructions": "Buat proyek interaktif kecil, catat satu masalah yang muncul saat diuji, langkah untuk mengulanginya, penyebab, perbaikan, dan hasil pengujian ulang. Minta orang lain mencoba tanpa petunjuk lisan; perjelas instruksi atau umpan balik berdasarkan pengamatannya. Pastikan proyek bisa dimulai ulang dan jalur berhasil maupun gagal berfungsi. Kirim tautan proyek serta ringkasan perbaikan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Proyek Akhir: Buat Karya Scratch Interaktif",
@@ -2058,7 +2069,8 @@
         "title": "Proyek Akhir: Karya Scratch yang Dapat Dicoba",
         "instructions": "Buat satu proyek Scratch lengkap berupa cerita interaktif, kuis, atau permainan mini. Proyek harus memiliki instruksi awal, minimal dua interaksi pengguna, sedikitnya satu kondisi, serta satu variabel atau mekanisme komunikasi antar-sprite. Reset proyek harus berfungsi dan keadaan selesai harus jelas. Uji jalur berhasil dan gagal, minta satu orang mencoba, lalu kirim tautan proyek beserta ringkasan tujuan, fitur utama, dan satu perbaikan yang dilakukan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     }
   ],
   "description": "Kurikulum Scratch 3.0 untuk pemula yang bertahap dari mengenal editor dan blok hingga membuat karya interaktif. Topik 1–4: Mudah; 5–8: Sedang; 9–12: Lancar. Setiap topik berisi 10 slide instruksional, 5 soal kuis, dan satu challenge proyek.",
