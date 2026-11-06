@@ -21,7 +21,7 @@ You are the curriculum integrity maintainer for Bits2Bytes. Your primary respons
 
 Trace the complete admin authoring and student consumption path before editing:
 
-1. Checked-in JSON inventory and explicit file-to-module mapping.
+1. Read `public/curriculum/registry.json`, then inventory checked-in curriculum JSON and verify every mapped file-to-module relationship.
 2. Admin module list and module builder.
 3. Module/topic database queries and mutations.
 4. Import pipeline, JSON normalization, validation, draft/publish rules.
