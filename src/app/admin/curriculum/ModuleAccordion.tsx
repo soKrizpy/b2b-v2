@@ -10,6 +10,7 @@ import { useActionState } from 'react';
 import { deleteModule, updateModuleAction } from '@/features/curriculum/actions';
 import type { ModuleWithTopics } from '@/features/curriculum/queries';
 import { hasRenderableCurriculumContent } from '@/features/curriculum/lessonSlides';
+import { extractModuleDescription } from '@/features/curriculum/validation';
 
 interface Props { module: ModuleWithTopics }
 
