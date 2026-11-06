@@ -1,6 +1,6 @@
-﻿[
+[
   {
-    "module_title": "Tinkercad 3D Design: Dari Nol ke Cetak 3D",
+    "module_title": "3D Design Beginner",
     "module_order": 3,
     "description": "Pelajari desain 3D dari dasar hingga siap cetak menggunakan Tinkercad. Melalui 12 proyek nyata — mulai dari dadu mainan hingga mobil balap mini — kamu akan menguasai teknik modeling, pemotongan lubang, pola berulang, dan ekspor file STL.",
     "level": "beginner",
@@ -75,7 +75,12 @@
           },
           {
             "question": "Berapa dimensi (mm) yang tepat untuk kubus dasar dadu mainan standar mini?",
-            "options": ["20 x 20 x 20 mm", "100 x 100 x 100 mm", "5 x 5 x 5 mm", "50 x 50 x 50 mm"],
+            "options": [
+              "20 x 20 x 20 mm",
+              "100 x 100 x 100 mm",
+              "5 x 5 x 5 mm",
+              "50 x 50 x 50 mm"
+            ],
             "answer_index": 0,
             "explanation": "Dadu mini berukuran 20x20x20 mm adalah ukuran yang proporsional dan nyaman untuk dicetak 3D."
           },
@@ -200,7 +205,12 @@
           },
           {
             "question": "Shortcut keyboard untuk meng-Group objek yang terpilih di Tinkercad adalah?",
-            "options": ["Ctrl+G", "Ctrl+H", "Ctrl+M", "Ctrl+B"],
+            "options": [
+              "Ctrl+G",
+              "Ctrl+H",
+              "Ctrl+M",
+              "Ctrl+B"
+            ],
             "answer_index": 0,
             "explanation": "Ctrl+G adalah shortcut Group di Tinkercad untuk menggabungkan beberapa objek menjadi satu."
           },
@@ -217,7 +227,12 @@
           },
           {
             "question": "Shape apa di Tinkercad yang secara langsung mengkonversi tulisan menjadi objek 3D?",
-            "options": ["Text", "Letter", "Font3D", "Alphabet"],
+            "options": [
+              "Text",
+              "Letter",
+              "Font3D",
+              "Alphabet"
+            ],
             "answer_index": 0,
             "explanation": "Shape 'Text' di panel Shapes Tinkercad menghasilkan objek 3D dari input teks yang bisa diatur font dan ketebalannya."
           }
@@ -298,13 +313,23 @@
           },
           {
             "question": "Shape Tinkercad berbentuk donat yang cocok digunakan sebagai pegangan cangkir adalah?",
-            "options": ["Torus", "Ring", "Circle", "Donut"],
+            "options": [
+              "Torus",
+              "Ring",
+              "Circle",
+              "Donut"
+            ],
             "answer_index": 0,
             "explanation": "Torus adalah shape berbentuk cincin/donat di Tinkercad, ideal untuk membuat pegangan cangkir melengkung."
           },
           {
             "question": "Berapa derajat rotasi yang diperlukan untuk mendirikan Torus agar berfungsi sebagai pegangan cangkir tegak?",
-            "options": ["90 derajat pada sumbu X", "45 derajat pada sumbu Z", "180 derajat pada sumbu Y", "0 derajat (tidak perlu dirotasi)"],
+            "options": [
+              "90 derajat pada sumbu X",
+              "45 derajat pada sumbu Z",
+              "180 derajat pada sumbu Y",
+              "0 derajat (tidak perlu dirotasi)"
+            ],
             "answer_index": 0,
             "explanation": "Torus secara default berbaring horizontal. Dirotasi 90° pada sumbu X agar berdiri vertikal sebagai pegangan."
           },
@@ -368,7 +393,12 @@
             "type": "quiz",
             "title": "Fungsi Fitur Align",
             "content": "Shortcut keyboard untuk mengaktifkan fitur Align di Tinkercad adalah?",
-            "options": ["L", "A", "Ctrl+A", "Ctrl+L"],
+            "options": [
+              "L",
+              "A",
+              "Ctrl+A",
+              "Ctrl+L"
+            ],
             "correct_option": "L",
             "xp": 20
           },
@@ -391,7 +421,12 @@
         "quiz": [
           {
             "question": "Fitur Tinkercad yang membantu menyejajarkan posisi beberapa objek secara presisi disebut?",
-            "options": ["Align", "Snap", "Grid", "Lock"],
+            "options": [
+              "Align",
+              "Snap",
+              "Grid",
+              "Lock"
+            ],
             "answer_index": 0,
             "explanation": "Fitur Align memungkinkan penyejajaran objek berdasarkan sumbu X, Y, atau Z — rata kiri, tengah, atau kanan."
           },
@@ -477,7 +512,12 @@
             "type": "quiz",
             "title": "Sudut Rotasi Pola Melingkar",
             "content": "Jika ingin menempatkan 8 elemen melingkar secara merata (360°), berapa sudut rotasi tiap elemen?",
-            "options": ["45 derajat", "30 derajat", "60 derajat", "90 derajat"],
+            "options": [
+              "45 derajat",
+              "30 derajat",
+              "60 derajat",
+              "90 derajat"
+            ],
             "correct_option": "45 derajat",
             "xp": 20
           },
@@ -500,19 +540,34 @@
         "quiz": [
           {
             "question": "Rumus menghitung sudut rotasi untuk pola N elemen melingkar adalah?",
-            "options": ["360 dibagi N", "180 dibagi N", "N dikali 30", "90 dikali N"],
+            "options": [
+              "360 dibagi N",
+              "180 dibagi N",
+              "N dikali 30",
+              "90 dikali N"
+            ],
             "answer_index": 0,
             "explanation": "Lingkaran penuh = 360°. Untuk N elemen yang tersebar merata, setiap elemen berjarak 360°/N dari yang lain."
           },
           {
             "question": "Berapa sudut rotasi yang tepat untuk 12 penanda jam di piringan jam?",
-            "options": ["30 derajat", "45 derajat", "60 derajat", "15 derajat"],
+            "options": [
+              "30 derajat",
+              "45 derajat",
+              "60 derajat",
+              "15 derajat"
+            ],
             "answer_index": 0,
             "explanation": "360° ÷ 12 jam = 30°. Setiap penanda jam berjarak 30° dari penanda sebelumnya."
           },
           {
             "question": "Shortcut keyboard untuk Duplicate di Tinkercad adalah?",
-            "options": ["Ctrl+D", "Ctrl+C → Ctrl+V", "Ctrl+R", "Ctrl+P"],
+            "options": [
+              "Ctrl+D",
+              "Ctrl+C → Ctrl+V",
+              "Ctrl+R",
+              "Ctrl+P"
+            ],
             "answer_index": 0,
             "explanation": "Ctrl+D adalah shortcut Duplicate di Tinkercad — membuat salinan langsung dari objek terpilih."
           },
@@ -529,7 +584,12 @@
           },
           {
             "question": "Untuk membuat roda gigi dengan 6 gigi, objek gigi harus ditempatkan setiap berapa derajat?",
-            "options": ["60 derajat", "30 derajat", "45 derajat", "72 derajat"],
+            "options": [
+              "60 derajat",
+              "30 derajat",
+              "45 derajat",
+              "72 derajat"
+            ],
             "answer_index": 0,
             "explanation": "360° ÷ 6 gigi = 60°. Setiap gigi ditempatkan 60° dari gigi sebelumnya."
           }
@@ -571,7 +631,12 @@
             "type": "quiz",
             "title": "Rasio Proporsi Karakter",
             "content": "Dalam desain karakter, jika tinggi total robot 100mm, tinggi kepala yang proporsional adalah sekitar?",
-            "options": ["25-33 mm (1/4 hingga 1/3 badan)", "50 mm (setengah badan)", "10 mm (1/10 badan)", "Ukuran kepala tidak penting"],
+            "options": [
+              "25-33 mm (1/4 hingga 1/3 badan)",
+              "50 mm (setengah badan)",
+              "10 mm (1/10 badan)",
+              "Ukuran kepala tidak penting"
+            ],
             "correct_option": "25-33 mm (1/4 hingga 1/3 badan)",
             "xp": 20
           },
@@ -594,7 +659,12 @@
         "quiz": [
           {
             "question": "Dalam Tinkercad, sumbu apa yang mengontrol ketinggian/elevasi objek?",
-            "options": ["Sumbu Z", "Sumbu X", "Sumbu Y", "Sumbu W"],
+            "options": [
+              "Sumbu Z",
+              "Sumbu X",
+              "Sumbu Y",
+              "Sumbu W"
+            ],
             "answer_index": 0,
             "explanation": "Sumbu Z mengontrol posisi vertikal (ketinggian) objek di Tinkercad. Nilai Z positif = objek lebih tinggi dari workplane."
           },
@@ -622,7 +692,12 @@
           },
           {
             "question": "Shape dasar mana yang paling tepat untuk membuat badan robot yang kokoh dan boxy?",
-            "options": ["Box (kubus/balok)", "Sphere (bola)", "Torus (donat)", "Pyramid (piramida)"],
+            "options": [
+              "Box (kubus/balok)",
+              "Sphere (bola)",
+              "Torus (donat)",
+              "Pyramid (piramida)"
+            ],
             "answer_index": 0,
             "explanation": "Box menghasilkan bentuk kotak/persegi yang identik dengan estetika robot geometris klasik."
           },
@@ -714,13 +789,23 @@
           },
           {
             "question": "Setelah menggambar di kanvas Scribble, tombol apa yang mengkonversi gambar menjadi objek 3D?",
-            "options": ["Done", "Export", "Convert", "Extrude"],
+            "options": [
+              "Done",
+              "Export",
+              "Convert",
+              "Extrude"
+            ],
             "answer_index": 0,
             "explanation": "Tombol 'Done' di pojok atas kanan kanvas Scribble mengakhiri sesi menggambar dan mengkonversi hasilnya menjadi objek 3D."
           },
           {
             "question": "Parameter Scribble mana yang menentukan ketebalan (tinggi) objek 3D hasil konversi?",
-            "options": ["Height", "Depth", "Thickness", "Extrusion"],
+            "options": [
+              "Height",
+              "Depth",
+              "Thickness",
+              "Extrusion"
+            ],
             "answer_index": 0,
             "explanation": "Parameter Height di properti objek Scribble mengontrol seberapa tebal objek 3D yang dihasilkan."
           },
@@ -903,7 +988,12 @@
             "type": "quiz",
             "title": "Ketebalan Dinding Minimum",
             "content": "Ketebalan dinding minimum yang disarankan untuk model cetak 3D agar tidak mudah patah adalah?",
-            "options": ["1.5 - 2 mm", "0.5 mm", "5 - 10 mm", "Tidak ada minimum tertentu"],
+            "options": [
+              "1.5 - 2 mm",
+              "0.5 mm",
+              "5 - 10 mm",
+              "Tidak ada minimum tertentu"
+            ],
             "correct_option": "1.5 - 2 mm",
             "xp": 20
           },
@@ -959,7 +1049,12 @@
           },
           {
             "question": "Jika wadah luar 75mm lebar dan dinding 2mm di setiap sisi, berapa lebar interior efektif?",
-            "options": ["71 mm", "75 mm", "73 mm", "77 mm"],
+            "options": [
+              "71 mm",
+              "75 mm",
+              "73 mm",
+              "77 mm"
+            ],
             "answer_index": 0,
             "explanation": "Interior = lebar luar - (dinding kiri + dinding kanan) = 75 - 2 - 2 = 71mm."
           },
@@ -1012,7 +1107,12 @@
             "type": "quiz",
             "title": "Format File yang Bisa Diimpor",
             "content": "Format file vektor apa yang bisa diimpor langsung ke Tinkercad untuk dijadikan objek 3D?",
-            "options": [".SVG", ".PNG", ".JPG", ".GIF"],
+            "options": [
+              ".SVG",
+              ".PNG",
+              ".JPG",
+              ".GIF"
+            ],
             "correct_option": ".SVG",
             "xp": 20
           },
@@ -1126,7 +1226,12 @@
             "type": "quiz",
             "title": "Shortcut Ungroup",
             "content": "Shortcut keyboard untuk memisahkan Group (Ungroup) di Tinkercad adalah?",
-            "options": ["Ctrl+Shift+G", "Ctrl+U", "Ctrl+G lagi", "Alt+G"],
+            "options": [
+              "Ctrl+Shift+G",
+              "Ctrl+U",
+              "Ctrl+G lagi",
+              "Alt+G"
+            ],
             "correct_option": "Ctrl+Shift+G",
             "xp": 20
           },
@@ -1240,7 +1345,12 @@
             "type": "quiz",
             "title": "Format Ekspor untuk Cetak 3D",
             "content": "Format file yang digunakan sebagai standar universal untuk mesin cetak 3D adalah?",
-            "options": [".STL", ".OBJ", ".FBX", ".DAE"],
+            "options": [
+              ".STL",
+              ".OBJ",
+              ".FBX",
+              ".DAE"
+            ],
             "correct_option": ".STL",
             "xp": 20
           },
@@ -1332,7 +1442,12 @@
         {
           "id": 1,
           "question": "Gerakan kamera mana yang digunakan untuk memutar sudut pandang (orbit) di Tinkercad?",
-          "options": ["Klik kanan + drag", "Scroll mouse", "Klik kiri + drag", "Tekan tombol R"],
+          "options": [
+            "Klik kanan + drag",
+            "Scroll mouse",
+            "Klik kiri + drag",
+            "Tekan tombol R"
+          ],
           "answer_index": 0,
           "explanation": "Klik kanan + drag mengaktifkan mode orbit untuk memutar sudut pandang kamera di sekitar objek."
         },
@@ -1351,14 +1466,24 @@
         {
           "id": 3,
           "question": "Shortcut keyboard untuk meng-Group objek di Tinkercad adalah?",
-          "options": ["Ctrl+G", "Ctrl+H", "Ctrl+M", "Ctrl+B"],
+          "options": [
+            "Ctrl+G",
+            "Ctrl+H",
+            "Ctrl+M",
+            "Ctrl+B"
+          ],
           "answer_index": 0,
           "explanation": "Ctrl+G adalah shortcut Group di Tinkercad untuk menggabungkan beberapa objek terpilih menjadi satu kesatuan."
         },
         {
           "id": 4,
           "question": "Shape Tinkercad mana yang mengkonversi input teks menjadi objek 3D?",
-          "options": ["Text", "Letter", "Font3D", "Word"],
+          "options": [
+            "Text",
+            "Letter",
+            "Font3D",
+            "Word"
+          ],
           "answer_index": 0,
           "explanation": "Shape 'Text' di panel Shapes menghasilkan objek 3D solid dari teks yang diketik, dengan kontrol font dan ketebalan."
         },
@@ -1377,28 +1502,48 @@
         {
           "id": 6,
           "question": "Fitur Tinkercad untuk menyejajarkan posisi beberapa objek secara presisi adalah?",
-          "options": ["Align (shortcut: L)", "Snap (shortcut: S)", "Grid (shortcut: G)", "Lock (shortcut: K)"],
+          "options": [
+            "Align (shortcut: L)",
+            "Snap (shortcut: S)",
+            "Grid (shortcut: G)",
+            "Lock (shortcut: K)"
+          ],
           "answer_index": 0,
           "explanation": "Align (tombol L) memungkinkan penyejajaran objek berdasarkan sumbu X, Y, Z — rata kiri, tengah, kanan, atas, bawah."
         },
         {
           "id": 7,
           "question": "Rumus menghitung sudut rotasi untuk menempatkan N elemen secara melingkar merata adalah?",
-          "options": ["360 dibagi N", "180 dibagi N", "N dikali 30", "360 dikali N"],
+          "options": [
+            "360 dibagi N",
+            "180 dibagi N",
+            "N dikali 30",
+            "360 dikali N"
+          ],
           "answer_index": 0,
           "explanation": "Lingkaran 360° dibagi jumlah elemen N menghasilkan sudut antar elemen yang sama rata."
         },
         {
           "id": 8,
           "question": "Shortcut Duplicate di Tinkercad yang juga mewarisi transformasi terakhir adalah?",
-          "options": ["Ctrl+D", "Ctrl+C → Ctrl+V", "Ctrl+R", "Ctrl+P"],
+          "options": [
+            "Ctrl+D",
+            "Ctrl+C → Ctrl+V",
+            "Ctrl+R",
+            "Ctrl+P"
+          ],
           "answer_index": 0,
           "explanation": "Ctrl+D membuat duplikat yang mewarisi transformasi terakhir — kunci untuk membuat pola berulang yang otomatis."
         },
         {
           "id": 9,
           "question": "Sumbu mana di Tinkercad yang mengontrol ketinggian/elevasi objek?",
-          "options": ["Sumbu Z", "Sumbu X", "Sumbu Y", "Sumbu W"],
+          "options": [
+            "Sumbu Z",
+            "Sumbu X",
+            "Sumbu Y",
+            "Sumbu W"
+          ],
           "answer_index": 0,
           "explanation": "Sumbu Z mengontrol posisi vertikal (ketinggian) objek. Nilai Z positif mengangkat objek di atas workplane."
         },
@@ -1417,35 +1562,60 @@
         {
           "id": 11,
           "question": "Ketebalan dinding minimum yang disarankan untuk objek cetak 3D agar tidak mudah patah adalah?",
-          "options": ["1.5 - 2 mm", "0.5 mm", "5 mm", "10 mm"],
+          "options": [
+            "1.5 - 2 mm",
+            "0.5 mm",
+            "5 mm",
+            "10 mm"
+          ],
           "answer_index": 0,
           "explanation": "Dinding di bawah 1.5mm sangat berisiko patah selama proses cetak atau saat digunakan. Standar minimal adalah 1.5-2mm."
         },
         {
           "id": 12,
           "question": "Format file vektor yang bisa diimpor ke Tinkercad untuk dijadikan objek 3D adalah?",
-          "options": [".SVG", ".PNG", ".JPG", ".BMP"],
+          "options": [
+            ".SVG",
+            ".PNG",
+            ".JPG",
+            ".BMP"
+          ],
           "answer_index": 0,
           "explanation": "SVG (Scalable Vector Graphics) bisa diimpor ke Tinkercad karena path vektornya bisa dikonversi menjadi ekstrusi 3D."
         },
         {
           "id": 13,
           "question": "Shape Tinkercad berbentuk donat yang sering digunakan sebagai pegangan atau cincin adalah?",
-          "options": ["Torus", "Ring", "Donut", "Circle"],
+          "options": [
+            "Torus",
+            "Ring",
+            "Donut",
+            "Circle"
+          ],
           "answer_index": 0,
           "explanation": "Torus adalah shape berbentuk donat/cincin yang tersedia di panel Shapes Tinkercad."
         },
         {
           "id": 14,
           "question": "Shortcut untuk Ungroup (memisahkan Group) di Tinkercad adalah?",
-          "options": ["Ctrl+Shift+G", "Ctrl+U", "Ctrl+G dua kali", "Alt+G"],
+          "options": [
+            "Ctrl+Shift+G",
+            "Ctrl+U",
+            "Ctrl+G dua kali",
+            "Alt+G"
+          ],
           "answer_index": 0,
           "explanation": "Ctrl+Shift+G adalah shortcut Ungroup — memisahkan objek yang sebelumnya digabungkan kembali menjadi komponen individual."
         },
         {
           "id": 15,
           "question": "Format file universal standar industri untuk mencetak objek 3D adalah?",
-          "options": [".STL", ".OBJ", ".FBX", ".3DS"],
+          "options": [
+            ".STL",
+            ".OBJ",
+            ".FBX",
+            ".3DS"
+          ],
           "answer_index": 0,
           "explanation": "STL (STereoLithography) adalah format mesh 3D yang paling universal dan didukung hampir semua slicer dan printer 3D."
         },
@@ -1464,7 +1634,12 @@
         {
           "id": 17,
           "question": "Jika ingin menempatkan 12 elemen melingkar (seperti angka jam), sudut rotasi tiap elemen adalah?",
-          "options": ["30 derajat", "45 derajat", "60 derajat", "15 derajat"],
+          "options": [
+            "30 derajat",
+            "45 derajat",
+            "60 derajat",
+            "15 derajat"
+          ],
           "answer_index": 0,
           "explanation": "360° ÷ 12 = 30°. Setiap elemen penanda jam berjarak 30° dari elemen sebelumnya."
         },
