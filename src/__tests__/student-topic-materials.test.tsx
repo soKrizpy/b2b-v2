@@ -89,13 +89,10 @@ describe('student topic materials', () => {
   it.each([
     ['an empty learningPath', { learningPath: [] }],
     ['a missing learningPath', {}],
-  ])('shows a clear empty-material status for %s', async (_label, lessonContent) => {
+  ])('blocks direct access when %s is present', async (_label, lessonContent) => {
     state.lessonContent = lessonContent;
     state.challenges = [];
-    render(await TopicPage({ params: Promise.resolve({ topicId: '12' }) }));
-
-    expect(screen.getByRole('status')).toHaveTextContent('0/10');
-    expect(screen.getByRole('status')).toHaveTextContent('Materi topik ini belum memiliki slide instruksional');
+    await expect(TopicPage({ params: Promise.resolve({ topicId: '12' }) })).rejects.toThrow('notFound');
     expect(state.challengeReads).toBe(0);
   });
 });
