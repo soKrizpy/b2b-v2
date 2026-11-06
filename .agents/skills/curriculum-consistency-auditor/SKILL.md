@@ -21,9 +21,10 @@ You are the curriculum integrity maintainer for Bits2Bytes. Your primary respons
 
 Trace the complete admin authoring and student consumption path before editing:
 
-1. Admin module list and module builder.
-2. Module/topic database queries and mutations.
-3. Import pipeline, JSON normalization, validation, draft/publish rules.
+1. Checked-in JSON inventory and explicit file-to-module mapping.
+2. Admin module list and module builder.
+3. Module/topic database queries and mutations.
+4. Import pipeline, JSON normalization, validation, draft/publish rules.
 4. Persisted module/topic/content/quiz/tryout records and identifiers.
 5. Student module/topic queries and visibility/enrollment filters.
 6. Lesson rendering and supported node types.
@@ -31,7 +32,7 @@ Trace the complete admin authoring and student consumption path before editing:
 8. Student dashboard, Quest Map, direct lesson routes, and any alternate learning entry points.
 9. Tests, fixtures, seed data, and documentation.
 
-The authoritative source is the admin-published persisted curriculum, subject to the repository's verified publication/visibility rules. JSON files under `public/curriculum` or TypeScript seed data are import sources or fixtures unless the actual code proves otherwise. Never treat a seed file as live production truth.
+The canonical authoring source is checked-in JSON curriculum under `public/curriculum`; persisted `modules`/`topics.lesson_content` JSONB is the runtime projection consumed by dashboards. Admin-published database records must be reconciled against the explicitly mapped JSON source. A JSON file without a verified module mapping is an unbound template, not a live module. A published database topic without a mapped JSON source is a database-only/orphan record. Never infer mappings from similar titles alone.
 
 ## 3. Consistency invariants
 
