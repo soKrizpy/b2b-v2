@@ -77,3 +77,18 @@ export function isWithinSuggestedLessonSlideRange(slides: readonly unknown[]): b
 export function hasAuthoredLessonContent(slides: readonly unknown[]): boolean {
   return slides.length > 0;
 }
+
+
+/**
+ * True only when lesson_content is a JSON object containing at least one
+ * supported, authored instructional node. Used as the shared publication
+ * guard for student-facing curriculum reads.
+ */
+export function hasRenderableCurriculumContent(lessonContent: unknown): boolean {
+  if (!lessonContent || typeof lessonContent !== 'object' || Array.isArray(lessonContent)) {
+    return false;
+  }
+
+  const learningPath = (lessonContent as Record<string, unknown>).learningPath;
+  return hasAuthoredLessonContent(getInstructionalSlides(learningPath));
+}
