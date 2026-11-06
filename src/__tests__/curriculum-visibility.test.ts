@@ -187,7 +187,7 @@ describe('Quest Map and topic visibility', () => {
 
     await expect(updateTopicAction(null, formData)).resolves.toEqual({
       success: false,
-      error: 'Topik harus memiliki setidaknya satu slide instruksional valid sebelum dipublikasikan. Target 10–20 slide disarankan jika materi sumber mendukung. Saat ini: 0.',
+      error: 'Materi JSON, quiz, atau challenge harus valid sebelum topik dipublikasikan. Target 10–20 slide disarankan jika materi sumber mendukung. Slide valid saat ini: 0.',
     });
     expect(state.updates).toBe(0);
   });
