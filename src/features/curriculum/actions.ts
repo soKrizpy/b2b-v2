@@ -564,9 +564,24 @@ export async function updateModuleAction(
   if (!title) return { success: false, error: 'Judul modul wajib diisi.', fields: { title: 'Wajib diisi.' } };
 
   const db = createSupabaseAdminClient();
+  const { data: existingModule, error: readError } = await db
+    .from('modules')
+    .select('description')
+    .eq('id', id)
+    .maybeSingle();
+  if (readError || !existingModule) {
+    return { success: false, error: readError?.message ?? 'Modul tidak ditemukan.' };
+  }
+
+  // The tryout JSON is encoded in description for backward-compatible storage.
+  // Editing ordinary module metadata must never erase that assessment payload.
+  const nextDescription = description
+    ?? ((existingModule.description ?? '').startsWith('FINAL_ASSESSMENT:')
+      ? existingModule.description
+      : null);
   const { error } = await (db
     .from('modules')
-    .update({ title, description, level: toDatabaseLevel(level), gamification_type } as never)
+    .update({ title, description: nextDescription, level: toDatabaseLevel(level), gamification_type } as never)
     .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
 
   if (error) return { success: false, error: error.message };
