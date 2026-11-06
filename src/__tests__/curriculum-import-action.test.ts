@@ -36,6 +36,10 @@ vi.mock('@/lib/supabase/admin', () => ({
         },
         eq: () => query,
         order: () => query,
+        maybeSingle: async () => {
+          if (state.thrownError) throw state.thrownError;
+          return { data: { title: 'Existing module', description: null }, error: null };
+        },
         then: (
           resolve: (value: unknown) => unknown,
           reject?: (reason: unknown) => unknown,
