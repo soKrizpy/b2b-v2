@@ -646,6 +646,9 @@ export async function importCurriculumJsonForModule(
   }
 
   const mod = result.data;
+  if (mod.module_id !== undefined && mod.module_id !== moduleId) {
+    return { success: false, error: `module_id ${mod.module_id} tidak cocok dengan modul tujuan ${moduleId}.` };
+  }
   let importedTopics = 0;
   let writeStarted = false;
 
