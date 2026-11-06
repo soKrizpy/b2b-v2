@@ -17,6 +17,7 @@ const LEVEL_LABELS: Record<string, string> = {
   beginner:     'Beginner',
   intermediate: 'Intermediate',
   advanced:     'Advanced',
+  advance:      'Advanced',
 };
 const LEVEL_COLOR: Record<string, string> = {
   beginner:     'bg-sky-50 text-sky-700 ring-sky-200 dark:bg-sky-900/30 dark:text-sky-300 dark:ring-sky-700/40',
@@ -194,7 +195,7 @@ export function ModuleAccordion({ module: mod }: Props) {
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[var(--border-hover)]">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
+                  <option value="advance">Advanced</option>
                 </select>
               </div>
 
