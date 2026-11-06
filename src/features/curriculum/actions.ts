@@ -655,6 +655,18 @@ export async function importCurriculumJsonForModule(
   try {
     const db = createSupabaseAdminClient();
 
+    const { data: moduleRecord, error: moduleReadError } = await (db
+      .from('modules')
+      .select('title, description')
+      .eq('id', moduleId)
+      .maybeSingle() as unknown as Promise<{
+        data: { title: string; description: string | null } | null;
+        error: { message: string } | null;
+      }>);
+    if (moduleReadError || !moduleRecord) {
+      return importFailure(`Gagal membaca modul tujuan: ${moduleReadError?.message ?? 'modul tidak ditemukan.'}`, false);
+    }
+
     // Upsert topics into this module
     const { data: existingTopics, error: topicsError } = await (db
       .from('topics')
@@ -690,7 +702,7 @@ export async function importCurriculumJsonForModule(
       writeStarted = true;
       const { error } = await (db
         .from('modules')
-        .update({ description: encodeFinalAssessment(mod.final_assessment, mod.description) } as never)
+        .update({ description: encodeFinalAssessment(mod.final_assessment, mod.description ?? extractModuleDescription(moduleRecord.description)) } as never)
         .eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
       if (error) {
         return importFailure(`Gagal memperbarui tryout modul: ${error.message}`, writeStarted);
