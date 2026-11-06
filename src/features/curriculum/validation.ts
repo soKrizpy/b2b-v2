@@ -127,7 +127,7 @@ export const moduleImportSchema = z.object({
   module_title:      z.string().min(1, 'module_title wajib diisi').max(200),
   module_order:      z.number().int().min(0),
   description:       z.string().optional(),
-  level:             z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
+  level:             z.enum(['beginner', 'intermediate', 'advanced', 'advance']).default('beginner'),
   gamification_type: z.enum(['mimo', 'duolingo', 'boardgame', 'quest', 'flashcard']).default('mimo'),
   topics:            z.array(topicImportSchema).min(1, 'Modul harus memiliki minimal satu topik.'),
   /** Final 20-question tryout — unlocks when all topics are complete. */
