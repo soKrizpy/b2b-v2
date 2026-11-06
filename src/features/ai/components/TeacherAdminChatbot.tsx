@@ -247,7 +247,7 @@ export function TeacherAdminChatbot({ role }: Props) {
 
                 {/* Quick Prompts */}
                 <div className="space-y-1.5">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-zinc-300">
                     Saran Aksi Cepat:
                   </p>
                   <div className="grid grid-cols-1 gap-1.5">
