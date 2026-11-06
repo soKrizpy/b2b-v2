@@ -51,4 +51,15 @@ describe('JSON curriculum lesson readiness', () => {
     expect(hasRenderableCurriculumContent({ learningPath: [] })).toBe(false);
     expect(hasRenderableCurriculumContent({ learningPath: nodes(1) })).toBe(true);
   });
+
+  it('rejects malformed quiz or challenge payloads instead of treating them as absent', () => {
+    expect(hasRenderableCurriculumContent({
+      learningPath: nodes(1),
+      quiz: [{ question: 'Quiz tanpa pilihan' }],
+    })).toBe(false);
+    expect(hasRenderableCurriculumContent({
+      learningPath: nodes(1),
+      challenge: { title: 'Challenge tanpa instruksi' },
+    })).toBe(false);
+  });
 });
