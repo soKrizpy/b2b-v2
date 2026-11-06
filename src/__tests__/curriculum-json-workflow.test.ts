@@ -127,7 +127,7 @@ describe('curriculum JSON round-trip workflow', () => {
     for (const entry of registry.modules) {
       expect(readdirSync('public/curriculum')).toContain(entry.file);
       expect(entry.module_title.trim().length).toBeGreaterThan(0);
-      const payload = JSON.parse(readFileSync(join('public/curriculum', entry.file), 'utf8').replace(/^\\uFEFF/, ''));
+      const payload = JSON.parse(readFileSync(join('public/curriculum', entry.file), 'utf8').replace(/^\uFEFF/, ''));
       const module = Array.isArray(payload) ? payload[0] : payload;
       expect(module.module_title).toBe(entry.module_title);
       if (entry.status === 'mapped') {
