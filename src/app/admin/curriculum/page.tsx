@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { getAllModulesWithTopics } from '@/features/curriculum/queries';
 import { CurriculumShell } from './CurriculumShell';
 import { ModuleAccordion } from './ModuleAccordion';
+import { hasRenderableCurriculumContent } from '@/features/curriculum/lessonSlides';
 
 export const metadata: Metadata = { title: 'Kurikulum — Admin Bits2Bytes' };
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,9 @@ export default async function AdminCurriculumPage() {
   const modules = await getAllModulesWithTopics();
 
   const totalTopics = modules.reduce((s, m) => s + m.topics.length, 0);
+  const publishedTopics = modules.flatMap((module) => module.topics.filter((topic) => topic.status === 'published'));
+  const jsonReadyTopics = publishedTopics.filter((topic) => hasRenderableCurriculumContent(topic.lesson_content)).length;
+  const missingJsonTopics = publishedTopics.length - jsonReadyTopics;
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in-up">
@@ -29,6 +33,13 @@ export default async function AdminCurriculumPage() {
           {modules.length} modul · {totalTopics} topik
         </p>
       </div>
+
+      {missingJsonTopics > 0 && (
+        <div role="alert" className="rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+          <strong>{missingJsonTopics} topik published belum memiliki materi JSON yang dapat ditampilkan.</strong>
+          <span className="block mt-1">Siswa hanya akan menerima {jsonReadyTopics} dari {publishedTopics.length} topik published yang sudah memiliki materi valid. Perbaiki topik yang belum siap melalui Edit &amp; Build.</span>
+        </div>
+      )}
 
       {/* Workflow hint */}
       <div className="flex items-start gap-3 bg-indigo-50 dark:bg-indigo-900/20
