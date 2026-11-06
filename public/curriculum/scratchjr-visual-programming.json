@@ -1,0 +1,2173 @@
+{
+  "module_title": "ScratchJr — Petualangan Pemrograman Visual",
+  "module_order": 1,
+  "level": "beginner",
+  "gamification_type": "mimo",
+  "topics": [
+    {
+      "topic_title": "Petualangan Pertama di ScratchJr",
+      "topic_order": 0,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu ScratchJr?",
+          "xp": 5,
+          "content": "ScratchJr adalah aplikasi untuk membuat cerita dan permainan memakai blok bergambar. Kita tidak perlu mengetik kode; kita menyambungkan blok agar karakter melakukan tindakan. Hari ini kita membuat karakter bergerak di panggung."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengenal Area Panggung",
+          "xp": 5,
+          "content": "Panggung adalah tempat cerita terlihat. Area blok dipakai untuk menyusun perintah karakter, sedangkan daftar karakter membantu kita memilih siapa yang akan bergerak. Kenali tombol bendera hijau untuk menjalankan cerita."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Membuat Proyek Baru",
+          "xp": 10,
+          "content": "Mulailah dari proyek kosong dengan menekan tombol tambah proyek. Beri nama yang mudah diingat, misalnya 'Petualangan Pertama'. Nama yang jelas memudahkan kita menemukan pekerjaan saat akan melanjutkannya.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Untuk apa panggung digunakan?",
+          "options": [
+            "Tempat menyimpan kata sandi",
+            "Tempat karakter dan cerita terlihat",
+            "Tempat menghapus semua proyek",
+            "Tempat mengetik paragraf kode"
+          ],
+          "correct_option": "Tempat karakter dan cerita terlihat"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Memilih Latar Panggung",
+          "xp": 5,
+          "content": "Pilih latar yang sesuai dengan cerita, misalnya taman atau jalan. Latar memberi tempat bagi karakter untuk beraksi, tetapi tidak menjalankan perintah. Kita dapat mengganti latar jika ingin mengubah suasana cerita."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Menambahkan Karakter",
+          "xp": 5,
+          "content": "Pilih satu karakter dari pustaka karakter. Letakkan karakter di sisi kiri panggung agar ada ruang untuk bergerak ke kanan. Posisi awal penting karena gerakan dihitung dari tempat karakter mulai."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mengenal Blok Awal",
+          "xp": 5,
+          "content": "Blok kuning adalah blok pemicu yang menentukan kapan rangkaian perintah dimulai. Untuk latihan pertama, gunakan blok 'Mulai saat Bendera Hijau Ditekan'. Blok pemicu biasanya diletakkan di awal rangkaian."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Gerakkan Karakter ke Kanan",
+          "xp": 5,
+          "content": "Blok gerak biru memindahkan karakter beberapa kotak pada kisi panggung. Sambungkan blok 'Mulai saat Bendera Hijau Ditekan' dengan blok 'Gerak ke Kanan'. Jumlah langkah yang dipilih menentukan seberapa jauh karakter bergerak."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Susun Perintah Berurutan",
+          "xp": 10,
+          "content": "Blok dijalankan dari kiri ke kanan sesuai urutan sambungannya. Jika kita menyambungkan gerak ke kanan lalu gerak ke atas, karakter akan menyelesaikan gerak pertama sebelum melakukan gerak kedua. Mengubah urutan blok akan mengubah jalur karakter.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Jika blok gerak kanan diletakkan sebelum gerak atas, apa yang terjadi?",
+          "options": [
+            "Karakter langsung menghilang",
+            "Latar berubah otomatis",
+            "Karakter bergerak kanan lalu ke atas",
+            "Program tidak memiliki urutan"
+          ],
+          "correct_option": "Karakter bergerak kanan lalu ke atas"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Prediksi Gerakan",
+          "xp": 5,
+          "content": "Sebelum menekan bendera hijau, lihat urutan blok dan tebak posisi akhir karakter. Prediksi membantu kita berpikir seperti pemrogram: kita mencoba memahami instruksi sebelum melihat hasilnya. Setelah itu, jalankan program dan cocokkan hasilnya."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji, Amati, dan Perbaiki",
+          "xp": 5,
+          "content": "Jalankan cerita dengan bendera hijau. Jika karakter tidak bergerak, pastikan rangkaian blok terhubung, pemicu awal benar, dan jumlah langkah bukan nol. Ubah satu hal setiap kali mencoba agar kita tahu perbaikan mana yang berhasil."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Karakter Menyeberangi Panggung",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat satu proyek ScratchJr dengan latar pilihanmu dan satu karakter. Mulai dari sisi kiri, lalu sambungkan blok agar karakter bergerak ke kanan sedikitnya 4 langkah. Tambahkan satu gerakan kedua, misalnya ke atas atau melompat. Jalankan dengan bendera hijau, perbaiki jika tidak sesuai, lalu kirim tautan video/screenshot hasil atau tautan berkas proyek yang dapat dibuka guru. Kriteria: latar dan karakter dipilih, pemicu bendera hijau dipakai, minimal dua blok gerak berurutan, dan hasil diuji."
+        }
+      ],
+      "description": "Level Mudah. Siswa mengenal area kerja, panggung, karakter, blok pemicu awal, serta cara menjalankan dan memperbaiki urutan perintah sederhana.",
+      "quiz": [
+        {
+          "options": [
+            "Membuat cerita dan permainan interaktif dengan blok",
+            "Menulis dokumen panjang",
+            "Menghitung pajak secara otomatis",
+            "Mengedit suara profesional saja"
+          ],
+          "question": "ScratchJr digunakan terutama untuk…",
+          "explanation": "ScratchJr membantu anak membuat cerita, animasi, dan permainan dengan blok bergambar.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Palet suara",
+            "Panggung",
+            "Folder unduhan",
+            "Papan ketik"
+          ],
+          "question": "Bagian tempat karakter terlihat bergerak disebut…",
+          "explanation": "Panggung adalah tempat aksi dan cerita ditampilkan.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Sembunyikan",
+            "Akhir",
+            "Mulai saat Bendera Hijau Ditekan",
+            "Tunggu"
+          ],
+          "question": "Blok apa yang dapat memulai rangkaian ketika bendera hijau ditekan?",
+          "explanation": "Blok pemicu kuning tersebut memulai rangkaian ketika bendera hijau ditekan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Merah",
+            "Kuning",
+            "Hijau",
+            "Biru"
+          ],
+          "question": "Blok gerak di ScratchJr biasanya berwarna…",
+          "explanation": "Blok gerakan merupakan kategori biru.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Periksa pemicu dan sambungan blok",
+            "Hapus semua latar",
+            "Ganti nama aplikasi",
+            "Tambah karakter sebanyak-banyaknya"
+          ],
+          "question": "Jika karakter tidak bergerak saat bendera ditekan, langkah pemeriksaan yang baik adalah…",
+          "explanation": "Periksa pemicu awal, koneksi blok, dan nilai langkah sebelum mengubah hal lain.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Karakter Menyeberangi Panggung",
+        "instructions": "Buat satu proyek ScratchJr dengan latar pilihanmu dan satu karakter. Mulai dari sisi kiri, lalu sambungkan blok agar karakter bergerak ke kanan sedikitnya 4 langkah. Tambahkan satu gerakan kedua, misalnya ke atas atau melompat. Jalankan dengan bendera hijau, perbaiki jika tidak sesuai, lalu kirim tautan video/screenshot hasil atau tautan berkas proyek yang dapat dibuka guru. Kriteria: latar dan karakter dipilih, pemicu bendera hijau dipakai, minimal dua blok gerak berurutan, dan hasil diuji.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Mengenal Karakter dan Latar",
+      "topic_order": 1,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Karakter dan Perannya",
+          "xp": 5,
+          "content": "Karakter adalah tokoh atau benda yang melakukan aksi dalam cerita. Pilih karakter yang sesuai dengan ide, misalnya kucing untuk cerita di rumah atau ikan untuk cerita bawah laut. Karakter yang tepat membantu penonton memahami cerita."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Membuka Daftar Karakter",
+          "xp": 5,
+          "content": "Gunakan tombol tambah karakter untuk melihat pilihan. Ketuk karakter yang ingin digunakan, lalu perhatikan apakah karakter baru muncul pada panggung. Pilih karakter yang mudah dikenali dan tidak terlalu banyak untuk proyek pertama."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Menghapus Karakter yang Tidak Dipakai",
+          "xp": 10,
+          "content": "Jika karakter tidak cocok, pilih karakter tersebut lalu gunakan kontrol hapus yang disediakan aplikasi. Hapus hanya karakter yang memang tidak dibutuhkan. Sebelum menghapus, pastikan karakter itu bukan bagian penting dari cerita.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Untuk cerita tentang ikan yang berenang, latar yang paling sesuai adalah…",
+          "options": [
+            "Ruang kelas",
+            "Jalan raya",
+            "Bawah laut",
+            "Ruang angkasa"
+          ],
+          "correct_option": "Bawah laut"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Memilih Latar yang Sesuai",
+          "xp": 5,
+          "content": "Latar menunjukkan tempat cerita berlangsung. Padankan latar dengan peristiwa, seperti taman untuk bermain atau ruang kelas untuk belajar. Latar tidak harus ramai; panggung sederhana sering membuat karakter lebih mudah terlihat."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Mengatur Posisi Awal",
+          "xp": 5,
+          "content": "Seret karakter ke tempat ia seharusnya memulai cerita. Sisakan ruang ke arah gerak yang direncanakan. Ketika karakter berjalan kembali ke rumah awalnya, aplikasi memakai posisi awal yang telah ditetapkan."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Membedakan Tokoh Utama dan Pendukung",
+          "xp": 5,
+          "content": "Tokoh utama biasanya paling banyak melakukan aksi, sedangkan tokoh pendukung membantu cerita. Letakkan tokoh utama di tempat yang mudah dilihat dan tokoh pendukung di area yang tidak menutupi aksi. Cobalah menceritakan ide sebelum menambah banyak karakter."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Membuat Latar Lebih Jelas",
+          "xp": 5,
+          "content": "Pikirkan apa yang akan dilakukan tokoh dan pilih latar yang membantu aksi itu terbaca. Jika cerita tentang perjalanan, latar jalan atau kota bisa mendukung cerita. Perhatikan juga agar karakter tetap terlihat jelas di atas latar."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Menata Adegan",
+          "xp": 10,
+          "content": "Panggung adalah ruang terbatas, jadi posisi karakter perlu direncanakan. Tentukan titik mulai dan tujuan karakter sebelum menyusun blok gerak. Kamu dapat menguji apakah gerak terlalu jauh atau karakter keluar dari area yang terlihat.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Mengapa posisi awal karakter perlu direncanakan?",
+          "options": [
+            "Agar blok tidak perlu disambungkan",
+            "Agar suara selalu aktif",
+            "Agar latar menghilang",
+            "Agar jalur gerak dan tujuan terlihat jelas"
+          ],
+          "correct_option": "Agar jalur gerak dan tujuan terlihat jelas"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Periksa Kesesuaian Cerita",
+          "xp": 5,
+          "content": "Tanyakan tiga hal: siapa tokohnya, di mana cerita berlangsung, dan apa yang akan terjadi. Jika latar atau karakter membingungkan, ubah salah satunya. Desain yang baik memudahkan orang lain memahami ide tanpa penjelasan panjang."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Simpan dan Uji Tampilan",
+          "xp": 5,
+          "content": "Jalankan program untuk melihat karakter di atas latar terpilih. Periksa apakah posisi awal dan tujuan mudah dipahami. Simpan proyek dengan nama yang menggambarkan isi, misalnya 'Kucing di Taman'."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Tokoh di Tempat yang Tepat",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat adegan bertema pilihanmu, misalnya kucing di taman atau ikan di laut. Pilih satu latar dan dua karakter (tokoh utama serta tokoh pendukung). Atur posisi agar tidak saling menutupi, lalu buat tokoh utama bergerak mendekati tokoh pendukung. Kirim tautan bukti berupa video/screenshot atau berkas proyek yang dapat dibuka guru. Kriteria: latar mendukung cerita, dua karakter memiliki peran jelas, dan posisi/gerakan mudah dipahami."
+        }
+      ],
+      "description": "Level Mudah. Siswa memilih karakter dan latar yang mendukung cerita, mengatur posisi awal, serta membuat panggung lebih jelas dan bermakna.",
+      "quiz": [
+        {
+          "options": [
+            "Warna latar saja",
+            "Tokoh atau benda yang melakukan aksi",
+            "Tombol keluar aplikasi",
+            "Daftar soal"
+          ],
+          "question": "Karakter dalam proyek adalah…",
+          "explanation": "Karakter adalah objek yang dapat diberi rangkaian perintah.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menentukan kata sandi",
+            "Mengganti blok menjadi teks",
+            "Menunjukkan tempat atau suasana cerita",
+            "Menghapus gerakan"
+          ],
+          "question": "Apa fungsi latar?",
+          "explanation": "Latar membantu penonton memahami tempat dan suasana.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Menambah sebanyak mungkin karakter",
+            "Menghapus panggung",
+            "Menutup proyek",
+            "Menentukan posisi awal dan tujuan"
+          ],
+          "question": "Sebelum menyusun gerakan, sebaiknya…",
+          "explanation": "Posisi awal dan tujuan membantu kita merancang urutan gerak.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Membantu cerita tanpa menutupi aksi utama",
+            "Selalu memenuhi seluruh panggung",
+            "Tidak boleh berada di panggung",
+            "Menghapus tokoh utama"
+          ],
+          "question": "Tokoh pendukung sebaiknya…",
+          "explanation": "Tokoh pendukung melengkapi cerita dan harus ditata agar aksi utama tetap terlihat.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Selalu terdiri dari angka acak",
+            "Mudah menjelaskan isi proyek",
+            "Tidak berkaitan dengan cerita",
+            "Sama untuk semua proyek"
+          ],
+          "question": "Nama proyek yang baik adalah nama yang…",
+          "explanation": "Nama yang deskriptif membantu kita menemukan dan mengenali proyek.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tokoh di Tempat yang Tepat",
+        "instructions": "Buat adegan bertema pilihanmu, misalnya kucing di taman atau ikan di laut. Pilih satu latar dan dua karakter (tokoh utama serta tokoh pendukung). Atur posisi agar tidak saling menutupi, lalu buat tokoh utama bergerak mendekati tokoh pendukung. Kirim tautan bukti berupa video/screenshot atau berkas proyek yang dapat dibuka guru. Kriteria: latar mendukung cerita, dua karakter memiliki peran jelas, dan posisi/gerakan mudah dipahami.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Membuat Karakter Berjalan dan Melompat",
+      "topic_order": 2,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Mengenal Blok Gerak",
+          "xp": 5,
+          "content": "Blok biru mengatur gerakan karakter. Panah menunjukkan arah yang dituju: kanan, kiri, atas, atau bawah. Angka pada blok menunjukkan banyaknya kotak gerakan yang dilakukan."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Bergerak ke Kanan dan Kiri",
+          "xp": 5,
+          "content": "Blok kanan memindahkan karakter ke arah kanan, sedangkan blok kiri ke arah kiri. Cobalah jumlah langkah kecil terlebih dahulu. Amati apakah karakter berakhir di tempat yang diperkirakan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Bergerak ke Atas dan Bawah",
+          "xp": 10,
+          "content": "Blok atas dan bawah mengubah posisi karakter secara vertikal pada panggung. Gunakan dua arah ini untuk membuat karakter menaiki tangga imajiner atau turun ke suatu tempat. Perhatikan posisi awal supaya jalur tidak membingungkan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Blok mana yang membuat karakter naik lalu turun seperti melompat?",
+          "options": [
+            "Go Home",
+            "Say",
+            "Hide",
+            "Hop"
+          ],
+          "correct_option": "Hop"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengukur Jarak dengan Kotak",
+          "xp": 5,
+          "content": "Kisi panggung membantu memperkirakan jarak. Jika karakter bergerak terlalu jauh, kurangi jumlah langkah; jika belum sampai, tambah langkah dengan hati-hati. Uji satu blok pada satu waktu agar hasil lebih mudah dipahami."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Membuat Karakter Melompat",
+          "xp": 5,
+          "content": "Blok Hop membuat karakter naik lalu turun lagi, seperti melompat. Ini berbeda dari bergerak ke atas karena karakter kembali turun sebagai bagian dari satu aksi. Gunakan lompatan untuk melewati rintangan imajiner atau menari."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mencoba Gerak Berbelok",
+          "xp": 5,
+          "content": "Gabungkan gerak kanan dengan gerak atas atau bawah untuk membuat jalur berbentuk sudut. Urutan blok menentukan jalan yang ditempuh. Gambarkan jalurnya dengan jari sebelum menyambungkan blok."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Menggunakan Go Home",
+          "xp": 5,
+          "content": "Blok Go Home mengembalikan karakter ke posisi awal yang ditentukan dengan menyeretnya di panggung. Blok ini berguna untuk mengulang latihan dari tempat yang sama. Atur posisi awal sebelum menguji blok tersebut."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Membuat Jalur dari Awal ke Tujuan",
+          "xp": 10,
+          "content": "Pilih titik awal dan tujuan, lalu pecah perjalanan menjadi beberapa gerak kecil. Misalnya, bergerak ke kanan tiga langkah kemudian ke atas dua langkah. Bandingkan hasil dengan jalur yang direncanakan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Karakter harus bergerak kanan 3 langkah lalu atas 2 langkah. Urutan yang tepat adalah…",
+          "options": [
+            "Kanan 3, lalu atas 2",
+            "Atas 3, lalu kiri 2",
+            "Hop, lalu sembunyi",
+            "Go Home, lalu akhir"
+          ],
+          "correct_option": "Kanan 3, lalu atas 2"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Cek Gerakan yang Tidak Sesuai",
+          "xp": 5,
+          "content": "Jika karakter tidak sampai ke tujuan, periksa arah, jumlah langkah, dan urutan. Ingat bahwa gerak ke kiri bukan gerak ke kanan, dan hop bukan gerak ke atas permanen. Perbaiki blok yang salah, lalu jalankan lagi."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Rancang Animasi Perjalanan",
+          "xp": 5,
+          "content": "Gunakan minimal tiga blok gerak untuk membuat karakter menuju tempat tertentu. Tambahkan latar yang cocok dan pastikan gerak dapat dilihat. Ceritakan perjalanan karakter dengan satu kalimat sebelum mencoba programnya."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Antar Karakter ke Tujuan",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Pilih latar dan letakkan karakter di sisi kiri panggung. Tentukan tujuan di bagian lain panggung, lalu gunakan minimal tiga blok gerak untuk mengantar karakter ke sana; gunakan setidaknya dua arah berbeda atau satu blok Hop. Uji, sesuaikan jumlah langkah, dan kirim tautan video/screenshot atau berkas proyek. Kriteria: jalur memiliki urutan yang jelas, jumlah langkah masuk akal, dan karakter berakhir dekat tujuan."
+        }
+      ],
+      "description": "Level Mudah. Siswa bereksperimen dengan blok gerak kanan/kiri/atas/bawah, lompat, dan jumlah langkah untuk membuat jalur sederhana.",
+      "quiz": [
+        {
+          "options": [
+            "Kuning",
+            "Merah",
+            "Biru",
+            "Hijau"
+          ],
+          "question": "Blok gerak ScratchJr termasuk kategori warna…",
+          "explanation": "Kategori biru berisi blok gerakan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Ke kanan",
+            "Membesar",
+            "Berbicara",
+            "Ke kiri"
+          ],
+          "question": "Blok Move Left membuat karakter bergerak…",
+          "explanation": "Move Left memindahkan karakter ke kiri.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Jumlah langkah/kotak gerak",
+            "Jumlah karakter",
+            "Banyaknya latar",
+            "Waktu menyimpan"
+          ],
+          "question": "Angka pada blok gerak biasanya menunjukkan…",
+          "explanation": "Nilai pada blok gerak menentukan jumlah kotak yang dilalui.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Berpindah ke halaman baru",
+            "Naik lalu turun",
+            "Mengirim pesan",
+            "Memainkan rekaman"
+          ],
+          "question": "Blok Hop melakukan gerakan…",
+          "explanation": "Hop membuat karakter melompat dengan kembali turun.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Tambah semua langkah",
+            "Hapus pemicu awal",
+            "Kurangi jumlah langkah dan uji lagi",
+            "Ganti semua karakter"
+          ],
+          "question": "Jika karakter melewati tujuan, apa yang paling tepat dicoba?",
+          "explanation": "Menyesuaikan jumlah langkah adalah cara sederhana memperbaiki jarak gerak.",
+          "answer_index": 2
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Antar Karakter ke Tujuan",
+        "instructions": "Pilih latar dan letakkan karakter di sisi kiri panggung. Tentukan tujuan di bagian lain panggung, lalu gunakan minimal tiga blok gerak untuk mengantar karakter ke sana; gunakan setidaknya dua arah berbeda atau satu blok Hop. Uji, sesuaikan jumlah langkah, dan kirim tautan video/screenshot atau berkas proyek. Kriteria: jalur memiliki urutan yang jelas, jumlah langkah masuk akal, dan karakter berakhir dekat tujuan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Menyusun Urutan Perintah",
+      "topic_order": 3,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu Urutan Perintah?",
+          "xp": 5,
+          "content": "Program adalah kumpulan instruksi yang disusun agar komputer menjalankannya. Pada ScratchJr, blok yang tersambung berjalan dari kiri ke kanan. Karena itu, posisi setiap blok dapat mengubah hasil cerita."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Urutan Sama, Hasil Sama",
+          "xp": 5,
+          "content": "Jika posisi awal dan bloknya sama, program biasanya menghasilkan gerakan yang sama ketika dijalankan ulang. Konsistensi ini memudahkan kita menguji. Coba jalankan rangkaian yang sama beberapa kali."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Urutkan Gerakan Sederhana",
+          "xp": 10,
+          "content": "Rencanakan tiga aksi, seperti maju, melompat, lalu berbicara. Sambungkan blok sesuai urutan aksi yang ingin ditonton. Jika urutan blok berbeda dengan rencana, cerita dapat terlihat aneh.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Bagaimana urutan blok biasanya dijalankan?",
+          "options": [
+            "Dari kiri ke kanan",
+            "Dari warna paling gelap dahulu",
+            "Acak setiap saat",
+            "Dari blok terakhir selalu"
+          ],
+          "correct_option": "Dari kiri ke kanan"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Prediksi Sebelum Menjalankan",
+          "xp": 5,
+          "content": "Sebelum mengetuk bendera hijau, telusuri blok satu per satu dan sebutkan apa yang akan dilakukan karakter. Prediksi tidak harus selalu benar; tujuannya adalah membandingkan pikiran dengan hasil program. Setelah mencoba, jelaskan perbedaan yang ditemukan."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Ubah Satu Blok",
+          "xp": 5,
+          "content": "Untuk melihat akibat suatu perubahan, ubah satu blok saja, misalnya jumlah gerak dari dua menjadi empat. Jalankan program lalu amati perbedaan. Cara ini membantu kita mengetahui hubungan antara instruksi dan hasil."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mengenal Pemicu dan Aksi",
+          "xp": 5,
+          "content": "Blok pemicu menentukan kapan program mulai, sedangkan blok aksi menentukan apa yang dilakukan. Letakkan pemicu yang sesuai di depan rangkaian. Tanpa pemicu yang cocok, tindakan mungkin tidak berjalan ketika diharapkan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Membaca Urutan dari Kiri ke Kanan",
+          "xp": 5,
+          "content": "Gunakan jari untuk menelusuri blok dari pemicu sampai blok akhir. Sebutkan aksi setiap blok sesuai urutannya. Cara ini membantu menemukan blok yang terlewat atau ditempatkan di posisi yang keliru."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Mencari Kesalahan Urutan",
+          "xp": 10,
+          "content": "Jika cerita tidak sesuai rencana, bandingkan rangkaian dengan daftar aksi yang kamu inginkan. Cari blok yang tertukar, hilang, atau memiliki nilai yang salah. Perbaiki bagian itu terlebih dahulu, bukan menghapus seluruh proyek.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Jika cerita salah setelah sebuah perubahan, cara mencari penyebab yang baik adalah…",
+          "options": [
+            "Hapus semua proyek",
+            "Bandingkan dengan rencana dan periksa satu per satu",
+            "Tambah banyak blok sekaligus",
+            "Jangan jalankan program"
+          ],
+          "correct_option": "Bandingkan dengan rencana dan periksa satu per satu"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Mengulang Tes",
+          "xp": 5,
+          "content": "Setelah perbaikan, jalankan lagi dari awal dengan bendera hijau. Amati apakah urutan kini sesuai dengan rencana. Jika belum, periksa satu per satu dan catat perubahan yang sudah dicoba."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Ceritakan Algoritmamu",
+          "xp": 5,
+          "content": "Algoritma adalah urutan langkah untuk mencapai tujuan. Jelaskan programmu dengan kalimat sederhana, seperti 'mulai, berjalan, melompat, lalu berhenti'. Jika penjelasan mudah diikuti, rangkaian blok biasanya juga lebih mudah dipahami."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Tiga Aksi dalam Urutan Tepat",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat satu cerita pendek yang berisi tiga aksi dalam urutan tertentu, misalnya karakter berjalan, melompat, lalu menyapa. Susun blok sesuai rencana, tuliskan atau ucapkan urutan aksinya, lalu jalankan dan perbaiki bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tiga aksi jelas, urutan sesuai rencana, serta ada bukti pengujian."
+        }
+      ],
+      "description": "Level Mudah. Siswa memahami urutan instruksi, memprediksi hasil, menguji rangkaian, dan memperbaiki kesalahan sederhana.",
+      "quiz": [
+        {
+          "options": [
+            "Warna latar",
+            "Nama karakter",
+            "Ukuran panggung",
+            "Susunan instruksi yang dijalankan satu demi satu"
+          ],
+          "question": "Urutan perintah adalah…",
+          "explanation": "Program mengatur aksi melalui susunan instruksi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Urutan menentukan urutan aksi karakter",
+            "Agar karakter selalu berubah warna",
+            "Agar aplikasi otomatis ditutup",
+            "Agar proyek tidak bisa dijalankan"
+          ],
+          "question": "Mengapa urutan blok penting?",
+          "explanation": "Rangkaian dijalankan sesuai urutannya sehingga mengubah urutan bisa mengubah hasil.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Menghapus semua blok",
+            "Memprediksi hasil dari rangkaian blok",
+            "Mengganti perangkat",
+            "Menambah karakter tanpa rencana"
+          ],
+          "question": "Langkah awal yang baik sebelum mengetes program adalah…",
+          "explanation": "Prediksi membantu membandingkan rencana dengan hasil yang sebenarnya.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Ubah semua blok sekaligus",
+            "Hindari menjalankan ulang",
+            "Periksa bagian program secara bertahap",
+            "Hapus nama proyek"
+          ],
+          "question": "Saat mencari bug, sebaiknya…",
+          "explanation": "Pemeriksaan bertahap lebih mudah menunjukkan sumber masalah.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Mewarnai latar",
+            "Menyimpan video",
+            "Mengubah judul cerita",
+            "Menentukan kapan aksi dimulai"
+          ],
+          "question": "Pemicu dalam rangkaian berfungsi untuk…",
+          "explanation": "Blok pemicu menentukan kondisi mulai suatu rangkaian.",
+          "answer_index": 3
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tiga Aksi dalam Urutan Tepat",
+        "instructions": "Buat satu cerita pendek yang berisi tiga aksi dalam urutan tertentu, misalnya karakter berjalan, melompat, lalu menyapa. Susun blok sesuai rencana, tuliskan atau ucapkan urutan aksinya, lalu jalankan dan perbaiki bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tiga aksi jelas, urutan sesuai rencana, serta ada bukti pengujian.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Menggerakkan Karakter dengan Sentuhan",
+      "topic_order": 4,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Cerita yang Bisa Diketuk",
+          "xp": 5,
+          "content": "Cerita interaktif menunggu tindakan dari penonton. Di ScratchJr, pemicu Start on Tap membuat rangkaian karakter dimulai ketika karakter itu diketuk. Ini cocok untuk tombol hidup, tokoh yang menyapa, atau objek yang bereaksi."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengenal Start on Tap",
+          "xp": 5,
+          "content": "Blok pemicu Start on Tap berwarna kuning dan memakai sentuhan sebagai pemicu. Sambungkan dengan aksi sederhana, seperti bergerak sedikit atau mengucapkan salam. Rangkaian ini tidak perlu menunggu bendera hijau untuk merespons ketukan pada karakter."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Bendera Hijau vs Sentuhan",
+          "xp": 10,
+          "content": "Bendera hijau cocok untuk memulai aksi otomatis saat penonton memulai cerita. Start on Tap cocok untuk aksi yang hanya berjalan setelah karakter disentuh. Pilih pemicu berdasarkan pengalaman yang ingin dibuat untuk penonton.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Pemicu yang memulai aksi ketika karakter diketuk adalah…",
+          "options": [
+            "Start on Green Flag",
+            "Start on Tap",
+            "Go to Page",
+            "End"
+          ],
+          "correct_option": "Start on Tap"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Buat Karakter Menyapa",
+          "xp": 5,
+          "content": "Tambahkan blok Say setelah Start on Tap lalu tulis sapaan singkat. Jalankan proyek dan ketuk karakter untuk melihat gelembung ucapan. Jika sapaan muncul sebelum karakter disentuh, periksa apakah pemicu yang dipakai sudah benar."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Sentuhan dan Gerakan",
+          "xp": 5,
+          "content": "Kamu dapat menyambungkan Start on Tap dengan beberapa blok gerak. Contohnya, saat kucing diketuk ia melompat kemudian bergerak ke kanan. Pastikan rangkaian tidak terlalu panjang agar hasil sentuhan mudah diamati."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Membuat Dua Karakter Responsif",
+          "xp": 5,
+          "content": "Setiap karakter dapat memiliki rangkaiannya sendiri. Buat karakter pertama menyapa ketika diketuk, lalu karakter kedua bergerak ketika diketuk. Uji keduanya secara bergantian untuk memastikan pemicu tidak tertukar."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Merancang Petunjuk Interaksi",
+          "xp": 5,
+          "content": "Penonton perlu tahu bahwa karakter dapat diketuk. Tambahkan teks pada panggung atau gelembung awal seperti 'Ketuk aku!'. Petunjuk yang jelas membuat interaksi terasa sengaja, bukan seperti program yang tidak berjalan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Menguji Ketukan Berulang",
+          "xp": 10,
+          "content": "Ketuk karakter beberapa kali dan amati apakah rangkaian dapat dijalankan lagi. Reset posisi atau ukuran bila perlu supaya karakter tetap terlihat. Pastikan aksi yang sama tidak membuat karakter keluar dari panggung.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Agar penonton tahu karakter bisa diketuk, kita sebaiknya…",
+          "options": [
+            "Menyembunyikan semua karakter",
+            "Mematikan semua rangkaian",
+            "Menambahkan petunjuk seperti 'Ketuk aku!'",
+            "Menghapus nama proyek"
+          ],
+          "correct_option": "Menambahkan petunjuk seperti 'Ketuk aku!'"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Membedakan Aksi Otomatis dan Interaktif",
+          "xp": 5,
+          "content": "Bandingkan dua karakter: satu bergerak saat bendera hijau, satu bergerak saat disentuh. Amati kapan setiap aksi mulai. Ini membantu memahami bahwa program bisa menunggu pemicu yang berbeda."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Perbaiki Pemicu yang Salah",
+          "xp": 5,
+          "content": "Jika aksi tidak bereaksi saat diketuk, cek apakah rangkaian dimulai dengan Start on Tap, bukan Start on Green Flag. Pastikan karakter yang diketuk adalah pemilik rangkaian itu. Uji kembali setelah perbaikan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Rancang Adegan Klik",
+          "xp": 5,
+          "content": "Pilih satu karakter dan satu aksi yang sengaja menunggu sentuhan. Tambahkan petunjuk sederhana, lalu coba sebagai penonton tanpa melihat blok. Jika aksi mudah ditemukan dan bereaksi sesuai harapan, desainmu sudah jelas."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Karakter yang Menjawab Ketukan",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat adegan dengan satu karakter yang bereaksi hanya ketika disentuh. Gunakan Start on Tap untuk membuatnya menyapa lalu melakukan satu aksi gerak atau lompat. Tambahkan petunjuk di panggung agar penonton tahu harus mengetuk karakter. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pemicu sentuhan digunakan, ada dua aksi setelah sentuhan, dan interaksi diuji beberapa kali."
+        }
+      ],
+      "description": "Level Sedang. Siswa menggunakan pemicu Start on Tap untuk membuat karakter responsif terhadap sentuhan dan membedakan aksi yang dipicu pengguna dengan aksi otomatis.",
+      "quiz": [
+        {
+          "options": [
+            "Karakter disentuh",
+            "Bendera hijau ditekan",
+            "Aplikasi ditutup",
+            "Latar diganti"
+          ],
+          "question": "Start on Tap memulai rangkaian ketika…",
+          "explanation": "Start on Tap merespons ketukan pada karakter pemilik rangkaian.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Start on Tap",
+            "Start on Green Flag",
+            "Start on Bump",
+            "Start on Message"
+          ],
+          "question": "Pemicu yang tepat untuk animasi otomatis saat mulai adalah…",
+          "explanation": "Start on Green Flag menjalankan rangkaian ketika bendera hijau ditekan.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Gunakan hanya blok suara",
+            "Hapus kucing",
+            "Gunakan Start on Tap pada rangkaian kucing",
+            "Ubah nama panggung"
+          ],
+          "question": "Jika aksi harus muncul hanya setelah kucing diketuk, kita sebaiknya…",
+          "explanation": "Pemicu sentuhan membuat aksi menunggu interaksi penonton.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Agar blok berubah warna",
+            "Agar latar otomatis bergerak",
+            "Agar karakter hilang",
+            "Agar penonton tahu tindakan yang perlu dilakukan"
+          ],
+          "question": "Mengapa proyek interaktif memerlukan petunjuk?",
+          "explanation": "Petunjuk membantu penonton menemukan cara berinteraksi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Blok pemicu awal",
+            "Warna latar",
+            "Nama file",
+            "Jumlah halaman"
+          ],
+          "question": "Jika aksi berjalan sebelum karakter disentuh, hal pertama yang dicek adalah…",
+          "explanation": "Pemicu awal menentukan kapan rangkaian berjalan.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Karakter yang Menjawab Ketukan",
+        "instructions": "Buat adegan dengan satu karakter yang bereaksi hanya ketika disentuh. Gunakan Start on Tap untuk membuatnya menyapa lalu melakukan satu aksi gerak atau lompat. Tambahkan petunjuk di panggung agar penonton tahu harus mengetuk karakter. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pemicu sentuhan digunakan, ada dua aksi setelah sentuhan, dan interaksi diuji beberapa kali.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Ucapan, Ekspresi, dan Ukuran Karakter",
+      "topic_order": 5,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Karakter Bisa Berbicara",
+          "xp": 5,
+          "content": "Blok Say menampilkan gelembung ucapan di atas karakter. Gunakan kalimat pendek yang sesuai dengan adegan. Ucapan dapat menyapa, bertanya, atau memberi tahu penonton apa yang sedang terjadi."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Menulis Dialog yang Jelas",
+          "xp": 5,
+          "content": "Dialog yang baik singkat dan mudah dibaca. Beri satu karakter satu giliran bicara, lalu beri waktu bagi penonton untuk membacanya. Jika dua karakter berbicara bersamaan, cerita bisa sulit dipahami."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Memperbesar Karakter dengan Grow",
+          "xp": 10,
+          "content": "Blok Grow memperbesar karakter. Gunakan untuk menunjukkan kejutan, kekuatan ajaib, atau fokus perhatian. Perhatikan agar karakter tidak menjadi terlalu besar sampai menutupi tokoh lain.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Blok yang menampilkan gelembung ucapan adalah…",
+          "options": [
+            "Grow",
+            "Hide",
+            "Say",
+            "Go Home"
+          ],
+          "correct_option": "Say"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengecilkan Karakter dengan Shrink",
+          "xp": 5,
+          "content": "Blok Shrink memperkecil karakter. Perubahan ukuran dapat menggambarkan tokoh menjauh atau benda yang menyusut. Coba gunakan satu atau dua kali dan amati perbedaannya."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Mengembalikan Ukuran",
+          "xp": 5,
+          "content": "Blok Reset Size mengembalikan karakter ke ukuran normalnya. Ini berguna setelah karakter membesar atau mengecil. Dengan begitu, adegan berikutnya dapat dimulai dengan tampilan yang mudah dikenali."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Menyembunyikan Karakter",
+          "xp": 5,
+          "content": "Blok Hide membuat karakter menghilang dari panggung secara bertahap. Gunakan ketika tokoh keluar dari cerita atau kejutan disiapkan. Ingat bahwa karakter yang tersembunyi tidak terlihat oleh penonton."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Menampilkan Kembali dengan Show",
+          "xp": 5,
+          "content": "Blok Show membuat karakter muncul kembali. Rangkaian yang menyembunyikan lalu menampilkan karakter dapat membangun kejutan. Uji urutannya supaya karakter tidak hilang saat masih dibutuhkan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Gabungkan Dialog dan Ekspresi",
+          "xp": 10,
+          "content": "Kombinasikan Say dengan Grow, Shrink, Hide, atau Show agar kata-kata didukung aksi visual. Misalnya, karakter berkata 'Wah!' lalu membesar. Pilih efek yang membantu cerita, bukan sekadar menambah gerakan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Setelah karakter membesar, blok yang mengembalikannya ke ukuran normal adalah…",
+          "options": [
+            "Shrink",
+            "Show",
+            "Stop",
+            "Reset Size"
+          ],
+          "correct_option": "Reset Size"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Atur Giliran Bicara",
+          "xp": 5,
+          "content": "Gunakan rangkaian terpisah untuk tokoh yang berbeda. Beri jeda dengan Wait bila perlu agar penonton sempat membaca dialog. Susun percakapan dari pembicara pertama ke pembicara berikutnya."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Ekspresi dan Keterbacaan",
+          "xp": 5,
+          "content": "Jalankan adegan dari awal. Pastikan dialog tidak terlalu panjang, perubahan ukuran tidak menutupi latar penting, dan karakter muncul kembali saat dibutuhkan. Sesuaikan kata atau gerakan setelah melihat hasilnya."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Bangun Adegan Emosi",
+          "xp": 5,
+          "content": "Pilih emosi seperti gembira, terkejut, atau takut. Gunakan satu dialog dan satu perubahan visual untuk menyampaikan emosi itu. Minta teman menebak emosi tanpa diberi tahu sebelumnya."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Tokoh dengan Ekspresi",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat satu adegan dengan karakter yang berbicara dan menunjukkan emosi. Gunakan blok Say dan sedikitnya satu blok perubahan tampilan (Grow, Shrink, Hide, Show, atau Reset Size). Pastikan dialog muncul pada waktu yang tepat dan karakter terlihat jelas. Kirim tautan video/screenshot atau berkas proyek. Kriteria: dialog relevan, satu perubahan tampilan berfungsi, dan alur diuji dari awal."
+        }
+      ],
+      "description": "Level Sedang. Siswa memakai Say, Grow, Shrink, Reset Size, Hide, dan Show untuk menyampaikan ekspresi dan perubahan visual sebagai bagian dari cerita.",
+      "quiz": [
+        {
+          "options": [
+            "Memindahkan karakter",
+            "Menampilkan ucapan",
+            "Mengirim pesan warna",
+            "Berpindah halaman"
+          ],
+          "question": "Blok Say digunakan untuk…",
+          "explanation": "Say menampilkan teks pada gelembung ucapan.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menghapus karakter",
+            "Mengganti latar",
+            "Memperbesar karakter",
+            "Memulai saat disentuh"
+          ],
+          "question": "Grow melakukan apa?",
+          "explanation": "Grow meningkatkan ukuran karakter.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Go Home",
+            "Wait",
+            "End",
+            "Reset Size"
+          ],
+          "question": "Blok untuk mengembalikan ukuran normal adalah…",
+          "explanation": "Reset Size mengembalikan ukuran karakter ke ukuran awal.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Menyembunyikan karakter",
+            "Memainkan rekaman",
+            "Membuat halaman baru",
+            "Menambah karakter"
+          ],
+          "question": "Hide digunakan untuk…",
+          "explanation": "Hide membuat karakter tidak terlihat.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Buat semua tokoh bicara bersamaan",
+            "Atur giliran bicara dan beri waktu membaca",
+            "Gunakan teks sepanjang mungkin",
+            "Sembunyikan semua dialog"
+          ],
+          "question": "Agar percakapan mudah dipahami, sebaiknya…",
+          "explanation": "Giliran yang jelas memberi penonton waktu memahami dialog.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tokoh dengan Ekspresi",
+        "instructions": "Buat satu adegan dengan karakter yang berbicara dan menunjukkan emosi. Gunakan blok Say dan sedikitnya satu blok perubahan tampilan (Grow, Shrink, Hide, Show, atau Reset Size). Pastikan dialog muncul pada waktu yang tepat dan karakter terlihat jelas. Kirim tautan video/screenshot atau berkas proyek. Kriteria: dialog relevan, satu perubahan tampilan berfungsi, dan alur diuji dari awal.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Menambahkan Suara dan Musik",
+      "topic_order": 6,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Suara Membantu Bercerita",
+          "xp": 5,
+          "content": "Suara dapat menunjukkan kejadian, suasana hati, atau gerakan. Gunakan suara seperlunya agar cerita terasa hidup dan pesan tetap jelas. Pilih suara yang mendukung apa yang sedang dilakukan karakter."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengenal Efek Pop",
+          "xp": 5,
+          "content": "Blok Pop memutar efek suara pendek. Efek ini dapat menandai kejutan, munculnya benda, atau aksi lucu. Tempatkan blok pada bagian cerita yang sesuai supaya suara terasa terkait dengan tindakan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Merekam Suara Sendiri",
+          "xp": 10,
+          "content": "ScratchJr menyediakan blok Play Recorded Sound untuk memutar rekaman yang dibuat pengguna. Rekam kalimat pendek dengan suara yang jelas. Mintalah bantuan orang dewasa jika perangkat memerlukan izin mikrofon.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Blok Pop biasanya digunakan untuk…",
+          "options": [
+            "Mengubah latar",
+            "Menggerakkan ke atas",
+            "Menghapus proyek",
+            "Memainkan efek suara pendek"
+          ],
+          "correct_option": "Memainkan efek suara pendek"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Memutar Rekaman",
+          "xp": 5,
+          "content": "Setelah rekaman tersedia, pilih rekaman yang benar pada blok Play Recorded Sound. Uji apakah suara yang diputar sesuai dengan karakter dan adegan. Jika hasilnya salah, pilih kembali rekaman atau rekam ulang."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Pasangkan Suara dengan Aksi",
+          "xp": 5,
+          "content": "Sambungkan blok suara setelah atau sebelum gerakan sesuai efek yang diinginkan. Misalnya, karakter melompat lalu terdengar 'Pop'. Jalankan program dan amati apakah suara terasa terlalu cepat atau terlambat."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Gunakan Jeda dengan Wait",
+          "xp": 5,
+          "content": "Blok Wait memberi jeda singkat sebelum blok berikutnya berjalan. Jeda dapat membantu penonton melihat aksi sebelum suara berikutnya diputar. Atur jeda secukupnya agar cerita tidak terasa lambat."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Suara Tokoh dan Suara Latar",
+          "xp": 5,
+          "content": "Suara tokoh biasanya berhubungan langsung dengan karakter, sedangkan musik atau efek latar membangun suasana. Untuk proyek sederhana, pilih satu jenis suara utama dulu. Terlalu banyak suara dapat membuat cerita sulit diikuti."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Uji Kejelasan Audio",
+          "xp": 10,
+          "content": "Putar proyek dan dengarkan apakah suara cukup jelas. Pastikan rekaman tidak terlalu pelan atau terpotong. Jika suara mengganggu dialog, pindahkan blok atau sederhanakan efek yang digunakan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Mengapa suara tidak sebaiknya diputar terlalu banyak sekaligus?",
+          "options": [
+            "Suara dapat saling menutupi dan sulit dipahami",
+            "Agar karakter selalu besar",
+            "Agar latar berganti sendiri",
+            "Agar semua blok berubah warna"
+          ],
+          "correct_option": "Suara dapat saling menutupi dan sulit dipahami"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Cegah Suara Bertumpuk",
+          "xp": 5,
+          "content": "Jika banyak karakter memutar suara bersamaan, penonton mungkin tidak dapat mendengarnya dengan baik. Susun aksi secara bergantian dan gunakan Wait bila perlu. Uji dengan volume yang nyaman."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Suara untuk Menceritakan Aksi",
+          "xp": 5,
+          "content": "Pilih satu aksi dan tentukan suara yang tepat untuk mendukungnya. Misalnya, bunyi Pop saat benda muncul atau rekaman salam saat tokoh menyapa. Suara harus membantu penonton memahami peristiwa."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Buat Adegan Audio Pendek",
+          "xp": 5,
+          "content": "Bangun adegan yang berisi sedikitnya satu aksi, satu efek atau rekaman, dan satu jeda bila diperlukan. Dengarkan hasilnya dari awal sampai akhir. Tanyakan apakah suara memperjelas cerita atau justru membuat bingung."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Adegan dengan Suara",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat adegan pendek dengan satu karakter. Sertakan setidaknya satu aksi gerak, satu efek Pop atau rekaman suara, dan gunakan Wait bila dibutuhkan untuk mengatur waktu. Pastikan suara sesuai dengan aksi. Kirim tautan video/screenshot yang memperlihatkan hasil beserta suara, atau tautan berkas proyek yang dapat dibuka guru. Kriteria: suara berfungsi, sesuai konteks, dan tidak bertumpuk hingga membingungkan."
+        }
+      ],
+      "description": "Level Sedang. Siswa mengenal efek suara Pop dan Play Recorded Sound, membuat rekaman sederhana, serta menyelaraskan suara dengan gerakan atau dialog.",
+      "quiz": [
+        {
+          "options": [
+            "Mengubah posisi awal",
+            "Membuat halaman baru",
+            "Memutar efek suara pendek",
+            "Memperbesar karakter"
+          ],
+          "question": "Blok Pop digunakan untuk…",
+          "explanation": "Pop memainkan efek suara pendek.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Menghapus suara",
+            "Membuat sprite",
+            "Mengatur grid",
+            "Memutar suara yang direkam"
+          ],
+          "question": "Play Recorded Sound digunakan untuk…",
+          "explanation": "Blok tersebut memutar rekaman pengguna.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Memberi jeda sebelum instruksi berikutnya",
+            "Merekam suara otomatis",
+            "Menghapus latar",
+            "Mengubah arah karakter"
+          ],
+          "question": "Blok Wait berfungsi untuk…",
+          "explanation": "Wait membuat program berhenti sejenak sebelum melanjutkan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Karakter tidak terlihat",
+            "Suara terasa terkait dengan aksi",
+            "Semua halaman tertutup",
+            "Urutan blok menjadi acak"
+          ],
+          "question": "Waktu suara yang baik membuat…",
+          "explanation": "Penyelarasan suara dan aksi membantu penonton memahami hubungan keduanya.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Memutar semua suara lebih cepat",
+            "Menghapus semua gerakan",
+            "Mengatur urutan dan menambah jeda",
+            "Menambah teks yang tidak terkait"
+          ],
+          "question": "Jika suara dua karakter saling menutupi, kita bisa…",
+          "explanation": "Jeda dan giliran membantu suara terdengar jelas.",
+          "answer_index": 2
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Adegan dengan Suara",
+        "instructions": "Buat adegan pendek dengan satu karakter. Sertakan setidaknya satu aksi gerak, satu efek Pop atau rekaman suara, dan gunakan Wait bila dibutuhkan untuk mengatur waktu. Pastikan suara sesuai dengan aksi. Kirim tautan video/screenshot yang memperlihatkan hasil beserta suara, atau tautan berkas proyek yang dapat dibuka guru. Kriteria: suara berfungsi, sesuai konteks, dan tidak bertumpuk hingga membingungkan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Gerakan Berulang dan Pengaturan Kecepatan",
+      "topic_order": 7,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Mengapa Perlu Pengulangan?",
+          "xp": 5,
+          "content": "Jika karakter melakukan aksi yang sama berkali-kali, kita tidak perlu menyalin blok gerak berulang-ulang. Blok pengulangan membantu membuat rangkaian lebih ringkas. Pengulangan dapat digunakan untuk menari, melompat, atau berjalan di tempat."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengenal Repeat",
+          "xp": 5,
+          "content": "Blok Repeat menjalankan blok di dalamnya sebanyak jumlah yang dipilih. Gunakan saat aksi harus dilakukan beberapa kali lalu berhenti. Pastikan blok yang ingin diulang benar-benar berada di dalam bagian Repeat."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Membuat Gerakan Menari",
+          "xp": 10,
+          "content": "Tempatkan beberapa gerakan di dalam Repeat untuk membuat tarian kecil. Cobalah gerak kanan, kiri, atau hop dengan jumlah pengulangan terbatas. Perhatikan bagaimana rangkaian selesai setelah jumlah yang ditentukan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Blok yang mengulangi aksi beberapa kali lalu selesai adalah…",
+          "options": [
+            "Repeat",
+            "Repeat Forever",
+            "Hide",
+            "Go to Page"
+          ],
+          "correct_option": "Repeat"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengenal Repeat Forever",
+          "xp": 5,
+          "content": "Repeat Forever mengulang rangkaian terus-menerus sampai dihentikan. Gunakan untuk gerakan latar atau tarian yang tidak perlu berhenti sendiri. Hindari menaruh terlalu banyak aksi di dalamnya sehingga proyek sulit dikendalikan."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Repeat atau Repeat Forever?",
+          "xp": 5,
+          "content": "Pilih Repeat jika aksi perlu dilakukan beberapa kali lalu selesai. Pilih Repeat Forever jika aksi memang harus terus berjalan. Pilihan yang tepat membuat perilaku karakter sesuai tujuan cerita."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mengatur Kecepatan",
+          "xp": 5,
+          "content": "Blok Set Speed mengubah kecepatan blok tertentu yang berjalan setelahnya. Kecepatan lebih lambat memberi penonton waktu melihat gerakan; kecepatan lebih tinggi membuat aksi terasa cepat. Uji beberapa pilihan untuk menemukan tempo yang cocok."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Menyisipkan Jeda",
+          "xp": 5,
+          "content": "Blok Wait membuat jeda singkat. Gabungkan dengan gerakan berulang untuk membuat tarian tidak terlalu cepat atau untuk memberi waktu di antara dua aksi. Gunakan jeda secukupnya supaya penonton masih tertarik."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Mencoba Pola Berulang",
+          "xp": 10,
+          "content": "Rancang pola tiga aksi seperti hop, gerak kanan, lalu gerak kiri. Letakkan pola di dalam Repeat dan amati hasilnya. Jika urutan tidak sesuai, pastikan semua blok berada di bagian pengulangan yang benar.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Jika gerakan harus terus berjalan sampai dihentikan, blok yang sesuai adalah…",
+          "options": [
+            "Repeat sekali",
+            "Repeat Forever",
+            "Reset Size",
+            "Start on Tap"
+          ],
+          "correct_option": "Repeat Forever"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Menghindari Pengulangan Tak Terencana",
+          "xp": 5,
+          "content": "Repeat Forever tidak berhenti dengan sendirinya. Jika karakter terus bergerak hingga keluar panggung, pertimbangkan Repeat dengan jumlah terbatas atau tambahkan cara berhenti yang sesuai. Uji dari awal untuk memastikan perilakunya terkendali."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Tempo dan Jumlah",
+          "xp": 5,
+          "content": "Ubah jumlah Repeat atau kecepatan, satu perubahan pada satu waktu. Amati apakah gerakan menjadi terlalu cepat atau terlalu lambat. Pilih nilai yang paling mudah diamati dan mendukung cerita."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Buat Koreografi Singkat",
+          "xp": 5,
+          "content": "Gunakan pengulangan untuk membuat tarian atau latihan gerak dengan awal yang jelas. Pilih apakah tarian berhenti setelah beberapa putaran atau terus berjalan. Uji, lalu perbaiki tempo agar setiap aksi terlihat."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Tarian Berulang",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat tarian karakter yang berisi sedikitnya tiga aksi di dalam Repeat. Atur jumlah pengulangan agar tarian berhenti setelah beberapa putaran, atau gunakan Repeat Forever hanya jika memang diinginkan dan pastikan mudah dihentikan. Coba kecepatan berbeda dan tambahkan Wait bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pengulangan bekerja, tempo sesuai, dan perbedaan Repeat vs Repeat Forever dipilih dengan sengaja."
+        }
+      ],
+      "description": "Level Sedang. Siswa menggunakan Repeat, Repeat Forever, Set Speed, dan Wait untuk membuat gerakan berulang dengan kontrol yang lebih baik.",
+      "quiz": [
+        {
+          "options": [
+            "Selalu mengulang tanpa batas",
+            "Menghapus rangkaian",
+            "Membuat karakter bicara",
+            "Mengulangi blok di dalamnya beberapa kali sesuai nilai"
+          ],
+          "question": "Repeat akan…",
+          "explanation": "Repeat menjalankan aksi di dalamnya sebanyak jumlah yang dipilih.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Aksi yang terus berulang",
+            "Aksi yang hanya sekali",
+            "Mengganti nama proyek",
+            "Menghapus karakter"
+          ],
+          "question": "Repeat Forever cocok untuk…",
+          "explanation": "Repeat Forever mengulang sampai dihentikan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengubah latar",
+            "Mengatur kecepatan aksi berikutnya",
+            "Mengubah jumlah halaman",
+            "Merekam suara"
+          ],
+          "question": "Set Speed digunakan untuk…",
+          "explanation": "Set Speed mengatur laju eksekusi blok selanjutnya.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menggandakan karakter",
+            "Mengganti pemicu awal",
+            "Memberi jeda agar aksi lebih mudah diamati",
+            "Menghapus suara"
+          ],
+          "question": "Mengapa Wait berguna dalam animasi?",
+          "explanation": "Jeda membantu mengatur tempo dan memberi waktu bagi penonton.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Repeat Forever",
+            "Hide sepanjang waktu",
+            "Go to Page acak",
+            "Repeat dengan jumlah 4"
+          ],
+          "question": "Jika suatu tarian harus selesai setelah empat putaran, pilihan lebih tepat adalah…",
+          "explanation": "Repeat memberi batas jumlah pengulangan.",
+          "answer_index": 3
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tarian Berulang",
+        "instructions": "Buat tarian karakter yang berisi sedikitnya tiga aksi di dalam Repeat. Atur jumlah pengulangan agar tarian berhenti setelah beberapa putaran, atau gunakan Repeat Forever hanya jika memang diinginkan dan pastikan mudah dihentikan. Coba kecepatan berbeda dan tambahkan Wait bila perlu. Kirim tautan video/screenshot atau berkas proyek. Kriteria: pengulangan bekerja, tempo sesuai, dan perbedaan Repeat vs Repeat Forever dipilih dengan sengaja.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Dua Karakter Saling Berkomunikasi",
+      "topic_order": 8,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Ketika Karakter Bertemu",
+          "xp": 5,
+          "content": "Start on Bump memulai rangkaian ketika karakter disentuh atau bertabrakan dengan karakter lain. Pemicu ini cocok untuk salam saat bertemu atau objek yang bereaksi ketika disentuh tokoh. Pastikan karakter benar-benar dapat bertemu di panggung."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengenal Start on Bump",
+          "xp": 5,
+          "content": "Pasang Start on Bump di awal rangkaian karakter yang harus bereaksi terhadap pertemuan. Sambungkan dengan aksi sederhana, misalnya Say atau Hop. Jalankan program dan arahkan karakter hingga bersentuhan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Pesan Antar Karakter",
+          "xp": 10,
+          "content": "ScratchJr menyediakan Send Message dan Start on Message untuk mengoordinasikan aksi. Satu karakter mengirim pesan berwarna, sedangkan karakter lain menunggu pesan dengan warna yang sama. Warna harus cocok agar rangkaian penerima terpicu.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Agar karakter B bereaksi setelah menerima sinyal, gunakan…",
+          "options": [
+            "Start on Green Flag saja",
+            "Start on Message",
+            "Hide",
+            "Go Home"
+          ],
+          "correct_option": "Start on Message"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengirim Pesan",
+          "xp": 5,
+          "content": "Letakkan Send Message pada rangkaian karakter pengirim di titik saat aksi berikutnya perlu dimulai. Pilih warna pesan dan ingat warna tersebut. Pesan memberi sinyal kepada karakter lain bahwa sesuatu sudah terjadi."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Menunggu Pesan",
+          "xp": 5,
+          "content": "Pada karakter penerima, gunakan Start on Message dengan warna yang sama seperti yang dikirim. Setelah pemicu ini, susun aksi respons, misalnya bergerak atau berbicara. Jika warna tidak sama, respons tidak akan dimulai dari pesan tersebut."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Rancang Urutan Pertemuan",
+          "xp": 5,
+          "content": "Susun cerita menjadi tiga tahap: karakter A bergerak, A mengirim pesan, lalu karakter B merespons. Uji langkah ini secara berurutan. Rancangan sederhana memudahkan melihat apakah pesan dikirim pada saat yang tepat."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Mencegah Respons Terlalu Cepat",
+          "xp": 5,
+          "content": "Jika karakter B mulai sebelum waktunya, periksa pemicu pada rangkaiannya. Pastikan aksi respons dimulai dengan Start on Message, bukan Start on Green Flag. Tambahkan Wait bila dialog atau gerakan membutuhkan jeda."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Menggunakan Dua Warna Pesan",
+          "xp": 10,
+          "content": "Dua warna pesan dapat membedakan sinyal yang berbeda, misalnya salam dan jawaban. Pastikan setiap pengirim dan penerima memakai pasangan warna yang sesuai. Beri setiap pesan tujuan yang jelas agar alur tidak membingungkan.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Pengirim memilih pesan biru, tetapi penerima menunggu pesan hijau. Apa masalahnya?",
+          "options": [
+            "Jumlah latar terlalu sedikit",
+            "Karakter terlalu kecil",
+            "Warna pesan tidak cocok",
+            "Blok gerak berwarna biru"
+          ],
+          "correct_option": "Warna pesan tidak cocok"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Uji Beberapa Kali",
+          "xp": 5,
+          "content": "Jalankan proyek dari awal, lalu ulangi pertemuan karakter. Perhatikan apakah pesan terkirim setiap kali diharapkan. Jika respons hilang, telusuri blok pengirim, warna pesan, dan pemicu penerima."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Debugging Koordinasi Karakter",
+          "xp": 5,
+          "content": "Masalah koordinasi sering berasal dari pemicu yang salah atau warna pesan yang tidak cocok. Periksa satu hubungan pesan pada satu waktu. Ubah hanya bagian yang menyebabkan respons tidak sesuai, lalu uji kembali."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Buat Dialog dengan Sinyal",
+          "xp": 5,
+          "content": "Rancang pertukaran singkat: karakter A mengirim pesan, karakter B memberi jawaban, lalu aksi penutup terjadi. Gunakan pemicu pesan untuk menjaga urutan. Pastikan penonton memahami mengapa setiap karakter mulai bertindak."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Salam dan Balasan Dua Karakter",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat proyek dengan dua karakter. Karakter A bergerak mendekat dan mengirim pesan warna tertentu; karakter B memakai Start on Message dengan warna yang cocok untuk berbicara atau bergerak sebagai balasan. Tambahkan aksi penutup dan uji urutan dari awal. Kirim tautan video/screenshot atau berkas proyek. Kriteria: ada dua karakter, pesan terkirim, warna pemicu cocok, dan respons berjalan sesuai urutan."
+        }
+      ],
+      "description": "Level Lancar. Siswa mengoordinasikan dua karakter menggunakan Start on Bump dan blok pesan, dengan pengujian pemicu agar respons terjadi pada waktu yang tepat.",
+      "quiz": [
+        {
+          "options": [
+            "Karakter bersentuhan/bertabrakan dengan karakter lain",
+            "Bendera hijau ditekan",
+            "Latar diubah",
+            "Proyek disimpan"
+          ],
+          "question": "Start on Bump memulai aksi saat…",
+          "explanation": "Start on Bump merespons pertemuan fisik antar karakter pada panggung.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengubah ukuran karakter",
+            "Mengirim sinyal ke rangkaian karakter lain",
+            "Membuka galeri latar",
+            "Menyembunyikan panggung"
+          ],
+          "question": "Send Message digunakan untuk…",
+          "explanation": "Send Message mengirim pesan berwarna untuk memicu rangkaian penerima.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Selalu merah",
+            "Berbeda dari pengirim",
+            "Sama dengan pesan yang dikirim",
+            "Tidak perlu dipilih"
+          ],
+          "question": "Start on Message harus memiliki warna yang…",
+          "explanation": "Warna pemicu penerima harus cocok dengan warna pesan pengirim.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Nama latar",
+            "Jumlah karakter yang dihapus",
+            "Warna teks judul",
+            "Pemicu awal pada rangkaian respons"
+          ],
+          "question": "Jika karakter respons sebelum pesan diterima, cek…",
+          "explanation": "Rangkaian respons seharusnya menunggu pemicu pesan yang sesuai.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Jalankan dari awal dan amati urutan pengirim-penerima",
+            "Ubah semua warna sekaligus",
+            "Hindari menyentuhkan karakter",
+            "Hapus rangkaian penerima"
+          ],
+          "question": "Cara menguji komunikasi dua karakter yang baik adalah…",
+          "explanation": "Pengujian dari awal membantu memeriksa apakah sinyal terkirim dan diterima secara berurutan.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Salam dan Balasan Dua Karakter",
+        "instructions": "Buat proyek dengan dua karakter. Karakter A bergerak mendekat dan mengirim pesan warna tertentu; karakter B memakai Start on Message dengan warna yang cocok untuk berbicara atau bergerak sebagai balasan. Tambahkan aksi penutup dan uji urutan dari awal. Kirim tautan video/screenshot atau berkas proyek. Kriteria: ada dua karakter, pesan terkirim, warna pemicu cocok, dan respons berjalan sesuai urutan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Membuat Cerita dengan Banyak Halaman",
+      "topic_order": 9,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Cerita Memiliki Beberapa Adegan",
+          "xp": 5,
+          "content": "Satu proyek ScratchJr dapat memiliki beberapa halaman, dan setiap halaman dapat memiliki karakter serta latarnya sendiri. Halaman membantu memisahkan awal, tengah, dan akhir cerita. ScratchJr mendukung hingga empat halaman dalam satu proyek."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Menambahkan Halaman",
+          "xp": 5,
+          "content": "Gunakan kontrol halaman untuk menambah adegan baru. Pilih latar yang cocok dengan bagian cerita tersebut. Beri setiap halaman tujuan yang jelas agar perpindahan adegan terasa bermakna."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Urutkan Awal, Tengah, dan Akhir",
+          "xp": 10,
+          "content": "Sebelum membuat blok, tuliskan tiga bagian cerita dengan kalimat sederhana. Tentukan apa yang terjadi di setiap halaman dan bagaimana tokoh berpindah. Struktur ini membantu cerita tidak terasa seperti kumpulan adegan acak.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Blok yang memindahkan proyek ke halaman lain adalah…",
+          "options": [
+            "Hop",
+            "Say",
+            "Go to Page",
+            "Grow"
+          ],
+          "correct_option": "Go to Page"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengenal Go to Page",
+          "xp": 5,
+          "content": "Blok Go to Page memindahkan tampilan proyek ke halaman yang dipilih. Gunakan ketika sebuah peristiwa menandakan adegan berikutnya dimulai. Pilih nomor halaman yang benar dan pastikan halaman tujuan tersedia."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Menjaga Tokoh Tetap Konsisten",
+          "xp": 5,
+          "content": "Tokoh yang sama dapat muncul di beberapa halaman. Jika tokoh perlu melanjutkan perjalanan, siapkan karakter dan posisi awal pada setiap adegan. Pastikan penonton mengenali tokoh meskipun latar berubah."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Memulai Aksi di Halaman Tujuan",
+          "xp": 5,
+          "content": "Pada halaman yang dituju, rangkaian dengan Start on Green Flag dapat berjalan ketika halaman aktif dan bendera hijau ditekan untuk memulai proyek. Uji transisi dari halaman pertama agar aksi di halaman berikutnya sesuai harapan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Mengatur Waktu Perpindahan",
+          "xp": 5,
+          "content": "Perpindahan halaman sebaiknya terjadi setelah aksi penting selesai. Letakkan Go to Page pada titik akhir rangkaian yang sesuai. Jika adegan terlalu cepat berganti, penonton mungkin tidak sempat melihat apa yang terjadi."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Memeriksa Urutan Halaman",
+          "xp": 10,
+          "content": "Pastikan halaman pertama benar-benar merupakan awal cerita dan halaman berikutnya mengikuti urutan. Jika halaman diubah urutannya, periksa kembali nomor pada blok Go to Page. Jalankan proyek dari halaman pertama saat pengujian.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Jika nomor halaman diubah urutannya, apa yang perlu diperiksa kembali?",
+          "options": [
+            "Warna karakter saja",
+            "Efek Pop saja",
+            "Nama perangkat",
+            "Blok Go to Page dan nomor tujuan"
+          ],
+          "correct_option": "Blok Go to Page dan nomor tujuan"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Membuat Akhir yang Jelas",
+          "xp": 5,
+          "content": "Halaman terakhir sebaiknya memberi penyelesaian, misalnya tokoh mencapai tujuan atau menyampaikan pesan. Tidak semua cerita perlu berpindah otomatis setelah halaman akhir. Pertimbangkan apakah penonton memerlukan satu momen untuk melihat hasil akhir."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Cerita dari Awal",
+          "xp": 5,
+          "content": "Pilih halaman pertama lalu tekan bendera hijau. Tonton semua transisi tanpa menyentuh halaman secara manual. Jika alur terputus, periksa blok Go to Page, nomor halaman, dan pemicu awal di setiap adegan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Sunting Cerita Multiadegan",
+          "xp": 5,
+          "content": "Minta teman menonton cerita dan menceritakan kembali apa yang ia pahami. Jika urutan membingungkan, perjelas aksi atau ubah transisi. Cerita yang baik memiliki hubungan yang mudah dipahami dari satu adegan ke adegan berikutnya."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Cerita Tiga Halaman",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat cerita tiga halaman dengan bagian awal, tengah, dan akhir. Gunakan latar yang sesuai dan karakter utama yang tetap dikenali. Pakai Go to Page untuk berpindah dari satu adegan ke adegan berikutnya; uji seluruh cerita mulai dari halaman pertama. Kirim tautan video/screenshot atau berkas proyek. Kriteria: minimal tiga halaman, transisi otomatis berfungsi, dan akhir cerita menyelesaikan masalah atau tujuan tokoh."
+        }
+      ],
+      "description": "Level Lancar. Siswa merancang cerita multiadegan, menggunakan Go to Page, menjaga kesinambungan tokoh, dan menguji urutan halaman.",
+      "quiz": [
+        {
+          "options": [
+            "Mengubah blok menjadi teks",
+            "Memisahkan adegan dalam satu proyek",
+            "Merekam semua suara otomatis",
+            "Menghapus tokoh utama"
+          ],
+          "question": "Halaman dalam ScratchJr membantu kita…",
+          "explanation": "Setiap halaman dapat berisi adegan, latar, dan karakter untuk bagian cerita yang berbeda.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Melompat di tempat",
+            "Membesar",
+            "Berpindah ke halaman yang dipilih",
+            "Mengirim pesan warna"
+          ],
+          "question": "Blok Go to Page digunakan untuk…",
+          "explanation": "Go to Page mengganti tampilan ke halaman tujuan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Dua puluh",
+            "Satu saja",
+            "Tidak terbatas",
+            "Empat"
+          ],
+          "question": "ScratchJr mendukung hingga berapa halaman dalam satu proyek?",
+          "explanation": "Panduan resmi ScratchJr menyebut hingga empat halaman per proyek.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Rencanakan awal, tengah, dan akhir",
+            "Acak nomor halaman",
+            "Buat akhir sebelum tahu cerita",
+            "Hapus semua karakter"
+          ],
+          "question": "Sebelum membuat cerita multiadegan, sebaiknya…",
+          "explanation": "Rencana awal-tengah-akhir menjaga alur cerita.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Ukuran teks dialog saja",
+            "Nomor tujuan pada Go to Page",
+            "Nama aplikasi",
+            "Warna bendera"
+          ],
+          "question": "Jika transisi menuju halaman salah, kita perlu memeriksa…",
+          "explanation": "Nomor tujuan menentukan halaman yang ditampilkan berikutnya.",
+          "answer_index": 1
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Cerita Tiga Halaman",
+        "instructions": "Buat cerita tiga halaman dengan bagian awal, tengah, dan akhir. Gunakan latar yang sesuai dan karakter utama yang tetap dikenali. Pakai Go to Page untuk berpindah dari satu adegan ke adegan berikutnya; uji seluruh cerita mulai dari halaman pertama. Kirim tautan video/screenshot atau berkas proyek. Kriteria: minimal tiga halaman, transisi otomatis berfungsi, dan akhir cerita menyelesaikan masalah atau tujuan tokoh.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Membuat Permainan Interaktif Sederhana",
+      "topic_order": 10,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Dari Cerita Menjadi Permainan",
+          "xp": 5,
+          "content": "Permainan interaktif memiliki tujuan dan tindakan dari pemain. Di ScratchJr, kita dapat membuat permainan sederhana memakai ketukan, gerak, dan pertemuan karakter. Mulailah dengan tujuan yang jelas, seperti menyentuh bintang atau menemukan teman."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Tentukan Tujuan Permainan",
+          "xp": 5,
+          "content": "Pemain perlu mengetahui apa yang harus dilakukan untuk berhasil. Pilih satu tujuan yang sederhana, misalnya karakter mencapai objek tertentu. Beri petunjuk singkat agar pemain tidak menebak aturan permainan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Pilih Karakter Pemain dan Target",
+          "xp": 10,
+          "content": "Pilih karakter yang dikendalikan dan objek yang menjadi target. Letakkan target di tempat yang mudah terlihat tetapi tidak langsung tertutup karakter. Pikirkan aksi yang akan membuat pemain merasa berhasil.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Sebuah permainan sederhana sebaiknya memiliki…",
+          "options": [
+            "Banyak aturan acak",
+            "Tidak ada tanda keberhasilan",
+            "Latar tanpa karakter",
+            "Tujuan dan aturan yang jelas"
+          ],
+          "correct_option": "Tujuan dan aturan yang jelas"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Mengendalikan Karakter",
+          "xp": 5,
+          "content": "Start on Tap dapat membuat karakter bergerak ketika disentuh. Alternatifnya, buat aksi tertentu berjalan saat bendera hijau dimulai. Pilih cara kontrol yang paling mudah untuk pemain kecil dan jelaskan pada panggung."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Gunakan Pertemuan untuk Mencapai Target",
+          "xp": 5,
+          "content": "Start on Bump dapat memicu aksi saat pemain bersentuhan dengan target. Misalnya, ketika karakter menyentuh bintang, bintang mengucapkan 'Berhasil!'. Uji agar target benar-benar disentuh dan respons terlihat."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Tambahkan Respons Menang",
+          "xp": 5,
+          "content": "Permainan sebaiknya memberi tanda ketika tujuan tercapai, misalnya dialog 'Kamu berhasil!' atau suara pendek. Respons ini membantu pemain mengetahui bahwa aksinya berhasil. Buat kondisi menang tidak terjadi sebelum waktunya."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Batasi Aturan Agar Jelas",
+          "xp": 5,
+          "content": "Untuk permainan pertama, gunakan satu tujuan dan sedikit aturan. Terlalu banyak aturan membuat pemain bingung. Jelaskan apa yang boleh dilakukan, apa tujuan akhirnya, dan bagaimana pemain mengenali keberhasilan."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Gunakan Pesan untuk Mengatur Aksi",
+          "xp": 10,
+          "content": "Kamu dapat memakai Send Message dan Start on Message untuk memicu aksi lain setelah tujuan tercapai. Contohnya, target mengirim pesan agar karakter kedua muncul. Pastikan warna pesan pada pengirim dan penerima cocok.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Ketika target tersentuh dan harus memicu aksi lain, fitur yang dapat membantu adalah…",
+          "options": [
+            "Start on Bump atau pesan",
+            "Hanya mengganti nama proyek",
+            "Hanya mengubah latar",
+            "Menghapus semua blok"
+          ],
+          "correct_option": "Start on Bump atau pesan"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Uji Permainan Sebagai Pemain",
+          "xp": 5,
+          "content": "Jalankan proyek dan coba tanpa membuka rangkaian blok. Apakah tujuan terlihat? Apakah sentuhan bekerja? Apakah respons kemenangan muncul? Jika tidak, ubah petunjuk atau pemicu dan uji ulang."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Perbaiki Tantangan yang Terlalu Mudah atau Sulit",
+          "xp": 5,
+          "content": "Sesuaikan posisi target dan jumlah gerak agar pemain perlu melakukan sesuatu tetapi tetap dapat berhasil. Hindari tujuan yang tidak mungkin dicapai. Minta teman mencoba dan amati bagian yang membingungkan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Siapkan Versi Final",
+          "xp": 5,
+          "content": "Periksa aturan, kontrol, respons menang, dan alur dari awal. Beri proyek nama yang sesuai dan tunjukkan cara bermain pada penonton. Permainan sederhana yang jelas lebih baik daripada permainan ramai tetapi tidak memiliki tujuan."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek: Temukan Bintang",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat permainan kecil dengan satu karakter pemain dan satu target, misalnya bintang. Tambahkan petunjuk cara bermain, lalu gunakan Start on Tap untuk gerak pemain atau Start on Bump untuk mendeteksi sentuhan target. Saat target tercapai, tampilkan respons menang berupa dialog atau suara. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tujuan jelas, kontrol berfungsi, target memberi respons, dan permainan diuji sebagai pemain."
+        }
+      ],
+      "description": "Level Lancar. Siswa menggabungkan gerak, pemicu sentuhan, Start on Bump, pesan, skor naratif sederhana, dan aturan main yang mudah diuji.",
+      "quiz": [
+        {
+          "options": [
+            "Banyak karakter tanpa tujuan",
+            "Hanya latar",
+            "Tujuan, aturan, dan respons yang jelas",
+            "Tidak ada interaksi"
+          ],
+          "question": "Unsur penting permainan sederhana adalah…",
+          "explanation": "Tujuan dan aturan menjelaskan apa yang dilakukan pemain dan bagaimana ia berhasil.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Bendera hijau ditekan saja",
+            "Nama proyek berubah",
+            "Suara direkam",
+            "Karakter bertemu atau menyentuh karakter lain"
+          ],
+          "question": "Start on Bump berguna saat…",
+          "explanation": "Start on Bump bisa memulai aksi saat karakter bersentuhan dengan karakter lain.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Tujuan permainan sudah tercapai",
+            "Aplikasi harus dihapus",
+            "Latar salah dipilih",
+            "Blok tidak tersambung"
+          ],
+          "question": "Tanda menang membantu pemain mengetahui…",
+          "explanation": "Respons menang memberi umpan balik ketika tujuan berhasil dicapai.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Tambah banyak aturan lagi",
+            "Perjelas petunjuk dan aturan",
+            "Sembunyikan target",
+            "Hapus respons menang"
+          ],
+          "question": "Jika pemain bingung, perbaikan yang baik adalah…",
+          "explanation": "Petunjuk yang jelas membuat permainan mudah dipahami.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Langsung menyimpulkan berhasil",
+            "Menghapus proyek",
+            "Mencoba lagi sebagai pemain",
+            "Mengabaikan pemicu"
+          ],
+          "question": "Setelah mengubah permainan, kita sebaiknya…",
+          "explanation": "Pengujian memastikan kontrol dan kondisi menang benar-benar berjalan.",
+          "answer_index": 2
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Temukan Bintang",
+        "instructions": "Buat permainan kecil dengan satu karakter pemain dan satu target, misalnya bintang. Tambahkan petunjuk cara bermain, lalu gunakan Start on Tap untuk gerak pemain atau Start on Bump untuk mendeteksi sentuhan target. Saat target tercapai, tampilkan respons menang berupa dialog atau suara. Kirim tautan video/screenshot atau berkas proyek. Kriteria: tujuan jelas, kontrol berfungsi, target memberi respons, dan permainan diuji sebagai pemain.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Proyek Akhir: Cerita Petualangan Interaktif",
+      "topic_order": 11,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Pilih Ide dan Pesan Cerita",
+          "xp": 5,
+          "content": "Proyek akhir menggabungkan keterampilan dari topik sebelumnya. Pilih tema yang disukai, seperti membantu teman, menjaga taman, atau menemukan benda hilang. Tentukan pesan atau tujuan cerita dalam satu kalimat."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Rancang Tokoh dan Latar",
+          "xp": 5,
+          "content": "Pilih tokoh utama, tokoh pendukung, dan latar yang sesuai. Batasi jumlah tokoh agar setiap peran mudah dipahami. Rencanakan bagaimana tokoh bergerak atau berbicara pada setiap adegan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "practice",
+          "title": "Buat Papan Cerita",
+          "xp": 10,
+          "content": "Rencanakan urutan adegan: awal memperkenalkan tokoh, tengah berisi masalah atau petualangan, dan akhir menunjukkan penyelesaian. Jika memakai beberapa halaman, ingat bahwa satu proyek ScratchJr dapat memiliki hingga empat halaman. Tuliskan aksi utama di setiap halaman.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Papan cerita paling membantu untuk…",
+          "options": [
+            "Merencanakan urutan adegan sebelum membuat blok",
+            "Mengubah warna semua blok",
+            "Merekam suara otomatis",
+            "Menghapus karakter"
+          ],
+          "correct_option": "Merencanakan urutan adegan sebelum membuat blok"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Bangun Gerakan Utama",
+          "xp": 5,
+          "content": "Gunakan blok gerak dan urutan yang sudah dipelajari untuk menjalankan aksi penting. Pilih jumlah langkah yang masuk akal dan sisakan ruang di panggung. Uji gerakan satu tokoh dahulu sebelum menambah interaksi kompleks."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tambahkan Dialog dan Ekspresi",
+          "xp": 5,
+          "content": "Gunakan Say untuk menyampaikan percakapan atau perasaan. Padukan dialog dengan perubahan tampilan bila membantu cerita. Jaga kalimat pendek supaya mudah dibaca dan beri jeda jika tokoh berbicara bergantian."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Gunakan Suara Secukupnya",
+          "xp": 5,
+          "content": "Tambahkan satu atau dua efek suara atau rekaman untuk mendukung aksi penting. Pastikan suara sesuai dengan peristiwa yang terjadi. Hindari suara yang menutupi dialog atau diputar bersamaan tanpa tujuan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "lesson",
+          "title": "Hubungkan Adegan atau Tokoh",
+          "xp": 5,
+          "content": "Gunakan Go to Page untuk perpindahan adegan, atau pesan berwarna untuk mengoordinasikan tokoh. Pastikan nomor halaman atau warna pesan cocok. Pilih mekanisme sesuai kebutuhan cerita, bukan sekadar karena tersedia."
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "practice",
+          "title": "Tambahkan Momen Interaktif",
+          "xp": 10,
+          "content": "Beri penonton setidaknya satu kesempatan melakukan aksi, misalnya mengetuk karakter atau memicu respons saat tokoh bertemu. Tampilkan petunjuk sederhana agar interaksi mudah ditemukan. Pastikan aksi yang dipicu cocok dengan maksud cerita.\n\nCoba jawab pertanyaan berikut sebelum melanjutkan.",
+          "instructions": "Jika cerita memakai perpindahan ke adegan berikutnya, blok yang cocok adalah…",
+          "options": [
+            "Grow",
+            "Go to Page",
+            "Pop saja",
+            "Reset Size"
+          ],
+          "correct_option": "Go to Page"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Uji dari Awal hingga Akhir",
+          "xp": 5,
+          "content": "Jalankan proyek mulai dari halaman pertama dan tonton tanpa campur tangan pembuat. Perhatikan gerakan, dialog, suara, dan perpindahan adegan. Tandai bagian yang tidak berjalan atau membingungkan untuk diperbaiki."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Perbaiki Berdasarkan Hasil Tes",
+          "xp": 5,
+          "content": "Ubah satu masalah pada satu waktu, lalu jalankan lagi dari awal. Periksa pemicu, urutan blok, jumlah gerak, nomor halaman, dan warna pesan. Minta teman menonton dan memberi saran dengan sopan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "lesson",
+          "title": "Siapkan Presentasi Proyek",
+          "xp": 5,
+          "content": "Beri nama proyek, jalankan versi final, dan jelaskan aturan interaksi kepada penonton. Ceritakan bagian yang paling kamu banggakan dan satu hal yang kamu perbaiki setelah pengujian. Pastikan bukti proyek dapat dibuka atau dilihat guru."
+        },
+        {
+          "node_id": "node-12",
+          "order": 11,
+          "type": "challenge",
+          "title": "Proyek Akhir: Cerita Interaktif 3 Adegan",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam sebuah proyek yang dapat ditinjau guru.",
+          "instructions": "Buat proyek ScratchJr bertema pilihanmu yang memiliki tiga adegan (atau halaman), satu tokoh utama, minimal satu tokoh pendukung, gerakan terurut, dialog, dan satu efek/rekaman suara. Tambahkan satu interaksi, misalnya Start on Tap atau respons saat karakter bertemu. Gunakan Go to Page bila berpindah halaman. Uji dari awal sampai akhir dan perbaiki minimal satu hal setelah tes. Kirim tautan video/screenshot atau tautan berkas proyek. Kriteria: alur awal-tengah-akhir jelas, minimal tiga halaman/adegan, interaksi berfungsi, dan bukti hasil dapat ditinjau guru."
+        }
+      ],
+      "description": "Level Lancar. Siswa merencanakan, membangun, menguji, dan memperbaiki proyek cerita interaktif yang menggabungkan beberapa adegan, karakter, gerakan, dialog, suara, serta pemicu.",
+      "quiz": [
+        {
+          "options": [
+            "Menambah blok secara acak",
+            "Menghapus semua latar",
+            "Membuat semua tokoh berbicara sekaligus",
+            "Menentukan ide dan pesan cerita"
+          ],
+          "question": "Langkah pertama yang baik sebelum membangun proyek akhir adalah…",
+          "explanation": "Ide dan pesan membantu menentukan aksi, tokoh, dan adegan yang diperlukan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Merencanakan alur awal-tengah-akhir",
+            "Mengubah suara menjadi gambar",
+            "Memindahkan karakter otomatis",
+            "Membuat pesan tanpa warna"
+          ],
+          "question": "Papan cerita membantu kita…",
+          "explanation": "Papan cerita merancang alur sebelum program disusun.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar semua blok hilang",
+            "Untuk memastikan gerak, dialog, suara, dan transisi bekerja bersama",
+            "Agar aplikasi ditutup",
+            "Untuk menghapus halaman kedua"
+          ],
+          "question": "Mengapa proyek harus diuji dari awal sampai akhir?",
+          "explanation": "Pengujian menyeluruh memeriksa apakah bagian-bagian proyek terhubung dengan benar.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Ubah semua blok sekaligus",
+            "Hapus proyek",
+            "Ubah satu bagian, lalu uji lagi",
+            "Abaikan hasil tes"
+          ],
+          "question": "Saat menemukan satu masalah dalam program, perbaikan yang baik adalah…",
+          "explanation": "Perubahan bertahap memudahkan kita mengetahui apakah perbaikan berhasil.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Kata sandi akun",
+            "Semua proyek teman",
+            "Hanya warna latar",
+            "Cara bermain/berinteraksi dan tujuan cerita"
+          ],
+          "question": "Presentasi proyek sebaiknya menjelaskan…",
+          "explanation": "Penonton perlu memahami tujuan dan cara berinteraksi dengan karya.",
+          "answer_index": 3
+        }
+      ],
+      "challenge": {
+        "xp": 50,
+        "title": "Proyek Akhir: Cerita Interaktif 3 Adegan",
+        "instructions": "Buat proyek ScratchJr bertema pilihanmu yang memiliki tiga adegan (atau halaman), satu tokoh utama, minimal satu tokoh pendukung, gerakan terurut, dialog, dan satu efek/rekaman suara. Tambahkan satu interaksi, misalnya Start on Tap atau respons saat karakter bertemu. Gunakan Go to Page bila berpindah halaman. Uji dari awal sampai akhir dan perbaiki minimal satu hal setelah tes. Kirim tautan video/screenshot atau tautan berkas proyek. Kriteria: alur awal-tengah-akhir jelas, minimal tiga halaman/adegan, interaksi berfungsi, dan bukti hasil dapat ditinjau guru.",
+        "submission_type": "link"
+      }
+    }
+  ],
+  "description": "Kurikulum pemrograman visual untuk pemula (sekitar usia 5–7 tahun). Materi bergerak dari konsep dasar menuju cerita multiadegan dan permainan interaktif. Level: 1–4 Mudah, 5–8 Sedang, 9–12 Lancar."
+}
