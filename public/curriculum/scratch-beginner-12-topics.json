@@ -1,0 +1,2065 @@
+{
+  "module_title": "Scratch Beginner — 12 Topik",
+  "module_order": 2,
+  "level": "beginner",
+  "gamification_type": "mimo",
+  "topics": [
+    {
+      "topic_title": "Mengenal Scratch dan Area Kerja",
+      "topic_order": 0,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu Scratch?",
+          "xp": 5,
+          "content": "Scratch adalah lingkungan pemrograman visual untuk membuat cerita interaktif, animasi, dan permainan. Program disusun dengan menyambungkan blok, sehingga pemula dapat mempelajari urutan perintah tanpa harus menghafal sintaks teks. Kamu akan mencoba konsep kecil, menjalankannya, lalu memperbaiki hasil berdasarkan pengamatan."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Kenali Panggung",
+          "xp": 5,
+          "content": "Panggung (Stage) adalah area tempat hasil proyek terlihat. Sprite adalah objek yang dapat menjalankan skrip, misalnya kucing, bola, atau karakter buatanmu. Panggung memiliki latar (backdrop), sementara sprite dapat memiliki kostum. Bedakan objek yang menjalankan perintah dari tempat objek itu ditampilkan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Tiga Area Penting di Editor",
+          "xp": 5,
+          "content": "Tab Code berisi kategori dan blok yang bisa disusun; area skrip adalah tempat blok disambungkan. Tab Costumes digunakan untuk mengubah tampilan sprite, sedangkan tab Sounds untuk mengelola suara. Panel sprite menunjukkan objek yang dipilih. Saat memilih sprite berbeda, blok dan kostum yang terlihat dapat ikut berubah."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Membaca Kategori Blok",
+          "xp": 5,
+          "content": "Warna blok membantu mengenali kegunaan kelompoknya. Motion mengatur gerak, Looks mengatur tampilan, Sound mengatur suara, Events memulai skrip, Control mengatur pengulangan dan jeda, Sensing membaca keadaan, Operators menghitung atau membandingkan, dan Variables menyimpan nilai. Mulai dari blok yang diperlukan untuk tujuanmu, bukan menumpuk semua blok."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "code",
+          "title": "Skrip Pertama: Sapa Penonton",
+          "xp": 5,
+          "content": "Sambungkan blok pemicu dengan gerak dan dialog. Jalankan proyek menggunakan bendera hijau lalu amati urutan aksinya.",
+          "code_content": "when green flag clicked\nmove 10 steps\nsay \"Halo, dunia!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Menyambungkan Blok",
+          "xp": 5,
+          "content": "Blok berbentuk seperti potongan puzzle. Tarik blok ke area skrip dan sambungkan di bawah blok pemicu. Saat dijalankan, Scratch mengikuti urutan dari atas ke bawah. Bila satu blok terlepas atau berada di skrip yang salah, aksi mungkin tidak terjadi seperti yang kamu harapkan."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pilih Objek yang Tepat",
+          "xp": 10,
+          "content": "Tambahkan sprite kedua dari pustaka lalu klik sprite itu di daftar sprite. Perhatikan bahwa kamu kini mengedit skrip objek yang dipilih, bukan otomatis objek pertama.",
+          "instructions": "Di Scratch, objek yang mempunyai skrip dan kostum disebut…",
+          "options": [
+            "Sprite",
+            "Panggung",
+            "Kategori",
+            "Tab bantuan"
+          ],
+          "correct_option": "Sprite"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Mulai, Jalankan, dan Hentikan",
+          "xp": 5,
+          "content": "Bendera hijau biasanya menjalankan skrip yang diawali blok When green flag clicked. Tombol stop menghentikan skrip yang sedang berjalan. Jika kamu mengubah blok tetapi belum menjalankannya ulang, panggung masih dapat menampilkan hasil sebelumnya. Biasakan menguji setiap perubahan kecil."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Beri Nama Proyek dan Sprite",
+          "xp": 5,
+          "content": "Gunakan nama proyek yang menjelaskan isi, misalnya 'Kucing Menyapa'. Nama sprite juga sebaiknya jelas seperti 'Pemandu' atau 'Bola', terutama ketika ada beberapa objek. Penamaan yang konsisten akan membantumu memilih objek dan memahami skrip saat proyek semakin besar."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Simpan dan Periksa Hasil",
+          "xp": 5,
+          "content": "Jika masuk ke akun Scratch, gunakan fitur penyimpanan proyek sesuai tampilan yang tersedia. Pastikan judul proyek benar, skrip tersusun di sprite yang dimaksud, dan bendera hijau memulai aksi. Sebelum lanjut, jalankan proyek dari awal dan pastikan hasil yang terlihat cocok dengan tujuan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Kartu Perkenalan Interaktif",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat proyek baru dengan satu latar dan dua sprite. Saat bendera hijau diklik, sprite utama bergerak lalu memperkenalkan diri menggunakan blok say. Sprite kedua memberi balasan ketika diklik. Beri nama proyek dan sprite dengan jelas, uji kedua interaksi, lalu kirim tautan proyek Scratch yang dapat dibuka guru. Kriteria: ada dua sprite, satu skrip bendera hijau, satu skrip klik sprite, dan kedua aksi berjalan."
+        }
+      ],
+      "description": "Level Mudah. Mengenal editor Scratch, panggung, sprite, kategori blok, tab kode, kostum, suara, serta cara membuat dan menyimpan proyek pertama.",
+      "quiz": [
+        {
+          "options": [
+            "Membuat proyek interaktif dengan blok visual",
+            "Menggantikan semua aplikasi kantor",
+            "Hanya menampilkan video",
+            "Mengelola berkas sistem operasi"
+          ],
+          "question": "Apa fungsi utama Scratch?",
+          "explanation": "Scratch membantu pemula membuat animasi, cerita, dan permainan dengan menyusun blok.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Panel Variables",
+            "Panggung (Stage)",
+            "Daftar kategori",
+            "Area unduhan"
+          ],
+          "question": "Area yang menampilkan hasil proyek disebut…",
+          "explanation": "Panggung menampilkan sprite dan backdrop selama proyek berjalan.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Sounds",
+            "Costumes",
+            "Code",
+            "Credits"
+          ],
+          "question": "Tab yang berisi blok pemrograman adalah…",
+          "explanation": "Tab Code memuat kategori blok dan area untuk menyusun skrip.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Tombol untuk menutup browser",
+            "Latar gambar saja",
+            "Nama bahasa pemrograman teks",
+            "Objek yang dapat menjalankan skrip dan memiliki tampilan"
+          ],
+          "question": "Apa yang dimaksud sprite?",
+          "explanation": "Sprite dapat diprogram untuk bergerak, berbicara, merespons input, dan banyak lagi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Agar program menjalankan aksi sesuai alur yang dirancang",
+            "Agar warna panggung selalu berubah",
+            "Agar sprite otomatis dihapus",
+            "Agar nama proyek diganti"
+          ],
+          "question": "Mengapa blok harus disambungkan berurutan?",
+          "explanation": "Urutan blok menentukan urutan aksi yang dilakukan oleh skrip.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Kartu Perkenalan Interaktif",
+        "instructions": "Buat proyek baru dengan satu latar dan dua sprite. Saat bendera hijau diklik, sprite utama bergerak lalu memperkenalkan diri menggunakan blok say. Sprite kedua memberi balasan ketika diklik. Beri nama proyek dan sprite dengan jelas, uji kedua interaksi, lalu kirim tautan proyek Scratch yang dapat dibuka guru. Kriteria: ada dua sprite, satu skrip bendera hijau, satu skrip klik sprite, dan kedua aksi berjalan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Gerak Sprite dan Koordinat Panggung",
+      "topic_order": 1,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Gerak sebagai Instruksi",
+          "xp": 5,
+          "content": "Blok Motion mengubah posisi atau arah sprite. Move 10 steps menggerakkan sprite sejumlah langkah sesuai arah hadapnya. Turn memutar sprite, sedangkan Go to dan Glide mengatur tujuan atau perpindahan ke posisi tertentu. Pilih blok berdasarkan gerakan yang ingin terlihat, lalu uji dengan nilai kecil terlebih dahulu."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Arah Sprite",
+          "xp": 5,
+          "content": "Pada Scratch, arah 90 umumnya menunjuk ke kanan, 0 ke atas, -90 ke kiri, dan 180 ke bawah. Nilai arah memengaruhi arah blok Move. Jika karakter bergerak menjauhi tujuan, periksa arah hadap sebelum menambah jumlah langkah."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Mengenal Koordinat x dan y",
+          "xp": 5,
+          "content": "Panggung memakai bidang koordinat. Nilai x mengatur posisi kiri-kanan: angka yang lebih besar bergerak ke kanan. Nilai y mengatur posisi bawah-atas: angka yang lebih besar bergerak ke atas. Titik tengah panggung biasanya x=0 dan y=0. Perhatikan nilai posisi pada panel sprite saat menguji."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Tempatkan Sprite di Tengah",
+          "xp": 5,
+          "content": "Blok Go to x/y menempatkan sprite pada koordinat yang ditentukan. Pemicu bendera hijau membuat posisi awal konsisten setiap kali proyek dijalankan.",
+          "code_content": "when green flag clicked\ngo to x: 0 y: 0\npoint in direction 90\nmove 40 steps",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Go to atau Glide?",
+          "xp": 5,
+          "content": "Go to memindahkan sprite langsung ke posisi target, sedangkan Glide memindahkannya dengan gerakan selama durasi tertentu. Gunakan Go to untuk posisi awal atau perpindahan instan. Gunakan Glide saat penonton perlu melihat perjalanan sprite menuju target."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Mengatur Kecepatan Gerak",
+          "xp": 5,
+          "content": "Pada Glide, durasi yang lebih lama membuat perjalanan lebih lambat jika jarak tetap sama. Gerakan Move biasanya terjadi langsung dalam satu langkah skrip. Kamu bisa menggabungkan gerak dengan Wait untuk memberi jeda di antara aksi, sehingga penonton dapat mengikuti urutannya."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Membaca Koordinat",
+          "xp": 10,
+          "content": "Pindahkan sprite ke x: 100 dan y: 50. Lalu bandingkan posisinya dengan x: -100 dan y: 50. Perhatikan bahwa perubahan x menggeser sprite secara mendatar.",
+          "instructions": "Jika nilai x berubah dari 0 menjadi 100, sprite bergerak ke arah…",
+          "options": [
+            "Kiri",
+            "Kanan",
+            "Bawah",
+            "Tidak pernah bergerak"
+          ],
+          "correct_option": "Kanan"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Gerak ke Titik Tujuan",
+          "xp": 5,
+          "content": "Uji satu tujuan pada satu waktu. Ganti koordinat menjadi titik berbeda untuk melihat bagaimana x dan y memengaruhi perjalanan.",
+          "code_content": "when green flag clicked\ngo to x: -150 y: 0\nglide 1 secs to x: 120 y: 70\nsay \"Sampai!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Jangan Sampai Sprite Hilang",
+          "xp": 5,
+          "content": "Nilai koordinat yang terlalu jauh dapat menempatkan sprite di luar area panggung. Ketika sprite seakan hilang, klik atau pilih objeknya lalu periksa koordinat. Gunakan blok Go to untuk mengembalikannya ke area terlihat, dan pertimbangkan blok If on edge, bounce jika sprite perlu memantul."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "practice",
+          "title": "Latihan: Memilih Blok",
+          "xp": 10,
+          "content": "Buat satu skrip yang memindahkan karakter ke titik awal lalu meluncurkannya perlahan ke titik tujuan. Jalankan berulang kali dan ubah durasi untuk membandingkan hasil.",
+          "instructions": "Blok yang memindahkan sprite perlahan selama durasi tertentu adalah…",
+          "options": [
+            "Hide",
+            "Change color effect",
+            "Glide",
+            "Play sound until done"
+          ],
+          "correct_option": "Glide"
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Jelajahi Empat Titik",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat sprite bergerak dari titik awal ke tiga titik tujuan di panggung. Gunakan setidaknya satu blok Go to dan satu Glide, lalu tambahkan dialog ketika tujuan akhir tercapai. Pastikan sprite tetap terlihat. Kirim tautan proyek dan jelaskan koordinat mana yang mengubah posisi mendatar serta vertikal."
+        }
+      ],
+      "description": "Level Mudah. Menggunakan blok Motion, arah, langkah, posisi x/y, glide, dan batas panggung untuk merencanakan gerakan sprite.",
+      "quiz": [
+        {
+          "options": [
+            "Posisi kiri-kanan",
+            "Ukuran sprite",
+            "Volume suara",
+            "Nama kostum"
+          ],
+          "question": "Pada koordinat Scratch, sumbu x terutama mengatur…",
+          "explanation": "Koordinat x mengatur posisi mendatar sprite di panggung.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Kiri",
+            "Atas",
+            "Kanan",
+            "Tab suara"
+          ],
+          "question": "Nilai y yang lebih besar biasanya memindahkan sprite ke…",
+          "explanation": "Di panggung Scratch, peningkatan y membuat sprite bergerak ke atas.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Go to hanya mengubah suara",
+            "Glide menghapus backdrop",
+            "Go to selalu memainkan musik",
+            "Go to berpindah langsung, Glide menampilkan perpindahan selama durasi"
+          ],
+          "question": "Apa perbedaan utama Go to dan Glide?",
+          "explanation": "Go to berpindah instan; Glide menganimasikan perjalanan ke koordinat tujuan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Nama tab browser",
+            "Warna kategori saja",
+            "Arah hadap dan jumlah langkah",
+            "Judul tutorial"
+          ],
+          "question": "Jika sprite bergerak ke arah yang keliru, apa yang perlu diperiksa?",
+          "explanation": "Arah hadap memengaruhi arah gerak Move.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Agar setiap percobaan dimulai dari posisi yang konsisten",
+            "Agar sprite tidak bisa bergerak",
+            "Agar semua kostum dihapus",
+            "Agar kuis otomatis dibuka"
+          ],
+          "question": "Apa tujuan menetapkan posisi awal saat bendera hijau diklik?",
+          "explanation": "Posisi awal yang konsisten membuat proyek dapat diuji secara berulang dan adil.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Jelajahi Empat Titik",
+        "instructions": "Buat sprite bergerak dari titik awal ke tiga titik tujuan di panggung. Gunakan setidaknya satu blok Go to dan satu Glide, lalu tambahkan dialog ketika tujuan akhir tercapai. Pastikan sprite tetap terlihat. Kirim tautan proyek dan jelaskan koordinat mana yang mengubah posisi mendatar serta vertikal.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Event dan Urutan Skrip",
+      "topic_order": 2,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Program Dimulai oleh Event",
+          "xp": 5,
+          "content": "Event adalah kejadian yang memicu rangkaian blok. Dalam Scratch, When green flag clicked dapat memulai adegan, When this sprite clicked merespons klik pada sprite, dan When key pressed merespons tombol keyboard. Pilih pemicu yang cocok dengan cara pengguna berinteraksi dengan proyek."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Susun Urutan Aksi",
+          "xp": 5,
+          "content": "Setiap skrip yang terhubung berjalan dari blok atas ke bawah. Jika sprite perlu berpindah sebelum berbicara, letakkan blok gerak lebih dulu. Jika dialog perlu muncul sebelum gerak, tukar urutannya. Mengubah urutan blok dapat mengubah makna adegan walaupun semua bloknya benar."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "code",
+          "title": "Tombol untuk Memulai Cerita",
+          "xp": 5,
+          "content": "Gabungkan satu event dengan beberapa aksi supaya semua aksi dimulai dari pemicu yang sama.",
+          "code_content": "when green flag clicked\nsay \"Ayo mulai!\" for 2 seconds\nmove 30 steps\nplay sound \"pop\" until done",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "lesson",
+          "title": "Klik Sprite sebagai Pemicu",
+          "xp": 5,
+          "content": "Skrip When this sprite clicked berjalan saat sprite itu diklik. Gunakan untuk tombol mulai, karakter yang menyapa, atau objek yang menampilkan petunjuk. Pastikan pengguna tahu objek mana yang bisa diklik, misalnya dengan dialog singkat atau perubahan tampilan."
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Gunakan Tombol Keyboard",
+          "xp": 5,
+          "content": "Event When key pressed dapat menangani tombol panah, spasi, atau huruf. Dengan satu skrip untuk setiap arah, sebuah karakter bisa bergerak mengikuti input. Hindari memberi banyak skrip berbeda yang sama-sama mengubah posisi saat tombol yang sama ditekan, kecuali memang ingin menggabungkan efeknya."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Beberapa Skrip Bisa Berjalan Bersamaan",
+          "xp": 5,
+          "content": "Satu sprite dapat memiliki beberapa skrip dengan event yang berbeda. Misalnya satu skrip merespons bendera hijau dan skrip lain merespons klik. Keduanya memiliki titik awal masing-masing. Saat hasil tidak terduga, periksa semua skrip pada sprite yang sama, bukan hanya skrip yang terakhir diedit."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pilih Pemicu",
+          "xp": 10,
+          "content": "Rencanakan sebuah kartu ucapan yang bergerak hanya ketika pengguna menekan tombol spasi. Coba pilih event keyboard dan gabungkan satu aksi say.",
+          "instructions": "Event yang cocok untuk memulai aksi saat spasi ditekan adalah…",
+          "options": [
+            "When green flag clicked saja",
+            "When key space pressed",
+            "When backdrop switches",
+            "When loudness > 10"
+          ],
+          "correct_option": "When key space pressed"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Pola Input Keyboard",
+          "xp": 5,
+          "content": "Setiap event dapat menjadi pintu masuk ke urutan bloknya. Pilih arah tombol dengan konsisten lalu uji satu per satu.",
+          "code_content": "when [right arrow] key pressed\nchange x by 10\n\nwhen [left arrow] key pressed\nchange x by -10",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Menghentikan Semua Skrip",
+          "xp": 5,
+          "content": "Tombol stop menghentikan skrip yang berjalan. Dalam proyek yang punya banyak sprite dan loop, pastikan tidak ada gerakan yang terus berjalan setelah adegan selesai. Untuk memulai ulang dengan rapi, atur nilai dan posisi awal pada event bendera hijau."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Urutan Secara Sistematis",
+          "xp": 5,
+          "content": "Jalankan satu event lalu amati semua aksi hingga akhir. Jika dialog muncul terlalu cepat atau sprite berpindah lebih dulu daripada yang direncanakan, tandai urutan blok yang perlu dipindah. Uji juga kasus ketika pengguna mengklik objek berulang kali atau menekan tombol lebih dari sekali."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Kartu Ucapan dengan Dua Cara",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat satu sprite utama dan satu sprite pendukung. Bendera hijau memulai sapaan; klik sprite utama membuatnya menampilkan kalimat kedua; tombol spasi membuat sprite pendukung bergerak. Gunakan setidaknya tiga event dan urutan blok yang mudah dipahami. Uji semua pemicu secara terpisah, lalu kirim tautan proyek."
+        }
+      ],
+      "description": "Level Mudah. Memulai skrip lewat bendera hijau, klik sprite, tombol keyboard, serta memahami urutan perintah dan skrip paralel.",
+      "quiz": [
+        {
+          "options": [
+            "Memicu rangkaian blok saat kejadian tertentu terjadi",
+            "Mengubah bahasa antarmuka saja",
+            "Menghapus kode yang tidak dipakai",
+            "Membuat backdrop baru otomatis"
+          ],
+          "question": "Apa fungsi event dalam skrip?",
+          "explanation": "Event menjadi pemicu eksekusi skrip, misalnya bendera hijau atau klik sprite.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Change x by 10",
+            "Hide",
+            "When green flag clicked",
+            "Delete this clone"
+          ],
+          "question": "Blok yang sesuai untuk mulai menjalankan proyek dari awal adalah…",
+          "explanation": "Bendera hijau adalah pemicu umum untuk memulai proyek Scratch.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Hanya agar blok punya warna berbeda",
+            "Karena urutan menentukan urutan aksi program",
+            "Agar sprite otomatis bertambah",
+            "Karena setiap proyek hanya boleh satu blok"
+          ],
+          "question": "Mengapa urutan blok penting?",
+          "explanation": "Skrip dijalankan berurutan dari pemicu ke blok berikutnya.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "When backdrop switches",
+            "When I receive message",
+            "When green flag clicked saja",
+            "When key pressed"
+          ],
+          "question": "Jika aksi harus berjalan saat tombol panah ditekan, gunakan…",
+          "explanation": "Event keyboard membuat proyek merespons tombol yang dipilih.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Beberapa skrip dengan pemicu berbeda",
+            "Hanya satu event untuk selamanya",
+            "Tidak boleh memiliki kostum",
+            "Skrip yang tidak tersambung saja"
+          ],
+          "question": "Satu sprite boleh memiliki…",
+          "explanation": "Beberapa skrip dapat menangani event yang berbeda pada sprite yang sama.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Kartu Ucapan dengan Dua Cara",
+        "instructions": "Buat satu sprite utama dan satu sprite pendukung. Bendera hijau memulai sapaan; klik sprite utama membuatnya menampilkan kalimat kedua; tombol spasi membuat sprite pendukung bergerak. Gunakan setidaknya tiga event dan urutan blok yang mudah dipahami. Uji semua pemicu secara terpisah, lalu kirim tautan proyek.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Tampilan, Kostum, dan Latar",
+      "topic_order": 3,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Tampilan Menyampaikan Makna",
+          "xp": 5,
+          "content": "Kategori Looks mengubah apa yang terlihat tanpa harus mengubah aturan program. Kamu dapat membuat sprite berbicara, berpikir, berganti kostum, berubah ukuran, muncul, atau bersembunyi. Gunakan perubahan tampilan untuk memperjelas keadaan: sedang berbicara, terkejut, selesai, atau menunggu."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Say dan Think",
+          "xp": 5,
+          "content": "Say menampilkan dialog seperti balon ucapan, sementara Think menampilkan balon pikiran. Versi dengan durasi membuat balon menghilang setelah waktu tertentu; versi tanpa durasi akan tetap tampil sampai diganti. Pilih yang sesuai dengan apakah informasi perlu dibaca sebentar atau tetap terlihat."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Kostum untuk Menghidupkan Sprite",
+          "xp": 5,
+          "content": "Satu sprite bisa memiliki beberapa kostum. Switch costume to memilih kostum tertentu, sementara next costume berpindah ke kostum berikutnya. Mengganti kostum dapat membuat efek berjalan atau ekspresi berubah. Agar hasil konsisten, pastikan proyek dimulai pada kostum yang tepat sebelum animasi berjalan."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Ucapan dan Perubahan Kostum",
+          "xp": 5,
+          "content": "Pemicu yang sama dapat menampilkan dialog lalu mengubah kostum. Pastikan nama kostum yang dipilih tersedia pada sprite tersebut.",
+          "code_content": "when green flag clicked\nswitch costume to [happy]\nsay \"Selamat datang!\" for 2 seconds\nnext costume",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Mengubah Latar Panggung",
+          "xp": 5,
+          "content": "Backdrop adalah latar panggung. Kamu dapat menggantinya untuk menandai pergantian tempat atau babak. Blok Switch backdrop to mengubah latar secara langsung, dan event When backdrop switches dapat memulai skrip ketika latar tertentu aktif. Nama backdrop yang dipakai harus sesuai dengan yang tersedia."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Show, Hide, dan Ukuran",
+          "xp": 5,
+          "content": "Show membuat sprite terlihat, Hide menyembunyikannya. Set size to menetapkan ukuran tertentu, sedangkan change size by menambah atau mengurangi ukuran relatif terhadap kondisi saat ini. Jika proyek dimulai ulang, tetapkan kembali status tampil dan ukuran agar hasil tidak bergantung pada percobaan sebelumnya."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Memilih Pergantian Tampilan",
+          "xp": 10,
+          "content": "Siapkan sprite dengan dua kostum yang berbeda, misalnya tenang dan terkejut. Buat skrip yang mengganti kostum setelah satu dialog selesai.",
+          "instructions": "Blok untuk berpindah ke kostum berikutnya adalah…",
+          "options": [
+            "Next costume",
+            "Move 10 steps",
+            "Set volume to 100%",
+            "Change x by 10"
+          ],
+          "correct_option": "Next costume"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Dua Adegan Cerita",
+          "xp": 5,
+          "content": "Gunakan pergantian backdrop dan event backdrop untuk mengawali skrip adegan berikutnya.",
+          "code_content": "when green flag clicked\nswitch backdrop to [Taman]\nsay \"Kita di taman.\" for 2 seconds\nswitch backdrop to [Kota]\n\nwhen backdrop switches to [Kota]\nsay \"Sekarang kita di kota!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Efek Tampilan Secukupnya",
+          "xp": 5,
+          "content": "Efek warna, ghost, atau ukuran dapat memberi tanda visual. Gunakan efek dengan tujuan jelas, bukan hanya karena tersedia. Jika efek terus bertambah, gunakan blok clear graphic effects di awal agar hasil uji berikutnya kembali ke tampilan normal."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Rancang Cerita yang Mudah Diikuti",
+          "xp": 5,
+          "content": "Tentukan latar mana yang menunjukkan lokasi awal dan kapan pergantian adegan harus terjadi. Gunakan dialog singkat, kostum yang relevan, dan tampilan yang konsisten. Jalankan dari bendera hijau dan pastikan backdrop serta kostum awal direset agar cerita tidak langsung dimulai dari keadaan akhir."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Cerita dengan Dua Latar",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat cerita pendek yang berpindah antara dua backdrop. Gunakan dialog pada kedua adegan, setidaknya dua kostum untuk satu sprite, dan satu perubahan ukuran atau efek. Pastikan latar dan kostum awal diatur saat bendera hijau diklik. Kirim tautan proyek dan jelaskan blok mana yang memicu perpindahan adegan."
+        }
+      ],
+      "description": "Level Mudah. Mengatur dialog, kostum, backdrop, efek Looks, serta pergantian adegan untuk membuat animasi lebih komunikatif.",
+      "quiz": [
+        {
+          "options": [
+            "Mengubah tampilan sprite dan panggung",
+            "Mengatur kata sandi",
+            "Mengirim email",
+            "Mengelola akun"
+          ],
+          "question": "Kategori Looks terutama digunakan untuk…",
+          "explanation": "Looks mengatur dialog, kostum, ukuran, visibilitas, dan efek tampilan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Think mengubah koordinat",
+            "Say hanya untuk panggung",
+            "Keduanya selalu memindahkan sprite",
+            "Say menampilkan ucapan, Think menampilkan pikiran"
+          ],
+          "question": "Apa perbedaan umum Say dan Think?",
+          "explanation": "Kedua blok menampilkan balon teks dengan gaya yang berbeda.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Nama variabel skor",
+            "Latar pada panggung",
+            "Jenis event keyboard",
+            "Area untuk menyimpan skrip"
+          ],
+          "question": "Backdrop adalah…",
+          "explanation": "Backdrop merupakan latar panggung dan dapat diganti untuk pergantian adegan.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Show",
+            "Next costume",
+            "Hide",
+            "Glide"
+          ],
+          "question": "Blok yang membuat sprite tidak terlihat adalah…",
+          "explanation": "Hide menyembunyikan sprite dari panggung.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Agar proyek selalu mulai dari keadaan yang direncanakan",
+            "Agar semua sprite terhapus",
+            "Agar kuis tidak memiliki jawaban",
+            "Agar gerakan tidak bisa diuji"
+          ],
+          "question": "Mengapa perlu mereset kostum atau efek saat proyek dimulai?",
+          "explanation": "Reset membantu memastikan proyek dapat dijalankan berulang kali dengan kondisi awal yang konsisten.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Cerita dengan Dua Latar",
+        "instructions": "Buat cerita pendek yang berpindah antara dua backdrop. Gunakan dialog pada kedua adegan, setidaknya dua kostum untuk satu sprite, dan satu perubahan ukuran atau efek. Pastikan latar dan kostum awal diatur saat bendera hijau diklik. Kirim tautan proyek dan jelaskan blok mana yang memicu perpindahan adegan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Suara, Jeda, dan Pengulangan",
+      "topic_order": 4,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Suara Mendukung Aksi",
+          "xp": 5,
+          "content": "Kategori Sound dapat memutar efek suara atau musik. Play sound until done menunggu suara selesai sebelum blok berikutnya berjalan. Start sound memulai suara lalu skrip dapat langsung melanjutkan. Pilih perintah yang sesuai dengan kebutuhan sinkronisasi dialog, gerak, dan efek audio."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Mengatur Volume",
+          "xp": 5,
+          "content": "Set volume menetapkan volume relatif, sedangkan change volume mengubahnya dari keadaan sekarang. Jika proyek menggunakan suara keras pada satu percobaan, atur volume kembali saat bendera hijau diklik. Pastikan suara membantu memahami aksi, tidak menutupi dialog penting, dan tidak terus diputar setelah adegan berakhir."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Jeda Mengatur Waktu",
+          "xp": 5,
+          "content": "Wait memberi jeda sebelum blok berikutnya berjalan. Jeda berguna agar penonton sempat membaca dialog atau melihat gerak. Terlalu banyak jeda membuat proyek terasa lambat; terlalu sedikit membuat aksi sulit diikuti. Uji waktu sambil menonton hasilnya dari awal sampai akhir."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Dialog dengan Efek Suara",
+          "xp": 5,
+          "content": "Suara yang harus selesai sebelum dialog dapat diputar dengan until done. Jika suara hanya latar, gunakan start sound dan lanjutkan aksi lainnya.",
+          "code_content": "when green flag clicked\nset volume to 70%\nplay sound [pop] until done\nsay \"Ayo mulai!\" for 2 seconds\nwait 1 seconds\nplay sound [cheer]",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Mengapa Mengulang Blok?",
+          "xp": 5,
+          "content": "Repeat menjalankan blok di dalamnya sejumlah kali yang ditetapkan. Ini lebih ringkas daripada menyalin perintah yang sama berulang kali. Gunakan untuk langkah tarian, kedipan, atau gerakan sederhana. Periksa apakah blok yang ingin diulang benar-benar berada di dalam bentuk Repeat."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Repeat Forever dan Risiko Loop",
+          "xp": 5,
+          "content": "Forever terus menjalankan blok di dalamnya selama skrip aktif. Gunakan untuk gerak atau musik latar yang perlu berulang. Karena tidak berhenti sendiri, tambahkan kondisi berhenti atau pastikan proyek punya cara menghentikan skrip. Jangan meletakkan aksi satu kali di dalam Forever jika aksi itu tidak dimaksudkan terjadi terus."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pilih Pengulangan",
+          "xp": 10,
+          "content": "Coba buat sprite berganti dua kostum beberapa kali. Ubah nilai Repeat dan amati perbedaannya; pastikan loop dapat selesai tanpa harus menghentikan seluruh proyek.",
+          "instructions": "Blok mana yang mengulang isi sejumlah kali lalu selesai?",
+          "options": [
+            "Wait",
+            "Repeat",
+            "Forever",
+            "Stop all"
+          ],
+          "correct_option": "Repeat"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Animasi Langkah Berulang",
+          "xp": 5,
+          "content": "Letakkan langkah gerak dan pergantian kostum di dalam Repeat agar keduanya diulang sebagai satu rangkaian.",
+          "code_content": "when green flag clicked\nrepeat 4\n  move 10 steps\n  next costume\n  wait 0.2 seconds\nend\nsay \"Selesai!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Sinkronkan Gerak dan Suara",
+          "xp": 5,
+          "content": "Jika suara dan animasi harus dimulai hampir bersamaan, atur blok pada skrip yang tepat. Untuk suara yang harus selesai sebelum gerakan selanjutnya, gunakan until done. Untuk suara latar, jalankan tanpa menunggu tetapi sediakan cara menghentikannya saat proyek selesai."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Debug Ritme dan Pengulangan",
+          "xp": 5,
+          "content": "Hitung berapa kali aksi seharusnya terjadi, lalu bandingkan dengan hasil. Jika aksi tidak berhenti, periksa Forever dan kondisi keluarnya. Jika suara bertumpuk, periksa Start sound yang dipanggil berulang. Ubah satu hal setiap kali lalu jalankan kembali untuk mengetahui penyebab perubahan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Animasi dengan Irama",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat animasi minimal empat langkah yang menggunakan Repeat, pergantian kostum, Wait, dan sedikitnya satu suara. Pilih apakah suara perlu selesai sebelum aksi selanjutnya atau boleh menjadi latar. Uji agar jumlah pengulangan tepat dan suara tidak menumpuk. Kirim tautan proyek beserta penjelasan singkat tentang pilihan timing-mu."
+        }
+      ],
+      "description": "Level Sedang. Memakai blok Sound, Wait, Repeat, dan Forever untuk mengatur ritme dan animasi yang berlangsung dengan tepat.",
+      "quiz": [
+        {
+          "options": [
+            "Skrip perlu menunggu sampai suara selesai",
+            "Sprite harus dihapus",
+            "Panggung harus berpindah koordinat",
+            "Variabel harus bernama score"
+          ],
+          "question": "Blok Play sound until done berguna ketika…",
+          "explanation": "Blok until done menahan skrip sampai pemutaran suara selesai.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Mengganti semua kostum",
+            "Memulai event keyboard",
+            "Memberi jeda waktu sebelum blok berikutnya",
+            "Membuat variabel baru"
+          ],
+          "question": "Apa fungsi Wait?",
+          "explanation": "Wait membuat skrip berhenti sementara selama durasi yang ditentukan.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Aksi harus berlangsung tanpa batas",
+            "Aksi diulang beberapa kali lalu selesai",
+            "Sprite harus langsung disembunyikan",
+            "Proyek harus disimpan"
+          ],
+          "question": "Repeat biasanya dipilih ketika…",
+          "explanation": "Repeat mengulangi isi blok sebanyak jumlah tertentu.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Loop selalu menghapus suara",
+            "Tidak mungkin ada blok lain",
+            "Panggung otomatis menjadi kosong",
+            "Aksi akan terus berulang hingga skrip dihentikan"
+          ],
+          "question": "Apa hal yang perlu diwaspadai saat menggunakan Forever?",
+          "explanation": "Forever tidak selesai sendiri, jadi rancang mekanisme berhenti yang sesuai.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Jumlah pemanggilan suara dan loop yang menjalankannya",
+            "Warna backdrop",
+            "Nama file proyek saja",
+            "Ketinggian panel sprite"
+          ],
+          "question": "Jika suara bertumpuk karena dipicu terus-menerus, apa yang perlu diperiksa?",
+          "explanation": "Suara yang dimulai berulang dalam loop bisa saling bertumpuk atau terdengar tidak jelas.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Animasi dengan Irama",
+        "instructions": "Buat animasi minimal empat langkah yang menggunakan Repeat, pergantian kostum, Wait, dan sedikitnya satu suara. Pilih apakah suara perlu selesai sebelum aksi selanjutnya atau boleh menjadi latar. Uji agar jumlah pengulangan tepat dan suara tidak menumpuk. Kirim tautan proyek beserta penjelasan singkat tentang pilihan timing-mu.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Sensing dan Kondisi if/else",
+      "topic_order": 5,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Program yang Merespons",
+          "xp": 5,
+          "content": "Proyek interaktif tidak hanya menjalankan urutan yang sama setiap kali. Kategori Sensing dapat memeriksa hal seperti sprite menyentuh objek, tombol ditekan, atau posisi terhadap tepi. Hasil pemeriksaan dapat digunakan untuk menentukan aksi berikutnya, misalnya memberi umpan balik ketika pemain menyentuh sasaran."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Kondisi Benar atau Salah",
+          "xp": 5,
+          "content": "Blok kondisi menghasilkan nilai benar atau salah. Contohnya, 'touching [sprite lain]?' benar saat kedua sprite bersentuhan. Operator perbandingan seperti skor > 10 juga menghasilkan benar atau salah. Gunakan kondisi di dalam if agar program mengambil keputusan berdasarkan keadaan saat itu."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "If: Jalankan Jika Terpenuhi",
+          "xp": 5,
+          "content": "If menjalankan blok di dalamnya hanya ketika kondisi benar. Bila kondisi salah, program melewati bagian itu dan meneruskan skrip. Ini berguna untuk memberi poin saat sprite menyentuh target, atau menampilkan pesan hanya ketika tombol tertentu ditekan."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Sentuhan Memicu Respons",
+          "xp": 5,
+          "content": "Loop memeriksa kondisi berkali-kali sehingga respons dapat terjadi ketika sprite mendekati target. Pastikan ada cara untuk mencegah pemberian poin berulang jika itu tidak diinginkan.",
+          "code_content": "when green flag clicked\nforever\n  if <touching [Target]?> then\n    say \"Ketemu!\" for 1 seconds\n  end\nend",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "If/Else: Dua Pilihan",
+          "xp": 5,
+          "content": "If/else memilih antara dua jalur: satu ketika kondisi benar, satu lagi ketika salah. Misalnya, jika jawaban benar tampilkan 'Bagus'; jika salah tampilkan petunjuk. Pastikan kedua cabang punya aksi yang jelas supaya pengguna memahami hasil pilihannya."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Tombol dan Batas Panggung",
+          "xp": 5,
+          "content": "Sensing juga bisa mendeteksi tombol yang ditekan atau apakah sprite menyentuh tepi. Gabungkan pemeriksaan ini dengan if atau if/else. Untuk menguji kontrol keyboard, tekan satu tombol dan pastikan respons sesuai; kemudian coba tombol lain atau kondisi tanpa input."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Memilih Kondisi",
+          "xp": 10,
+          "content": "Buat sprite hanya menampilkan pesan ketika ia menyentuh sprite bernama Target. Uji saat kedua sprite berjauhan dan saat keduanya bersentuhan.",
+          "instructions": "Blok Sensing yang memeriksa kontak dengan sprite lain adalah…",
+          "options": [
+            "touching [Target]?",
+            "next costume",
+            "change x by 10",
+            "set volume to 50%"
+          ],
+          "correct_option": "touching [Target]?"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Keputusan Benar atau Salah",
+          "xp": 5,
+          "content": "If/else memudahkan pembuatan dua respons yang berbeda untuk kondisi yang sama.",
+          "code_content": "if <(answer) = [Scratch]> then\n  say \"Benar!\" for 2 seconds\nelse\n  say \"Coba lagi.\" for 2 seconds\nend",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Hindari Respons Berulang",
+          "xp": 5,
+          "content": "Bila kondisi diperiksa dalam Forever, respons dapat terjadi berkali-kali selama kondisi tetap benar. Salah satu cara mencegahnya adalah menunggu sampai sentuhan berhenti, mengubah posisi target, atau memakai variabel penanda seperti sudahDihitung. Pilih solusi sesuai tujuan permainan."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Kedua Cabang",
+          "xp": 5,
+          "content": "Jangan hanya menguji kondisi benar. Coba juga kondisi salah, tidak ada sentuhan, dan input yang berbeda. Program lebih mudah dipercaya jika setiap cabang sudah diuji. Jika respons salah, periksa operator perbandingan, objek yang disebut, dan apakah kondisi dibaca di tempat yang tepat."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Target yang Memberi Respons",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat karakter dan target. Saat karakter menyentuh target, tampilkan pesan. Tambahkan kondisi lain, misalnya jika karakter menyentuh tepi maka ia kembali ke posisi aman. Pastikan pesan atau hadiah tidak muncul berulang tanpa sengaja. Uji saat menyentuh target, tidak menyentuh target, dan menyentuh tepi; lalu kirim tautan proyek."
+        }
+      ],
+      "description": "Level Sedang. Membuat program merespons sentuhan, tombol, dan kondisi dengan blok Sensing serta Control if/else.",
+      "quiz": [
+        {
+          "options": [
+            "Nilai benar atau salah",
+            "Sebuah gambar baru",
+            "Nama akun",
+            "File suara"
+          ],
+          "question": "Apa yang dihasilkan oleh kondisi seperti touching [Target]?",
+          "explanation": "Blok kondisi Sensing memberi tahu apakah keadaan yang diperiksa sedang terjadi.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Semua sprite dihapus",
+            "Backdrop diganti selalu",
+            "Kondisinya benar",
+            "Proyek belum diberi nama"
+          ],
+          "question": "Blok If menjalankan isi bloknya ketika…",
+          "explanation": "If menjalankan cabang di dalamnya hanya jika kondisi bernilai benar.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Saat tidak ada keputusan sama sekali",
+            "Ketika ingin memberi dua respons berbeda sesuai kondisi",
+            "Hanya untuk mengganti nama kostum",
+            "Hanya untuk mengunduh proyek"
+          ],
+          "question": "Kapan If/else berguna?",
+          "explanation": "If/else menjalankan jalur benar atau jalur salah sesuai hasil kondisi.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Karena warna blok berubah",
+            "Karena Forever menghapus semua nilai",
+            "Karena Sensing hanya bekerja sekali",
+            "Karena kondisi diperiksa terus selama loop berjalan"
+          ],
+          "question": "Mengapa kondisi di dalam Forever dapat mengulang respons?",
+          "explanation": "Jika kondisi tetap benar, isi If di dalam Forever dapat berjalan berkali-kali.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Menguji kondisi benar dan salah",
+            "Hanya menekan bendera hijau sekali tanpa pengamatan",
+            "Menghapus cabang else",
+            "Mengubah judul saja"
+          ],
+          "question": "Apa cara yang baik menguji blok kondisi?",
+          "explanation": "Kedua hasil harus diuji untuk memastikan program merespons sesuai rancangan.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Target yang Memberi Respons",
+        "instructions": "Buat karakter dan target. Saat karakter menyentuh target, tampilkan pesan. Tambahkan kondisi lain, misalnya jika karakter menyentuh tepi maka ia kembali ke posisi aman. Pastikan pesan atau hadiah tidak muncul berulang tanpa sengaja. Uji saat menyentuh target, tidak menyentuh target, dan menyentuh tepi; lalu kirim tautan proyek.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Variabel, Skor, dan Status Permainan",
+      "topic_order": 6,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu Variabel?",
+          "xp": 5,
+          "content": "Variabel adalah tempat menyimpan satu nilai yang dapat berubah selama proyek berjalan. Contohnya score untuk jumlah poin, lives untuk sisa kesempatan, atau waktu untuk durasi. Nama variabel sebaiknya menjelaskan arti data yang disimpan. Nilai variabel dapat dibaca dari beberapa skrip jika lingkupnya dipilih dengan tepat."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Buat Variabel dan Pilih Lingkup",
+          "xp": 5,
+          "content": "Gunakan Make a Variable lalu pilih apakah variabel tersedia untuk semua sprite atau hanya sprite tertentu. Variabel global cocok untuk skor bersama, sedangkan variabel lokal berguna jika setiap sprite memiliki nilai masing-masing. Pilih opsi yang sesuai agar semua skrip mengakses data yang diharapkan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Set dan Change",
+          "xp": 5,
+          "content": "Set [score] to menetapkan nilai secara langsung, misalnya 0 pada awal permainan. Change [score] by menambah atau mengurangi nilai saat kejadian berlangsung. Jangan mengandalkan nilai sisa dari sesi sebelumnya; reset variabel di awal agar pengujian berikutnya dimulai dari kondisi yang sama."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Mulai dengan Skor Nol",
+          "xp": 5,
+          "content": "Set nilai pada event bendera hijau, lalu ubah skor ketika target tercapai. Contoh ini menunjukkan alur variabel, bukan aturan permainan lengkap.",
+          "code_content": "when green flag clicked\nset [score] to 0\n\nwhen this sprite clicked\nchange [score] by 1\nplay sound [pop] until done",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tampilkan Nilai yang Penting",
+          "xp": 5,
+          "content": "Centang tampilan variabel agar nilainya terlihat di panggung. Saat pengguna mengumpulkan sesuatu, ia dapat melihat skor berubah. Jika variabel tidak perlu terlihat, sembunyikan tampilannya. Pastikan nama variabel dan penggunaannya konsisten agar tidak tertukar dengan variabel lain."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Lives dan Status Permainan",
+          "xp": 5,
+          "content": "Variabel bisa menyimpan sisa kesempatan atau keadaan permainan. Saat pemain melakukan kesalahan, kurangi lives. Ketika lives mencapai nol, hentikan kontrol permainan dan tampilkan pesan selesai. Aturan menang atau kalah sebaiknya memiliki kondisi yang jelas agar permainan tidak berhenti terlalu cepat atau terus berjalan setelah selesai."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Reset Nilai Awal",
+          "xp": 10,
+          "content": "Buat variabel score dan atur menjadi nol ketika bendera hijau diklik. Tambahkan skrip yang menaikkan nilainya satu ketika sprite pilihan diklik.",
+          "instructions": "Blok mana yang menetapkan skor menjadi nol?",
+          "options": [
+            "Change [score] by 1",
+            "Set [score] to 0",
+            "Next costume",
+            "Wait 1 seconds"
+          ],
+          "correct_option": "Set [score] to 0"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Periksa Kondisi Kemenangan",
+          "xp": 5,
+          "content": "Gunakan perbandingan pada nilai score agar pesan menang muncul ketika target poin tercapai.",
+          "code_content": "if <(score) >= 5> then\n  say \"Kamu menang!\" for 2 seconds\nend",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Cegah Poin Bertambah Tanpa Batas",
+          "xp": 5,
+          "content": "Jika skrip mendeteksi sentuhan di dalam Forever, satu sentuhan dapat menambah skor berulang setiap putaran. Setelah sasaran dihitung, pindahkan atau sembunyikan objek, atau pakai variabel penanda agar hadiah hanya diberikan sekali. Pilih pendekatan yang mudah kamu jelaskan dan uji."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Periksa Nilai saat Debugging",
+          "xp": 5,
+          "content": "Jika skor salah, lihat semua skrip yang mengubah variabel tersebut. Periksa apakah nilai awal direset, apakah satu kejadian terdeteksi beberapa kali, dan apakah variabel dipakai bersama atau hanya pada sprite tertentu. Uji dengan angka kecil sebelum menerapkan aturan skor yang lebih kompleks."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Tantangan dengan Skor dan Kesempatan",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat mini permainan sederhana dengan variabel score dan lives. Reset keduanya saat bendera hijau diklik, tambahkan poin ketika target berhasil disentuh, dan kurangi lives ketika pemain terkena penghalang. Tampilkan pesan menang atau selesai dengan kondisi yang jelas. Pastikan satu kejadian tidak menghitung poin berulang; kirim tautan proyek dan jelaskan cara kerja kedua variabel."
+        }
+      ],
+      "description": "Level Sedang. Menyimpan data dengan Variables, menetapkan nilai awal, mengubah skor/lives, serta menampilkan kondisi menang atau selesai.",
+      "quiz": [
+        {
+          "options": [
+            "Menyimpan nilai yang dapat berubah",
+            "Mengganti kategori blok",
+            "Membuka tab browser",
+            "Menghapus backdrop"
+          ],
+          "question": "Variabel digunakan untuk…",
+          "explanation": "Variabel menyimpan data seperti skor, waktu, atau jumlah kesempatan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar sprite tidak punya kostum",
+            "Agar panggung tidak terlihat",
+            "Agar setiap sesi dimulai dari nilai awal yang konsisten",
+            "Agar suara menjadi lebih keras"
+          ],
+          "question": "Mengapa score sering diatur menjadi 0 saat bendera hijau diklik?",
+          "explanation": "Reset membuat hasil percobaan tidak dipengaruhi nilai dari sesi sebelumnya.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Set hanya untuk suara",
+            "Set memberi nilai tertentu, Change menambah atau mengurangi nilai",
+            "Change menghapus semua sprite",
+            "Keduanya selalu membuat variabel baru"
+          ],
+          "question": "Apa perbedaan Set dan Change?",
+          "explanation": "Set menetapkan nilai langsung sedangkan Change mengubahnya relatif terhadap nilai sekarang.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Judul proyek",
+            "Warna backdrop",
+            "Nama akun",
+            "Loop deteksi sentuhan dan mekanisme satu-kali"
+          ],
+          "question": "Jika satu sentuhan membuat skor naik berkali-kali, hal pertama yang perlu diperiksa adalah…",
+          "explanation": "Pemeriksaan berulang dapat mengaktifkan aturan skor terus selama sentuhan terdeteksi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Sisa kesempatan pemain",
+            "Bentuk blok puzzle",
+            "Nama kategori Motion saja",
+            "Letak tab Code"
+          ],
+          "question": "Contoh nilai yang sesuai disimpan dalam variabel adalah…",
+          "explanation": "Lives adalah data permainan yang bisa disimpan dan diubah melalui variabel.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tantangan dengan Skor dan Kesempatan",
+        "instructions": "Buat mini permainan sederhana dengan variabel score dan lives. Reset keduanya saat bendera hijau diklik, tambahkan poin ketika target berhasil disentuh, dan kurangi lives ketika pemain terkena penghalang. Tampilkan pesan menang atau selesai dengan kondisi yang jelas. Pastikan satu kejadian tidak menghitung poin berulang; kirim tautan proyek dan jelaskan cara kerja kedua variabel.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Operator, Perbandingan, dan Angka Acak",
+      "topic_order": 7,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Operator Mengolah Nilai",
+          "xp": 5,
+          "content": "Kategori Operators berisi operasi aritmetika, perbandingan, dan logika. Operasi tambah dapat menggabungkan poin; perbandingan seperti lebih besar dari menghasilkan benar atau salah; operator logika menggabungkan beberapa kondisi. Pilih operator yang cocok dengan aturan yang sedang kamu rancang."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Matematika untuk Gerakan atau Skor",
+          "xp": 5,
+          "content": "Operator tambah, kurang, kali, dan bagi dapat menghitung nilai baru. Misalnya skor akhir dapat dihitung dari poin terkumpul dikurangi penalti. Periksa tanda operasi dan urutan blok jika hasilnya tidak sesuai. Untuk pemula, gunakan nilai sederhana lalu bandingkan hasilnya dengan perhitungan manual."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Membandingkan Nilai",
+          "xp": 5,
+          "content": "Operator lebih besar, kurang dari, atau sama dengan membandingkan dua nilai. Hasil perbandingan dapat ditempatkan dalam blok If. Contoh: jika score lebih besar atau sama dengan 10, tampilkan status berhasil. Pastikan batas yang kamu pilih sesuai aturan; skor 10 dapat berbeda makna dari skor lebih besar dari 10."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Menggunakan Perbandingan",
+          "xp": 5,
+          "content": "Contoh berikut menampilkan pesan hanya jika nilai memenuhi batas. Ubah nilai target untuk menguji kondisi benar dan salah.",
+          "code_content": "if <(score) >= 10> then\n  say \"Target tercapai\" for 2 seconds\nelse\n  say \"Kumpulkan lagi\" for 2 seconds\nend",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Operator Logika AND",
+          "xp": 5,
+          "content": "AND menghasilkan benar hanya jika kedua kondisi benar. Gunakan ketika pemain harus memenuhi dua syarat sekaligus, misalnya skor cukup dan karakter berada di tujuan. Jika salah satu syarat belum terpenuhi, program belum menjalankan aksi yang diletakkan pada cabang benar."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "OR dan NOT",
+          "xp": 5,
+          "content": "OR menghasilkan benar ketika setidaknya satu kondisi benar. NOT membalik nilai benar menjadi salah atau sebaliknya. Operator ini dapat membuat aturan yang lebih tepat, tetapi buat penjelasan aturan dengan bahasa sederhana agar mudah diperiksa. Uji kombinasi keadaan, bukan hanya satu contoh."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Target Nilai",
+          "xp": 10,
+          "content": "Coba kondisi score > 5 dan score >= 5. Perhatikan perbedaan ketika skor tepat 5. Pilihan operator yang benar tergantung pada aturan yang kamu inginkan.",
+          "instructions": "Jika syaratnya nilai harus minimal 5, operator mana yang tepat?",
+          "options": [
+            "score < 5",
+            "score > 5",
+            "score = 0",
+            "score >= 5"
+          ],
+          "correct_option": "score >= 5"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Angka Acak untuk Variasi",
+          "xp": 5,
+          "content": "Pick random dapat memilih nilai dari batas bawah sampai batas atas. Gunakan untuk variasi posisi atau pilihan sehingga setiap percobaan tidak selalu sama.",
+          "code_content": "when green flag clicked\ngo to x: (pick random -180 to 180) y: (pick random -120 to 120)\nsay \"Temukan aku!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Angka Acak Perlu Batas",
+          "xp": 5,
+          "content": "Pilih rentang acak yang masih masuk akal untuk panggung dan tujuan program. Jika rentang terlalu besar, sprite bisa muncul di luar area terlihat. Jika rentang terlalu sempit, variasinya tidak terasa. Uji beberapa kali untuk melihat kemungkinan hasil, lalu sesuaikan batasnya."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Semua Kombinasi Penting",
+          "xp": 5,
+          "content": "Saat memakai AND, OR, atau NOT, buat daftar beberapa contoh keadaan. Tandai kapan kondisi seharusnya benar dan kapan seharusnya salah. Uji batas seperti tepat sama dengan target, satu di bawahnya, dan satu di atasnya. Cara ini membantu menemukan kesalahan logika sebelum proyek dibagikan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Tantangan dengan Aturan Logika",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Rancang proyek yang memiliki satu target nilai dan satu perilaku acak. Misalnya, sprite muncul pada posisi acak dan hanya menampilkan pesan berhasil jika skor minimal mencapai target. Tambahkan satu aturan dengan AND atau OR yang masuk akal. Uji keadaan di bawah batas, tepat pada batas, dan di atas batas; kirim tautan serta jelaskan logikanya."
+        }
+      ],
+      "description": "Level Sedang. Menggunakan operasi matematika, perbandingan, logika Boolean, dan angka acak untuk membuat perilaku program bervariasi.",
+      "quiz": [
+        {
+          "options": [
+            "Nilai benar atau salah",
+            "Backdrop baru",
+            "Sprite duplikat",
+            "Suara yang direkam"
+          ],
+          "question": "Operator perbandingan biasanya menghasilkan…",
+          "explanation": "Hasil perbandingan digunakan sebagai kondisi untuk menentukan aksi program.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "score < 10",
+            "score >= 10",
+            "score = 0",
+            "score < 0"
+          ],
+          "question": "Jika aturan menyatakan skor harus minimal 10, kondisi yang tepat adalah…",
+          "explanation": "Minimal 10 termasuk nilai 10, jadi perbandingan harus lebih besar atau sama dengan 10.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Semua sprite sedang tersembunyi",
+            "Tidak ada kondisi yang diuji",
+            "Kedua kondisi yang digabung benar",
+            "Salah satu kondisi selalu dihapus"
+          ],
+          "question": "Operator AND bernilai benar ketika…",
+          "explanation": "AND memerlukan semua kondisi yang digabung bernilai benar.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Menyimpan file proyek",
+            "Menghapus variabel",
+            "Mengganti bahasa Scratch",
+            "Memilih nilai acak dari rentang tertentu"
+          ],
+          "question": "Apa fungsi Pick random?",
+          "explanation": "Pick random menghasilkan variasi nilai di dalam batas yang ditentukan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Supaya hasil tetap dalam rentang yang masuk akal dan terlihat",
+            "Agar semua hasil sama persis",
+            "Agar operator tidak digunakan",
+            "Supaya proyek otomatis dipublikasikan"
+          ],
+          "question": "Mengapa nilai batas acak perlu diuji?",
+          "explanation": "Rentang yang tidak tepat dapat menyebabkan sprite muncul di luar panggung atau variasi tidak sesuai.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Tantangan dengan Aturan Logika",
+        "instructions": "Rancang proyek yang memiliki satu target nilai dan satu perilaku acak. Misalnya, sprite muncul pada posisi acak dan hanya menampilkan pesan berhasil jika skor minimal mencapai target. Tambahkan satu aturan dengan AND atau OR yang masuk akal. Uji keadaan di bawah batas, tepat pada batas, dan di atas batas; kirim tautan serta jelaskan logikanya.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Broadcast dan Komunikasi Antar-Sprite",
+      "topic_order": 8,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Ketika Banyak Sprite Bekerja",
+          "xp": 5,
+          "content": "Setiap sprite dapat memiliki skrip sendiri. Dalam proyek yang kompleks, satu sprite dapat menyelesaikan tugas lalu memberi tanda kepada sprite lain. Broadcast mengirim pesan yang dapat didengar oleh skrip lain; pesan itu membantu koordinasi tanpa harus menaruh seluruh alur pada satu objek."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Broadcast Pesan",
+          "xp": 5,
+          "content": "Broadcast [message] mengirim pesan dan tidak harus menunggu skrip penerima selesai. Broadcast and wait mengirim pesan lalu menunggu skrip penerima yang mulai dari pesan tersebut selesai. Gunakan pilihan yang tepat: tunggu jika langkah selanjutnya bergantung pada respons, atau broadcast biasa jika aksi dapat berjalan bersamaan."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "When I Receive",
+          "xp": 5,
+          "content": "When I receive [message] menjadi pemicu untuk sprite yang perlu merespons pesan. Buat nama pesan yang jelas, misalnya 'MulaiAdegan' atau 'PintuTerbuka'. Semua skrip penerima yang mendengarkan pesan sama dapat dijalankan, sehingga satu pesan bisa mengoordinasikan beberapa objek."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Koordinasi Pembuka Adegan",
+          "xp": 5,
+          "content": "Sprite pemicu mengirim pesan; sprite lain merespons dengan aksi masing-masing. Pastikan nama pesan sama persis di pengirim dan penerima.",
+          "code_content": "when green flag clicked\nbroadcast [MulaiAdegan]\n\nwhen I receive [MulaiAdegan]\nsay \"Selamat datang!\" for 2 seconds\nmove 20 steps",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Gunakan Pesan untuk Pergantian Adegan",
+          "xp": 5,
+          "content": "Sebuah sprite dapat mengirim pesan saat animasi selesai atau saat pengguna menekan tombol. Sprite panggung atau karakter lain kemudian dapat mengganti backdrop, memunculkan objek, atau memulai dialog baru. Pesan memberi tanda bahwa suatu kejadian telah terjadi; ia tidak otomatis membawa data lain seperti skor."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Hindari Pesan yang Salah Nama",
+          "xp": 5,
+          "content": "Jika penerima tidak bereaksi, periksa bahwa pesan di blok Broadcast dan When I receive memakai nama yang sama. Pastikan juga skrip pengirim benar-benar berjalan. Gunakan nama pesan yang konsisten supaya proyek besar tidak memiliki banyak pesan yang hampir sama tetapi punya maksud berbeda."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pilih Broadcast yang Menunggu",
+          "xp": 10,
+          "content": "Buat sprite A mengirim pesan ketika animasinya selesai. Sprite B perlu melakukan aksinya sampai selesai sebelum sprite A melanjutkan ke langkah berikutnya.",
+          "instructions": "Blok broadcast yang menunggu skrip penerima selesai adalah…",
+          "options": [
+            "Broadcast and wait",
+            "Hide",
+            "Next costume",
+            "Change x by 10"
+          ],
+          "correct_option": "Broadcast and wait"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Respons Dua Sprite",
+          "xp": 5,
+          "content": "Gunakan pesan untuk memulai respons yang berbeda. Contoh ini memakai pesan terpisah agar urutan dapat dikendalikan.",
+          "code_content": "when this sprite clicked\nbroadcast [Tanya]\n\nwhen I receive [Tanya]\nsay \"Ada yang bisa kubantu?\" for 2 seconds\nbroadcast [Selesai]\n\nwhen I receive [Selesai]\nsay \"Terima kasih!\" for 2 seconds",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Pesan Bukan Pengganti Semua Event",
+          "xp": 5,
+          "content": "Gunakan broadcast untuk komunikasi antar-skrip, tetapi pilih event langsung jika kebutuhan sederhana, misalnya klik sprite untuk memulai satu aksi. Terlalu banyak pesan dapat membuat alur sulit dilacak. Tulis sketsa kecil yang mencatat siapa mengirim pesan, siapa menerima, dan kapan pesan itu diharapkan terjadi."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Rangkaian Pesan",
+          "xp": 5,
+          "content": "Mulai proyek dari bendera hijau, jalankan pesan satu per satu, dan amati skrip penerima. Uji ulang jika satu aksi dipicu dua kali. Jika urutan penting, pertimbangkan Broadcast and wait atau pesan tahap berikutnya. Pastikan reset awal menyiapkan semua sprite untuk menerima pesan yang benar."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Adegan Terkoordinasi",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat tiga sprite yang berpartisipasi dalam sebuah adegan. Bendera hijau memulai alur; sprite pertama mengirim pesan saat selesai, sprite kedua merespons dan mengirim pesan berikutnya, lalu sprite ketiga menutup adegan. Gunakan minimal dua pesan dengan nama yang jelas dan pilih satu titik yang perlu Broadcast and wait. Uji urutannya lalu kirim tautan proyek."
+        }
+      ],
+      "description": "Level Lancar. Menghubungkan beberapa sprite menggunakan pesan broadcast, menerima event pesan, dan mengoordinasikan urutan dalam proyek multiobjek.",
+      "quiz": [
+        {
+          "options": [
+            "Mengirim pesan yang dapat memicu skrip lain",
+            "Mengubah warna kategori blok",
+            "Menyimpan file ke komputer",
+            "Membuat variabel otomatis"
+          ],
+          "question": "Apa fungsi Broadcast?",
+          "explanation": "Broadcast mengirim pesan kepada skrip yang menggunakan event penerima pesan itu.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "When green flag clicked",
+            "When I receive [message]",
+            "Move 10 steps",
+            "Set size to 100%"
+          ],
+          "question": "Blok pemicu yang sesuai untuk menerima pesan adalah…",
+          "explanation": "When I receive menjalankan skrip saat pesan yang disebut diterima.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Sprite harus disembunyikan selamanya",
+            "Tidak ada sprite lain",
+            "Skrip pengirim perlu menunggu skrip penerima selesai",
+            "Program tidak boleh memiliki event"
+          ],
+          "question": "Broadcast and wait digunakan ketika…",
+          "explanation": "Broadcast and wait menahan langkah pengirim sampai skrip penerima yang dipicu selesai.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Jumlah backdrop",
+            "Ukuran jendela browser",
+            "Judul modul",
+            "Nama pesan dan apakah pengirim benar-benar mengirimnya"
+          ],
+          "question": "Jika skrip penerima tidak jalan, hal pertama yang perlu diperiksa adalah…",
+          "explanation": "Nama pesan harus cocok dan skrip pengirim harus benar-benar berjalan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Supaya alur komunikasi mudah ditelusuri dan tidak tertukar",
+            "Supaya sprite tidak bisa diklik",
+            "Supaya semua skrip dipindahkan ke panggung",
+            "Supaya variabel dihapus"
+          ],
+          "question": "Mengapa nama pesan sebaiknya jelas dan konsisten?",
+          "explanation": "Nama yang jelas memudahkan pengembang memahami koordinasi antar-sprite.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Adegan Terkoordinasi",
+        "instructions": "Buat tiga sprite yang berpartisipasi dalam sebuah adegan. Bendera hijau memulai alur; sprite pertama mengirim pesan saat selesai, sprite kedua merespons dan mengirim pesan berikutnya, lalu sprite ketiga menutup adegan. Gunakan minimal dua pesan dengan nama yang jelas dan pilih satu titik yang perlu Broadcast and wait. Uji urutannya lalu kirim tautan proyek.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Klon Sprite dan Pengelolaan Objek",
+      "topic_order": 9,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Apa Itu Clone?",
+          "xp": 5,
+          "content": "Clone adalah salinan sprite yang dibuat saat proyek berjalan. Dengan clone, satu sprite dasar dapat menghasilkan banyak objek serupa tanpa harus menyalin sprite secara manual. Semua clone berasal dari sprite asal, tetapi skrip dapat membedakan saat klon mulai menjalankan aksinya."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Create Clone of Myself",
+          "xp": 5,
+          "content": "Create clone of myself membuat klon dari sprite yang menjalankan blok. Setelah klon dibuat, event When I start as a clone dapat mengatur perilaku awalnya. Misalnya, klon bergerak ke posisi tertentu, muncul sebentar, atau melakukan aksi sederhana lalu menghilang."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Pisahkan Skrip Asal dan Skrip Clone",
+          "xp": 5,
+          "content": "Sprite asal dapat mengontrol kapan klon dibuat, sementara skrip When I start as a clone mengatur apa yang dilakukan klon. Jika semua perilaku diletakkan tanpa membedakan keduanya, klon dapat terus menghasilkan klon lagi. Rancang dengan jelas apakah pembuat klon tetap aktif setelah salinan dibuat."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Buat dan Hapus Klon",
+          "xp": 5,
+          "content": "Buat klon dengan jeda agar tidak menghasilkan terlalu banyak objek sekaligus. Klon menghapus dirinya setelah menyelesaikan aksi.",
+          "code_content": "when green flag clicked\nrepeat 5\n  create clone of myself\n  wait 1 seconds\nend\n\nwhen I start as a clone\nchange y by 20\nwait 1 seconds\ndelete this clone",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Atur Posisi Klon",
+          "xp": 5,
+          "content": "Klon umumnya memulai dari keadaan sprite asal saat ia dibuat. Agar klon terlihat berbeda, atur posisi atau kostum klon sesegera mungkin pada skrip awalnya. Variasi dapat dibuat menggunakan Pick random atau nilai yang ditentukan pengirim, tetapi pastikan semua klon tetap terlihat dan dapat dipahami."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Hapus Klon Setelah Selesai",
+          "xp": 5,
+          "content": "Delete this clone menghapus klon yang sedang menjalankan skrip tersebut, bukan sprite asal. Hapus klon setelah tugasnya selesai, misalnya setelah mencapai tepi atau setelah waktu tertentu. Jika klon terus bertambah, performa proyek dapat menurun dan layar menjadi terlalu ramai."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pilih Event Clone",
+          "xp": 10,
+          "content": "Buat satu skrip pada sprite asal untuk membuat klon. Buat skrip kedua yang hanya dijalankan ketika klon baru mulai.",
+          "instructions": "Event yang berjalan saat klon dibuat adalah…",
+          "options": [
+            "When I start as a clone",
+            "When backdrop switches",
+            "When key space pressed",
+            "When green flag clicked saja"
+          ],
+          "correct_option": "When I start as a clone"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "code",
+          "title": "Klon dengan Posisi Acak",
+          "xp": 5,
+          "content": "Gunakan rentang koordinat panggung yang terlihat. Setiap klon bergerak sebentar lalu menghapus dirinya agar tidak tertinggal.",
+          "code_content": "when I start as a clone\ngo to x: (pick random -180 to 180) y: 160\nrepeat 10\n  change y by -15\n  wait 0.1 seconds\nend\ndelete this clone",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Batasi Jumlah dan Durasi",
+          "xp": 5,
+          "content": "Untuk menghindari terlalu banyak klon, batasi jumlah yang dibuat melalui Repeat atau gunakan aturan yang menghentikan proses pembuatan. Pastikan skrip clone tidak berisi Create clone of myself tanpa batas kecuali kamu benar-benar membutuhkan sistem tersebut. Uji ketika tombol ditekan berkali-kali."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Perilaku Banyak Objek",
+          "xp": 5,
+          "content": "Periksa apakah setiap klon dimulai pada posisi yang diharapkan, melakukan satu tugas, dan terhapus saat selesai. Pastikan sprite asal tetap ada setelah semua klon dihapus. Jika proyek berubah berat, kurangi jumlah klon aktif dan perpendek durasi hidupnya."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Hujan Objek Terkendali",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat satu sprite yang menghasilkan beberapa klon secara terbatas. Setiap klon muncul pada posisi acak di bagian atas panggung, bergerak ke bawah, kemudian menghapus dirinya. Batasi jumlah atau durasi pembuatan, dan pastikan sprite asal tetap tersedia. Uji beberapa kali lalu kirim tautan proyek dan jelaskan bagaimana kamu mencegah klon menumpuk."
+        }
+      ],
+      "description": "Level Lancar. Membuat banyak objek dari satu sprite dengan create clone, mengatur aksi klon, dan menghapusnya agar proyek tetap terkendali.",
+      "quiz": [
+        {
+          "options": [
+            "Salinan sprite yang dibuat saat program berjalan",
+            "Nama lain untuk backdrop",
+            "Jenis operator perbandingan",
+            "File audio"
+          ],
+          "question": "Clone di Scratch adalah…",
+          "explanation": "Clone memungkinkan satu sprite menghasilkan banyak objek serupa saat runtime.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "When I receive [message]",
+            "When I start as a clone",
+            "When green flag clicked saja",
+            "When loudness > 10"
+          ],
+          "question": "Event yang khusus berjalan pada klon baru adalah…",
+          "explanation": "When I start as a clone menjalankan skrip ketika salinan baru dibuat.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Semua sprite proyek",
+            "Panggung beserta backdrop",
+            "Klon yang menjalankan skrip itu",
+            "Semua variabel"
+          ],
+          "question": "Blok Delete this clone menghapus…",
+          "explanation": "Blok tersebut menghapus klon aktif, bukan sprite asal atau seluruh proyek.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Semua blok menjadi warna sama",
+            "Nama proyek berubah otomatis",
+            "Kuis tidak bisa dibuka",
+            "Proyek dapat menjadi berat dan layar terlalu ramai"
+          ],
+          "question": "Apa risiko membuat klon terlalu banyak tanpa kendali?",
+          "explanation": "Klon yang menumpuk dapat menurunkan performa serta menyulitkan pengguna melihat aksi.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Hapus klon setelah tugasnya selesai",
+            "Biarkan semuanya ada selamanya",
+            "Buat klon baru dari setiap klon tanpa batas",
+            "Sembunyikan sprite asal sebelum membuat proyek"
+          ],
+          "question": "Apa cara yang baik mengelola umur klon?",
+          "explanation": "Menghapus klon ketika sudah tidak dibutuhkan menjaga proyek tetap terkendali.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Hujan Objek Terkendali",
+        "instructions": "Buat satu sprite yang menghasilkan beberapa klon secara terbatas. Setiap klon muncul pada posisi acak di bagian atas panggung, bergerak ke bawah, kemudian menghapus dirinya. Batasi jumlah atau durasi pembuatan, dan pastikan sprite asal tetap tersedia. Uji beberapa kali lalu kirim tautan proyek dan jelaskan bagaimana kamu mencegah klon menumpuk.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Debugging dan Desain Interaksi",
+      "topic_order": 10,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Bug Adalah Petunjuk",
+          "xp": 5,
+          "content": "Bug adalah perilaku yang tidak sesuai dengan rancangan, misalnya sprite bergerak salah arah, skor bertambah dua kali, atau pesan tidak muncul. Kesalahan bukan alasan untuk menghapus seluruh proyek. Perhatikan gejala yang tepat, ulangi kejadian yang memicunya, lalu cari blok atau kondisi yang paling mungkin menyebabkan masalah."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Reproduksi Masalah",
+          "xp": 5,
+          "content": "Sebelum memperbaiki, lakukan langkah yang sama untuk membuat bug muncul lagi. Catat event yang digunakan, tombol yang ditekan, posisi sprite, dan nilai variabel. Jika bug tidak selalu muncul, mungkin ada beberapa skrip yang berjalan bersamaan atau nilai awal yang berubah antarpengujian."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Periksa Pemicu dan Urutan",
+          "xp": 5,
+          "content": "Bila skrip tidak jalan, mulai dari event pemicunya. Pastikan blok tersambung, berada pada sprite yang benar, dan nama pesan cocok. Bila aksi terjadi dalam urutan salah, baca skrip dari atas ke bawah serta periksa event lain yang dapat berjalan bersamaan."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Debug Nilai Awal",
+          "xp": 5,
+          "content": "Jika gerakan dimulai dari posisi yang berubah-ubah, reset koordinat dan variabel pada bendera hijau. Setelah itu uji satu event untuk melihat apakah masalah masih muncul.",
+          "code_content": "when green flag clicked\ngo to x: 0 y: 0\nset [score] to 0\nclear graphic effects\nshow",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tambahkan Pemeriksaan Sementara",
+          "xp": 5,
+          "content": "Untuk memahami alur, tampilkan nilai variabel lewat monitor atau gunakan blok say sementara untuk mengeluarkan status. Pesan debug membantu melihat apakah cabang kondisi tercapai. Setelah sumber masalah ditemukan, hapus pesan sementara atau ubah menjadi petunjuk yang memang diperlukan pengguna."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Perbaiki Satu Hal Sekaligus",
+          "xp": 5,
+          "content": "Mengubah banyak blok sekaligus menyulitkan untuk mengetahui perubahan mana yang menyelesaikan masalah. Buat satu perubahan, jalankan ulang langkah reproduksi, lalu catat hasilnya. Jika masalah semakin buruk, kembalikan perubahan itu sebelum mencoba langkah berikutnya."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Cari Penyebab Skor",
+          "xp": 10,
+          "content": "Sebuah loop menambahkan skor setiap kali sprite menyentuh target dan skor melonjak dari 0 menjadi 8 dalam sekejap. Periksa di mana loop memeriksa kontak dan bagaimana target ditangani setelah poin diberikan.",
+          "instructions": "Penyebab yang paling mungkin adalah…",
+          "options": [
+            "Monitor skor selalu salah",
+            "Backdrop mempunyai terlalu banyak warna",
+            "Kontak diperiksa berulang sehingga poin ditambah berkali-kali",
+            "Nama proyek terlalu pendek"
+          ],
+          "correct_option": "Kontak diperiksa berulang sehingga poin ditambah berkali-kali"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Gunakan Checklist Pengujian",
+          "xp": 5,
+          "content": "Coba jalankan proyek dari keadaan awal, jalankan setiap event, uji batas nilai, dan pastikan akhir permainan mengakhiri aksi yang seharusnya berhenti. Cek kondisi benar dan salah, input yang tidak diharapkan, serta pengulangan cepat. Checklist membantu membuat pengujian lebih konsisten daripada hanya bermain sekali."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "code",
+          "title": "Bersihkan Keadaan Awal",
+          "xp": 5,
+          "content": "Letakkan pengaturan ulang pada skrip awal supaya nilai, tampilan, posisi, dan suara tidak mewarisi keadaan dari sesi sebelumnya.",
+          "code_content": "when green flag clicked\nstop other scripts in sprite\ngo to x: -100 y: 0\nset [score] to 0\nset volume to 70%\nclear graphic effects",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Uji Pengguna dan Dokumentasikan Perbaikan",
+          "xp": 5,
+          "content": "Jalankan proyek seolah-olah kamu pengguna baru: pastikan instruksi menjelaskan apa yang dapat diklik, dialog cukup lama dibaca, dan setiap input memberi umpan balik. Minta orang lain mencoba tanpa petunjuk lisan, lalu uji jalur berhasil maupun gagal. Catat gejala bug, cara mengulanginya, penyebab, perubahan, dan hasil pengujian ulang. Rapikan nama sprite, variabel, serta pesan; hapus pesan debug yang tidak lagi diperlukan."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek: Uji dan Perbaiki untuk Pengguna",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat proyek interaktif kecil, catat satu masalah yang muncul saat diuji, langkah untuk mengulanginya, penyebab, perbaikan, dan hasil pengujian ulang. Minta orang lain mencoba tanpa petunjuk lisan; perjelas instruksi atau umpan balik berdasarkan pengamatannya. Pastikan proyek bisa dimulai ulang dan jalur berhasil maupun gagal berfungsi. Kirim tautan proyek serta ringkasan perbaikan."
+        }
+      ],
+      "description": "Level Lancar. Menguji proyek secara bertahap, menemukan bug, memperbaiki alur, dan memeriksa kejelasan interaksi bagi pengguna.",
+      "quiz": [
+        {
+          "options": [
+            "Membuat masalah dapat diulang dan mencatat gejalanya",
+            "Menghapus semua sprite",
+            "Mengganti nama proyek berulang kali",
+            "Mematikan semua variabel"
+          ],
+          "question": "Langkah pertama yang baik saat menemukan bug adalah…",
+          "explanation": "Mengulangi masalah membantu mempersempit penyebabnya.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Agar proyek tidak punya event",
+            "Agar warna blok tidak berubah",
+            "Agar bisa mengetahui perubahan mana yang berpengaruh",
+            "Agar semua bug hilang otomatis"
+          ],
+          "question": "Mengapa sebaiknya memperbaiki satu hal setiap kali?",
+          "explanation": "Perubahan kecil dan terukur lebih mudah dievaluasi.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Judul modul",
+            "Event pemicu dan sambungan blok",
+            "Ukuran jendela",
+            "Bahasa browser"
+          ],
+          "question": "Jika skrip tidak pernah berjalan, hal pertama yang perlu diperiksa adalah…",
+          "explanation": "Skrip membutuhkan event dan blok yang tersambung dengan benar.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Mengubah akun menjadi admin",
+            "Menghapus clone",
+            "Menyembunyikan semua objek",
+            "Melihat apakah suatu bagian alur tercapai"
+          ],
+          "question": "Pesan say sementara untuk debugging digunakan untuk…",
+          "explanation": "Pesan sementara dapat memperlihatkan status saat skrip berjalan.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Menjalankan ulang langkah pengujian yang sebelumnya gagal",
+            "Menganggap semua bagian pasti benar",
+            "Menghapus catatan masalah",
+            "Mengubah semua skrip sekaligus"
+          ],
+          "question": "Setelah memperbaiki bug, langkah yang tepat adalah…",
+          "explanation": "Pengujian ulang memastikan perbaikan benar-benar menyelesaikan masalah.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek: Uji dan Perbaiki untuk Pengguna",
+        "instructions": "Buat proyek interaktif kecil, catat satu masalah yang muncul saat diuji, langkah untuk mengulanginya, penyebab, perbaikan, dan hasil pengujian ulang. Minta orang lain mencoba tanpa petunjuk lisan; perjelas instruksi atau umpan balik berdasarkan pengamatannya. Pastikan proyek bisa dimulai ulang dan jalur berhasil maupun gagal berfungsi. Kirim tautan proyek serta ringkasan perbaikan.",
+        "submission_type": "link"
+      }
+    },
+    {
+      "topic_title": "Proyek Akhir: Buat Karya Scratch Interaktif",
+      "topic_order": 11,
+      "nodes": [
+        {
+          "node_id": "node-01",
+          "order": 0,
+          "type": "lesson",
+          "title": "Pilih Gagasan dan Target",
+          "xp": 5,
+          "content": "Pilih tema yang dapat diselesaikan dengan keterampilan yang sudah dipelajari, misalnya cerita interaktif, kuis sederhana, atau permainan menghindari hambatan. Tetapkan satu tujuan utama, siapa pengguna, dan apa yang berarti berhasil. Hindari menambahkan fitur terlalu banyak sebelum alur dasar selesai."
+        },
+        {
+          "node_id": "node-02",
+          "order": 1,
+          "type": "lesson",
+          "title": "Buat Rencana Adegan",
+          "xp": 5,
+          "content": "Tuliskan bagaimana proyek dimulai, apa yang dilakukan pengguna, bagaimana program merespons, dan bagaimana proyek berakhir. Buat sketsa sederhana tentang sprite, backdrop, dan pesan penting. Tentukan event mana yang menjalankan setiap bagian sebelum menghubungkan blok."
+        },
+        {
+          "node_id": "node-03",
+          "order": 2,
+          "type": "lesson",
+          "title": "Bangun Versi Dasar",
+          "xp": 5,
+          "content": "Mulailah dengan satu sprite dan satu interaksi yang penting untuk ide proyek. Jalankan proyek setelah perubahan kecil. Setelah interaksi utama bekerja, tambahkan tampilan, suara, atau sprite lain. Membangun sedikit demi sedikit membuat masalah lebih mudah ditemukan dan mencegah fitur tambahan menutupi kesalahan dasar."
+        },
+        {
+          "node_id": "node-04",
+          "order": 3,
+          "type": "code",
+          "title": "Pola Reset Proyek",
+          "xp": 5,
+          "content": "Gunakan skrip bendera hijau untuk mengembalikan proyek ke keadaan awal, termasuk posisi, skor, kostum, tampilan, dan efek.",
+          "code_content": "when green flag clicked\nset [score] to 0\ngo to x: 0 y: 0\nswitch costume to [awal]\nclear graphic effects\nshow\nbroadcast [MulaiCerita]",
+          "code_language": "Scratch block sequence"
+        },
+        {
+          "node_id": "node-05",
+          "order": 4,
+          "type": "lesson",
+          "title": "Tambahkan Aturan dan Keputusan",
+          "xp": 5,
+          "content": "Gunakan kondisi ketika proyek harus memilih respons berdasarkan keadaan. Variabel dapat menyimpan progres, sedangkan operator membandingkan nilai untuk menentukan apakah tujuan tercapai. Pastikan setiap aturan mudah dijelaskan dengan kalimat sederhana dan dapat diuji pada kondisi berhasil maupun belum berhasil."
+        },
+        {
+          "node_id": "node-06",
+          "order": 5,
+          "type": "lesson",
+          "title": "Hubungkan Bagian Proyek",
+          "xp": 5,
+          "content": "Jika beberapa sprite perlu berganti adegan bersama, gunakan pesan broadcast dengan nama yang jelas. Jika animasi perlu berjalan beberapa kali, gunakan Repeat. Pilih tool yang membuat alur lebih mudah dibaca; jangan menambahkan broadcast, clone, atau loop hanya untuk mengejar banyak fitur."
+        },
+        {
+          "node_id": "node-07",
+          "order": 6,
+          "type": "practice",
+          "title": "Latihan: Pemeriksaan sebelum Fitur Tambahan",
+          "xp": 10,
+          "content": "Uji versi dasar dari bendera hijau sampai aksi inti selesai. Pastikan pengguna bisa memahami tujuan sebelum menambahkan fitur dekoratif.",
+          "instructions": "Urutan kerja yang paling aman untuk proyek akhir adalah…",
+          "options": [
+            "Tambahkan semua fitur sekaligus lalu tidak diuji",
+            "Bangun versi dasar, uji, lalu tambahkan fitur bertahap",
+            "Hapus skrip setiap kali terjadi bug",
+            "Tunda semua pengujian sampai proyek dibagikan"
+          ],
+          "correct_option": "Bangun versi dasar, uji, lalu tambahkan fitur bertahap"
+        },
+        {
+          "node_id": "node-08",
+          "order": 7,
+          "type": "lesson",
+          "title": "Uji Alur Berhasil dan Gagal",
+          "xp": 5,
+          "content": "Uji setidaknya satu jalur berhasil, satu jalur belum berhasil, dan satu kondisi yang mungkin terjadi karena input berulang. Pastikan status selesai tidak membuat skrip aktif terus jika semestinya berhenti. Reset variabel dan posisi lalu ulangi permainan untuk memastikan dapat dimulai kembali."
+        },
+        {
+          "node_id": "node-09",
+          "order": 8,
+          "type": "lesson",
+          "title": "Rapikan dan Dokumentasikan",
+          "xp": 5,
+          "content": "Beri nama sprite, variabel, backdrop, dan pesan secara jelas. Hilangkan skrip duplikat serta pesan debug yang tidak diperlukan pengguna. Tambahkan instruksi singkat dan komentar bila ada bagian penting. Proyek yang rapi akan lebih mudah dipresentasikan dan dikembangkan lagi."
+        },
+        {
+          "node_id": "node-10",
+          "order": 9,
+          "type": "lesson",
+          "title": "Presentasi dan Refleksi",
+          "xp": 5,
+          "content": "Jelaskan tujuan, cara memakai proyek, blok atau konsep yang paling penting, satu masalah yang kamu temukan, dan bagaimana memperbaikinya. Tautan proyek sebaiknya dapat dibuka peninjau. Catat ide perbaikan lanjutan tetapi pisahkan dari fitur yang sudah berhasil diuji."
+        },
+        {
+          "node_id": "node-11",
+          "order": 10,
+          "type": "challenge",
+          "title": "Proyek Akhir: Karya Scratch yang Dapat Dicoba",
+          "xp": 20,
+          "content": "Terapkan keterampilan topik ini dalam proyek Scratch yang dapat diuji dan ditinjau guru.",
+          "instructions": "Buat satu proyek Scratch lengkap berupa cerita interaktif, kuis, atau permainan mini. Proyek harus memiliki instruksi awal, minimal dua interaksi pengguna, sedikitnya satu kondisi, serta satu variabel atau mekanisme komunikasi antar-sprite. Reset proyek harus berfungsi dan keadaan selesai harus jelas. Uji jalur berhasil dan gagal, minta satu orang mencoba, lalu kirim tautan proyek beserta ringkasan tujuan, fitur utama, dan satu perbaikan yang dilakukan."
+        }
+      ],
+      "description": "Level Lancar. Menggabungkan perencanaan, event, gerak, tampilan, kondisi, variabel, broadcast atau loop, debugging, dan penyajian proyek akhir.",
+      "quiz": [
+        {
+          "options": [
+            "Menentukan gagasan, tujuan, dan pengguna",
+            "Membuat sebanyak mungkin sprite",
+            "Memulai dengan loop tanpa batas",
+            "Menambahkan semua suara yang tersedia"
+          ],
+          "question": "Langkah awal proyek akhir yang baik adalah…",
+          "explanation": "Tujuan yang jelas membantu menentukan ruang lingkup dan fitur yang diperlukan.",
+          "answer_index": 0
+        },
+        {
+          "options": [
+            "Supaya proyek tidak bisa berubah",
+            "Agar tidak perlu nama variabel",
+            "Agar masalah inti diketahui sebelum kompleksitas bertambah",
+            "Agar semua sprite menjadi clone"
+          ],
+          "question": "Mengapa versi dasar perlu diuji sebelum menambah fitur?",
+          "explanation": "Pengujian bertahap mempermudah mencari sumber masalah.",
+          "answer_index": 2
+        },
+        {
+          "options": [
+            "Hanya judul browser",
+            "Posisi, variabel, dan keadaan tampilan awal",
+            "Hanya pesan error",
+            "Hanya jumlah kategori"
+          ],
+          "question": "Bagian apa yang tepat dikembalikan saat bendera hijau diklik?",
+          "explanation": "Reset awal membuat proyek dapat diulang secara konsisten.",
+          "answer_index": 1
+        },
+        {
+          "options": [
+            "Menghapus instruksi pengguna",
+            "Menyembunyikan semua skrip dari diri sendiri",
+            "Tidak mencoba kondisi gagal",
+            "Menguji alur utama dan memastikan tautan dapat dibuka"
+          ],
+          "question": "Apa yang perlu dilakukan sebelum membagikan karya akhir?",
+          "explanation": "Proyek akhir perlu diuji dan disiapkan agar peninjau dapat menjalankannya.",
+          "answer_index": 3
+        },
+        {
+          "options": [
+            "Tujuan, konsep yang digunakan, masalah, dan perbaikannya",
+            "Hanya nama sprite",
+            "Daftar warna kategori tanpa penjelasan",
+            "Informasi pribadi yang tidak relevan"
+          ],
+          "question": "Refleksi proyek yang berguna berisi…",
+          "explanation": "Refleksi membantu menjelaskan proses berpikir dan peningkatan kualitas proyek.",
+          "answer_index": 0
+        }
+      ],
+      "challenge": {
+        "xp": 30,
+        "title": "Proyek Akhir: Karya Scratch yang Dapat Dicoba",
+        "instructions": "Buat satu proyek Scratch lengkap berupa cerita interaktif, kuis, atau permainan mini. Proyek harus memiliki instruksi awal, minimal dua interaksi pengguna, sedikitnya satu kondisi, serta satu variabel atau mekanisme komunikasi antar-sprite. Reset proyek harus berfungsi dan keadaan selesai harus jelas. Uji jalur berhasil dan gagal, minta satu orang mencoba, lalu kirim tautan proyek beserta ringkasan tujuan, fitur utama, dan satu perbaikan yang dilakukan.",
+        "submission_type": "link"
+      }
+    }
+  ],
+  "description": "Kurikulum Scratch 3.0 untuk pemula yang bertahap dari mengenal editor dan blok hingga membuat karya interaktif. Topik 1–4: Mudah; 5–8: Sedang; 9–12: Lancar. Setiap topik berisi 10 slide instruksional, 5 soal kuis, dan satu challenge proyek."
+}
