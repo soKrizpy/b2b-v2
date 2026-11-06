@@ -103,7 +103,7 @@ describe('curriculum JSON round-trip workflow', () => {
 
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) {
-      const payload = JSON.parse(readFileSync(join('public/curriculum', file), 'utf8'));
+      const payload = JSON.parse(readFileSync(join('public/curriculum', file), 'utf8').replace(/^\\uFEFF/, ''));
       expect(curriculumJsonSchema.safeParse(payload).success, `Invalid curriculum JSON: ${file}`).toBe(true);
     }
   });
