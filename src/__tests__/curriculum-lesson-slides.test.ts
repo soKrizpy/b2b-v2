@@ -1,22 +1,24 @@
 import { describe, expect, it } from 'vitest';
 import {
   getInstructionalSlides,
-  hasRequiredLessonSlideCount,
+  hasAuthoredLessonContent,
+  hasRenderableCurriculumContent,
+  isWithinSuggestedLessonSlideRange,
   MAX_LESSON_SLIDES,
   MIN_LESSON_SLIDES,
 } from '@/features/curriculum/lessonSlides';
 
 function nodes(count: number) {
   return Array.from({ length: count }, (_, index) => ({
-    node_id: `lesson-${index + 1}`,
+    id: `lesson-${index + 1}`,
     type: 'lesson',
     title: `Materi ${index + 1}`,
     content: `Penjelasan ${index + 1}`,
   }));
 }
 
-describe('Quest Map lesson slide coverage', () => {
-  it('excludes quiz and challenge nodes from lesson slides', () => {
+describe('JSON curriculum lesson readiness', () => {
+  it('excludes quiz and challenge nodes from instructional slides', () => {
     const slides = getInstructionalSlides([
       ...nodes(2),
       { type: 'quiz', title: 'Quiz' },
@@ -27,22 +29,26 @@ describe('Quest Map lesson slide coverage', () => {
     expect(slides.every((slide) => slide.type === 'lesson')).toBe(true);
   });
 
-  it('requires at least 10 authored slides before the challenge is available', () => {
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(nodes(9)))).toBe(false);
-    expect(hasRequiredLessonSlideCount(getInstructionalSlides(nodes(10)))).toBe(true);
+  it('treats 10–20 slides as an authoring recommendation, not a publish requirement', () => {
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(nodes(9)))).toBe(false);
+    expect(isWithinSuggestedLessonSlideRange(getInstructionalSlides(nodes(10)))).toBe(true);
+    expect(hasAuthoredLessonContent(getInstructionalSlides(nodes(1)))).toBe(true);
+    expect(MIN_LESSON_SLIDES).toBe(10);
+    expect(MAX_LESSON_SLIDES).toBe(20);
   });
 
-  it('caps the lesson at 20 slides and accepts the maximum', () => {
+  it('does not silently truncate authored JSON content above the suggested range', () => {
     const slides = getInstructionalSlides(nodes(25));
 
-    expect(slides).toHaveLength(MAX_LESSON_SLIDES);
-    expect(hasRequiredLessonSlideCount(slides)).toBe(true);
-    expect(MIN_LESSON_SLIDES).toBe(10);
+    expect(slides).toHaveLength(25);
+    expect(isWithinSuggestedLessonSlideRange(slides)).toBe(false);
   });
 
-  it('handles missing or invalid learning paths without inventing slides', () => {
+  it('handles missing or malformed JSON without inventing lesson slides', () => {
     expect(getInstructionalSlides(null)).toEqual([]);
     expect(getInstructionalSlides('not an array')).toEqual([]);
-    expect(hasRequiredLessonSlideCount([])).toBe(false);
+    expect(hasRenderableCurriculumContent(null)).toBe(false);
+    expect(hasRenderableCurriculumContent({ learningPath: [] })).toBe(false);
+    expect(hasRenderableCurriculumContent({ learningPath: nodes(1) })).toBe(true);
   });
 });
