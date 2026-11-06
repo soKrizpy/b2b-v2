@@ -137,10 +137,10 @@ function EmptyState() {
       <span className="text-6xl select-none">🗺️</span>
       <div>
         <p className="font-black text-slate-800 dark:text-white text-lg">
-          Belum ada modul aktif
+          Belum ada materi yang tersedia
         </p>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto font-medium">
-          Gurumu belum mengaktifkan modul untukmu. Petualanganmu segera dimulai!
+          Modul belajar akan muncul setelah kurikulum dan materi JSON siap dipublikasikan. Petualanganmu segera dimulai!
         </p>
       </div>
     </div>
