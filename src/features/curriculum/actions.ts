@@ -443,6 +443,7 @@ export async function exportCurriculumJson(): Promise<
       return {
         topic_title:  topic.title,
         topic_order:  topic.order_index,
+        status:       topic.status,
         description:  topic.description ?? undefined,
         project_link: topic.project_link ?? undefined,
         nodes,
