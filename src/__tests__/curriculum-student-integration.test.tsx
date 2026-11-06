@@ -89,7 +89,7 @@ vi.mock('@/features/quiz/questMapQueries', () => ({
   getQuestMapData: async (_studentId: string, module: { id: number }) => ({
     nodes: state.tables.topics
       .filter((topic) => topic.module_id === module.id)
-      .map((topic) => ({ topic: { id: topic.id }, status: 'AVAILABLE' })),
+      .map((topic) => ({ topic: { id: topic.id }, status: 'AVAILABLE', isUnlocked: true })),
   }),
 }));
 vi.mock('@/features/quiz/queries', () => ({
