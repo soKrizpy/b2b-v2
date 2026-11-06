@@ -13,6 +13,7 @@ import {
   curriculumJsonSchema,
   encodeFinalAssessment,
   extractFinalAssessment,
+  extractModuleDescription,
   extractTopicQuiz,
   moduleImportSchema,
   normalizeTopicChallenges,
@@ -231,7 +232,7 @@ export async function importCurriculumJson(
           level: toDatabaseLevel(plan.mod.level),
           gamification_type: plan.mod.gamification_type,
         };
-        if (plan.mod.final_assessment) moduleUpdate.description = encodeFinalAssessment(plan.mod.final_assessment);
+        if (plan.mod.final_assessment) moduleUpdate.description = encodeFinalAssessment(plan.mod.final_assessment, plan.mod.description);
         else if (plan.mod.description !== undefined) moduleUpdate.description = plan.mod.description;
         writeStarted = true;
         const { error } = await (db.from('modules').update(moduleUpdate as never).eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
@@ -240,7 +241,7 @@ export async function importCurriculumJson(
         writeStarted = true;
         const { data, error } = await (db.from('modules').insert({
           title: normalizedTitle,
-          description: plan.mod.final_assessment ? encodeFinalAssessment(plan.mod.final_assessment) : (plan.mod.description ?? null),
+          description: plan.mod.final_assessment ? encodeFinalAssessment(plan.mod.final_assessment, plan.mod.description) : (plan.mod.description ?? null),
           level: plan.mod.level,
           gamification_type: plan.mod.gamification_type,
         } as never).select('id').single() as unknown as Promise<{ data: { id: number } | null; error: { message: string } | null }>);
@@ -377,7 +378,7 @@ export async function exportCurriculumJson(): Promise<
   const payload = modules.map((mod) => ({
     module_title:      mod.title ?? '',
     module_order:      0,
-    description:       mod.description?.startsWith('FINAL_ASSESSMENT:') ? undefined : mod.description ?? undefined,
+    description:       extractModuleDescription(mod.description) ?? undefined,
     level:             mod.level === 'advance' ? 'advanced' : ((mod.level as ModuleImport['level']) ?? 'beginner'),
     gamification_type: (mod.gamification_type as ModuleImport['gamification_type']) ?? 'mimo',
     final_assessment:  extractFinalAssessment(mod.description ?? null) ?? undefined,
@@ -575,10 +576,10 @@ export async function updateModuleAction(
 
   // The tryout JSON is encoded in description for backward-compatible storage.
   // Editing ordinary module metadata must never erase that assessment payload.
-  const nextDescription = description
-    ?? ((existingModule.description ?? '').startsWith('FINAL_ASSESSMENT:')
-      ? existingModule.description
-      : null);
+  const existingAssessment = extractFinalAssessment(existingModule.description);
+  const nextDescription = existingAssessment
+    ? encodeFinalAssessment(existingAssessment, description)
+    : description;
   const { error } = await (db
     .from('modules')
     .update({ title, description: nextDescription, level: toDatabaseLevel(level), gamification_type } as never)
@@ -670,7 +671,7 @@ export async function importCurriculumJsonForModule(
       writeStarted = true;
       const { error } = await (db
         .from('modules')
-        .update({ description: encodeFinalAssessment(mod.final_assessment) } as never)
+        .update({ description: encodeFinalAssessment(mod.final_assessment, mod.description) } as never)
         .eq('id', moduleId) as unknown as Promise<{ error: { message: string } | null }>);
       if (error) {
         return importFailure(`Gagal memperbarui tryout modul: ${error.message}`, writeStarted);
