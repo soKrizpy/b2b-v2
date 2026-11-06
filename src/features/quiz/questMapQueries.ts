@@ -3,7 +3,7 @@
 // Used by the Quest Map page to compute the 4 node states without N+1 queries.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { extractFinalAssessment } from '@/features/curriculum/validation';
+import { extractFinalAssessment, extractTopicQuiz } from '@/features/curriculum/validation';
 import type { TopicWithChallengeCount, ModuleWithTopics, StudentModuleWithTopics } from '@/features/curriculum/queries';
 import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
 import { getTopicMeetingDate, getTopicMeetingSessionNumber, hasTopicMeetingStarted, type TopicMeetingSchedule } from '@/features/quiz/topicMeetingAccess';
@@ -168,7 +168,7 @@ export async function getQuestMapData(
   const hasQuizMap = new Map<number, boolean>();
   for (const t of mod.topics) {
     const lc = t.lesson_content as Record<string, unknown> | null;
-    hasQuizMap.set(t.id, Array.isArray(lc?.quiz) && (lc!.quiz as unknown[]).length > 0);
+    hasQuizMap.set(t.id, extractTopicQuiz(lc).length > 0);
   }
 
   // ── 4. Compute stars ──────────────────────────────────────────────────────
