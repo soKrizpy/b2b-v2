@@ -214,7 +214,7 @@ function MeetingCard({
         {/* Row 3: Enrolled Students */}
         {m.meeting_students.length > 0 && (
           <div className="space-y-1.5 pt-1">
-            <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
+            <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center gap-1">
               <i className="fa-solid fa-user-group text-[9px]" />
               Siswa Terdaftar ({m.meeting_students.length})
             </p>
