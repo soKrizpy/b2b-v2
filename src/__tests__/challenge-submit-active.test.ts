@@ -82,7 +82,7 @@ describe('submitChallenge active challenge authorization', () => {
     state.role = 'student';
     state.userId = 'student-1';
     state.challenge = { id: 501, topic_id: 12 };
-    state.topic = { id: 12, module_id: 5, status: 'published', lesson_content: { activeChallengeIds: [501] } };
+    state.topic = { id: 12, module_id: 5, status: 'published', lesson_content: { learningPath: [{ type: 'lesson', title: 'Materi', content: 'Isi materi' }], activeChallengeIds: [501] } };
     state.enrollment = { module_id: 5, student_id: 'student-1', status: 'active' };
     state.submissions = [];
     state.insertCount = 0;
@@ -114,7 +114,7 @@ describe('submitChallenge active challenge authorization', () => {
   });
 
   it('keeps a legacy topic without metadata compatible', async () => {
-    state.topic.lesson_content = { learningPath: [] };
+    state.topic.lesson_content = { learningPath: [{ type: 'lesson', title: 'Materi', content: 'Isi materi' }] };
     await expect(submitChallenge(null, form())).resolves.toMatchObject({ success: true });
   });
 });
