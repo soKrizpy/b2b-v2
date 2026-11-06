@@ -50,3 +50,9 @@ node_modules
 node_modules
 
 supabase/.temp/
+
+# Tracked agent skills
+!.agents/
+!.agents/skills/
+!.agents/skills/curriculum-consistency-auditor/
+!.agents/skills/curriculum-consistency-auditor/SKILL.md
