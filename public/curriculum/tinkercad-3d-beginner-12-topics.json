@@ -169,7 +169,8 @@
         "title": "Proyek: Desain 3D Pertamaku",
         "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Mengenal Grid, Workplane, dan Sudut Pandang",
@@ -336,7 +337,8 @@
         "title": "Proyek: Bentuk pada Bidang Kerja",
         "instructions": "Buat desain berisi tiga bentuk dasar di atas Workplane. Susun dengan jarak yang disengaja, lalu gunakan tampilan atas dan miring untuk memeriksa posisi serta tinggi tiap bentuk. Kirim tautan desain. Kriteria: tiga bentuk terlihat, berada dalam area kerja, dan penataan dapat dipahami dari dua sudut pandang.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Mengenal Bentuk Dasar dan Warna",
@@ -503,7 +505,8 @@
         "title": "Proyek: Rumah dari Bentuk Sederhana",
         "instructions": "Buat model rumah mini dari sekurangnya tiga bentuk: alas, badan rumah, dan atap. Gunakan setidaknya dua warna untuk membedakan bagian, lalu periksa susunan dari depan dan samping. Kirim tautan desain. Kriteria: tiga bagian utama terlihat, tidak saling terpisah tanpa tujuan, serta warna mendukung keterbacaan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Memindahkan, Memutar, dan Mengubah Ukuran",
@@ -670,7 +673,8 @@
         "title": "Proyek: Robot Geometris Sederhana",
         "instructions": "Rakit robot dari minimal lima bentuk terpisah: badan, kepala, dua lengan, dan dua kaki (bentuk boleh disederhanakan). Gunakan move, rotate, dan resize sesuai kebutuhan. Periksa tampak depan dan samping, lalu kirim tautan desain. Kriteria: bagian tubuh mudah dikenali, proporsi masuk akal, dan tidak ada bagian yang melayang tanpa sengaja.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Pengukuran dengan Ruler",
@@ -837,7 +841,8 @@
         "title": "Proyek: Objek dengan Ukuran yang Ditentukan",
         "instructions": "Buat balok dengan dimensi target 40 × 20 × 10 mm (X × Y × Z), atau unit angka yang disepakati guru. Gunakan Ruler untuk memeriksa ketiga dimensi. Tambahkan satu bentuk kecil sebagai penanda, tetapi jangan ubah ukuran balok utama dari target. Kirim tautan desain beserta catatan ukuran. Kriteria: ketiga dimensi utama tepat dan dapat diperiksa.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Align dan Mirror",
@@ -1004,7 +1009,8 @@
         "title": "Proyek: Model Simetris",
         "instructions": "Buat sebuah model sederhana dengan badan tengah dan dua komponen kiri-kanan. Sejajarkan salah satu komponen menggunakan Align, lalu buat pasangannya dan gunakan Mirror bila bentuk perlu dibalik. Kirim tautan desain. Kriteria: pasangan terletak seimbang, arah komponen masuk akal, dan hasil diperiksa dari depan serta atas.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Group dan Ungroup",
@@ -1171,7 +1177,8 @@
         "title": "Proyek: Benda dari Beberapa Bentuk",
         "instructions": "Buat satu benda sederhana dari minimal empat bentuk yang saling berhubungan, misalnya lencana geometri atau badan alat kecil. Atur bagian terlebih dahulu, Group saat susunan sudah benar, lalu uji apakah seluruh benda bergerak bersama. Jika perlu, Ungroup dan perbaiki satu bagian. Kirim tautan desain. Kriteria: minimal empat bentuk pembentuk, grouping dipakai dengan tujuan jelas, dan model tetap rapi.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Menggunakan Hole untuk Membuat Rongga",
@@ -1338,7 +1345,8 @@
         "title": "Proyek: Wadah atau Balok Berlubang",
         "instructions": "Buat wadah sederhana atau balok dengan setidaknya satu lubang yang jelas. Gunakan satu bentuk solid dan bentuk Hole yang beririsan, lalu Group untuk memotong. Periksa hasil dari atas dan samping/bawah untuk memastikan rongga sesuai rencana dan dinding masih tersisa. Kirim tautan desain. Kriteria: lubang terlihat, tidak memotong bagian yang salah, dan ketebalan dinding masuk akal.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Duplicate dan Pola Berulang",
@@ -1505,7 +1513,8 @@
         "title": "Proyek: Pagar atau Menara Berpola",
         "instructions": "Buat pagar dengan minimal enam tiang atau menara bertingkat dengan minimal enam unit berulang. Gunakan Duplicate dan upayakan jarak serta arah konsisten. Periksa dari atas dan samping, lalu kirim tautan desain. Kriteria: ada pola yang jelas, salinan rapi, dan tidak ada unit yang bertumpuk atau keluar dari barisan tanpa sengaja.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Merakit Objek dari Banyak Bentuk",
@@ -1672,7 +1681,8 @@
         "title": "Proyek: Mobil Mini atau Robot",
         "instructions": "Pilih membuat mobil mini atau robot dari sekurangnya enam bentuk. Rencanakan bagian utama terlebih dahulu, lalu tambahkan komponen yang berhubungan dengannya. Gunakan Move/Rotate dan Align bila perlu; Group hanya jika susunan bagian sudah tepat. Kirim tautan desain. Kriteria: minimal enam bentuk, komponen utama mudah dikenali, sambungan masuk akal, dan model diperiksa dari tiga arah.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Menyempurnakan Desain dan Memeriksa Ukuran",
@@ -1839,7 +1849,8 @@
         "title": "Proyek: Audit dan Perbaikan Model",
         "instructions": "Ambil satu model dari topik sebelumnya atau buat model sederhana dengan beberapa komponen. Lakukan pemeriksaan proporsi, ukuran dengan Ruler, alignment/simetri bila relevan, serta celah dan tumpang tindih. Perbaiki sekurangnya tiga masalah atau jelaskan tiga pemeriksaan yang menunjukkan model sudah benar. Kirim tautan desain dan ringkasan perubahan. Kriteria: perbaikan terencana, ukuran penting diperiksa, dan hasil akhir dibandingkan dengan tujuan.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     },
     {
       "topic_title": "Proyek Akhir: Produk 3D Buatan Sendiri",
@@ -2006,7 +2017,8 @@
         "title": "Proyek Akhir: Produk 3D Pilihanku",
         "instructions": "Pilih satu produk: gantungan nama, plakat, atau tempat alat tulis sederhana. Bangun dari beberapa bentuk dasar; gunakan Ruler untuk dimensi penting dan Hole bila produk membutuhkan rongga atau lubang. Terapkan Align, Duplicate, dan Group bila relevan. Kirim tautan model serta ringkasan fungsi, komponen, ukuran utama, dan satu perbaikan yang kamu lakukan. Kriteria: fungsi jelas, komponen tersusun, ukuran diperiksa, dan model dapat ditinjau dari beberapa arah.",
         "submission_type": "link"
-      }
+      },
+      "status": "published"
     }
   ],
   "description": "Kurikulum pemula untuk belajar desain 3D menggunakan Tinkercad. Level 1 (topik 1–4) mengenalkan ruang 3D dan bentuk dasar; Level 2 (topik 5–8) berfokus pada pengukuran dan penyusunan presisi; Level 3 (topik 9–12) mengembangkan pola, perakitan komponen, penyempurnaan, dan proyek produk akhir.",
