@@ -108,13 +108,27 @@ describe('curriculum JSON round-trip workflow', () => {
 
   it('validates every checked-in curriculum JSON file against the canonical schema', () => {
     const files = readdirSync('public/curriculum')
-      .filter((file) => file.endsWith('.json'))
+      .filter((file) => file.endsWith('.json') && file !== 'registry.json')
       .sort();
 
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) {
       const payload = JSON.parse(readFileSync(join('public/curriculum', file), 'utf8').replace(/^\uFEFF/, ''));
       expect(curriculumJsonSchema.safeParse(payload).success, `Invalid curriculum JSON: ${file}`).toBe(true);
+    }
+  });
+
+  it('keeps every mapped curriculum JSON file explicitly registered', () => {
+    const registry = JSON.parse(readFileSync('public/curriculum/registry.json', 'utf8').replace(/^\\uFEFF/, '')) as {
+      modules: Array<{ file: string; module_id: number | null; module_title: string; status: 'mapped' | 'template' }>;
+    };
+
+    expect(registry.modules.length).toBeGreaterThan(0);
+    for (const entry of registry.modules) {
+      expect(readdirSync('public/curriculum')).toContain(entry.file);
+      expect(entry.module_title.trim().length).toBeGreaterThan(0);
+      if (entry.status === 'mapped') expect(entry.module_id).toBeGreaterThan(0);
+      if (entry.status === 'template') expect(entry.module_id).toBeNull();
     }
   });
 
