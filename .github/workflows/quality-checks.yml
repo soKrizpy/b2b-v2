@@ -4,6 +4,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
+      - main
       - fix/security-priority-audit
       - fix/chatbot-retry-main-sync-20261028
       - feat/multi-module-access
