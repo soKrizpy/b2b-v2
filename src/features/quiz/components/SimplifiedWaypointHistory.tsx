@@ -294,17 +294,26 @@ export function SimplifiedWaypointHistory({
                 {/* Right: Action Buttons */}
                 <div className="flex items-center gap-2 flex-shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800">
                   {/* Buka Materi Pelajaran */}
-                  <Link
-                    href={`/student/lessons/topic/${node.topic.id}`}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                      isLocked
-                        ? 'bg-slate-800/60 text-slate-400 hover:text-white border border-slate-700/60'
-                        : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-600'
-                    }`}
-                  >
-                    <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Buka Materi</span>
-                  </Link>
+                  {isLocked ? (
+                    <span
+                      aria-disabled="true"
+                      title="Topik ini akan terbuka pada pertemuan mendatang."
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold
+                        bg-slate-800/60 text-slate-400 border border-slate-700/60 cursor-not-allowed"
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Terkunci</span>
+                    </span>
+                  ) : (
+                    <Link
+                      href={`/student/lessons/topic/${node.topic.id}`}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold
+                        bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all"
+                    >
+                      <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Buka Materi</span>
+                    </Link>
+                  )}
 
                   {/* Kuis Actions */}
                   {isNeedsQuiz ? (
