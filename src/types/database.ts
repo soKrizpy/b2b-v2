@@ -342,8 +342,8 @@ export interface StudentAssessmentUnlockRow {
 }
 export type CertificateInsert = Omit<
   CertificateRow,
-  'id' | 'issued_at' | 'verification_token' | 'issue_source' | 'issued_by' | 'admin_note'
-> & Partial<Pick<CertificateRow, 'issue_source' | 'issued_by' | 'admin_note'>>;
+  'id' | 'issued_at' | 'verification_token' | 'issue_source' | 'issued_by' | 'admin_note' | 'learning_record'
+> & Partial<Pick<CertificateRow, 'issue_source' | 'issued_by' | 'admin_note' | 'learning_record'>>;
 
 // ── Phase 2: Challenges & Submissions (new tables — additive) ────────────────
 
