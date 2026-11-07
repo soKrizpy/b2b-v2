@@ -238,7 +238,7 @@ const submitAssessmentSchema = z.object({
   module_id: z.coerce.number().int().positive(),
   answers:   z.array(z.object({
     question_id:  z.number().int().min(1),
-    chosen_index: z.number().int().min(0).max(3),
+    chosen_index: z.number().int().min(-1).max(3),
   })).length(20, 'Harus menjawab semua 20 soal'),
 });
 
