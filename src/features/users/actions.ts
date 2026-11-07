@@ -11,6 +11,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { requireAdmin, requireAdminOrTeacher } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { scoreToCertificateTier } from '@/features/curriculum/validation';
 
 // ── Return type ───────────────────────────────────────────────────────────────
 
