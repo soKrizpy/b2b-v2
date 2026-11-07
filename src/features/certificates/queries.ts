@@ -11,7 +11,7 @@ export interface CertificateWithModule extends CertificateRow {
 export interface VerifiedLearningTopic {
   id: number;
   title: string;
-  completed_at: string;
+  completed_at: string | null;
 }
 
 export interface VerifiedBadge {
@@ -23,7 +23,7 @@ export interface VerifiedBadge {
 }
 
 export interface PublicCertificateVerification {
-  certificate: Pick<CertificateRow, 'score' | 'tier' | 'certificate_number' | 'issued_at' | 'verification_token'>;
+  certificate: Pick<CertificateRow, 'score' | 'tier' | 'certificate_number' | 'issued_at' | 'verification_token' | 'learning_record'>;
   studentName: string;
   moduleTitle: string;
   topics: VerifiedLearningTopic[];
@@ -60,10 +60,10 @@ export async function getPublicCertificateVerification(
   const db = createSupabaseAdminClient();
   const { data: cert, error: certError } = await (db
     .from('certificates')
-    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token')
+    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token, learning_record')
     .eq('verification_token', token)
     .maybeSingle() as unknown as Promise<{
-      data: Pick<CertificateRow, 'id' | 'student_id' | 'module_id' | 'score' | 'tier' | 'certificate_number' | 'issued_at' | 'verification_token'> | null;
+      data: Pick<CertificateRow, 'id' | 'student_id' | 'module_id' | 'score' | 'tier' | 'certificate_number' | 'issued_at' | 'verification_token' | 'learning_record'> | null;
       error: { message: string } | null;
     }>);
 
@@ -117,7 +117,7 @@ export async function getPublicCertificateVerification(
 
   if (studentError || moduleError || !student || !moduleRow) return null;
 
-  const topics = (progressRows ?? [])
+  const trackedTopics = (progressRows ?? [])
     .filter((row) => row.topics && row.topics.module_id === cert.module_id && row.topics.status === 'published' && hasRenderableCurriculumContent(row.topics.lesson_content))
     .map((row) => ({
       id: row.topics!.id,
@@ -127,6 +127,18 @@ export async function getPublicCertificateVerification(
     }))
     .sort((a, b) => a.order_index - b.order_index)
     .map(({ id, title, completed_at }) => ({ id, title, completed_at }));
+
+  // Manual certificates use the admin-confirmed snapshot, including legacy topics
+  // whose completion was not recorded by the learning engine.
+  const savedLearningRecord = Array.isArray(cert.learning_record)
+    ? cert.learning_record as Array<{ topic_id: number; title: string; order_index: number }>
+    : [];
+  const topics = savedLearningRecord.length > 0
+    ? savedLearningRecord
+        .slice()
+        .sort((a, b) => a.order_index - b.order_index)
+        .map((topic) => ({ id: topic.topic_id, title: topic.title, completed_at: null }))
+    : trackedTopics;
 
   const inventoryCount = Array.isArray(student.inventory) ? student.inventory.length : 0;
   const cosmetics = student.equipped_cosmetics && typeof student.equipped_cosmetics === 'object'
@@ -160,6 +172,7 @@ export async function getPublicCertificateVerification(
       certificate_number: cert.certificate_number,
       issued_at: cert.issued_at,
       verification_token: cert.verification_token,
+      learning_record: cert.learning_record,
     },
     studentName: student.full_name,
     moduleTitle: moduleRow.title ?? 'Modul Bits2Bytes',
