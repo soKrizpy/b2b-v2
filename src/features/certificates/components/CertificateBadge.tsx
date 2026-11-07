@@ -1,14 +1,13 @@
 // src/features/certificates/components/CertificateBadge.tsx
 // Reusable badge displayed on Student Dashboard and Parent Report.
-// Pure display — no client interactivity needed.
+import Link from 'next/link';
 import { TIER_CONFIG } from '../queries';
 import type { CertificateRow, CertificateTier } from '@/types/database';
 
 interface CertificateBadgeProps {
-  cert: Pick<CertificateRow, 'tier' | 'score' | 'certificate_number' | 'issued_at'> & {
+  cert: Pick<CertificateRow, 'tier' | 'score' | 'certificate_number' | 'issued_at' | 'verification_token'> & {
     module_title?: string | null;
   };
-  /** compact: small pill; full: card with detail */
   variant?: 'compact' | 'full';
 }
 
@@ -30,10 +29,9 @@ export function CertificateBadge({ cert, variant = 'compact' }: CertificateBadge
   }
 
   return (
-    <div
+    <article
       className={`rounded-2xl border-2 border-double ring-1 p-5 flex items-start gap-4 shadow-sm
         ${cfg.bg} ${cfg.ring}`}
-      role="article"
       aria-label={`${cfg.label} Certificate untuk ${cert.module_title ?? 'modul ini'}`}
     >
       <span className="text-4xl flex-shrink-0" aria-hidden="true">{cfg.medal}</span>
@@ -48,9 +46,7 @@ export function CertificateBadge({ cert, variant = 'compact' }: CertificateBadge
           <span className={`text-2xl font-extrabold tabular-nums ${cfg.color}`}>
             {cert.score}<span className="text-sm font-normal opacity-60">/100</span>
           </span>
-          <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
-            #{cert.certificate_number}
-          </span>
+          <span className="text-xs font-mono text-slate-400 dark:text-slate-500">#{cert.certificate_number}</span>
           <span className="text-xs text-slate-400 dark:text-slate-500">
             {new Date(cert.issued_at).toLocaleDateString('id-ID', {
               day: 'numeric', month: 'long', year: 'numeric',
@@ -58,7 +54,14 @@ export function CertificateBadge({ cert, variant = 'compact' }: CertificateBadge
           </span>
         </div>
         <p className={`text-xs mt-1.5 ${cfg.color} opacity-80`}>{cfg.description}</p>
+        <Link
+          href={`/verify/${cert.verification_token}`}
+          className="no-print inline-flex items-center gap-2 mt-4 rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-slate-800"
+        >
+          <span aria-hidden="true">↗</span>
+          Lihat &amp; Unduh Sertifikat
+        </Link>
       </div>
-    </div>
+    </article>
   );
 }

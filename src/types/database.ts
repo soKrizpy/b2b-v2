@@ -326,6 +326,7 @@ export interface CertificateRow {
   score: number;
   tier: CertificateTier;
   certificate_number: string;
+  verification_token: string;
   issued_at: string;
   issue_source: 'assessment' | 'manual';
   issued_by: string | null;
@@ -340,7 +341,7 @@ export interface StudentAssessmentUnlockRow {
 }
 export type CertificateInsert = Omit<
   CertificateRow,
-  'id' | 'issued_at' | 'issue_source' | 'issued_by' | 'admin_note'
+  'id' | 'issued_at' | 'verification_token' | 'issue_source' | 'issued_by' | 'admin_note'
 > & Partial<Pick<CertificateRow, 'issue_source' | 'issued_by' | 'admin_note'>>;
 
 // ── Phase 2: Challenges & Submissions (new tables — additive) ────────────────
