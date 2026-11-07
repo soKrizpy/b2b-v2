@@ -377,10 +377,10 @@ export async function submitFinalAssessment(
   // The module_assessments row is metadata only; the authoritative questions remain in modules.description.
   const { data: assessmentRecord, error: assessmentRecordError } = await (db
     .from('module_assessments')
-    .upsert({
+    .upsert([{
       module_id,
       title: assessment.title.slice(0, 255),
-    }, { onConflict: 'module_id' })
+    }] as never[], { onConflict: 'module_id' })
     .select('id')
     .single() as unknown as Promise<{
       data: { id: number } | null;
