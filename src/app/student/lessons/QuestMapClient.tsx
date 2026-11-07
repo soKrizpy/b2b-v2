@@ -235,7 +235,7 @@ function LocationPopoverCard({
           </div>
         ) : isModuleComplete ? (
           <Link
-            href={`/student/assessment/${moduleId}`}
+            href={`/student/assessment/${moduleId}`
             onClick={onClose}
             className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-2xl
               text-xs font-black text-slate-950
