@@ -574,6 +574,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
               studentId={s.id}
               studentName={s.full_name}
               modules={s.modules}
+              allModules={allModules}
               unlockedModuleIds={s.assessment_unlocked_module_ids}
               certificateModuleIds={s.certificate_module_ids}
             />
