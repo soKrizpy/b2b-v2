@@ -1681,7 +1681,7 @@
         },
         {
           "id": 20,
-          "question": "Pemeriksaan apa yang paling tepat dilakukan sebelum mengekspor desain Tinkercad sebagai STL?",
+          "question": "Setelah mengekspor desain sebagai STL, apa yang sebaiknya diperiksa di slicer sebelum mencetak?",
           "options": [
             "Mengubah warna semua objek menjadi putih",
             "Memindahkan objek ke koordinat 0,0,0",
@@ -1689,7 +1689,7 @@
             "Periksa bentuk akhir, pastikan operasi Hole sudah di-Group sesuai tujuan, lalu tinjau mesh hasil ekspor di slicer"
           ],
           "answer_index": 3,
-          "explanation": "Meng-Group seluruh komponen bukan syarat universal untuk ekspor STL. Yang penting adalah memastikan operasi solid/Hole menghasilkan geometri sesuai tujuan dan memeriksa mesh di slicer; komponen terpisah boleh dipertahankan bila memang diinginkan."
+          "explanation": "Tinjau pratinjau layer dan periksa apakah mesh tertutup, orientasi, dinding, serta geometri hasil ekspor sesuai tujuan. Meng-Group semua komponen bukan syarat universal; komponen terpisah boleh dipertahankan bila memang dirancang demikian."
         }
       ]
     },
