@@ -84,7 +84,7 @@ export function TryoutClient({ moduleId, assessment, shuffleSeed }: Props) {
     fd.append('answers', JSON.stringify(
       assessment.questions.map((q) => ({
         question_id:  q.id,
-        chosen_index: answers[q.id] ?? 0,
+        chosen_index: answers[q.id] ?? -1,
       }))
     ));
     dispatch(fd);
