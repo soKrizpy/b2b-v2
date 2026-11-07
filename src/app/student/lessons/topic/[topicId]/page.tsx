@@ -60,6 +60,7 @@ export default async function TopicPage({ params }: Props) {
   // ── Paused module: review-only access ────────────────────────────────────
   // Topic must be published (checked above) AND student must have completed it.
   let reviewOnly = false;
+  let submissionPlaceholder = 'https://...';
   if (enrollment.status === 'paused') {
     const { data: progress } = await (db
       .from('topic_progress')
@@ -78,6 +79,12 @@ export default async function TopicPage({ params }: Props) {
     // The map is not a security boundary: block direct URLs for future locked topics.
   const enrolledModules = await getStudentModulesWithTopics(auth.user.id);
   const enrolledModule = enrolledModules.find((item) => item.id === topic.module_id);
+  const moduleContext = `${enrolledModule?.title ?? ''} ${enrolledModule?.description ?? ''}`.toLowerCase();
+  if (moduleContext.includes('tinkercad')) {
+    submissionPlaceholder = 'https://www.tinkercad.com/things/...';
+  } else if (moduleContext.includes('scratch')) {
+    submissionPlaceholder = 'https://scratch.mit.edu/projects/...';
+  }
   const questProgress = enrolledModule
     ? await getQuestMapData(auth.user.id, enrolledModule)
     : null;
@@ -204,7 +211,12 @@ export default async function TopicPage({ params }: Props) {
                 )}
               </div>
               <div className="px-5 py-4">
-                <SubmitChallengeForm challenge={ch} existingSubmission={ch.submission} reviewOnly={reviewOnly} />
+                <SubmitChallengeForm
+                  challenge={ch}
+                  existingSubmission={ch.submission}
+                  reviewOnly={reviewOnly}
+                  submissionPlaceholder={submissionPlaceholder}
+                />
               </div>
             </div>
           ))}
