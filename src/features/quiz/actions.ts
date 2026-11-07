@@ -12,6 +12,7 @@ import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import { isFeatureEnabled } from '@/lib/featureConfig';
+import { isAssessmentChoiceCorrect } from '@/features/quiz/assessment-options';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -363,7 +364,7 @@ export async function submitFinalAssessment(
   let correct = 0;
   for (const question of assessment.questions) {
     const answer = answers.find((item) => item.question_id === question.id);
-    if (answer && answer.chosen_index === question.answer_index) correct++;
+    if (answer && isAssessmentChoiceCorrect(answer.chosen_index, question.answer_index)) correct++;
   }
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
