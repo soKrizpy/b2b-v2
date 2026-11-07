@@ -1,7 +1,7 @@
 // src/features/certificates/components/CertificateBadge.tsx
 // Reusable badge displayed on Student Dashboard and Parent Report.
 import Link from 'next/link';
-import { TIER_CONFIG } from '../queries';
+import { CERTIFICATE_TIER_CONFIG as TIER_CONFIG } from '../tiers';
 import type { CertificateRow, CertificateTier } from '@/types/database';
 
 interface CertificateBadgeProps {

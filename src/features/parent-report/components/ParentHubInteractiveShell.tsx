@@ -27,7 +27,7 @@ import type {
   RiwayatModule,
 } from '@/features/parent-report/queries.student';
 import type { CertificateWithModule } from '@/features/certificates/queries';
-import { TIER_CONFIG } from '@/features/certificates/queries';
+import { CERTIFICATE_TIER_CONFIG as TIER_CONFIG } from '@/features/certificates/tiers';
 import { PrintCertificateButton } from '@/features/certificates/components/PrintCertificateButton';
 import { formatDate } from '@/lib/formatDate';
 import { MonthlyReportCard } from './MonthlyReportCard';

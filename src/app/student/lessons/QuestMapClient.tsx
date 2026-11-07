@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { QuizModal } from '@/features/quiz/components/QuizModal';
 import { LevelUpCelebrationModal } from '@/features/dashboard/student/LevelUpCelebrationModal';
-import { TIER_CONFIG } from '@/features/certificates/queries';
+import { CERTIFICATE_TIER_CONFIG as TIER_CONFIG } from '@/features/certificates/tiers';
 import { getFantasyLocationForTopic, type FantasyLocation } from '@/features/quiz/fantasyIsland';
 import { RetroPixelWorldMap } from '@/features/quiz/components/RetroPixelWorldMap';
 import { SimplifiedWaypointHistory } from '@/features/quiz/components/SimplifiedWaypointHistory';
