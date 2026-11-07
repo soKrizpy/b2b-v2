@@ -12,7 +12,11 @@ import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import { isFeatureEnabled } from '@/lib/featureConfig';
-import { buildPersistedAssessmentAnswers, getAssessmentAttemptSummary, isAssessmentChoiceCorrect } from '@/features/quiz/assessment-options';
+import {
+  buildPersistedAssessmentAnswers,
+  getAssessmentAttemptSummary,
+  isAssessmentChoiceCorrect,
+} from '@/features/quiz/assessment-options';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
