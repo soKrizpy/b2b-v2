@@ -704,11 +704,6 @@ export async function issueManualStudentCertificate(
   const [{ data: student }, { data: moduleRow }, { data: existing }] = await Promise.all([
     db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
     db.from('modules').select('id').eq('id', parsed.data.module_id).maybeSingle(),
-    db.from('student_modules').select('module_id')
-      .eq('student_id', parsed.data.student_id)
-      .eq('module_id', parsed.data.module_id)
-      .eq('status', 'active')
-      .maybeSingle(),
     db.from('certificates').select('id')
       .eq('student_id', parsed.data.student_id)
       .eq('module_id', parsed.data.module_id)
