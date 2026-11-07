@@ -327,6 +327,7 @@ export interface CertificateRow {
   tier: CertificateTier;
   certificate_number: string;
   verification_token: string;
+  learning_record: Json | null;
   issued_at: string;
   issue_source: 'assessment' | 'manual';
   issued_by: string | null;
