@@ -37,7 +37,7 @@ export async function getStudentCertificates(studentId: string): Promise<Certifi
   const db = createSupabaseAdminClient();
   const { data, error } = await db
     .from('certificates')
-    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token, issue_source, issued_by, admin_note, modules(title)')
+    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token, learning_record, issue_source, issued_by, admin_note, modules(title)')
     .eq('student_id', studentId)
     .order('issued_at', { ascending: false });
 
@@ -194,7 +194,7 @@ export async function getCertificateByModuleAndStudent(
   const db = createSupabaseAdminClient();
   const { data } = await (db
     .from('certificates')
-    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token, issue_source, issued_by, admin_note')
+    .select('id, student_id, module_id, score, tier, certificate_number, issued_at, verification_token, learning_record, issue_source, issued_by, admin_note')
     .eq('student_id', studentId)
     .eq('module_id', moduleId)
     .maybeSingle() as unknown as Promise<{ data: CertificateRow | null; error: unknown }>);
