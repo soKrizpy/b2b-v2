@@ -1467,36 +1467,36 @@
           "id": 2,
           "question": "Cara membuat lubang/rongga pada objek solid di Tinkercad adalah?",
           "options": [
-            "Ubah objek pemotong menjadi Hole, posisikan, lalu Group bersama objek solid",
             "Gunakan tool Drill dari menu Edit",
+            "Ubah objek pemotong menjadi Hole, posisikan, lalu Group bersama objek solid",
             "Klik kanan objek → Cut",
             "Tarik handle objek ke dalam"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Hole + Group adalah operasi Boolean Subtraction di Tinkercad — objek Hole memotong area irisan dari objek solid."
         },
         {
           "id": 3,
           "question": "Shortcut keyboard untuk meng-Group objek di Tinkercad adalah?",
           "options": [
-            "Ctrl+G",
             "Ctrl+H",
             "Ctrl+M",
+            "Ctrl+G",
             "Ctrl+B"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Ctrl+G adalah shortcut Group di Tinkercad untuk menggabungkan beberapa objek terpilih menjadi satu kesatuan."
         },
         {
           "id": 4,
           "question": "Shape Tinkercad mana yang mengkonversi input teks menjadi objek 3D?",
           "options": [
-            "Text",
             "Letter",
             "Font3D",
-            "Word"
+            "Word",
+            "Text"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Shape 'Text' di panel Shapes menghasilkan objek 3D solid dari teks yang diketik, dengan kontrol font dan ketebalan."
         },
         {
@@ -1515,36 +1515,36 @@
           "id": 6,
           "question": "Fitur Tinkercad untuk menyejajarkan posisi beberapa objek secara presisi adalah?",
           "options": [
-            "Align (shortcut: L)",
             "Snap (shortcut: S)",
+            "Align (shortcut: L)",
             "Grid (shortcut: G)",
             "Lock (shortcut: K)"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Align (tombol L) memungkinkan penyejajaran objek berdasarkan sumbu X, Y, Z — rata kiri, tengah, kanan, atas, bawah."
         },
         {
           "id": 7,
           "question": "Rumus menghitung sudut rotasi untuk menempatkan N elemen secara melingkar merata adalah?",
           "options": [
-            "360 dibagi N",
             "180 dibagi N",
             "N dikali 30",
+            "360 dibagi N",
             "360 dikali N"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Lingkaran 360° dibagi jumlah elemen N menghasilkan sudut antar elemen yang sama rata."
         },
         {
           "id": 8,
           "question": "Shortcut Duplicate di Tinkercad yang juga mewarisi transformasi terakhir adalah?",
           "options": [
-            "Ctrl+D",
             "Ctrl+C → Ctrl+V",
             "Ctrl+R",
-            "Ctrl+P"
+            "Ctrl+P",
+            "Ctrl+D"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Ctrl+D membuat duplikat yang mewarisi transformasi terakhir — kunci untuk membuat pola berulang yang otomatis."
         },
         {
@@ -1563,36 +1563,36 @@
           "id": 10,
           "question": "Tool Scribble di Tinkercad mengkonversi gambar 2D menjadi 3D menggunakan algoritma?",
           "options": [
-            "Extrude — bentuk 2D diangkat secara vertikal",
             "Inflate — gambar 2D digelembungkan",
+            "Extrude — bentuk 2D diangkat secara vertikal",
             "Scan — gambar difoto",
             "Revolve — gambar diputar 360°"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Scribble menggunakan extrusion — outline gambar 2D 'diangkat' tegak lurus menjadi solid 3D dengan ketebalan yang ditentukan."
         },
         {
           "id": 11,
-          "question": "Ketebalan dinding minimum yang disarankan untuk objek cetak 3D agar tidak mudah patah adalah?",
+          "question": "Pada pencetakan FDM dengan lebar garis sekitar 0,4 mm, pendekatan awal yang tepat untuk menentukan ketebalan dinding adalah?",
           "options": [
-            "1.5 - 2 mm",
             "0.5 mm",
             "5 mm",
+            "Menetapkannya sebagai kelipatan lebar garis, misalnya 3 garis sekitar 1,2 mm, lalu menyesuaikannya dengan kebutuhan kekuatan",
             "10 mm"
           ],
-          "answer_index": 0,
-          "explanation": "Dinding di bawah 1.5mm sangat berisiko patah selama proses cetak atau saat digunakan. Standar minimal adalah 1.5-2mm."
+          "answer_index": 2,
+          "explanation": "Ketebalan dinding FDM umumnya dibangun dari beberapa perimeter dengan lebar garis tertentu. Tiga garis 0,4 mm menghasilkan sekitar 1,2 mm; jumlah perimeter perlu disesuaikan dengan beban, material, orientasi, dan printer."
         },
         {
           "id": 12,
           "question": "Format file vektor yang bisa diimpor ke Tinkercad untuk dijadikan objek 3D adalah?",
           "options": [
-            ".SVG",
             ".PNG",
             ".JPG",
-            ".BMP"
+            ".BMP",
+            ".SVG"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "SVG (Scalable Vector Graphics) bisa diimpor ke Tinkercad karena path vektornya bisa dikonversi menjadi ekstrusi 3D."
         },
         {
@@ -1611,36 +1611,36 @@
           "id": 14,
           "question": "Shortcut untuk Ungroup (memisahkan Group) di Tinkercad adalah?",
           "options": [
-            "Ctrl+Shift+G",
             "Ctrl+U",
+            "Ctrl+Shift+G",
             "Ctrl+G dua kali",
             "Alt+G"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Ctrl+Shift+G adalah shortcut Ungroup — memisahkan objek yang sebelumnya digabungkan kembali menjadi komponen individual."
         },
         {
           "id": 15,
-          "question": "Format file universal standar industri untuk mencetak objek 3D adalah?",
+          "question": "Format mesh yang paling umum didukung untuk mengekspor desain Tinkercad dan membukanya di banyak slicer 3D adalah?",
           "options": [
-            ".STL",
             ".OBJ",
             ".FBX",
+            ".STL",
             ".3DS"
           ],
-          "answer_index": 0,
-          "explanation": "STL (STereoLithography) adalah format mesh 3D yang paling universal dan didukung hampir semua slicer dan printer 3D."
+          "answer_index": 2,
+          "explanation": "STL merupakan format mesh yang sangat luas dukungannya di slicer dan printer 3D. Format 3MF juga semakin banyak digunakan karena dapat menyimpan informasi tambahan."
         },
         {
           "id": 16,
           "question": "Apa yang dimaksud 'floating object' yang harus dihindari sebelum mencetak 3D?",
           "options": [
-            "Objek yang melayang tanpa terhubung ke objek lain atau workplane",
             "Objek dengan material transparan",
             "Objek berukuran sangat kecil (< 1mm)",
-            "Objek yang berada di luar workplane"
+            "Objek yang berada di luar workplane",
+            "Objek yang melayang tanpa terhubung ke objek lain atau workplane"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Floating object tidak memiliki titik kontak ke bawah. Printer 3D yang mencetak layer demi layer dari bawah tidak bisa mencetak ini."
         },
         {
@@ -1657,39 +1657,39 @@
         },
         {
           "id": 18,
-          "question": "Mengapa ukuran kompartemen wadah harus 1-2mm lebih besar dari objek yang akan diisi?",
+          "question": "Mengapa perlu memberi clearance (ruang bebas) antara objek dan kompartemen yang akan menampungnya?",
           "options": [
-            "Toleransi agar objek bisa dimasukkan — cetak 3D memiliki variasi dimensi kecil",
             "Printer 3D selalu mencetak 2mm lebih kecil",
+            "Agar ada ruang untuk variasi dimensi hasil cetak dan toleransi pemasangan; besar clearance perlu diuji sesuai printer, material, dan jenis sambungan",
             "Objek yang pas persis tidak bisa dikeluarkan lagi",
             "Tidak ada alasan, hanya konvensi desain"
           ],
-          "answer_index": 0,
-          "explanation": "Toleransi dimensi memastikan objek nyata bisa masuk ke kompartemen yang dicetak, mengkompensasi variasi kecil dalam proses cetak."
+          "answer_index": 1,
+          "explanation": "Clearance mencegah dua bagian yang dirancang saling masuk menjadi terlalu rapat setelah dicetak. Nilainya tidak universal dan sebaiknya diuji dengan printer, material, orientasi, serta jenis sambungan yang digunakan."
         },
         {
           "id": 19,
-          "question": "Untuk apa fitur Ruler digunakan saat mendesain di Tinkercad?",
+          "question": "Apa fungsi utama fitur Ruler saat mengatur objek di Tinkercad?",
           "options": [
-            "Mengukur jarak antar objek secara real-time di workplane",
             "Membuat garis bantu lurus",
             "Mengatur skala keseluruhan desain",
+            "Menampilkan ukuran objek dan jarak/posisi relatif terhadap titik acuan pada workplane",
             "Menampilkan ukuran dalam inci"
           ],
-          "answer_index": 0,
-          "explanation": "Ruler menampilkan penggaris digital yang mengukur jarak secara akurat — penting untuk memastikan posisi dan dimensi tepat."
+          "answer_index": 2,
+          "explanation": "Ruler menampilkan dimensi serta offset posisi objek dari titik acuan yang ditempatkan pada workplane, sehingga ukuran dan penempatan dapat diatur lebih presisi."
         },
         {
           "id": 20,
-          "question": "Langkah wajib terakhir sebelum mengekspor file STL dari Tinkercad adalah?",
+          "question": "Pemeriksaan apa yang paling tepat dilakukan sebelum mengekspor desain Tinkercad sebagai STL?",
           "options": [
-            "Group semua komponen menjadi satu objek solid utuh",
             "Mengubah warna semua objek menjadi putih",
             "Memindahkan objek ke koordinat 0,0,0",
-            "Menghapus semua objek Hole yang tersisa"
+            "Menghapus semua objek Hole yang tersisa",
+            "Periksa bentuk akhir, pastikan operasi Hole sudah di-Group sesuai tujuan, lalu tinjau mesh hasil ekspor di slicer"
           ],
-          "answer_index": 0,
-          "explanation": "Group memastikan seluruh desain tereksport sebagai satu mesh solid yang kohesif, bukan kumpulan komponen terpisah."
+          "answer_index": 3,
+          "explanation": "Meng-Group seluruh komponen bukan syarat universal untuk ekspor STL. Yang penting adalah memastikan operasi solid/Hole menghasilkan geometri sesuai tujuan dan memeriksa mesh di slicer; komponen terpisah boleh dipertahankan bila memang diinginkan."
         }
       ]
     },
