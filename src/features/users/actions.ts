@@ -659,7 +659,7 @@ export async function issueManualStudentCertificate(
 
   const certificateDb = db as unknown as {
     from: (table: string) => {
-      insert: (values: unknown) => Promise<{ error: { message: string } | null }>;
+      insert: (values: unknown) => Promise<{ error: { message: string; code?: string } | null }>;
     };
   };
   const { error } = await certificateDb.from('certificates').insert({
