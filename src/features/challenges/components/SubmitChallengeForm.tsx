@@ -8,6 +8,8 @@ interface Props {
   existingSubmission: SubmissionRow | null;
   /** When true, hides the submission form (review-only mode for paused modules). */
   reviewOnly?: boolean;
+  /** Platform-aware example URL shown in the submission field. */
+  submissionPlaceholder?: string;
 }
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
@@ -16,7 +18,12 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   needs_revision: { label: 'Perlu Revisi',     className: 'bg-red-100 text-red-800' },
 };
 
-export function SubmitChallengeForm({ challenge, existingSubmission, reviewOnly = false }: Props) {
+export function SubmitChallengeForm({
+  challenge,
+  existingSubmission,
+  reviewOnly = false,
+  submissionPlaceholder = 'https://...',
+}: Props) {
   const [state, dispatch, pending] = useActionState(submitChallenge, null);
 
   const status = existingSubmission?.status;
@@ -78,7 +85,7 @@ export function SubmitChallengeForm({ challenge, existingSubmission, reviewOnly 
             </label>
             <input id={`url-${challenge.id}`} name="submission_url" type="url"
               required className="border rounded px-3 py-2 text-sm"
-              placeholder="https://scratch.mit.edu/projects/..." />
+              placeholder={submissionPlaceholder} />
             {state && !state.success && state.fields?.submission_url && (
               <p className="text-xs text-red-600">{state.fields.submission_url}</p>
             )}
