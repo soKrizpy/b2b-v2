@@ -47,6 +47,6 @@ describe('final assessment option order', () => {
     expect(questions.find((question: { id: number }) => question.id === 15).question).toContain('paling umum didukung');
     expect(questions.find((question: { id: number }) => question.id === 18).question).toContain('clearance');
     expect(questions.find((question: { id: number }) => question.id === 19).question).toContain('Ruler');
-    expect(questions.find((question: { id: number }) => question.id === 20).question).toContain('Pemeriksaan');
+    expect(questions.find((question: { id: number }) => question.id === 20).question).toContain('Setelah mengekspor');
   });
 });
