@@ -15,6 +15,7 @@ import {
 } from '@/features/users/actions';
 import type { StudentRecord, AssignedModule, TeacherRecord } from '@/features/users/queries';
 import type { ModuleRow } from '@/types/database';
+import { AdminExamControls } from '@/features/users/components/AdminExamControls';
 
 interface Props {
   student:     StudentRecord;
@@ -23,7 +24,7 @@ interface Props {
   onClose:     () => void;
 }
 
-type Tab = 'path' | 'teacher' | 'history' | 'achievement' | 'certificate';
+type Tab = 'path' | 'teacher' | 'exam' | 'history' | 'achievement' | 'certificate';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -459,6 +460,7 @@ function titleFromXp(xp: number): string {
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'path',        label: 'Learning Path', icon: '📖' },
   { id: 'teacher',     label: 'Guru',          icon: '👨‍🏫' },
+  { id: 'exam',        label: 'Ujian',         icon: '📝' },
   { id: 'history',     label: 'Riwayat',       icon: '📋' },
   { id: 'achievement', label: 'Pencapaian',    icon: '🏅' },
   { id: 'certificate', label: 'Sertifikat',    icon: '🎖' },
@@ -568,6 +570,14 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
         <div className="flex-1 overflow-y-auto px-4 pb-5 pt-2">
           {tab === 'path'        && <LearningPathTab student={s} allModules={allModules} />}
           {tab === 'teacher'     && <EnrolledTeacherTab student={s} allTeachers={allTeachers} />}
+          {tab === 'exam'        && (
+            <AdminExamControls
+              studentId={s.id}
+              modules={s.modules}
+              unlockedModuleIds={s.assessment_unlocked_module_ids}
+              certificateModuleIds={s.certificate_module_ids}
+            />
+          )}
           {tab === 'history'     && <PlaceholderTab icon="📋" label="Riwayat Pertemuan" />}
           {tab === 'achievement' && <PlaceholderTab icon="🏅" label="Pencapaian & Badge" />}
           {tab === 'certificate' && <PlaceholderTab icon="🎖" label="Sertifikat Siswa" />}
