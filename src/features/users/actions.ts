@@ -614,13 +614,77 @@ const manualCertificateSchema = z.object({
   module_id: z.coerce.number().int().positive(),
   score: z.coerce.number().int().min(0).max(100),
   admin_note: z.string().trim().min(5, 'Catatan minimal 5 karakter').max(500),
+  topic_ids: z.array(z.coerce.number().int().positive()).min(1, 'Pilih minimal satu materi yang benar-benar diikuti siswa.').max(100),
 });
+
+const manualCertificateTopicsSchema = z.object({
+  student_id: z.string().uuid(),
+  module_ids: z.array(z.coerce.number().int().positive()).min(1).max(50),
+});
+
+export interface ManualCertificateTopicOption {
+  id: number;
+  module_id: number;
+  title: string;
+  order_index: number;
+  status: string | null;
+  trackedCompleted: boolean;
+}
+
+/** Loads module topics and existing progress to preselect only reliably tracked completions. */
+export async function getManualCertificateTopics(
+  studentId: string,
+  moduleIds: number[],
+): Promise<{ success: true; topics: ManualCertificateTopicOption[] } | { success: false; error: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+
+  const parsed = manualCertificateTopicsSchema.safeParse({ student_id: studentId, module_ids: moduleIds });
+  if (!parsed.success) return { success: false, error: 'Data siswa atau modul tidak valid.' };
+
+  const db = createSupabaseAdminClient();
+  const [{ data: topicRows, error: topicsError }] = await Promise.all([
+    db.from('topics')
+      .select('id, module_id, title, order_index, status')
+      .in('module_id', parsed.data.module_ids)
+      .order('module_id', { ascending: true })
+      .order('order_index', { ascending: true }) as unknown as Promise<{
+        data: Array<{ id: number; module_id: number; title: string; order_index: number; status: string | null }> | null;
+        error: { message: string } | null;
+      }>,
+  ]);
+
+  if (topicsError) return { success: false, error: `Gagal memuat daftar materi: ${topicsError.message}` };
+
+  const topicIds = (topicRows ?? []).map((topic) => topic.id);
+  let completedIds = new Set<number>();
+  if (topicIds.length > 0) {
+    const { data: progressRows, error: progressError } = await (db.from('topic_progress')
+      .select('topic_id')
+      .eq('student_id', parsed.data.student_id)
+      .in('topic_id', topicIds) as unknown as Promise<{
+        data: Array<{ topic_id: number }> | null;
+        error: { message: string } | null;
+      }>);
+    if (progressError) return { success: false, error: `Gagal memuat progres materi: ${progressError.message}` };
+    completedIds = new Set((progressRows ?? []).map((row) => row.topic_id));
+  }
+
+  return {
+    success: true,
+    topics: (topicRows ?? []).map((topic) => ({
+      ...topic,
+      trackedCompleted: completedIds.has(topic.id),
+    })),
+  };
+}
 
 export async function issueManualStudentCertificate(
   studentId: string,
   moduleId: number,
   score: number,
   adminNote: string,
+  topicIds: number[],
 ): Promise<AdminExamActionResult> {
   const auth = await requireAdmin();
   if (!auth.ok) return { success: false, error: auth.message };
@@ -630,15 +694,26 @@ export async function issueManualStudentCertificate(
     module_id: moduleId,
     score,
     admin_note: adminNote,
+    topic_ids: topicIds,
   });
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message ?? 'Data sertifikat tidak valid.' };
   }
 
+  const uniqueTopicIds = [...new Set(parsed.data.topic_ids)];
+  if (uniqueTopicIds.length !== parsed.data.topic_ids.length) {
+    return { success: false, error: 'Daftar materi mengandung pilihan ganda.' };
+  }
+
   const db = createSupabaseAdminClient();
-  const [{ data: student }, { data: moduleRow }, { data: existing }] = await Promise.all([
+  const [{ data: student }, { data: moduleRow }, { data: enrollment }, { data: existing }] = await Promise.all([
     db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
     db.from('modules').select('id').eq('id', parsed.data.module_id).maybeSingle(),
+    db.from('student_modules').select('module_id')
+      .eq('student_id', parsed.data.student_id)
+      .eq('module_id', parsed.data.module_id)
+      .eq('status', 'active')
+      .maybeSingle(),
     db.from('certificates').select('id')
       .eq('student_id', parsed.data.student_id)
       .eq('module_id', parsed.data.module_id)
@@ -647,7 +722,25 @@ export async function issueManualStudentCertificate(
 
   if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
   if (!moduleRow) return { success: false, error: 'Modul tidak ditemukan.' };
+  if (!enrollment) return { success: false, error: 'Modul siswa harus berstatus aktif untuk menerbitkan sertifikat manual.' };
   if (existing) return { success: false, error: 'Siswa sudah memiliki sertifikat untuk modul ini.' };
+
+  const { data: selectedTopics, error: selectedTopicsError } = await (db.from('topics')
+    .select('id, title, order_index, module_id')
+    .eq('module_id', parsed.data.module_id)
+    .in('id', uniqueTopicIds) as unknown as Promise<{
+      data: Array<{ id: number; title: string; order_index: number; module_id: number }> | null;
+      error: { message: string } | null;
+    }>);
+
+  if (selectedTopicsError) return { success: false, error: `Gagal memvalidasi materi: ${selectedTopicsError.message}` };
+  if ((selectedTopics ?? []).length !== uniqueTopicIds.length) {
+    return { success: false, error: 'Ada materi yang tidak termasuk dalam modul terpilih. Muat ulang formulir dan pilih kembali.' };
+  }
+
+  const learningRecord = (selectedTopics ?? [])
+    .sort((a, b) => a.order_index - b.order_index)
+    .map((topic) => ({ topic_id: topic.id, title: topic.title, order_index: topic.order_index }));
 
   const tier = scoreToCertificateTier(parsed.data.score);
   const now = new Date();
@@ -669,6 +762,7 @@ export async function issueManualStudentCertificate(
     issue_source: 'manual',
     issued_by: auth.user.id,
     admin_note: parsed.data.admin_note,
+    learning_record: learningRecord,
   });
 
   if (error) {
