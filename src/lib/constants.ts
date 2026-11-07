@@ -22,5 +22,6 @@ export const PUBLIC_PATHS: string[] = [
   '/',           // root static redirect — let Next.js handle it directly
   '/login',
   '/parent/report',
+  '/verify',      // public QR certificate verification — no student login required
   '/api/auth',
 ];
