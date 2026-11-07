@@ -1,20 +1,31 @@
 'use client';
 // Tryout layout: 70% question area / 30% sidebar with grid + timer + submit.
-import { useActionState, useCallback, useEffect, useRef, useState } from 'react';
+import { useActionState, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import { submitFinalAssessment } from '@/features/quiz/actions';
+import { createAssessmentOptionOrder } from '@/features/quiz/assessment-options';
 import type { FinalAssessment } from '@/features/curriculum/validation';
 
 interface Props {
   moduleId:   number;
   assessment: FinalAssessment;
+  shuffleSeed: string;
 }
 
 type AnswerMap = Record<number, number>;   // question id → chosen_index
 type Marked    = Set<number>;              // question ids marked for review (ragu-ragu)
 
-export function TryoutClient({ moduleId, assessment }: Props) {
+export function TryoutClient({ moduleId, assessment, shuffleSeed }: Props) {
+  const optionOrders = useMemo(
+    () => Object.fromEntries(
+      assessment.questions.map((question) => [
+        question.id,
+        createAssessmentOptionOrder(question.id, shuffleSeed, question.options.length),
+      ]),
+    ) as Record<number, number[]>,
+    [assessment.questions, shuffleSeed],
+  );
   const router                     = useRouter();
   const total                      = assessment.questions.length; // 20
   const [current, setCurrent]      = useState(0);
@@ -149,18 +160,19 @@ export function TryoutClient({ moduleId, assessment }: Props) {
           </p>
 
           <div className="flex flex-col gap-2.5">
-            {q.options.map((opt, oi) => {
-              const chosen = answers[q.id] === oi;
+            {(optionOrders[q.id] ?? [0, 1, 2, 3]).map((originalIndex, displayIndex) => {
+              const opt = q.options[originalIndex];
+              const chosen = answers[q.id] === originalIndex;
               return (
-                <button key={oi} type="button"
-                  onClick={() => selectAnswer(q.id, oi)}
+                <button key={originalIndex} type="button"
+                  onClick={() => selectAnswer(q.id, originalIndex)}
                   className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium
                     transition-all ring-1 cursor-pointer
                     ${chosen
                       ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-900 dark:text-indigo-100'
                       : 'ring-slate-200 dark:ring-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                     }`}>
-                  <span className="font-bold mr-2 text-slate-400">{['A','B','C','D'][oi]}.</span>
+                  <span className="font-bold mr-2 text-slate-400">{['A','B','C','D'][displayIndex]}.</span>
                   {opt}
                 </button>
               );
