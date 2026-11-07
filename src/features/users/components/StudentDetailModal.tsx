@@ -24,7 +24,7 @@ interface Props {
   onClose:     () => void;
 }
 
-type Tab = 'path' | 'teacher' | 'exam' | 'history' | 'achievement' | 'certificate';
+type Tab = 'path' | 'teacher' | 'exam' | 'history' | 'achievement';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -460,10 +460,9 @@ function titleFromXp(xp: number): string {
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'path',        label: 'Learning Path', icon: '📖' },
   { id: 'teacher',     label: 'Guru',          icon: '👨‍🏫' },
-  { id: 'exam',        label: 'Ujian',         icon: '📝' },
+  { id: 'exam',        label: 'Ujian & Sertifikat', icon: '📝' },
   { id: 'history',     label: 'Riwayat',       icon: '📋' },
   { id: 'achievement', label: 'Pencapaian',    icon: '🏅' },
-  { id: 'certificate', label: 'Sertifikat',    icon: '🎖' },
 ];
 
 export function StudentDetailModal({ student: s, allModules, allTeachers, onClose }: Props) {
@@ -478,7 +477,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-5xl bg-[var(--surface)]
+        className={`relative w-full ${tab === "exam" ? "sm:max-w-5xl" : "sm:max-w-md"} bg-[var(--surface)]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col max-h-[90dvh] overflow-hidden
           border-2 border-[var(--border)]
@@ -581,7 +580,6 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
           )}
           {tab === 'history'     && <PlaceholderTab icon="📋" label="Riwayat Pertemuan" />}
           {tab === 'achievement' && <PlaceholderTab icon="🏅" label="Pencapaian & Badge" />}
-          {tab === 'certificate' && <PlaceholderTab icon="🎖" label="Sertifikat Siswa" />}
         </div>
       </div>
     </div>
