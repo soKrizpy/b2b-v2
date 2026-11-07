@@ -277,7 +277,7 @@ export interface ModuleAssessmentAttemptRow {
   best_score: number;
   total_questions: number;
   correct_count: number;
-  answers: Record<string, 'A' | 'B' | 'C' | 'D'>;
+  answers: Record<string, 'A' | 'B' | 'C' | 'D' | null>; // null = unanswered
   submitted_at: string;
 }
 
