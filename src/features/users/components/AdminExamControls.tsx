@@ -46,9 +46,10 @@ export function AdminExamControls({
   }
 
   function issueCertificate(moduleId: number) {
-    const score = Number(scores[moduleId] ?? '100');
+    const rawScore = scores[moduleId] ?? '';
+    const score = Number(rawScore);
     const note = notes[moduleId] ?? '';
-    if (!Number.isInteger(score) || score < 0 || score > 100) {
+    if (rawScore.trim() === '' || !Number.isInteger(score) || score < 0 || score > 100) {
       toast.error('Skor harus berupa angka 0–100.');
       return;
     }
@@ -93,7 +94,7 @@ export function AdminExamControls({
       {modules.map((module) => {
         const isUnlocked = unlockedModuleIds.includes(module.module_id);
         const hasCertificate = certificateModuleIds.includes(module.module_id);
-        const score = scores[module.module_id] ?? '100';
+        const score = scores[module.module_id] ?? '';
         const note = notes[module.module_id] ?? '';
 
         return (
@@ -152,7 +153,7 @@ export function AdminExamControls({
               ) : (
                 <>
                   <label className="text-[10px] font-semibold text-slate-600 dark:text-slate-300">
-                    Skor yang dicantumkan (0–100)
+                    Skor terverifikasi yang dicantumkan (0–100)
                     <input
                       type="number"
                       min="0"
