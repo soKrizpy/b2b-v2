@@ -532,3 +532,159 @@ export async function enrollStudentsToTeacher(
   };
 }
 
+
+
+// ── Admin exam unlock & manual certificate ────────────────────────────────────
+
+export type AdminExamActionResult =
+  | { success: true; message: string; certificateNumber?: string }
+  | { success: false; error: string };
+
+const adminExamSchema = z.object({
+  student_id: z.string().uuid(),
+  module_id: z.coerce.number().int().positive(),
+  reason: z.string().trim().max(500).optional(),
+});
+
+export async function setStudentAssessmentUnlock(
+  studentId: string,
+  moduleId: number,
+  unlocked: boolean,
+  reason = 'Dibuka manual oleh admin',
+): Promise<AdminExamActionResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+
+  const parsed = adminExamSchema.safeParse({
+    student_id: studentId,
+    module_id: moduleId,
+    reason,
+  });
+  if (!parsed.success) return { success: false, error: 'Siswa atau modul tidak valid.' };
+
+  const db = createSupabaseAdminClient();
+  const [{ data: student }, { data: enrollment }] = await Promise.all([
+    db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
+    db.from('student_modules').select('module_id')
+      .eq('student_id', parsed.data.student_id)
+      .eq('module_id', parsed.data.module_id)
+      .eq('status', 'active')
+      .maybeSingle(),
+  ]);
+
+  if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
+  if (unlocked && !enrollment) {
+    return { success: false, error: 'Aktifkan modul siswa terlebih dahulu sebelum membuka ujian.' };
+  }
+
+  const unlockDb = db as unknown as {
+    from: (table: string) => {
+      upsert: (values: unknown, options: unknown) => Promise<{ error: { message: string } | null }>;
+      delete: () => { eq: (column: string, value: unknown) => { eq: (column: string, value: unknown) => Promise<{ error: { message: string } | null }> } };
+    };
+  };
+
+  if (unlocked) {
+    const { error } = await unlockDb.from('student_assessment_unlocks').upsert({
+      student_id: parsed.data.student_id,
+      module_id: parsed.data.module_id,
+      unlocked_by: auth.user.id,
+      reason: parsed.data.reason || 'Dibuka manual oleh admin',
+    }, { onConflict: 'student_id,module_id' });
+    if (error) return { success: false, error: `Gagal membuka ujian: ${error.message}` };
+  } else {
+    const { error } = await unlockDb.from('student_assessment_unlocks')
+      .delete().eq('student_id', parsed.data.student_id).eq('module_id', parsed.data.module_id);
+    if (error) return { success: false, error: `Gagal mencabut unlock: ${error.message}` };
+  }
+
+  revalidatePath('/admin/users', 'layout');
+  revalidatePath('/student/lessons', 'layout');
+  revalidatePath('/student/dashboard', 'layout');
+  return {
+    success: true,
+    message: unlocked ? 'Ujian akhir berhasil dibuka untuk siswa ini.' : 'Unlock ujian berhasil dicabut.',
+  };
+}
+
+const manualCertificateSchema = z.object({
+  student_id: z.string().uuid(),
+  module_id: z.coerce.number().int().positive(),
+  score: z.coerce.number().int().min(0).max(100),
+  admin_note: z.string().trim().min(5, 'Catatan minimal 5 karakter').max(500),
+});
+
+export async function issueManualStudentCertificate(
+  studentId: string,
+  moduleId: number,
+  score: number,
+  adminNote: string,
+): Promise<AdminExamActionResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+
+  const parsed = manualCertificateSchema.safeParse({
+    student_id: studentId,
+    module_id: moduleId,
+    score,
+    admin_note: adminNote,
+  });
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0]?.message ?? 'Data sertifikat tidak valid.' };
+  }
+
+  const db = createSupabaseAdminClient();
+  const [{ data: student }, { data: moduleRow }, { data: existing }] = await Promise.all([
+    db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
+    db.from('modules').select('id').eq('id', parsed.data.module_id).maybeSingle(),
+    db.from('certificates').select('id')
+      .eq('student_id', parsed.data.student_id)
+      .eq('module_id', parsed.data.module_id)
+      .maybeSingle(),
+  ]);
+
+  if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
+  if (!moduleRow) return { success: false, error: 'Modul tidak ditemukan.' };
+  if (existing) return { success: false, error: 'Siswa sudah memiliki sertifikat untuk modul ini.' };
+
+  const tier = parsed.data.score >= 86
+    ? 'excellent'
+    : parsed.data.score >= 75
+      ? 'achievement'
+      : 'completion';
+  const now = new Date();
+  const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-M`;
+  const suffix = crypto.randomUUID().replace(/-/g, '').slice(0, 4).toUpperCase();
+  const certificateNumber = `${prefix}-${suffix}`;
+
+  const certificateDb = db as unknown as {
+    from: (table: string) => {
+      insert: (values: unknown) => Promise<{ error: { message: string } | null }>;
+    };
+  };
+  const { error } = await certificateDb.from('certificates').insert({
+    student_id: parsed.data.student_id,
+    module_id: parsed.data.module_id,
+    score: parsed.data.score,
+    tier,
+    certificate_number: certificateNumber,
+    issue_source: 'manual',
+    issued_by: auth.user.id,
+    admin_note: parsed.data.admin_note,
+  });
+
+  if (error) {
+    return { success: false, error: error.code === '23505'
+      ? 'Sertifikat untuk siswa dan modul ini sudah pernah diterbitkan.'
+      : `Gagal menerbitkan sertifikat: ${error.message}` };
+  }
+
+  revalidatePath('/admin/users', 'layout');
+  revalidatePath('/student/dashboard', 'layout');
+  revalidatePath('/student/lessons', 'layout');
+  return {
+    success: true,
+    certificateNumber,
+    message: `Sertifikat manual berhasil diterbitkan (${certificateNumber}).`,
+  };
+}
