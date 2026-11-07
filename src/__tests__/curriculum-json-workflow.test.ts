@@ -106,6 +106,22 @@ describe('curriculum JSON round-trip workflow', () => {
     expect(extractModuleDescription(`FINAL_ASSESSMENT:${JSON.stringify(finalAssessment)}`)).toBeNull();
   });
 
+  it('extracts the final assessment from the Tinkercad curriculum source format', () => {
+    const source = JSON.parse(
+      readFileSync('public/curriculum/tinkercad-3d-design.json', 'utf8').replace(/^\\uFEFF/, ''),
+    ) as { description?: string; final_assessment?: unknown };
+
+    const encoded = `FINAL_ASSESSMENT:${JSON.stringify({
+      description: source.description ?? null,
+      final_assessment: source.final_assessment,
+    })}`;
+    const assessment = extractFinalAssessment(encoded);
+
+    expect(assessment).not.toBeNull();
+    expect(assessment?.questions).toHaveLength(20);
+    expect(assessment?.title).toContain('Tinkercad');
+  });
+
   it('validates every checked-in curriculum JSON file against the canonical schema', () => {
     const files = readdirSync('public/curriculum')
       .filter((file) => file.endsWith('.json') && file !== 'registry.json')
