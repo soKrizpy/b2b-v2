@@ -235,7 +235,7 @@ function LocationPopoverCard({
           </div>
         ) : isModuleComplete ? (
           <Link
-            href={`/student/assessment/${moduleId}`
+            href={`/student/assessment/${moduleId}`}
             onClick={onClose}
             className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-2xl
               text-xs font-black text-slate-950
@@ -244,7 +244,7 @@ function LocationPopoverCard({
               hover:scale-[1.02] active:scale-95 transition-all"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>⚔️ Hadapi Bos Terakhir & Mulai Ujian Akhir!</span>
+            <span>{assessmentUnlocked ? 'Ujian Akhir Dibuka Admin · Mulai Sekarang' : '⚔️ Hadapi Bos Terakhir & Mulai Ujian Akhir!'}</span>
           </Link>
         ) : (
           <div className="rounded-2xl bg-slate-900 border border-slate-800 p-3 text-center">
