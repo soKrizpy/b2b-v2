@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getPublicCertificateVerification } from '@/features/certificates/queries';
 import { PrintCertificateButton } from '@/features/certificates/components/PrintCertificateButton';
