@@ -337,9 +337,9 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Modul ini belum memiliki soal tryout.' };
   }
 
-  // Enforce the curriculum gate on the server. Hiding the final-boss button in
-  // the UI is not enough: direct Server Action calls must also require every
-  // published topic to be completed under the Quest Map progression rules.
+  // Enforce the curriculum gate on the server. Only an explicit admin override
+  // for this exact student/module pair may bypass topic completion; enrollment,
+  // official-question validation, scoring, and the two-attempt limit still apply.
   const enrolledModules = await getStudentModulesWithTopics(studentId);
   const enrolledModule = enrolledModules.find((item) => item.id === module_id);
   if (!enrolledModule) {
