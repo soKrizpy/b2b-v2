@@ -327,6 +327,16 @@ export interface CertificateRow {
   tier: CertificateTier;
   certificate_number: string;
   issued_at: string;
+  issue_source: 'assessment' | 'manual';
+  issued_by: string | null;
+  admin_note: string | null;
+}
+export interface StudentAssessmentUnlockRow {
+  student_id: string;
+  module_id: number;
+  unlocked_by: string | null;
+  reason: string;
+  created_at: string;
 }
 export type CertificateInsert = Omit<CertificateRow, 'id' | 'issued_at'>;
 
