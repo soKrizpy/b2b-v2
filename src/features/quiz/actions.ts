@@ -345,9 +345,21 @@ export async function submitFinalAssessment(
   if (!enrolledModule) {
     return { success: false, error: 'Modul aktif tidak ditemukan.' };
   }
-  const questProgress = await getQuestMapData(studentId, enrolledModule);
-  if (!questProgress.moduleComplete) {
-    return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
+  const { data: manualUnlock } = await (db
+    .from('student_assessment_unlocks')
+    .select('student_id')
+    .eq('student_id', studentId)
+    .eq('module_id', module_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { student_id: string } | null;
+      error: unknown;
+    }>);
+
+  if (!manualUnlock) {
+    const questProgress = await getQuestMapData(studentId, enrolledModule);
+    if (!questProgress.moduleComplete) {
+      return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
+    }
   }
 
   // Validate against the official question set before scoring. Without this,
