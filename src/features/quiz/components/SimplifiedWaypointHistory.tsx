@@ -31,6 +31,7 @@ interface Props {
   nodes: QuestTopicNode[];
   activeNode?: QuestTopicNode;
   moduleComplete?: boolean;
+  assessmentUnlocked?: boolean;
   hasFinal?: boolean;
   cert?: { tier: string; score: number; certificate_number: string } | CertificateWithModule | null;
   onOpenQuiz: (node: QuestTopicNode) => void;
@@ -43,6 +44,7 @@ export function SimplifiedWaypointHistory({
   nodes,
   activeNode,
   moduleComplete,
+  assessmentUnlocked = false,
   hasFinal,
   cert,
   onOpenQuiz,
@@ -369,6 +371,8 @@ export function SimplifiedWaypointHistory({
                 <p className="text-xs text-slate-400 mt-0.5">
                   {cert
                     ? `Selamat! Kamu telah lulus modul ini dengan nilai ${cert.score}. Nomor sertifikat: ${cert.certificate_number}`
+                    : assessmentUnlocked
+                    ? 'Admin telah membuka akses ujian akhir khusus untuk akunmu.'
                     : moduleComplete
                     ? 'Semua topik telah ditaklukkan! Ujian akhir siap dikerjakan untuk mengklaim sertifikat kelulusan resmimu.'
                     : 'Selesaikan seluruh topik di atas untuk membuka gerbang ujian akhir modul.'}
@@ -385,7 +389,7 @@ export function SimplifiedWaypointHistory({
                   <Award className="w-4 h-4 text-slate-950" />
                   <span>Lihat Sertifikat</span>
                 </Link>
-              ) : moduleComplete ? (
+              ) : (moduleComplete || assessmentUnlocked) ? (
                 <Link
                   href={`/student/assessment/${moduleId}`}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black text-white bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 shadow-lg shadow-red-600/30 animate-pulse transition-all"
