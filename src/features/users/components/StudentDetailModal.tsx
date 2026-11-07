@@ -478,7 +478,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
     >
       {/* Panel */}
       <div
-        className="relative w-full sm:max-w-md bg-[var(--surface)]
+        className="relative w-full sm:max-w-5xl bg-[var(--surface)]
           sm:rounded-3xl rounded-t-3xl shadow-2xl
           flex flex-col max-h-[90dvh] overflow-hidden
           border-2 border-[var(--border)]
@@ -573,6 +573,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
           {tab === 'exam'        && (
             <AdminExamControls
               studentId={s.id}
+              studentName={s.full_name}
               modules={s.modules}
               unlockedModuleIds={s.assessment_unlocked_module_ids}
               certificateModuleIds={s.certificate_module_ids}
