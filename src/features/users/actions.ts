@@ -647,11 +647,7 @@ export async function issueManualStudentCertificate(
   if (!moduleRow) return { success: false, error: 'Modul tidak ditemukan.' };
   if (existing) return { success: false, error: 'Siswa sudah memiliki sertifikat untuk modul ini.' };
 
-  const tier = parsed.data.score >= 86
-    ? 'excellent'
-    : parsed.data.score >= 75
-      ? 'achievement'
-      : 'completion';
+  const tier = scoreToCertificateTier(parsed.data.score);
   const now = new Date();
   const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-M`;
   const suffix = crypto.randomUUID().replace(/-/g, '').slice(0, 4).toUpperCase();
