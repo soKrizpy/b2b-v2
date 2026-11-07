@@ -316,10 +316,10 @@ export async function submitFinalAssessment(
   // Fetch module description (contains encoded final_assessment)
   const { data: moduleRow } = await (db
     .from('modules')
-    .select('title, description')
+    .select('description')
     .eq('id', module_id)
     .maybeSingle() as unknown as Promise<{
-      data: { title: string | null; description: string | null } | null;
+      data: { description: string | null } | null;
       error: unknown;
     }>);
 
