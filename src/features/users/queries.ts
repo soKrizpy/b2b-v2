@@ -49,6 +49,8 @@ export interface StudentRecord {
   quiz_count:     number;
   /** Certificate count */
   cert_count:     number;
+  certificate_module_ids: number[];
+  assessment_unlocked_module_ids: number[];
 }
 
 export interface TeacherRecord {
@@ -77,6 +79,7 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
     { data: teacherProfiles },
     { data: quizAttempts },
     { data: certs },
+    { data: assessmentUnlocks },
   ] = await Promise.all([
     db
       .from('students')
@@ -98,7 +101,11 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
     db.from('meetings').select('id, teacher_id'),
     db.from('profiles').select('id, full_name').eq('role', 'teacher'),
     db.from('quiz_attempts').select('student_id'),
-    db.from('certificates').select('student_id'),
+    db.from('certificates').select('student_id, module_id'),
+    db.from('student_assessment_unlocks').select('student_id, module_id') as unknown as Promise<{
+      data: Array<{ student_id: string; module_id: number }> | null;
+      error: unknown;
+    }>,
   ]);
 
   if (error) {
@@ -143,9 +150,20 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
   });
 
   const certMap = new Map<string, number>();
+  const certModulesMap = new Map<string, number[]>();
   (certs ?? []).forEach((c) => {
-    const sid = (c as { student_id: string }).student_id;
-    certMap.set(sid, (certMap.get(sid) ?? 0) + 1);
+    const row = c as { student_id: string; module_id: number };
+    certMap.set(row.student_id, (certMap.get(row.student_id) ?? 0) + 1);
+    const ids = certModulesMap.get(row.student_id) ?? [];
+    ids.push(row.module_id);
+    certModulesMap.set(row.student_id, ids);
+  });
+
+  const unlockModulesMap = new Map<string, number[]>();
+  (assessmentUnlocks ?? []).forEach((row) => {
+    const ids = unlockModulesMap.get(row.student_id) ?? [];
+    ids.push(row.module_id);
+    unlockModulesMap.set(row.student_id, ids);
   });
 
   return (data ?? []).map((row: unknown) => {
@@ -203,6 +221,8 @@ export async function getAllStudents(): Promise<StudentRecord[]> {
       session_count:  sessionMap.get(r.id) ?? 0,
       quiz_count:     quizMap.get(r.id)    ?? 0,
       cert_count:     certMap.get(r.id)    ?? 0,
+      certificate_module_ids: certModulesMap.get(r.id) ?? [],
+      assessment_unlocked_module_ids: unlockModulesMap.get(r.id) ?? [],
     };
   });
 }
