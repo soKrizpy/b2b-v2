@@ -8,6 +8,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { requireAdmin, requireAdminOrTeacher } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
@@ -651,7 +652,7 @@ export async function issueManualStudentCertificate(
   const tier = scoreToCertificateTier(parsed.data.score);
   const now = new Date();
   const prefix = `B2B-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-M`;
-  const suffix = crypto.randomUUID().replace(/-/g, '').slice(0, 4).toUpperCase();
+  const suffix = randomUUID().replace(/-/g, '').slice(0, 4).toUpperCase();
   const certificateNumber = `${prefix}-${suffix}`;
 
   const certificateDb = db as unknown as {
