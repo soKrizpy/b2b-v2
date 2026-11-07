@@ -1,6 +1,7 @@
 // src/app/student/assessment/[moduleId]/page.tsx
 // Final module tryout — 20 questions, countdown timer, certificate award.
 import type { Metadata } from 'next';
+import { randomUUID } from 'node:crypto';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
@@ -162,7 +163,7 @@ export default async function AssessmentPage({ params }: Props) {
       </div>
 
       {/* Tryout */}
-      <TryoutClient moduleId={id} assessment={assessment} />
+      <TryoutClient moduleId={id} assessment={assessment} shuffleSeed={randomUUID()} />
     </div>
   );
 }
