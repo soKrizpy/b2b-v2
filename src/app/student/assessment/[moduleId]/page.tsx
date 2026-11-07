@@ -117,7 +117,7 @@ export default async function AssessmentPage({ params }: Props) {
     ? await getQuestMapData(auth.user.id, enrolledModule)
     : null;
 
-  if (!questProgress?.moduleComplete) {
+  if (!questProgress?.moduleComplete && !questProgress?.assessmentUnlocked) {
     return (
       <div className="max-w-xl mx-auto py-16 text-center space-y-4">
         <p className="text-4xl">🗺️</p>

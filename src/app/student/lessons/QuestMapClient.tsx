@@ -92,6 +92,7 @@ function LocationPopoverCard({
   activeNodeTitle,
   moduleId,
   isModuleComplete,
+  assessmentUnlocked = false,
   cert,
   onQuizClick,
   onFocusActiveNode,
@@ -106,6 +107,7 @@ function LocationPopoverCard({
   activeNodeTitle?:  string;
   moduleId:          number;
   isModuleComplete:  boolean;
+  assessmentUnlocked?: boolean;
   cert:              { tier: string; score: number; certificate_number: string } | null;
   onQuizClick:       () => void;
   onFocusActiveNode: () => void;
@@ -242,7 +244,7 @@ function LocationPopoverCard({
               hover:scale-[1.02] active:scale-95 transition-all"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>⚔️ Hadapi Bos Terakhir & Mulai Ujian Akhir!</span>
+            <span>{assessmentUnlocked ? 'Ujian Akhir Dibuka Admin · Mulai Sekarang' : '⚔️ Hadapi Bos Terakhir & Mulai Ujian Akhir!'}</span>
           </Link>
         ) : (
           <div className="rounded-2xl bg-slate-900 border border-slate-800 p-3 text-center">
@@ -610,7 +612,8 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
   const [showCelebration, setShowCelebration] = useState(false);
   const [viewMode, setViewMode]       = useState<'map' | 'history'>('map');
 
-  const { mod, nodes, moduleComplete, hasFinal } = questData;
+  const { mod, nodes, moduleComplete, assessmentUnlocked = false, hasFinal } = questData;
+  const canAccessFinal = moduleComplete || assessmentUnlocked;
 
   // Deduplicate nodes by topic id
   const uniqueNodes = Array.from(
@@ -888,7 +891,7 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
             moduleLevel={mod.level}
             nodes={uniqueNodes}
             activeNode={activeNode}
-            moduleComplete={moduleComplete}
+            moduleComplete={canAccessFinal}
             hasFinal={hasFinal}
             cert={cert}
             selectedNodeId={popover?.isFinal ? FINAL_ID : popover?.nodeId ?? null}
@@ -917,7 +920,8 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
                   prevNodeTitle={lastTopicNode?.topic.title}
                   activeNodeTitle={activeNode?.topic.title}
                   moduleId={mod.id}
-                  isModuleComplete={moduleComplete}
+                  isModuleComplete={canAccessFinal}
+                  assessmentUnlocked={assessmentUnlocked}
                   cert={cert}
                   onQuizClick={() => {}}
                   onFocusActiveNode={() => {
@@ -945,7 +949,8 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
                 prevNodeTitle={prevNodeTitle}
                 activeNodeTitle={activeNode?.topic.title}
                 moduleId={mod.id}
-                isModuleComplete={moduleComplete}
+                isModuleComplete={canAccessFinal}
+                assessmentUnlocked={assessmentUnlocked}
                 cert={cert}
                 onQuizClick={() => {
                   if (selectedNode.quizUnlocked && selectedNode.attemptsUsed < 2) {
@@ -972,6 +977,7 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
           nodes={uniqueNodes}
           activeNode={activeNode}
           moduleComplete={moduleComplete}
+          assessmentUnlocked={assessmentUnlocked}
           hasFinal={hasFinal}
           cert={cert}
           onOpenQuiz={openQuiz}

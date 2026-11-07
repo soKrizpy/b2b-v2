@@ -37,3 +37,51 @@ export function isAssessmentChoiceCorrect(
     && chosenOriginalIndex >= 0
     && chosenOriginalIndex === correctOriginalIndex;
 }
+
+
+export type PersistedAssessmentAnswer = 'A' | 'B' | 'C' | 'D' | null;
+
+/** Store every official question, including unanswered items as null. */
+export function buildPersistedAssessmentAnswers(
+  questionIds: readonly number[],
+  submittedAnswers: readonly { question_id: number; chosen_index: number }[],
+): Record<string, PersistedAssessmentAnswer> {
+  const answersByQuestion = new Map(
+    submittedAnswers.map((answer) => [answer.question_id, answer.chosen_index]),
+  );
+  const optionKeys = ['A', 'B', 'C', 'D'] as const;
+
+  return Object.fromEntries(
+    questionIds.map((questionId) => {
+      const chosenIndex = answersByQuestion.get(questionId);
+      return [
+        String(questionId),
+        chosenIndex === undefined || chosenIndex === -1
+          ? null
+          : optionKeys[chosenIndex] ?? null,
+      ];
+    }),
+  );
+}
+
+/** Calculate the next allowed attempt and the best score, or null after two attempts. */
+export function getAssessmentAttemptSummary(
+  existingAttempts: readonly { attempt_number: number; score: number }[],
+  score: number,
+): { attemptNumber: 1 | 2; bestScore: number } | null {
+  const highestAttempt = existingAttempts.reduce(
+    (highest, attempt) => Math.max(highest, attempt.attempt_number),
+    0,
+  );
+  if (highestAttempt >= 2) return null;
+
+  const bestPreviousScore = existingAttempts.reduce(
+    (best, attempt) => Math.max(best, attempt.score),
+    0,
+  );
+
+  return {
+    attemptNumber: (highestAttempt + 1) as 1 | 2,
+    bestScore: Math.max(bestPreviousScore, score),
+  };
+}

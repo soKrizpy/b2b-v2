@@ -277,7 +277,7 @@ export interface ModuleAssessmentAttemptRow {
   best_score: number;
   total_questions: number;
   correct_count: number;
-  answers: Record<string, 'A' | 'B' | 'C' | 'D'>;
+  answers: Record<string, 'A' | 'B' | 'C' | 'D' | null>; // null = unanswered
   submitted_at: string;
 }
 
@@ -327,8 +327,21 @@ export interface CertificateRow {
   tier: CertificateTier;
   certificate_number: string;
   issued_at: string;
+  issue_source: 'assessment' | 'manual';
+  issued_by: string | null;
+  admin_note: string | null;
 }
-export type CertificateInsert = Omit<CertificateRow, 'id' | 'issued_at'>;
+export interface StudentAssessmentUnlockRow {
+  student_id: string;
+  module_id: number;
+  unlocked_by: string | null;
+  reason: string;
+  created_at: string;
+}
+export type CertificateInsert = Omit<
+  CertificateRow,
+  'id' | 'issued_at' | 'issue_source' | 'issued_by' | 'admin_note'
+> & Partial<Pick<CertificateRow, 'issue_source' | 'issued_by' | 'admin_note'>>;
 
 // ── Phase 2: Challenges & Submissions (new tables — additive) ────────────────
 
@@ -507,6 +520,11 @@ export interface Database {
         Update: Partial<
           Omit<CertificateRow, 'id' | 'student_id' | 'module_id' | 'issued_at'>
         >;
+      };
+      student_assessment_unlocks: {
+        Row: StudentAssessmentUnlockRow;
+        Insert: Omit<StudentAssessmentUnlockRow, 'created_at'> & { created_at?: string };
+        Update: Partial<Pick<StudentAssessmentUnlockRow, 'unlocked_by' | 'reason'>>;
       };
       challenges: {
         Row: ChallengeRow;

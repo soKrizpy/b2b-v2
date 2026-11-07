@@ -12,7 +12,11 @@ import { getQuestMapData } from '@/features/quiz/questMapQueries';
 import { getTopicQuizState } from '@/features/quiz/queries';
 import { CERTIFICATE_TIER_CONFIG } from '@/features/certificates/tiers';
 import { isFeatureEnabled } from '@/lib/featureConfig';
-import { isAssessmentChoiceCorrect } from '@/features/quiz/assessment-options';
+import {
+  buildPersistedAssessmentAnswers,
+  getAssessmentAttemptSummary,
+  isAssessmentChoiceCorrect,
+} from '@/features/quiz/assessment-options';
 import type { QuizAnswer } from '@/types/database';
 
 // ── Return types ──────────────────────────────────────────────────────────────
@@ -333,17 +337,29 @@ export async function submitFinalAssessment(
     return { success: false, error: 'Modul ini belum memiliki soal tryout.' };
   }
 
-  // Enforce the curriculum gate on the server. Hiding the final-boss button in
-  // the UI is not enough: direct Server Action calls must also require every
-  // published topic to be completed under the Quest Map progression rules.
+  // Enforce the curriculum gate on the server. Only an explicit admin override
+  // for this exact student/module pair may bypass topic completion; enrollment,
+  // official-question validation, scoring, and the two-attempt limit still apply.
   const enrolledModules = await getStudentModulesWithTopics(studentId);
   const enrolledModule = enrolledModules.find((item) => item.id === module_id);
   if (!enrolledModule) {
     return { success: false, error: 'Modul aktif tidak ditemukan.' };
   }
-  const questProgress = await getQuestMapData(studentId, enrolledModule);
-  if (!questProgress.moduleComplete) {
-    return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
+  const { data: manualUnlock } = await (db
+    .from('student_assessment_unlocks')
+    .select('student_id')
+    .eq('student_id', studentId)
+    .eq('module_id', module_id)
+    .maybeSingle() as unknown as Promise<{
+      data: { student_id: string } | null;
+      error: unknown;
+    }>);
+
+  if (!manualUnlock) {
+    const questProgress = await getQuestMapData(studentId, enrolledModule);
+    if (!questProgress.moduleComplete) {
+      return { success: false, error: 'Selesaikan semua topik modul terlebih dahulu sebelum mengikuti ujian akhir.' };
+    }
   }
 
   // Validate against the official question set before scoring. Without this,
@@ -368,6 +384,68 @@ export async function submitFinalAssessment(
   }
   const score = Math.round((correct / assessment.questions.length) * 100);
   const tier  = scoreToCertificateTier(score);
+
+  // Link the legacy description-backed assessment to the existing attempt-history tables.
+  // The module_assessments row is metadata only; the authoritative questions remain in modules.description.
+  const { data: assessmentRecord, error: assessmentRecordError } = await (db
+    .from('module_assessments')
+    .upsert([{
+      module_id,
+      title: assessment.title.slice(0, 255),
+    }] as never[], { onConflict: 'module_id' })
+    .select('id')
+    .single() as unknown as Promise<{
+      data: { id: number } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (assessmentRecordError || !assessmentRecord) {
+    return { success: false, error: 'Gagal menyiapkan riwayat ujian modul.' };
+  }
+
+  const { data: existingAttempts, error: attemptsReadError } = await (db
+    .from('module_assessment_attempts')
+    .select('attempt_number, score')
+    .eq('student_id', studentId)
+    .eq('assessment_id', assessmentRecord.id)
+    .order('attempt_number', { ascending: true }) as unknown as Promise<{
+      data: Array<{ attempt_number: number; score: number }> | null;
+      error: { message: string } | null;
+    }>);
+
+  if (attemptsReadError) {
+    return { success: false, error: 'Gagal membaca riwayat percobaan ujian.' };
+  }
+
+  const attemptSummary = getAssessmentAttemptSummary(existingAttempts ?? [], score);
+  if (!attemptSummary) {
+    return { success: false, error: 'Kamu sudah menggunakan 2 percobaan untuk ujian modul ini.' };
+  }
+
+  const persistedAnswers = buildPersistedAssessmentAnswers(
+    assessment.questions.map((question) => question.id),
+    answers,
+  );
+
+  const { error: attemptInsertError } = await (db
+    .from('module_assessment_attempts')
+    .insert({
+      student_id: studentId,
+      assessment_id: assessmentRecord.id,
+      attempt_number: attemptSummary.attemptNumber,
+      score,
+      best_score: attemptSummary.bestScore,
+      total_questions: assessment.questions.length,
+      correct_count: correct,
+      answers: persistedAnswers,
+    } as never) as unknown as Promise<{ error: { message: string } | null }>);
+
+  if (attemptInsertError) {
+    return {
+      success: false,
+      error: 'Gagal menyimpan riwayat ujian. Silakan coba lagi; percobaan belum tercatat.',
+    };
+  }
 
   // ── Certificate award (gated by certificates feature flag) ───────────────
   if (isFeatureEnabled('certificates')) {
