@@ -521,6 +521,11 @@ export interface Database {
           Omit<CertificateRow, 'id' | 'student_id' | 'module_id' | 'issued_at'>
         >;
       };
+      student_assessment_unlocks: {
+        Row: StudentAssessmentUnlockRow;
+        Insert: Omit<StudentAssessmentUnlockRow, 'created_at'> & { created_at?: string };
+        Update: Partial<Pick<StudentAssessmentUnlockRow, 'unlocked_by' | 'reason'>>;
+      };
       challenges: {
         Row: ChallengeRow;
         Insert: ChallengeInsert;
