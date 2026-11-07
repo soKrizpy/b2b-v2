@@ -109,6 +109,8 @@ export default async function VerifyCertificatePage({ params }: PageProps) {
                   <p className="mt-2 text-[6px] font-mono text-[#8b7444] sm:text-[8px]">{record.certificate.certificate_number}</p>
                 </div>
                 <div className="rounded-md border border-[#c6a45c]/70 bg-white p-1">
+                  {/* QR is a generated SVG from the verification URL; skip Next image optimization. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={qrUrl} alt="QR Code verifikasi sertifikat" width={76} height={76} className="h-12 w-12 sm:h-[76px] sm:w-[76px]" />
                 </div>
               </div>

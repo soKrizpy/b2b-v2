@@ -2,6 +2,7 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { CertificateRow, CertificateTier } from '@/types/database';
 import { CERTIFICATE_TIER_CONFIG } from './tiers';
+import { hasRenderableCurriculumContent } from '@/features/curriculum/lessonSlides';
 
 export interface CertificateWithModule extends CertificateRow {
   module_title: string | null;
@@ -96,13 +97,13 @@ export async function getPublicCertificateVerification(
         error: { message: string } | null;
       }>,
     db.from('topic_progress')
-      .select('completed_at, topics!inner(id, title, module_id, order_index)')
+      .select('completed_at, topics!inner(id, title, module_id, order_index, lesson_content, status)')
       .eq('student_id', cert.student_id)
       .eq('topics.module_id', cert.module_id)
       .order('completed_at', { ascending: true }) as unknown as Promise<{
         data: Array<{
           completed_at: string;
-          topics: { id: number; title: string; module_id: number; order_index: number } | null;
+          topics: { id: number; title: string; module_id: number; order_index: number; lesson_content: unknown; status: string | null } | null;
         }> | null;
         error: unknown;
       }>,
@@ -117,7 +118,7 @@ export async function getPublicCertificateVerification(
   if (studentError || moduleError || !student || !moduleRow) return null;
 
   const topics = (progressRows ?? [])
-    .filter((row) => row.topics && row.topics.module_id === cert.module_id)
+    .filter((row) => row.topics && row.topics.module_id === cert.module_id && row.topics.status === 'published' && hasRenderableCurriculumContent(row.topics.lesson_content))
     .map((row) => ({
       id: row.topics!.id,
       title: row.topics!.title,
@@ -163,7 +164,13 @@ export async function getPublicCertificateVerification(
     studentName: student.full_name,
     moduleTitle: moduleRow.title ?? 'Modul Bits2Bytes',
     topics,
-    badges: badgeRules.filter((badge) => badge.unlocked).map(({ unlocked: _unlocked, ...badge }) => badge),
+    badges: badgeRules.filter((badge) => badge.unlocked).map((badge) => ({
+      id: badge.id,
+      title: badge.title,
+      description: badge.description,
+      icon: badge.icon,
+      rarity: badge.rarity,
+    })),
     certificateCount,
   };
 }
