@@ -482,7 +482,7 @@ export function StudentDetailModal({ student: s, allModules, allTeachers, onClos
           flex flex-col max-h-[90dvh] overflow-hidden
           border-2 border-[var(--border)]
           
-          animate-fade-in-up"
+          animate-fade-in-up`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
