@@ -108,7 +108,7 @@ describe('curriculum JSON round-trip workflow', () => {
 
   it('extracts the final assessment from the Tinkercad curriculum source format', () => {
     const source = JSON.parse(
-      readFileSync('public/curriculum/tinkercad-3d-design.json', 'utf8').replace(/^\\uFEFF/, ''),
+      readFileSync('public/curriculum/tinkercad-3d-design.json', 'utf8').replace(/^\uFEFF/, ''),
     ) as { description?: string; final_assessment?: unknown };
 
     const encoded = `FINAL_ASSESSMENT:${JSON.stringify({
