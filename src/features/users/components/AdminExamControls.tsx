@@ -10,12 +10,14 @@ import {
   type ManualCertificateTopicOption,
 } from '@/features/users/actions';
 import type { AssignedModule } from '@/features/users/queries';
+import type { ModuleRow } from '@/types/database';
 import { CertificateArtwork } from '@/features/certificates/components/CertificateArtwork';
 
 interface Props {
   studentId: string;
   studentName: string;
   modules: AssignedModule[];
+  allModules: ModuleRow[];
   unlockedModuleIds: number[];
   certificateModuleIds: number[];
 }
@@ -40,6 +42,7 @@ export function AdminExamControls({
   studentId,
   studentName,
   modules,
+  allModules,
   unlockedModuleIds,
   certificateModuleIds,
 }: Props) {
@@ -52,7 +55,24 @@ export function AdminExamControls({
   const [topicsLoading, setTopicsLoading] = useState(true);
   const [topicsError, setTopicsError] = useState<string | null>(null);
 
-  const moduleIds = useMemo(() => modules.map((module) => module.module_id), [modules]);
+  const certificateModules = useMemo(() => {
+    const assignedById = new Map(modules.map((module) => [module.module_id, module]));
+    const merged = allModules.map((module) => {
+      const assigned = assignedById.get(module.id);
+      return {
+        module_id: module.id,
+        title: module.title ?? `Modul ${module.id}`,
+        level: module.level,
+        status: assigned?.status ?? 'unassigned',
+      };
+    });
+    const knownIds = new Set(merged.map((module) => module.module_id));
+    for (const assigned of modules) {
+      if (!knownIds.has(assigned.module_id)) merged.push(assigned);
+    }
+    return merged;
+  }, [allModules, modules]);
+  const moduleIds = useMemo(() => certificateModules.map((module) => module.module_id), [certificateModules]);
   const moduleKey = moduleIds.join(',');
 
   useEffect(() => {
@@ -71,7 +91,7 @@ export function AdminExamControls({
         setTopicsError(null);
         setTopicOptions(result.topics);
         const defaults: Record<number, number[]> = {};
-        for (const module of modules) {
+        for (const module of certificateModules) {
           defaults[module.module_id] = result.topics
             .filter((topic) => topic.module_id === module.module_id && topic.trackedCompleted)
             .map((topic) => topic.id);
@@ -82,7 +102,7 @@ export function AdminExamControls({
     }
     void loadTopics();
     return () => { cancelled = true; };
-  }, [studentId, moduleKey, moduleIds, modules]);
+  }, [studentId, moduleKey, moduleIds, certificateModules]);
 
   function toggleUnlock(moduleId: number, currentlyUnlocked: boolean) {
     const action = currentlyUnlocked ? 'mencabut akses ujian' : 'membuka ujian';
@@ -140,7 +160,7 @@ export function AdminExamControls({
     });
   }
 
-  if (modules.length === 0) {
+  if (certificateModules.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-[var(--border)] p-4 text-center">
         <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -157,7 +177,7 @@ export function AdminExamControls({
           ⚠️ Kontrol khusus admin
         </p>
         <p className="mt-1 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300">
-          Unlock ujian melewati syarat penyelesaian topik, tetapi tidak melewati status enrollment aktif atau batas dua percobaan. Sertifikat manual menyimpan snapshot materi yang dikonfirmasi admin, termasuk materi lama yang progresnya tidak tercatat akibat error.
+          Unlock ujian tetap mensyaratkan enrollment aktif. Untuk pemulihan sertifikat, admin dapat memilih modul dan materi secara manual meskipun enrollment atau progres digital siswa tidak tercatat akibat error. Pastikan materi yang dicentang benar-benar pernah diikuti siswa; alasan penerbitan wajib dicatat.
         </p>
       </div>
 
@@ -167,7 +187,7 @@ export function AdminExamControls({
         </div>
       )}
 
-      {modules.map((module) => {
+      {certificateModules.map((module) => {
         const isUnlocked = unlockedModuleIds.includes(module.module_id);
         const hasCertificate = certificateModuleIds.includes(module.module_id);
         const scoreValue = scores[module.module_id] ?? '';
@@ -176,7 +196,7 @@ export function AdminExamControls({
         const moduleTopics = topicOptions.filter((topic) => topic.module_id === module.module_id);
         const selectedIds = selectedTopicIds[module.module_id] ?? [];
         const selectedTopics = moduleTopics.filter((topic) => selectedIds.includes(topic.id));
-        const canPreview = !hasCertificate && module.status === 'active';
+        const canPreview = !hasCertificate;
 
         return (
           <section
@@ -187,7 +207,7 @@ export function AdminExamControls({
               <div className="min-w-0">
                 <p className="text-sm font-bold text-slate-900 dark:text-white">{module.title}</p>
                 <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
-                  {module.status === 'active' ? 'Enrollment aktif' : 'Modul dijeda'}
+                  {module.status === 'active' ? 'Enrollment aktif' : module.status === 'paused' ? 'Modul dijeda' : 'Belum terdaftar · pemulihan manual'}
                 </p>
               </div>
               <span className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-bold ${isUnlocked
@@ -346,7 +366,7 @@ export function AdminExamControls({
 
                   <button
                     type="button"
-                    disabled={pending || topicsLoading || module.status !== 'active' || selectedIds.length === 0 || !scoreValue.trim() || note.trim().length < 5}
+                    disabled={pending || topicsLoading || selectedIds.length === 0 || !scoreValue.trim() || note.trim().length < 5}
                     onClick={() => issueCertificate(module.module_id)}
                     className="w-full rounded-xl bg-emerald-600 px-3 py-2.5 text-xs font-bold text-white hover:bg-emerald-700 disabled:opacity-50"
                   >
