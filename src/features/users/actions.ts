@@ -567,11 +567,6 @@ export async function setStudentAssessmentUnlock(
   const db = createSupabaseAdminClient();
   const [{ data: student }, { data: enrollment }] = await Promise.all([
     db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
-    db.from('student_modules').select('module_id')
-      .eq('student_id', parsed.data.student_id)
-      .eq('module_id', parsed.data.module_id)
-      .eq('status', 'active')
-      .maybeSingle(),
   ]);
 
   if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
@@ -706,7 +701,7 @@ export async function issueManualStudentCertificate(
   }
 
   const db = createSupabaseAdminClient();
-  const [{ data: student }, { data: moduleRow }, { data: enrollment }, { data: existing }] = await Promise.all([
+  const [{ data: student }, { data: moduleRow }, { data: existing }] = await Promise.all([
     db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
     db.from('modules').select('id').eq('id', parsed.data.module_id).maybeSingle(),
     db.from('student_modules').select('module_id')
@@ -722,7 +717,6 @@ export async function issueManualStudentCertificate(
 
   if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
   if (!moduleRow) return { success: false, error: 'Modul tidak ditemukan.' };
-  if (!enrollment) return { success: false, error: 'Modul siswa harus berstatus aktif untuk menerbitkan sertifikat manual.' };
   if (existing) return { success: false, error: 'Siswa sudah memiliki sertifikat untuk modul ini.' };
 
   const { data: selectedTopics, error: selectedTopicsError } = await (db.from('topics')
