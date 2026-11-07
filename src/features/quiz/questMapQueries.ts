@@ -38,6 +38,7 @@ export interface QuestMapData {
   mod:              ModuleWithTopics;
   nodes:            QuestTopicNode[];
   moduleComplete:   boolean;
+  assessmentUnlocked?: boolean;
   hasFinal:         boolean;
   needsQuizTopics:  QuestTopicNode[]; // topics that need quiz action (for banner)
 }
@@ -78,6 +79,7 @@ export async function getQuestMapData(
       mod,
       nodes,
       moduleComplete: false, // paused modules are never "complete" for tryout purposes
+      assessmentUnlocked: false,
       hasFinal: extractFinalAssessment(mod.description) !== null,
       needsQuizTopics: [], // no quiz actions in review mode
     };
@@ -87,8 +89,8 @@ export async function getQuestMapData(
   const db       = createSupabaseAdminClient();
   const topicIds = mod.topics.map((t) => t.id);
 
-  // ── 1 & 2. Parallel batch: quiz attempts + assigned module meetings ────────
-  const [attemptsRes, joinRowsRes] = await Promise.all([
+  // ── Parallel batch: quiz attempts, assigned meetings, and admin override ───
+  const [attemptsRes, joinRowsRes, unlockRes] = await Promise.all([
     topicIds.length > 0
       ? (db
           .from('topic_quiz_attempts')
@@ -120,7 +122,18 @@ export async function getQuestMapData(
         }> | null;
         error: unknown;
       }>,
+    db
+      .from('student_assessment_unlocks')
+      .select('student_id')
+      .eq('student_id', studentId)
+      .eq('module_id', mod.id)
+      .maybeSingle() as unknown as Promise<{
+        data: { student_id: string } | null;
+        error: unknown;
+      }>,
   ]);
+
+  const assessmentUnlocked = Boolean(unlockRes.data);
 
   // Best score + count per topic
   const attemptsMap = new Map<number, { count: number; bestScore: number }>();
@@ -274,6 +287,7 @@ export async function getQuestMapData(
     mod: { ...mod, topics: safeTopics },
     nodes: safeNodes,
     moduleComplete,
+    assessmentUnlocked,
     hasFinal,
     needsQuizTopics: safeNodes.filter((node) => node.status === 'NEEDS_QUIZ'),
   };
