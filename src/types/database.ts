@@ -338,7 +338,10 @@ export interface StudentAssessmentUnlockRow {
   reason: string;
   created_at: string;
 }
-export type CertificateInsert = Omit<CertificateRow, 'id' | 'issued_at'>;
+export type CertificateInsert = Omit<
+  CertificateRow,
+  'id' | 'issued_at' | 'issue_source' | 'issued_by' | 'admin_note'
+> & Partial<Pick<CertificateRow, 'issue_source' | 'issued_by' | 'admin_note'>>;
 
 // ── Phase 2: Challenges & Submissions (new tables — additive) ────────────────
 
