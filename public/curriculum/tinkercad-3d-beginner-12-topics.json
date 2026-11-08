@@ -2022,5 +2022,251 @@
     }
   ],
   "description": "Kurikulum pemula untuk belajar desain 3D menggunakan Tinkercad. Level 1 (topik 1–4) mengenalkan ruang 3D dan bentuk dasar; Level 2 (topik 5–8) berfokus pada pengukuran dan penyusunan presisi; Level 3 (topik 9–12) mengembangkan pola, perakitan komponen, penyempurnaan, dan proyek produk akhir.",
-  "module_id": 30
+  "module_id": 30,
+  "final_assessment": {
+    "title": "Tryout Akhir — Tinkercad 3D Beginner — 12 Topik",
+    "duration_minutes": 35,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Apa yang membuat sebuah objek disebut 3D?",
+        "options": [
+          "Memiliki panjang, lebar, dan tinggi",
+          "Hanya memiliki warna",
+          "Selalu berbentuk lingkaran",
+          "Hanya memiliki dua sisi"
+        ],
+        "answer_index": 0,
+        "explanation": "Benda 3D memiliki dimensi panjang, lebar, dan tinggi."
+      },
+      {
+        "id": 2,
+        "question": "Sumbu Z biasanya menunjukkan arah…",
+        "options": [
+          "Kiri dan kanan",
+          "Depan dan belakang",
+          "Atas dan bawah",
+          "Warna dan tekstur"
+        ],
+        "answer_index": 2,
+        "explanation": "Sumbu Z menunjukkan tinggi atau rendah."
+      },
+      {
+        "id": 3,
+        "question": "Grid paling berguna untuk…",
+        "options": [
+          "Memberi panduan visual posisi dan jarak",
+          "Mengubah objek menjadi animasi",
+          "Membuat kata sandi",
+          "Mengirim tautan"
+        ],
+        "answer_index": 0,
+        "explanation": "Grid membantu memperkirakan posisi dan jarak saat menyusun objek."
+      },
+      {
+        "id": 4,
+        "question": "Workplane adalah…",
+        "options": [
+          "Panel untuk memilih akun",
+          "Bentuk berwarna merah",
+          "Bidang tempat objek diletakkan atau diedit",
+          "Fitur untuk mengekspor video"
+        ],
+        "answer_index": 2,
+        "explanation": "Workplane adalah bidang kerja tempat bentuk disusun."
+      },
+      {
+        "id": 5,
+        "question": "Bentuk yang cocok menjadi alas rumah adalah…",
+        "options": [
+          "Teks",
+          "Kotak/Box",
+          "Tombol pengaturan",
+          "Garis pandang"
+        ],
+        "answer_index": 1,
+        "explanation": "Kotak dapat menjadi alas datar yang stabil untuk dinding."
+      },
+      {
+        "id": 6,
+        "question": "Bentuk solid memiliki fungsi untuk…",
+        "options": [
+          "Menambah volume pada model",
+          "Mengubah nama file",
+          "Menggeser kamera saja",
+          "Menghapus akun"
+        ],
+        "answer_index": 0,
+        "explanation": "Bentuk solid menambahkan volume ke desain."
+      },
+      {
+        "id": 7,
+        "question": "Alat Move digunakan untuk…",
+        "options": [
+          "Mengubah warna",
+          "Memindahkan posisi objek",
+          "Menghapus volume",
+          "Membuat soal"
+        ],
+        "answer_index": 1,
+        "explanation": "Move mengubah lokasi objek di ruang kerja."
+      },
+      {
+        "id": 8,
+        "question": "Untuk mengubah tinggi objek di ruang 3D, perhatikan arah…",
+        "options": [
+          "Sumbu warna",
+          "Sumbu waktu",
+          "Sumbu Z",
+          "Sumbu audio"
+        ],
+        "answer_index": 2,
+        "explanation": "Sumbu Z menunjukkan arah tinggi atau rendah."
+      },
+      {
+        "id": 9,
+        "question": "Ruler berguna untuk…",
+        "options": [
+          "Mengubah model menjadi gambar 2D",
+          "Membaca posisi dan ukuran objek",
+          "Membuat objek transparan",
+          "Membagi akun"
+        ],
+        "answer_index": 1,
+        "explanation": "Ruler membantu membaca dimensi dan posisi sehingga model bisa dibuat lebih presisi."
+      },
+      {
+        "id": 10,
+        "question": "Dalam X × Y × Z, nilai Z mewakili…",
+        "options": [
+          "Warna",
+          "Panjang pada layar saja",
+          "Tinggi",
+          "Nama objek"
+        ],
+        "answer_index": 2,
+        "explanation": "Z menunjukkan tinggi atau rendah dalam ruang 3D."
+      },
+      {
+        "id": 11,
+        "question": "Align paling tepat digunakan ketika…",
+        "options": [
+          "Objek perlu disejajarkan atau dipusatkan",
+          "Objek perlu dilubangi",
+          "Objek harus disimpan sebagai gambar",
+          "Warna harus diacak"
+        ],
+        "answer_index": 0,
+        "explanation": "Align mengatur posisi objek berdasarkan tepi atau titik tengah."
+      },
+      {
+        "id": 12,
+        "question": "Mirror digunakan untuk…",
+        "options": [
+          "Mengukur tinggi",
+          "Mengganti unit",
+          "Membalik orientasi objek pada sumbu tertentu",
+          "Menggabungkan semua bentuk"
+        ],
+        "answer_index": 2,
+        "explanation": "Mirror membalik bentuk atau orientasinya pada sumbu yang dipilih."
+      },
+      {
+        "id": 13,
+        "question": "Fungsi utama Group adalah…",
+        "options": [
+          "Menggabungkan bentuk terpilih agar bekerja sebagai satu unit",
+          "Memutar sudut pandang",
+          "Mengatur kata sandi",
+          "Menampilkan kisi saja"
+        ],
+        "answer_index": 0,
+        "explanation": "Group menggabungkan bentuk terpilih untuk diperlakukan sebagai satu unit kerja."
+      },
+      {
+        "id": 14,
+        "question": "Kapan sebaiknya menggunakan Group?",
+        "options": [
+          "Sebelum objek apa pun ditempatkan",
+          "Ketika bentuk sudah tersusun sesuai rencana",
+          "Saat ingin melihat dari atas",
+          "Ketika perlu mengukur saja"
+        ],
+        "answer_index": 1,
+        "explanation": "Mengelompokkan setelah penempatan dasar benar mengurangi koreksi ulang."
+      },
+      {
+        "id": 15,
+        "question": "Dalam Tinkercad, fungsi Hole adalah…",
+        "options": [
+          "Menambah warna",
+          "Membesarkan grid",
+          "Mengurangi volume solid saat digabungkan",
+          "Mengubah sudut kamera"
+        ],
+        "answer_index": 2,
+        "explanation": "Hole menjadi pemotong ketika digabungkan dengan solid yang beririsan."
+      },
+      {
+        "id": 16,
+        "question": "Agar Hole memotong sebuah balok, Hole harus…",
+        "options": [
+          "Berada jauh di samping balok",
+          "Beririsan dengan bagian balok yang ingin dipotong",
+          "Memiliki warna yang sama",
+          "Tidak dipilih saat Group"
+        ],
+        "answer_index": 1,
+        "explanation": "Pemotong harus beririsan dengan solid agar volume dapat dikurangi."
+      },
+      {
+        "id": 17,
+        "question": "Mengapa lebih baik memastikan unit pertama benar sebelum Duplicate berkali-kali?",
+        "options": [
+          "Agar grid selalu berwarna",
+          "Kesalahan pada unit pertama bisa terulang pada salinan",
+          "Agar desain tidak dapat disimpan",
+          "Agar semua objek hilang"
+        ],
+        "answer_index": 1,
+        "explanation": "Unit awal menjadi acuan untuk semua salinan, sehingga perlu diperiksa terlebih dahulu."
+      },
+      {
+        "id": 18,
+        "question": "Untuk membuat pagar rapi, faktor yang perlu konsisten adalah…",
+        "options": [
+          "Nama browser",
+          "Warna kursor",
+          "Jarak dan arah tiang",
+          "Ukuran layar saja"
+        ],
+        "answer_index": 2,
+        "explanation": "Jarak dan arah konsisten membuat pola tampak teratur."
+      },
+      {
+        "id": 19,
+        "question": "Cara yang membantu mengelola model kompleks adalah…",
+        "options": [
+          "Menambahkan bentuk tanpa rencana",
+          "Membagi produk menjadi komponen",
+          "Menggunakan warna saja",
+          "Menghindari tampilan samping"
+        ],
+        "answer_index": 1,
+        "explanation": "Memecah desain menjadi komponen membuat perakitan lebih terstruktur."
+      },
+      {
+        "id": 20,
+        "question": "Untuk menempatkan roda pada mobil, acuan yang paling masuk akal adalah…",
+        "options": [
+          "Badan mobil",
+          "Warna desain",
+          "Panel akun",
+          "Tombol zoom"
+        ],
+        "answer_index": 0,
+        "explanation": "Badan mobil menentukan ukuran dan lokasi komponen lain seperti roda."
+      }
+    ]
+  }
 }
