@@ -32,7 +32,7 @@ interface Props {
 // ── Retro Pixel Adventurer Sprite ─────────────────────────────────────────────
 function PixelAdventurerSprite() {
   return (
-    <div className="relative flex flex-col items-center pointer-events-none select-none -translate-y-8 animate-bounce z-50">
+    <div className="absolute left-1/2 bottom-full -translate-x-1/2 -translate-y-1 flex flex-col items-center pointer-events-none select-none z-50">
       {/* "KAMU" Floating Tag */}
       <div className="px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-black text-[9px] tracking-widest font-mono shadow-[0_0_10px_rgba(6,182,212,0.8)] border border-white flex items-center gap-1 mb-1">
         <span className="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping" />
