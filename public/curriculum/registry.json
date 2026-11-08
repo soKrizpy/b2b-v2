@@ -3,6 +3,18 @@
   "sourceOfTruth": "public/curriculum/*.json",
   "modules": [
     {
+      "file": "basic-visual-web-30-topics.json",
+      "module_id": 10,
+      "module_title": "BASIC VISUAL WEB",
+      "status": "mapped"
+    },
+    {
+      "file": "begin-to-scratch-10-topics.json",
+      "module_id": 11,
+      "module_title": "Begin to Scratch",
+      "status": "mapped"
+    },
+    {
       "file": "tinkercad-3d-design.json",
       "module_id": 27,
       "module_title": "3D Design Beginner",
