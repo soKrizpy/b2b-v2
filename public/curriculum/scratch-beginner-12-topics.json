@@ -2074,5 +2074,251 @@
     }
   ],
   "description": "Kurikulum Scratch 3.0 untuk pemula yang bertahap dari mengenal editor dan blok hingga membuat karya interaktif. Topik 1–4: Mudah; 5–8: Sedang; 9–12: Lancar. Setiap topik berisi 10 slide instruksional, 5 soal kuis, dan satu challenge proyek.",
-  "module_id": 29
+  "module_id": 29,
+  "final_assessment": {
+    "title": "Tryout Akhir — Scratch Beginner — 12 Topik",
+    "duration_minutes": 35,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Apa fungsi utama Scratch?",
+        "options": [
+          "Membuat proyek interaktif dengan blok visual",
+          "Menggantikan semua aplikasi kantor",
+          "Hanya menampilkan video",
+          "Mengelola berkas sistem operasi"
+        ],
+        "answer_index": 0,
+        "explanation": "Scratch membantu pemula membuat animasi, cerita, dan permainan dengan menyusun blok."
+      },
+      {
+        "id": 2,
+        "question": "Area yang menampilkan hasil proyek disebut…",
+        "options": [
+          "Panel Variables",
+          "Panggung (Stage)",
+          "Daftar kategori",
+          "Area unduhan"
+        ],
+        "answer_index": 1,
+        "explanation": "Panggung menampilkan sprite dan backdrop selama proyek berjalan."
+      },
+      {
+        "id": 3,
+        "question": "Pada koordinat Scratch, sumbu x terutama mengatur…",
+        "options": [
+          "Posisi kiri-kanan",
+          "Ukuran sprite",
+          "Volume suara",
+          "Nama kostum"
+        ],
+        "answer_index": 0,
+        "explanation": "Koordinat x mengatur posisi mendatar sprite di panggung."
+      },
+      {
+        "id": 4,
+        "question": "Nilai y yang lebih besar biasanya memindahkan sprite ke…",
+        "options": [
+          "Kiri",
+          "Atas",
+          "Kanan",
+          "Tab suara"
+        ],
+        "answer_index": 1,
+        "explanation": "Di panggung Scratch, peningkatan y membuat sprite bergerak ke atas."
+      },
+      {
+        "id": 5,
+        "question": "Apa fungsi event dalam skrip?",
+        "options": [
+          "Memicu rangkaian blok saat kejadian tertentu terjadi",
+          "Mengubah bahasa antarmuka saja",
+          "Menghapus kode yang tidak dipakai",
+          "Membuat backdrop baru otomatis"
+        ],
+        "answer_index": 0,
+        "explanation": "Event menjadi pemicu eksekusi skrip, misalnya bendera hijau atau klik sprite."
+      },
+      {
+        "id": 6,
+        "question": "Blok yang sesuai untuk mulai menjalankan proyek dari awal adalah…",
+        "options": [
+          "Change x by 10",
+          "Hide",
+          "When green flag clicked",
+          "Delete this clone"
+        ],
+        "answer_index": 2,
+        "explanation": "Bendera hijau adalah pemicu umum untuk memulai proyek Scratch."
+      },
+      {
+        "id": 7,
+        "question": "Kategori Looks terutama digunakan untuk…",
+        "options": [
+          "Mengubah tampilan sprite dan panggung",
+          "Mengatur kata sandi",
+          "Mengirim email",
+          "Mengelola akun"
+        ],
+        "answer_index": 0,
+        "explanation": "Looks mengatur dialog, kostum, ukuran, visibilitas, dan efek tampilan."
+      },
+      {
+        "id": 8,
+        "question": "Apa perbedaan umum Say dan Think?",
+        "options": [
+          "Think mengubah koordinat",
+          "Say hanya untuk panggung",
+          "Keduanya selalu memindahkan sprite",
+          "Say menampilkan ucapan, Think menampilkan pikiran"
+        ],
+        "answer_index": 3,
+        "explanation": "Kedua blok menampilkan balon teks dengan gaya yang berbeda."
+      },
+      {
+        "id": 9,
+        "question": "Blok Play sound until done berguna ketika…",
+        "options": [
+          "Skrip perlu menunggu sampai suara selesai",
+          "Sprite harus dihapus",
+          "Panggung harus berpindah koordinat",
+          "Variabel harus bernama score"
+        ],
+        "answer_index": 0,
+        "explanation": "Blok until done menahan skrip sampai pemutaran suara selesai."
+      },
+      {
+        "id": 10,
+        "question": "Apa fungsi Wait?",
+        "options": [
+          "Mengganti semua kostum",
+          "Memulai event keyboard",
+          "Memberi jeda waktu sebelum blok berikutnya",
+          "Membuat variabel baru"
+        ],
+        "answer_index": 2,
+        "explanation": "Wait membuat skrip berhenti sementara selama durasi yang ditentukan."
+      },
+      {
+        "id": 11,
+        "question": "Apa yang dihasilkan oleh kondisi seperti touching [Target]?",
+        "options": [
+          "Nilai benar atau salah",
+          "Sebuah gambar baru",
+          "Nama akun",
+          "File suara"
+        ],
+        "answer_index": 0,
+        "explanation": "Blok kondisi Sensing memberi tahu apakah keadaan yang diperiksa sedang terjadi."
+      },
+      {
+        "id": 12,
+        "question": "Blok If menjalankan isi bloknya ketika…",
+        "options": [
+          "Semua sprite dihapus",
+          "Backdrop diganti selalu",
+          "Kondisinya benar",
+          "Proyek belum diberi nama"
+        ],
+        "answer_index": 2,
+        "explanation": "If menjalankan cabang di dalamnya hanya jika kondisi bernilai benar."
+      },
+      {
+        "id": 13,
+        "question": "Variabel digunakan untuk…",
+        "options": [
+          "Menyimpan nilai yang dapat berubah",
+          "Mengganti kategori blok",
+          "Membuka tab browser",
+          "Menghapus backdrop"
+        ],
+        "answer_index": 0,
+        "explanation": "Variabel menyimpan data seperti skor, waktu, atau jumlah kesempatan."
+      },
+      {
+        "id": 14,
+        "question": "Mengapa score sering diatur menjadi 0 saat bendera hijau diklik?",
+        "options": [
+          "Agar sprite tidak punya kostum",
+          "Agar panggung tidak terlihat",
+          "Agar setiap sesi dimulai dari nilai awal yang konsisten",
+          "Agar suara menjadi lebih keras"
+        ],
+        "answer_index": 2,
+        "explanation": "Reset membuat hasil percobaan tidak dipengaruhi nilai dari sesi sebelumnya."
+      },
+      {
+        "id": 15,
+        "question": "Operator perbandingan biasanya menghasilkan…",
+        "options": [
+          "Nilai benar atau salah",
+          "Backdrop baru",
+          "Sprite duplikat",
+          "Suara yang direkam"
+        ],
+        "answer_index": 0,
+        "explanation": "Hasil perbandingan digunakan sebagai kondisi untuk menentukan aksi program."
+      },
+      {
+        "id": 16,
+        "question": "Jika aturan menyatakan skor harus minimal 10, kondisi yang tepat adalah…",
+        "options": [
+          "score < 10",
+          "score >= 10",
+          "score = 0",
+          "score < 0"
+        ],
+        "answer_index": 1,
+        "explanation": "Minimal 10 termasuk nilai 10, jadi perbandingan harus lebih besar atau sama dengan 10."
+      },
+      {
+        "id": 17,
+        "question": "Apa fungsi Broadcast?",
+        "options": [
+          "Mengirim pesan yang dapat memicu skrip lain",
+          "Mengubah warna kategori blok",
+          "Menyimpan file ke komputer",
+          "Membuat variabel otomatis"
+        ],
+        "answer_index": 0,
+        "explanation": "Broadcast mengirim pesan kepada skrip yang menggunakan event penerima pesan itu."
+      },
+      {
+        "id": 18,
+        "question": "Blok pemicu yang sesuai untuk menerima pesan adalah…",
+        "options": [
+          "When green flag clicked",
+          "When I receive [message]",
+          "Move 10 steps",
+          "Set size to 100%"
+        ],
+        "answer_index": 1,
+        "explanation": "When I receive menjalankan skrip saat pesan yang disebut diterima."
+      },
+      {
+        "id": 19,
+        "question": "Clone di Scratch adalah…",
+        "options": [
+          "Salinan sprite yang dibuat saat program berjalan",
+          "Nama lain untuk backdrop",
+          "Jenis operator perbandingan",
+          "File audio"
+        ],
+        "answer_index": 0,
+        "explanation": "Clone memungkinkan satu sprite menghasilkan banyak objek serupa saat runtime."
+      },
+      {
+        "id": 20,
+        "question": "Event yang khusus berjalan pada klon baru adalah…",
+        "options": [
+          "When I receive [message]",
+          "When I start as a clone",
+          "When green flag clicked saja",
+          "When loudness > 10"
+        ],
+        "answer_index": 1,
+        "explanation": "When I start as a clone menjalankan skrip ketika salinan baru dibuat."
+      }
+    ]
+  }
 }
