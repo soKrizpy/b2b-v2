@@ -9,7 +9,7 @@
     "topics": [
       {
         "topic_title": "Maju Kucing",
-        "topic_order": 1,
+        "topic_order": 0,
         "status": "draft",
         "description": "Menggerakkan sprite kucing dengan blok Motion dan memahami koordinat panggung. Sprite adalah karakter/objek yang memiliki posisi X-Y. Blok Motion mengubah posisi atau arah sprite; bendera hijau menjadi pemicu awal proyek.",
         "project_link": "https://scratch.mit.edu",
@@ -170,7 +170,7 @@
       },
       {
         "topic_title": "Game Skor Koin",
-        "topic_order": 2,
+        "topic_order": 1,
         "status": "published",
         "description": "Membuat pemain mengumpulkan koin dan menambah variabel skor saat terjadi sentuhan. Variabel menyimpan nilai yang dapat berubah selama game. Skor biasanya diatur ke 0 saat permainan dimulai dan bertambah ketika pemain menyentuh koin.",
         "project_link": "https://scratch.mit.edu",
@@ -331,7 +331,7 @@
       },
       {
         "topic_title": "Kalkulator Ajaib",
-        "topic_order": 3,
+        "topic_order": 2,
         "status": "published",
         "description": "Membuat kalkulator sederhana dengan input angka, operator, variabel, dan hasil. Kalkulator menerima dua nilai, menyimpannya, menjalankan operasi matematika, lalu menampilkan hasil. Operator harus dipilih sesuai operasi yang diminta.",
         "project_link": "https://scratch.mit.edu",
@@ -492,7 +492,7 @@
       },
       {
         "topic_title": "Robot Pengantar Pesan",
-        "topic_order": 4,
+        "topic_order": 3,
         "status": "published",
         "description": "Membuat robot bergerak menuju tujuan dan menyampaikan pesan berdasarkan urutan tugas. Proyek menggabungkan gerak, koordinat, dialog, dan pemicu. Setiap tujuan dapat diperlakukan sebagai titik koordinat yang harus dicapai sebelum pesan berikutnya ditampilkan.",
         "project_link": "https://scratch.mit.edu",
@@ -653,7 +653,7 @@
       },
       {
         "topic_title": "Dodge the Meteor",
-        "topic_order": 5,
+        "topic_order": 4,
         "status": "published",
         "description": "Membuat game menghindari meteor yang jatuh dengan kontrol pemain, clone, dan kondisi kalah. Pemain bergerak menghindari objek berbahaya. Clone membuat banyak meteor dari satu sprite; kondisi menyentuh pemain memicu game over.",
         "project_link": "https://scratch.mit.edu",
@@ -814,7 +814,7 @@
       },
       {
         "topic_title": "Petualangan 3 Babak",
-        "topic_order": 6,
+        "topic_order": 5,
         "status": "published",
         "description": "Membuat cerita interaktif tiga babak dengan backdrop, dialog, dan perpindahan adegan. Cerita dibagi menjadi adegan agar alurnya mudah diikuti. Broadcast dapat memberi sinyal perpindahan dari satu babak ke babak berikutnya.",
         "project_link": "https://scratch.mit.edu",
@@ -975,7 +975,7 @@
       },
       {
         "topic_title": "Sprite Dance Battle",
-        "topic_order": 7,
+        "topic_order": 6,
         "status": "published",
         "description": "Membuat dua sprite menari dengan kostum, musik, timing, dan respons tombol. Animasi tari mengandalkan pergantian kostum yang teratur. Suara dan jeda membantu menyinkronkan gerakan agar penampilan terasa mengikuti irama.",
         "project_link": "https://scratch.mit.edu",
@@ -1136,7 +1136,7 @@
       },
       {
         "topic_title": "Platformer Mini",
-        "topic_order": 8,
+        "topic_order": 7,
         "status": "published",
         "description": "Membuat karakter melompat dan bergerak di platform dengan gravitasi sederhana dan deteksi lantai. Platformer membutuhkan kontrol horizontal dan gerak vertikal. Gravitasi dapat disimulasikan dengan mengurangi kecepatan Y, sedangkan sentuhan lantai menghentikan jatuh.",
         "project_link": "https://scratch.mit.edu",
@@ -1297,7 +1297,7 @@
       },
       {
         "topic_title": "Magic Paintbrush",
-        "topic_order": 9,
+        "topic_order": 8,
         "status": "published",
         "description": "Membuat kuas digital yang menggambar mengikuti gerakan mouse dan dapat mengubah warna atau ukuran. Pen extension dapat meninggalkan jejak saat sprite bergerak. Mouse memberi posisi dan tombol klik dapat mengontrol kapan pena turun atau naik.",
         "project_link": "https://scratch.mit.edu",
@@ -1458,7 +1458,7 @@
       },
       {
         "topic_title": "Boss Battle Game",
-        "topic_order": 10,
+        "topic_order": 9,
         "status": "published",
         "description": "Membuat pertarungan boss dengan HP, serangan pemain, pola serangan boss, dan kondisi menang/kalah. Boss battle mengelola beberapa status game: HP pemain, HP boss, cooldown serangan, dan kondisi akhir. Variabel serta broadcast menjaga komunikasi antar-sprite.",
         "project_link": "https://scratch.mit.edu",
@@ -1619,7 +1619,7 @@
       },
       {
         "topic_title": "Pilih Petualanganmu",
-        "topic_order": 11,
+        "topic_order": 10,
         "status": "published",
         "description": "Membuat cerita bercabang berdasarkan pilihan pemain dan mengarahkan pemain ke adegan yang berbeda. Cerita interaktif menggunakan input pemain atau tombol pilihan. Kondisi if/else menentukan cabang cerita dan setiap pilihan perlu diarahkan ke hasil yang jelas.",
         "project_link": "https://scratch.mit.edu",
@@ -1780,7 +1780,7 @@
       },
       {
         "topic_title": "Showcase Project — Game atau Cerita Sendiri",
-        "topic_order": 12,
+        "topic_order": 11,
         "status": "published",
         "description": "Menggabungkan konsep Scratch menjadi karya mandiri yang memiliki tujuan, interaksi, umpan balik, dan penyelesaian. Proyek akhir dimulai dari ide dan rancangan sederhana. Pecah fitur menjadi bagian kecil, bangun versi dasar terlebih dahulu, lalu uji dan perbaiki sebelum menambahkan efek.",
         "project_link": "https://scratch.mit.edu",
