@@ -39,6 +39,12 @@
       "status": "mapped"
     },
     {
+      "file": "scratch-visual-block-coding-games.json",
+      "module_id": 20,
+      "module_title": "Scratch Visual Block Coding & Games",
+      "status": "mapped"
+    },
+    {
       "file": "python-fundamentals.json",
       "module_id": null,
       "module_title": "Python Fundamentals: Petualangan Dunia Coding",
