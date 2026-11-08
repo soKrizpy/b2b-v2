@@ -50,7 +50,7 @@ export async function getInvoicesByMonth(
 }
 
 // ── getStudentInvoices ────────────────────────────────────────────────────────
-// Returns sent + paid invoices for a single student (for student-facing banner).
+// Returns only unpaid (sent) invoices for the student dashboard notice.
 
 export async function getStudentInvoices(studentId: string): Promise<InvoiceRow[]> {
   const db = createSupabaseAdminClient();
@@ -59,7 +59,7 @@ export async function getStudentInvoices(studentId: string): Promise<InvoiceRow[
     .from('invoices')
     .select('*')
     .eq('student_id', studentId)
-    .in('status', ['sent', 'paid'])
+    .eq('status', 'sent')
     .order('created_at', { ascending: false }) as unknown as Promise<{
       data: InvoiceRow[] | null;
       error: { message: string } | null;
