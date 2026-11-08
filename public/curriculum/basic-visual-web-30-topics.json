@@ -53,6 +53,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-1-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 1 - Biodata, fokus belajarnya adalah struktur dokumen HTML, heading, paragraf, dan informasi diri. Target belajar: menyusun halaman biodata sederhana dengan struktur HTML yang benar.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-1-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 1 - Biodata:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-1-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 1 - Biodata:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-1-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 1 - Biodata. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<h1>Profil Saya</h1>\n<p>Halo, nama saya Rani.</p>\n<h2>Hobi</h2>\n<p>Saya suka menggambar dan membaca.</p>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-1-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 1 - Biodata:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-1-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 1 - Biodata tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-1-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 1 - Biodata:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -164,6 +222,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-2-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 2 - About, fokus belajarnya adalah halaman About, identitas, deskripsi, dan susunan konten. Target belajar: membuat halaman About yang menjelaskan identitas, minat, dan tujuan sebuah website.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-2-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 2 - About:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-2-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 2 - About:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-2-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 2 - About. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<section>\n  <h1>Tentang Saya</h1>\n  <p>Saya sedang belajar membuat website.</p>\n</section>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-2-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 2 - About:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-2-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 2 - About tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-2-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 2 - About:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -277,6 +393,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-3-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 3 - List, fokus belajarnya adalah ordered list, unordered list, dan item daftar. Target belajar: menampilkan informasi berurutan atau tidak berurutan menggunakan elemen list HTML.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-3-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 3 - List:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-3-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 3 - List:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-3-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 3 - List. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<h2>Hobi</h2>\n<ul>\n  <li>Membaca</li>\n  <li>Bermain musik</li>\n</ul>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-3-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 3 - List:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-3-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 3 - List tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-3-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 3 - List:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -388,6 +562,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-4-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 4 - Picture, fokus belajarnya adalah elemen img, atribut src, alt, dan ukuran gambar. Target belajar: menampilkan gambar dengan sumber yang benar dan teks alternatif yang informatif.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-4-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 4 - Picture:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-4-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 4 - Picture:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-4-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 4 - Picture. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<img src=\"foto.jpg\" alt=\"Pemandangan gunung\" width=\"320\">",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-4-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 4 - Picture:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-4-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 4 - Picture tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-4-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 4 - Picture:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -501,6 +733,64 @@
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-5-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 5: Margin dan Padding, fokus belajarnya adalah CSS box model, ruang luar margin, dan ruang dalam padding. Target belajar: mengatur jarak antar elemen dan ruang di dalam elemen agar layout lebih rapi.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-5-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 5: Margin dan Padding:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-5-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 5: Margin dan Padding:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-5-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 5: Margin dan Padding. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<style>\n.card {\n  margin: 20px;\n  padding: 16px;\n  border: 1px solid #999;\n}\n</style>",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-5-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 5: Margin dan Padding:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-5-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 5: Margin dan Padding tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-5-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 5: Margin dan Padding:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -612,6 +902,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-6-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 6 - Navigasi Bar, fokus belajarnya adalah elemen nav, anchor link, dan navigasi antar bagian halaman. Target belajar: membuat navigation bar yang mengarahkan pengguna ke bagian website.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-6-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 6 - Navigasi Bar:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-6-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 6 - Navigasi Bar:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-6-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 6 - Navigasi Bar. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<nav>\n  <a href=\"#home\">Home</a>\n  <a href=\"#about\">About</a>\n  <a href=\"#contact\">Contact</a>\n</nav>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-6-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 6 - Navigasi Bar:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-6-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 6 - Navigasi Bar tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-6-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 6 - Navigasi Bar:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -725,6 +1073,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-7-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 7 - Build Your first Web Page, fokus belajarnya adalah menggabungkan HTML, struktur halaman, dan preview browser. Target belajar: membangun halaman web pertama dengan struktur lengkap dan konten yang tertata.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-7-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 7 - Build Your first Web Page:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-7-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 7 - Build Your first Web Page:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-7-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 7 - Build Your first Web Page. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<!doctype html>\n<html lang=\"id\">\n<head><meta charset=\"UTF-8\"><title>Web Pertamaku</title></head>\n<body><h1>Halo, Web!</h1><p>Ini halaman pertamaku.</p></body>\n</html>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-7-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 7 - Build Your first Web Page:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-7-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 7 - Build Your first Web Page tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-7-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 7 - Build Your first Web Page:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -836,6 +1242,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-8-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 8 - Struktur dan Basik Tag, fokus belajarnya adalah doctype, html, head, body, title, dan elemen dasar. Target belajar: menjelaskan kerangka HTML dan menempatkan elemen pada bagian dokumen yang tepat.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-8-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 8 - Struktur dan Basik Tag:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-8-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 8 - Struktur dan Basik Tag:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-8-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 8 - Struktur dan Basik Tag. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<!doctype html>\n<html lang=\"id\">\n<head>\n  <title>Belajar HTML</title>\n</head>\n<body>\n  <p>Konten halaman.</p>\n</body>\n</html>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-8-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 8 - Struktur dan Basik Tag:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-8-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 8 - Struktur dan Basik Tag tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-8-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 8 - Struktur dan Basik Tag:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -949,6 +1413,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-9-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 9 - Heading dan Paragraf, fokus belajarnya adalah hierarki heading h1 sampai h6 dan paragraf. Target belajar: menyusun judul dan isi tulisan dengan hierarki yang logis dan mudah dibaca.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-9-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 9 - Heading dan Paragraf:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-9-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 9 - Heading dan Paragraf:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-9-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 9 - Heading dan Paragraf. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<h1>Judul Utama</h1>\n<h2>Subjudul</h2>\n<p>Paragraf menjelaskan isi bagian ini.</p>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-9-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 9 - Heading dan Paragraf:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-9-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 9 - Heading dan Paragraf tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-9-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 9 - Heading dan Paragraf:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1060,6 +1582,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-10-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Topik 10 - Link dan Navigasi Bar, fokus belajarnya adalah anchor, href, target, dan tautan internal. Target belajar: menghubungkan halaman atau bagian website menggunakan tautan yang jelas.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-10-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Topik 10 - Link dan Navigasi Bar:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-10-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Topik 10 - Link dan Navigasi Bar:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-10-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Topik 10 - Link dan Navigasi Bar. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<a href=\"https://scratch.mit.edu\" target=\"_blank\" rel=\"noreferrer\">Buka Scratch</a>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-10-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Topik 10 - Link dan Navigasi Bar:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-10-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Topik 10 - Link dan Navigasi Bar tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-10-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Topik 10 - Link dan Navigasi Bar:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -1173,6 +1753,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-11-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Menampilkan Gambar dengan HTML, fokus belajarnya adalah path gambar relatif, alt text, dan ukuran gambar. Target belajar: memasang gambar lokal dengan path yang benar serta alt text untuk aksesibilitas.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-11-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Menampilkan Gambar dengan HTML:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-11-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Menampilkan Gambar dengan HTML:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-11-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Menampilkan Gambar dengan HTML. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<figure>\n  <img src=\"images/kucing.jpg\" alt=\"Kucing duduk\" width=\"300\">\n  <figcaption>Kucing peliharaan</figcaption>\n</figure>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-11-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Menampilkan Gambar dengan HTML:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-11-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Menampilkan Gambar dengan HTML tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-11-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Menampilkan Gambar dengan HTML:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1284,6 +1922,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-12-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Membuat Daftar dengan HTML, fokus belajarnya adalah ul, ol, li, dan daftar bertingkat. Target belajar: memilih jenis daftar yang tepat dan menyusun item secara semantik.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-12-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Membuat Daftar dengan HTML:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-12-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Membuat Daftar dengan HTML:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-12-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Membuat Daftar dengan HTML. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<ol>\n  <li>Siapkan alat</li>\n  <li>Buat sketsa</li>\n  <li>Bangun halaman</li>\n</ol>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-12-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Membuat Daftar dengan HTML:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-12-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Membuat Daftar dengan HTML tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-12-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Membuat Daftar dengan HTML:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -1397,6 +2093,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-13-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Menyusun Data dengan Tabel HTML, fokus belajarnya adalah table, caption, thead, tbody, tr, th, dan td. Target belajar: menampilkan data tabular dengan baris dan kolom yang terstruktur.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-13-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Menyusun Data dengan Tabel HTML:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-13-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Menyusun Data dengan Tabel HTML:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-13-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Menyusun Data dengan Tabel HTML. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<table>\n  <tr><th>Nama</th><th>Skor</th></tr>\n  <tr><td>Ani</td><td>90</td></tr>\n</table>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-13-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Menyusun Data dengan Tabel HTML:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-13-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Menyusun Data dengan Tabel HTML tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-13-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Menyusun Data dengan Tabel HTML:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1508,6 +2262,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-14-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Formulir HTML — Mengumpulkan Input Pengguna, fokus belajarnya adalah form, label, input, name, type, dan button. Target belajar: membuat formulir sederhana dengan label yang terhubung ke input.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-14-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Formulir HTML — Mengumpulkan Input Pengguna:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-14-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Formulir HTML — Mengumpulkan Input Pengguna:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-14-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Formulir HTML — Mengumpulkan Input Pengguna. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<form>\n  <label for=\"nama\">Nama</label>\n  <input id=\"nama\" name=\"nama\" type=\"text\" required>\n  <button type=\"submit\">Kirim</button>\n</form>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-14-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Formulir HTML — Mengumpulkan Input Pengguna:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-14-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Formulir HTML — Mengumpulkan Input Pengguna tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-14-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Formulir HTML — Mengumpulkan Input Pengguna:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -1621,6 +2433,64 @@
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
             "xp": 10
+          },
+          {
+            "node_id": "web-15-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik HTML Semantik — Struktur Halaman yang Bermakna, fokus belajarnya adalah header, nav, main, section, article, aside, dan footer. Target belajar: memilih elemen semantik agar struktur halaman mudah dipahami manusia dan teknologi bantu.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-15-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik HTML Semantik — Struktur Halaman yang Bermakna:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-15-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan HTML Semantik — Struktur Halaman yang Bermakna:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-15-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan HTML Semantik — Struktur Halaman yang Bermakna. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<header><h1>Blog Saya</h1></header>\n<main><article><h2>Artikel</h2><p>Isi artikel.</p></article></main>\n<footer>© 2026</footer>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-15-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan HTML Semantik — Struktur Halaman yang Bermakna:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-15-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil HTML Semantik — Struktur Halaman yang Bermakna tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-15-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk HTML Semantik — Struktur Halaman yang Bermakna:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1732,6 +2602,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Buka file HTML di browser dan periksa struktur, teks, tautan, atau media yang tampil. Ubah satu elemen lalu muat ulang halaman untuk melihat dampaknya.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-16-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Mini Project — Membuat Halaman Profil Sederhana, fokus belajarnya adalah integrasi struktur, teks, gambar, daftar, tautan, dan semantik. Target belajar: menggabungkan elemen HTML menjadi satu halaman profil yang lengkap dan konsisten.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-16-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Mini Project — Membuat Halaman Profil Sederhana:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-16-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Mini Project — Membuat Halaman Profil Sederhana:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-16-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Mini Project — Membuat Halaman Profil Sederhana. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<main>\n  <h1>Profil Dika</h1>\n  <img src=\"dika.jpg\" alt=\"Foto Dika\">\n  <p>Pelajar yang suka teknologi.</p>\n  <a href=\"#kontak\">Hubungi saya</a>\n</main>",
+            "code_language": "HTML",
+            "xp": 15
+          },
+          {
+            "node_id": "web-16-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Mini Project — Membuat Halaman Profil Sederhana:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-16-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Mini Project — Membuat Halaman Profil Sederhana tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-16-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Mini Project — Membuat Halaman Profil Sederhana:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -1845,6 +2773,64 @@
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-17-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Pengantar CSS — Memberi Gaya pada Halaman Web, fokus belajarnya adalah hubungan CSS dengan HTML, selector, property, value, dan rule. Target belajar: menghubungkan stylesheet ke HTML dan menulis aturan CSS pertama.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-17-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Pengantar CSS — Memberi Gaya pada Halaman Web:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-17-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Pengantar CSS — Memberi Gaya pada Halaman Web:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-17-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Pengantar CSS — Memberi Gaya pada Halaman Web. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "body {\n  font-family: Arial, sans-serif;\n}\nh1 {\n  color: navy;\n}",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-17-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Pengantar CSS — Memberi Gaya pada Halaman Web:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-17-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Pengantar CSS — Memberi Gaya pada Halaman Web tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-17-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Pengantar CSS — Memberi Gaya pada Halaman Web:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1956,6 +2942,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-18-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Warna, Font, dan Teks — Tipografi Dasar dengan CSS, fokus belajarnya adalah color, background-color, font-family, font-size, dan line-height. Target belajar: membangun hierarki visual melalui warna dan tipografi yang mudah dibaca.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-18-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Warna, Font, dan Teks — Tipografi Dasar dengan CSS:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-18-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Warna, Font, dan Teks — Tipografi Dasar dengan CSS:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-18-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Warna, Font, dan Teks — Tipografi Dasar dengan CSS. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "body { color: #243047; background-color: #f5f7fb; }\nh1 { font-family: Arial, sans-serif; font-size: 2rem; }\np { line-height: 1.6; }",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-18-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Warna, Font, dan Teks — Tipografi Dasar dengan CSS:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-18-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Warna, Font, dan Teks — Tipografi Dasar dengan CSS tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-18-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Warna, Font, dan Teks — Tipografi Dasar dengan CSS:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -2069,6 +3113,64 @@
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-19-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Box Model dan Spacing — Jarak dan Bingkai dengan CSS, fokus belajarnya adalah content, padding, border, margin, dan box-sizing. Target belajar: memprediksi ukuran elemen dan mengatur spacing menggunakan box model.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-19-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Box Model dan Spacing — Jarak dan Bingkai dengan CSS:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-19-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Box Model dan Spacing — Jarak dan Bingkai dengan CSS:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-19-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Box Model dan Spacing — Jarak dan Bingkai dengan CSS. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "* { box-sizing: border-box; }\n.card { width: 280px; padding: 20px; border: 2px solid #ccc; margin: 16px; }",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-19-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Box Model dan Spacing — Jarak dan Bingkai dengan CSS:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-19-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Box Model dan Spacing — Jarak dan Bingkai dengan CSS tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-19-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Box Model dan Spacing — Jarak dan Bingkai dengan CSS:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -2180,6 +3282,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-20-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Flexbox Layout — Menyusun Elemen dengan CSS, fokus belajarnya adalah display flex, justify-content, align-items, gap, dan flex-wrap. Target belajar: menyusun komponen dalam satu dimensi dengan Flexbox secara responsif.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-20-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Flexbox Layout — Menyusun Elemen dengan CSS:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-20-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Flexbox Layout — Menyusun Elemen dengan CSS:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-20-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Flexbox Layout — Menyusun Elemen dengan CSS. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": ".container { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-20-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Flexbox Layout — Menyusun Elemen dengan CSS:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-20-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Flexbox Layout — Menyusun Elemen dengan CSS tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-20-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Flexbox Layout — Menyusun Elemen dengan CSS:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -2293,6 +3453,64 @@
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-21-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Navigasi dan Seksi Halaman — Struktur Website Nyata, fokus belajarnya adalah layout header, navigation, section, anchor, dan footer. Target belajar: membangun beberapa bagian halaman yang saling terhubung melalui navigasi.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-21-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Navigasi dan Seksi Halaman — Struktur Website Nyata:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-21-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Navigasi dan Seksi Halaman — Struktur Website Nyata:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-21-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Navigasi dan Seksi Halaman — Struktur Website Nyata. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": ".section {\n  padding: 48px 20px;\n  scroll-margin-top: 80px;\n}",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-21-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Navigasi dan Seksi Halaman — Struktur Website Nyata:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-21-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Navigasi dan Seksi Halaman — Struktur Website Nyata tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-21-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Navigasi dan Seksi Halaman — Struktur Website Nyata:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -2404,6 +3622,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-22-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Hero Section, Kartu, dan CTA — Komponen Landing Page, fokus belajarnya adalah hierarki hero, card, call-to-action, dan tombol. Target belajar: merancang komponen landing page dengan pesan utama dan ajakan bertindak.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-22-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Hero Section, Kartu, dan CTA — Komponen Landing Page:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-22-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Hero Section, Kartu, dan CTA — Komponen Landing Page:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-22-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Hero Section, Kartu, dan CTA — Komponen Landing Page. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": ".hero {\n  text-align: center;\n  padding: 64px 24px;\n  background: #eef2ff;\n}\n.button {\n  display: inline-block;\n  padding: 12px 20px;\n  border-radius: 8px;\n}",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-22-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Hero Section, Kartu, dan CTA — Komponen Landing Page:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-22-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Hero Section, Kartu, dan CTA — Komponen Landing Page tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-22-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Hero Section, Kartu, dan CTA — Komponen Landing Page:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -2517,6 +3793,64 @@
             "title": "Uji di Browser",
             "content": "Ubah satu property CSS, simpan file, lalu bandingkan hasil sebelum dan sesudah. Periksa juga tampilan pada lebar layar yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-23-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Final Project — Landing Page Profesionalmu, fokus belajarnya adalah integrasi HTML semantik, CSS, layout, komponen, dan responsivitas. Target belajar: membangun landing page dengan navigasi, hero, kartu informasi, dan CTA yang berfungsi.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-23-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Final Project — Landing Page Profesionalmu:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-23-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Final Project — Landing Page Profesionalmu:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-23-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Final Project — Landing Page Profesionalmu. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": ".cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 20px;\n}\n.card {\n  padding: 20px;\n  border-radius: 12px;\n  box-shadow: 0 2px 8px #0002;\n}",
+            "code_language": "CSS",
+            "xp": 15
+          },
+          {
+            "node_id": "web-23-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Final Project — Landing Page Profesionalmu:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-23-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Final Project — Landing Page Profesionalmu tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-23-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Final Project — Landing Page Profesionalmu:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -2628,6 +3962,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-24-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Pengantar JavaScript — Membuat Website Interaktif, fokus belajarnya adalah peran JavaScript, script tag, console, dan statement. Target belajar: menambahkan JavaScript ke halaman dan memahami bagaimana skrip dijalankan.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-24-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Pengantar JavaScript — Membuat Website Interaktif:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-24-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Pengantar JavaScript — Membuat Website Interaktif:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-24-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Pengantar JavaScript — Membuat Website Interaktif. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "<script>\nconsole.log(\"Halo dari JavaScript!\");\nalert(\"Selamat datang!\");\n</script>",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-24-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Pengantar JavaScript — Membuat Website Interaktif:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-24-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Pengantar JavaScript — Membuat Website Interaktif tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-24-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Pengantar JavaScript — Membuat Website Interaktif:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -2741,6 +4133,64 @@
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-25-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Variabel dan Data — Menyimpan Informasi di JavaScript, fokus belajarnya adalah const, let, string, number, boolean, dan template literal. Target belajar: menyimpan serta menggunakan data sederhana dalam variabel JavaScript.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-25-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Variabel dan Data — Menyimpan Informasi di JavaScript:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-25-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Variabel dan Data — Menyimpan Informasi di JavaScript:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-25-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Variabel dan Data — Menyimpan Informasi di JavaScript. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "const nama = \"Alya\";\nlet skor = 0;\nskor = skor + 10;\nconsole.log(`${nama}: ${skor}`);",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-25-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Variabel dan Data — Menyimpan Informasi di JavaScript:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-25-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Variabel dan Data — Menyimpan Informasi di JavaScript tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-25-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Variabel dan Data — Menyimpan Informasi di JavaScript:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -2852,6 +4302,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-26-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Events — Tombol yang Bereaksi Terhadap Klik, fokus belajarnya adalah event listener, click event, dan fungsi callback. Target belajar: membuat elemen halaman merespons tindakan pengguna seperti klik tombol.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-26-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Events — Tombol yang Bereaksi Terhadap Klik:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-26-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Events — Tombol yang Bereaksi Terhadap Klik:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-26-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Events — Tombol yang Bereaksi Terhadap Klik. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "const tombol = document.querySelector(\"#mulai\");\ntombol.addEventListener(\"click\", () => {\n  alert(\"Ayo mulai!\");\n});",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-26-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Events — Tombol yang Bereaksi Terhadap Klik:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-26-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Events — Tombol yang Bereaksi Terhadap Klik tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-26-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Events — Tombol yang Bereaksi Terhadap Klik:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -2965,6 +4473,64 @@
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-27-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik DOM — Mengubah Halaman Secara Dinamis, fokus belajarnya adalah document, querySelector, textContent, classList, dan DOM update. Target belajar: memilih elemen HTML lalu memperbarui teks atau tampilannya melalui JavaScript.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-27-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik DOM — Mengubah Halaman Secara Dinamis:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-27-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan DOM — Mengubah Halaman Secara Dinamis:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-27-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan DOM — Mengubah Halaman Secara Dinamis. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "const judul = document.querySelector(\"h1\");\njudul.textContent = \"Judul Baru\";\njudul.classList.add(\"aktif\");",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-27-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan DOM — Mengubah Halaman Secara Dinamis:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-27-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil DOM — Mengubah Halaman Secara Dinamis tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-27-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk DOM — Mengubah Halaman Secara Dinamis:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -3076,6 +4642,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-28-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Kondisi — Website yang Bisa Mengambil Keputusan, fokus belajarnya adalah if, else, comparison operator, dan boolean. Target belajar: menjalankan aksi berbeda berdasarkan kondisi atau input pengguna.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-28-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Kondisi — Website yang Bisa Mengambil Keputusan:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-28-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Kondisi — Website yang Bisa Mengambil Keputusan:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-28-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Kondisi — Website yang Bisa Mengambil Keputusan. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "const skor = 75;\nif (skor >= 70) {\n  console.log(\"Lulus\");\n} else {\n  console.log(\"Coba lagi\");\n}",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-28-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Kondisi — Website yang Bisa Mengambil Keputusan:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-28-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Kondisi — Website yang Bisa Mengambil Keputusan tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-28-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Kondisi — Website yang Bisa Mengambil Keputusan:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -3189,6 +4813,64 @@
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
             "xp": 10
+          },
+          {
+            "node_id": "web-29-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Functions — Kode yang Bisa Dipanggil Berkali-kali, fokus belajarnya adalah function, parameter, argument, return, dan reuse. Target belajar: membuat fungsi agar logika dapat digunakan kembali dengan input yang berbeda.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-29-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Functions — Kode yang Bisa Dipanggil Berkali-kali:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-29-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Functions — Kode yang Bisa Dipanggil Berkali-kali:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-29-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Functions — Kode yang Bisa Dipanggil Berkali-kali. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "function sapa(nama) {\n  return `Halo, ${nama}!`;\n}\nconsole.log(sapa(\"Bima\"));",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-29-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Functions — Kode yang Bisa Dipanggil Berkali-kali:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-29-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Functions — Kode yang Bisa Dipanggil Berkali-kali tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-29-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Functions — Kode yang Bisa Dipanggil Berkali-kali:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -3300,6 +4982,64 @@
             "type": "lesson",
             "title": "Uji di Browser",
             "content": "Jalankan skrip di browser, buka Developer Console, dan amati hasilnya. Ubah nilai input atau kondisi untuk menguji cabang perilaku yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-30-concept",
+            "order": 4,
+            "type": "theory",
+            "title": "Konsep dan Tujuan Topik",
+            "content": "Pada topik Final Project — Mini Website Interaktif, fokus belajarnya adalah integrasi HTML, CSS, JavaScript, event, DOM, kondisi, dan fungsi. Target belajar: membangun website mini dengan tampilan rapi dan sedikitnya satu interaksi yang berfungsi.\n\nDalam pengembangan web, HTML menentukan struktur dan makna konten, CSS mengatur tampilan, sedangkan JavaScript menambahkan perilaku interaktif. Kenali dulu teknologi yang sedang dipakai pada topik ini agar kamu tidak mencampur tugas setiap bagian.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-30-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan File dan Lingkungan Kerja",
+            "content": "Sebelum praktik Final Project — Mini Website Interaktif:\n1. Buka folder proyek website di editor kode.\n2. Pastikan file HTML yang akan diedit berada di folder yang benar.\n3. Jika topik menggunakan CSS atau JavaScript terpisah, pastikan file dan tautannya sudah tersedia.\n4. Buka halaman melalui browser atau Live Server agar perubahan mudah diuji.\n5. Simpan salinan/versi kerja sebelum melakukan perubahan besar.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-30-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur berikut untuk menerapkan Final Project — Mini Website Interaktif:\n1. Baca kembali target topik dan tentukan elemen halaman yang akan dibuat atau diubah.\n2. Temukan bagian file yang tepat—struktur di HTML, aturan tampilan di CSS, atau perilaku di JavaScript.\n3. Tambahkan satu elemen/aturan/fungsi sesuai kebutuhan.\n4. Simpan file dan periksa hasilnya di browser.\n5. Bandingkan hasil dengan target; lanjutkan ke bagian berikutnya setelah bagian pertama benar.\n6. Gunakan nama class, id, atribut, dan variabel yang jelas agar kode mudah dibaca.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-30-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh Kode dan Cara Membacanya",
+            "content": "Contoh ini memperlihatkan penerapan Final Project — Mini Website Interaktif. Perhatikan elemen, atribut, selector, properti, atau instruksi yang menjadi inti topik. Jangan hanya menyalin: ubah teks, nilai, atau nama yang aman untuk diubah, lalu amati perbedaan hasil di browser.",
+            "code_content": "function ubahPesan() {\n  const pesan = document.querySelector(\"#pesan\");\n  pesan.textContent = \"Terima kasih sudah berkunjung!\";\n}\ndocument.querySelector(\"button\").addEventListener(\"click\", ubahPesan);",
+            "code_language": "JavaScript",
+            "xp": 15
+          },
+          {
+            "node_id": "web-30-test",
+            "order": 8,
+            "type": "lesson",
+            "title": "Uji Hasil di Browser",
+            "content": "Setelah menerapkan Final Project — Mini Website Interaktif:\n1. Muat ulang halaman dan pastikan tidak ada bagian yang hilang.\n2. Periksa tampilan pada lebar layar yang berbeda jika topik berhubungan dengan layout.\n3. Klik tautan atau tombol yang dibuat jika ada interaksi.\n4. Periksa Console browser jika JavaScript tidak berjalan.\n5. Ubah satu nilai kecil, simpan, lalu pastikan perubahan yang diharapkan terlihat.",
+            "xp": 10
+          },
+          {
+            "node_id": "web-30-debug",
+            "order": 9,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Umum",
+            "content": "Jika hasil Final Project — Mini Website Interaktif tidak muncul sesuai harapan, periksa:\n• Elemen tidak tampil: pastikan tag pembuka/penutup benar dan elemen berada di dalam bagian dokumen yang tepat.\n• Gambar tidak muncul: periksa nama file, ekstensi, huruf besar-kecil, dan path relatif dari file HTML.\n• CSS tidak berubah: pastikan stylesheet terhubung, selector cocok dengan class/id, dan aturan tidak tertimpa selector lain.\n• Link tidak bekerja: periksa nilai href, ejaan id tujuan, serta struktur folder.\n• JavaScript tidak bereaksi: periksa selector elemen, nama id, event listener, urutan pemuatan script, dan pesan Console.\n• Layout berantakan: periksa margin, padding, ukuran elemen, dan aturan display yang saling bertentangan.\n\nUbah satu hal setiap kali debugging supaya kamu tahu perbaikan mana yang berhasil.",
+            "xp": 15
+          },
+          {
+            "node_id": "web-30-review",
+            "order": 10,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Checklist akhir untuk Final Project — Mini Website Interaktif:\n• Tujuan topik sudah tercapai.\n• Struktur HTML tetap valid dan mudah dibaca.\n• Nama elemen, atribut, class, id, dan variabel konsisten.\n• Tampilan atau perilaku sudah diuji di browser.\n• Tidak ada tautan/aset yang rusak.\n• Perubahan terakhir sudah disimpan.\n\nJika sudah, lanjutkan ke 5 quiz topik dan kerjakan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
