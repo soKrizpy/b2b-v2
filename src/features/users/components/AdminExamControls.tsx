@@ -91,9 +91,9 @@ export function AdminExamControls({
         setTopicsError(null);
         setTopicOptions(result.topics);
         const defaults: Record<number, number[]> = {};
-        for (const module of certificateModules) {
-          defaults[module.module_id] = result.topics
-            .filter((topic) => topic.module_id === module.module_id && topic.trackedCompleted)
+        for (const assignedModule of certificateModules) {
+          defaults[assignedModule.module_id] = result.topics
+            .filter((topic) => topic.module_id === assignedModule.module_id && topic.trackedCompleted)
             .map((topic) => topic.id);
         }
         setSelectedTopicIds(defaults);
