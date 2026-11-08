@@ -90,7 +90,7 @@ export async function getQuestMapData(
   const topicIds = mod.topics.map((t) => t.id);
 
   // ── Parallel batch: quiz attempts, assigned meetings, and admin override ───
-  const [attemptsRes, joinRowsRes, unlockRes] = await Promise.all([
+  const [attemptsRes, joinRowsRes, studentRes, unlockRes] = await Promise.all([
     topicIds.length > 0
       ? (db
           .from('topic_quiz_attempts')
@@ -104,8 +104,7 @@ export async function getQuestMapData(
     db
       .from('meeting_students')
       .select('meeting_id, has_joined, attendance_status, meetings!inner(id, module_id, topic_id, session_number, is_completed, progress_report, meeting_date)')
-      .eq('student_id', studentId)
-      .eq('meetings.module_id', mod.id) as unknown as Promise<{
+      .eq('student_id', studentId) as unknown as Promise<{
         data: Array<{
           meeting_id: number;
           has_joined: boolean;
@@ -120,6 +119,14 @@ export async function getQuestMapData(
             meeting_date: string | null;
           };
         }> | null;
+        error: unknown;
+      }>,
+    db
+      .from('students')
+      .select('full_name')
+      .eq('id', studentId)
+      .maybeSingle() as unknown as Promise<{
+        data: { full_name: string | null } | null;
         error: unknown;
       }>,
     db
@@ -145,8 +152,22 @@ export async function getQuestMapData(
     });
   }
 
-  // Explicit topic associations make access independent of curriculum ordering.
-  const meetingRows = joinRowsRes.data ?? [];
+  // Legacy teacher reports often have no topic_id/module_id association.
+  // For normal curriculum students, each completed report opens the next topic
+  // in sequence. Jason and Sarah intentionally retain their existing schedule-based
+  // access because their sessions do not follow the topic sequence.
+  const studentMeetingRows = joinRowsRes.data ?? [];
+  const studentName = studentRes.data?.full_name?.trim() ?? '';
+  const useReportCountUnlock = !['Jason Tanjaya', 'Sarah Maisha'].includes(studentName);
+  const reportMeetingRows = studentMeetingRows.filter((row) =>
+    (row.meetings?.module_id == null || row.meetings.module_id === mod.id)
+    && row.meetings?.is_completed === true
+    && Boolean(row.meetings?.progress_report?.trim())
+  );
+  const teacherReportCount = reportMeetingRows.length;
+
+  // Keep explicit topic schedules for the two exempt students and for date labels.
+  const meetingRows = studentMeetingRows.filter((row) => row.meetings?.module_id === mod.id);
   const meetingCountByTopic = new Map<number, number>();
   for (const row of meetingRows) {
     const topicId = row.meetings?.topic_id;
@@ -164,8 +185,6 @@ export async function getQuestMapData(
         session_number: r.meetings?.session_number ?? null,
         meeting_date: r.meetings?.meeting_date ?? null,
       });
-      // A teacher report unlocks this topic only for a student assigned to and
-      // present in that specific completed session—not by counting other sessions.
       if (meetingCountByTopic.get(topicId) === 1 && isTeacherReportSubmittedForTopic({
         topic_id: topicId,
         has_joined: r.has_joined,
@@ -198,14 +217,20 @@ export async function getQuestMapData(
 
   for (let idx = 0; idx < mod.topics.length; idx++) {
     const topic       = mod.topics[idx];
-    const sessionNumber = getTopicMeetingSessionNumber(assignedMeetings, topic.id) ?? idx + 1;
+    const sessionNumber = useReportCountUnlock
+      ? idx + 1
+      : getTopicMeetingSessionNumber(assignedMeetings, topic.id) ?? idx + 1;
     const hasQuiz     = hasQuizMap.get(topic.id) ?? false;
     const quizInfo    = attemptsMap.get(topic.id) ?? { count: 0, bestScore: 0 };
     const { count: attemptsUsed, bestScore } = quizInfo;
 
     // Meetings without an explicit topic association cannot unlock lesson content.
-    const isSessionReportSubmitted = reportedTopicIds.has(topic.id);
-    const isUnlocked = hasTopicMeetingStarted(assignedMeetings, topic.id);
+    const isSessionReportSubmitted = useReportCountUnlock
+      ? idx < teacherReportCount
+      : reportedTopicIds.has(topic.id);
+    const isUnlocked = useReportCountUnlock
+      ? idx < teacherReportCount
+      : hasTopicMeetingStarted(assignedMeetings, topic.id);
 
     // Quiz is unlocked once teacher has submitted report
     const quizUnlocked = isSessionReportSubmitted;
@@ -237,7 +262,9 @@ export async function getQuestMapData(
       isSessionReportSubmitted,
       quizUnlocked,
       isUnlocked,
-      meetingDate: getTopicMeetingDate(assignedMeetings, topic.id),
+      meetingDate: useReportCountUnlock
+        ? reportMeetingRows[idx]?.meetings?.meeting_date ?? null
+        : getTopicMeetingDate(assignedMeetings, topic.id),
       status: 'LOCKED', // will be overwritten below
     });
   }
