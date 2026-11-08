@@ -17,9 +17,9 @@ export interface TopicQuizState {
   attemptsUsed:    number;   // 0, 1, or 2
   bestScore:       number;   // 0–100; 0 if no attempts
   isLocked:        boolean;  // true when attemptsUsed >= 2
-  /** Whether the teacher has marked the session for this student as complete,
-   *  unlocking the quiz. True when at least one meeting is is_completed AND
-   *  the student has_joined that meeting. */
+  /** Whether the shared Quest Map report gate has unlocked this topic's quiz.
+   *  Supports legacy sequential reports for regular students and explicit
+   *  topic-linked schedules for students with schedule exceptions. */
   isUnlocked:      boolean;
 }
 
@@ -78,7 +78,7 @@ export async function getTopicQuizState(
     attemptsUsed,
     bestScore,
     isLocked:    attemptsUsed >= 2,
-    isUnlocked:  hasCompletedSession, // guided mode: only a matching submitted teacher report unlocks the quiz
+    isUnlocked:  hasCompletedSession, // the Quest Map is the shared report-gate source
   };
 }
 
