@@ -45,6 +45,64 @@
             ],
             "correct_option": "ketika bendera hijau diklik",
             "xp": 10
+          },
+          {
+            "node_id": "bts-1-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 1 - Kucing Berjalan, fokus utamanya adalah sprite, panggung, koordinat, dan gerak dasar. Target praktik: menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-1-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 1 - Kucing Berjalan. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-1-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 1 - Kucing Berjalan.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-1-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 1 - Kucing Berjalan:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-1-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 1 - Kucing Berjalan. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: 0 y: 0\nulangi 10 kali\n  gerak 10 langkah\n  tunggu 0.1 detik\nkatakan \"Halo!\" selama 2 detik",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-1-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 1 - Kucing Berjalan belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-1-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 1 - Kucing Berjalan selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -148,6 +206,64 @@
               "Menghentikan seluruh program tanpa syarat"
             ],
             "correct_option": "Backdrop atau latar",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-2-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 2 - Kartu Digital, fokus utamanya adalah sprite, backdrop, teks, dan tampilan kartu. Target praktik: membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-2-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 2 - Kartu Digital. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-2-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 2 - Kartu Digital.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-2-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 2 - Kartu Digital:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-2-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 2 - Kartu Digital. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nganti latar ke [Kartu]\npergi ke x: 0 y: -40\nkatakan \"Selamat datang!\" selama 3 detik\nganti kostum ke [senyum]",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-2-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 2 - Kartu Digital belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-2-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 2 - Kartu Digital selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -253,6 +369,64 @@
             ],
             "correct_option": "Memberi jeda agar dialog dan adegan terbaca",
             "xp": 10
+          },
+          {
+            "node_id": "bts-3-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 3 - Membuat Buku Cerita, fokus utamanya adalah alur cerita, dialog, pergantian adegan, dan timing. Target praktik: menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-3-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 3 - Membuat Buku Cerita. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-3-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 3 - Membuat Buku Cerita.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-3-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 3 - Membuat Buku Cerita:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-3-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 3 - Membuat Buku Cerita. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nganti latar ke [Halaman 1]\nkatakan \"Pada suatu hari...\" selama 3 detik\ntunggu 1 detik\nganti latar ke [Halaman 2]\nkatakan \"Petualangan dimulai!\" selama 3 detik",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-3-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 3 - Membuat Buku Cerita belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-3-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 3 - Membuat Buku Cerita selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -356,6 +530,64 @@
               "Menghentikan seluruh program tanpa syarat"
             ],
             "correct_option": "mainkan suara sampai selesai",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-4-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 4 - Mini Konser, fokus utamanya adalah suara, urutan musik, kostum, dan sinkronisasi. Target praktik: membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-4-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 4 - Mini Konser. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-4-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 4 - Mini Konser.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-4-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 4 - Mini Konser:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-4-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 4 - Mini Konser. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nmulai suara [Intro]\nulangi 4 kali\n  kostum berikutnya\n  tunggu 0.5 detik\nmainkan suara [Beat] sampai selesai\nkatakan \"Terima kasih!\" selama 2 detik",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-4-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 4 - Mini Konser belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-4-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 4 - Mini Konser selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -461,6 +693,64 @@
             ],
             "correct_option": "Menciptakan ilusi gerakan kepakan sayap",
             "xp": 10
+          },
+          {
+            "node_id": "bts-5-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 5 - Butterfly, fokus utamanya adalah kostum, animasi kepakan sayap, loop, dan gerak. Target praktik: menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-5-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 5 - Butterfly. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-5-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 5 - Butterfly.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-5-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 5 - Butterfly:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-5-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 5 - Butterfly. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: -180 y: 20\nulangi 20 kali\n  kostum berikutnya\n  meluncur 0.3 detik ke x: (posisi x + 18) y: 20\n  tunggu 0.1 detik",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-5-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 5 - Butterfly belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-5-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 5 - Butterfly selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -564,6 +854,64 @@
               "Menghentikan seluruh program tanpa syarat"
             ],
             "correct_option": "Agar clone tidak menumpuk dan membebani proyek",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-6-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 6 - Star Shower, fokus utamanya adalah kloning, posisi acak, gerak jatuh, dan penghapusan clone. Target praktik: membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-6-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 6 - Star Shower. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-6-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 6 - Star Shower.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-6-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 6 - Star Shower:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-6-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 6 - Star Shower. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nsembunyikan\nselamanya\n  buat clone dari diriku sendiri\n  tunggu 0.3 detik\nketika aku mulai sebagai clone\ntampilkan\npergi ke x: (acak -220 sampai 220) y: 170\nulangi sampai y < -170\n  ubah y sebesar -8\nhapus clone ini",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-6-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 6 - Star Shower belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-6-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 6 - Star Shower selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -669,6 +1017,64 @@
             ],
             "correct_option": "Mengirim sinyal agar sprite lain menjalankan bagian skripnya",
             "xp": 10
+          },
+          {
+            "node_id": "bts-7-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 7 - Animasi Intro, fokus utamanya adalah urutan adegan, timing, broadcast, dan transisi. Target praktik: membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-7-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 7 - Animasi Intro. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-7-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 7 - Animasi Intro.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-7-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 7 - Animasi Intro:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-7-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 7 - Animasi Intro. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nsiarkan [Mulai Intro]\nketika aku menerima [Mulai Intro]\ntampilkan\natur ukuran ke 10%\nulangi 10 kali\n  ubah ukuran sebesar 9\n  ubah efek ghost sebesar -10\nsiarkan [Intro Selesai]",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-7-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 7 - Animasi Intro belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-7-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 7 - Animasi Intro selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -772,6 +1178,64 @@
               "Menghentikan seluruh program tanpa syarat"
             ],
             "correct_option": "menyentuh warna",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-8-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 8 - Membuat Labirin, fokus utamanya adalah kontrol keyboard, koordinat, sensor sentuh, dan kondisi. Target praktik: membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-8-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 8 - Membuat Labirin. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-8-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 8 - Membuat Labirin.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-8-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 8 - Membuat Labirin:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-8-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 8 - Membuat Labirin. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\nselamanya\n  jika tombol [panah kanan] ditekan\n    ubah x sebesar 4\n  jika menyentuh warna [dinding]\n    ubah x sebesar -4\n  jika tombol [panah kiri] ditekan\n    ubah x sebesar -4\n  jika menyentuh warna [dinding]\n    ubah x sebesar 4",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-8-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 8 - Membuat Labirin belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-8-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 8 - Membuat Labirin selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
@@ -877,6 +1341,64 @@
             ],
             "correct_option": "kondisi jika-maka (if-then)",
             "xp": 10
+          },
+          {
+            "node_id": "bts-9-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 9 - Tebak Gambar, fokus utamanya adalah pertanyaan, jawaban, kondisi if-else, dan umpan balik. Target praktik: membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-9-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 9 - Tebak Gambar. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-9-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 9 - Tebak Gambar.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-9-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 9 - Tebak Gambar:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-9-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 9 - Tebak Gambar. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\ntanyakan [Hewan apa yang terlihat pada gambar?] dan tunggu\njika <jawaban = [kucing]> maka\n  katakan [Benar!] selama 2 detik\njika tidak\n  katakan [Coba lagi!] selama 2 detik",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-9-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 9 - Tebak Gambar belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-9-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 9 - Tebak Gambar selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -980,6 +1502,64 @@
               "Menghentikan seluruh program tanpa syarat"
             ],
             "correct_option": "Skor",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-10-goal",
+            "order": 3,
+            "type": "theory",
+            "title": "Tujuan dan Konsep Inti",
+            "content": "Pada topik Topik 10 - Catch the Apple, fokus utamanya adalah kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir. Target praktik: membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor.\n\nDi Scratch, proyek dibangun dari hubungan antara sprite, panggung, pemicu, dan rangkaian blok. Sebelum menyusun skrip, tentukan dulu perilaku yang ingin terlihat oleh pemain: apa yang memulai aksi, apa yang dilakukan karakter, dan kapan aksi dianggap selesai.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-10-tools",
+            "order": 4,
+            "type": "lesson",
+            "title": "Kenali Sprite, Panggung, dan Blok yang Dibutuhkan",
+            "content": "Buka proyek Scratch dan periksa sprite serta backdrop yang akan dipakai untuk Topik 10 - Catch the Apple. Pilih sprite yang sesuai, beri nama yang mudah dikenali, lalu buka kategori blok yang diperlukan oleh proyek. Perhatikan warna kategori blok agar kamu mudah menemukan perintah saat menyusun skrip.\n\nSimpan proyek dengan nama yang menjelaskan hasilnya. Dengan begitu, kamu bisa membedakan versi awal dan versi setelah diperbaiki.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-10-prepare",
+            "order": 5,
+            "type": "lesson",
+            "title": "Persiapan Sebelum Praktik",
+            "content": "Sebelum mulai, siapkan tiga hal:\n1. Tentukan hasil akhir yang ingin dicapai dari Topik 10 - Catch the Apple.\n2. Pilih sprite, backdrop, suara, atau aset yang memang diperlukan—jangan menambahkan terlalu banyak elemen sekaligus.\n3. Pecah perilaku menjadi urutan kecil: pemicu → aksi → perubahan/umpan balik → kondisi selesai.\n\nKerjakan satu perilaku terlebih dahulu. Setelah berhasil, baru tambahkan bagian berikutnya.",
+            "xp": 10
+          },
+          {
+            "node_id": "bts-10-steps",
+            "order": 6,
+            "type": "lesson",
+            "title": "Langkah Praktik Bertahap",
+            "content": "Ikuti alur kerja berikut untuk membangun Topik 10 - Catch the Apple:\n1. Klik sprite yang akan menjalankan aksi.\n2. Pasang blok pemicu yang sesuai, misalnya “ketika bendera hijau diklik” atau “ketika sprite ini diklik”.\n3. Susun blok aksi sesuai tujuan topik: gerak, tampilan, suara, kontrol, atau logika.\n4. Periksa sambungan blok dari atas ke bawah; blok harus berada pada skrip yang sama.\n5. Jalankan proyek dan amati apakah hasilnya sesuai rancangan.\n6. Ubah satu nilai atau satu blok setiap kali melakukan perbaikan agar penyebab perubahan mudah diketahui.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-10-example",
+            "order": 7,
+            "type": "code",
+            "title": "Contoh dan Cara Membacanya",
+            "content": "Contoh berikut diambil dari alur proyek Topik 10 - Catch the Apple. Baca dari blok pemicu, lalu ikuti setiap aksi sesuai urutan. Perhatikan bagian yang menentukan kapan skrip berjalan dan bagian yang menghasilkan perubahan pada panggung. Setelah memahami contoh, ubah satu nilai atau pilihan aset dan bandingkan hasilnya.",
+            "code_content": "ketika bendera hijau diklik\natur [Skor] ke 0\nselamanya\n  jika tombol [panah kanan] ditekan, ubah x sebesar 6\n  jika tombol [panah kiri] ditekan, ubah x sebesar -6\nketika aku mulai sebagai clone\npergi ke x: (acak -220 sampai 220) y: 170\nulangi sampai menyentuh [Pemain] atau y < -170\n  ubah y sebesar -5\njika menyentuh [Pemain]\n  ubah [Skor] sebesar 1\nhapus clone ini",
+            "code_language": "Scratch blocks (urutan teks)",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-10-debug",
+            "order": 8,
+            "type": "lesson",
+            "title": "Pemecahan Masalah dan Debugging",
+            "content": "Jika proyek Topik 10 - Catch the Apple belum berjalan sesuai harapan, periksa masalah berikut satu per satu:\n• Tidak ada reaksi: pastikan blok pemicu terpasang dan bendera hijau/aksi pemicu benar-benar dijalankan.\n• Hanya sebagian aksi berjalan: periksa apakah blok terlepas atau berada pada skrip sprite yang salah.\n• Gerak/animasi terlalu cepat atau lambat: sesuaikan jumlah langkah, durasi glide, atau jeda.\n• Sprite menghilang/berada di luar panggung: periksa koordinat, ukuran, visibilitas, dan urutan backdrop.\n• Hasil berbeda dari rencana: uji skrip sedikit demi sedikit, bukan mengubah banyak blok sekaligus.\n\nCatat gejala, temukan blok penyebab, ubah satu hal, lalu jalankan ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "bts-10-check",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist Mandiri",
+            "content": "Sebelum menganggap Topik 10 - Catch the Apple selesai, pastikan:\n• Tujuan proyek sudah jelas dan sesuai instruksi topik.\n• Sprite serta backdrop yang dipakai sudah tepat.\n• Skrip dimulai oleh pemicu yang benar.\n• Urutan blok menghasilkan perilaku yang diharapkan.\n• Proyek sudah diuji lebih dari sekali, termasuk setelah perubahan.\n• Nama proyek dan aset mudah dikenali.\n\nJika semua poin terpenuhi, lanjutkan ke 5 quiz topik dan selesaikan tryout proyek pada bagian Challenge.",
             "xp": 10
           }
         ],
