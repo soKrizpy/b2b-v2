@@ -21,6 +21,7 @@ interface Props {
   moduleLevel?: string | null;
   nodes: QuestTopicNode[];
   activeNode?: QuestTopicNode;
+  avatarNode?: QuestTopicNode;
   moduleComplete?: boolean;
   hasFinal?: boolean;
   cert?: { tier: string; score: number; certificate_number: string } | CertificateWithModule | null;
@@ -30,9 +31,9 @@ interface Props {
 }
 
 // ── Retro Pixel Adventurer Sprite ─────────────────────────────────────────────
-function PixelAdventurerSprite() {
+function PixelAdventurerSprite({ shadowWidth }: { shadowWidth: number }) {
   return (
-    <div className="absolute left-1/2 bottom-full -translate-x-1/2 -translate-y-1 flex flex-col items-center pointer-events-none select-none z-50">
+    <div className="absolute left-1/2 bottom-[calc(100%+6px)] -translate-x-1/2 flex flex-col items-center pointer-events-none select-none z-50 animate-bounce">
       {/* "KAMU" Floating Tag */}
       <div className="px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-black text-[9px] tracking-widest font-mono shadow-[0_0_10px_rgba(6,182,212,0.8)] border border-white flex items-center gap-1 mb-1">
         <span className="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping" />
@@ -60,7 +61,10 @@ function PixelAdventurerSprite() {
         <div className="absolute top-8 right-2 w-1.5 h-1.5 bg-amber-950" />
       </div>
       {/* Pulsing Floor Shadow Rune */}
-      <div className="w-7 h-2 rounded-full bg-cyan-400/40 blur-[2px] animate-pulse -mt-0.5" />
+      <div
+        className="h-2 rounded-full bg-cyan-400/40 blur-[2px] animate-pulse -mt-0.5 transition-[width] duration-500"
+        style={{ width: `${shadowWidth}px` }}
+      />
     </div>
   );
 }
@@ -70,6 +74,7 @@ export function RetroPixelWorldMap({
   moduleLevel,
   nodes,
   activeNode,
+  avatarNode,
   moduleComplete,
   hasFinal,
   cert,
@@ -312,7 +317,13 @@ export function RetroPixelWorldMap({
             const isActive    = node.status === 'ACTIVE_NEXT';
             const isLocked    = node.status === 'LOCKED';
             const isSelected  = selectedNodeId === node.topic.id;
-            const isCurrentHeroLocation = activeNode?.topic.id === node.topic.id;
+            const isCurrentHeroLocation = avatarNode?.topic.id === node.topic.id;
+            const previousAvatarIndex = avatarNode ? nodes.findIndex((item) => item.topic.id === avatarNode.topic.id) - 1 : -1;
+            const previousAvatarCoord = previousAvatarIndex >= 0 ? getMapPinCoordinates(previousAvatarIndex, totalCount) : null;
+            const jumpDistance = previousAvatarCoord
+              ? Math.hypot(coord.x - previousAvatarCoord.x, coord.y - previousAvatarCoord.y)
+              : 0;
+            const avatarShadowWidth = Math.min(34, Math.max(14, 18 + jumpDistance * 0.35));
 
             return (
               <div
@@ -321,7 +332,7 @@ export function RetroPixelWorldMap({
                 className="absolute -translate-x-1/2 -translate-y-1/2 z-30 flex flex-col items-center"
               >
                 {/* Character Sprite standing on current active quest */}
-                {isCurrentHeroLocation && <PixelAdventurerSprite />}
+                {isCurrentHeroLocation && <PixelAdventurerSprite shadowWidth={avatarShadowWidth} />}
 
                 {/* Map Pin Button */}
                 <button
