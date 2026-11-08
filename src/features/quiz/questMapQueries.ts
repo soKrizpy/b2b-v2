@@ -158,12 +158,19 @@ export async function getQuestMapData(
   // access because their sessions do not follow the topic sequence.
   const studentMeetingRows = joinRowsRes.data ?? [];
   const studentName = studentRes.data?.full_name?.trim() ?? '';
-  const useReportCountUnlock = !['Jason Tanjaya', 'Sarah Maisha'].includes(studentName);
-  const reportMeetingRows = studentMeetingRows.filter((row) =>
-    (row.meetings?.module_id == null || row.meetings.module_id === mod.id)
-    && row.meetings?.is_completed === true
-    && Boolean(row.meetings?.progress_report?.trim())
-  );
+  const useReportCountUnlock = studentName.length > 0
+    && !['Jason Tanjaya', 'Sarah Maisha'].includes(studentName);
+  const reportMeetingRows = studentMeetingRows
+    .filter((row) =>
+      (row.meetings?.module_id == null || row.meetings.module_id === mod.id)
+      && row.meetings?.is_completed === true
+      && Boolean(row.meetings?.progress_report?.trim())
+    )
+    .sort((a, b) => {
+      const aDate = Date.parse(a.meetings?.meeting_date ?? '');
+      const bDate = Date.parse(b.meetings?.meeting_date ?? '');
+      return (Number.isFinite(aDate) ? aDate : 0) - (Number.isFinite(bDate) ? bDate : 0);
+    });
   const teacherReportCount = reportMeetingRows.length;
 
   // Keep explicit topic schedules for the two exempt students and for date labels.
