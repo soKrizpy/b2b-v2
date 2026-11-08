@@ -2182,5 +2182,251 @@
     }
   ],
   "description": "Kurikulum pemrograman visual untuk pemula (sekitar usia 5–7 tahun). Materi bergerak dari konsep dasar menuju cerita multiadegan dan permainan interaktif. Level: 1–4 Mudah, 5–8 Sedang, 9–12 Lancar.",
-  "module_id": 28
+  "module_id": 28,
+  "final_assessment": {
+    "title": "Tryout Akhir — ScratchJr — Petualangan Pemrograman Visual",
+    "duration_minutes": 35,
+    "questions": [
+      {
+        "id": 1,
+        "question": "ScratchJr digunakan terutama untuk…",
+        "options": [
+          "Membuat cerita dan permainan interaktif dengan blok",
+          "Menulis dokumen panjang",
+          "Menghitung pajak secara otomatis",
+          "Mengedit suara profesional saja"
+        ],
+        "answer_index": 0,
+        "explanation": "ScratchJr membantu anak membuat cerita, animasi, dan permainan dengan blok bergambar."
+      },
+      {
+        "id": 2,
+        "question": "Bagian tempat karakter terlihat bergerak disebut…",
+        "options": [
+          "Palet suara",
+          "Panggung",
+          "Folder unduhan",
+          "Papan ketik"
+        ],
+        "answer_index": 1,
+        "explanation": "Panggung adalah tempat aksi dan cerita ditampilkan."
+      },
+      {
+        "id": 3,
+        "question": "Karakter dalam proyek adalah…",
+        "options": [
+          "Warna latar saja",
+          "Tokoh atau benda yang melakukan aksi",
+          "Tombol keluar aplikasi",
+          "Daftar soal"
+        ],
+        "answer_index": 1,
+        "explanation": "Karakter adalah objek yang dapat diberi rangkaian perintah."
+      },
+      {
+        "id": 4,
+        "question": "Apa fungsi latar?",
+        "options": [
+          "Menentukan kata sandi",
+          "Mengganti blok menjadi teks",
+          "Menunjukkan tempat atau suasana cerita",
+          "Menghapus gerakan"
+        ],
+        "answer_index": 2,
+        "explanation": "Latar membantu penonton memahami tempat dan suasana."
+      },
+      {
+        "id": 5,
+        "question": "Blok gerak ScratchJr termasuk kategori warna…",
+        "options": [
+          "Kuning",
+          "Merah",
+          "Biru",
+          "Hijau"
+        ],
+        "answer_index": 2,
+        "explanation": "Kategori biru berisi blok gerakan."
+      },
+      {
+        "id": 6,
+        "question": "Blok Move Left membuat karakter bergerak…",
+        "options": [
+          "Ke kanan",
+          "Membesar",
+          "Berbicara",
+          "Ke kiri"
+        ],
+        "answer_index": 3,
+        "explanation": "Move Left memindahkan karakter ke kiri."
+      },
+      {
+        "id": 7,
+        "question": "Urutan perintah adalah…",
+        "options": [
+          "Warna latar",
+          "Nama karakter",
+          "Ukuran panggung",
+          "Susunan instruksi yang dijalankan satu demi satu"
+        ],
+        "answer_index": 3,
+        "explanation": "Program mengatur aksi melalui susunan instruksi."
+      },
+      {
+        "id": 8,
+        "question": "Mengapa urutan blok penting?",
+        "options": [
+          "Urutan menentukan urutan aksi karakter",
+          "Agar karakter selalu berubah warna",
+          "Agar aplikasi otomatis ditutup",
+          "Agar proyek tidak bisa dijalankan"
+        ],
+        "answer_index": 0,
+        "explanation": "Rangkaian dijalankan sesuai urutannya sehingga mengubah urutan bisa mengubah hasil."
+      },
+      {
+        "id": 9,
+        "question": "Start on Tap memulai rangkaian ketika…",
+        "options": [
+          "Karakter disentuh",
+          "Bendera hijau ditekan",
+          "Aplikasi ditutup",
+          "Latar diganti"
+        ],
+        "answer_index": 0,
+        "explanation": "Start on Tap merespons ketukan pada karakter pemilik rangkaian."
+      },
+      {
+        "id": 10,
+        "question": "Pemicu yang tepat untuk animasi otomatis saat mulai adalah…",
+        "options": [
+          "Start on Tap",
+          "Start on Green Flag",
+          "Start on Bump",
+          "Start on Message"
+        ],
+        "answer_index": 1,
+        "explanation": "Start on Green Flag menjalankan rangkaian ketika bendera hijau ditekan."
+      },
+      {
+        "id": 11,
+        "question": "Blok Say digunakan untuk…",
+        "options": [
+          "Memindahkan karakter",
+          "Menampilkan ucapan",
+          "Mengirim pesan warna",
+          "Berpindah halaman"
+        ],
+        "answer_index": 1,
+        "explanation": "Say menampilkan teks pada gelembung ucapan."
+      },
+      {
+        "id": 12,
+        "question": "Grow melakukan apa?",
+        "options": [
+          "Menghapus karakter",
+          "Mengganti latar",
+          "Memperbesar karakter",
+          "Memulai saat disentuh"
+        ],
+        "answer_index": 2,
+        "explanation": "Grow meningkatkan ukuran karakter."
+      },
+      {
+        "id": 13,
+        "question": "Blok Pop digunakan untuk…",
+        "options": [
+          "Mengubah posisi awal",
+          "Membuat halaman baru",
+          "Memutar efek suara pendek",
+          "Memperbesar karakter"
+        ],
+        "answer_index": 2,
+        "explanation": "Pop memainkan efek suara pendek."
+      },
+      {
+        "id": 14,
+        "question": "Play Recorded Sound digunakan untuk…",
+        "options": [
+          "Menghapus suara",
+          "Membuat sprite",
+          "Mengatur grid",
+          "Memutar suara yang direkam"
+        ],
+        "answer_index": 3,
+        "explanation": "Blok tersebut memutar rekaman pengguna."
+      },
+      {
+        "id": 15,
+        "question": "Repeat akan…",
+        "options": [
+          "Selalu mengulang tanpa batas",
+          "Menghapus rangkaian",
+          "Membuat karakter bicara",
+          "Mengulangi blok di dalamnya beberapa kali sesuai nilai"
+        ],
+        "answer_index": 3,
+        "explanation": "Repeat menjalankan aksi di dalamnya sebanyak jumlah yang dipilih."
+      },
+      {
+        "id": 16,
+        "question": "Repeat Forever cocok untuk…",
+        "options": [
+          "Aksi yang terus berulang",
+          "Aksi yang hanya sekali",
+          "Mengganti nama proyek",
+          "Menghapus karakter"
+        ],
+        "answer_index": 0,
+        "explanation": "Repeat Forever mengulang sampai dihentikan."
+      },
+      {
+        "id": 17,
+        "question": "Start on Bump memulai aksi saat…",
+        "options": [
+          "Karakter bersentuhan/bertabrakan dengan karakter lain",
+          "Bendera hijau ditekan",
+          "Latar diubah",
+          "Proyek disimpan"
+        ],
+        "answer_index": 0,
+        "explanation": "Start on Bump merespons pertemuan fisik antar karakter pada panggung."
+      },
+      {
+        "id": 18,
+        "question": "Send Message digunakan untuk…",
+        "options": [
+          "Mengubah ukuran karakter",
+          "Mengirim sinyal ke rangkaian karakter lain",
+          "Membuka galeri latar",
+          "Menyembunyikan panggung"
+        ],
+        "answer_index": 1,
+        "explanation": "Send Message mengirim pesan berwarna untuk memicu rangkaian penerima."
+      },
+      {
+        "id": 19,
+        "question": "Halaman dalam ScratchJr membantu kita…",
+        "options": [
+          "Mengubah blok menjadi teks",
+          "Memisahkan adegan dalam satu proyek",
+          "Merekam semua suara otomatis",
+          "Menghapus tokoh utama"
+        ],
+        "answer_index": 1,
+        "explanation": "Setiap halaman dapat berisi adegan, latar, dan karakter untuk bagian cerita yang berbeda."
+      },
+      {
+        "id": 20,
+        "question": "Blok Go to Page digunakan untuk…",
+        "options": [
+          "Melompat di tempat",
+          "Membesar",
+          "Berpindah ke halaman yang dipilih",
+          "Mengirim pesan warna"
+        ],
+        "answer_index": 2,
+        "explanation": "Go to Page mengganti tampilan ke halaman tujuan."
+      }
+    ]
+  }
 }
