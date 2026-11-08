@@ -8,6 +8,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 import { Lock, Zap, Crown, Flame, Calendar, Award } from 'lucide-react';
 import { formatDate } from '@/lib/formatDate';
 import type { QuestTopicNode } from '@/features/quiz/questMapQueries';
@@ -99,20 +100,20 @@ export function RetroPixelWorldMap({
 
   // Dynamic mouse-follow coordinates with viewport edge clamping
   const tooltipWidth = 270;
-  const tooltipHeight = 160;
+  const tooltipHeight = 220;
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
   // Position tooltip to the right of cursor; flip to left if near right edge
-  let tooltipX = mousePos.x + 18;
-  if (tooltipX + tooltipWidth > windowWidth - 16) {
-    tooltipX = Math.max(16, mousePos.x - tooltipWidth - 18);
+  let tooltipX = mousePos.x + 12;
+  if (tooltipX + tooltipWidth > windowWidth - 12) {
+    tooltipX = Math.max(12, mousePos.x - tooltipWidth - 12);
   }
 
-  // Position tooltip below cursor; flip above if near bottom edge
-  let tooltipY = mousePos.y + 18;
-  if (tooltipY + tooltipHeight > windowHeight - 16) {
-    tooltipY = Math.max(16, mousePos.y - tooltipHeight - 18);
+  // Keep the card close to the pointer and flip above only when necessary.
+  let tooltipY = mousePos.y + 12;
+  if (tooltipY + tooltipHeight > windowHeight - 12) {
+    tooltipY = Math.max(12, mousePos.y - tooltipHeight - 12);
   }
 
   return (
@@ -179,115 +180,128 @@ export function RetroPixelWorldMap({
           </svg>
 
           {/* ── Hovered Node Dynamic Mouse-Follow HUD (Nama Topik, Score Quiz, Tanggal Pertemuan) ── */}
-          {hoveredNode && (
-            <div
-              style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
-              className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
-            >
-              <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                  <span className="text-[10px] font-mono font-black uppercase text-amber-300 tracking-wider">
-                    Pertemuan #{hoveredNode.sessionNumber}
+          {typeof document !== 'undefined' && createPortal(
+            <>
+            {hoveredNode && (
+              <div
+                style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
+                className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-amber-400/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
+              >
+                <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                    <span className="text-[10px] font-mono font-black uppercase text-amber-300 tracking-wider">
+                      Pertemuan #{hoveredNode.sessionNumber}
+                    </span>
+                  </div>
+                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                    hoveredNode.status === 'COMPLETED'
+                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                      : hoveredNode.quizUnlocked
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                      : hoveredNode.status === 'ACTIVE_NEXT'
+                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                      : 'bg-slate-800 text-slate-400 border-slate-700'
+                  }`}>
+                    {hoveredNode.status === 'COMPLETED' ? 'Ditaklukkan' : hoveredNode.quizUnlocked ? 'Siap Kuis' : hoveredNode.status === 'ACTIVE_NEXT' ? 'Aktif' : 'Terkunci'}
                   </span>
                 </div>
-                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                  hoveredNode.status === 'COMPLETED'
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                    : hoveredNode.quizUnlocked
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                    : hoveredNode.status === 'ACTIVE_NEXT'
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
-                }`}>
-                  {hoveredNode.status === 'COMPLETED' ? 'Ditaklukkan' : hoveredNode.quizUnlocked ? 'Siap Kuis' : hoveredNode.status === 'ACTIVE_NEXT' ? 'Aktif' : 'Terkunci'}
-                </span>
-              </div>
-
-              {/* Nama Topik */}
-              <div>
-                <p className="text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">Topik</p>
-                <h4 className="text-xs sm:text-sm font-extrabold text-white leading-snug line-clamp-2">
-                  {hoveredNode.topic.title}
-                </h4>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80 text-[10px] font-mono">
-                {/* Score Quiz */}
+  
+                {/* Nama Topik */}
                 <div>
-                  <p className="text-slate-400 font-bold uppercase text-[9px] flex items-center gap-1">
-                    <Award className="w-3 h-3 text-amber-400" />
-                    <span>Score Quiz</span>
-                  </p>
-                  <p className="font-black text-amber-300 mt-0.5">
-                    {hoveredNode.status === 'COMPLETED' && hoveredNode.bestScore > 0
-                      ? `${hoveredNode.bestScore} / 100`
-                      : hoveredNode.hasQuiz
-                      ? (hoveredNode.quizUnlocked ? 'Siap Kuis' : 'Terkunci')
-                      : 'Tanpa Kuis'}
-                  </p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">Topik</p>
+                  <h4 className="text-xs sm:text-sm font-extrabold text-white leading-snug line-clamp-2">
+                    {hoveredNode.topic.title}
+                  </h4>
                 </div>
-
-                {/* Tanggal Pertemuan */}
-                <div>
-                  <p className="text-slate-400 font-bold uppercase text-[9px] flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-cyan-400" />
-                    <span>Tanggal</span>
+  
+                {hoveredNode.topic.description && (
+                  <p className="text-[10px] leading-relaxed text-slate-300 line-clamp-3">
+                    {hoveredNode.topic.description}
                   </p>
-                  <p className="font-bold text-cyan-300 mt-0.5 truncate">
-                    {hoveredNode.meetingDate ? formatDate(hoveredNode.meetingDate, { day: 'numeric', month: 'short', year: 'numeric' }) : 'Terjadwal'}
-                  </p>
+                )}
+  
+                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80 text-[10px] font-mono">
+                  {/* Score Quiz */}
+                  <div>
+                    <p className="text-slate-400 font-bold uppercase text-[9px] flex items-center gap-1">
+                      <Award className="w-3 h-3 text-amber-400" />
+                      <span>Score Quiz</span>
+                    </p>
+                    <p className="font-black text-amber-300 mt-0.5">
+                      {hoveredNode.status === 'COMPLETED' && hoveredNode.bestScore > 0
+                        ? `${hoveredNode.bestScore} / 100`
+                        : hoveredNode.hasQuiz
+                        ? (hoveredNode.quizUnlocked ? 'Siap Kuis' : 'Terkunci')
+                        : 'Tanpa Kuis'}
+                    </p>
+                  </div>
+  
+                  {/* Tanggal Pertemuan */}
+                  <div>
+                    <p className="text-slate-400 font-bold uppercase text-[9px] flex items-center gap-1">
+                      <Calendar className="w-3 h-3 text-cyan-400" />
+                      <span>Tanggal</span>
+                    </p>
+                    <p className="font-bold text-cyan-300 mt-0.5 truncate">
+                      {hoveredNode.meetingDate ? formatDate(hoveredNode.meetingDate, { day: 'numeric', month: 'short', year: 'numeric' }) : 'Terjadwal'}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <p className="text-[9px] text-amber-200/70 font-mono pt-0.5">
-                Klik node untuk membuka detail &amp; materi
-              </p>
-            </div>
-          )}
-
-          {/* ── Hovered Final Boss Dynamic Mouse-Follow HUD ── */}
-          {hoveredBoss && !hoveredNode && (
-            <div
-              style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
-              className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-red-500/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
-            >
-              <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-red-400 animate-pulse" />
-                  <span className="text-[10px] font-mono font-black uppercase text-red-300 tracking-wider">
-                    BOSS TRIAL
-                  </span>
-                </div>
-                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                  cert
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                    : moduleComplete
-                    ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
-                }`}>
-                  {cert ? 'Lulus' : moduleComplete ? 'Siap Ditantang' : 'Terkunci'}
-                </span>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">Tantangan</p>
-                <h4 className="text-xs sm:text-sm font-extrabold text-white leading-snug">
-                  Puncak Gunung Api · Ujian Akhir
-                </h4>
-              </div>
-
-              <div className="pt-1 border-t border-slate-800/80 text-[10px] font-mono text-amber-300">
-                <p className="flex items-center gap-1">
-                  <Crown className="w-3 h-3 text-amber-400" />
-                  <span>{cert ? `Sertifikat Nilai ${cert.score}` : 'Raih Sertifikat Kelulusan Resmi'}</span>
+  
+                <p className="text-[9px] text-amber-200/70 font-mono pt-0.5">
+                  Klik node untuk membuka detail &amp; materi
                 </p>
               </div>
-
-              <p className="text-[9px] text-red-200/70 font-mono pt-0.5">
-                Klik untuk melihat detail &amp; memulai Ujian Akhir
-              </p>
-            </div>
+            )}
+  
+            {/* ── Hovered Final Boss Dynamic Mouse-Follow HUD ── */}
+            {hoveredBoss && !hoveredNode && (
+              <div
+                style={{ left: `${tooltipX}px`, top: `${tooltipY}px` }}
+                className="fixed z-[9999] pointer-events-none rounded-2xl bg-slate-950/95 border-2 border-red-500/90 p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md w-[270px] max-w-[calc(100vw-32px)] space-y-2 text-left select-none animate-in fade-in zoom-in-95 duration-100"
+              >
+                <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <Flame className="w-3.5 h-3.5 text-red-400 animate-pulse" />
+                    <span className="text-[10px] font-mono font-black uppercase text-red-300 tracking-wider">
+                      BOSS TRIAL
+                    </span>
+                  </div>
+                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                    cert
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                      : moduleComplete
+                      ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                      : 'bg-slate-800 text-slate-400 border-slate-700'
+                  }`}>
+                    {cert ? 'Lulus' : moduleComplete ? 'Siap Ditantang' : 'Terkunci'}
+                  </span>
+                </div>
+  
+                <div>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">Tantangan</p>
+                  <h4 className="text-xs sm:text-sm font-extrabold text-white leading-snug">
+                    Puncak Gunung Api · Ujian Akhir
+                  </h4>
+                </div>
+  
+                <div className="pt-1 border-t border-slate-800/80 text-[10px] font-mono text-amber-300">
+                  <p className="flex items-center gap-1">
+                    <Crown className="w-3 h-3 text-amber-400" />
+                    <span>{cert ? `Sertifikat Nilai ${cert.score}` : 'Raih Sertifikat Kelulusan Resmi'}</span>
+                  </p>
+                </div>
+  
+                <p className="text-[9px] text-red-200/70 font-mono pt-0.5">
+                  Klik untuk melihat detail &amp; memulai Ujian Akhir
+                </p>
+              </div>
+            )}
+  
+  
+            </>,
+            document.body
           )}
 
           {/* ── Interactive Map Pins for EVERY Single Topic ── */}
