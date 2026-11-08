@@ -150,8 +150,8 @@
       ],
       "challenge": {
         "xp": 30,
-        "title": "Project Challenge: Desain 3D Pertamaku",
-        "instructions": "Buat satu desain sederhana yang membuktikan kamu dapat menambahkan dan mengubah bentuk dasar di Tinkercad. Letakkan satu Box, ubah minimal satu dimensinya, pindahkan posisinya, periksa dari tampak atas dan miring, beri nama Nama_Kelas_DesainPertama, lalu kirim tautan yang dapat dibuka guru. Kriteria: objek terlihat, ukuran berubah, posisi berubah, dan nama desain jelas.",
+        "title": "Proyek: Desain 3D Pertamaku",
+        "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali.",
         "submission_type": "link"
       },
       "status": "published"
