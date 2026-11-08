@@ -21,7 +21,17 @@ export function TryoutClient({ moduleId, assessment, shuffleSeed }: Props) {
     () => Object.fromEntries(
       assessment.questions.map((question) => [
         question.id,
-        createAssessmentOptionOrder(question.id, shuffleSeed, question.options.length),
+        (() => {
+          const order = createAssessmentOptionOrder(question.id, shuffleSeed, question.options.length);
+          // Spread correct answers across A-D deterministically for each exam attempt.
+          const currentCorrectPosition = order.indexOf(question.answer_index);
+          const targetPosition = (question.id + Number.parseInt(shuffleSeed.slice(-6), 36) || question.id) % question.options.length;
+          const normalizedTarget = ((targetPosition % question.options.length) + question.options.length) % question.options.length;
+          if (currentCorrectPosition >= 0 && normalizedTarget !== currentCorrectPosition) {
+            [order[currentCorrectPosition], order[normalizedTarget]] = [order[normalizedTarget], order[currentCorrectPosition]];
+          }
+          return order;
+        })(),
       ]),
     ) as Record<number, number[]>,
     [assessment.questions, shuffleSeed],
