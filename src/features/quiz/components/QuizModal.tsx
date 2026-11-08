@@ -249,9 +249,21 @@ function QuizForm({
   // Shuffle only the displayed option order. Submitted indices remain the original
   // question indices so server-side scoring and answer keys stay authoritative.
   const optionOrders = useMemo(
-    () => questions.map((question, index) =>
-      createAssessmentOptionOrder(topicId * 1000 + index + 1, `${topicId}:${attemptsUsed}`, question.options.length)
-    ),
+    () => questions.map((question, index) => {
+      const order = createAssessmentOptionOrder(
+        topicId * 1000 + index + 1,
+        `${topicId}:${attemptsUsed}`,
+        question.options.length,
+      );
+      // Guarantee balanced correct-answer positions across the quiz (A, B, C, D),
+      // rather than relying on chance when the source bank is biased toward A.
+      const currentCorrectPosition = order.indexOf(question.answer_index);
+      const targetPosition = (index + topicId + attemptsUsed) % question.options.length;
+      if (currentCorrectPosition >= 0 && targetPosition !== currentCorrectPosition) {
+        [order[currentCorrectPosition], order[targetPosition]] = [order[targetPosition], order[currentCorrectPosition]];
+      }
+      return order;
+    }),
     [questions, topicId, attemptsUsed],
   );
 
