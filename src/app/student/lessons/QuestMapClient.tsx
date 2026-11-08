@@ -892,6 +892,7 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
             moduleLevel={mod.level}
             nodes={uniqueNodes}
             activeNode={activeNode}
+            avatarNode={avatarNode}
             moduleComplete={canAccessFinal}
             hasFinal={hasFinal}
             cert={cert}
