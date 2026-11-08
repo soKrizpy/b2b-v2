@@ -238,9 +238,11 @@ export async function getQuestMapData(
     const isSessionReportSubmitted = useReportCountUnlock
       ? idx < teacherReportCount
       : reportedTopicIds.has(topic.id);
-    const isUnlocked = useReportCountUnlock
-      ? idx < teacherReportCount
-      : hasTopicMeetingStarted(assignedMeetings, topic.id);
+    // Let students open the lesson as soon as its scheduled session starts.
+    // A legacy sequential report can also unlock the next topic when no explicit
+    // topic-linked meeting exists. The quiz remains separately gated by report.
+    const isUnlocked = hasTopicMeetingStarted(assignedMeetings, topic.id)
+      || (useReportCountUnlock && idx < teacherReportCount);
 
     // Quiz is unlocked once teacher has submitted report
     const quizUnlocked = isSessionReportSubmitted;
