@@ -1,0 +1,2190 @@
+[
+  {
+    "module_id": 20,
+    "module_title": "Scratch Visual Block Coding & Games",
+    "module_order": 20,
+    "description": "Kurikulum praktik Scratch untuk membangun animasi, cerita interaktif, dan game dengan sprite, event, variabel, kondisi, clone, serta debugging.",
+    "level": "beginner",
+    "gamification_type": "mimo",
+    "topics": [
+      {
+        "topic_title": "Maju Kucing",
+        "topic_order": 1,
+        "status": "draft",
+        "description": "Menggerakkan sprite kucing dengan blok Motion dan memahami koordinat panggung. Sprite adalah karakter/objek yang memiliki posisi X-Y. Blok Motion mengubah posisi atau arah sprite; bendera hijau menjadi pemicu awal proyek.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-1-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Menggerakkan sprite kucing dengan blok Motion dan memahami koordinat panggung.\n\nSprite adalah karakter/objek yang memiliki posisi X-Y. Blok Motion mengubah posisi atau arah sprite; bendera hijau menjadi pemicu awal proyek.\n\nTarget belajar: menggerakkan sprite kucing dengan blok Motion dan memahami koordinat panggung.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-1-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Maju Kucing dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-1-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Maju Kucing.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-1-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Maju Kucing. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: 0 y: 0\nulangi 5 kali\n  gerak 10 langkah\n  tunggu 0.2 detik\nkatakan \"Aku bergerak!\" selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-1-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Maju Kucing:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-1-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-1-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Maju Kucing dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-1-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Maju Kucing belum berjalan, gunakan langkah debugging ini:\nJika kucing tidak bergerak, periksa pemicu bendera hijau, pastikan blok Motion tersambung, dan pastikan arah sprite tidak menghadap ke sisi yang tidak diharapkan.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-1-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Maju Kucing, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Sprite bergerak menggunakan blok Motion berwarna biru",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Sprite bergerak menggunakan blok Motion berwarna biru",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-1-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Maju Kucing:\n• Sprite bergerak menggunakan blok Motion berwarna biru.\n• Blok move 10 steps mengubah posisi sesuai arah hadap sprite.\n• Bendera hijau memulai skrip.\n• Koordinat tengah panggung adalah X 0 dan Y 0.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Maju Kucing, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Sprite bergerak menggunakan blok Motion berwarna biru",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Blok move 10 steps mengubah posisi sesuai arah hadap sprite?",
+            "options": [
+              "Blok move 10 steps mengubah posisi sesuai arah hadap sprite",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Maju Kucing?",
+            "options": [
+              "Bendera hijau memulai skrip",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Maju Kucing tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Koordinat tengah panggung adalah X 0 dan Y 0",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Maju Kucing sudah siap diuji?",
+            "options": [
+              "Urutan blok menentukan urutan aksi",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Maju Kucing",
+          "instructions": "Buat kucing mulai dari tengah panggung, berjalan 50 langkah dalam lima gerakan, lalu menyapa pemain. Ubah arah awal dan bandingkan hasilnya.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Game Skor Koin",
+        "topic_order": 2,
+        "status": "published",
+        "description": "Membuat pemain mengumpulkan koin dan menambah variabel skor saat terjadi sentuhan. Variabel menyimpan nilai yang dapat berubah selama game. Skor biasanya diatur ke 0 saat permainan dimulai dan bertambah ketika pemain menyentuh koin.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-2-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat pemain mengumpulkan koin dan menambah variabel skor saat terjadi sentuhan.\n\nVariabel menyimpan nilai yang dapat berubah selama game. Skor biasanya diatur ke 0 saat permainan dimulai dan bertambah ketika pemain menyentuh koin.\n\nTarget belajar: membuat pemain mengumpulkan koin dan menambah variabel skor saat terjadi sentuhan.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-2-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Game Skor Koin dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-2-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Game Skor Koin.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-2-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Game Skor Koin. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\natur [Skor] ke 0\nselamanya\n  jika menyentuh [Koin] maka\n    ubah [Skor] sebesar 1\n    pergi ke posisi acak\n    tunggu 0.2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-2-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Game Skor Koin:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-2-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-2-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Game Skor Koin dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-2-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Game Skor Koin belum berjalan, gunakan langkah debugging ini:\nSkor bertambah terus tanpa mengambil koin: pastikan ada jeda atau koin dipindahkan setelah tabrakan. Skor tidak kembali nol: letakkan set Skor ke 0 pada awal skrip.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-2-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Game Skor Koin, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Variabel Skor menyimpan jumlah koin yang terkumpul",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Variabel Skor menyimpan jumlah koin yang terkumpul",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-2-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Game Skor Koin:\n• Variabel Skor menyimpan jumlah koin yang terkumpul.\n• Set Skor ke 0 dilakukan saat game dimulai.\n• Touching mendeteksi tabrakan sprite.\n• Change Skor by 1 menambah nilai satu poin.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Game Skor Koin, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Variabel Skor menyimpan jumlah koin yang terkumpul",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Set Skor ke 0 dilakukan saat game dimulai?",
+            "options": [
+              "Set Skor ke 0 dilakukan saat game dimulai",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Game Skor Koin?",
+            "options": [
+              "Touching mendeteksi tabrakan sprite",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Game Skor Koin tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Change Skor by 1 menambah nilai satu poin",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Game Skor Koin sudah siap diuji?",
+            "options": [
+              "Timer dapat membatasi durasi permainan",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Game Skor Koin",
+          "instructions": "Buat game mengumpulkan koin selama 30 detik. Skor bertambah satu setiap koin tersentuh dan tampilkan pesan saat waktu habis.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Kalkulator Ajaib",
+        "topic_order": 3,
+        "status": "published",
+        "description": "Membuat kalkulator sederhana dengan input angka, operator, variabel, dan hasil. Kalkulator menerima dua nilai, menyimpannya, menjalankan operasi matematika, lalu menampilkan hasil. Operator harus dipilih sesuai operasi yang diminta.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-3-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat kalkulator sederhana dengan input angka, operator, variabel, dan hasil.\n\nKalkulator menerima dua nilai, menyimpannya, menjalankan operasi matematika, lalu menampilkan hasil. Operator harus dipilih sesuai operasi yang diminta.\n\nTarget belajar: membuat kalkulator sederhana dengan input angka, operator, variabel, dan hasil.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-3-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Kalkulator Ajaib dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-3-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Kalkulator Ajaib.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-3-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Kalkulator Ajaib. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\ntanyakan [Angka pertama?] dan tunggu\natur [angkaA] ke (jawaban)\ntanyakan [Angka kedua?] dan tunggu\natur [angkaB] ke (jawaban)\natur [hasil] ke ((angkaA) + (angkaB))\nkatakan (gabung [Hasil: ] (hasil))",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-3-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Kalkulator Ajaib:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-3-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-3-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Kalkulator Ajaib dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-3-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Kalkulator Ajaib belum berjalan, gunakan langkah debugging ini:\nHasil salah: periksa apakah input disimpan sebelum pertanyaan berikutnya dan apakah operatornya benar. Jika angka terbaca sebagai teks, gunakan blok operator matematika Scratch.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-3-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Kalkulator Ajaib, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Ask and wait menerima input pengguna",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Ask and wait menerima input pengguna",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-3-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Kalkulator Ajaib:\n• Ask and wait menerima input pengguna.\n• Answer menyimpan jawaban terakhir.\n• Variabel menyimpan angkaA, angkaB, dan hasil.\n• Operator + - * / melakukan operasi matematika.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Kalkulator Ajaib, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Ask and wait menerima input pengguna",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Answer menyimpan jawaban terakhir?",
+            "options": [
+              "Answer menyimpan jawaban terakhir",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Kalkulator Ajaib?",
+            "options": [
+              "Variabel menyimpan angkaA, angkaB, dan hasil",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Kalkulator Ajaib tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Operator + - * / melakukan operasi matematika",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Kalkulator Ajaib sudah siap diuji?",
+            "options": [
+              "Pembagian dengan nol perlu ditangani",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Kalkulator Ajaib",
+          "instructions": "Buat kalkulator yang meminta dua angka dan pilihan operasi tambah, kurang, kali, atau bagi. Tampilkan hasil dan tangani pembagian dengan nol.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Robot Pengantar Pesan",
+        "topic_order": 4,
+        "status": "published",
+        "description": "Membuat robot bergerak menuju tujuan dan menyampaikan pesan berdasarkan urutan tugas. Proyek menggabungkan gerak, koordinat, dialog, dan pemicu. Setiap tujuan dapat diperlakukan sebagai titik koordinat yang harus dicapai sebelum pesan berikutnya ditampilkan.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-4-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat robot bergerak menuju tujuan dan menyampaikan pesan berdasarkan urutan tugas.\n\nProyek menggabungkan gerak, koordinat, dialog, dan pemicu. Setiap tujuan dapat diperlakukan sebagai titik koordinat yang harus dicapai sebelum pesan berikutnya ditampilkan.\n\nTarget belajar: membuat robot bergerak menuju tujuan dan menyampaikan pesan berdasarkan urutan tugas.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-4-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Robot Pengantar Pesan dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-4-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Robot Pengantar Pesan.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-4-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Robot Pengantar Pesan. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: -180 y: -80\nkatakan [Pesanan diterima!] selama 2 detik\nmeluncur 2 detik ke x: 120 y: -80\nkatakan [Pesanan sampai!] selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-4-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Robot Pengantar Pesan:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-4-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-4-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Robot Pengantar Pesan dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-4-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Robot Pengantar Pesan belum berjalan, gunakan langkah debugging ini:\nRobot tidak mencapai tujuan: periksa koordinat dan durasi glide. Dialog muncul terlalu cepat: letakkan say setelah blok gerak atau tambahkan wait.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-4-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Robot Pengantar Pesan, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Go to memindahkan sprite seketika",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Go to memindahkan sprite seketika",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-4-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Robot Pengantar Pesan:\n• Go to memindahkan sprite seketika.\n• Glide menggerakkan sprite secara halus selama durasi tertentu.\n• Koordinat X mengatur posisi mendatar.\n• Koordinat Y mengatur posisi vertikal.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Robot Pengantar Pesan, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Go to memindahkan sprite seketika",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Glide menggerakkan sprite secara halus selama durasi tertentu?",
+            "options": [
+              "Glide menggerakkan sprite secara halus selama durasi tertentu",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Robot Pengantar Pesan?",
+            "options": [
+              "Koordinat X mengatur posisi mendatar",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Robot Pengantar Pesan tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Koordinat Y mengatur posisi vertikal",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Robot Pengantar Pesan sudah siap diuji?",
+            "options": [
+              "Dialog say dapat memberi umpan balik",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Robot Pengantar Pesan",
+          "instructions": "Rancang robot pengantar yang mengambil pesan di titik awal, mengunjungi dua lokasi berbeda, dan menampilkan pesan konfirmasi di setiap lokasi.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Dodge the Meteor",
+        "topic_order": 5,
+        "status": "published",
+        "description": "Membuat game menghindari meteor yang jatuh dengan kontrol pemain, clone, dan kondisi kalah. Pemain bergerak menghindari objek berbahaya. Clone membuat banyak meteor dari satu sprite; kondisi menyentuh pemain memicu game over.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-5-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat game menghindari meteor yang jatuh dengan kontrol pemain, clone, dan kondisi kalah.\n\nPemain bergerak menghindari objek berbahaya. Clone membuat banyak meteor dari satu sprite; kondisi menyentuh pemain memicu game over.\n\nTarget belajar: membuat game menghindari meteor yang jatuh dengan kontrol pemain, clone, dan kondisi kalah.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-5-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Dodge the Meteor dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-5-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Dodge the Meteor.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-5-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Dodge the Meteor. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\nsembunyikan\nselamanya\n  buat clone dari [diriku sendiri]\n  tunggu 0.7 detik\nketika aku mulai sebagai clone\ntampilkan\npergi ke x: (acak -220 sampai 220) y: 170\nulangi sampai <menyentuh [Pemain] atau y < -170>\n  ubah y sebesar -6\njika menyentuh [Pemain] maka\n  siarkan [Game Over]\nhapus clone ini",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-5-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Dodge the Meteor:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-5-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-5-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Dodge the Meteor dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-5-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Dodge the Meteor belum berjalan, gunakan langkah debugging ini:\nMeteor tidak muncul: pastikan skrip clone dimulai dan sprite asli disembunyikan, bukan clone. Meteor tidak jatuh: periksa loop dan perubahan Y negatif.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-5-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Dodge the Meteor, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Clone membuat salinan sprite saat game berjalan",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Clone membuat salinan sprite saat game berjalan",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-5-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Dodge the Meteor:\n• Clone membuat salinan sprite saat game berjalan.\n• Posisi X acak membuat meteor muncul di jalur berbeda.\n• Nilai Y negatif menggerakkan meteor ke bawah.\n• Touching Player mendeteksi tabrakan.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Dodge the Meteor, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Clone membuat salinan sprite saat game berjalan",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Posisi X acak membuat meteor muncul di jalur berbeda?",
+            "options": [
+              "Posisi X acak membuat meteor muncul di jalur berbeda",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Dodge the Meteor?",
+            "options": [
+              "Nilai Y negatif menggerakkan meteor ke bawah",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Dodge the Meteor tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Touching Player mendeteksi tabrakan",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Dodge the Meteor sudah siap diuji?",
+            "options": [
+              "Broadcast Game Over mengirim sinyal akhir permainan",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Dodge the Meteor",
+          "instructions": "Buat game Dodge the Meteor dengan pemain yang dikendalikan tombol kiri/kanan, meteor clone yang jatuh acak, skor bertahan hidup, dan layar Game Over.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Petualangan 3 Babak",
+        "topic_order": 6,
+        "status": "published",
+        "description": "Membuat cerita interaktif tiga babak dengan backdrop, dialog, dan perpindahan adegan. Cerita dibagi menjadi adegan agar alurnya mudah diikuti. Broadcast dapat memberi sinyal perpindahan dari satu babak ke babak berikutnya.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-6-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat cerita interaktif tiga babak dengan backdrop, dialog, dan perpindahan adegan.\n\nCerita dibagi menjadi adegan agar alurnya mudah diikuti. Broadcast dapat memberi sinyal perpindahan dari satu babak ke babak berikutnya.\n\nTarget belajar: membuat cerita interaktif tiga babak dengan backdrop, dialog, dan perpindahan adegan.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-6-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Petualangan 3 Babak dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-6-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Petualangan 3 Babak.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-6-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Petualangan 3 Babak. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\nganti latar ke [Babak 1]\nkatakan [Petualangan dimulai!] selama 2 detik\nsiarkan [Babak 2]\nketika aku menerima [Babak 2]\nganti latar ke [Babak 2]\nkatakan [Kita menemukan petunjuk!] selama 2 detik\nsiarkan [Babak 3]",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-6-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Petualangan 3 Babak:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-6-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-6-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Petualangan 3 Babak dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-6-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Petualangan 3 Babak belum berjalan, gunakan langkah debugging ini:\nAdegan lompat atau tampil bersamaan: periksa nama broadcast, pastikan nama pesan sama persis, dan atur urutan dengan wait atau broadcast and wait.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-6-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Petualangan 3 Babak, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Backdrop menggambarkan lokasi atau babak cerita",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Backdrop menggambarkan lokasi atau babak cerita",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-6-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Petualangan 3 Babak:\n• Backdrop menggambarkan lokasi atau babak cerita.\n• Say menampilkan dialog sprite.\n• Broadcast mengirim pesan antarskrip.\n• Wait mengatur jeda antaradegan.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Petualangan 3 Babak, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Backdrop menggambarkan lokasi atau babak cerita",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Say menampilkan dialog sprite?",
+            "options": [
+              "Say menampilkan dialog sprite",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Petualangan 3 Babak?",
+            "options": [
+              "Broadcast mengirim pesan antarskrip",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Petualangan 3 Babak tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Wait mengatur jeda antaradegan",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Petualangan 3 Babak sudah siap diuji?",
+            "options": [
+              "Broadcast and wait menunggu skrip penerima selesai",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Petualangan 3 Babak",
+          "instructions": "Buat cerita tiga babak dengan minimal dua sprite, tiga backdrop, dialog yang runtut, dan satu pilihan pemain yang memengaruhi adegan akhir.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Sprite Dance Battle",
+        "topic_order": 7,
+        "status": "published",
+        "description": "Membuat dua sprite menari dengan kostum, musik, timing, dan respons tombol. Animasi tari mengandalkan pergantian kostum yang teratur. Suara dan jeda membantu menyinkronkan gerakan agar penampilan terasa mengikuti irama.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-7-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat dua sprite menari dengan kostum, musik, timing, dan respons tombol.\n\nAnimasi tari mengandalkan pergantian kostum yang teratur. Suara dan jeda membantu menyinkronkan gerakan agar penampilan terasa mengikuti irama.\n\nTarget belajar: membuat dua sprite menari dengan kostum, musik, timing, dan respons tombol.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-7-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Sprite Dance Battle dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-7-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Sprite Dance Battle.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-7-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Sprite Dance Battle. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\nmulai suara [Beat]\nulangi 8 kali\n  kostum berikutnya\n  tunggu 0.25 detik\nketika tombol [spasi] ditekan\nkostum berikutnya\nmainkan suara [Clap] sampai selesai",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-7-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Sprite Dance Battle:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-7-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-7-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Sprite Dance Battle dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-7-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Sprite Dance Battle belum berjalan, gunakan langkah debugging ini:\nGerakan tidak terlihat: pastikan sprite memiliki lebih dari satu kostum. Musik berhenti atau tidak sinkron: gunakan start sound untuk suara latar dan atur jeda animasi.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-7-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Sprite Dance Battle, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Next costume mengganti tampilan sprite",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Next costume mengganti tampilan sprite",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-7-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Sprite Dance Battle:\n• Next costume mengganti tampilan sprite.\n• Loop mengulang rangkaian gerakan.\n• Wait mengatur tempo pergantian kostum.\n• Start sound menjalankan suara tanpa menunggu selesai.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Sprite Dance Battle, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Next costume mengganti tampilan sprite",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Loop mengulang rangkaian gerakan?",
+            "options": [
+              "Loop mengulang rangkaian gerakan",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Sprite Dance Battle?",
+            "options": [
+              "Wait mengatur tempo pergantian kostum",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Sprite Dance Battle tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Start sound menjalankan suara tanpa menunggu selesai",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Sprite Dance Battle sudah siap diuji?",
+            "options": [
+              "Tombol keyboard dapat menjadi pemicu gerakan",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Sprite Dance Battle",
+          "instructions": "Buat dance battle dua sprite dengan musik, minimal tiga kostum per penari, dan tombol yang memicu gerakan spesial. Tambahkan penilaian sederhana.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Platformer Mini",
+        "topic_order": 8,
+        "status": "published",
+        "description": "Membuat karakter melompat dan bergerak di platform dengan gravitasi sederhana dan deteksi lantai. Platformer membutuhkan kontrol horizontal dan gerak vertikal. Gravitasi dapat disimulasikan dengan mengurangi kecepatan Y, sedangkan sentuhan lantai menghentikan jatuh.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-8-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat karakter melompat dan bergerak di platform dengan gravitasi sederhana dan deteksi lantai.\n\nPlatformer membutuhkan kontrol horizontal dan gerak vertikal. Gravitasi dapat disimulasikan dengan mengurangi kecepatan Y, sedangkan sentuhan lantai menghentikan jatuh.\n\nTarget belajar: membuat karakter melompat dan bergerak di platform dengan gravitasi sederhana dan deteksi lantai.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-8-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Platformer Mini dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-8-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Platformer Mini.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-8-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Platformer Mini. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\natur [kecepatanY] ke 0\nselamanya\n  ubah y sebesar (kecepatanY)\n  ubah [kecepatanY] sebesar -1\n  jika menyentuh [Lantai] maka\n    atur [kecepatanY] ke 0\n    jika tombol [spasi] ditekan\n      atur [kecepatanY] ke 12",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-8-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Platformer Mini:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-8-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-8-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Platformer Mini dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-8-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Platformer Mini belum berjalan, gunakan langkah debugging ini:\nKarakter menembus lantai: cek deteksi sentuhan dan urutan koreksi posisi. Lompatan terus terjadi: pastikan tombol jump hanya aktif saat menyentuh lantai.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-8-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Platformer Mini, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Kecepatan Y mengatur gerak vertikal",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Kecepatan Y mengatur gerak vertikal",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-8-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Platformer Mini:\n• Kecepatan Y mengatur gerak vertikal.\n• Gravitasi disimulasikan dengan mengurangi kecepatan Y.\n• Touching floor mendeteksi pijakan.\n• Jump memberi kecepatan vertikal positif.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Platformer Mini, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Kecepatan Y mengatur gerak vertikal",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Gravitasi disimulasikan dengan mengurangi kecepatan Y?",
+            "options": [
+              "Gravitasi disimulasikan dengan mengurangi kecepatan Y",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Platformer Mini?",
+            "options": [
+              "Touching floor mendeteksi pijakan",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Platformer Mini tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Jump memberi kecepatan vertikal positif",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Platformer Mini sudah siap diuji?",
+            "options": [
+              "Pengecekan lantai mencegah lompatan di udara",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Platformer Mini",
+          "instructions": "Bangun platformer dengan kontrol kiri/kanan, lompatan saat menyentuh lantai, minimal tiga platform, dan bendera tujuan.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Magic Paintbrush",
+        "topic_order": 9,
+        "status": "published",
+        "description": "Membuat kuas digital yang menggambar mengikuti gerakan mouse dan dapat mengubah warna atau ukuran. Pen extension dapat meninggalkan jejak saat sprite bergerak. Mouse memberi posisi dan tombol klik dapat mengontrol kapan pena turun atau naik.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-9-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat kuas digital yang menggambar mengikuti gerakan mouse dan dapat mengubah warna atau ukuran.\n\nPen extension dapat meninggalkan jejak saat sprite bergerak. Mouse memberi posisi dan tombol klik dapat mengontrol kapan pena turun atau naik.\n\nTarget belajar: membuat kuas digital yang menggambar mengikuti gerakan mouse dan dapat mengubah warna atau ukuran.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-9-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Magic Paintbrush dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-9-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Magic Paintbrush.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-9-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Magic Paintbrush. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\nhapus semua\nselamanya\n  pergi ke [mouse-pointer]\n  jika tombol mouse ditekan maka\n    pena turun\n  jika tidak\n    pena naik\nketika tombol [spasi] ditekan\nubah warna pena sebesar 20",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-9-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Magic Paintbrush:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-9-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-9-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Magic Paintbrush dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-9-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Magic Paintbrush belum berjalan, gunakan langkah debugging ini:\nTidak ada garis: pastikan extension Pen aktif dan pena turun saat mouse ditekan. Garis terus tersambung: gunakan pena naik saat mouse dilepas.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-9-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Magic Paintbrush, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Clear menghapus seluruh jejak pena",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Clear menghapus seluruh jejak pena",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-9-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Magic Paintbrush:\n• Clear menghapus seluruh jejak pena.\n• Go to mouse-pointer mengikuti posisi mouse.\n• Pen down mulai menggambar.\n• Pen up menghentikan garis.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Magic Paintbrush, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Clear menghapus seluruh jejak pena",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Go to mouse-pointer mengikuti posisi mouse?",
+            "options": [
+              "Go to mouse-pointer mengikuti posisi mouse",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Magic Paintbrush?",
+            "options": [
+              "Pen down mulai menggambar",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Magic Paintbrush tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Pen up menghentikan garis",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Magic Paintbrush sudah siap diuji?",
+            "options": [
+              "Change pen color mengubah warna goresan",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Magic Paintbrush",
+          "instructions": "Buat Magic Paintbrush dengan gambar mengikuti mouse, minimal tiga pilihan warna, dua ukuran kuas, dan tombol hapus kanvas.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Boss Battle Game",
+        "topic_order": 10,
+        "status": "published",
+        "description": "Membuat pertarungan boss dengan HP, serangan pemain, pola serangan boss, dan kondisi menang/kalah. Boss battle mengelola beberapa status game: HP pemain, HP boss, cooldown serangan, dan kondisi akhir. Variabel serta broadcast menjaga komunikasi antar-sprite.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-10-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat pertarungan boss dengan HP, serangan pemain, pola serangan boss, dan kondisi menang/kalah.\n\nBoss battle mengelola beberapa status game: HP pemain, HP boss, cooldown serangan, dan kondisi akhir. Variabel serta broadcast menjaga komunikasi antar-sprite.\n\nTarget belajar: membuat pertarungan boss dengan HP, serangan pemain, pola serangan boss, dan kondisi menang/kalah.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-10-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Boss Battle Game dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-10-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Boss Battle Game.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-10-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Boss Battle Game. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\natur [HP Boss] ke 10\natur [HP Pemain] ke 3\nselamanya\n  jika tombol [spasi] ditekan dan <menyentuh [Boss]>\n    ubah [HP Boss] sebesar -1\n  jika (HP Boss) <= 0\n    siarkan [Menang]\n  jika (HP Pemain) <= 0\n    siarkan [Kalah]",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-10-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Boss Battle Game:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-10-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-10-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Boss Battle Game dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-10-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Boss Battle Game belum berjalan, gunakan langkah debugging ini:\nHP turun terlalu cepat: tambahkan cooldown atau tunggu setelah serangan. Kondisi menang tidak muncul: pastikan HP diatur saat mulai dan perbandingan menggunakan <= 0.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-10-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Boss Battle Game, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "HP adalah variabel status karakter",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "HP adalah variabel status karakter",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-10-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Boss Battle Game:\n• HP adalah variabel status karakter.\n• Cooldown membatasi frekuensi serangan.\n• Touching mendeteksi serangan mengenai boss.\n• Broadcast mengirim status Menang atau Kalah.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Boss Battle Game, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "HP adalah variabel status karakter",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Cooldown membatasi frekuensi serangan?",
+            "options": [
+              "Cooldown membatasi frekuensi serangan",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Boss Battle Game?",
+            "options": [
+              "Touching mendeteksi serangan mengenai boss",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Boss Battle Game tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Broadcast mengirim status Menang atau Kalah",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Boss Battle Game sudah siap diuji?",
+            "options": [
+              "Operator perbandingan memeriksa HP tersisa",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Boss Battle Game",
+          "instructions": "Buat Boss Battle dengan HP boss dan pemain, serangan yang punya cooldown, pola serangan boss, serta layar menang/kalah yang berbeda.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Pilih Petualanganmu",
+        "topic_order": 11,
+        "status": "published",
+        "description": "Membuat cerita bercabang berdasarkan pilihan pemain dan mengarahkan pemain ke adegan yang berbeda. Cerita interaktif menggunakan input pemain atau tombol pilihan. Kondisi if/else menentukan cabang cerita dan setiap pilihan perlu diarahkan ke hasil yang jelas.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-11-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Membuat cerita bercabang berdasarkan pilihan pemain dan mengarahkan pemain ke adegan yang berbeda.\n\nCerita interaktif menggunakan input pemain atau tombol pilihan. Kondisi if/else menentukan cabang cerita dan setiap pilihan perlu diarahkan ke hasil yang jelas.\n\nTarget belajar: membuat cerita bercabang berdasarkan pilihan pemain dan mengarahkan pemain ke adegan yang berbeda.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-11-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Pilih Petualanganmu dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-11-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Pilih Petualanganmu.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-11-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Pilih Petualanganmu. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\ntanyakan [Pilih: hutan atau pantai?] dan tunggu\njika <(jawaban) = [hutan]> maka\n  siarkan [Jalur Hutan]\njika tidak\n  siarkan [Jalur Pantai]\nketika aku menerima [Jalur Hutan]\nganti latar ke [Hutan]\nkatakan [Kamu menemukan peta!] selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-11-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Pilih Petualanganmu:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-11-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-11-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Pilih Petualanganmu dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-11-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Pilih Petualanganmu belum berjalan, gunakan langkah debugging ini:\nPilihan tidak dikenali: samakan ejaan jawaban dan kondisi. Cabang berjalan bersamaan: gunakan pesan broadcast yang berbeda untuk tiap jalur.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-11-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Pilih Petualanganmu, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Ask and wait meminta pilihan dari pemain",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Ask and wait meminta pilihan dari pemain",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-11-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Pilih Petualanganmu:\n• Ask and wait meminta pilihan dari pemain.\n• If/else memilih jalur berdasarkan kondisi.\n• Broadcast memulai adegan cabang.\n• Setiap pilihan perlu hasil yang berbeda.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Pilih Petualanganmu, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Ask and wait meminta pilihan dari pemain",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari If/else memilih jalur berdasarkan kondisi?",
+            "options": [
+              "If/else memilih jalur berdasarkan kondisi",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Pilih Petualanganmu?",
+            "options": [
+              "Broadcast memulai adegan cabang",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Pilih Petualanganmu tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Setiap pilihan perlu hasil yang berbeda",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Pilih Petualanganmu sudah siap diuji?",
+            "options": [
+              "Alur cerita dapat berakhir pada beberapa ending",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Pilih Petualanganmu",
+          "instructions": "Buat cerita dengan minimal dua pilihan yang menghasilkan tiga kemungkinan akhir. Tampilkan konsekuensi dari setiap pilihan.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Showcase Project — Game atau Cerita Sendiri",
+        "topic_order": 12,
+        "status": "published",
+        "description": "Menggabungkan konsep Scratch menjadi karya mandiri yang memiliki tujuan, interaksi, umpan balik, dan penyelesaian. Proyek akhir dimulai dari ide dan rancangan sederhana. Pecah fitur menjadi bagian kecil, bangun versi dasar terlebih dahulu, lalu uji dan perbaiki sebelum menambahkan efek.",
+        "project_link": "https://scratch.mit.edu",
+        "nodes": [
+          {
+            "node_id": "m20-12-01",
+            "order": 0,
+            "type": "theory",
+            "title": "Konsep Utama",
+            "content": "Menggabungkan konsep Scratch menjadi karya mandiri yang memiliki tujuan, interaksi, umpan balik, dan penyelesaian.\n\nProyek akhir dimulai dari ide dan rancangan sederhana. Pecah fitur menjadi bagian kecil, bangun versi dasar terlebih dahulu, lalu uji dan perbaiki sebelum menambahkan efek.\n\nTarget belajar: menggabungkan konsep Scratch menjadi karya mandiri yang memiliki tujuan, interaksi, umpan balik, dan penyelesaian.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-12-02",
+            "order": 1,
+            "type": "lesson",
+            "title": "Rancang Alur Sebelum Menyusun Blok",
+            "content": "Sebelum coding, tulis alur Showcase Project — Game atau Cerita Sendiri dalam urutan sederhana:\n1. Apa yang memulai proyek?\n2. Sprite mana yang menjalankan aksi?\n3. Blok apa yang mengubah posisi, tampilan, suara, atau nilai?\n4. Bagaimana pemain mengetahui bahwa aksinya berhasil?\n5. Kapan satu putaran atau permainan berakhir?\n\nRancangan kecil membantu kamu memilih blok yang tepat dan menghindari skrip yang terlalu panjang.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-12-03",
+            "order": 2,
+            "type": "lesson",
+            "title": "Persiapan Proyek Scratch",
+            "content": "1. Buat proyek baru dan beri nama Showcase Project — Game atau Cerita Sendiri.\n2. Pilih sprite dan backdrop yang sesuai dengan ide.\n3. Hapus aset yang tidak diperlukan agar area kerja rapi.\n4. Periksa tab Code, Costumes, dan Sounds.\n5. Tentukan variabel atau pesan broadcast jika proyek memerlukannya.\n6. Simpan perubahan sebelum mulai menambahkan fitur.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-12-04",
+            "order": 3,
+            "type": "code",
+            "title": "Contoh Rangkaian Blok",
+            "content": "Contoh berikut menunjukkan salah satu cara membangun Showcase Project — Game atau Cerita Sendiri. Baca urutannya dari pemicu ke aksi dan perhatikan kondisi yang mengubah alur program. Coba jalankan, lalu ubah satu nilai untuk mengamati dampaknya.",
+            "code_language": "Scratch blocks (urutan teks)",
+            "code_content": "ketika bendera hijau diklik\natur [Skor] ke 0\natur [Status] ke [Mulai]\nsiarkan [Mulai Proyek]\nketika aku menerima [Selesai]\natur [Status] ke [Selesai]\nkatakan [Terima kasih sudah bermain!] selama 3 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-12-05",
+            "order": 4,
+            "type": "lesson",
+            "title": "Praktik Bagian Pertama",
+            "content": "Bangun versi paling sederhana dari Showcase Project — Game atau Cerita Sendiri:\n1. Buat satu skrip yang memulai aksi utama.\n2. Jalankan hanya satu perilaku terlebih dahulu.\n3. Periksa apakah sprite, variabel, atau adegan berubah sesuai tujuan.\n4. Jika belum benar, periksa blok pemicu dan urutan aksi.\n5. Simpan versi yang sudah berjalan sebelum menambahkan fitur kedua.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-12-06",
+            "order": 5,
+            "type": "lesson",
+            "title": "Praktik Bagian Kedua dan Interaksi",
+            "content": "Setelah aksi utama berhasil, tambahkan interaksi yang membuat proyek terasa hidup:\n1. Tambahkan input pemain, tabrakan, dialog, suara, atau pergantian adegan sesuai kebutuhan.\n2. Gunakan kondisi untuk menentukan kapan aksi dijalankan.\n3. Jika beberapa sprite perlu berkomunikasi, gunakan broadcast dengan nama pesan yang konsisten.\n4. Uji setiap interaksi secara terpisah sebelum digabungkan.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-12-07",
+            "order": 6,
+            "type": "lesson",
+            "title": "Uji Coba dan Amati Hasil",
+            "content": "Uji Showcase Project — Game atau Cerita Sendiri dengan skenario berikut:\n• Mulai dari kondisi awal menggunakan bendera hijau.\n• Lakukan aksi pemain lebih dari sekali.\n• Coba kondisi yang berbeda, misalnya menyentuh objek, memilih jawaban lain, atau mencapai batas panggung.\n• Pastikan skor/status/dialog berubah pada waktu yang tepat.\n• Tekan bendera hijau kembali dan pastikan nilai awal di-reset.",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-12-08",
+            "order": 7,
+            "type": "lesson",
+            "title": "Pemecahan Masalah",
+            "content": "Jika Showcase Project — Game atau Cerita Sendiri belum berjalan, gunakan langkah debugging ini:\nProyek sulit diselesaikan: kurangi fitur menjadi versi minimum. Bug sulit ditemukan: uji setiap fitur terpisah, gunakan nama variabel yang jelas, dan catat langkah untuk mengulang bug.\n\nTambahan: periksa apakah skrip berada pada sprite yang benar, apakah semua blok tersambung, dan apakah nama variabel/pesan sama persis. Ubah satu hal setiap kali lalu uji ulang.",
+            "xp": 15
+          },
+          {
+            "node_id": "m20-12-09",
+            "order": 8,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Untuk membuat Showcase Project — Game atau Cerita Sendiri, konsep mana yang paling penting diterapkan?",
+            "options": [
+              "Rancangan memetakan tujuan dan fitur sebelum coding",
+              "Menghapus semua skrip sebelum proyek dijalankan",
+              "Mengganti backdrop tanpa menguji interaksi",
+              "Menambahkan blok secara acak tanpa rancangan"
+            ],
+            "correct_option": "Rancangan memetakan tujuan dan fitur sebelum coding",
+            "xp": 10
+          },
+          {
+            "node_id": "m20-12-10",
+            "order": 9,
+            "type": "lesson",
+            "title": "Rangkuman dan Checklist",
+            "content": "Ringkasan Showcase Project — Game atau Cerita Sendiri:\n• Rancangan memetakan tujuan dan fitur sebelum coding.\n• Pemicu memulai interaksi.\n• Variabel menyimpan status bila proyek membutuhkannya.\n• Pengujian dilakukan pada setiap fitur.\n\nChecklist sebelum lanjut:\n- Proyek memiliki pemicu awal yang jelas.\n- Skrip utama berjalan sesuai tujuan.\n- Interaksi sudah diuji.\n- Kesalahan umum sudah diperiksa.\n- Proyek sudah disimpan dengan nama yang jelas.\n\nSetelah itu, kerjakan 5 quiz topik dan tryout pada bagian Challenge.",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Dalam Showcase Project — Game atau Cerita Sendiri, konsep apa yang menjadi dasar proyek?",
+            "options": [
+              "Rancangan memetakan tujuan dan fitur sebelum coding",
+              "Menghapus seluruh sprite",
+              "Mengganti nama akun Scratch",
+              "Menutup panggung"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
+          },
+          {
+            "question": "Apa fungsi yang paling tepat dari Pemicu memulai interaksi?",
+            "options": [
+              "Pemicu memulai interaksi",
+              "Menghapus semua variabel",
+              "Menghentikan browser",
+              "Mengubah ukuran panggung secara otomatis"
+            ],
+            "answer_index": 0,
+            "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
+          },
+          {
+            "question": "Bagian mana yang membantu mengatur alur Showcase Project — Game atau Cerita Sendiri?",
+            "options": [
+              "Variabel menyimpan status bila proyek membutuhkannya",
+              "Mengganti warna editor",
+              "Menghapus backdrop",
+              "Mengganti nama file saja"
+            ],
+            "answer_index": 0,
+            "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
+          },
+          {
+            "question": "Jika hasil Showcase Project — Game atau Cerita Sendiri tidak sesuai, apa yang sebaiknya diperiksa?",
+            "options": [
+              "Pengujian dilakukan pada setiap fitur",
+              "Menghapus proyek dan mulai tanpa memeriksa",
+              "Menambah blok secara acak",
+              "Mengabaikan hasil uji"
+            ],
+            "answer_index": 0,
+            "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
+          },
+          {
+            "question": "Apa indikator proyek Showcase Project — Game atau Cerita Sendiri sudah siap diuji?",
+            "options": [
+              "Proyek akhir perlu memiliki awal, interaksi, dan akhir",
+              "Tidak perlu mencoba proyek",
+              "Semua blok harus berada pada satu sprite",
+              "Tidak perlu menyimpan proyek"
+            ],
+            "answer_index": 0,
+            "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
+          }
+        ],
+        "challenge": {
+          "title": "Tryout: Showcase Project — Game atau Cerita Sendiri",
+          "instructions": "Buat game atau cerita orisinal. Sertakan tujuan yang jelas, minimal dua interaksi, variabel atau kondisi bila sesuai, umpan balik kepada pemain, serta layar/adegan akhir. Kirim tautan proyek Scratch yang dapat dibuka guru.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      }
+    ],
+    "final_assessment": {
+      "title": "Tryout Akhir — Scratch Visual Block Coding & Games",
+      "duration_minutes": 35,
+      "questions": [
+        {
+          "id": 1,
+          "question": "Pada proyek Maju Kucing, pernyataan manakah yang benar?",
+          "options": [
+            "Sprite bergerak menggunakan blok Motion berwarna biru",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Sprite bergerak menggunakan blok Motion berwarna biru. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 2,
+          "question": "Pada proyek Game Skor Koin, pernyataan manakah yang benar?",
+          "options": [
+            "Set Skor ke 0 dilakukan saat game dimulai",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Set Skor ke 0 dilakukan saat game dimulai. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 3,
+          "question": "Pada proyek Kalkulator Ajaib, pernyataan manakah yang benar?",
+          "options": [
+            "Variabel menyimpan angkaA, angkaB, dan hasil",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Variabel menyimpan angkaA, angkaB, dan hasil. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 4,
+          "question": "Pada proyek Robot Pengantar Pesan, pernyataan manakah yang benar?",
+          "options": [
+            "Koordinat Y mengatur posisi vertikal",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Koordinat Y mengatur posisi vertikal. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 5,
+          "question": "Pada proyek Dodge the Meteor, pernyataan manakah yang benar?",
+          "options": [
+            "Broadcast Game Over mengirim sinyal akhir permainan",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Broadcast Game Over mengirim sinyal akhir permainan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 6,
+          "question": "Pada proyek Petualangan 3 Babak, pernyataan manakah yang benar?",
+          "options": [
+            "Backdrop menggambarkan lokasi atau babak cerita",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Backdrop menggambarkan lokasi atau babak cerita. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 7,
+          "question": "Pada proyek Sprite Dance Battle, pernyataan manakah yang benar?",
+          "options": [
+            "Loop mengulang rangkaian gerakan",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Loop mengulang rangkaian gerakan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 8,
+          "question": "Pada proyek Platformer Mini, pernyataan manakah yang benar?",
+          "options": [
+            "Touching floor mendeteksi pijakan",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Touching floor mendeteksi pijakan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 9,
+          "question": "Pada proyek Magic Paintbrush, pernyataan manakah yang benar?",
+          "options": [
+            "Pen up menghentikan garis",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Pen up menghentikan garis. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 10,
+          "question": "Pada proyek Boss Battle Game, pernyataan manakah yang benar?",
+          "options": [
+            "Operator perbandingan memeriksa HP tersisa",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Operator perbandingan memeriksa HP tersisa. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 11,
+          "question": "Pada proyek Pilih Petualanganmu, pernyataan manakah yang benar?",
+          "options": [
+            "Ask and wait meminta pilihan dari pemain",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Ask and wait meminta pilihan dari pemain. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 12,
+          "question": "Pada proyek Showcase Project — Game atau Cerita Sendiri, pernyataan manakah yang benar?",
+          "options": [
+            "Pemicu memulai interaksi",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Pemicu memulai interaksi. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 13,
+          "question": "Pada proyek Maju Kucing, pernyataan manakah yang benar?",
+          "options": [
+            "Bendera hijau memulai skrip",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Bendera hijau memulai skrip. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 14,
+          "question": "Pada proyek Game Skor Koin, pernyataan manakah yang benar?",
+          "options": [
+            "Change Skor by 1 menambah nilai satu poin",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Change Skor by 1 menambah nilai satu poin. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 15,
+          "question": "Pada proyek Kalkulator Ajaib, pernyataan manakah yang benar?",
+          "options": [
+            "Pembagian dengan nol perlu ditangani",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Pembagian dengan nol perlu ditangani. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 16,
+          "question": "Pada proyek Robot Pengantar Pesan, pernyataan manakah yang benar?",
+          "options": [
+            "Go to memindahkan sprite seketika",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Go to memindahkan sprite seketika. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 17,
+          "question": "Pada proyek Dodge the Meteor, pernyataan manakah yang benar?",
+          "options": [
+            "Posisi X acak membuat meteor muncul di jalur berbeda",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Posisi X acak membuat meteor muncul di jalur berbeda. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 18,
+          "question": "Pada proyek Petualangan 3 Babak, pernyataan manakah yang benar?",
+          "options": [
+            "Broadcast mengirim pesan antarskrip",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Broadcast mengirim pesan antarskrip. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 19,
+          "question": "Pada proyek Sprite Dance Battle, pernyataan manakah yang benar?",
+          "options": [
+            "Start sound menjalankan suara tanpa menunggu selesai",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Start sound menjalankan suara tanpa menunggu selesai. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        },
+        {
+          "id": 20,
+          "question": "Pada proyek Platformer Mini, pernyataan manakah yang benar?",
+          "options": [
+            "Pengecekan lantai mencegah lompatan di udara",
+            "Hapus semua skrip sebelum menjalankan proyek",
+            "Backdrop selalu menggantikan fungsi variabel",
+            "Semua aksi harus dijalankan tanpa pemicu"
+          ],
+          "answer_index": 0,
+          "explanation": "Pengecekan lantai mencegah lompatan di udara. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
+        }
+      ]
+    }
+  }
+]
