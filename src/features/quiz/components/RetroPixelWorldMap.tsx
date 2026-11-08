@@ -105,15 +105,15 @@ export function RetroPixelWorldMap({
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
   // Position tooltip to the right of cursor; flip to left if near right edge
-  let tooltipX = mousePos.x + 12;
+  let tooltipX = mousePos.x + 8;
   if (tooltipX + tooltipWidth > windowWidth - 12) {
-    tooltipX = Math.max(12, mousePos.x - tooltipWidth - 12);
+    tooltipX = Math.max(8, mousePos.x - tooltipWidth - 8);
   }
 
   // Keep the card close to the pointer and flip above only when necessary.
-  let tooltipY = mousePos.y + 12;
+  let tooltipY = mousePos.y + 8;
   if (tooltipY + tooltipHeight > windowHeight - 12) {
-    tooltipY = Math.max(12, mousePos.y - tooltipHeight - 12);
+    tooltipY = Math.max(8, mousePos.y - tooltipHeight - 8);
   }
 
   return (
