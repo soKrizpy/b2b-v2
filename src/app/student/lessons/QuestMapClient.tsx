@@ -612,7 +612,7 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
   const [showCelebration, setShowCelebration] = useState(false);
   const [viewMode, setViewMode]       = useState<'map' | 'history'>('map');
 
-  const { mod, nodes, moduleComplete, assessmentUnlocked = false, hasFinal } = questData;
+  const { mod, nodes, moduleComplete, assessmentUnlocked = false, hasFinal, avatarTopicId } = questData;
   const canAccessFinal = moduleComplete || assessmentUnlocked;
 
   // Deduplicate nodes by topic id
@@ -647,6 +647,7 @@ export function QuestMapClient({ questData, cert, allModules, currentModuleId, a
   const activeNode = uniqueNodes.find(
     (n) => n.status === 'NEEDS_QUIZ' || n.status === 'ACTIVE_NEXT'
   ) ?? uniqueNodes[0];
+  const avatarNode = uniqueNodes.find((node) => node.topic.id === avatarTopicId) ?? activeNode;
 
   const stageTopicNumber = moduleComplete ? 12 : activeNode?.sessionNumber ?? uniqueNodes[0]?.sessionNumber ?? 1;
   const scratchStage = scratchTheme ? getScratchLearningStage(stageTopicNumber) : null;
