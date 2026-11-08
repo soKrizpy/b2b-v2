@@ -33,37 +33,32 @@ interface Props {
 // ── Retro Pixel Adventurer Sprite ─────────────────────────────────────────────
 function PixelAdventurerSprite({ shadowWidth }: { shadowWidth: number }) {
   return (
-    <div className="absolute left-1/2 bottom-[calc(100%+6px)] -translate-x-1/2 flex flex-col items-center pointer-events-none select-none z-50 animate-bounce">
-      {/* "KAMU" Floating Tag */}
-      <div className="px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-black text-[9px] tracking-widest font-mono shadow-[0_0_10px_rgba(6,182,212,0.8)] border border-white flex items-center gap-1 mb-1">
-        <span className="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping" />
-        KAMU
+    <div className="absolute left-1/2 bottom-[calc(100%+6px)] -translate-x-1/2 flex flex-col items-center pointer-events-none select-none z-50">
+      <div className="flex flex-col items-center animate-bounce">
+        {/* "KAMU" Floating Tag */}
+        <div className="px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-black text-[9px] tracking-widest font-mono shadow-[0_0_10px_rgba(6,182,212,0.8)] border border-white flex items-center gap-1 mb-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping" />
+          KAMU
+        </div>
+        {/* 16-Bit Style Pixel Character */}
+        <div className="w-8 h-9 relative filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]">
+          <div className="absolute top-0 left-2 w-4 h-2 bg-amber-800 rounded-t-sm" />
+          <div className="absolute top-1 left-1.5 w-5 h-1.5 bg-amber-700" />
+          <div className="absolute top-2.5 left-2 w-4 h-2.5 bg-amber-200" />
+          <div className="absolute top-3 left-2.5 w-1 h-1 bg-slate-900" />
+          <div className="absolute top-3 right-2.5 w-1 h-1 bg-slate-900" />
+          <div className="absolute top-5 left-1.5 w-5 h-3 bg-cyan-600 rounded-sm" />
+          <div className="absolute top-6 left-1.5 w-5 h-1 bg-amber-900" />
+          <div className="absolute top-6 left-3.5 w-1 h-1 bg-yellow-400" />
+          <div className="absolute top-4 -left-1 w-2 h-4 bg-amber-800 rounded-sm" />
+          <div className="absolute top-8 left-2 w-1.5 h-1.5 bg-amber-950" />
+          <div className="absolute top-8 right-2 w-1.5 h-1.5 bg-amber-950" />
+        </div>
       </div>
-      {/* 16-Bit Style Pixel Character */}
-      <div className="w-8 h-9 relative filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]">
-        {/* Cap & Hair */}
-        <div className="absolute top-0 left-2 w-4 h-2 bg-amber-800 rounded-t-sm" />
-        <div className="absolute top-1 left-1.5 w-5 h-1.5 bg-amber-700" />
-        {/* Face */}
-        <div className="absolute top-2.5 left-2 w-4 h-2.5 bg-amber-200" />
-        {/* Eyes */}
-        <div className="absolute top-3 left-2.5 w-1 h-1 bg-slate-900" />
-        <div className="absolute top-3 right-2.5 w-1 h-1 bg-slate-900" />
-        {/* Blue Tunic / Outfit */}
-        <div className="absolute top-5 left-1.5 w-5 h-3 bg-cyan-600 rounded-sm" />
-        {/* Belt */}
-        <div className="absolute top-6 left-1.5 w-5 h-1 bg-amber-900" />
-        <div className="absolute top-6 left-3.5 w-1 h-1 bg-yellow-400" />
-        {/* Backpack */}
-        <div className="absolute top-4 -left-1 w-2 h-4 bg-amber-800 rounded-sm" />
-        {/* Boots */}
-        <div className="absolute top-8 left-2 w-1.5 h-1.5 bg-amber-950" />
-        <div className="absolute top-8 right-2 w-1.5 h-1.5 bg-amber-950" />
-      </div>
-      {/* Pulsing Floor Shadow Rune */}
+      {/* Ground shadow stays on the waypoint and scales with jump distance. */}
       <div
-        className="h-2 rounded-full bg-cyan-400/40 blur-[2px] animate-pulse -mt-0.5 transition-[width] duration-500"
-        style={{ width: `${shadowWidth}px` }}
+        className="h-2 rounded-full bg-cyan-400/45 blur-[2px] animate-pulse transition-[width,transform] duration-500"
+        style={{ width: `${shadowWidth}px`, transform: `scaleX(${Math.max(0.75, shadowWidth / 22)})` }}
       />
     </div>
   );
