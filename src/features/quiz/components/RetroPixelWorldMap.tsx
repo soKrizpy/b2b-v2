@@ -328,7 +328,13 @@ export function RetroPixelWorldMap({
             return (
               <div
                 key={node.topic.id}
-                style={{ left: `${coord.x}%`, top: `${coord.y}%` }}
+                style={{
+                  left: `${coord.x}%`,
+                  top: `${coord.y}%`,
+                  transition: isCurrentHeroLocation
+                    ? 'left 700ms cubic-bezier(0.22, 1, 0.36, 1), top 700ms cubic-bezier(0.22, 1, 0.36, 1)'
+                    : undefined,
+                }}
                 className="absolute -translate-x-1/2 -translate-y-1/2 z-30 flex flex-col items-center"
               >
                 {/* Character Sprite standing on current active quest */}
