@@ -119,12 +119,12 @@
           {
             "question": "Apa fungsi yang paling tepat dari Blok move 10 steps mengubah posisi sesuai arah hadap sprite?",
             "options": [
-              "Blok move 10 steps mengubah posisi sesuai arah hadap sprite",
               "Menghapus semua variabel",
               "Menghentikan browser",
+              "Blok move 10 steps mengubah posisi sesuai arah hadap sprite",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
@@ -141,12 +141,12 @@
           {
             "question": "Jika hasil Maju Kucing tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Koordinat tengah panggung adalah X 0 dan Y 0",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
+              "Koordinat tengah panggung adalah X 0 dan Y 0",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
@@ -269,56 +269,56 @@
           {
             "question": "Dalam Game Skor Koin, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Variabel Skor menyimpan jumlah koin yang terkumpul",
               "Menghapus seluruh sprite",
+              "Variabel Skor menyimpan jumlah koin yang terkumpul",
               "Mengganti nama akun Scratch",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Set Skor ke 0 dilakukan saat game dimulai?",
             "options": [
-              "Set Skor ke 0 dilakukan saat game dimulai",
               "Menghapus semua variabel",
               "Menghentikan browser",
-              "Mengubah ukuran panggung secara otomatis"
+              "Mengubah ukuran panggung secara otomatis",
+              "Set Skor ke 0 dilakukan saat game dimulai"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Game Skor Koin?",
             "options": [
-              "Touching mendeteksi tabrakan sprite",
               "Mengganti warna editor",
+              "Touching mendeteksi tabrakan sprite",
               "Menghapus backdrop",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Game Skor Koin tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Change Skor by 1 menambah nilai satu poin",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
-              "Mengabaikan hasil uji"
+              "Mengabaikan hasil uji",
+              "Change Skor by 1 menambah nilai satu poin"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Game Skor Koin sudah siap diuji?",
             "options": [
-              "Timer dapat membatasi durasi permainan",
               "Tidak perlu mencoba proyek",
+              "Timer dapat membatasi durasi permainan",
               "Semua blok harus berada pada satu sprite",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -430,12 +430,12 @@
           {
             "question": "Dalam Kalkulator Ajaib, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Ask and wait menerima input pengguna",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
+              "Ask and wait menerima input pengguna",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
@@ -452,12 +452,12 @@
           {
             "question": "Bagian mana yang membantu mengatur alur Kalkulator Ajaib?",
             "options": [
-              "Variabel menyimpan angkaA, angkaB, dan hasil",
               "Mengganti warna editor",
               "Menghapus backdrop",
+              "Variabel menyimpan angkaA, angkaB, dan hasil",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
@@ -474,12 +474,12 @@
           {
             "question": "Apa indikator proyek Kalkulator Ajaib sudah siap diuji?",
             "options": [
-              "Pembagian dengan nol perlu ditangani",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
+              "Pembagian dengan nol perlu ditangani",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -591,56 +591,56 @@
           {
             "question": "Dalam Robot Pengantar Pesan, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Go to memindahkan sprite seketika",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
-              "Menutup panggung"
+              "Menutup panggung",
+              "Go to memindahkan sprite seketika"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Glide menggerakkan sprite secara halus selama durasi tertentu?",
             "options": [
-              "Glide menggerakkan sprite secara halus selama durasi tertentu",
               "Menghapus semua variabel",
+              "Glide menggerakkan sprite secara halus selama durasi tertentu",
               "Menghentikan browser",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Robot Pengantar Pesan?",
             "options": [
-              "Koordinat X mengatur posisi mendatar",
               "Mengganti warna editor",
               "Menghapus backdrop",
-              "Mengganti nama file saja"
+              "Mengganti nama file saja",
+              "Koordinat X mengatur posisi mendatar"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Robot Pengantar Pesan tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Koordinat Y mengatur posisi vertikal",
               "Menghapus proyek dan mulai tanpa memeriksa",
+              "Koordinat Y mengatur posisi vertikal",
               "Menambah blok secara acak",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Robot Pengantar Pesan sudah siap diuji?",
             "options": [
-              "Dialog say dapat memberi umpan balik",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
-              "Tidak perlu menyimpan proyek"
+              "Tidak perlu menyimpan proyek",
+              "Dialog say dapat memberi umpan balik"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -763,12 +763,12 @@
           {
             "question": "Apa fungsi yang paling tepat dari Posisi X acak membuat meteor muncul di jalur berbeda?",
             "options": [
-              "Posisi X acak membuat meteor muncul di jalur berbeda",
               "Menghapus semua variabel",
               "Menghentikan browser",
+              "Posisi X acak membuat meteor muncul di jalur berbeda",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
@@ -785,12 +785,12 @@
           {
             "question": "Jika hasil Dodge the Meteor tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Touching Player mendeteksi tabrakan",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
+              "Touching Player mendeteksi tabrakan",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
@@ -913,56 +913,56 @@
           {
             "question": "Dalam Petualangan 3 Babak, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Backdrop menggambarkan lokasi atau babak cerita",
               "Menghapus seluruh sprite",
+              "Backdrop menggambarkan lokasi atau babak cerita",
               "Mengganti nama akun Scratch",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Say menampilkan dialog sprite?",
             "options": [
-              "Say menampilkan dialog sprite",
               "Menghapus semua variabel",
               "Menghentikan browser",
-              "Mengubah ukuran panggung secara otomatis"
+              "Mengubah ukuran panggung secara otomatis",
+              "Say menampilkan dialog sprite"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Petualangan 3 Babak?",
             "options": [
-              "Broadcast mengirim pesan antarskrip",
               "Mengganti warna editor",
+              "Broadcast mengirim pesan antarskrip",
               "Menghapus backdrop",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Petualangan 3 Babak tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Wait mengatur jeda antaradegan",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
-              "Mengabaikan hasil uji"
+              "Mengabaikan hasil uji",
+              "Wait mengatur jeda antaradegan"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Petualangan 3 Babak sudah siap diuji?",
             "options": [
-              "Broadcast and wait menunggu skrip penerima selesai",
               "Tidak perlu mencoba proyek",
+              "Broadcast and wait menunggu skrip penerima selesai",
               "Semua blok harus berada pada satu sprite",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1074,12 +1074,12 @@
           {
             "question": "Dalam Sprite Dance Battle, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Next costume mengganti tampilan sprite",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
+              "Next costume mengganti tampilan sprite",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
@@ -1096,12 +1096,12 @@
           {
             "question": "Bagian mana yang membantu mengatur alur Sprite Dance Battle?",
             "options": [
-              "Wait mengatur tempo pergantian kostum",
               "Mengganti warna editor",
               "Menghapus backdrop",
+              "Wait mengatur tempo pergantian kostum",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
@@ -1118,12 +1118,12 @@
           {
             "question": "Apa indikator proyek Sprite Dance Battle sudah siap diuji?",
             "options": [
-              "Tombol keyboard dapat menjadi pemicu gerakan",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
+              "Tombol keyboard dapat menjadi pemicu gerakan",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1235,56 +1235,56 @@
           {
             "question": "Dalam Platformer Mini, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Kecepatan Y mengatur gerak vertikal",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
-              "Menutup panggung"
+              "Menutup panggung",
+              "Kecepatan Y mengatur gerak vertikal"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Gravitasi disimulasikan dengan mengurangi kecepatan Y?",
             "options": [
-              "Gravitasi disimulasikan dengan mengurangi kecepatan Y",
               "Menghapus semua variabel",
+              "Gravitasi disimulasikan dengan mengurangi kecepatan Y",
               "Menghentikan browser",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Platformer Mini?",
             "options": [
-              "Touching floor mendeteksi pijakan",
               "Mengganti warna editor",
               "Menghapus backdrop",
-              "Mengganti nama file saja"
+              "Mengganti nama file saja",
+              "Touching floor mendeteksi pijakan"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Platformer Mini tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Jump memberi kecepatan vertikal positif",
               "Menghapus proyek dan mulai tanpa memeriksa",
+              "Jump memberi kecepatan vertikal positif",
               "Menambah blok secara acak",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Platformer Mini sudah siap diuji?",
             "options": [
-              "Pengecekan lantai mencegah lompatan di udara",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
-              "Tidak perlu menyimpan proyek"
+              "Tidak perlu menyimpan proyek",
+              "Pengecekan lantai mencegah lompatan di udara"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1407,12 +1407,12 @@
           {
             "question": "Apa fungsi yang paling tepat dari Go to mouse-pointer mengikuti posisi mouse?",
             "options": [
-              "Go to mouse-pointer mengikuti posisi mouse",
               "Menghapus semua variabel",
               "Menghentikan browser",
+              "Go to mouse-pointer mengikuti posisi mouse",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
@@ -1429,12 +1429,12 @@
           {
             "question": "Jika hasil Magic Paintbrush tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Pen up menghentikan garis",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
+              "Pen up menghentikan garis",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
@@ -1557,56 +1557,56 @@
           {
             "question": "Dalam Boss Battle Game, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "HP adalah variabel status karakter",
               "Menghapus seluruh sprite",
+              "HP adalah variabel status karakter",
               "Mengganti nama akun Scratch",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Cooldown membatasi frekuensi serangan?",
             "options": [
-              "Cooldown membatasi frekuensi serangan",
               "Menghapus semua variabel",
               "Menghentikan browser",
-              "Mengubah ukuran panggung secara otomatis"
+              "Mengubah ukuran panggung secara otomatis",
+              "Cooldown membatasi frekuensi serangan"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Boss Battle Game?",
             "options": [
-              "Touching mendeteksi serangan mengenai boss",
               "Mengganti warna editor",
+              "Touching mendeteksi serangan mengenai boss",
               "Menghapus backdrop",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Boss Battle Game tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Broadcast mengirim status Menang atau Kalah",
               "Menghapus proyek dan mulai tanpa memeriksa",
               "Menambah blok secara acak",
-              "Mengabaikan hasil uji"
+              "Mengabaikan hasil uji",
+              "Broadcast mengirim status Menang atau Kalah"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Boss Battle Game sudah siap diuji?",
             "options": [
-              "Operator perbandingan memeriksa HP tersisa",
               "Tidak perlu mencoba proyek",
+              "Operator perbandingan memeriksa HP tersisa",
               "Semua blok harus berada pada satu sprite",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1718,12 +1718,12 @@
           {
             "question": "Dalam Pilih Petualanganmu, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Ask and wait meminta pilihan dari pemain",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
+              "Ask and wait meminta pilihan dari pemain",
               "Menutup panggung"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
@@ -1740,12 +1740,12 @@
           {
             "question": "Bagian mana yang membantu mengatur alur Pilih Petualanganmu?",
             "options": [
-              "Broadcast memulai adegan cabang",
               "Mengganti warna editor",
               "Menghapus backdrop",
+              "Broadcast memulai adegan cabang",
               "Mengganti nama file saja"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
@@ -1762,12 +1762,12 @@
           {
             "question": "Apa indikator proyek Pilih Petualanganmu sudah siap diuji?",
             "options": [
-              "Alur cerita dapat berakhir pada beberapa ending",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
+              "Alur cerita dapat berakhir pada beberapa ending",
               "Tidak perlu menyimpan proyek"
             ],
-            "answer_index": 0,
+            "answer_index": 2,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1879,56 +1879,56 @@
           {
             "question": "Dalam Showcase Project — Game atau Cerita Sendiri, konsep apa yang menjadi dasar proyek?",
             "options": [
-              "Rancangan memetakan tujuan dan fitur sebelum coding",
               "Menghapus seluruh sprite",
               "Mengganti nama akun Scratch",
-              "Menutup panggung"
+              "Menutup panggung",
+              "Rancangan memetakan tujuan dan fitur sebelum coding"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Konsep ini menjadi bagian inti karena mendukung tujuan proyek."
           },
           {
             "question": "Apa fungsi yang paling tepat dari Pemicu memulai interaksi?",
             "options": [
-              "Pemicu memulai interaksi",
               "Menghapus semua variabel",
+              "Pemicu memulai interaksi",
               "Menghentikan browser",
               "Mengubah ukuran panggung secara otomatis"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Konsep ini membantu proyek menghasilkan perilaku yang dirancang."
           },
           {
             "question": "Bagian mana yang membantu mengatur alur Showcase Project — Game atau Cerita Sendiri?",
             "options": [
-              "Variabel menyimpan status bila proyek membutuhkannya",
               "Mengganti warna editor",
               "Menghapus backdrop",
-              "Mengganti nama file saja"
+              "Mengganti nama file saja",
+              "Variabel menyimpan status bila proyek membutuhkannya"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Alur yang tepat membuat aksi terjadi pada waktu yang benar."
           },
           {
             "question": "Jika hasil Showcase Project — Game atau Cerita Sendiri tidak sesuai, apa yang sebaiknya diperiksa?",
             "options": [
-              "Pengujian dilakukan pada setiap fitur",
               "Menghapus proyek dan mulai tanpa memeriksa",
+              "Pengujian dilakukan pada setiap fitur",
               "Menambah blok secara acak",
               "Mengabaikan hasil uji"
             ],
-            "answer_index": 0,
+            "answer_index": 1,
             "explanation": "Pemeriksaan bertahap membantu menemukan sumber masalah."
           },
           {
             "question": "Apa indikator proyek Showcase Project — Game atau Cerita Sendiri sudah siap diuji?",
             "options": [
-              "Proyek akhir perlu memiliki awal, interaksi, dan akhir",
               "Tidak perlu mencoba proyek",
               "Semua blok harus berada pada satu sprite",
-              "Tidak perlu menyimpan proyek"
+              "Tidak perlu menyimpan proyek",
+              "Proyek akhir perlu memiliki awal, interaksi, dan akhir"
             ],
-            "answer_index": 0,
+            "answer_index": 3,
             "explanation": "Pengujian memastikan fitur bekerja sesuai tujuan."
           }
         ],
@@ -1948,12 +1948,12 @@
           "id": 1,
           "question": "Pada proyek Maju Kucing, pernyataan manakah yang benar?",
           "options": [
-            "Sprite bergerak menggunakan blok Motion berwarna biru",
             "Hapus semua skrip sebelum menjalankan proyek",
+            "Sprite bergerak menggunakan blok Motion berwarna biru",
             "Backdrop selalu menggantikan fungsi variabel",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Sprite bergerak menggunakan blok Motion berwarna biru. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
@@ -1972,36 +1972,36 @@
           "id": 3,
           "question": "Pada proyek Kalkulator Ajaib, pernyataan manakah yang benar?",
           "options": [
-            "Variabel menyimpan angkaA, angkaB, dan hasil",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
-            "Semua aksi harus dijalankan tanpa pemicu"
+            "Semua aksi harus dijalankan tanpa pemicu",
+            "Variabel menyimpan angkaA, angkaB, dan hasil"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Variabel menyimpan angkaA, angkaB, dan hasil. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 4,
           "question": "Pada proyek Robot Pengantar Pesan, pernyataan manakah yang benar?",
           "options": [
-            "Koordinat Y mengatur posisi vertikal",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
+            "Koordinat Y mengatur posisi vertikal",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Koordinat Y mengatur posisi vertikal. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 5,
           "question": "Pada proyek Dodge the Meteor, pernyataan manakah yang benar?",
           "options": [
-            "Broadcast Game Over mengirim sinyal akhir permainan",
             "Hapus semua skrip sebelum menjalankan proyek",
+            "Broadcast Game Over mengirim sinyal akhir permainan",
             "Backdrop selalu menggantikan fungsi variabel",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Broadcast Game Over mengirim sinyal akhir permainan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
@@ -2020,36 +2020,36 @@
           "id": 7,
           "question": "Pada proyek Sprite Dance Battle, pernyataan manakah yang benar?",
           "options": [
-            "Loop mengulang rangkaian gerakan",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
-            "Semua aksi harus dijalankan tanpa pemicu"
+            "Semua aksi harus dijalankan tanpa pemicu",
+            "Loop mengulang rangkaian gerakan"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Loop mengulang rangkaian gerakan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 8,
           "question": "Pada proyek Platformer Mini, pernyataan manakah yang benar?",
           "options": [
-            "Touching floor mendeteksi pijakan",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
+            "Touching floor mendeteksi pijakan",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Touching floor mendeteksi pijakan. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 9,
           "question": "Pada proyek Magic Paintbrush, pernyataan manakah yang benar?",
           "options": [
-            "Pen up menghentikan garis",
             "Hapus semua skrip sebelum menjalankan proyek",
+            "Pen up menghentikan garis",
             "Backdrop selalu menggantikan fungsi variabel",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Pen up menghentikan garis. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
@@ -2068,36 +2068,36 @@
           "id": 11,
           "question": "Pada proyek Pilih Petualanganmu, pernyataan manakah yang benar?",
           "options": [
-            "Ask and wait meminta pilihan dari pemain",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
-            "Semua aksi harus dijalankan tanpa pemicu"
+            "Semua aksi harus dijalankan tanpa pemicu",
+            "Ask and wait meminta pilihan dari pemain"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Ask and wait meminta pilihan dari pemain. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 12,
           "question": "Pada proyek Showcase Project — Game atau Cerita Sendiri, pernyataan manakah yang benar?",
           "options": [
-            "Pemicu memulai interaksi",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
+            "Pemicu memulai interaksi",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Pemicu memulai interaksi. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 13,
           "question": "Pada proyek Maju Kucing, pernyataan manakah yang benar?",
           "options": [
-            "Bendera hijau memulai skrip",
             "Hapus semua skrip sebelum menjalankan proyek",
+            "Bendera hijau memulai skrip",
             "Backdrop selalu menggantikan fungsi variabel",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Bendera hijau memulai skrip. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
@@ -2116,36 +2116,36 @@
           "id": 15,
           "question": "Pada proyek Kalkulator Ajaib, pernyataan manakah yang benar?",
           "options": [
-            "Pembagian dengan nol perlu ditangani",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
-            "Semua aksi harus dijalankan tanpa pemicu"
+            "Semua aksi harus dijalankan tanpa pemicu",
+            "Pembagian dengan nol perlu ditangani"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Pembagian dengan nol perlu ditangani. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 16,
           "question": "Pada proyek Robot Pengantar Pesan, pernyataan manakah yang benar?",
           "options": [
-            "Go to memindahkan sprite seketika",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
+            "Go to memindahkan sprite seketika",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Go to memindahkan sprite seketika. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 17,
           "question": "Pada proyek Dodge the Meteor, pernyataan manakah yang benar?",
           "options": [
-            "Posisi X acak membuat meteor muncul di jalur berbeda",
             "Hapus semua skrip sebelum menjalankan proyek",
+            "Posisi X acak membuat meteor muncul di jalur berbeda",
             "Backdrop selalu menggantikan fungsi variabel",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 1,
           "explanation": "Posisi X acak membuat meteor muncul di jalur berbeda. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
@@ -2164,24 +2164,24 @@
           "id": 19,
           "question": "Pada proyek Sprite Dance Battle, pernyataan manakah yang benar?",
           "options": [
-            "Start sound menjalankan suara tanpa menunggu selesai",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
-            "Semua aksi harus dijalankan tanpa pemicu"
+            "Semua aksi harus dijalankan tanpa pemicu",
+            "Start sound menjalankan suara tanpa menunggu selesai"
           ],
-          "answer_index": 0,
+          "answer_index": 3,
           "explanation": "Start sound menjalankan suara tanpa menunggu selesai. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         },
         {
           "id": 20,
           "question": "Pada proyek Platformer Mini, pernyataan manakah yang benar?",
           "options": [
-            "Pengecekan lantai mencegah lompatan di udara",
             "Hapus semua skrip sebelum menjalankan proyek",
             "Backdrop selalu menggantikan fungsi variabel",
+            "Pengecekan lantai mencegah lompatan di udara",
             "Semua aksi harus dijalankan tanpa pemicu"
           ],
-          "answer_index": 0,
+          "answer_index": 2,
           "explanation": "Pengecekan lantai mencegah lompatan di udara. Pahami hubungan konsep ini dengan tujuan proyek, lalu uji penerapannya pada Scratch."
         }
       ]
