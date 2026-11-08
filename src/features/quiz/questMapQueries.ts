@@ -41,6 +41,7 @@ export interface QuestMapData {
   assessmentUnlocked?: boolean;
   hasFinal:         boolean;
   needsQuizTopics:  QuestTopicNode[]; // topics that need quiz action (for banner)
+  avatarTopicId?: number | null; // next topic awaiting a teacher report
 }
 
 function hideLockedTopicContent(topic: TopicWithChallengeCount): TopicWithChallengeCount {
@@ -82,6 +83,7 @@ export async function getQuestMapData(
       assessmentUnlocked: false,
       hasFinal: extractFinalAssessment(mod.description) !== null,
       needsQuizTopics: [], // no quiz actions in review mode
+      avatarTopicId: nodes[nodes.length - 1]?.topic.id ?? null,
     };
   }
 
@@ -324,5 +326,8 @@ export async function getQuestMapData(
     assessmentUnlocked,
     hasFinal,
     needsQuizTopics: safeNodes.filter((node) => node.status === 'NEEDS_QUIZ'),
+    avatarTopicId: useReportCountUnlock
+      ? mod.topics[Math.min(teacherReportCount, mod.topics.length - 1)]?.id ?? null
+      : nodes.find((node) => node.status === 'NEEDS_QUIZ' || node.status === 'ACTIVE_NEXT')?.topic.id ?? nodes[0]?.topic.id ?? null,
   };
 }
