@@ -5,7 +5,8 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { extractTopicQuiz } from '@/features/curriculum/validation';
 import type { TopicQuizAttemptRow } from '@/types/database';
-import { isTeacherReportSubmittedForTopic } from '@/features/quiz/sessionReportGate';
+import { getStudentModulesWithTopics } from '@/features/curriculum/queries';
+import { getQuestMapData } from '@/features/quiz/questMapQueries';
 
 // ── Per-topic quiz state for a student ────────────────────────────────────────
 
@@ -30,9 +31,9 @@ export async function getTopicQuizState(
 ): Promise<TopicQuizState> {
   const db = createSupabaseAdminClient();
 
-  // Fetch topic metadata, attempts, and assigned meetings in parallel.
-  // Unlock state is matched to this exact topic association.
-  const [topicRes, { data: attemptRows }, { data: joinRows }] = await Promise.all([
+  // Fetch topic metadata and attempts in parallel. The Quest Map is the single
+  // source of truth for report-count legacy access and explicit topic schedules.
+  const [topicRes, { data: attemptRows }] = await Promise.all([
     db
       .from('topics')
       .select('id, module_id, lesson_content')
@@ -50,17 +51,6 @@ export async function getTopicQuizState(
         data: TopicQuizAttemptRow[];
         error: unknown;
       }>,
-    db
-      .from('meeting_students')
-      .select('meeting_id, has_joined, meetings!inner(module_id, topic_id, is_completed, progress_report)')
-      .eq('student_id', studentId) as unknown as Promise<{
-        data: Array<{
-          meeting_id: number;
-          has_joined: boolean;
-          meetings: { module_id: number | null; topic_id: number | null; is_completed: boolean; progress_report: string | null };
-        }>;
-        error: unknown;
-      }>,
   ]);
 
   const questions    = topicRes.data
@@ -72,23 +62,17 @@ export async function getTopicQuizState(
     ? Math.max(...attempts.map((a) => a.score))
     : 0;
 
-  const matchingTopicMeetings = (joinRows ?? []).filter(
-    (r) => r.meetings?.module_id === topicRes.data?.module_id && r.meetings?.topic_id === topicId
-  );
-  const matchingMeeting = matchingTopicMeetings[0];
-  const hasCompletedSession = matchingTopicMeetings.length === 1 && isTeacherReportSubmittedForTopic(
-    {
-      topic_id: matchingMeeting?.meetings?.topic_id ?? null,
-      has_joined: matchingMeeting?.has_joined ?? false,
-      is_completed: matchingMeeting?.meetings?.is_completed === true,
-      progress_report: matchingMeeting?.meetings?.progress_report ?? null,
-    },
-    topicId
-  );
+  const enrolledModules = await getStudentModulesWithTopics(studentId);
+  const enrolledModule = enrolledModules.find((module) => module.id === topicRes.data?.module_id);
+  const questMap = enrolledModule
+    ? await getQuestMapData(studentId, enrolledModule)
+    : null;
+  const topicNode = questMap?.nodes.find((node) => node.topic.id === topicId);
+  const hasCompletedSession = topicNode?.quizUnlocked === true;
 
   return {
-    // Do not serialize answerable quiz content until the matching attended
-    // session has a completed teacher report.
+    // Do not serialize answerable quiz content until the shared Quest Map
+    // gate confirms an attended session with a submitted teacher report.
     questions: hasCompletedSession ? questions : [],
     attempts,
     attemptsUsed,
