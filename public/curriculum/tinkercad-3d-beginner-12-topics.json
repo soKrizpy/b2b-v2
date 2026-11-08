@@ -12,98 +12,82 @@
           "node_id": "node-01",
           "order": 0,
           "type": "lesson",
-          "title": "Apa Itu Desain 3D?",
+          "title": "Brief: Misi Membuat Desain 3D Pertama",
           "xp": 5,
-          "content": "Desain 3D adalah cara membuat model yang memiliki panjang, lebar, dan tinggi. Di Tinkercad, kamu menyusun bentuk digital di ruang kerja, mengubah ukurannya, lalu menggabungkannya menjadi benda yang kamu inginkan. Mulailah dari bentuk sederhana sebelum mencoba model yang rumit."
+          "content": "Di topik ini kamu akan membuat desain 3D sederhana di Tinkercad: menambahkan bentuk kotak, mengubah ukurannya, memindahkan posisinya, lalu memeriksa hasil dari beberapa arah. Hasil akhirnya adalah satu desain bernama jelas yang bisa kamu tunjukkan kepada guru. Siapkan akun Tinkercad dan buka editor 3D."
         },
         {
           "node_id": "node-02",
           "order": 1,
           "type": "lesson",
-          "title": "Kenali Sumbu X, Y, dan Z",
+          "title": "Materi: Apa yang Membuat Benda Disebut 3D?",
           "xp": 5,
-          "content": "Ruang 3D memakai tiga arah utama. Sumbu X bergerak ke kiri dan kanan, sumbu Y ke depan dan belakang, sedangkan sumbu Z mengatur tinggi atau rendah. Membayangkan ketiga arah ini membantumu memahami mengapa sebuah benda bisa berada di atas bidang kerja atau bergeser ke samping."
+          "content": "Benda 3D memiliki tiga ukuran: panjang, lebar, dan tinggi. Kotak pada layar bukan sekadar gambar datar; ia memiliki sisi depan, belakang, kiri, kanan, atas, dan bawah. Di Tinkercad, bentuk-bentuk dasar seperti Box, Sphere, dan Cylinder menjadi bahan untuk menyusun model yang lebih rumit."
         },
         {
           "node_id": "node-03",
           "order": 2,
           "type": "lesson",
-          "title": "Dari Bentuk Datar ke Benda 3D",
+          "title": "Materi: Mengenal Bidang Kerja dan Sumbu",
           "xp": 5,
-          "content": "Lingkaran di kertas hanya memiliki panjang dan lebar, sedangkan silinder memiliki tinggi sehingga menjadi benda 3D. Kubus, bola, tabung, dan kerucut merupakan contoh bentuk dasar yang dapat digunakan sebagai bagian dari model yang lebih kompleks."
+          "content": "Bidang kerja adalah tempat kamu meletakkan objek. Grid membantu memperkirakan posisi. Sumbu X menunjukkan gerak kiri-kanan, Y menunjukkan depan-belakang, dan Z menunjukkan tinggi-rendah. Saat objek dipilih, pegangan di sekelilingnya membantu mengubah ukuran atau posisinya. Periksa objek dari sudut pandang berbeda agar tinggi dan letaknya tidak hanya ditebak dari tampak atas."
         },
         {
           "node_id": "node-04",
           "order": 3,
           "type": "lesson",
-          "title": "Mengenal Area Kerja Tinkercad",
-          "xp": 5,
-          "content": "Editor Tinkercad memiliki area kerja utama untuk melihat dan menyusun benda, panel bentuk untuk menambahkan objek, serta alat untuk mengubah tampilan dan properti objek. Kenali lokasi area-area tersebut sebelum mulai mendesain agar kamu tahu tempat mengambil bentuk dan tempat memeriksa hasilnya."
+          "title": "Praktik Terpandu 1: Buka Desain Baru",
+          "xp": 10,
+          "content": "1. Buka Tinkercad dan masuk ke akunmu. 2. Pilih opsi untuk membuat desain 3D baru. 3. Tunggu sampai editor dan bidang kerja tampil. 4. Perhatikan panel bentuk di sisi editor dan area grid di tengah. Hasil yang harus terlihat: bidang kerja kosong dan panel bentuk siap digunakan."
         },
         {
           "node_id": "node-05",
           "order": 4,
           "type": "lesson",
-          "title": "Membaca Grid di Bidang Kerja",
-          "xp": 5,
-          "content": "Grid adalah pola garis pada bidang kerja yang menjadi panduan posisi dan jarak. Garis grid membantu memperkirakan lokasi benda, tetapi ukuran sebenarnya tetap perlu diperiksa dengan alat ukuran jika proyek membutuhkan presisi. Gunakan grid sebagai titik awal untuk meletakkan bentuk dengan rapi."
+          "title": "Praktik Terpandu 2: Tambahkan Sebuah Box",
+          "xp": 10,
+          "content": "1. Cari bentuk Box pada panel bentuk dasar. 2. Seret Box ke bagian tengah bidang kerja. 3. Klik objek satu kali sampai pegangan pengubah ukuran terlihat. 4. Jangan menambahkan bentuk lain dulu. Hasil yang harus terlihat: satu objek kotak berada di atas grid dan sedang terpilih."
         },
         {
           "node_id": "node-06",
           "order": 5,
           "type": "lesson",
-          "title": "Mengenal Panel Bentuk Dasar",
-          "xp": 5,
-          "content": "Panel bentuk menyediakan objek siap pakai seperti kotak, bola, silinder, dan bentuk lainnya. Seret sebuah bentuk ke bidang kerja untuk menambahkannya. Jika belum memahami semua pilihan, gunakan satu bentuk terlebih dahulu dan perhatikan pegangan yang muncul saat objek dipilih."
+          "title": "Praktik Terpandu 3: Ubah Ukuran dan Posisi",
+          "xp": 10,
+          "content": "1. Dengan Box masih terpilih, gunakan pegangan ukuran untuk membuat salah satu sisinya sedikit lebih panjang. 2. Gunakan bidang kerja untuk menggeser objek sedikit dari posisi awal. 3. Amati angka ukuran jika pengukuran tampil. 4. Lakukan perubahan satu per satu agar kamu tahu akibat setiap tindakan. Hasil yang harus terlihat: Box tidak lagi berukuran awal dan posisinya berubah dengan sengaja."
         },
         {
           "node_id": "node-07",
           "order": 6,
           "type": "lesson",
-          "title": "Melihat Model dari Beberapa Arah",
-          "xp": 5,
-          "content": "Model dapat dilihat dari atas, samping, depan, atau sudut miring. Putar sudut pandang untuk memeriksa tinggi dan posisi, bukan hanya tampilan dari atas. Jika objek terlihat menempel pada grid dari satu arah, pandangan lain dapat membantu memastikan bentuknya memang berada di tempat yang tepat."
+          "title": "Praktik Terpandu 4: Periksa dari Sudut Berbeda",
+          "xp": 10,
+          "content": "1. Gunakan ViewCube atau kontrol navigasi tampilan yang tersedia untuk melihat objek dari atas. 2. Pindah ke tampilan miring atau perspektif. 3. Pastikan objek memiliki tinggi dan tidak tampak pipih. 4. Kembali ke tampilan yang paling nyaman. Hasil yang harus terlihat: kamu dapat mengenali sisi atas, samping, dan tinggi objek."
         },
         {
           "node_id": "node-08",
           "order": 7,
-          "type": "lesson",
-          "title": "Mulai dengan Satu Bentuk",
-          "xp": 5,
-          "content": "Untuk desain pertama, letakkan satu kotak di bidang kerja. Pilih objek, ubah ukuran sedikit, lalu geser ke posisi yang mudah dilihat. Hindari menambahkan banyak bentuk sekaligus; satu perubahan pada satu waktu membuatmu lebih mudah mengerti hubungan antara tindakan dan hasil."
+          "type": "practice",
+          "title": "Uji Pemahaman: Cek Konsep Dasar 3D",
+          "xp": 10,
+          "content": "Pilih jawaban yang paling tepat berdasarkan materi tentang dimensi benda 3D.",
+          "instructions": "Apa alasan utama sebuah Box disebut objek 3D, bukan gambar datar?",
+          "options": [
+            "Karena memiliki panjang, lebar, dan tinggi",
+            "Karena warnanya selalu biru",
+            "Karena hanya dapat dilihat dari atas",
+            "Karena selalu memiliki ukuran yang sama"
+          ],
+          "correct_option": "Karena memiliki panjang, lebar, dan tinggi"
         },
         {
           "node_id": "node-09",
           "order": 8,
-          "type": "practice",
-          "title": "Latihan: Pilih Bentuk yang Tepat",
-          "xp": 10,
-          "content": "Pilih bentuk dasar yang paling tepat untuk membuat badan balok sederhana. Periksa opsi dan tentukan apakah tujuan utamanya berupa benda dengan sisi datar, benda bulat, atau bentuk runcing. Setelah memilih, letakkan satu bentuk dan amati tampilannya dari dua arah.",
-          "instructions": "Untuk membuat badan kotak sederhana, bentuk dasar mana yang paling sesuai?",
-          "options": [
-            "Box/Kotak",
-            "Teks",
-            "Workplane",
-            "Penggaris"
-          ],
-          "correct_option": "Box/Kotak"
-        },
-        {
-          "node_id": "node-10",
-          "order": 9,
-          "type": "lesson",
-          "title": "Checklist Desain Pertama",
-          "xp": 5,
-          "content": "Sebelum menyatakan desain pertama selesai, periksa apakah bentuk terlihat di area kerja, ukurannya masuk akal, posisinya tidak keluar dari bidang, dan nama desain mudah dikenali. Putar sudut pandang dan pastikan kamu memahami benda yang sudah dibuat sebelum melanjutkan ke topik berikutnya."
-        },
-        {
-          "node_id": "node-11",
-          "order": 10,
           "type": "challenge",
-          "title": "Proyek: Desain 3D Pertamaku",
+          "title": "Project Challenge: Desain 3D Pertamaku",
           "xp": 20,
-          "content": "Terapkan keterampilan topik ini dalam proyek Tinkercad yang dapat ditinjau guru.",
-          "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali."
+          "content": "Buat satu desain sederhana yang membuktikan kamu dapat menambahkan dan mengubah bentuk dasar di Tinkercad.",
+          "instructions": "Mulai dari desain baru. Letakkan satu Box, ubah minimal satu dimensinya, pindahkan posisinya, lalu periksa dari tampak atas dan tampak miring. Beri nama desain dengan format Nama_Kelas_DesainPertama. Kirim tautan desain yang dapat dibuka guru. Kriteria keberhasilan: satu Box terlihat jelas; ada perubahan ukuran yang disengaja; posisi objek tidak sama dengan posisi awal; desain memiliki nama yang mudah dikenali."
         }
       ],
       "description": "Level Mudah. Mengenal ruang 3D, editor Tinkercad, bentuk dasar, grid, dan cara membuat desain pertama.",
@@ -166,8 +150,8 @@
       ],
       "challenge": {
         "xp": 30,
-        "title": "Proyek: Desain 3D Pertamaku",
-        "instructions": "Buat desain baru di Tinkercad dan letakkan satu atau dua bentuk dasar di bidang kerja. Ubah ukuran setidaknya satu bentuk dan periksa dari tampilan atas serta miring. Beri nama desain yang jelas, lalu kirim tautan proyek yang dapat dibuka guru. Kriteria: objek terlihat, ada perubahan ukuran yang disengaja, dan nama desain mudah dikenali.",
+        "title": "Project Challenge: Desain 3D Pertamaku",
+        "instructions": "Buat satu desain sederhana yang membuktikan kamu dapat menambahkan dan mengubah bentuk dasar di Tinkercad. Letakkan satu Box, ubah minimal satu dimensinya, pindahkan posisinya, periksa dari tampak atas dan miring, beri nama Nama_Kelas_DesainPertama, lalu kirim tautan yang dapat dibuka guru. Kriteria: objek terlihat, ukuran berubah, posisi berubah, dan nama desain jelas.",
         "submission_type": "link"
       },
       "status": "published"
