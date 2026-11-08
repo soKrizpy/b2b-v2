@@ -1,0 +1,1298 @@
+[
+  {
+    "module_id": 11,
+    "module_title": "Begin to Scratch",
+    "module_order": 11,
+    "description": "Belajar coding dengan menggunakan Scratch sangat membantu untuk pemula. Siswa membuat animasi, cerita interaktif, dan game sederhana melalui blok visual.",
+    "level": "beginner",
+    "gamification_type": "mimo",
+    "topics": [
+      {
+        "topic_title": "Topik 1 - Kucing Berjalan",
+        "topic_order": 1,
+        "status": "published",
+        "description": "sprite, panggung, koordinat, dan gerak dasar. Target belajar: menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau.",
+        "nodes": [
+          {
+            "node_id": "scratch-28-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari sprite, panggung, koordinat, dan gerak dasar. Tujuan belajarnya adalah menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-28-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 1 - Kucing Berjalan. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: 0 y: 0\nulangi 10 kali\n  gerak 10 langkah\n  tunggu 0.1 detik\nkatakan \"Halo!\" selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-28-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Blok apa yang paling tepat untuk menjalankan skrip saat proyek dimulai?",
+            "options": [
+              "ketika bendera hijau diklik",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "ketika bendera hijau diklik",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 1 - Kucing Berjalan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 1 - Kucing Berjalan berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; pergi ke x: 0 y: 0; ulangi 10 kali",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep sprite, panggung, koordinat, dan gerak dasar perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 1 - Kucing Berjalan berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 1 - Kucing Berjalan",
+          "instructions": "Buat animasi kucing berjalan dari sisi kiri ke kanan panggung. Gunakan bendera hijau, posisi awal, gerakan berulang, dan sapaan. Pastikan sprite tidak langsung keluar dari panggung.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 2 - Kartu Digital",
+        "topic_order": 2,
+        "status": "published",
+        "description": "sprite, backdrop, teks, dan tampilan kartu. Target belajar: membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca.",
+        "nodes": [
+          {
+            "node_id": "scratch-29-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari sprite, backdrop, teks, dan tampilan kartu. Tujuan belajarnya adalah membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-29-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 2 - Kartu Digital. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nganti latar ke [Kartu]\npergi ke x: 0 y: -40\nkatakan \"Selamat datang!\" selama 3 detik\nganti kostum ke [senyum]",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-29-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Bagian Scratch yang mengatur gambar latar seluruh panggung disebut apa?",
+            "options": [
+              "Backdrop atau latar",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Backdrop atau latar",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 2 - Kartu Digital?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 2 - Kartu Digital berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; ganti latar ke [Kartu]; pergi ke x: 0 y: -40",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep sprite, backdrop, teks, dan tampilan kartu perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 2 - Kartu Digital berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 2 - Kartu Digital",
+          "instructions": "Buat kartu digital bertema pilihanmu. Tambahkan backdrop, minimal satu sprite, pesan singkat, dan perubahan kostum. Atur posisi agar teks dan karakter tidak saling menutupi.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 3 - Membuat Buku Cerita",
+        "topic_order": 3,
+        "status": "published",
+        "description": "alur cerita, dialog, pergantian adegan, dan timing. Target belajar: menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan.",
+        "nodes": [
+          {
+            "node_id": "scratch-30-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari alur cerita, dialog, pergantian adegan, dan timing. Tujuan belajarnya adalah menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-30-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 3 - Membuat Buku Cerita. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nganti latar ke [Halaman 1]\nkatakan \"Pada suatu hari...\" selama 3 detik\ntunggu 1 detik\nganti latar ke [Halaman 2]\nkatakan \"Petualangan dimulai!\" selama 3 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-30-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Mengapa blok tunggu berguna dalam cerita animasi?",
+            "options": [
+              "Memberi jeda agar dialog dan adegan terbaca",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Memberi jeda agar dialog dan adegan terbaca",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 3 - Membuat Buku Cerita?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 3 - Membuat Buku Cerita berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; ganti latar ke [Halaman 1]; katakan \"Pada suatu hari...\" selama 3 detik",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep alur cerita, dialog, pergantian adegan, dan timing perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 3 - Membuat Buku Cerita berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 3 - Membuat Buku Cerita",
+          "instructions": "Buat buku cerita digital minimal tiga adegan. Setiap adegan harus memiliki latar dan dialog. Atur jeda supaya pembaca sempat mengikuti cerita.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 4 - Mini Konser",
+        "topic_order": 4,
+        "status": "published",
+        "description": "suara, urutan musik, kostum, dan sinkronisasi. Target belajar: membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan.",
+        "nodes": [
+          {
+            "node_id": "scratch-35-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari suara, urutan musik, kostum, dan sinkronisasi. Tujuan belajarnya adalah membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-35-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 4 - Mini Konser. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nmulai suara [Intro]\nulangi 4 kali\n  kostum berikutnya\n  tunggu 0.5 detik\nmainkan suara [Beat] sampai selesai\nkatakan \"Terima kasih!\" selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-35-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Blok suara mana yang menunggu sampai audio selesai diputar?",
+            "options": [
+              "mainkan suara sampai selesai",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "mainkan suara sampai selesai",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 4 - Mini Konser?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 4 - Mini Konser berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; mulai suara [Intro]; ulangi 4 kali",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep suara, urutan musik, kostum, dan sinkronisasi perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 4 - Mini Konser berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 4 - Mini Konser",
+          "instructions": "Rancang mini konser dengan satu atau lebih performer. Gunakan minimal satu suara, pergantian kostum sebagai gerakan panggung, dan penutup pertunjukan.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 5 - Butterfly",
+        "topic_order": 5,
+        "status": "published",
+        "description": "kostum, animasi kepakan sayap, loop, dan gerak. Target belajar: menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang.",
+        "nodes": [
+          {
+            "node_id": "scratch-36-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari kostum, animasi kepakan sayap, loop, dan gerak. Tujuan belajarnya adalah menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-36-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 5 - Butterfly. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\npergi ke x: -180 y: 20\nulangi 20 kali\n  kostum berikutnya\n  meluncur 0.3 detik ke x: (posisi x + 18) y: 20\n  tunggu 0.1 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-36-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Apa fungsi pergantian kostum secara berulang pada sprite kupu-kupu?",
+            "options": [
+              "Menciptakan ilusi gerakan kepakan sayap",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Menciptakan ilusi gerakan kepakan sayap",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 5 - Butterfly?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 5 - Butterfly berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; pergi ke x: -180 y: 20; ulangi 20 kali",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep kostum, animasi kepakan sayap, loop, dan gerak perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 5 - Butterfly berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 5 - Butterfly",
+          "instructions": "Buat animasi kupu-kupu terbang. Siapkan minimal dua kostum sayap, atur perpindahan posisi, dan gunakan loop agar gerak terlihat berkesinambungan.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 6 - Star Shower",
+        "topic_order": 6,
+        "status": "published",
+        "description": "kloning, posisi acak, gerak jatuh, dan penghapusan clone. Target belajar: membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung.",
+        "nodes": [
+          {
+            "node_id": "scratch-37-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari kloning, posisi acak, gerak jatuh, dan penghapusan clone. Tujuan belajarnya adalah membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-37-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 6 - Star Shower. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nsembunyikan\nselamanya\n  buat clone dari diriku sendiri\n  tunggu 0.3 detik\nketika aku mulai sebagai clone\ntampilkan\npergi ke x: (acak -220 sampai 220) y: 170\nulangi sampai y < -170\n  ubah y sebesar -8\nhapus clone ini",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-37-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Mengapa clone perlu dihapus setelah bintang jatuh melewati panggung?",
+            "options": [
+              "Agar clone tidak menumpuk dan membebani proyek",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Agar clone tidak menumpuk dan membebani proyek",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 6 - Star Shower?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 6 - Star Shower berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; sembunyikan; selamanya",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep kloning, posisi acak, gerak jatuh, dan penghapusan clone perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 6 - Star Shower berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 6 - Star Shower",
+          "instructions": "Buat efek Star Shower. Bintang harus muncul dari posisi horizontal acak, jatuh ke bawah, dan menghapus clone setelah keluar panggung.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 7 - Animasi Intro",
+        "topic_order": 7,
+        "status": "published",
+        "description": "urutan adegan, timing, broadcast, dan transisi. Target belajar: membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya.",
+        "nodes": [
+          {
+            "node_id": "scratch-38-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari urutan adegan, timing, broadcast, dan transisi. Tujuan belajarnya adalah membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-38-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 7 - Animasi Intro. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nsiarkan [Mulai Intro]\nketika aku menerima [Mulai Intro]\ntampilkan\natur ukuran ke 10%\nulangi 10 kali\n  ubah ukuran sebesar 9\n  ubah efek ghost sebesar -10\nsiarkan [Intro Selesai]",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-38-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Apa manfaat broadcast dalam proyek dengan beberapa sprite?",
+            "options": [
+              "Mengirim sinyal agar sprite lain menjalankan bagian skripnya",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Mengirim sinyal agar sprite lain menjalankan bagian skripnya",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 7 - Animasi Intro?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 7 - Animasi Intro berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; siarkan [Mulai Intro]; ketika aku menerima [Mulai Intro]",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep urutan adegan, timing, broadcast, dan transisi perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 7 - Animasi Intro berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 7 - Animasi Intro",
+          "instructions": "Buat animasi intro berdurasi singkat untuk game atau cerita. Gunakan judul, efek masuk, timing, dan broadcast untuk memberi sinyal bahwa intro selesai.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 8 - Membuat Labirin",
+        "topic_order": 8,
+        "status": "published",
+        "description": "kontrol keyboard, koordinat, sensor sentuh, dan kondisi. Target belajar: membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding.",
+        "nodes": [
+          {
+            "node_id": "scratch-39-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari kontrol keyboard, koordinat, sensor sentuh, dan kondisi. Tujuan belajarnya adalah membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-39-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 8 - Membuat Labirin. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\nselamanya\n  jika tombol [panah kanan] ditekan\n    ubah x sebesar 4\n  jika menyentuh warna [dinding]\n    ubah x sebesar -4\n  jika tombol [panah kiri] ditekan\n    ubah x sebesar -4\n  jika menyentuh warna [dinding]\n    ubah x sebesar 4",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-39-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Blok sensor apa yang dapat digunakan untuk mendeteksi karakter menyentuh dinding berwarna?",
+            "options": [
+              "menyentuh warna",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "menyentuh warna",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 8 - Membuat Labirin?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 8 - Membuat Labirin berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; selamanya;   jika tombol [panah kanan] ditekan",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep kontrol keyboard, koordinat, sensor sentuh, dan kondisi perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 8 - Membuat Labirin berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 8 - Membuat Labirin",
+          "instructions": "Buat labirin dengan titik awal dan tujuan. Karakter harus dikendalikan memakai tombol panah dan tidak boleh menembus dinding. Tambahkan pesan ketika berhasil mencapai tujuan.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 9 - Tebak Gambar",
+        "topic_order": 9,
+        "status": "published",
+        "description": "pertanyaan, jawaban, kondisi if-else, dan umpan balik. Target belajar: membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah.",
+        "nodes": [
+          {
+            "node_id": "scratch-40-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari pertanyaan, jawaban, kondisi if-else, dan umpan balik. Tujuan belajarnya adalah membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-40-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 9 - Tebak Gambar. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\ntanyakan [Hewan apa yang terlihat pada gambar?] dan tunggu\njika <jawaban = [kucing]> maka\n  katakan [Benar!] selama 2 detik\njika tidak\n  katakan [Coba lagi!] selama 2 detik",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-40-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Blok apa yang memeriksa apakah jawaban pemain sesuai dengan jawaban yang diharapkan?",
+            "options": [
+              "kondisi jika-maka (if-then)",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "kondisi jika-maka (if-then)",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 9 - Tebak Gambar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 9 - Tebak Gambar berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; tanyakan [Hewan apa yang terlihat pada gambar?] dan tunggu; jika <jawaban = [kucing]> maka",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep pertanyaan, jawaban, kondisi if-else, dan umpan balik perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 9 - Tebak Gambar berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 9 - Tebak Gambar",
+          "instructions": "Buat kuis tebak gambar minimal tiga ronde. Setiap ronde menampilkan gambar, meminta jawaban, memeriksa jawaban, dan memberi umpan balik yang sesuai.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      },
+      {
+        "topic_title": "Topik 10 - Catch the Apple",
+        "topic_order": 10,
+        "status": "published",
+        "description": "kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir. Target belajar: membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor.",
+        "nodes": [
+          {
+            "node_id": "scratch-41-concept",
+            "order": 0,
+            "type": "theory",
+            "title": "Pahami Konsep",
+            "content": "Pada topik ini kamu akan mempelajari kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir. Tujuan belajarnya adalah membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor.\\n\\nMulailah dengan mengenali sprite dan panggung, lalu perhatikan bagaimana setiap blok Scratch memberi instruksi. Susun blok dalam urutan yang masuk akal, jalankan proyek, amati hasilnya, kemudian perbaiki bagian yang belum sesuai.",
+            "xp": 10
+          },
+          {
+            "node_id": "scratch-41-blocks",
+            "order": 1,
+            "type": "code",
+            "title": "Rangkaian Blok",
+            "content": "Contoh alur blok untuk Topik 10 - Catch the Apple. Baca dari atas ke bawah dan perhatikan kapan skrip dimulai, apa yang diulang, serta kapan kondisi diperiksa.",
+            "code_language": "Scratch Blocks (urutan blok)",
+            "code_content": "ketika bendera hijau diklik\natur [Skor] ke 0\nselamanya\n  jika tombol [panah kanan] ditekan, ubah x sebesar 6\n  jika tombol [panah kiri] ditekan, ubah x sebesar -6\nketika aku mulai sebagai clone\npergi ke x: (acak -220 sampai 220) y: 170\nulangi sampai menyentuh [Pemain] atau y < -170\n  ubah y sebesar -5\njika menyentuh [Pemain]\n  ubah [Skor] sebesar 1\nhapus clone ini",
+            "xp": 15
+          },
+          {
+            "node_id": "scratch-41-practice",
+            "order": 2,
+            "type": "practice",
+            "title": "Cek Pemahaman",
+            "instructions": "Variabel apa yang paling tepat untuk mencatat jumlah apel yang berhasil ditangkap?",
+            "options": [
+              "Skor",
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat"
+            ],
+            "correct_option": "Skor",
+            "xp": 10
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Apa tujuan utama dari materi Topik 10 - Catch the Apple?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Bagian mana yang paling penting agar proyek Topik 10 - Catch the Apple berjalan sesuai rancangan?",
+            "options": [
+              "ketika bendera hijau diklik; atur [Skor] ke 0; selamanya",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 0,
+            "explanation": "Jawaban ini tepat karena membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Jika hasil proyek belum sesuai, tindakan awal yang paling tepat adalah apa?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Periksa urutan blok, kondisi, dan nilai yang digunakan lalu uji kembali",
+              "Menghentikan seluruh program tanpa syarat",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 3,
+            "explanation": "Jawaban ini tepat karena membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Mengapa konsep kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir perlu diterapkan dengan benar?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor",
+              "Mengganti nama akun pemain"
+            ],
+            "answer_index": 2,
+            "explanation": "Jawaban ini tepat karena membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor. Uji proyek secara bertahap untuk memastikan hasilnya."
+          },
+          {
+            "question": "Apa bukti bahwa tantangan Topik 10 - Catch the Apple berhasil diselesaikan?",
+            "options": [
+              "Menghapus semua sprite dari panggung",
+              "Mengubah ukuran proyek menjadi otomatis",
+              "Menghentikan seluruh program tanpa syarat",
+              "Proyek berjalan sesuai kriteria tantangan dan dapat didemonstrasikan"
+            ],
+            "answer_index": 1,
+            "explanation": "Jawaban ini tepat karena membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor. Uji proyek secara bertahap untuk memastikan hasilnya."
+          }
+        ],
+        "challenge": {
+          "title": "Proyek: Topik 10 - Catch the Apple",
+          "instructions": "Buat game Catch the Apple. Pemain bergerak ke kiri dan kanan, apel jatuh dari atas, skor bertambah saat tertangkap, dan game menampilkan hasil akhir ketika waktu habis atau target tercapai.",
+          "submission_type": "link",
+          "xp": 30
+        }
+      }
+    ],
+    "final_assessment": {
+      "title": "Tryout Akhir — Begin to Scratch",
+      "duration_minutes": 45,
+      "questions": [
+        {
+          "id": 1,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 1 - Kucing Berjalan?",
+          "options": [
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek"
+          ],
+          "answer_index": 2,
+          "explanation": "Materi ini berfokus pada sprite, panggung, koordinat, dan gerak dasar; karena itu menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 2,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 2 - Kartu Digital?",
+          "options": [
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca"
+          ],
+          "answer_index": 1,
+          "explanation": "Materi ini berfokus pada sprite, backdrop, teks, dan tampilan kartu; karena itu membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 3,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 3 - Membuat Buku Cerita?",
+          "options": [
+            "menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara"
+          ],
+          "answer_index": 0,
+          "explanation": "Materi ini berfokus pada alur cerita, dialog, pergantian adegan, dan timing; karena itu menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 4,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 4 - Mini Konser?",
+          "options": [
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil"
+          ],
+          "answer_index": 3,
+          "explanation": "Materi ini berfokus pada suara, urutan musik, kostum, dan sinkronisasi; karena itu membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 5,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 5 - Butterfly?",
+          "options": [
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek"
+          ],
+          "answer_index": 2,
+          "explanation": "Materi ini berfokus pada kostum, animasi kepakan sayap, loop, dan gerak; karena itu menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 6,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 6 - Star Shower?",
+          "options": [
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung"
+          ],
+          "answer_index": 1,
+          "explanation": "Materi ini berfokus pada kloning, posisi acak, gerak jatuh, dan penghapusan clone; karena itu membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 7,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 7 - Animasi Intro?",
+          "options": [
+            "membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara"
+          ],
+          "answer_index": 0,
+          "explanation": "Materi ini berfokus pada urutan adegan, timing, broadcast, dan transisi; karena itu membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 8,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 8 - Membuat Labirin?",
+          "options": [
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil"
+          ],
+          "answer_index": 3,
+          "explanation": "Materi ini berfokus pada kontrol keyboard, koordinat, sensor sentuh, dan kondisi; karena itu membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 9,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 9 - Tebak Gambar?",
+          "options": [
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek"
+          ],
+          "answer_index": 2,
+          "explanation": "Materi ini berfokus pada pertanyaan, jawaban, kondisi if-else, dan umpan balik; karena itu membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 10,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 10 - Catch the Apple?",
+          "options": [
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor"
+          ],
+          "answer_index": 1,
+          "explanation": "Materi ini berfokus pada kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir; karena itu membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 11,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 1 - Kucing Berjalan?",
+          "options": [
+            "menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara"
+          ],
+          "answer_index": 0,
+          "explanation": "Materi ini berfokus pada sprite, panggung, koordinat, dan gerak dasar; karena itu menggerakkan sprite kucing dengan urutan blok Motion dan memulai proyek menggunakan bendera hijau merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 12,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 2 - Kartu Digital?",
+          "options": [
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil"
+          ],
+          "answer_index": 3,
+          "explanation": "Materi ini berfokus pada sprite, backdrop, teks, dan tampilan kartu; karena itu membuat kartu digital dengan latar, karakter, pesan, dan tata letak yang mudah dibaca merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 13,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 3 - Membuat Buku Cerita?",
+          "options": [
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek"
+          ],
+          "answer_index": 2,
+          "explanation": "Materi ini berfokus pada alur cerita, dialog, pergantian adegan, dan timing; karena itu menyusun cerita digital berurutan menggunakan backdrop, dialog sprite, jeda, dan pergantian adegan merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 14,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 4 - Mini Konser?",
+          "options": [
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan"
+          ],
+          "answer_index": 1,
+          "explanation": "Materi ini berfokus pada suara, urutan musik, kostum, dan sinkronisasi; karena itu membuat pertunjukan mini dengan sprite pemain, perubahan kostum, serta suara yang berjalan sesuai urutan merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 15,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 5 - Butterfly?",
+          "options": [
+            "menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara"
+          ],
+          "answer_index": 0,
+          "explanation": "Materi ini berfokus pada kostum, animasi kepakan sayap, loop, dan gerak; karena itu menganimasikan kupu-kupu dengan pergantian kostum dan gerak halus yang diulang merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 16,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 6 - Star Shower?",
+          "options": [
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil"
+          ],
+          "answer_index": 3,
+          "explanation": "Materi ini berfokus pada kloning, posisi acak, gerak jatuh, dan penghapusan clone; karena itu membuat hujan bintang dengan clone yang muncul di posisi acak, jatuh, lalu dihapus setelah keluar panggung merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 17,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 7 - Animasi Intro?",
+          "options": [
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek"
+          ],
+          "answer_index": 2,
+          "explanation": "Materi ini berfokus pada urutan adegan, timing, broadcast, dan transisi; karena itu membuat intro proyek dengan judul, animasi pembuka, jeda, dan sinyal untuk memulai adegan berikutnya merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 18,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 8 - Membuat Labirin?",
+          "options": [
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding"
+          ],
+          "answer_index": 1,
+          "explanation": "Materi ini berfokus pada kontrol keyboard, koordinat, sensor sentuh, dan kondisi; karena itu membuat karakter bergerak di labirin dengan tombol panah serta mencegah karakter menembus dinding merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 19,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 9 - Tebak Gambar?",
+          "options": [
+            "membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil",
+            "Mengganti seluruh skrip dengan satu blok suara"
+          ],
+          "answer_index": 0,
+          "explanation": "Materi ini berfokus pada pertanyaan, jawaban, kondisi if-else, dan umpan balik; karena itu membuat permainan tebak gambar yang memeriksa jawaban pemain dan memberi respons benar atau salah merupakan sasaran penerapan yang tepat."
+        },
+        {
+          "id": 20,
+          "question": "Dalam proyek Scratch, prinsip apa yang paling tepat untuk menerapkan materi Topik 10 - Catch the Apple?",
+          "options": [
+            "Mengganti seluruh skrip dengan satu blok suara",
+            "membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor",
+            "Menghapus sprite dan backdrop sebelum menjalankan proyek",
+            "Menggunakan blok secara acak tanpa menguji hasil"
+          ],
+          "answer_index": 3,
+          "explanation": "Materi ini berfokus pada kontrol pemain, clone objek, tabrakan, skor, dan kondisi akhir; karena itu membuat game menangkap apel dengan gerakan pemain, apel yang jatuh, deteksi tabrakan, dan variabel skor merupakan sasaran penerapan yang tepat."
+        }
+      ]
+    }
+  }
+]
