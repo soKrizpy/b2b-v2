@@ -165,6 +165,7 @@ export async function getQuestMapData(
   const reportMeetingRows = studentMeetingRows
     .filter((row) =>
       (row.meetings?.module_id == null || row.meetings.module_id === mod.id)
+      && row.has_joined === true
       && row.meetings?.is_completed === true
       && Boolean(row.meetings?.progress_report?.trim())
     )
