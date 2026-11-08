@@ -567,6 +567,7 @@ export async function setStudentAssessmentUnlock(
   const db = createSupabaseAdminClient();
   const [{ data: student }, { data: enrollment }] = await Promise.all([
     db.from('students').select('id').eq('id', parsed.data.student_id).maybeSingle(),
+    db.from('student_modules').select('id').eq('student_id', parsed.data.student_id).eq('module_id', parsed.data.module_id).eq('status', 'active').maybeSingle(),
   ]);
 
   if (!student) return { success: false, error: 'Data siswa tidak ditemukan.' };
