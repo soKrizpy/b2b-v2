@@ -138,6 +138,7 @@ Return ONLY valid JSON matching this exact schema (no markdown, no code block):
 
 Make the content engaging, age-appropriate (10-16 years old), and educational.
 All text must be in ${lang}.
+For quiz and final assessment questions, distribute correct answers across A, B, C, and D; never make every answer A or follow a repeating pattern. Keep answer_index aligned with the correct option after writing the options. For practice nodes, correct_option must exactly match the correct option text, and its position must vary.
 Return ONLY the JSON object, nothing else.
 `.trim();
 
