@@ -326,11 +326,11 @@ function QuizForm({
             <span className="mr-2 text-indigo-500 font-black">{qi + 1}.</span>{q.question}
           </p>
           <div className="flex flex-col gap-2">
-            {q.options.map((opt, oi) => (
+            {(optionOrders[qi] ?? [0, 1, 2, 3]).map((originalIndex, displayIndex) => (
               <button
-                key={oi}
+                key={originalIndex}
                 type="button"
-                onClick={() => setSelected((s) => ({ ...s, [qi]: oi }))}
+                onClick={() => setSelected((s) => ({ ...s, [qi]: originalIndex }))}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium
                   transition-all ring-1 cursor-pointer
                   ${selected[qi] === originalIndex
@@ -339,9 +339,9 @@ function QuizForm({
                   }`}
               >
                 <span className="font-bold mr-2 text-slate-400">
-                  {['A','B','C','D'][oi]}.
+                  {['A','B','C','D'][displayIndex]}.
                 </span>
-                {opt}
+                {q.options[originalIndex]}
               </button>
             ))}
           </div>
