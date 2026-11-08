@@ -4,7 +4,8 @@
 // After a successful submission it calls awardQuizReward and shows
 // an animated result screen with star rating + XP/coin gain.
 
-import { useState, useActionState, useEffect, useTransition, useRef } from 'react';
+import { useState, useActionState, useEffect, useTransition, useRef, useMemo } from 'react';
+import { createAssessmentOptionOrder } from '@/features/quiz/assessment-options';
 import { submitTopicQuiz, awardQuizReward, type QuizActionResult, type RewardResult } from '@/features/quiz/actions';
 import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import type { QuizQuestion } from '@/features/curriculum/validation';
@@ -137,7 +138,10 @@ function BreakdownCard({
   item: b,
   index: i,
   topicTitle,
-}: { item: BreakdownItem; index: number; topicTitle: string }) {
+  optionOrder,
+}: { item: BreakdownItem; index: number; topicTitle: string; optionOrder: number[] }) {
+  const displayChosenIndex = optionOrder.indexOf(b.chosenIndex);
+  const displayCorrectIndex = optionOrder.indexOf(b.correctIndex);
   const [aiText,    setAiText]    = useState<string | null>(null);
   const [aiPending, setAiPending] = useState(false);
   const [, startAi] = useTransition();
@@ -146,8 +150,8 @@ function BreakdownCard({
     setAiPending(true);
     const fd = new FormData();
     fd.append('question',     b.question);
-    fd.append('wrong_answer', b.isCorrect ? '' : (['A','B','C','D'][b.chosenIndex] ?? b.question));
-    fd.append('right_answer', ['A','B','C','D'][b.correctIndex] ?? '');
+    fd.append('wrong_answer', b.isCorrect ? '' : (['A','B','C','D'][displayChosenIndex] ?? b.question));
+    fd.append('right_answer', ['A','B','C','D'][displayCorrectIndex] ?? '');
     fd.append('explanation',  b.explanation);
     fd.append('topic_title',  topicTitle);
     startAi(async () => {
@@ -170,10 +174,10 @@ function BreakdownCard({
         <span>{i + 1}. {b.question}</span>
       </p>
       <p className={`text-xs font-medium ${b.isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
-        Jawabanmu: <strong>{['A','B','C','D'][b.chosenIndex] ?? '–'}</strong>
+        Jawabanmu: <strong>{['A','B','C','D'][displayChosenIndex] ?? '–'}</strong>
         {!b.isCorrect && (
           <span className="ml-2 text-emerald-700 dark:text-emerald-400">
-            Jawaban benar: <strong>{['A','B','C','D'][b.correctIndex]}</strong>
+            Jawaban benar: <strong>{['A','B','C','D'][displayCorrectIndex]}</strong>
           </span>
         )}
       </p>
@@ -242,6 +246,14 @@ function QuizForm({
   );
 
   const handledAttemptRef = useRef<number | null>(null);
+  // Shuffle only the displayed option order. Submitted indices remain the original
+  // question indices so server-side scoring and answer keys stay authoritative.
+  const optionOrders = useMemo(
+    () => questions.map((question, index) =>
+      createAssessmentOptionOrder(topicId * 1000 + index + 1, `${topicId}:${attemptsUsed}`, question.options.length)
+    ),
+    [questions, topicId, attemptsUsed],
+  );
 
   useEffect(() => {
     if (
@@ -321,7 +333,7 @@ function QuizForm({
                 onClick={() => setSelected((s) => ({ ...s, [qi]: oi }))}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium
                   transition-all ring-1 cursor-pointer
-                  ${selected[qi] === oi
+                  ${selected[qi] === originalIndex
                     ? 'ring-indigo-400 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-900 dark:text-indigo-200'
                     : 'ring-slate-200 dark:ring-zinc-700 bg-slate-50 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 hover:ring-indigo-300'
                   }`}
