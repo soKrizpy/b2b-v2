@@ -59,6 +59,72 @@
             ],
             "correct_option": "Klik objek lalu ubah nilai W, L, H di panel properti atau handle titik",
             "xp": 25
+          },
+          {
+            "node_id": "tc-1-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 1: Dadu Mainan 6 Sisi, kamu akan menerapkan Membangun dadu mainan 6 sisi. Kamu akan belajar navigasi kamera 3D, meletakkan bentuk kubus dan bola dasar, serta mengubah ukuran dan warna objek.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-1-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 1: Dadu Mainan 6 Sisi agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-1-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 1: Dadu Mainan 6 Sisi, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-1-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 1: Dadu Mainan 6 Sisi secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-1-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 1: Dadu Mainan 6 Sisi. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT DADU:\n\n1. Drag & drop 'Box' dari panel Shape ke workplane\n2. Klik kotak → ubah dimensi: W=20, L=20, H=20 (mm)\n3. Klik kotak warna → pilih merah\n4. Drag & drop 'Sphere' ke workplane\n5. Ubah dimensi Sphere: W=4, L=4, H=4 (mm)\n6. Posisikan bola di tengah sisi atas kubus\n7. Duplicate bola (Ctrl+D) untuk sisi-sisi lainnya\n8. Atur posisi tiap bola sesuai pola dadu asli\n9. Select semua objek → klik Group (Ctrl+G)",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-1-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-1-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 1: Dadu Mainan 6 Sisi tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-1-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 1: Dadu Mainan 6 Sisi, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -179,6 +245,72 @@
             ],
             "correct_option": "Klik dua kali pada shape Text lalu ketik teks baru",
             "xp": 25
+          },
+          {
+            "node_id": "tc-2-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 2: Gantungan Kunci Nama Custom, kamu akan menerapkan Membuat plat gantungan kunci dengan tulisan nama dan lubang ring. Fokus pada fitur Text, pembuatan lubang dengan Hole, dan pengelompokan objek.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-2-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 2: Gantungan Kunci Nama Custom agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-2-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 2: Gantungan Kunci Nama Custom, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-2-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 2: Gantungan Kunci Nama Custom secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-2-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 2: Gantungan Kunci Nama Custom. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT GANTUNGAN KUNCI:\n\n1. Buat Box (plat): W=60, L=25, H=3 mm → warna kuning\n2. Drag shape 'Rounded Box' untuk sudut membulat, atau\n   gunakan Box biasa dan beri radius di properti\n3. Drag shape 'Text' ke workplane\n   → Klik dua kali → ketik namamu\n   → Atur ukuran font agar muat di plat\n   → Ubah Height=2 mm (sedikit lebih pendek dari plat)\n4. Posisikan Text di atas permukaan plat (Z = 3)\n5. Buat Cylinder kecil (diameter 5mm, H=5mm) → ubah ke HOLE\n6. Posisikan Cylinder Hole di ujung kiri plat\n7. Select semua → Ctrl+G (Group)\n8. Lubang ring otomatis terbentuk!",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-2-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-2-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 2: Gantungan Kunci Nama Custom tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-2-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 2: Gantungan Kunci Nama Custom, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -299,6 +431,72 @@
             ],
             "correct_option": "Klik objek lalu tarik handle panah melengkung (rotasi) yang muncul di setiap sumbu",
             "xp": 25
+          },
+          {
+            "node_id": "tc-3-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 3: Cangkir Mini & Pegangan, kamu akan menerapkan Merancang cangkir mini dengan bagian dalam berongga dan pegangan. Fokus pada hollowing dengan Hole + Group dan penggabungan bentuk lengkung.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-3-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 3: Cangkir Mini & Pegangan agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-3-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 3: Cangkir Mini & Pegangan, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-3-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 3: Cangkir Mini & Pegangan secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-3-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 3: Cangkir Mini & Pegangan. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT CANGKIR MINI:\n\nBODAN CANGKIR:\n1. Cylinder luar: diameter=40mm, H=50mm → warna biru\n2. Cylinder dalam (Hole): diameter=36mm, H=48mm\n3. Posisikan Hole tepat di tengah, Z=2 (sisakan alas 2mm)\n4. Group keduanya → cangkir berongga jadi!\n\nPEGANGAN:\n5. Drag shape 'Torus' (donat) dari panel Shapes\n6. Ubah dimensi Torus: W=20, L=8, H=20mm\n7. Rotasi Torus 90° pada sumbu X\n8. Posisikan di samping badan cangkir (X sedikit di luar)\n9. Pastikan sebagian Torus menempel/overlap dengan badan\n10. Select badan + Torus → Group\n11. Cangkir dengan pegangan siap!",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-3-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-3-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 3: Cangkir Mini & Pegangan tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-3-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 3: Cangkir Mini & Pegangan, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -419,6 +617,72 @@
             ],
             "correct_option": "Saat perlu mengukur jarak presisi antar objek di workplane",
             "xp": 25
+          },
+          {
+            "node_id": "tc-4-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 4: Meja & Kursi Taman Minimalis, kamu akan menerapkan Merancang set furnitur miniatur dengan posisi kaki-kaki yang simetris. Fokus pada alat Align untuk penyejajaran presisi dan pengukuran dengan Ruler.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-4-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 4: Meja & Kursi Taman Minimalis agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-4-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 4: Meja & Kursi Taman Minimalis, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-4-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 4: Meja & Kursi Taman Minimalis secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-4-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 4: Meja & Kursi Taman Minimalis. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT MEJA TAMAN:\n\nPAPAN MEJA:\n1. Box: W=80, L=40, H=5mm → warna coklat kayu\n2. Posisikan di Z=40 (tinggi kaki nanti)\n\nKAKI MEJA (4 buah):\n3. Buat Cylinder: diameter=8, H=40mm → warna coklat\n4. Posisikan kaki 1 di pojok kiri depan\n5. Ctrl+D → duplicate → pindah ke pojok kanan depan\n6. Ulangi untuk 2 kaki belakang\n7. Select semua kaki → tekan L (Align)\n8. Atur 'Align to Center on X axis' untuk kaki depan\n9. Atur 'Align to Center on Y axis' untuk kaki kiri\n10. Select semua → Ctrl+G\n\nRULER:\n11. Aktifkan Ruler → ukur jarak antar kaki\n12. Pastikan jarak kiri-kanan dan depan-belakang sama",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-4-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-4-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 4: Meja & Kursi Taman Minimalis tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-4-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 4: Meja & Kursi Taman Minimalis, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -539,6 +803,72 @@
             ],
             "correct_option": "Duplikat baru otomatis menerapkan rotasi 30° berikutnya dari posisi terakhir",
             "xp": 25
+          },
+          {
+            "node_id": "tc-5-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 5: Roda Gigi & Piringan Jam Dinding, kamu akan menerapkan Membuat piringan jam dinding dengan elemen melingkar. Fokus pada fitur Duplicate & Repeat untuk penggandaan pola melingkar secara cepat.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-5-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 5: Roda Gigi & Piringan Jam Dinding agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-5-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 5: Roda Gigi & Piringan Jam Dinding, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-5-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 5: Roda Gigi & Piringan Jam Dinding secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-5-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 5: Roda Gigi & Piringan Jam Dinding. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT PIRINGAN JAM:\n\nPIRINGAN DASAR:\n1. Cylinder: diameter=100mm, H=5mm → warna putih\n2. Cylinder tengah (lubang): diameter=8mm, H=6mm → Hole\n3. Group → piringan berlubang di tengah\n\nPENANDA JAM (12 titik):\n4. Buat Cylinder kecil: diameter=6mm, H=2mm → warna hitam\n5. Posisikan di tepi piringan (jarak 45mm dari pusat)\n6. Ctrl+D → duplicate\n7. Pindah sedikit, lalu ROTASI 30° pada sumbu Z\n   (360° ÷ 12 jam = 30° per langkah)\n8. Ctrl+D lagi → otomatis rotate 30° berikutnya\n9. Ulangi sampai 12 penanda terbentuk\n10. Select piringan + semua penanda → Group",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-5-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-5-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 5: Roda Gigi & Piringan Jam Dinding tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-5-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 5: Roda Gigi & Piringan Jam Dinding, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -659,6 +989,72 @@
             ],
             "correct_option": "Nilai Z (ketinggian) kepala diatur = tinggi badan",
             "xp": 25
+          },
+          {
+            "node_id": "tc-6-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 6: Karakter Mini Robot Geometri, kamu akan menerapkan Menyusun bentuk geometri menjadi karakter robot atau monster lucu. Fokus pada perakitan objek kompleks, rotasi sudut, dan penataan rasio antar bagian tubuh.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-6-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 6: Karakter Mini Robot Geometri agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-6-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 6: Karakter Mini Robot Geometri, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-6-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 6: Karakter Mini Robot Geometri secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-6-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 6: Karakter Mini Robot Geometri. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "ANATOMI ROBOT GEOMETRI:\n\nKEPALA:\n1. Box: 25x25x25mm → warna abu-abu metalik\n2. Tambah 2 Sphere kecil (mata): diameter 6mm → putih\n3. Tambah Cylinder kecil hitam di tengah setiap mata\n\nBADAN:\n4. Box: 35x20x40mm → warna abu-abu lebih gelap\n5. Posisikan di bawah kepala (Z disesuaikan)\n\nLENGAN (2 buah):\n6. Cylinder: diameter=8mm, H=30mm\n7. Rotasi 45° untuk pose santai\n8. Posisikan di kiri dan kanan badan (duplicate)\n\nKAKI (2 buah):\n9. Box: 10x10x35mm → posisi di bawah badan\n\nANTENA:\n10. Cylinder tipis + Sphere kecil di ujung\n11. Posisikan di atas kepala\n\n12. Select semua → Ctrl+G",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-6-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-6-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 6: Karakter Mini Robot Geometri tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-6-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 6: Karakter Mini Robot Geometri, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -779,6 +1175,72 @@
             ],
             "correct_option": "Pastikan garis gambar membentuk area tertutup (closed shape) tanpa celah",
             "xp": 25
+          },
+          {
+            "node_id": "tc-7-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 7: Gantungan Kunci Tanda Tangan (Scribble), kamu akan menerapkan Membuat gantungan kunci dari gambar tangan atau sketsa kustom menggunakan alat Scribble untuk mengkonversi gambar 2D menjadi objek 3D.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-7-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 7: Gantungan Kunci Tanda Tangan (Scribble) agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-7-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 7: Gantungan Kunci Tanda Tangan (Scribble), tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-7-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 7: Gantungan Kunci Tanda Tangan (Scribble) secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-7-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 7: Gantungan Kunci Tanda Tangan (Scribble). Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MENGGUNAKAN SCRIBBLE:\n\n1. Di panel Shapes, cari dan drag 'Scribble'\n   (biasanya di bagian 'Basic Shapes' atau search 'Scribble')\n2. Panel Scribble terbuka → kanvas 2D putih\n3. Pilih tool:\n   - Pen: menggambar garis bebas\n   - Eraser: menghapus bagian tertentu\n   - Fill: mengisi area tertutup\n4. Gambar tanda tanganmu atau sketsa hewan\n5. Klik 'Done' → Scribble jadi objek 3D!\n6. Atur Height (ketebalan) di properti: misal H=3mm\n\nINTEGRASI KE GANTUNGAN KUNCI:\n7. Buat plat Box tipis sebagai basis\n8. Posisikan hasil Scribble di atas plat\n9. Tambahkan Cylinder Hole untuk lubang ring\n10. Group semua → gantungan kunci custom siap!",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-7-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-7-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 7: Gantungan Kunci Tanda Tangan (Scribble) tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-7-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 7: Gantungan Kunci Tanda Tangan (Scribble), periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -899,6 +1361,72 @@
             ],
             "correct_option": "Shape 'Roof' atau 'Pyramid' dari panel Shapes",
             "xp": 25
+          },
+          {
+            "node_id": "tc-8-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 8: Rumah Impian Miniatur, kamu akan menerapkan Merancang rumah miniatur dengan dinding, atap prisma, pintu, dan jendela berlubang. Fokus pada penggabungan elemen arsitektur dasar dan pemotongan celah.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-8-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 8: Rumah Impian Miniatur agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-8-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 8: Rumah Impian Miniatur, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-8-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 8: Rumah Impian Miniatur secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-8-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 8: Rumah Impian Miniatur. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT RUMAH MINIATUR:\n\nALAS / LANTAI:\n1. Box: W=80, L=60, H=3mm → warna abu-abu\n\nDINDING:\n2. Dinding depan: Box 80x5x50mm → warna krem\n3. Dinding belakang: duplikat dinding depan\n4. Dinding kiri & kanan: Box 5x60x50mm (2 buah)\n5. Posisikan semua dinding di atas lantai\n\nPINTU & JENDELA:\n6. Pintu: Box 15x6x30mm → ubah ke HOLE\n   Posisikan menembus dinding depan\n7. Jendela: Box 12x6x12mm → ubah ke HOLE (buat 2 buah)\n   Posisikan di dinding depan kiri dan kanan\n8. Select dinding depan + Hole pintu + Hole jendela → Group\n\nATAP:\n9. Drag shape 'Roof' atau 'Pyramid' dari panel\n10. Atur ukuran = 84x64mm (sedikit lebih besar dari rumah)\n11. Posisikan di atas semua dinding\n\n12. Select semua → Ctrl+G",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-8-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-8-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 8: Rumah Impian Miniatur tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-8-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 8: Rumah Impian Miniatur, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1019,6 +1547,72 @@
             ],
             "correct_option": "9-10 mm (tambah toleransi 1-2mm)",
             "xp": 25
+          },
+          {
+            "node_id": "tc-9-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 9: Tempat Pensil Multi-Kompartemen, kamu akan menerapkan Membuat wadah pensil fungsional dengan sekat-sekat kompartemen dan ukuran siap pakai. Fokus pada desain produk fungsional dan ketebalan dinding.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-9-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 9: Tempat Pensil Multi-Kompartemen agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-9-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 9: Tempat Pensil Multi-Kompartemen, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-9-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 9: Tempat Pensil Multi-Kompartemen secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-9-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 9: Tempat Pensil Multi-Kompartemen. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT TEMPAT PENSIL:\n\nWADAH LUAR:\n1. Box luar: W=75, L=30, H=100mm → warna biru\n\nLUBANG DALAM (HOLLOW):\n2. Box dalam (Hole): W=71, L=26, H=98mm\n   (2mm lebih kecil di setiap sisi = dinding 2mm)\n3. Posisikan tepat di tengah, Z=2 (alas 2mm)\n4. Group → wadah berongga jadi!\n\nSEKAT KOMPARTEMEN:\n5. Box sekat 1: W=2, L=26, H=96mm\n   Posisikan di X=25mm dari kiri\n6. Box sekat 2: W=2, L=26, H=96mm  \n   Posisikan di X=50mm dari kiri\n7. Group sekat dengan wadah\n   → 3 kompartemen terbentuk!\n\nDETAIL:\n8. Ukur dengan Ruler: pastikan tiap kompartemen ~23mm lebar\n9. Cek pensil standar (7-8mm) bisa masuk dengan mudah\n   (23mm > 8mm ✓ — bisa diisi 2-3 pensil per slot)\n10. Select semua → Ctrl+G",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-9-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-9-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 9: Tempat Pensil Multi-Kompartemen tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-9-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 9: Tempat Pensil Multi-Kompartemen, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1139,6 +1733,72 @@
             ],
             "correct_option": "Height (ketebalan objek 3D) dan Scale (ukuran keseluruhan)",
             "xp": 25
+          },
+          {
+            "node_id": "tc-10-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 10: Medali dari Import SVG, kamu akan menerapkan Mengimpor gambar vektor 2D dari file SVG dan mengolahnya menjadi medali timbul 3D. Fokus pada teknik import SVG, penyesuaian skala, dan penggabungan dengan basis medali.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-10-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 10: Medali dari Import SVG agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-10-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 10: Medali dari Import SVG, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-10-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 10: Medali dari Import SVG secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-10-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 10: Medali dari Import SVG. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT MEDALI DARI SVG:\n\nPERSIAPAN SVG:\n1. Buka flaticon.com atau svgrepo.com\n2. Cari ikon yang diinginkan (bintang, perisai, dll)\n3. Download format .SVG\n4. Pastikan ukuran file tidak terlalu besar (< 100KB)\n\nIMPORT KE TINKERCAD:\n5. Di Tinkercad → klik tombol 'Import' (toolbar kiri)\n6. Pilih file SVG dari komputer\n7. Atur Height (ketebalan): 2-3mm\n8. Atur Scale agar sesuai ukuran medali (50mm)\n9. Klik 'Import' → objek 3D muncul di workplane!\n\nMEMBUAT BASIS MEDALI:\n10. Cylinder: diameter=60mm, H=3mm → warna emas/kuning\n11. Posisikan SVG di atas Cylinder (Z=3)\n12. Cylinder lubang ring: diameter=6mm, H=5mm → Hole\n    Posisikan di tepi atas Cylinder\n13. Group semua → medali siap!",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-10-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-10-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 10: Medali dari Import SVG tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-10-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 10: Medali dari Import SVG, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1259,6 +1919,72 @@
             ],
             "correct_option": "Bangun komponen per komponen secara terpisah, baru gabungkan di akhir",
             "xp": 25
+          },
+          {
+            "node_id": "tc-11-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 11: Benteng Abad Pertengahan, kamu akan menerapkan Merancang benteng miniatur dengan menara silinder, tembok, dan gerbang bergerigi. Fokus pada kombinasi seluruh teknik: pola berulang, Align, Group/Ungroup, dan pembuatan celah.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-11-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 11: Benteng Abad Pertengahan agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-11-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 11: Benteng Abad Pertengahan, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-11-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 11: Benteng Abad Pertengahan secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-11-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 11: Benteng Abad Pertengahan. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT BENTENG:\n\nALAS:\n1. Box: W=120, L=120, H=5mm → warna abu-abu batu\n\nTEMBOK (4 sisi):\n2. Tembok depan: W=120, L=8, H=60mm\n3. Tembok belakang: duplikat\n4. Tembok kiri/kanan: W=8, L=120, H=60mm (2 buah)\n5. Posisikan membentuk persegi\n\nMENARA SUDUT (4 buah):\n6. Cylinder: diameter=25, H=75mm (lebih tinggi dari tembok)\n7. Posisikan di 4 sudut tembok → Duplicate 3x\n\nGIGI BENTENG (MERLONS):\n8. Box: W=8, L=8, H=15mm → warna sama dengan tembok\n9. Tempatkan di atas tembok depan, jarak antar gigi = 8mm\n10. Duplicate menggunakan pola berulang\n\nGERBANG:\n11. Box Hole: W=20, L=10, H=40mm\n12. Posisikan di tengah tembok depan (bawah)\n13. Group dengan tembok depan\n\n14. Group semua → Ctrl+G",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-11-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-11-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 11: Benteng Abad Pertengahan tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-11-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 11: Benteng Abad Pertengahan, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
@@ -1379,6 +2105,72 @@
             ],
             "correct_option": "Printer 3D mencetak dari bawah ke atas — objek yang tidak menempel pada objek lain akan jatuh",
             "xp": 25
+          },
+          {
+            "node_id": "tc-12-goal",
+            "order": 5,
+            "type": "theory",
+            "title": "Konsep dan Target Desain",
+            "content": "Pada proyek Project 12: Mobil Balap Mini Siap Cetak, kamu akan menerapkan Merancang mobil balap mini dari bodi hingga roda, lalu menyiapkan file untuk dicetak 3D. Fokus pada pemeriksaan dimensi riil, memastikan tidak ada objek melayang, dan ekspor format STL.\n\nTinkercad membangun objek 3D dari bentuk dasar yang dapat dipindah, diputar, diubah ukurannya, digandakan, dilubangi, dan digabungkan. Bayangkan bentuk akhir dari beberapa arah sebelum mulai menyusun objek.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-12-workspace",
+            "order": 6,
+            "type": "lesson",
+            "title": "Persiapan Workspace 3D",
+            "content": "1. Buka Tinkercad dan buat desain baru.\n2. Pastikan Workplane dan satuan ukuran yang digunakan terlihat jelas.\n3. Atur kamera agar bidang kerja mudah diamati; gunakan Orbit untuk memutar pandangan, Zoom untuk mendekat/menjauh, dan Pan untuk menggeser tampilan.\n4. Siapkan bentuk dasar yang diperlukan dari panel Shapes.\n5. Beri nama desain sesuai proyek Project 12: Mobil Balap Mini Siap Cetak agar mudah ditemukan kembali.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-12-measure",
+            "order": 7,
+            "type": "lesson",
+            "title": "Mengenal Ukuran, Posisi, dan Bentuk",
+            "content": "Sebelum menyusun objek Project 12: Mobil Balap Mini Siap Cetak, tentukan ukuran panjang, lebar, dan tinggi setiap bagian. Gunakan handle ukuran atau panel dimensi untuk memasukkan angka secara presisi. Perhatikan posisi objek pada sumbu X, Y, dan Z: X dan Y mengatur posisi pada bidang, sedangkan Z menentukan ketinggian.\n\nGunakan ukuran yang konsisten. Jika satu bagian harus menempel pada bagian lain, pastikan keduanya benar-benar bersentuhan atau sedikit overlap sesuai kebutuhan desain.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-12-steps",
+            "order": 8,
+            "type": "lesson",
+            "title": "Langkah Praktik Pembuatan",
+            "content": "Bangun proyek Project 12: Mobil Balap Mini Siap Cetak secara bertahap:\n1. Buat bentuk dasar atau alas terlebih dahulu.\n2. Masukkan dimensi sesuai rancangan dan pastikan satuannya benar.\n3. Tambahkan komponen satu per satu; jangan langsung menggabungkan semua objek.\n4. Atur posisi dan rotasi setiap komponen dari tampilan atas, depan, dan samping.\n5. Jika proyek memerlukan lubang, ubah objek pemotong menjadi Hole, posisikan menembus bagian target, lalu Group.\n6. Jika memerlukan komponen berulang, gunakan Duplicate dan periksa jarak serta orientasinya.\n7. Periksa hasil Group; gunakan Ungroup bila perlu memperbaiki posisi bagian tertentu.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-12-example",
+            "order": 9,
+            "type": "code",
+            "title": "Contoh Rancangan dan Urutan Kerja",
+            "content": "Berikut contoh urutan kerja untuk Project 12: Mobil Balap Mini Siap Cetak. Gunakan sebagai panduan, lalu sesuaikan ukuran dan posisi dengan target proyek. Setiap angka dimensi harus diperiksa dari panel properti, bukan hanya diperkirakan dari tampilan kamera.",
+            "code_content": "LANGKAH MEMBUAT MOBIL BALAP:\n\nBODI MOBIL:\n1. Box bawah: W=80, L=35, H=15mm → warna merah\n2. Box kabin: W=40, L=33, H=20mm\n   Posisikan di bagian tengah-belakang bodi\n3. Tambahkan shape 'Wedge' di depan untuk kesan aerodinamis\n\nRODA (4 buah):\n4. Cylinder: diameter=18, H=8mm → warna hitam\n5. Rotasi 90° pada sumbu X\n6. Posisikan roda depan kiri\n7. Duplicate → roda depan kanan (X berbeda)\n8. Duplicate 2x lagi → 2 roda belakang\n\nDETAIL SPOILER:\n9. Box tipis: W=40, L=5, H=5mm → merah\n   Posisikan di bagian belakang bodi, agak tinggi\n\nCHECKLIST 3D PRINT READY:\n10. Ruler → ukur total: pastikan ≈80x45x35mm\n11. Orbit kamera → cek tidak ada objek melayang\n12. Semua roda menyentuh workplane? ✓\n13. Wall thickness semua bagian > 1.5mm? ✓\n14. Select semua → Ctrl+G\n15. Menu Export → pilih .STL → Download!",
+            "code_language": "Tinkercad — langkah kerja",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-12-inspect",
+            "order": 10,
+            "type": "lesson",
+            "title": "Memeriksa Hasil dari Berbagai Sudut",
+            "content": "Setelah bentuk utama selesai:\n1. Putar kamera ke tampilan atas untuk memeriksa susunan dan simetri.\n2. Lihat dari samping untuk memeriksa tinggi, ketebalan, dan bagian yang bertumpuk.\n3. Lihat dari sudut isometrik untuk memastikan bentuk mudah dikenali.\n4. Pilih objek penting dan periksa kembali nilai dimensinya.\n5. Pastikan bagian yang seharusnya menyatu tidak terpisah dan bagian yang seharusnya berlubang benar-benar tembus.",
+            "xp": 10
+          },
+          {
+            "node_id": "tc-12-debug",
+            "order": 11,
+            "type": "lesson",
+            "title": "Pemecahan Masalah Desain 3D",
+            "content": "Jika hasil Project 12: Mobil Balap Mini Siap Cetak tidak sesuai, lakukan pemeriksaan berikut:\n• Objek tidak terlihat: gunakan Home View, Zoom to Fit, atau periksa apakah objek berada jauh dari Workplane.\n• Lubang tidak terbentuk: pastikan objek pemotong berstatus Hole, benar-benar beririsan dengan objek utama, lalu pilih keduanya dan Group.\n• Komponen tidak sejajar: gunakan Align dan pilih titik acuan yang benar; periksa kembali sumbu X/Y/Z.\n• Ukuran berubah tidak proporsional: periksa kunci rasio dimensi dan masukkan angka secara langsung.\n• Objek melayang: periksa nilai Z dan pastikan bagian bawah objek menyentuh bidang atau komponen penyangga.\n• Model terlalu rapuh: tambah ketebalan bagian tipis dan hindari detail yang lebih kecil dari kemampuan printer.\n\nPerbaiki satu masalah setiap kali, lalu putar kamera untuk memastikan dampaknya.",
+            "xp": 15
+          },
+          {
+            "node_id": "tc-12-finish",
+            "order": 12,
+            "type": "lesson",
+            "title": "Checklist Desain Siap Dinilai",
+            "content": "Sebelum mengirim proyek Project 12: Mobil Balap Mini Siap Cetak, periksa:\n• Semua komponen utama sudah dibuat dan berada di posisi yang benar.\n• Dimensi penting sesuai rancangan.\n• Bentuk sudah diperiksa dari atas, samping, dan sudut isometrik.\n• Hole, Group, Align, atau Duplicate digunakan sesuai kebutuhan proyek.\n• Tidak ada bagian yang tidak sengaja melayang atau terpisah.\n• Nama desain jelas dan tautan dapat dibuka guru.\n\nLanjutkan dengan 5 quiz topik, lalu kerjakan tryout proyek pada bagian Challenge.",
+            "xp": 10
           }
         ],
         "quiz": [
