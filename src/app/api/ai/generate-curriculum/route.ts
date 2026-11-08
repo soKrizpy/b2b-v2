@@ -41,7 +41,7 @@ Module: "${moduleTitle}"
 Level: ${level}
 Language: ${lang}
 
-Return ONLY valid JSON matching this exact structure:
+Return ONLY valid JSON matching this exact structure. Across all generated quiz and final-assessment questions, spread correct answers across A, B, C, and D; do not default to A or use a repeating pattern. Keep answer_index aligned with the correct option text. Practice-node correct_option must exactly match its option text and vary in position.
 {
   "module_title": "${moduleTitle}",
   "module_order": 0,
