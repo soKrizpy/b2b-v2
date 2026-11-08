@@ -68,7 +68,6 @@ export function RetroPixelWorldMap({
   moduleTitle,
   moduleLevel,
   nodes,
-  activeNode,
   avatarNode,
   moduleComplete,
   hasFinal,
