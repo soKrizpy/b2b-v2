@@ -143,7 +143,6 @@ export async function POST(req: NextRequest) {
 
         const sessionCookies = [
           { name: MOCK_SESSION_COOKIE, value: mockUser.id },
-          { name: 'b2b_role', value: role },
         ];
 
         const response = NextResponse.json({
@@ -152,7 +151,6 @@ export async function POST(req: NextRequest) {
           sessionCookies,
         });
         response.cookies.set(MOCK_SESSION_COOKIE, mockUser.id, cookieOpts);
-        response.cookies.set('b2b_role', role, cookieOpts);
         return response;
       }
     }
@@ -188,7 +186,7 @@ export async function POST(req: NextRequest) {
     }
 
     const user = authData.user;
-    const role = await resolveUserRole(user.id, user);
+    const role = await resolveUserRole(user.id);
 
     if (!role) {
       await supabase.auth.signOut();
@@ -201,32 +199,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    try {
-      if (user.user_metadata?.role !== role) {
-        if (typeof supabase.auth.updateUser === 'function') {
-          await supabase.auth.updateUser({
-            data: { ...user.user_metadata, role },
-          });
-        }
-        if (isSupabaseAdminConfigured()) {
-          const adminClient = createSupabaseAdminClient();
-          await adminClient.auth.admin.updateUserById(user.id, {
-            user_metadata: { ...user.user_metadata, role },
-          });
-        }
-      }
-    } catch (err) {
-      console.error('[api/auth/signin] failed to stamp user_metadata.role:', err);
-    }
-
     setPreviewFallbackSession({
-      user: {
-        ...user,
-        user_metadata: {
-          ...user.user_metadata,
-          role,
-        },
-      },
+      user,
       role,
       accessToken: authData.session?.access_token ?? null,
       isMock: false,
@@ -241,10 +215,7 @@ export async function POST(req: NextRequest) {
       .getAll()
       .filter((c) => c.name.startsWith('sb-'));
 
-    const sessionCookies = [
-      ...sbCookies.map((c) => ({ name: c.name, value: c.value })),
-      { name: 'b2b_role', value: role },
-    ];
+    const sessionCookies = sbCookies.map((c) => ({ name: c.name, value: c.value }));
 
     const response = NextResponse.json({
       success: true,
@@ -262,7 +233,6 @@ export async function POST(req: NextRequest) {
     for (const c of sbCookies) {
       response.cookies.set(c.name, c.value, cookieOpts);
     }
-    response.cookies.set('b2b_role', role, cookieOpts);
 
     return response;
   } catch (err) {
