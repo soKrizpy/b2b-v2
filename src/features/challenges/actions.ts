@@ -64,7 +64,9 @@ async function isTeacherAssignedToStudent(
     .eq('teacher_id', teacherId)
     .eq('student_id', studentId)
     .maybeSingle();
-  if (directError) return false;
+  // The production database may not have teacher_students yet. In that case,
+  // continue to the existing meeting-based assignment check instead of denying
+  // every teacher review request.
   if (directAssignment) return true;
 
   const { data: meetings, error: meetingError } = await (db
