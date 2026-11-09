@@ -36,7 +36,8 @@ import {
   bulkUpdateInvoiceStatus,
   type InvoiceActionResult,
 } from '@/features/invoices/actions';
-import { getAttendanceForInvoice, type InvoiceWithStudent, type AttendanceDetail } from '@/features/invoices/queries';
+import { getAttendanceForInvoiceAction } from '@/features/invoices/actions';
+import type { InvoiceWithStudent, AttendanceDetail } from '@/features/invoices/queries';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -356,7 +357,7 @@ function AttendanceModal({
 
   useEffect(() => {
     setLoading(true);
-    getAttendanceForInvoice(invoice.id)
+    getAttendanceForInvoiceAction(invoice.id)
       .then(setRows)
       .finally(() => setLoading(false));
   }, [invoice.id]);
