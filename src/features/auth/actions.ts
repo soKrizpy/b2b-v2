@@ -1,7 +1,7 @@
 // src/features/auth/actions.ts
 'use server';
 
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import {
@@ -165,7 +165,7 @@ export async function signIn(
     const user = authData.user;
 
     // 4. Resolve role (queries public.profiles, falls back to metadata or auto-provisions profile)
-    const role = await resolveUserRole(user.id, user);
+    const role = await resolveUserRole(user.id);
 
     if (!role) {
       await supabase.auth.signOut();
@@ -175,38 +175,11 @@ export async function signIn(
       };
     }
 
-    // 5. Stamp role into user_metadata AND set role cookie so middleware RBAC succeeds immediately
-    try {
-      if (user.user_metadata?.role !== role) {
-        if (typeof supabase.auth.updateUser === 'function') {
-          await supabase.auth.updateUser({
-            data: { ...user.user_metadata, role },
-          });
-        }
-        if (isSupabaseAdminConfigured()) {
-          const adminClient = createSupabaseAdminClient();
-          await adminClient.auth.admin.updateUserById(user.id, {
-            user_metadata: { ...user.user_metadata, role },
-          });
-        }
-      }
-    } catch (err) {
-      console.error('[signIn] failed to stamp user_metadata.role:', err);
-    }
-
+    // The role is stored in public.profiles and must not be copied into
+    // user-editable metadata or a client-readable authorization cookie.
     try {
       const cookieStore = await cookies();
-      const headerStore = await headers();
-      const proto = headerStore.get('x-forwarded-proto') ?? 'https';
-      const isHttps = proto.includes('https') || process.env.NODE_ENV === 'production';
       cookieStore.delete(MOCK_SESSION_COOKIE);
-      cookieStore.set('b2b_role', role, {
-        path: '/',
-        sameSite: isHttps ? 'none' : 'lax',
-        secure: isHttps,
-        httpOnly: false,
-        maxAge: 60 * 60 * 24 * 7,
-      });
     } catch {
       // ignore cookie errors
     }
