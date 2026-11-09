@@ -3,6 +3,7 @@
 // Auth metadata, cookies, and email patterns must never grant or provision a role.
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getMockStore, isMockModeEnabled } from '@/lib/supabase/mock';
 import type { UserRole } from '@/types/roles';
 
 function isValidRole(value: unknown): value is UserRole {
@@ -18,6 +19,13 @@ function isValidRole(value: unknown): value is UserRole {
  */
 export async function resolveUserRole(userId: string): Promise<UserRole | null> {
   if (!userId) return null;
+
+  // In explicit mock mode, resolve from the server-owned mock database rather
+  // than trusting user_metadata or a browser-controlled cookie.
+  if (isMockModeEnabled()) {
+    const profile = getMockStore().profiles.find((row) => row.id === userId);
+    return isValidRole(profile?.role) ? profile.role : null;
+  }
 
   try {
     const db = createSupabaseAdminClient();
