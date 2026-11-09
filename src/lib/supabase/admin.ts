@@ -6,6 +6,9 @@
 // - When a built-in demo/mock user is logged in (b2b_mock_user_id cookie) or no real Supabase session/service_role
 //   is active, executes against the in-memory mock store so Admin, Teacher, and Student features work seamlessly.
 
+import 'server-only';
+
+import { cookies } from 'next/headers';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import {
@@ -24,31 +27,11 @@ import {
 async function getRequestCookies(): Promise<
   Array<{ name: string; value: string }>
 > {
-  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-    return document.cookie
-      .split(';')
-      .map((part) => part.trim())
-      .filter(Boolean)
-      .map((part) => {
-        const eqIdx = part.indexOf('=');
-        if (eqIdx < 0) return { name: part, value: '' };
-        return {
-          name: part.slice(0, eqIdx).trim(),
-          value: part.slice(eqIdx + 1).trim(),
-        };
-      });
-  }
-
   try {
-    const req = eval('require') as (id: string) => {
-      cookies: () => Promise<{
-        getAll: () => Array<{ name: string; value: string }>;
-      }>;
-    };
-    const { cookies } = req('next/headers');
     const cookieStore = await cookies();
     return cookieStore.getAll();
   } catch {
+    // This client may be constructed outside a request scope (e.g. build time).
     return [];
   }
 }
