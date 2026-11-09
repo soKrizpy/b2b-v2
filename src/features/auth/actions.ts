@@ -114,18 +114,15 @@ export async function signIn(
         const role = mockUser.user_metadata.role ?? 'student';
         try {
           const cookieStore = await cookies();
-          const headerStore = await headers();
-          const proto = headerStore.get('x-forwarded-proto') ?? 'https';
-          const isHttps = proto.includes('https') || process.env.NODE_ENV === 'production';
+          const isProduction = process.env.NODE_ENV === 'production';
           const cookieOpts = {
             path: '/',
-            sameSite: (isHttps ? 'none' : 'lax') as 'none' | 'lax',
-            secure: isHttps,
+            sameSite: (isProduction ? 'none' : 'lax') as 'none' | 'lax',
+            secure: isProduction,
             httpOnly: false,
             maxAge: 60 * 60 * 24 * 7,
           };
           cookieStore.set(MOCK_SESSION_COOKIE, mockUser.id, cookieOpts);
-          cookieStore.set('b2b_role', role, cookieOpts);
         } catch {
           // ignore cookie errors in non-request environments
         }
