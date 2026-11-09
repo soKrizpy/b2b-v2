@@ -290,7 +290,7 @@ function QuizForm({
           Pembahasan Soal
         </p>
         {result.breakdown.map((b, i) => (
-          <BreakdownCard key={i} item={b} index={i} topicTitle={topicTitle} />
+          <BreakdownCard key={i} item={b} index={i} topicTitle={topicTitle} optionOrder={optionOrders[i] ?? []} />
         ))}
       </div>
     );
