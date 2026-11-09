@@ -105,7 +105,7 @@ export const getAuthUser = cache(async (): Promise<AuthResult> => {
   // Authorization roles must come from the trusted profile row (or trusted
   // server-managed app_metadata fallback), never from user-editable metadata
   // or the client-controlled b2b_role cookie.
-  const role: UserRole | undefined = (await resolveUserRole(user.id, user)) ?? undefined;
+  const role: UserRole | undefined = (await resolveUserRole(user.id)) ?? undefined;
 
   if (!role) {
     return { ok: false, status: 403, message: 'Akun ini belum memiliki hak akses.' };
