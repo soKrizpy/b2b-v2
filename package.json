@@ -13,7 +13,7 @@
   "dependencies": {
     "@google/genai": "^2.28.0",
     "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.117.2",
+    "@supabase/supabase-js": "^2.119.2",
     "animejs": "^4.5.0",
     "canvas-confetti": "^1.9.4",
     "lucide-react": "^1.49.0",
@@ -53,5 +53,8 @@
     "source-map-js": "^1.2.2",
     "undici": "^8.12.2",
     "postcss-selector-parser": "^7.1.6"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }
