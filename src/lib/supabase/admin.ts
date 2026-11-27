@@ -1,4 +1,5 @@
 // src/lib/supabase/admin.ts
+import 'server-only';
 // Service-role / hybrid Supabase client for Server Components, Server Actions, and Route Handlers.
 // - When a valid service_role JWT is configured and no mock user cookie is active, queries real Supabase.
 // - When a real Supabase user is logged in (via sb-*-auth-token cookie) and service_role key is absent/invalid,
@@ -9,11 +10,12 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import {
+  isMockModeEnabled,
   isSupabaseConfigured,
   isValidServiceRoleJwt,
   getSupabaseUrl,
-  getSupabaseAnonKey,
-  getSupabaseServiceRoleKey,
+  getSupabasePublishableKey,
+  getSupabaseSecretKey,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
   getPreviewFallbackSession,
@@ -112,34 +114,36 @@ function extractSupabaseSessionToken(
 }
 
 async function resolveExecutionTarget(): Promise<
-  { mode: 'mock' } | { mode: 'real'; authToken: string }
+  | { mode: 'mock' }
+  | { mode: 'real'; authToken: string }
+  | { mode: 'error'; message: string }
 > {
+  if (isMockModeEnabled()) return { mode: 'mock' };
+
   const url = getSupabaseUrl();
-  if (!url.startsWith('http') || !isSupabaseConfigured()) {
-    return { mode: 'mock' };
+  if (!url.startsWith('https://') || !isSupabaseConfigured()) {
+    return {
+      mode: 'error',
+      message: 'Supabase belum dikonfigurasi dengan URL dan publishable key yang valid.',
+    };
   }
 
   let allCookies: Array<{ name: string; value: string }> = [];
   try {
     allCookies = await getRequestCookies();
-    const mockUserId = allCookies.find(
-      (c) => c.name === MOCK_SESSION_COOKIE
-    )?.value;
-    if (mockUserId && getMockStore().users.some((u) => u.id === mockUserId)) {
-      return { mode: 'mock' };
-    }
+    // Demo cookies are ignored unless NEXT_PUBLIC_USE_MOCK=true (handled above).
   } catch {
     // Called outside request scope (e.g. build time or unstable_cache)
   }
 
   const fallback = getPreviewFallbackSession();
-  if (fallback?.isMock) {
-    return { mode: 'mock' };
+  if (fallback?.accessToken) {
+    return { mode: 'real', authToken: fallback.accessToken };
   }
 
-  const serviceKey = getSupabaseServiceRoleKey();
-  if (isValidServiceRoleJwt(serviceKey)) {
-    return { mode: 'real', authToken: serviceKey };
+  const secretKey = getSupabaseSecretKey();
+  if (isValidServiceRoleJwt(secretKey)) {
+    return { mode: 'real', authToken: secretKey };
   }
 
   let userAccessToken: string | null = null;
@@ -153,19 +157,28 @@ async function resolveExecutionTarget(): Promise<
     return { mode: 'real', authToken: userAccessToken };
   }
 
-  return { mode: 'mock' };
+  return {
+    mode: 'error',
+    message: 'Tidak ada sesi Supabase terverifikasi atau secret key server yang tersedia.',
+  };
 }
 
 function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
   const url = getSupabaseUrl();
-  const anonKey = getSupabaseAnonKey();
-  const serviceKey = getSupabaseServiceRoleKey();
+  const publishableKey = getSupabasePublishableKey();
+  const secretKey = getSupabaseSecretKey();
 
-  const isServiceRole =
-    authToken === serviceKey ||
-    authToken.startsWith('sb_secret_') ||
-    authToken.startsWith('sbp_');
-  const keyToUse = isServiceRole ? serviceKey : anonKey;
+  const isSecretKey =
+    authToken === secretKey || authToken.startsWith('sb_secret_');
+  const keyToUse = isSecretKey ? secretKey : publishableKey;
+  const headers: Record<string, string> = { apikey: keyToUse };
+
+  // Modern sb_secret_* keys are opaque API keys, not JWTs. They must never be
+  // sent as Authorization: Bearer. Supabase Auth user tokens and legacy
+  // service_role JWTs remain valid Bearer tokens.
+  if (!isSecretKey) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
 
   return createClient<Database>(url, keyToUse, {
     auth: {
@@ -173,10 +186,7 @@ function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
       autoRefreshToken: false,
     },
     global: {
-      headers: {
-        apikey: keyToUse,
-        Authorization: `Bearer ${authToken}`,
-      },
+      headers,
       fetch: async (fetchUrl, options) => {
         const res = await fetch(fetchUrl, { ...options, cache: 'no-store' });
         if (res.status === 401 || res.status === 403) {
@@ -302,6 +312,9 @@ class SmartAdminQueryBuilder {
     if (target.mode === 'mock') {
       return this.replayOn(mockClient);
     }
+    if (target.mode === 'error') {
+      return { data: null, error: { message: target.message } };
+    }
 
     try {
       const realClient = buildRealClientWithToken(target.authToken);
@@ -337,6 +350,9 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
       const target = await resolveExecutionTarget();
       if (target.mode === 'mock') {
         return mockClient.rpc(functionName, args);
+      }
+      if (target.mode === 'error') {
+        return { data: null, error: { message: target.message } };
       }
 
       try {
