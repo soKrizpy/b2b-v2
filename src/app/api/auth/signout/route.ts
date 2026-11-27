@@ -1,7 +1,7 @@
 // src/app/api/auth/signout/route.ts
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { MOCK_SESSION_COOKIE } from '@/lib/supabase/mock';
+import { MOCK_SESSION_COOKIE, getSupabaseCookieOptions } from '@/lib/supabase/mock';
 
 export async function POST() {
   try {
@@ -16,12 +16,10 @@ export async function POST() {
     redirectTo: '/login',
   });
 
-  const isDevMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
-  const deleteOpts = isDevMock
-    ? { path: '/', sameSite: 'lax' as const, secure: false }
-    : { path: '/', sameSite: 'none' as const, secure: true, partitioned: true };
+  const deleteOpts = getSupabaseCookieOptions();
 
   response.cookies.delete({ name: 'b2b_role', ...deleteOpts });
   response.cookies.delete({ name: MOCK_SESSION_COOKIE, ...deleteOpts });
+  response.headers.set('Cache-Control', 'private, no-store');
   return response;
 }
