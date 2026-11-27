@@ -5,7 +5,6 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import {
   isSupabaseConfigured,
   MOCK_SESSION_COOKIE,
-  setPreviewFallbackSession,
 } from '@/lib/supabase/mock';
 import { resolveUserRole } from '@/features/auth/lib/resolveRole';
 import { ROLE_DASHBOARD_MAP, PROTECTED_PREFIXES } from '@/lib/constants';
@@ -157,13 +156,6 @@ export async function POST(req: NextRequest) {
         { status: 403 }
       );
     }
-
-    setPreviewFallbackSession({
-      user,
-      role,
-      accessToken: authData.session?.access_token ?? null,
-      isMock: false,
-    });
 
     const destination = isSafeRedirect(redirectTo ?? '', role)
       ? redirectTo!
