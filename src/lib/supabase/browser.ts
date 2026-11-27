@@ -7,12 +7,13 @@ import type { Database } from '@/types/database';
 import {
   isSupabaseConfigured,
   getSupabaseUrl,
-  getSupabaseAnonKey,
+  getSupabasePublishableKey,
   createMockSupabaseClient,
+  isMockModeEnabled,
 } from './mock';
 
 export function createSupabaseBrowserClient() {
-  if (!isSupabaseConfigured()) {
+  if (isMockModeEnabled()) {
     return createMockSupabaseClient({
       getCookie: (name) => {
         if (typeof document === 'undefined') return undefined;
@@ -32,11 +33,17 @@ export function createSupabaseBrowserClient() {
     }) as unknown as ReturnType<typeof createBrowserClient<Database>>;
   }
 
+  if (!isSupabaseConfigured()) {
+    throw new Error(
+      'Supabase belum dikonfigurasi. Isi NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.'
+    );
+  }
+
   const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
 
   return createBrowserClient<Database>(
     getSupabaseUrl(),
-    getSupabaseAnonKey(),
+    getSupabasePublishableKey(),
     {
       cookieOptions: isHttps
         ? { path: '/', sameSite: 'none', secure: true }
