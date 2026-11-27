@@ -2,10 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import {
-  isSupabaseAdminConfigured,
-  matchMockUserCredentials,
+  isSupabaseConfigured,
   MOCK_SESSION_COOKIE,
   setPreviewFallbackSession,
 } from '@/lib/supabase/mock';
@@ -51,6 +49,18 @@ export async function POST(req: NextRequest) {
     const email = isPhoneNumber(identifier)
       ? phoneToEmail(identifier)
       : identifier.trim();
+
+    // Authentication must always use the real Supabase project.
+    // Never silently authenticate against the in-memory demo store.
+    if (!isSupabaseConfigured()) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Layanan login belum terhubung ke Supabase. Silakan hubungi administrator.',
+        },
+        { status: 503 }
+      );
+    }
 
     // On localhost (HTTP), SameSite=None requires Secure which isn't available.
     // Use Lax + no Secure flag so cookies work in dev without HTTPS.
@@ -101,57 +111,6 @@ export async function POST(req: NextRequest) {
           authData = altAttempt.data;
           authError = null;
         }
-      }
-    }
-
-    if (
-      authError?.message?.toLowerCase().includes('email not confirmed') &&
-      isSupabaseAdminConfigured()
-    ) {
-      try {
-        const adminClient = createSupabaseAdminClient();
-        const { data: listData } = await adminClient.auth.admin.listUsers({ perPage: 1000 });
-        const targetUser = listData?.users?.find(
-          (u) => u.email?.toLowerCase() === email.toLowerCase()
-        );
-        if (targetUser) {
-          await adminClient.auth.admin.updateUserById(targetUser.id, { email_confirm: true });
-          const retry = await supabase.auth.signInWithPassword({ email, password });
-          authData = retry.data;
-          authError = retry.error;
-        }
-      } catch {
-        // ignore and fall through
-      }
-    }
-
-    // Fallback to built-in demo/admin/teacher/student accounts when real Supabase rejects or is unseeded
-    if (authError || !authData.user) {
-      const mockUser = matchMockUserCredentials(email, password);
-      if (mockUser) {
-        const role = mockUser.user_metadata.role ?? 'student';
-        const destination = isSafeRedirect(redirectTo ?? '', role)
-          ? redirectTo!
-          : ROLE_DASHBOARD_MAP[role];
-
-        setPreviewFallbackSession({
-          user: mockUser,
-          role,
-          accessToken: null,
-          isMock: true,
-        });
-
-        const sessionCookies = [
-          { name: MOCK_SESSION_COOKIE, value: mockUser.id },
-        ];
-
-        const response = NextResponse.json({
-          success: true,
-          redirectTo: destination,
-          sessionCookies,
-        });
-        response.cookies.set(MOCK_SESSION_COOKIE, mockUser.id, cookieOpts);
-        return response;
       }
     }
 
