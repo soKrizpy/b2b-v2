@@ -1,4 +1,5 @@
 // src/features/invoices/queries.ts
+import 'server-only';
 // Read-side helpers for the admin invoice management page.
 // All queries use the admin client (bypasses RLS).
 
