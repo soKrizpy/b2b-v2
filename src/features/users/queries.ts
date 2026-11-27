@@ -351,8 +351,8 @@ export async function getStudentsForTeacher(teacherId: string): Promise<TeacherS
 
   const mIds = (teacherMeetings ?? []).map((m) => m.id);
 
-  // 2. Query meeting_students and teacher_students in parallel
-  const [{ data: mStudents }, { data: directTS }] = await Promise.all([
+  // 2. Query meeting membership and active tutor assignments in parallel
+  const [{ data: mStudents }, { data: directAssignments }] = await Promise.all([
     mIds.length > 0
       ? (db
           .from('meeting_students')
@@ -362,9 +362,10 @@ export async function getStudentsForTeacher(teacherId: string): Promise<TeacherS
           }>)
       : Promise.resolve({ data: [] }),
     db
-      .from('teacher_students')
+      .from('tutor_student_assignments')
       .select('student_id')
-      .eq('teacher_id', teacherId) as unknown as Promise<{
+      .eq('tutor_id', teacherId)
+      .eq('status', 'active') as unknown as Promise<{
         data: Array<{ student_id: string }> | null;
       }>,
   ]);
@@ -377,7 +378,7 @@ export async function getStudentsForTeacher(teacherId: string): Promise<TeacherS
     studentSessionCount.set(ms.student_id, (studentSessionCount.get(ms.student_id) ?? 0) + 1);
   });
 
-  (directTS ?? []).forEach((ts) => {
+  (directAssignments ?? []).forEach((ts) => {
     studentIds.add(ts.student_id);
   });
 
