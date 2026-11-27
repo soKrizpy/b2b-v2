@@ -18,7 +18,6 @@ import {
   getSupabaseSecretKey,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
-  getPreviewFallbackSession,
 } from './mock';
 
 async function getRequestCookies(): Promise<
@@ -132,11 +131,6 @@ async function resolveExecutionTarget(): Promise<
     // Demo cookies are ignored unless NEXT_PUBLIC_USE_MOCK=true (handled above).
   } catch {
     // Called outside request scope (e.g. build time or unstable_cache)
-  }
-
-  const fallback = getPreviewFallbackSession();
-  if (fallback?.accessToken) {
-    return { mode: 'real', authToken: fallback.accessToken };
   }
 
   const secretKey = getSupabaseSecretKey();
