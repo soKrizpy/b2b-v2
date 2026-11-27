@@ -87,12 +87,10 @@ export function isValidSupabaseKey(raw: string | undefined): boolean {
   // Standard Supabase JWT key (3 base64url segments starting with eyJ)
   if (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80)
     return true;
-  // New Supabase API keys (sb_publishable_... / sb_secret_...)
-  if (
-    (k.startsWith('sb_publishable_') || k.startsWith('sb_secret_')) &&
-    k.length > 20
-  )
+  // Current hosted Supabase API key format: 22 random chars + 8-char checksum.
+  if (/^sb_(?:publishable|secret)_[A-Za-z0-9_-]{22}_[A-Za-z0-9_-]{8}$/.test(k)) {
     return true;
+  }
   return false;
 }
 
@@ -540,17 +538,19 @@ export function isSupabaseConfigured(): boolean {
   return Boolean((isHttpsUrl || isLocalHttpUrl) && publishableKey);
 }
 
+/** @deprecated Use isValidSupabaseSecretKey(). */
 export function isValidServiceRoleJwt(raw?: string): boolean {
-  const k = sanitizeEnvVal(raw ?? getSupabaseServiceRoleKey());
-  if (!k) return false;
-  if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
-  return isValidSupabaseSecretKey(k);
+  return isValidSupabaseSecretKey(raw ?? getSupabaseSecretKey());
 }
 
 export function isSupabaseAdminConfigured(): boolean {
   if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
-  return Boolean(url.startsWith('http') && isValidServiceRoleJwt());
+  const secureUrl = url.startsWith('https://');
+  const localUrl =
+    process.env.NODE_ENV !== 'production' &&
+    /^http:\/\/(localhost|127\.0\.0\.1)(:\\d+)?$/.test(url);
+  return Boolean((secureUrl || localUrl) && isValidSupabaseSecretKey(getSupabaseSecretKey()));
 }
 
 export function matchMockUserCredentials(
