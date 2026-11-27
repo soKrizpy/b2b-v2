@@ -545,6 +545,7 @@ async function saveMeetingReport(
     functionName: 'save_meeting_report',
     args: {
       p_meeting_id: number;
+      p_actor_id: string;
       p_progress_report: string;
       p_attendance: Json;
       p_mark_completed: boolean;
@@ -553,6 +554,9 @@ async function saveMeetingReport(
   ) => Promise<{ error: { message: string } | null }>;
   const { error } = await callSaveMeetingReport('save_meeting_report', {
     p_meeting_id: meetingId,
+    // The database RPC independently verifies this trusted server-session actor.
+    // Never read the actor ID from client-submitted form data.
+    p_actor_id: actorId,
     p_progress_report: parsedReport.data,
     p_attendance: parsedAttendance.data as Json,
     p_mark_completed: markCompleted,
