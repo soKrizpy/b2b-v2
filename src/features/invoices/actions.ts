@@ -9,6 +9,8 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getAttendanceForInvoice as loadAttendanceForInvoice } from './queries';
+import type { AttendanceDetail } from './queries';
 import { headers } from 'next/headers';
 
 export type InvoiceActionResult =
@@ -267,4 +269,21 @@ export async function bulkUpdateInvoiceStatus(
     success: true,
     message: `${invoiceIds.length} invoice berhasil diperbarui menjadi ${newStatus}.`,
   };
+}
+
+/** Server Action: load an invoice attendance breakdown for an authenticated admin. */
+export async function getAttendanceForInvoiceAction(
+  invoiceId: string
+): Promise<
+  | { success: true; data: AttendanceDetail[] }
+  | { success: false; error: string }
+> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false, error: auth.message };
+  if (!invoiceId.trim()) {
+    return { success: false, error: 'Invoice ID tidak valid.' };
+  }
+
+  const data = await loadAttendanceForInvoice(invoiceId);
+  return { success: true, data };
 }
