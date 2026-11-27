@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       const redirectUrl = new URL(next, origin);
-      return NextResponse.redirect(redirectUrl);
+      const response = NextResponse.redirect(redirectUrl);
+      response.headers.set('Cache-Control', 'private, no-store');
+      return response;
     }
   }
 
