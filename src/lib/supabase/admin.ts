@@ -8,7 +8,7 @@ import type { Database } from '@/types/database';
 import {
   isMockModeEnabled,
   isSupabaseConfigured,
-  isValidServiceRoleJwt,
+  isValidSupabaseSecretKey,
   getSupabaseUrl,
   getSupabasePublishableKey,
   getSupabaseSecretKey,
@@ -130,7 +130,7 @@ async function resolveExecutionTarget(): Promise<
   }
 
   const secretKey = getSupabaseSecretKey();
-  if (isValidServiceRoleJwt(secretKey)) {
+  if (isValidSupabaseSecretKey(secretKey)) {
     return { mode: 'real', authToken: secretKey };
   }
 
