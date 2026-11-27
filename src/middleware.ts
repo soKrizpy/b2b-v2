@@ -8,6 +8,7 @@ import {
   isSupabaseConfigured,
   getSupabaseUrl,
   getSupabasePublishableKey,
+  getSupabaseCookieOptions,
   createMockSupabaseClient,
 } from '@/lib/supabase/mock';
 
@@ -65,6 +66,7 @@ export async function middleware(request: NextRequest) {
     getSupabaseUrl(),
     getSupabasePublishableKey(),
     {
+      cookieOptions: getSupabaseCookieOptions(),
       cookies: {
         getAll() {
           return request.cookies.getAll();
