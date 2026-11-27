@@ -1,4 +1,5 @@
 // src/lib/supabase/server.ts
+import 'server-only';
 // Request-scoped Supabase SSR client for Server Components, Server Actions and Route Handlers.
 
 import { createServerClient } from '@supabase/ssr';
