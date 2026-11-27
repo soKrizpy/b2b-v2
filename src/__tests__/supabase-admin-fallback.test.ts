@@ -12,16 +12,19 @@ const state = vi.hoisted(() => ({
   mockMode: false,
 }));
 
+vi.mock('server-only', () => ({}));
+
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => state.realClient),
 }));
 
 vi.mock('@/lib/supabase/mock', () => ({
+  isMockModeEnabled: vi.fn(() => state.mockMode),
   isSupabaseConfigured: vi.fn(() => true),
   isValidServiceRoleJwt: vi.fn(() => true),
   getSupabaseUrl: vi.fn(() => 'https://example.supabase.co'),
-  getSupabaseAnonKey: vi.fn(() => 'public-anon-key'),
-  getSupabaseServiceRoleKey: vi.fn(() => 'service-role-test-key'),
+  getSupabasePublishableKey: vi.fn(() => 'public-publishable-key'),
+  getSupabaseSecretKey: vi.fn(() => 'service-role-test-key'),
   markSupabaseKeyInvalid: vi.fn(),
   createMockSupabaseClient: vi.fn(() => state.mockClient),
   getPreviewFallbackSession: vi.fn(() =>
