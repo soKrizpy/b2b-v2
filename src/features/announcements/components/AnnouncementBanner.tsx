@@ -25,7 +25,7 @@ export function AnnouncementBanner({ role }: AnnouncementBannerProps) {
 
     return list.filter((ann) => {
       if (!ann.is_active) return false;
-      if (dismissed.includes(ann.id)) return false;
+      if (dismissed.includes(String(ann.id))) return false;
       if (ann.target !== 'all' && ann.target !== role) return false;
       if (ann.expires_at && ann.expires_at < todayStr) return false;
       return true;
@@ -46,9 +46,9 @@ export function AnnouncementBanner({ role }: AnnouncementBannerProps) {
     return () => window.removeEventListener('announcements_updated', loadAnnouncements);
   }, [loadAnnouncements, filterValid]);
 
-  const handleDismiss = (id: string) => {
+  const handleDismiss = (id: string | number) => {
     dismissAnnouncementId(id);
-    setActiveAnnouncements((prev) => prev.filter((a) => a.id !== id));
+    setActiveAnnouncements((prev) => prev.filter((a) => String(a.id) !== String(id)));
   };
 
   if (activeAnnouncements.length === 0) return null;
