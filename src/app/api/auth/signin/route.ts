@@ -165,6 +165,7 @@ export async function POST(req: NextRequest) {
     for (const c of sbCookies) {
       response.cookies.set(c.name, c.value, cookieOpts);
     }
+    response.headers.set('Cache-Control', 'private, no-store');
 
     return response;
   } catch (err) {
