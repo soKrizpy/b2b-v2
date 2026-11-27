@@ -145,20 +145,31 @@ export function getSupabaseUrl(): string {
   return '';
 }
 
-export function getSupabaseAnonKey(): string {
-  const envAnon = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-  if (isValidSupabaseKey(envAnon)) {
-    return envAnon;
-  }
-  return '';
+/** Modern public API key, with the legacy anon variable kept as a migration fallback. */
+export function getSupabasePublishableKey(): string {
+  const envKey = sanitizeEnvVal(
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+  return isValidSupabaseKey(envKey) ? envKey : '';
 }
 
+/** @deprecated Use getSupabasePublishableKey(). */
+export function getSupabaseAnonKey(): string {
+  return getSupabasePublishableKey();
+}
+
+/** Modern server secret key, with legacy service_role compatibility during migration. */
+export function getSupabaseSecretKey(): string {
+  const envKey = sanitizeEnvVal(
+    process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+  return isValidSupabaseKey(envKey) ? envKey : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+}
+
+/** @deprecated Use getSupabaseSecretKey(). */
 export function getSupabaseServiceRoleKey(): string {
-  const envService = sanitizeEnvVal(process.env.SUPABASE_SERVICE_ROLE_KEY);
-  if (isValidSupabaseKey(envService)) {
-    return envService;
-  }
-  return DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+  return getSupabaseSecretKey();
 }
 
 function createInitialMockStore(): MockStore {
