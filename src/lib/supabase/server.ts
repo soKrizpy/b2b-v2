@@ -8,7 +8,7 @@ import type { Database } from '@/types/database';
 import {
   isSupabaseConfigured,
   getSupabaseUrl,
-  getSupabaseAnonKey,
+  getSupabasePublishableKey,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
   MOCK_SESSION_COOKIE,
@@ -69,7 +69,7 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
   ) {
     const fallback = getPreviewFallbackSession();
     if (fallback) {
-      if (fallback.isMock) {
+      if (fallback.isMock && isMockModeEnabled()) {
         return createMockSupabaseClient({
           getCookie: (name) =>
             name === MOCK_SESSION_COOKIE ? fallback.user.id : cookieStore.get(name)?.value,
