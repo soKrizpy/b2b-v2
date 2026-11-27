@@ -386,23 +386,6 @@ export type SubmissionUpdate = Partial<
 >;
 
 // public.teacher_students
-export interface TeacherStudentRow {
-  id: number;
-  teacher_id: string;
-  student_id: string;
-  assigned_at: string;
-  notes: string | null;
-}
-export type TeacherStudentInsert = Omit<
-  TeacherStudentRow,
-  'id' | 'assigned_at'
-> & {
-  assigned_at?: string;
-};
-export type TeacherStudentUpdate = Partial<
-  Omit<TeacherStudentRow, 'id' | 'teacher_id' | 'student_id'>
->;
-
 // ── Supabase Database generic type ───────────────────────────────────────────
 // Used to parameterise the Supabase client — enables typed .from() calls.
 
