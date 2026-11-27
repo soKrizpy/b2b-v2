@@ -6,6 +6,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import {
   isSupabaseAdminConfigured,
+  isMockModeEnabled,
   matchMockUserCredentials,
   MOCK_SESSION_COOKIE,
 } from '@/lib/supabase/mock';
@@ -86,7 +87,7 @@ export async function signIn(
     }
 
     // Auto-confirm email if Supabase rejected login only because "Email not confirmed"
-    // and SUPABASE_SERVICE_ROLE_KEY is configured
+    // and SUPABASE_SECRET_KEY (or the legacy service-role key) is configured
     if (
       authError?.message?.toLowerCase().includes('email not confirmed') &&
       isSupabaseAdminConfigured()
@@ -108,7 +109,7 @@ export async function signIn(
       }
     }
 
-    if (authError || !authData.user) {
+    if ((authError || !authData.user) && isMockModeEnabled()) {
       const mockUser = matchMockUserCredentials(email, password);
       if (mockUser) {
         const role = mockUser.user_metadata.role ?? 'student';
@@ -150,7 +151,7 @@ export async function signIn(
       if (errMsg.toLowerCase().includes('invalid api key') || errMsg.toLowerCase().includes('fetch failed')) {
         return {
           success: false,
-          error: `Koneksi ke Supabase gagal (${errMsg}). Periksa NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY.`,
+          error: `Koneksi ke Supabase gagal (${errMsg}). Periksa NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.`,
         };
       }
       return {
