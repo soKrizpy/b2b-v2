@@ -385,7 +385,7 @@ export type SubmissionUpdate = Partial<
   Omit<SubmissionRow, 'id' | 'student_id' | 'challenge_id' | 'created_at'>
 >;
 
-// public.teacher_students
+// Tutor-student relationships use public.tutor_student_assignments.
 // ── Supabase Database generic type ───────────────────────────────────────────
 // Used to parameterise the Supabase client — enables typed .from() calls.
 
