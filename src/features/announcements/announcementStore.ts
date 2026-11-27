@@ -19,7 +19,7 @@ export function getStoredAnnouncements(): Announcement[] {
       ? parsed.filter((item) => typeof item.id === 'number' && Number.isSafeInteger(item.id) && item.id > 0)
       : [];
   } catch {
-    return INITIAL_ANNOUNCEMENTS;
+    return [];
   }
 }
 
