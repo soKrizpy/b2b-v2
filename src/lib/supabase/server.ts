@@ -49,7 +49,8 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
 
   const mockUserId = cookieStore.get(MOCK_SESSION_COOKIE)?.value;
   const hasMockSession = Boolean(
-    !effectiveOptions?.forceRealIfConfigured &&
+    isMockModeEnabled() &&
+      !effectiveOptions?.forceRealIfConfigured &&
       mockUserId &&
       getMockStore().users.some((u) => u.id === mockUserId)
   );
@@ -60,7 +61,12 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
   );
 
   // If browser blocked cookies in cross-origin preview iframe, fall back to active server-side preview session
-  if (!effectiveOptions?.forceRealIfConfigured && !hasRealSbCookie && !hasMockSession) {
+  if (
+    !isMockModeEnabled() &&
+    !effectiveOptions?.forceRealIfConfigured &&
+    !hasRealSbCookie &&
+    !hasMockSession
+  ) {
     const fallback = getPreviewFallbackSession();
     if (fallback) {
       if (fallback.isMock) {
@@ -115,7 +121,7 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
     }
   }
 
-  if (!isSupabaseConfigured() || hasMockSession) {
+  if (isMockModeEnabled() || hasMockSession) {
     return createMockSupabaseClient({
       getCookie: (name) => cookieStore.get(name)?.value,
       setCookie: (name, value) => {
@@ -133,6 +139,12 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
         }
       },
     }) as unknown as ReturnType<typeof createServerClient<Database>>;
+  }
+
+  if (!isSupabaseConfigured()) {
+    throw new Error(
+      'Supabase belum dikonfigurasi. Isi NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.'
+    );
   }
 
   const url = getSupabaseUrl();
