@@ -9,6 +9,7 @@ import {
   isSupabaseConfigured,
   getSupabaseUrl,
   getSupabasePublishableKey,
+  getSupabaseCookieOptions,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
 } from './mock';
@@ -57,6 +58,7 @@ export async function createSupabaseServerClient(
   const publishableKey = getSupabasePublishableKey();
 
   return createServerClient<Database>(url, publishableKey, {
+    cookieOptions: getSupabaseCookieOptions(),
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -64,10 +66,7 @@ export async function createSupabaseServerClient(
       setAll(cookiesToSet, _cacheHeaders) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, {
-              ...options,
-              httpOnly: false,
-            });
+            cookieStore.set(name, value, options);
           });
         } catch {
           // Server Components cannot write cookies. The middleware refreshes
