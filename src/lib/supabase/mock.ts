@@ -505,6 +505,24 @@ export function getMockStore(): MockStore {
   return globalForMock.__b2bMockStore;
 }
 
+/** Keep SSR/browser cookie attributes aligned, including Vercel iframe previews. */
+export function getSupabaseCookieOptions() {
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      path: '/',
+      sameSite: 'none' as const,
+      secure: true,
+      partitioned: true,
+    };
+  }
+
+  return {
+    path: '/',
+    sameSite: 'lax' as const,
+    secure: false,
+  };
+}
+
 export function isMockModeEnabled(): boolean {
   // Demo mode is intentionally unavailable in production deployments.
   return process.env.NODE_ENV !== 'production' &&
