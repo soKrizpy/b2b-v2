@@ -4,12 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { PUBLIC_PATHS } from '@/lib/constants';
 import {
+  isMockModeEnabled,
   isSupabaseConfigured,
   getSupabaseUrl,
-  getSupabaseAnonKey,
+  getSupabasePublishableKey,
   createMockSupabaseClient,
-  MOCK_SESSION_COOKIE,
-  getMockStore,
 } from '@/lib/supabase/mock';
 
 export async function middleware(request: NextRequest) {
@@ -32,50 +31,72 @@ export async function middleware(request: NextRequest) {
     request: { headers: requestHeaders },
   });
 
-  const isDevMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
-  const cookieOptions = isDevMock
-    ? { path: '/', sameSite: 'lax' as const, secure: false }
-    : { path: '/', sameSite: 'none' as const, secure: true, partitioned: true };
+  const mockMode = isMockModeEnabled();
+  if (!mockMode && !isSupabaseConfigured()) {
+    return NextResponse.json(
+      { error: 'Supabase belum dikonfigurasi. Akses data dinonaktifkan.' },
+      { status: 503 }
+    );
+  }
 
-  const mockUserId = request.cookies.get(MOCK_SESSION_COOKIE)?.value;
-  const hasMockSession = Boolean(
-    mockUserId && getMockStore().users.some((user) => user.id === mockUserId)
+  if (mockMode) {
+    const mockCookieOptions =
+      process.env.NODE_ENV === 'production'
+        ? { path: '/', sameSite: 'none' as const, secure: true, partitioned: true }
+        : { path: '/', sameSite: 'lax' as const, secure: false };
+
+    const mockSupabase = createMockSupabaseClient({
+      getCookie: (name) => request.cookies.get(name)?.value,
+      setCookie: (name, value) =>
+        response.cookies.set(name, value, { ...mockCookieOptions, httpOnly: false }),
+      deleteCookie: (name) => response.cookies.delete({ name, ...mockCookieOptions }),
+    });
+
+    try {
+      await mockSupabase.auth.getUser();
+    } catch {
+      // Protected layouts and every Server Action / Route Handler enforce auth.
+    }
+
+    return response;
+  }
+
+  const supabase = createServerClient(
+    getSupabaseUrl(),
+    getSupabasePublishableKey(),
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet, cacheHeaders) {
+          // Keep request cookies in sync with refreshed credentials for this request.
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+
+          response = NextResponse.next({ request: { headers: requestHeaders } });
+
+          // Preserve Supabase's cookie attributes instead of overriding SameSite/Secure.
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+
+          // @supabase/ssr supplies these headers to prevent shared/CDN caching of sessions.
+          Object.entries(cacheHeaders).forEach(([key, value]) =>
+            response.headers.set(key, value)
+          );
+        },
+      },
+    }
   );
 
-  const supabase = isSupabaseConfigured() && !hasMockSession
-    ? createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-            response = NextResponse.next({ request: { headers: requestHeaders } });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, {
-                ...options,
-                ...cookieOptions,
-                httpOnly: false,
-              })
-            );
-          },
-        },
-      })
-    : createMockSupabaseClient({
-        getCookie: (name) => request.cookies.get(name)?.value,
-        setCookie: (name, value) => response.cookies.set(name, value, { ...cookieOptions, httpOnly: false }),
-        deleteCookie: (name) => response.cookies.delete({ name, ...cookieOptions }),
-      });
-
-  // Refresh/validate the session cookie only. Do not resolve application roles
-  // here: profiles currently has no user-facing SELECT policy, and middleware
-  // must not trust user_metadata or a client-controlled role cookie.
+  // Validate the JWT with Supabase Auth. Do not trust decoded cookie claims.
   try {
     await supabase.auth.getUser();
   } catch {
     // Protected layouts and every Server Action / Route Handler enforce auth.
   }
 
+  response.headers.set('Cache-Control', 'private, no-store');
   return response;
 }
 
