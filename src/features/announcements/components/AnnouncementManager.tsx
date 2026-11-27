@@ -29,8 +29,8 @@ import {
 export function AnnouncementManager() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | number | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | number | null>(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -75,72 +75,92 @@ export function AnnouncementManager() {
     setShowForm(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
 
-    const list = getStoredAnnouncements();
-    if (editingId) {
-      const updatedFields = {
-        title: title.trim(),
-        content: content.trim(),
-        image_url: imageUrl.trim() || null,
-        target,
-        urgency,
-        expires_at: expiresAt || null,
+    const payload = {
+      title: title.trim(),
+      content: content.trim(),
+      image_url: imageUrl.trim() || null,
+      target,
+      urgency,
+      expires_at: expiresAt || null,
+    };
+
+    try {
+      const response = await fetch('/api/announcements', {
+        method: editingId !== null ? 'PATCH' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          editingId !== null ? { id: editingId, ...payload } : payload
+        ),
+      });
+
+      const result = await response.json().catch(() => ({})) as {
+        error?: string;
       };
-      const next = list.map((a) =>
-        a.id === editingId ? { ...a, ...updatedFields } : a
-      );
-      saveStoredAnnouncements(next);
-      void fetch('/api/announcements', {
+      if (!response.ok) {
+        window.alert(result.error ?? 'Pengumuman gagal disimpan.');
+        return;
+      }
+
+      const fresh = await fetchServerAnnouncements();
+      saveStoredAnnouncements(fresh);
+      setAnnouncements(fresh);
+      resetForm();
+    } catch {
+      window.alert('Tidak dapat menghubungi Supabase. Periksa koneksi lalu coba lagi.');
+    }
+  };
+
+  const handleToggleActive = async (id: string | number) => {
+    const list = getStoredAnnouncements();
+    const targetAnn = list.find((a) => String(a.id) === String(id));
+    if (!targetAnn) return;
+
+    try {
+      const response = await fetch('/api/announcements', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: editingId, ...updatedFields }),
+        body: JSON.stringify({ id, is_active: !targetAnn.is_active }),
       });
-    } else {
-      const newAnn: Announcement = {
-        id: `ann-${Date.now()}`,
-        title: title.trim(),
-        content: content.trim(),
-        image_url: imageUrl.trim() || null,
-        target,
-        urgency,
-        expires_at: expiresAt || null,
-        created_at: new Date().toISOString(),
-        is_active: true,
+      const result = await response.json().catch(() => ({})) as {
+        error?: string;
       };
-      saveStoredAnnouncements([newAnn, ...list]);
-      void fetch('/api/announcements', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newAnn),
-      });
+      if (!response.ok) {
+        window.alert(result.error ?? 'Status pengumuman gagal diperbarui.');
+        return;
+      }
+
+      const fresh = await fetchServerAnnouncements();
+      saveStoredAnnouncements(fresh);
+      setAnnouncements(fresh);
+    } catch {
+      window.alert('Tidak dapat menghubungi Supabase. Periksa koneksi lalu coba lagi.');
     }
-    resetForm();
   };
 
-  const handleToggleActive = (id: string) => {
-    const list = getStoredAnnouncements();
-    const targetAnn = list.find((a) => a.id === id);
-    const nextActive = targetAnn ? !targetAnn.is_active : true;
-    const next = list.map((a) => (a.id === id ? { ...a, is_active: nextActive } : a));
-    saveStoredAnnouncements(next);
-    void fetch('/api/announcements', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, is_active: nextActive }),
-    });
-  };
+  const handleDelete = async (id: string | number) => {
+    try {
+      const response = await fetch(`/api/announcements?id=${encodeURIComponent(String(id))}`, {
+        method: 'DELETE',
+      });
+      const result = await response.json().catch(() => ({})) as {
+        error?: string;
+      };
+      if (!response.ok) {
+        window.alert(result.error ?? 'Pengumuman gagal dihapus.');
+        return;
+      }
 
-  const handleDelete = (id: string) => {
-    const list = getStoredAnnouncements();
-    const next = list.filter((a) => a.id !== id);
-    saveStoredAnnouncements(next);
-    setConfirmDeleteId(null);
-    void fetch(`/api/announcements?id=${encodeURIComponent(id)}`, {
-      method: 'DELETE',
-    });
+      const fresh = await fetchServerAnnouncements();
+      saveStoredAnnouncements(fresh);
+      setAnnouncements(fresh);
+      setConfirmDeleteId(null);
+    } catch {
+      window.alert('Tidak dapat menghubungi Supabase. Periksa koneksi lalu coba lagi.');
+    }
   };
 
   const urgencyConfig = {
