@@ -3,7 +3,11 @@
 // All helpers that need to bypass RLS use the admin client (server-only).
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
-import { sanitizeEnvVal, isValidSupabaseKey } from '@/lib/supabase/mock';
+import {
+  sanitizeEnvVal,
+  isValidSupabasePublishableKey,
+  isValidSupabaseSecretKey,
+} from '@/lib/supabase/mock';
 import type { MeetingRow, StudentRow } from '@/types/database';
 import type { AttendanceStatus } from '@/types/sessions';
 
@@ -51,8 +55,8 @@ function decodeJwtPayload(
 
 export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
   const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-  const rawAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
-  const rawService = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+  const rawAnon = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const rawService = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
   const cleanUrl = sanitizeEnvVal(rawUrl);
   const cleanAnon = sanitizeEnvVal(rawAnon);
@@ -72,10 +76,17 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
   const servicePayload = decodeJwtPayload(cleanService);
 
   const anonMatches = Boolean(
-    urlProjectRef && anonPayload?.ref === urlProjectRef
+    urlProjectRef &&
+      (cleanAnon.startsWith('sb_publishable_')
+        ? isValidSupabasePublishableKey(cleanAnon)
+        : anonPayload?.ref === urlProjectRef && anonPayload?.role === 'anon')
   );
   const serviceMatches = Boolean(
-    urlProjectRef && servicePayload?.ref === urlProjectRef
+    urlProjectRef &&
+      (cleanService.startsWith('sb_secret_')
+        ? isValidSupabaseSecretKey(cleanService)
+        : servicePayload?.ref === urlProjectRef &&
+          servicePayload?.role === 'service_role')
   );
 
   const report: SupabaseEnvDiagnosticReport = {
@@ -83,7 +94,7 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
     urlProjectRef,
     anonKey: {
       present: Boolean(rawAnon),
-      validFormat: isValidSupabaseKey(cleanAnon),
+      validFormat: isValidSupabasePublishableKey(cleanAnon),
       rawLength: rawAnon.trim().length,
       sanitizedLength: cleanAnon.length,
       wasAutoRepaired: rawAnon.trim() !== cleanAnon,
@@ -93,7 +104,7 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
     },
     serviceRoleKey: {
       present: Boolean(rawService),
-      validFormat: isValidSupabaseKey(cleanService),
+      validFormat: isValidSupabaseSecretKey(cleanService),
       rawLength: rawService.trim().length,
       sanitizedLength: cleanService.length,
       wasAutoRepaired: rawService.trim() !== cleanService,
@@ -103,9 +114,7 @@ export function verifySupabaseEnvDiagnostics(): SupabaseEnvDiagnosticReport {
     },
     hasKeyMismatch:
       !anonMatches ||
-      !serviceMatches ||
-      anonPayload?.role !== 'anon' ||
-      servicePayload?.role !== 'service_role',
+      !serviceMatches,
   };
 
   console.info('[SupabaseEnvDiagnostics]', JSON.stringify(report));
