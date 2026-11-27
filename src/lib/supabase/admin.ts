@@ -19,8 +19,6 @@ import {
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
   getPreviewFallbackSession,
-  MOCK_SESSION_COOKIE,
-  getMockStore,
 } from './mock';
 
 async function getRequestCookies(): Promise<
@@ -380,7 +378,10 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'mock') {
             return mockClient.auth.admin.listUsers();
           }
-          const serviceKey = getSupabaseServiceRoleKey();
+          if (target.mode === 'error') {
+            return { data: { users: [] }, error: { message: target.message } };
+          }
+          const serviceKey = getSupabaseSecretKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
@@ -406,6 +407,9 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           const target = await resolveExecutionTarget();
           if (target.mode === 'mock') {
             return mockClient.auth.admin.createUser(attrs);
+          }
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
           }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
@@ -436,6 +440,9 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'mock') {
             return mockClient.auth.admin.updateUserById(id, attrs);
           }
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
+          }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
@@ -456,6 +463,9 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
         async deleteUser(id: string) {
           const target = await resolveExecutionTarget();
           if (target.mode === 'mock') return mockClient.auth.admin.deleteUser(id);
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
+          }
           const serviceKey = getSupabaseServiceRoleKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
