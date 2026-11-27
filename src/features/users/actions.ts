@@ -372,16 +372,60 @@ export async function enrollTeacherToStudent(
 
   const teacherName = teacherProfile.full_name ?? 'Guru';
 
-  // 0. Direct mentorship record in teacher_students table
-  try {
-    await (db
-      .from('teacher_students')
-      .upsert(
-        { teacher_id: tId, student_id: sId } as never,
-        { onConflict: 'teacher_id,student_id' }
-      ) as unknown as Promise<unknown>);
-  } catch {
-    // Non-fatal if table not migrated yet
+  // 0. Persist the current tutor-student assignment in the production schema.
+  // The database enforces at most one active tutor for each student.
+  const { data: existingAssignment, error: assignmentLookupError } = await (db
+    .from('tutor_student_assignments')
+    .select('id, status')
+    .eq('tutor_id', tId)
+    .eq('student_id', sId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle() as unknown as Promise<{
+      data: { id: string; status: 'active' | 'inactive' } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (assignmentLookupError) {
+    return { success: false, error: `Gagal memeriksa penugasan guru: ${assignmentLookupError.message}` };
+  }
+
+  const { data: activeAssignment, error: activeAssignmentError } = await (db
+    .from('tutor_student_assignments')
+    .select('tutor_id')
+    .eq('student_id', sId)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { tutor_id: string } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (activeAssignmentError) {
+    return { success: false, error: `Gagal memeriksa guru aktif siswa: ${activeAssignmentError.message}` };
+  }
+
+  if (activeAssignment && activeAssignment.tutor_id !== tId) {
+    return { success: false, error: 'Siswa sudah memiliki guru aktif. Batalkan penugasan sebelumnya terlebih dahulu.' };
+  }
+
+  if (!activeAssignment) {
+    const assignmentResult = existingAssignment
+      ? await db
+          .from('tutor_student_assignments')
+          .update({ status: 'active', ended_at: null })
+          .eq('id', existingAssignment.id)
+      : await db
+          .from('tutor_student_assignments')
+          .insert({
+            tutor_id: tId,
+            student_id: sId,
+            status: 'active',
+            created_by: auth.user.id,
+          });
+
+    if (assignmentResult.error) {
+      return { success: false, error: `Gagal menyimpan penugasan guru: ${assignmentResult.error.message}` };
+    }
   }
 
   // 1. Fetch meeting IDs where student is a member
@@ -466,15 +510,31 @@ export async function unenrollTeacherFromStudent(
 
   const db = createSupabaseAdminClient();
 
-  // 0. Remove from teacher_students table
-  try {
-    await (db
-      .from('teacher_students')
-      .delete()
-      .eq('teacher_id', tId)
-      .eq('student_id', sId) as unknown as Promise<unknown>);
-  } catch {
-    // Non-fatal if table not migrated yet
+  // 0. End the active assignment instead of deleting its audit history.
+  const { data: activeAssignment, error: assignmentLookupError } = await (db
+    .from('tutor_student_assignments')
+    .select('id')
+    .eq('tutor_id', tId)
+    .eq('student_id', sId)
+    .eq('status', 'active')
+    .maybeSingle() as unknown as Promise<{
+      data: { id: string } | null;
+      error: { message: string } | null;
+    }>);
+
+  if (assignmentLookupError) {
+    return { success: false, error: `Gagal memeriksa penugasan guru: ${assignmentLookupError.message}` };
+  }
+
+  if (activeAssignment) {
+    const { error: assignmentUpdateError } = await db
+      .from('tutor_student_assignments')
+      .update({ status: 'inactive', ended_at: new Date().toISOString() })
+      .eq('id', activeAssignment.id);
+
+    if (assignmentUpdateError) {
+      return { success: false, error: `Gagal mengakhiri penugasan guru: ${assignmentUpdateError.message}` };
+    }
   }
 
   const { data: studentMeetings } = await (db
