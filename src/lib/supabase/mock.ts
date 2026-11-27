@@ -20,22 +20,6 @@ export interface MockUser {
   };
 }
 
-export interface PreviewFallbackSession {
-  user: {
-    id: string;
-    email?: string;
-    user_metadata: {
-      full_name?: string;
-      role?: 'admin' | 'teacher' | 'student';
-      [key: string]: unknown;
-    };
-  };
-  role: 'admin' | 'teacher' | 'student';
-  accessToken?: string | null;
-  isMock?: boolean;
-  updatedAt: number;
-}
-
 type MockRow = Record<string, unknown>;
 
 interface MockStore {
@@ -69,32 +53,7 @@ interface MockStore {
 const globalForMock = globalThis as unknown as {
   __b2bMockStore?: MockStore;
   __b2bInvalidKeys?: Set<string>;
-  __b2bPreviewSession?: PreviewFallbackSession | null;
 };
-
-export function setPreviewFallbackSession(
-  session: Omit<PreviewFallbackSession, 'updatedAt'>
-): void {
-  globalForMock.__b2bPreviewSession = {
-    ...session,
-    updatedAt: Date.now(),
-  };
-}
-
-export function getPreviewFallbackSession(): PreviewFallbackSession | null {
-  const s = globalForMock.__b2bPreviewSession;
-  if (!s) return null;
-  // Valid for 7 days
-  if (Date.now() - s.updatedAt > 7 * 24 * 60 * 60 * 1000) {
-    globalForMock.__b2bPreviewSession = null;
-    return null;
-  }
-  return s;
-}
-
-export function clearPreviewFallbackSession(): void {
-  globalForMock.__b2bPreviewSession = null;
-}
 
 export function markSupabaseKeyInvalid(key: string | undefined): void {
   if (!key) return;
