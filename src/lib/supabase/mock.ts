@@ -506,14 +506,20 @@ export function getMockStore(): MockStore {
 }
 
 export function isMockModeEnabled(): boolean {
-  return process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+  // Demo mode is intentionally unavailable in production deployments.
+  return process.env.NODE_ENV !== 'production' &&
+    process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 }
 
 export function isSupabaseConfigured(): boolean {
   if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
   const publishableKey = getSupabasePublishableKey();
-  return Boolean(url.startsWith('https://') && publishableKey);
+  const isHttpsUrl = url.startsWith('https://');
+  const isLocalHttpUrl =
+    process.env.NODE_ENV !== 'production' &&
+    /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(url);
+  return Boolean((isHttpsUrl || isLocalHttpUrl) && publishableKey);
 }
 
 export function isValidServiceRoleJwt(raw?: string): boolean {
