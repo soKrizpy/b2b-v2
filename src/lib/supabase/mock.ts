@@ -145,13 +145,31 @@ export function getSupabaseUrl(): string {
   return '';
 }
 
-/** Modern public API key, with the legacy anon variable kept as a migration fallback. */
+function legacyJwtHasRole(key: string, expectedRole: 'anon' | 'service_role'): boolean {
+  try {
+    const payload = key.split('.')[1];
+    if (!payload) return false;
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+    const decoded = atob(padded);
+    const claims = JSON.parse(decoded) as { role?: string };
+    return claims.role === expectedRole;
+  } catch {
+    return false;
+  }
+}
+
+/** Prefer the modern publishable key; accept only a legacy anon JWT as fallback. */
 export function getSupabasePublishableKey(): string {
-  const envKey = sanitizeEnvVal(
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-  return isValidSupabaseKey(envKey) ? envKey : '';
+  const modernKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+  if (modernKey.startsWith('sb_publishable_') && isValidSupabaseKey(modernKey)) {
+    return modernKey;
+  }
+
+  const legacyKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return isValidSupabaseKey(legacyKey) && legacyJwtHasRole(legacyKey, 'anon')
+    ? legacyKey
+    : '';
 }
 
 /** @deprecated Use getSupabasePublishableKey(). */
@@ -159,12 +177,17 @@ export function getSupabaseAnonKey(): string {
   return getSupabasePublishableKey();
 }
 
-/** Modern server secret key, with legacy service_role compatibility during migration. */
+/** Prefer the modern server secret; accept only a legacy service_role JWT as fallback. */
 export function getSupabaseSecretKey(): string {
-  const envKey = sanitizeEnvVal(
-    process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
-  return isValidSupabaseKey(envKey) ? envKey : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+  const modernKey = sanitizeEnvVal(process.env.SUPABASE_SECRET_KEY);
+  if (modernKey.startsWith('sb_secret_') && isValidSupabaseKey(modernKey)) {
+    return modernKey;
+  }
+
+  const legacyKey = sanitizeEnvVal(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return isValidSupabaseKey(legacyKey) && legacyJwtHasRole(legacyKey, 'service_role')
+    ? legacyKey
+    : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
 }
 
 /** @deprecated Use getSupabaseSecretKey(). */
@@ -526,17 +549,20 @@ export function isMockModeEnabled(): boolean {
 export function isSupabaseConfigured(): boolean {
   if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
-  const anon = getSupabaseAnonKey();
-  return Boolean(url.startsWith('http') && isValidSupabaseKey(anon));
+  const publishableKey = getSupabasePublishableKey();
+  return Boolean(url.startsWith('https://') && publishableKey);
 }
 
 export function isValidServiceRoleJwt(raw?: string): boolean {
   const k = sanitizeEnvVal(raw ?? getSupabaseServiceRoleKey());
   if (!k) return false;
   if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
+  if (k.startsWith('sb_secret_')) return k.length > 20;
   return (
-    (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80) ||
-    (k.startsWith('sb_secret_') && k.length > 20)
+    k.startsWith('eyJ') &&
+    k.split('.').length === 3 &&
+    k.length > 80 &&
+    legacyJwtHasRole(k, 'service_role')
   );
 }
 
