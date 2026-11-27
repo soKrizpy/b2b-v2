@@ -1,141 +1,47 @@
-﻿// src/lib/supabase/server.ts
-// SSR Supabase client — reads/writes session cookies via next/headers.
-// Use inside Server Components, Server Actions, and Route Handlers.
+// src/lib/supabase/server.ts
+// Request-scoped Supabase SSR client for Server Components, Server Actions and Route Handlers.
 
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import type { Database } from '@/types/database';
 import {
+  isMockModeEnabled,
   isSupabaseConfigured,
   getSupabaseUrl,
   getSupabasePublishableKey,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
-  MOCK_SESSION_COOKIE,
-  getMockStore,
-  getPreviewFallbackSession,
-  clearPreviewFallbackSession,
-  isMockModeEnabled,
 } from './mock';
-import { createSupabaseAdminClient } from './admin';
 
-// Cookie options for mock sessions. In mock mode (local dev), always use
-// SameSite=Lax without Secure so cookies work on http://localhost.
-// In production (Vercel), use SameSite=None; Secure; Partitioned for
-// cross-origin iframe compatibility.
-const isDevMode = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
-const MOCK_COOKIE_OPTS = isDevMode
-  ? {
-      path: '/',
-      sameSite: 'lax' as const,
-      secure: false,
-      httpOnly: false,
-    }
-  : {
-      path: '/',
-      sameSite: 'none' as const,
-      secure: true,
-      partitioned: true,
-      httpOnly: false,
-    };
+const MOCK_COOKIE_OPTIONS = {
+  path: '/',
+  sameSite: 'lax' as const,
+  secure: false,
+  httpOnly: false,
+};
 
-export async function createSupabaseServerClient(options?: { forceRealIfConfigured?: boolean }) {
+export async function createSupabaseServerClient(
+  _options?: { forceRealIfConfigured?: boolean }
+) {
   const cookieStore = await cookies();
 
-  // When mock mode is active via NEXT_PUBLIC_USE_MOCK, forceRealIfConfigured has no effect.
-  const effectiveOptions = isMockModeEnabled()
-    ? { ...options, forceRealIfConfigured: false }
-    : options;
-
-  const mockUserId = cookieStore.get(MOCK_SESSION_COOKIE)?.value;
-  const hasMockSession = Boolean(
-    isMockModeEnabled() &&
-      !effectiveOptions?.forceRealIfConfigured &&
-      mockUserId &&
-      getMockStore().users.some((u) => u.id === mockUserId)
-  );
-
-  const allCookies = cookieStore.getAll();
-  const hasRealSbCookie = allCookies.some(
-    (c) => c.name.startsWith('sb-') && c.name.includes('-auth-token')
-  );
-
-  // If browser blocked cookies in cross-origin preview iframe, fall back to active server-side preview session
-  if (
-    !isMockModeEnabled() &&
-    !effectiveOptions?.forceRealIfConfigured &&
-    !hasRealSbCookie &&
-    !hasMockSession
-  ) {
-    const fallback = getPreviewFallbackSession();
-    if (fallback) {
-      if (fallback.isMock && isMockModeEnabled()) {
-        return createMockSupabaseClient({
-          getCookie: (name) =>
-            name === MOCK_SESSION_COOKIE ? fallback.user.id : cookieStore.get(name)?.value,
-          setCookie: (name, value) => {
-            try {
-              cookieStore.set(name, value, MOCK_COOKIE_OPTS);
-            } catch {
-              // ignore
-            }
-          },
-          deleteCookie: (name) => {
-            if (name === MOCK_SESSION_COOKIE) clearPreviewFallbackSession();
-            try {
-              cookieStore.delete({ name, ...MOCK_COOKIE_OPTS });
-            } catch {
-              // ignore
-            }
-          },
-        }) as unknown as ReturnType<typeof createServerClient<Database>>;
-      }
-
-      const adminDb = createSupabaseAdminClient();
-      return {
-        from(table: string) {
-          return adminDb.from(table as never);
-        },
-        auth: {
-          async getUser() {
-            return { data: { user: fallback.user }, error: null };
-          },
-          async signOut() {
-            clearPreviewFallbackSession();
-            return { error: null };
-          },
-          async updateUser(attrs: { data?: Record<string, unknown> }) {
-            if (attrs.data) {
-              fallback.user.user_metadata = {
-                ...fallback.user.user_metadata,
-                ...attrs.data,
-              };
-            }
-            return { data: { user: fallback.user }, error: null };
-          },
-          async exchangeCodeForSession() {
-            return { data: { session: null }, error: null };
-          },
-        },
-      } as unknown as ReturnType<typeof createServerClient<Database>>;
-    }
-  }
-
-  if (isMockModeEnabled() || hasMockSession) {
+  // Mock data is an opt-in local-development feature only. It is disabled in
+  // production, even if NEXT_PUBLIC_USE_MOCK is accidentally configured.
+  if (isMockModeEnabled()) {
     return createMockSupabaseClient({
       getCookie: (name) => cookieStore.get(name)?.value,
       setCookie: (name, value) => {
         try {
-          cookieStore.set(name, value, MOCK_COOKIE_OPTS);
+          cookieStore.set(name, value, MOCK_COOKIE_OPTIONS);
         } catch {
-          // ignore in read-only Server Components
+          // Server Components expose a read-only cookie store.
         }
       },
       deleteCookie: (name) => {
         try {
-          cookieStore.delete({ name, ...MOCK_COOKIE_OPTS });
+          cookieStore.delete({ name, ...MOCK_COOKIE_OPTIONS });
         } catch {
-          // ignore
+          // Server Components expose a read-only cookie store.
         }
       },
     }) as unknown as ReturnType<typeof createServerClient<Database>>;
@@ -148,48 +54,45 @@ export async function createSupabaseServerClient(options?: { forceRealIfConfigur
   }
 
   const url = getSupabaseUrl();
-  const anonKey = getSupabaseAnonKey();
+  const publishableKey = getSupabasePublishableKey();
 
-  return createServerClient<Database>(
-    url,
-    anonKey,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          try {
-            // Use Supabase's own cookie options — do NOT override with partitioned/sameSite
-            // since those break session reads in Server Actions on first-party production domains.
-            cookiesToSet.forEach(({ name, value, options: cookieOptions }) => {
-              cookieStore.set(name, value, {
-                ...cookieOptions,
-                httpOnly: false,
-              });
+  return createServerClient<Database>(url, publishableKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet, _cacheHeaders) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, {
+              ...options,
+              httpOnly: false,
             });
-          } catch {
-            // setAll called from a Server Component — cookies are read-only.
-            // The session will still be refreshed via the middleware.
-          }
-        },
+          });
+        } catch {
+          // Server Components cannot write cookies. The middleware refreshes
+          // sessions and applies @supabase/ssr cache headers to the response.
+        }
       },
-      global: {
-        fetch: async (fetchUrl, fetchOptions) => {
-          const res = await fetch(fetchUrl, { ...fetchOptions, cache: 'no-store' });
-          if (res.status === 401 || res.status === 403) {
-            try {
-              const text = await res.clone().text();
-              if (text.toLowerCase().includes('invalid api key')) {
-                markSupabaseKeyInvalid(anonKey);
-              }
-            } catch {
-              // ignore
+    },
+    global: {
+      fetch: async (fetchUrl, fetchOptions) => {
+        const response = await fetch(fetchUrl, {
+          ...fetchOptions,
+          cache: 'no-store',
+        });
+        if (response.status === 401 || response.status === 403) {
+          try {
+            const body = await response.clone().text();
+            if (body.toLowerCase().includes('invalid api key')) {
+              markSupabaseKeyInvalid(publishableKey);
             }
+          } catch {
+            // Ignore diagnostic body read errors.
           }
-          return res;
-        },
+        }
+        return response;
       },
-    }
-  );
+    },
+  });
 }
