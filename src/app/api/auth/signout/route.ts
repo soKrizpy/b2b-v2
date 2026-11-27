@@ -1,11 +1,9 @@
 // src/app/api/auth/signout/route.ts
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { MOCK_SESSION_COOKIE, clearPreviewFallbackSession } from '@/lib/supabase/mock';
+import { MOCK_SESSION_COOKIE } from '@/lib/supabase/mock';
 
 export async function POST() {
-  clearPreviewFallbackSession();
-
   try {
     const supabase = await createSupabaseServerClient();
     await supabase.auth.signOut();
