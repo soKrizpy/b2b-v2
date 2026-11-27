@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            error: `Koneksi ke Supabase gagal (${errMsg}). Periksa NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY.`,
+            error: `Koneksi ke Supabase gagal (${errMsg}). Periksa NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.`,
           },
           { status: 500 }
         );
