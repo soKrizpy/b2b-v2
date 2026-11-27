@@ -3,9 +3,10 @@
 
 import {
   getSupabaseUrl,
-  getSupabaseAnonKey,
-  getSupabaseServiceRoleKey,
-  isValidSupabaseKey,
+  getSupabasePublishableKey,
+  getSupabaseSecretKey,
+  isValidSupabasePublishableKey,
+  isValidSupabaseSecretKey,
 } from './mock';
 
 export interface MaskedEnvCheck {
@@ -22,8 +23,8 @@ export interface SupabaseConfigDiagnostic {
     maskedValue: string;
     validHttpUrl: boolean;
   };
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: MaskedEnvCheck;
-  SUPABASE_SERVICE_ROLE_KEY: MaskedEnvCheck;
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: MaskedEnvCheck;
+  SUPABASE_SECRET_KEY: MaskedEnvCheck;
 }
 
 function maskSecret(val: string): string {
@@ -34,8 +35,8 @@ function maskSecret(val: string): string {
 
 export function verifySupabaseConfig(): SupabaseConfigDiagnostic {
   const cleanUrl = getSupabaseUrl();
-  const cleanAnon = getSupabaseAnonKey();
-  const cleanService = getSupabaseServiceRoleKey();
+  const cleanAnon = getSupabasePublishableKey();
+  const cleanService = getSupabaseSecretKey();
 
   const diagnostic: SupabaseConfigDiagnostic = {
     NEXT_PUBLIC_SUPABASE_URL: {
@@ -43,19 +44,19 @@ export function verifySupabaseConfig(): SupabaseConfigDiagnostic {
       maskedValue: cleanUrl || '<undefined>',
       validHttpUrl: cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://'),
     },
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: {
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: {
       defined: Boolean(cleanAnon),
       maskedValue: maskSecret(cleanAnon),
-      rawLength: (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? cleanAnon).length,
+      rawLength: (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? cleanAnon).length,
       sanitizedLength: cleanAnon.length,
-      validFormat: isValidSupabaseKey(cleanAnon),
+      validFormat: isValidSupabasePublishableKey(cleanAnon),
     },
-    SUPABASE_SERVICE_ROLE_KEY: {
+    SUPABASE_SECRET_KEY: {
       defined: Boolean(cleanService),
       maskedValue: maskSecret(cleanService),
-      rawLength: (process.env.SUPABASE_SERVICE_ROLE_KEY ?? cleanService).length,
+      rawLength: (process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? cleanService).length,
       sanitizedLength: cleanService.length,
-      validFormat: isValidSupabaseKey(cleanService),
+      validFormat: isValidSupabaseSecretKey(cleanService),
     },
   };
 
