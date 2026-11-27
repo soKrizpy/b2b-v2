@@ -6,6 +6,8 @@ import {
   getSupabaseUrl,
   isSupabaseConfigured,
   isValidServiceRoleJwt,
+  isValidSupabasePublishableKey,
+  isValidSupabaseSecretKey,
 } from '@/lib/supabase/mock';
 
 function legacyJwt(role: 'anon' | 'service_role'): string {
@@ -55,6 +57,11 @@ describe('Supabase configuration fails closed', () => {
     expect(getSupabaseSecretKey()).toBe(serviceRole);
     expect(isValidServiceRoleJwt(serviceRole)).toBe(true);
     expect(isSupabaseConfigured()).toBe(true);
+  });
+
+  it('rejects malformed modern API keys with invalid key lengths', () => {
+    expect(isValidSupabasePublishableKey('sb_publishable_short_bad')).toBe(false);
+    expect(isValidSupabaseSecretKey('sb_secret_short_bad')).toBe(false);
   });
 
   it('does not accept a secret key as a browser publishable key', () => {
