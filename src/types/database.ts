@@ -404,6 +404,11 @@ export type Database = {
           duration_days: number
           expires_at: string
           id: number
+          image_url: string | null
+          is_active: boolean
+          target: string
+          title: string
+          urgency: string
         }
         Insert: {
           content: string
@@ -411,6 +416,11 @@ export type Database = {
           duration_days?: number
           expires_at: string
           id?: number
+          image_url?: string | null
+          is_active?: boolean
+          target?: string
+          title?: string
+          urgency?: string
         }
         Update: {
           content?: string
@@ -418,6 +428,11 @@ export type Database = {
           duration_days?: number
           expires_at?: string
           id?: number
+          image_url?: string | null
+          is_active?: boolean
+          target?: string
+          title?: string
+          urgency?: string
         }
         Relationships: []
       }
