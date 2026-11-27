@@ -1,11 +1,7 @@
 // src/lib/supabase/admin.ts
 import 'server-only';
-// Service-role / hybrid Supabase client for Server Components, Server Actions, and Route Handlers.
-// - When a valid service_role JWT is configured and no mock user cookie is active, queries real Supabase.
-// - When a real Supabase user is logged in (via sb-*-auth-token cookie) and service_role key is absent/invalid,
-//   forwards the user's authenticated JWT in Authorization header so RLS policies see auth.uid().
-// - When a built-in demo/mock user is logged in (b2b_mock_user_id cookie) or no real Supabase session/service_role
-//   is active, executes against the in-memory mock store so Admin, Teacher, and Student features work seamlessly.
+// Server-only privileged client. Prefer the current Supabase secret key; use a
+// validated user JWT for RLS-scoped calls when no secret key is configured.
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
@@ -160,15 +156,14 @@ function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
   const publishableKey = getSupabasePublishableKey();
   const secretKey = getSupabaseSecretKey();
 
-  const isSecretKey =
-    authToken === secretKey || authToken.startsWith('sb_secret_');
-  const keyToUse = isSecretKey ? secretKey : publishableKey;
+  const isAdminKey = authToken === secretKey;
+  const isModernSecretKey = isAdminKey && authToken.startsWith('sb_secret_');
+  const keyToUse = isAdminKey ? secretKey : publishableKey;
   const headers: Record<string, string> = { apikey: keyToUse };
 
-  // Modern sb_secret_* keys are opaque API keys, not JWTs. They must never be
-  // sent as Authorization: Bearer. Supabase Auth user tokens and legacy
-  // service_role JWTs remain valid Bearer tokens.
-  if (!isSecretKey) {
+  // Let supabase-js handle API-key fallback for modern opaque keys. Legacy JWT
+  // service_role keys and user access tokens still need their Bearer header.
+  if (!isModernSecretKey) {
     headers.Authorization = `Bearer ${authToken}`;
   }
 
@@ -176,6 +171,7 @@ function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
+      detectSessionInUrl: false,
     },
     global: {
       headers,
@@ -405,7 +401,7 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'error') {
             return { data: { user: null }, error: { message: target.message } };
           }
-          const serviceKey = getSupabaseServiceRoleKey();
+          const serviceKey = getSupabaseSecretKey();
           if (isValidServiceRoleJwt(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
