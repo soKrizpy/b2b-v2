@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import {
   isSupabaseConfigured,
+  getSupabaseCookieOptions,
   MOCK_SESSION_COOKIE,
 } from '@/lib/supabase/mock';
 import { resolveUserRole } from '@/features/auth/lib/resolveRole';
@@ -61,28 +62,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // On localhost (HTTP), SameSite=None requires Secure which isn't available.
-    // Use Lax + no Secure flag so cookies work in dev without HTTPS.
-    const isLocalhost =
-      req.headers.get('host')?.startsWith('localhost') ||
-      req.headers.get('host')?.startsWith('127.0.0.1');
-
-    const cookieOpts = isLocalhost
-      ? {
-          path: '/',
-          sameSite: 'lax' as const,
-          secure: false,
-          httpOnly: false,
-          maxAge: 60 * 60 * 24 * 7,
-        }
-      : {
-          path: '/',
-          sameSite: 'none' as const,
-          secure: true,
-          partitioned: true,
-          httpOnly: false,
-          maxAge: 60 * 60 * 24 * 7,
-        };
+    // Match the shared Supabase SSR cookie policy used by browser and middleware.
+    const cookieOpts = getSupabaseCookieOptions();
 
     const supabase = await createSupabaseServerClient({ forceRealIfConfigured: true });
     let { data: authData, error: authError } = await supabase.auth.signInWithPassword({
