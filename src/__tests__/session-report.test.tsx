@@ -151,7 +151,7 @@ describe('completed session report editing', () => {
       success: true,
       message: 'Laporan kelas berhasil diperbarui.',
     });
-    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('test-user-id');
+    expect(state.rpcCalls[0]?.args).not.toHaveProperty('p_actor_id');
 
     const independentlyReadMeetingRow = { ...state.meeting };
     const independentlyReadStudentLinks = [...state.studentLinks];
@@ -218,7 +218,7 @@ describe('completed session report editing', () => {
     ]));
 
     await expect(updateSessionReport(null, formData)).resolves.toMatchObject({ success: true });
-    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('admin-user-id');
+    expect(state.rpcCalls[0]?.args).not.toHaveProperty('p_actor_id');
   });
 
   it('rejects a teacher who does not own the meeting before calling RPC', async () => {
@@ -263,7 +263,7 @@ describe('completed session report editing', () => {
     ]));
 
     await updateSessionReport(null, formData);
-    expect(state.rpcCalls[0]?.args.p_actor_id).toBe('verified-session-user');
+    expect(state.rpcCalls[0]?.args).not.toHaveProperty('p_actor_id');
   });
 
   it('rejects invalid attendance before calling RPC', async () => {
