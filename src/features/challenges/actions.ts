@@ -59,10 +59,11 @@ async function isTeacherAssignedToStudent(
   studentId: string
 ): Promise<boolean> {
   const { data: directAssignment, error: directError } = await db
-    .from('teacher_students')
+    .from('tutor_student_assignments')
     .select('student_id')
-    .eq('teacher_id', teacherId)
+    .eq('tutor_id', teacherId)
     .eq('student_id', studentId)
+    .eq('status', 'active')
     .maybeSingle();
   if (directError) return false;
   if (directAssignment) return true;
