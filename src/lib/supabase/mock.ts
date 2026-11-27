@@ -549,7 +549,7 @@ export function isSupabaseAdminConfigured(): boolean {
   const secureUrl = url.startsWith('https://');
   const localUrl =
     process.env.NODE_ENV !== 'production' &&
-    /^http:\/\/(localhost|127\.0\.0\.1)(:\\d+)?$/.test(url);
+    /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(url);
   return Boolean((secureUrl || localUrl) && isValidSupabaseSecretKey(getSupabaseSecretKey()));
 }
 
