@@ -8,6 +8,7 @@ import {
   isSupabaseConfigured,
   getSupabaseUrl,
   getSupabasePublishableKey,
+  getSupabaseCookieOptions,
   createMockSupabaseClient,
   isMockModeEnabled,
 } from './mock';
@@ -39,15 +40,11 @@ export function createSupabaseBrowserClient() {
     );
   }
 
-  const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-
   return createBrowserClient<Database>(
     getSupabaseUrl(),
     getSupabasePublishableKey(),
     {
-      cookieOptions: isHttps
-        ? { path: '/', sameSite: 'none', secure: true }
-        : { path: '/', sameSite: 'lax' },
+      cookieOptions: getSupabaseCookieOptions(),
     }
   );
 }
