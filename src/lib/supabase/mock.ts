@@ -159,17 +159,19 @@ function legacyJwtHasRole(key: string, expectedRole: 'anon' | 'service_role'): b
   }
 }
 
+export function isValidSupabasePublishableKey(raw: string | undefined): boolean {
+  const key = sanitizeEnvVal(raw);
+  if (key.startsWith('sb_publishable_')) return isValidSupabaseKey(key);
+  return isValidSupabaseKey(key) && legacyJwtHasRole(key, 'anon');
+}
+
 /** Prefer the modern publishable key; accept only a legacy anon JWT as fallback. */
 export function getSupabasePublishableKey(): string {
   const modernKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
-  if (modernKey.startsWith('sb_publishable_') && isValidSupabaseKey(modernKey)) {
-    return modernKey;
-  }
+  if (isValidSupabasePublishableKey(modernKey)) return modernKey;
 
   const legacyKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-  return isValidSupabaseKey(legacyKey) && legacyJwtHasRole(legacyKey, 'anon')
-    ? legacyKey
-    : '';
+  return isValidSupabasePublishableKey(legacyKey) ? legacyKey : '';
 }
 
 /** @deprecated Use getSupabasePublishableKey(). */
@@ -177,17 +179,19 @@ export function getSupabaseAnonKey(): string {
   return getSupabasePublishableKey();
 }
 
+export function isValidSupabaseSecretKey(raw: string | undefined): boolean {
+  const key = sanitizeEnvVal(raw);
+  if (key.startsWith('sb_secret_')) return isValidSupabaseKey(key);
+  return isValidSupabaseKey(key) && legacyJwtHasRole(key, 'service_role');
+}
+
 /** Prefer the modern server secret; accept only a legacy service_role JWT as fallback. */
 export function getSupabaseSecretKey(): string {
   const modernKey = sanitizeEnvVal(process.env.SUPABASE_SECRET_KEY);
-  if (modernKey.startsWith('sb_secret_') && isValidSupabaseKey(modernKey)) {
-    return modernKey;
-  }
+  if (isValidSupabaseSecretKey(modernKey)) return modernKey;
 
   const legacyKey = sanitizeEnvVal(process.env.SUPABASE_SERVICE_ROLE_KEY);
-  return isValidSupabaseKey(legacyKey) && legacyJwtHasRole(legacyKey, 'service_role')
-    ? legacyKey
-    : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+  return isValidSupabaseSecretKey(legacyKey) ? legacyKey : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
 }
 
 /** @deprecated Use getSupabaseSecretKey(). */
@@ -557,13 +561,7 @@ export function isValidServiceRoleJwt(raw?: string): boolean {
   const k = sanitizeEnvVal(raw ?? getSupabaseServiceRoleKey());
   if (!k) return false;
   if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
-  if (k.startsWith('sb_secret_')) return k.length > 20;
-  return (
-    k.startsWith('eyJ') &&
-    k.split('.').length === 3 &&
-    k.length > 80 &&
-    legacyJwtHasRole(k, 'service_role')
-  );
+  return isValidSupabaseSecretKey(k);
 }
 
 export function isSupabaseAdminConfigured(): boolean {
