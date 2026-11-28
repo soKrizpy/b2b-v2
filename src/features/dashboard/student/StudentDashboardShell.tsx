@@ -38,7 +38,8 @@ interface SessionItem {
 interface Props {
   studentName: string;
   upcoming: SessionItem[];
-  past: SessionItem[];
+  upcomingCount: number;
+  pastCount: number;
   quizBanner?: ReactNode;
   avatarContent?: ReactNode;
   learningSummaryContent?: ReactNode;
@@ -67,7 +68,8 @@ function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }
 export function StudentDashboardShell({
   studentName,
   upcoming,
-  past,
+  upcomingCount,
+  pastCount,
   quizBanner,
   avatarContent,
   learningSummaryContent,
@@ -153,12 +155,12 @@ export function StudentDashboardShell({
                   <div className="flex items-center gap-1.5 bg-emerald-500/20 backdrop-blur-md text-emerald-200 dark:text-emerald-300
                     rounded-2xl px-3 py-1.5 text-xs font-black border border-emerald-400/30 dark:border-emerald-500/25">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300 dark:text-emerald-400" />
-                    {past.length} Tuntas
+                    {pastCount} Tuntas
                   </div>
                   <div className="flex items-center gap-1.5 bg-white/20 dark:bg-sky-500/15 backdrop-blur-md text-white dark:text-sky-300
                     rounded-2xl px-3 py-1.5 text-xs font-black border border-white/30 dark:border-sky-500/25">
                     <Clock className="w-3.5 h-3.5 text-sky-200 dark:text-sky-400" />
-                    {upcoming.length} Menanti
+                    {upcomingCount} Menanti
                   </div>
                 </div>
               </div>
