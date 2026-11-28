@@ -254,7 +254,12 @@ export async function getSessionsForStudent(
   const db = createSupabaseAdminClient();
   const { data, error } = await db
     .from('meetings')
-    .select(MEETING_SELECT_INNER)
+    .select(`
+      id, title, meeting_date, link_url, notes,
+      session_count, session_number, series_id, module_id,
+      is_completed, created_at,
+      meeting_students!inner ( student_id )
+    `)
     .eq('meeting_students.student_id', studentId)
     .order('meeting_date', { ascending: true });
 
@@ -309,15 +314,15 @@ export async function getSessionById(
 
 /**
  * All teachers as { id, full_name, email } — for admin select dropdowns.
- * Reads profiles table directly (including email column if present), and only
- * calls auth.admin.listUsers if any teacher row is missing an email.
+ * Email is read from the existing profile row to avoid an Auth Admin listUsers
+ * request (which would enumerate users unnecessarily on every dashboard load).
  */
 export async function getTeacherOptions(): Promise<TeacherOption[]> {
   const db = createSupabaseAdminClient();
 
-  const { data: profiles, error } = await db
+  const { data, error } = await db
     .from('profiles')
-    .select('id, role, full_name, created_at')
+    .select('id, full_name, email')
     .eq('role', 'teacher')
     .order('full_name', { ascending: true });
 
@@ -326,25 +331,7 @@ export async function getTeacherOptions(): Promise<TeacherOption[]> {
     return [];
   }
 
-  const rows = (profiles ?? []) as unknown as Array<{
-    id: string;
-    full_name: string | null;
-  }>;
-
-  // Always fetch emails from auth.admin since profiles table doesn't have an email column
-  let emailMap = new Map<string, string>();
-  if (rows.length > 0) {
-    const { data: authList } = await db.auth.admin.listUsers({ perPage: 1000 });
-    emailMap = new Map<string, string>(
-      (authList?.users ?? []).map((u) => [u.id, u.email ?? ''])
-    );
-  }
-
-  return rows.map((row) => ({
-    id: row.id,
-    full_name: row.full_name,
-    email: emailMap.get(row.id) ?? null,
-  }));
+  return (data ?? []) as TeacherOption[];
 }
 
 // ── Students ─────────────────────────────────────────────────────────────────
