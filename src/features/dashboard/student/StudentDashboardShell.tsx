@@ -5,38 +5,21 @@
 // Col Right: Student Avatar & Progress
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { StudentAvatarCard } from '@/features/dashboard/student/StudentAvatarCard';
 import { AnnouncementBanner } from '@/features/announcements/components/AnnouncementBanner';
-import { getAdventurerTitle } from '@/features/dashboard/student/adventurerTitle';
-import { calculateLevel } from '@/features/pet/lib/levelCalc';
 import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
 import { FEATURE_FLAGS } from '@/lib/featureConfig';
-import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
-import type { CertificateWithModule } from '@/features/certificates/queries';
-import type { InvoiceRow } from '@/types/database';
-import type { TopicProgressSummary, ModuleWithTopics } from '@/features/curriculum/queries';
 
-const BillingNoticeModal = dynamic(
-  () => import('@/features/invoices/components/BillingNoticeModal').then((mod) => mod.BillingNoticeModal),
-  { ssr: false }
-);
-const LevelUpCelebrationModal = dynamic(
-  () => import('@/features/dashboard/student/LevelUpCelebrationModal').then((mod) => mod.LevelUpCelebrationModal),
-  { ssr: false }
-);
 import {
   Sparkles,
   Compass,
   CheckCircle2,
-  Flame,
   Calendar,
   Clock,
   ChevronRight,
-  Award,
   BookOpen,
 } from 'lucide-react';
 
@@ -53,17 +36,21 @@ interface SessionItem {
 }
 
 interface Props {
-  studentName:        string;
-  upcoming:           SessionItem[];
-  past:               SessionItem[];
-  /** Topics with NEEDS_QUIZ status — drives the mission banner */
-  needsQuizTopics:    Array<{ id: number; title: string }>;
-  completedTopics?:   TopicProgressSummary[];
-  allModules?:        ModuleWithTopics[];
-  // ── Extension props (undefined when feature flag is off) ──────────────────
-  gamData?:           StudentGamificationData | null;
-  certificates?:      CertificateWithModule[];
-  invoices?:          InvoiceRow[];
+  studentName: string;
+  upcoming: SessionItem[];
+  past: SessionItem[];
+  quizBanner?: ReactNode;
+  avatarContent?: ReactNode;
+  learningSummaryContent?: ReactNode;
+  certificatesContent?: ReactNode;
+  billingContent?: ReactNode;
+  // Temporary compatibility while page switches to streamed slots.
+  needsQuizTopics?: Array<{ id: number; title: string }>;
+  completedTopics?: unknown[];
+  allModules?: unknown[];
+  gamData?: unknown;
+  certificates?: unknown[];
+  invoices?: unknown[];
 }
 
 // ── Section Header Component ─────────────────────────────────────────────────
@@ -82,74 +69,19 @@ function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }
   );
 }
 
-// ── Needs-Quiz Mission Banner ─────────────────────────────────────────────────
-
-function NeedsQuizBanner({
-  topics,
-}: {
-  topics: Array<{ id: number; title: string }>;
-}) {
-  if (topics.length === 0) return null;
-  const first = topics[0];
-
-  return (
-    <div className="rounded-2xl overflow-hidden ring-1
-      ring-amber-400/60 dark:ring-amber-500/40
-      bg-gradient-to-r from-amber-50 to-orange-50
-      dark:from-amber-950/30 dark:to-orange-950/20
-      shadow-md shadow-amber-200/40 dark:shadow-amber-900/30">
-      <div className="px-5 py-4 flex items-center gap-4 flex-wrap">
-        <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30
-          flex items-center justify-center text-xl flex-shrink-0">
-          🔥
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-black uppercase tracking-widest
-            text-amber-600 dark:text-amber-400 mb-0.5 flex items-center gap-1.5">
-            <Flame className="w-3.5 h-3.5 text-amber-500" />
-            Misi Baru Terbuka
-          </p>
-          <p className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
-            Ujian Rune <span className="text-amber-700 dark:text-amber-300">{first.title}</span> Siap Dikerjakan!
-          </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Tuntaskan untuk mengklaim EXP &amp; Koin Petualangan.
-            {topics.length > 1 && ` +${topics.length - 1} kuis lainnya menunggu.`}
-          </p>
-        </div>
-
-        <Link
-          href="/student/lessons"
-          className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5
-            rounded-2xl text-xs font-extrabold text-white
-            bg-gradient-to-r from-amber-500 to-orange-500
-            shadow-md shadow-amber-400/30 hover:shadow-amber-400/50
-            hover:-translate-y-0.5 active:scale-95 transition-all duration-150"
-        >
-          <span>Mulai Kuis</span>
-          <ChevronRight className="w-3.5 h-3.5" />
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 // ── Main Shell Component ─────────────────────────────────────────────────────
 
 export function StudentDashboardShell({
   studentName,
-  gamData = null,
-  certificates = [],
-  invoices = [],
   upcoming,
   past,
-  needsQuizTopics,
-  completedTopics = [],
-  allModules = [],
+  quizBanner,
+  avatarContent,
+  learningSummaryContent,
+  certificatesContent,
+  billingContent,
 }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [isCelebrationOpen, setIsCelebrationOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -157,10 +89,7 @@ export function StudentDashboardShell({
 
   const next = upcoming[0] ?? null;
   const hasLive = upcoming.some((m) => isLive(m.meeting_date));
-  const lvl = gamData ? calculateLevel(gamData.totalXp) : null;
-  const adventurerInfo = lvl ? getAdventurerTitle(lvl.currentLevel) : getAdventurerTitle(1);
-
-  // Next 4 schedule items (excluding town square primary slot)
+  // Keep the first upcoming session in the hero and show the next four below.
   const nextFour = upcoming.slice(1, 5);
 
   return (
@@ -168,8 +97,7 @@ export function StudentDashboardShell({
       {/* ── Announcement Banner ── */}
       {FEATURE_FLAGS.announcements && <AnnouncementBanner role="students" />}
 
-      {/* ── NEEDS_QUIZ Mission Banner ── */}
-      <NeedsQuizBanner topics={needsQuizTopics} />
+      {quizBanner}
 
       {/* ══ 2-COLUMN LAYOUT ══ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
@@ -242,59 +170,6 @@ export function StudentDashboardShell({
                 </div>
               </div>
 
-              {/* Profile inline strip */}
-              {lvl && (
-                <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-white/10">
-                  {/* Level + title */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-sm font-black text-amber-300 shadow-inner">
-                      ⭐
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-amber-300 uppercase tracking-wider leading-none">
-                        Tingkat {lvl.currentLevel}
-                      </p>
-                      <p className="text-xs font-bold text-white/90 leading-none mt-0.5">
-                        {gamData?.equippedCosmetics?.titleId ? (
-                          <span>{adventurerInfo.title}</span>
-                        ) : (
-                          adventurerInfo.title
-                        )}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Mini EXP bar */}
-                  <div className="flex-1 min-w-[120px]">
-                    <div className="flex justify-between text-[10px] text-white/60 mb-1">
-                      <span>EXP</span>
-                      <span className="font-mono">{lvl.xpInCurrentLevel}/{lvl.xpNeededThisLevel}</span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-white/20 overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-indigo-300 to-purple-300 transition-all duration-500"
-                        style={{ width: `${lvl.progressPercent}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Coins */}
-                  <div className="flex items-center gap-1.5 bg-amber-500/20 border border-amber-400/35 px-2.5 py-1 rounded-xl text-xs font-black text-amber-200">
-                    🪙 {gamData?.coins ?? 0}
-                  </div>
-
-                  {/* Celebrate button */}
-                  <button
-                    type="button"
-                    onClick={() => setIsCelebrationOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-white
-                      bg-white/15 hover:bg-white/25 border border-white/25 transition-colors"
-                  >
-                    <Sparkles className="w-3 h-3 text-amber-300" />
-                    Rayakan
-                  </button>
-                </div>
-              )}
             </div>
           </div>
 
@@ -318,124 +193,23 @@ export function StudentDashboardShell({
                 </span>
               )}
             </div>
-            {gamData ? (
-              <div className="py-1">
-                <StudentAvatarCard {...gamData} />
-              </div>
-            ) : (
-              <div className="py-6 text-center space-y-2">
-                <div className="text-3xl select-none">🧑‍🚀</div>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Avatar dan progres akan muncul setelah gamifikasi aktif.</p>
-              </div>
-            )}
+            {avatarContent ?? <div className="h-40 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />}
           </div>
 
-          {/* Misi Harian — moved here from left col */}
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40
-            p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                <Compass className="w-3.5 h-3.5 text-blue-600 dark:text-purple-400" />
-                Misi Harian
-              </span>
-              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Pembaruan 24 Jam</span>
+          {/* Misi Harian */}
+          <div className="rounded-3xl border border-blue-400/40 bg-white p-5 shadow-sm dark:border-purple-500/40 dark:bg-slate-900">
+            <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-800">
+              <span className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white"><Compass className="h-3.5 w-3.5 text-blue-600 dark:text-purple-400" /> Misi Harian</span>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Aktivitas belajar</span>
             </div>
             <div className="space-y-2">
-              <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">Presensi &amp; Masuk Kelas</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">{upcoming.length > 0 ? '1 Sesi dijadwalkan' : 'Belum ada sesi hari ini'}</p>
-                </div>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${needsQuizTopics.length > 0 ? 'bg-amber-500/20 text-amber-500 animate-pulse' : 'bg-emerald-500/20 text-emerald-500'}`}>
-                  {needsQuizTopics.length > 0 ? <Flame className="w-3.5 h-3.5" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">Tuntaskan Ujian Rune</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">{needsQuizTopics.length > 0 ? `${needsQuizTopics.length} kuis menanti` : 'Semua kuis tuntas!'}</p>
-                </div>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-600 dark:bg-purple-500/20 dark:text-purple-400 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Award className="w-3.5 h-3.5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">Cek Kondisi Companion Pet</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Beri energi dan rawat mood pet</p>
-                </div>
-              </div>
-            </div>
-            <Link href="/student/lessons" className="text-center block text-xs font-bold text-blue-600 dark:text-purple-400 hover:underline pt-1">
-              Jelajahi Peta Quest Lengkap →
-            </Link>
-          </div>
-
-          {/* Ringkasan Belajar */}
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40 p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-cyan-500" />
-                Ringkasan Belajar
-              </span>
-              <span className="text-[11px] font-mono text-cyan-500 font-bold">{completedTopics.length} Topik</span>
-            </div>
-            <div className="space-y-2 text-xs">
-              <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                <span>Modul Terbuka</span>
-                <span className="font-bold">{allModules.length} Modul</span>
-              </div>
-              <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                <span>Sertifikat Diraih</span>
-                <span className="font-bold text-amber-500">{FEATURE_FLAGS.certificates ? `${certificates.length} Lencana` : '—'}</span>
-              </div>
-              <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                <span>Status Kuis</span>
-                <span className={`font-bold ${needsQuizTopics.length > 0 ? 'text-amber-500' : 'text-emerald-500'}`}>
-                  {needsQuizTopics.length > 0 ? `${needsQuizTopics.length} Perlu Dikerjakan` : 'Tuntas Semua'}
-                </span>
-              </div>
-            </div>
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <Link href="/student/achievements" className="text-[11px] font-bold text-blue-600 dark:text-cyan-400 hover:underline flex items-center justify-between">
-                <span>Lihat Detail Target Modul</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
+              <div className="flex items-start gap-2.5 rounded-2xl border border-slate-200/60 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" /><div><p className="text-xs font-bold text-slate-800 dark:text-slate-200">Presensi &amp; Masuk Kelas</p><p className="text-[10px] text-slate-500 dark:text-slate-400">{upcoming.length > 0 ? 'Ada sesi yang menanti' : 'Belum ada sesi mendatang'}</p></div></div>
+              <Link href="/student/lessons" className="flex items-center gap-2 rounded-2xl border border-blue-200/70 bg-blue-50/70 p-3 text-xs font-bold text-blue-700 hover:bg-blue-100 dark:border-purple-500/20 dark:bg-purple-950/20 dark:text-purple-300 dark:hover:bg-purple-950/40"><BookOpen className="h-4 w-4" /> Lanjutkan belajar coding <ChevronRight className="ml-auto h-4 w-4" /></Link>
             </div>
           </div>
 
-          {/* Quick Certificates */}
-          {FEATURE_FLAGS.certificates && certificates.length > 0 && (
-            <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40 p-5 shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <Award className="w-3.5 h-3.5 text-amber-500" />
-                  Koleksi Utama
-                </span>
-                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{certificates.length} Diperoleh</span>
-              </div>
-              <div className="space-y-2">
-                {certificates.slice(0, 2).map((cert) => (
-                  <div key={cert.id} className="p-2.5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-300/40 dark:border-amber-500/30 flex items-center gap-2.5">
-                    <span className="text-lg">🏆</span>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{cert.module_title || 'Sertifikat Kelulusan'}</p>
-                      <p className="text-[10px] text-amber-600 dark:text-amber-400 font-mono">Tier {cert.tier} · Nilai {cert.score}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                <Link href="/student/achievements" className="text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:underline flex items-center justify-between">
-                  <span>Buka Semua Lencana</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          )}
+          {learningSummaryContent ?? <div className="h-32 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />}
+          {certificatesContent}
 
         </div>
       </div>
@@ -527,22 +301,7 @@ export function StudentDashboardShell({
         </section>
       )}
 
-      {/* ── Billing Notice Modal (billing flag + sent invoices) ── */}
-      {FEATURE_FLAGS.billing && invoices.length > 0 && (
-        <BillingNoticeModal invoices={invoices.filter((inv) => inv.status === 'sent')} />
-      )}
-
-      {/* ── Level-Up Celebration Modal ── */}
-      {isCelebrationOpen && (
-        <LevelUpCelebrationModal
-          isOpen
-          onClose={() => setIsCelebrationOpen(false)}
-          level={lvl?.currentLevel ?? 1}
-          totalXp={gamData?.totalXp ?? 0}
-          coins={gamData?.coins ?? 0}
-          studentName={studentName}
-        />
-      )}
+      {billingContent}
 
     </div>
   );
