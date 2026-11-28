@@ -41,14 +41,15 @@ export async function middleware(request: NextRequest) {
   const hasMockSession = Boolean(
     mockUserId && getMockStore().users.some((user) => user.id === mockUserId)
   );
+  const useRealSupabase = isSupabaseConfigured() && !hasMockSession;
 
-  const supabase = isSupabaseConfigured() && !hasMockSession
+  const supabase = useRealSupabase
     ? createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
         cookies: {
           getAll() {
             return request.cookies.getAll();
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet, cacheHeaders) {
             cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
             response = NextResponse.next({ request: { headers: requestHeaders } });
             cookiesToSet.forEach(({ name, value, options }) =>
@@ -58,6 +59,10 @@ export async function middleware(request: NextRequest) {
                 httpOnly: false,
               })
             );
+
+            // @supabase/ssr >= 0.10 passes cache headers when auth cookies change.
+            // Preserve them so a CDN cannot cache and replay a user's refreshed session.
+            cacheHeaders?.forEach((value, key) => response.headers.set(key, value));
           },
         },
       })
@@ -67,11 +72,22 @@ export async function middleware(request: NextRequest) {
         deleteCookie: (name) => response.cookies.delete({ name, ...cookieOptions }),
       });
 
-  // Refresh/validate the session cookie only. Do not resolve application roles
-  // here: profiles currently has no user-facing SELECT policy, and middleware
-  // must not trust user_metadata or a client-controlled role cookie.
+  // getClaims verifies the JWT signature and refreshes a near-expiry session.
+  // For asymmetric signing keys this avoids the extra Auth network lookup of getUser.
+  // Keep getUser for the in-memory mock client, which does not issue JWT claims.
   try {
-    await supabase.auth.getUser();
+    if (useRealSupabase) {
+      const auth = supabase.auth as typeof supabase.auth & {
+        getClaims?: () => Promise<unknown>;
+      };
+      if (auth.getClaims) {
+        await auth.getClaims();
+      } else {
+        await auth.getUser();
+      }
+    } else {
+      await supabase.auth.getUser();
+    }
   } catch {
     // Protected layouts and every Server Action / Route Handler enforce auth.
   }
