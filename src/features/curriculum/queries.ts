@@ -89,22 +89,15 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
   // Build a lookup: moduleId → enrollment status
   const statusByModule = new Map(enrollments.map((e) => [e.module_id, e.status]));
 
-  // 2. Only fetch topic_progress when there are paused enrollments (avoids unnecessary round-trip)
+  // 2. Fetch modules, published topics, and (only for paused enrollments)
+  // completed-topic progress concurrently. All three reads depend only on the
+  // enrollment result, so awaiting progress separately would add avoidable latency.
   const hasPaused = enrollments.some((e) => e.status === 'paused');
-  let completedTopicIds = new Set<number>();
-  if (hasPaused) {
-    const { data: progressRows } = await db
-      .from('topic_progress')
-      .select('topic_id')
-      .eq('student_id', studentId) as unknown as {
-        data: Array<{ topic_id: number }> | null;
-        error: unknown;
-      };
-    completedTopicIds = new Set((progressRows ?? []).map((p) => p.topic_id));
-  }
-
-  // 3. Fetch Modules and Published Topics in parallel
-  const [{ data: modules, error: modErr }, { data: topics, error: topErr }] = await Promise.all([
+  const [
+    { data: modules, error: modErr },
+    { data: topics, error: topErr },
+    progressResult,
+  ] = await Promise.all([
     db
       .from('modules')
       .select('id, title, description, level, gamification_type, is_active, created_at')
@@ -118,7 +111,20 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
       .eq('status', 'published')
       .order('order_index', { ascending: true })
       .order('id', { ascending: true }),
+    hasPaused
+      ? db
+          .from('topic_progress')
+          .select('topic_id')
+          .eq('student_id', studentId) as unknown as Promise<{
+            data: Array<{ topic_id: number }> | null;
+            error: unknown;
+          }>
+      : Promise.resolve({ data: [] as Array<{ topic_id: number }>, error: null }),
   ]);
+
+  const completedTopicIds = new Set(
+    (progressResult.data ?? []).map((progress) => progress.topic_id)
+  );
 
   if (modErr || !modules?.length) return [];
   if (topErr) { console.error('[getStudentModulesWithTopics] topics', topErr.message); }
