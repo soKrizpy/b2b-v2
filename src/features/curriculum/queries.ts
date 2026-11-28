@@ -69,7 +69,11 @@ export async function getModuleById(moduleId: number): Promise<ModuleRow | null>
  * Paused modules: returns only topics the student has completed (in topic_progress).
  * Each returned module includes enrollmentStatus so downstream consumers can branch.
  */
-export async function getStudentModulesWithTopics(studentId: string): Promise<StudentModuleWithTopics[]> {
+export async function getStudentModulesWithTopics(
+  studentId: string,
+  options: { includeChallengeCounts?: boolean } = {},
+): Promise<StudentModuleWithTopics[]> {
+  const includeChallengeCounts = options.includeChallengeCounts ?? true;
   const db = createSupabaseAdminClient();
 
   // 1. Enrolled module ids + enrollment status (active OR paused)
@@ -135,7 +139,7 @@ export async function getStudentModulesWithTopics(studentId: string): Promise<St
 
   // 4. Challenge counts per topic (filtered by topicIds in SQL)
   let challengeCountMap = new Map<number, number>();
-  if (topicIds.length > 0) {
+  if (includeChallengeCounts && topicIds.length > 0) {
     const { data: challenges } = await db
       .from('challenges')
       .select('id, topic_id')
