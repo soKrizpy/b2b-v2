@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { CyberFantasyAvatar } from '@/components/avatar/CyberFantasyAvatar';
-import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
+const CosmeticShopModal = dynamic(() => import('@/features/pet/components/CosmeticShopModal').then((module) => module.CosmeticShopModal), { ssr: false });
 import { calculateLevel } from '@/features/pet/lib/levelCalc';
 import { getAdventurerTitle } from '@/features/dashboard/student/adventurerTitle';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
