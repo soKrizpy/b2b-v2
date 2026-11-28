@@ -9,7 +9,7 @@ import { StudentAchievementBadges } from '@/features/dashboard/student/StudentAc
 import { LaurelWreathBadgeRack } from '@/features/dashboard/student/LaurelWreathBadgeRack';
 import { StudentModuleProgressChart } from '@/features/dashboard/student/StudentModuleProgressChart';
 import { CertificateBadge } from '@/features/certificates/components/CertificateBadge';
-import { getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
+import { getAdventurerTitle } from '@/features/dashboard/student/adventurerTitle';
 import { calculateLevel } from '@/features/pet/lib/levelCalc';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';

@@ -4,6 +4,7 @@
 
 import { useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
+import { getAdventurerTitle } from './adventurerTitle';
 
 interface Props {
   isOpen: boolean;
@@ -12,23 +13,6 @@ interface Props {
   totalXp: number;
   coins: number;
   studentName?: string;
-}
-
-// ── RPG Adventurer Titles based on level ─────────────────────────────────────
-export function getAdventurerTitle(lvl: number): { title: string; subtitle: string; icon: string } {
-  if (lvl >= 10) {
-    return { title: 'Archmage Cyber Realm', subtitle: 'Penguasa Tertinggi Arsitektur Kode', icon: '👑' };
-  }
-  if (lvl >= 7) {
-    return { title: 'Master Rune Komputasi', subtitle: 'Ahli Logika & Pemecah Masalah Kompleks', icon: '🔮' };
-  }
-  if (lvl >= 5) {
-    return { title: 'Pendekar Logika Biner', subtitle: 'Pemberani Algoritma & Petualang Hebat', icon: '⚔️' };
-  }
-  if (lvl >= 3) {
-    return { title: 'Penjelajah Algoritma', subtitle: 'Penjelajah Pulau Logika & Loop Misterius', icon: '🧭' };
-  }
-  return { title: 'Pemula Pengembara Kode', subtitle: 'Langkah Pertama Menembus Gerbang Bits2Bytes', icon: '🌱' };
 }
 
 // ── Web Audio Synth Fanfare (Zero external asset latency) ─────────────────────

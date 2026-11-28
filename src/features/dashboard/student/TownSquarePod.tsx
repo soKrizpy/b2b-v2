@@ -12,12 +12,20 @@
 //   - Countdown Gate: Counts down to start time; unlocks 5 minutes before start (and remains active during class)
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import type { TownSquareMeeting, TownSquareSeat } from '@/features/sessions/queries';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
-import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
-import { PeerInspectModal } from '@/features/dashboard/student/modals/PeerInspectModal';
 import { CyberFantasyAvatar } from '@/components/avatar/CyberFantasyAvatar';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
+
+const CosmeticShopModal = dynamic(
+  () => import('@/features/pet/components/CosmeticShopModal').then((mod) => mod.CosmeticShopModal),
+  { ssr: false }
+);
+const PeerInspectModal = dynamic(
+  () => import('@/features/dashboard/student/modals/PeerInspectModal').then((mod) => mod.PeerInspectModal),
+  { ssr: false }
+);
 
 interface Props {
   meeting:      TownSquareMeeting | null;

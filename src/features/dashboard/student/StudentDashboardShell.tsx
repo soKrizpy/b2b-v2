@@ -5,23 +5,35 @@
 // Col Right (1/3): Cyber Pet Companion - Misi Harian - Ringkasan Belajar - Koleksi Sertifikat
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { TownSquarePod } from '@/features/dashboard/student/TownSquarePod';
 import { CyberPetWidget } from '@/features/pet/components/CyberPetWidget';
-import { BillingNoticeModal } from '@/features/invoices/components/BillingNoticeModal';
 import { AnnouncementBanner } from '@/features/announcements/components/AnnouncementBanner';
-import { LevelUpCelebrationModal, getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
+import { getAdventurerTitle } from '@/features/dashboard/student/adventurerTitle';
 import { calculateLevel } from '@/features/pet/lib/levelCalc';
 import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
-import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
 import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import type { TownSquareMeeting } from '@/features/sessions/queries';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
 import type { InvoiceRow } from '@/types/database';
 import type { TopicProgressSummary, ModuleWithTopics } from '@/features/curriculum/queries';
+
+const BillingNoticeModal = dynamic(
+  () => import('@/features/invoices/components/BillingNoticeModal').then((mod) => mod.BillingNoticeModal),
+  { ssr: false }
+);
+const LevelUpCelebrationModal = dynamic(
+  () => import('@/features/dashboard/student/LevelUpCelebrationModal').then((mod) => mod.LevelUpCelebrationModal),
+  { ssr: false }
+);
+const CosmeticShopModal = dynamic(
+  () => import('@/features/pet/components/CosmeticShopModal').then((mod) => mod.CosmeticShopModal),
+  { ssr: false }
+);
 import {
   Sparkles,
   ShoppingBag,
@@ -553,14 +565,16 @@ export function StudentDashboardShell({
       )}
 
       {/* ── Level-Up Celebration Modal ── */}
-      <LevelUpCelebrationModal
-        isOpen={isCelebrationOpen}
-        onClose={() => setIsCelebrationOpen(false)}
-        level={lvl?.currentLevel ?? 1}
-        totalXp={gamData?.totalXp ?? 0}
-        coins={gamData?.coins ?? 0}
-        studentName={studentName}
-      />
+      {isCelebrationOpen && (
+        <LevelUpCelebrationModal
+          isOpen
+          onClose={() => setIsCelebrationOpen(false)}
+          level={lvl?.currentLevel ?? 1}
+          totalXp={gamData?.totalXp ?? 0}
+          coins={gamData?.coins ?? 0}
+          studentName={studentName}
+        />
+      )}
 
       {/* ── Cosmetic Shop & Dressing Room Modal ── */}
       {FEATURE_FLAGS.gamification && mounted && isShopModalOpen && gamData && (
