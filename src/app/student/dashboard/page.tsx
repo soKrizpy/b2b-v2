@@ -25,9 +25,25 @@ export default async function StudentDashboardPage() {
   const studentName: string =
     user.user_metadata?.full_name?.split(" ")[0] ?? "Kamu";
 
-  // ── Dashboard data: run independent Supabase reads concurrently ────────────
-  // Previously, optional sections and Town Square were fetched one after another
-  // after the core queries. Their network latency accumulated on every page load.
+  // ── Dashboard data: overlap Quest Map with the other dashboard reads ────────
+  // Quest Map only depends on the enrolled modules. Start it as soon as that
+  // query resolves instead of waiting for meetings, progress, and optional cards.
+  const allModulesPromise = getStudentModulesWithTopics(user.id);
+  const needsQuestMap = isFeatureEnabled("questMap") || isFeatureEnabled("gamification");
+  const needsQuizTopicsPromise = needsQuestMap
+    ? allModulesPromise.then(async (modules) => {
+        const activeMod = modules.find((m) => m.enrollmentStatus === 'active') ?? null;
+        if (!activeMod) return [] as Array<{ id: number; title: string }>;
+
+        const { getQuestMapData } = await import("@/features/quiz/questMapQueries");
+        const questData = await getQuestMapData(user.id, activeMod);
+        return questData.needsQuizTopics.map((node) => ({
+          id: node.topic.id,
+          title: node.topic.title,
+        }));
+      })
+    : Promise.resolve([] as Array<{ id: number; title: string }>);
+
   const [
     meetings,
     allModules,
@@ -36,9 +52,10 @@ export default async function StudentDashboardPage() {
     certificates,
     invoices,
     townSquareMeeting,
+    needsQuizTopics,
   ] = await Promise.all([
     getSessionsForStudent(user.id),
-    getStudentModulesWithTopics(user.id),
+    allModulesPromise,
     getStudentCompletedTopics(user.id),
     isFeatureEnabled("gamification")
       ? import("@/features/pet/lib/petQueries").then(({ getStudentGamificationData }) =>
@@ -56,6 +73,7 @@ export default async function StudentDashboardPage() {
         )
       : Promise.resolve([] as InvoiceRow[]),
     getUpcomingMeetingForStudent(user.id),
+    needsQuizTopicsPromise,
   ]);
 
   const upcoming = meetings.filter(
@@ -69,20 +87,6 @@ export default async function StudentDashboardPage() {
   const accessibleModules = allModules.filter(
     (m) => m.enrollmentStatus === 'active' || m.topics.length > 0
   );
-
-  // NEEDS_QUIZ topics — only relevant when quest map progression is enabled.
-  const needsQuizTopics: Array<{ id: number; title: string }> = [];
-  if (isFeatureEnabled("questMap") || isFeatureEnabled("gamification")) {
-    // Only active modules can have NEEDS_QUIZ topics; paused modules return needsQuizTopics: []
-    const activeMod = accessibleModules.find((m) => m.enrollmentStatus === 'active') ?? null;
-    if (activeMod) {
-      const { getQuestMapData } = await import("@/features/quiz/questMapQueries");
-      const questData = await getQuestMapData(user.id, activeMod);
-      for (const node of questData.needsQuizTopics) {
-        needsQuizTopics.push({ id: node.topic.id, title: node.topic.title });
-      }
-    }
-  }
 
   return (
     <StudentDashboardShell
