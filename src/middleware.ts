@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
           getAll() {
             return request.cookies.getAll();
           },
-          setAll(cookiesToSet, cacheHeaders) {
+          setAll(cookiesToSet) {
             cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
             response = NextResponse.next({ request: { headers: requestHeaders } });
             cookiesToSet.forEach(({ name, value, options }) =>
@@ -59,10 +59,6 @@ export async function middleware(request: NextRequest) {
                 httpOnly: false,
               })
             );
-
-            // @supabase/ssr >= 0.10 passes cache headers when auth cookies change.
-            // Preserve them so a CDN cannot cache and replay a user's refreshed session.
-            cacheHeaders?.forEach((value, key) => response.headers.set(key, value));
           },
         },
       })
