@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CyberPetWidget } from '@/features/pet/components/CyberPetWidget';
+import { StudentAvatarCard } from '@/features/dashboard/student/StudentAvatarCard';
 import { BillingNoticeModal } from '@/features/invoices/components/BillingNoticeModal';
 import { AnnouncementBanner } from '@/features/announcements/components/AnnouncementBanner';
 import { LevelUpCelebrationModal, getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
@@ -14,7 +14,6 @@ import { calculateLevel } from '@/features/pet/lib/levelCalc';
 import { isLive, formatDate, formatTime } from '@/lib/formatDate';
 import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
-import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
 import { FEATURE_FLAGS } from '@/lib/featureConfig';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
@@ -312,7 +311,7 @@ export function StudentDashboardShell({
             </div>
             {gamData ? (
               <div className="py-1">
-                <CyberPetWidget {...gamData} />
+                <StudentAvatarCard {...gamData} />
               </div>
             ) : (
               <div className="py-6 text-center space-y-2">
