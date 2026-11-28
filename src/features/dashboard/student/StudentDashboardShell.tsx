@@ -186,12 +186,7 @@ export function StudentDashboardShell({
                 <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-purple-400" />
                 Avatar Petualang
               </span>
-              {lvl && (
-                <span className="text-[10px] font-black text-blue-700 dark:text-purple-300
-                  bg-blue-500/15 dark:bg-purple-500/15 px-2.5 py-0.5 rounded-full border border-blue-400/30 dark:border-purple-500/30 font-mono">
-                  Level {lvl.currentLevel}
-                </span>
-              )}
+
             </div>
             {avatarContent ?? <div className="h-40 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />}
           </div>
