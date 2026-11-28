@@ -121,7 +121,7 @@ export function sanitizeEnvVal(raw: string | undefined): string {
   return clean;
 }
 
-function isValidSupabaseKey(raw: string | undefined): boolean {
+export function isValidSupabaseKey(raw: string | undefined): boolean {
   const k = sanitizeEnvVal(raw);
   if (!k) return false;
   if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
