@@ -1,12 +1,11 @@
 'use client';
 // src/features/dashboard/student/StudentDashboardShell.tsx
 // 2-Column Student Dashboard Shell.
-// Col Left  (2/3): Hero Realm Banner (with inline profile strip & anime.js atmosphere) + Town Square Pod
-// Col Right (1/3): Cyber Pet Companion - Misi Harian - Ringkasan Belajar - Koleksi Sertifikat
+// Col Left: Hero Realm Banner + Misi/Jadwal
+// Col Right: Student Avatar - Ringkasan Belajar - Koleksi Sertifikat
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { TownSquarePod } from '@/features/dashboard/student/TownSquarePod';
 import { CyberPetWidget } from '@/features/pet/components/CyberPetWidget';
 import { BillingNoticeModal } from '@/features/invoices/components/BillingNoticeModal';
 import { AnnouncementBanner } from '@/features/announcements/components/AnnouncementBanner';
@@ -17,14 +16,12 @@ import { HeroAtmosphere } from '@/components/common/HeroAtmosphere';
 import { LiveStatusIndicator } from '@/components/common/LiveStatusIndicator';
 import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
 import { FEATURE_FLAGS } from '@/lib/featureConfig';
-import type { TownSquareMeeting } from '@/features/sessions/queries';
 import type { StudentGamificationData } from '@/features/pet/lib/petQueries';
 import type { CertificateWithModule } from '@/features/certificates/queries';
 import type { InvoiceRow } from '@/types/database';
 import type { TopicProgressSummary, ModuleWithTopics } from '@/features/curriculum/queries';
 import {
   Sparkles,
-  ShoppingBag,
   Compass,
   CheckCircle2,
   Flame,
@@ -48,7 +45,6 @@ interface SessionItem {
 }
 
 interface Props {
-  studentId:          string;
   studentName:        string;
   upcoming:           SessionItem[];
   past:               SessionItem[];
@@ -59,7 +55,6 @@ interface Props {
   // ── Extension props (undefined when feature flag is off) ──────────────────
   gamData?:           StudentGamificationData | null;
   certificates?:      CertificateWithModule[];
-  townSquareMeeting?: TownSquareMeeting | null;
   invoices?:          InvoiceRow[];
 }
 
@@ -135,11 +130,9 @@ function NeedsQuizBanner({
 // ── Main Shell Component ─────────────────────────────────────────────────────
 
 export function StudentDashboardShell({
-  studentId,
   studentName,
   gamData = null,
   certificates = [],
-  townSquareMeeting = null,
   invoices = [],
   upcoming,
   past,
@@ -149,7 +142,6 @@ export function StudentDashboardShell({
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [isCelebrationOpen, setIsCelebrationOpen] = useState(false);
-  const [isShopModalOpen, setIsShopModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -283,17 +275,6 @@ export function StudentDashboardShell({
                     🪙 {gamData?.coins ?? 0}
                   </div>
 
-                  {/* Quick Cosmetic Shop button */}
-                  <button
-                    type="button"
-                    onClick={() => setIsShopModalOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-white
-                      bg-blue-500/25 hover:bg-blue-500/40 border border-white/30 dark:bg-purple-500/30 dark:hover:bg-purple-500/45 transition-all hover:scale-105 active:scale-95 shadow-sm"
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5 text-cyan-300" />
-                    <span>Toko Kosmetik</span>
-                  </button>
-
                   {/* Celebrate button */}
                   <button
                     type="button"
@@ -309,32 +290,23 @@ export function StudentDashboardShell({
             </div>
           </div>
 
-          {/* Town Square Pod */}
-          <div className="w-full">
-            <TownSquarePod
-              meeting={townSquareMeeting}
-              gamData={gamData}
-              currentStudentId={studentId}
-            />
-          </div>
-
         </div>
 
         {/* ── RIGHT COL (1/3): Pet + Misi Harian + Ringkasan + Certs ── */}
         <div className="lg:col-span-1 space-y-6 order-2">
 
-          {/* Cyber Pet Companion Card */}
+          {/* Student Avatar & Progress Card */}
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-blue-400/40 dark:border-purple-500/40
             shadow-sm shadow-blue-500/5 dark:shadow-purple-500/5 p-5 space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <span className="text-xs font-black text-blue-600 dark:text-purple-300 uppercase tracking-widest flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-purple-400" />
-                Companion Pet
+                Avatar Petualang
               </span>
               {lvl && (
                 <span className="text-[10px] font-black text-blue-700 dark:text-purple-300
                   bg-blue-500/15 dark:bg-purple-500/15 px-2.5 py-0.5 rounded-full border border-blue-400/30 dark:border-purple-500/30 font-mono">
-                  Lvl {lvl.currentLevel}
+                  Level {lvl.currentLevel}
                 </span>
               )}
             </div>
@@ -343,9 +315,9 @@ export function StudentDashboardShell({
                 <CyberPetWidget {...gamData} />
               </div>
             ) : (
-              <div className="py-8 text-center space-y-2">
-                <div className="text-4xl select-none">🐾</div>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Cyber Pet belum diaktifkan</p>
+              <div className="py-6 text-center space-y-2">
+                <div className="text-3xl select-none">🧑‍🚀</div>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Avatar dan progres akan muncul setelah gamifikasi aktif.</p>
               </div>
             )}
           </div>
@@ -562,17 +534,6 @@ export function StudentDashboardShell({
         studentName={studentName}
       />
 
-      {/* ── Cosmetic Shop & Dressing Room Modal ── */}
-      {FEATURE_FLAGS.gamification && mounted && isShopModalOpen && gamData && (
-        <CosmeticShopModal
-          studentName={studentName}
-          coins={gamData.coins}
-          totalXp={gamData.totalXp}
-          inventory={gamData.inventory ?? []}
-          equippedCosmetics={gamData.equippedCosmetics}
-          onClose={() => setIsShopModalOpen(false)}
-        />
-      )}
     </div>
   );
 }
