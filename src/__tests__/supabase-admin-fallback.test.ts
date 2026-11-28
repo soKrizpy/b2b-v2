@@ -10,10 +10,15 @@ const state = vi.hoisted(() => ({
   realClient: null as unknown as TestClient,
   mockClient: null as unknown as TestClient,
   mockMode: false,
+  serviceKey: 'service-role-test-key',
+  createClientCalls: [] as unknown[][],
 }));
 
 vi.mock('@supabase/supabase-js', () => ({
-  createClient: vi.fn(() => state.realClient),
+  createClient: vi.fn((...args: unknown[]) => {
+    state.createClientCalls.push(args);
+    return state.realClient;
+  }),
 }));
 
 vi.mock('@/lib/supabase/mock', () => ({
@@ -21,7 +26,7 @@ vi.mock('@/lib/supabase/mock', () => ({
   isValidServiceRoleJwt: vi.fn(() => true),
   getSupabaseUrl: vi.fn(() => 'https://example.supabase.co'),
   getSupabaseAnonKey: vi.fn(() => 'public-anon-key'),
-  getSupabaseServiceRoleKey: vi.fn(() => 'service-role-test-key'),
+  getSupabaseServiceRoleKey: vi.fn(() => state.serviceKey),
   markSupabaseKeyInvalid: vi.fn(),
   createMockSupabaseClient: vi.fn(() => state.mockClient),
   getPreviewFallbackSession: vi.fn(() =>
@@ -53,6 +58,8 @@ describe('createSupabaseAdminClient fallback behavior', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     state.mockMode = false;
+    state.serviceKey = 'service-role-test-key';
+    state.createClientCalls = [];
     state.mockClient = {
       from: vi.fn(() => makeQueryResult({ data: [{ id: 'mock-row' }], error: null })),
       rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
@@ -114,6 +121,26 @@ describe('createSupabaseAdminClient fallback behavior', () => {
     const result = await createSupabaseAdminClient().auth.admin.createUser({ email: 'user@example.test' });
     expect(result.error).toBe(authError);
     expect(state.mockClient.auth.admin.createUser).not.toHaveBeenCalled();
+  });
+
+  it('uses a modern Supabase secret key as apikey without a Bearer header', async () => {
+    state.serviceKey = `sb_secret_${'a'.repeat(22)}_${'b'.repeat(8)}`;
+    state.realClient.rpc.mockResolvedValue({ data: null, error: null });
+
+    const client = createSupabaseAdminClient() as unknown as {
+      rpc: (functionName: string, args: Record<string, never>) => Promise<unknown>;
+    };
+    await client.rpc('save_meeting_report', {});
+
+    const [, apiKey, options] = state.createClientCalls[0] as [
+      string,
+      string,
+      { global: { headers: Record<string, string> } },
+    ];
+    expect(apiKey).toBe(state.serviceKey);
+    expect(options.global.headers.apikey).toBe(state.serviceKey);
+    expect(options.global.headers).not.toHaveProperty('Authorization');
+    expect(state.realClient.rpc).toHaveBeenCalledWith('save_meeting_report', {});
   });
 
   it('does not expose credentials included in a rejected RPC transport error', async () => {
