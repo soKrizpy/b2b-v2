@@ -1,22 +1,17 @@
 'use client';
-// src/features/pet/components/CyberPetWidget.tsx
-// Main-stage Cyber Pet companion widget for the Student Dashboard.
-//
-// Smooth Motion Architecture:
-//   • Butter-smooth 60/120fps GPU float & shadow breathing (hardware-composited, zero stutter)
-//   • Interactive elastic click/hover bounce via Anime.js v4 layered on inner frame
+// Student avatar card: the learner's equipped character, progress, and wardrobe.
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { animate } from 'animejs';
-import { calculateLevel, getPetStatus } from '../lib/levelCalc';
-import type { StudentGamificationData } from '../lib/petQueries';
-import { CyberPetRenderer } from '@/components/avatar/CyberPetRenderer';
+import { useState } from 'react';
+import Link from 'next/link';
+import { CyberFantasyAvatar } from '@/components/avatar/CyberFantasyAvatar';
 import { CosmeticShopModal } from '@/features/pet/components/CosmeticShopModal';
-import { ShoppingBag } from 'lucide-react';
+import { calculateLevel } from '../lib/levelCalc';
+import type { StudentGamificationData } from '../lib/petQueries';
+import { getAdventurerTitle } from '@/features/dashboard/student/LevelUpCelebrationModal';
+import { Award, BookOpen, ShoppingBag, Sparkles } from 'lucide-react';
 
-interface CyberPetWidgetProps extends StudentGamificationData {
+interface StudentAvatarCardProps extends StudentGamificationData {
   justLevelledUp?: boolean;
-  compact?: boolean;
 }
 
 export function CyberPetWidget({
@@ -26,236 +21,95 @@ export function CyberPetWidget({
   coins,
   inventory,
   equippedCosmetics,
-  justLevelledUp = false,
-  compact = false,
-}: CyberPetWidgetProps) {
-  const level  = calculateLevel(totalXp);
-  const status = getPetStatus(level.progressPercent, justLevelledUp);
-
-  const [isShopOpen, setIsShopOpen] = useState(false);
-
-  // Refs for the animated elements
-  const avatarRef = useRef<HTMLDivElement>(null);
-  const shadowRef = useRef<HTMLDivElement>(null);
-  const bounceRef = useRef<HTMLDivElement>(null);
-  const isBouncingRef = useRef(false);
-
-  // ── Anime.js v4 Idle Float & Ground Shadow Breathing ───────────────────────
-  useEffect(() => {
-    if (compact) return;
-
-    const avatarEl = avatarRef.current;
-    const shadowEl = shadowRef.current;
-    if (!avatarEl) return;
-
-    // Smooth sinusoidal floating using native Anime.js v4
-    const floatAnim = animate(avatarEl, {
-      translateY: [-7, 7],
-      rotate: [-1.2, 1.2],
-      duration: 2400,
-      alternate: true,
-      loop: true,
-      ease: 'inOutSine',
-    });
-
-    let shadowAnim: ReturnType<typeof animate> | null = null;
-    if (shadowEl) {
-      shadowAnim = animate(shadowEl, {
-        scaleX: [0.85, 1.15],
-        scaleY: [0.85, 1.15],
-        opacity: [0.18, 0.38],
-        duration: 2400,
-        alternate: true,
-        loop: true,
-        ease: 'inOutSine',
-      });
-    }
-
-    return () => {
-      try {
-        floatAnim?.pause();
-        shadowAnim?.pause();
-      } catch {
-        // Safe cleanup
-      }
-    };
-  }, [compact]);
-
-  // ── Click / Hover Interactive Bounce ───────────────────────────────────────
-  const handleBounce = useCallback(() => {
-    const el = bounceRef.current;
-    if (!el || isBouncingRef.current) return;
-
-    isBouncingRef.current = true;
-
-    animate(el, {
-      scale:    [1, 1.18, 0.94, 1.06, 1],
-      rotate:   [0, -5, 5, -2, 0],
-      duration: 550,
-      ease:     'outElastic(1, .6)',
-      onComplete: () => {
-        isBouncingRef.current = false;
-      },
-    });
-  }, []);
-
-  const activePetId = equippedCosmetics?.petId || avatarId || 'cat';
-  const activePetHat = equippedCosmetics?.petHatId || null;
+}: StudentAvatarCardProps) {
+  const [isWardrobeOpen, setIsWardrobeOpen] = useState(false);
+  const level = calculateLevel(totalXp);
+  const adventurer = getAdventurerTitle(level.currentLevel);
+  const cosmetics = equippedCosmetics ?? {};
 
   return (
     <>
-      <section
-        data-pet-widget
-        aria-label={`Cyber Pet untuk ${fullName}`}
-        className={`flex ${compact ? 'flex-row items-center gap-4' : 'flex-col items-center gap-5'}`}
-      >
-        {/* ── Avatar stage ─────────────────────────────────────────── */}
-        <div className={`flex flex-col items-center gap-2 ${compact ? '' : 'w-full'}`}>
-
-          {/* Smooth Anime.js float wrapper */}
-          <div
-            ref={avatarRef}
-            className={`relative flex-shrink-0 cursor-pointer select-none ${compact ? 'w-20 h-20' : 'w-32 h-32'}`}
-            onClick={handleBounce}
-            onMouseEnter={handleBounce}
-            role="img"
-            aria-label={`Pet ${fullName} — klik untuk berinteraksi`}
-            style={{ willChange: 'transform' }}
-          >
-            {/* Level badge */}
-            <div
-              data-pet-level-badge
-              className="absolute -top-1.5 -right-1.5 z-10 w-7 h-7 rounded-full
-                bg-blue-600 dark:bg-purple-600 text-white text-xs font-black
-                flex items-center justify-center ring-2 ring-white dark:ring-zinc-900 shadow-md"
-              aria-label={`Level ${level.currentLevel}`}
-            >
-              {level.currentLevel}
-            </div>
-
-            {/* Inner bounce container for interactive triggers */}
-            <div
-              ref={bounceRef}
-              className="w-full h-full rounded-3xl overflow-hidden
-                bg-gradient-to-br from-blue-50/80 to-indigo-100/80
-                dark:from-slate-900 dark:to-purple-950/60
-                border border-blue-300/40 dark:border-purple-500/40 shadow-lg p-2
-                flex items-center justify-center transition-shadow duration-300 hover:shadow-cyan-500/20"
-              style={{ transformOrigin: 'center center' }}
-            >
-              <CyberPetRenderer
-                petId={activePetId}
-                petHatId={activePetHat}
-                size={compact ? 'md' : 'xl'}
-                animate={false}
-              />
-            </div>
+      <section aria-label={`Avatar petualang ${fullName}`} className="space-y-4">
+        <div className="flex items-center gap-4">
+          <div className="relative shrink-0 rounded-3xl border border-blue-200 bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-100 p-3 shadow-inner dark:border-purple-500/30 dark:from-slate-800 dark:via-indigo-950/60 dark:to-purple-950/50">
+            <CyberFantasyAvatar
+              archetype={cosmetics.archetype || 'astral-knight'}
+              skinTone={cosmetics.skinTone || 'default'}
+              hatId={cosmetics.hatId !== undefined ? cosmetics.hatId : undefined}
+              outfitId={cosmetics.outfitId || 'outfit-cyber-hoodie'}
+              auraId={cosmetics.auraId || undefined}
+              size="xl"
+              animateIdle
+            />
+            <span className="absolute -right-2 -top-2 rounded-full border-2 border-white bg-indigo-600 px-2 py-1 text-[10px] font-black text-white shadow dark:border-slate-900">
+              Lv {level.currentLevel}
+            </span>
           </div>
 
-          {/* Synchronized Anime.js ground shadow */}
-          {!compact && (
-            <div
-              ref={shadowRef}
-              aria-hidden="true"
-              className="w-20 h-2.5 rounded-full bg-blue-900/15 dark:bg-purple-900/35 blur-sm"
-              style={{ transformOrigin: 'center center', willChange: 'transform, opacity' }}
-            />
-          )}
-
-          {/* Quick Wardrobe / Shop Button */}
-          {!compact && (
-            <button
-              type="button"
-              onClick={() => setIsShopOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-black
-                bg-blue-500/15 hover:bg-blue-500/25 text-blue-700 dark:bg-purple-500/20 dark:hover:bg-purple-500/30 dark:text-purple-300
-                border border-blue-400/30 dark:border-purple-500/30 transition-all hover:scale-105 active:scale-95 shadow-sm mt-1"
-            >
-              <ShoppingBag className="w-3 h-3" />
-              <span>Ganti Kostum / Toko</span>
-            </button>
-          )}
+          <div className="min-w-0 flex-1 space-y-2">
+            <div>
+              <p className="text-sm font-black text-slate-900 dark:text-white">{fullName}</p>
+              <p className="text-xs font-semibold text-indigo-600 dark:text-purple-300">{adventurer.title}</p>
+              <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                {cosmetics.archetype ? cosmetics.archetype.replaceAll('-', ' ') : 'Astral Knight'}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
+                <Sparkles className="h-3 w-3" /> {coins.toLocaleString('id-ID')} koin
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <Award className="h-3 w-3" /> {totalXp.toLocaleString('id-ID')} EXP
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* ── Stats ────────────────────────────────────────────────── */}
-        <div
-          data-pet-stats
-          className={`flex flex-col gap-3 ${compact ? 'flex-1 min-w-0' : 'w-full'}`}
-        >
-          {/* Status message */}
-          <p
-            data-pet-status
-            className="text-xs font-bold text-blue-700 dark:text-purple-300 text-center flex items-center justify-center gap-1.5"
-            aria-live="polite"
-          >
-            <i className="fa-solid fa-heart-pulse text-rose-500 fa-beat text-xs" aria-hidden="true" />
-            {status}
-          </p>
-
-          {/* XP bar */}
-          <div data-pet-xp-bar>
-            <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
-              <span className="font-semibold text-slate-700 dark:text-slate-300">
-                XP Level {level.currentLevel}
-              </span>
-              <span aria-label={`${level.xpInCurrentLevel} dari ${level.xpNeededThisLevel} XP`}>
-                {level.xpInCurrentLevel} / {level.xpNeededThisLevel}
-              </span>
-            </div>
-
-            <div
-              role="progressbar"
-              aria-valuenow={level.progressPercent}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-label={`Progress ke level ${level.currentLevel + 1}: ${level.progressPercent}%`}
-              className="h-2.5 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden"
-            >
-              <div
-                data-pet-xp-fill
-                className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500
-                  transition-[width] duration-700 ease-out"
-                style={{ width: `${level.progressPercent}%` }}
-              />
-            </div>
-
-            <p className="text-[11px] text-slate-400 mt-1 text-right">
-              Total:{' '}
-              <span data-pet-total-xp className="font-semibold text-slate-600 dark:text-slate-300">
-                {totalXp}
-              </span>{' '}
-              XP
-            </p>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+            <span>Progres ke Level {level.currentLevel + 1}</span>
+            <span>{level.xpInCurrentLevel} / {level.xpNeededThisLevel} EXP</span>
           </div>
-
-          {/* Coin counter */}
           <div
-            data-pet-coins
-            className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20
-              rounded-2xl px-4 py-2 w-fit group/coin shadow-sm"
-            aria-label={`${coins} koin`}
+            role="progressbar"
+            aria-label={`Progres level ${level.currentLevel}`}
+            aria-valuenow={level.progressPercent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="h-2.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
           >
-            <i className="fa-solid fa-coins text-amber-400 text-lg group-hover/coin:fa-bounce" aria-hidden="true" />
-            <span
-              data-pet-coin-count
-              className="text-base font-black text-amber-600 dark:text-amber-300 tabular-nums"
-            >
-              {coins.toLocaleString('id-ID')}
-            </span>
-            <span className="text-xs text-amber-600/80 dark:text-amber-300/80 font-bold">Koin</span>
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 transition-[width] duration-500"
+              style={{ width: `${level.progressPercent}%` }}
+            />
           </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setIsWardrobeOpen(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-3 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+          >
+            <ShoppingBag className="h-3.5 w-3.5" /> Ubah Avatar
+          </button>
+          <Link
+            href="/student/lessons"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-xs font-extrabold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            <BookOpen className="h-3.5 w-3.5" /> Mulai Quest
+          </Link>
         </div>
       </section>
 
-      {/* Cosmetic Shop Modal */}
-      {isShopOpen && (
+      {isWardrobeOpen && (
         <CosmeticShopModal
           studentName={fullName}
           coins={coins}
           totalXp={totalXp}
           inventory={inventory ?? []}
           equippedCosmetics={equippedCosmetics}
-          onClose={() => setIsShopOpen(false)}
+          onClose={() => setIsWardrobeOpen(false)}
         />
       )}
     </>
