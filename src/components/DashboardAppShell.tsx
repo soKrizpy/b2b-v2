@@ -384,17 +384,14 @@ export function DashboardAppShell({
         <main
           className={`flex-1 mx-auto w-full ${maxWidthClass} px-4 sm:px-6 lg:px-8 pt-6 pb-24 md:pb-12 text-[var(--foreground)]`}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activePath}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={activePath}
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.12, ease: 'easeOut' }}
+          >
+            {children}
+          </motion.div>
         </main>
       </div>
 
