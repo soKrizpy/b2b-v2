@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getSessionsForStudent, getUpcomingMeetingForStudent } from "@/features/sessions/queries";
+import { getSessionsForStudent } from "@/features/sessions/queries";
 import { getStudentModulesWithTopics, getStudentCompletedTopics } from "@/features/curriculum/queries";
 import { isUpcoming } from "@/lib/formatDate";
 import { isFeatureEnabled } from "@/lib/featureConfig";
@@ -14,7 +14,6 @@ import { StudentDashboardShell } from "@/features/dashboard/student/StudentDashb
 import type { StudentGamificationData } from "@/features/pet/lib/petQueries";
 import type { CertificateWithModule } from "@/features/certificates/queries";
 import type { InvoiceRow } from "@/types/database";
-import type { TownSquareMeeting } from "@/features/sessions/queries";
 
 export const metadata: Metadata = { title: "Dasbor Siswa — Bits2Bytes" };
 export const dynamic = "force-dynamic";
@@ -87,7 +86,6 @@ async function StudentDashboardContent({
     gamData,
     certificates,
     invoices,
-    townSquareMeeting,
     needsQuizTopics,
   ] = await Promise.all([
     getSessionsForStudent(studentId),
@@ -108,7 +106,6 @@ async function StudentDashboardContent({
           getStudentInvoices(studentId)
         )
       : Promise.resolve([] as InvoiceRow[]),
-    getUpcomingMeetingForStudent(studentId),
     needsQuizTopicsPromise,
   ]);
 
@@ -126,7 +123,6 @@ async function StudentDashboardContent({
 
   return (
     <StudentDashboardShell
-      studentId={studentId}
       studentName={studentName}
       upcoming={upcoming}
       past={past}
@@ -136,7 +132,6 @@ async function StudentDashboardContent({
       // Extension props — undefined when flag is off
       gamData={gamData}
       certificates={certificates}
-      townSquareMeeting={townSquareMeeting}
       invoices={invoices}
     />
   );
