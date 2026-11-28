@@ -355,8 +355,8 @@ export function StudentDashboardShell({
                   <Award className="w-3.5 h-3.5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">Cek Kondisi Companion Pet</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Beri energi dan rawat mood pet</p>
+                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">Pantau Progres Petualang</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Lihat level, EXP, dan koin yang sudah dikumpulkan</p>
                 </div>
               </div>
             </div>
