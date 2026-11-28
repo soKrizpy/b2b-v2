@@ -313,7 +313,7 @@ export async function getStudentDashboardSessions(studentId: string): Promise<{
   const [upcomingResult, upcomingCountResult, pastCountResult] = await Promise.all([
     db
       .from('meetings')
-      .select('id, title, meeting_date, is_completed, session_count, session_number, meeting_students!inner(student_id)', { count: 'exact' })
+      .select('id, title, meeting_date, is_completed, session_count, session_number, meeting_students!inner(student_id)')
       .eq('meeting_students.student_id', studentId)
       .eq('is_completed', false)
       .gt('meeting_date', now)
