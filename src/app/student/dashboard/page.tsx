@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getSessionsForStudent } from "@/features/sessions/queries";
-import { isUpcoming } from "@/lib/formatDate";
+import { getStudentDashboardSessions } from "@/features/sessions/queries";
 import { StudentDashboardShell } from "@/features/dashboard/student/StudentDashboardShell";
 import {
   StudentAvatarDashboardContent,
@@ -35,13 +34,12 @@ function StudentDashboardFallback({ studentName }: { studentName: string }) {
 async function StudentDashboardContent({ studentId, studentName }: { studentId: string; studentName: string }) {
   // Critical path: only the class schedule. Progress, avatar, quizzes,
   // certificates, and billing stream independently after the shell.
-  const meetings = await getSessionsForStudent(studentId);
-  const upcoming = meetings.filter((meeting) => !meeting.is_completed && isUpcoming(meeting.meeting_date));
-  const past = meetings.filter((meeting) => meeting.is_completed || !isUpcoming(meeting.meeting_date));
+  const { upcoming, upcomingCount, pastCount } = await getStudentDashboardSessions(studentId);
   return <StudentDashboardShell
     studentName={studentName}
     upcoming={upcoming}
-    past={past}
+    upcomingCount={upcomingCount}
+    pastCount={pastCount}
     quizBanner={<Suspense fallback={null}><StudentNeedsQuizBannerContent studentId={studentId} /></Suspense>}
     avatarContent={<Suspense fallback={<div className="h-44 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />}><StudentAvatarDashboardContent studentId={studentId} /></Suspense>}
     learningSummaryContent={<Suspense fallback={<div className="h-32 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />}><StudentLearningSummaryContent studentId={studentId} /></Suspense>}
