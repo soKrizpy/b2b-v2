@@ -7,8 +7,6 @@ import { StudentAvatarCard } from '@/features/dashboard/student/StudentAvatarCar
 import { getStudentCertificates } from '@/features/certificates/queries';
 import { getStudentInvoices } from '@/features/invoices/queries';
 import { BillingNoticeModal } from '@/features/invoices/components/BillingNoticeModal';
-import { calculateLevel } from '@/features/pet/lib/levelCalc';
-import { getAdventurerTitle } from '@/features/dashboard/student/adventurerTitle';
 
 const getCachedModules = cache((studentId: string) => getStudentModulesWithTopics(studentId));
 const getCachedCompletedTopics = cache((studentId: string) => getStudentCompletedTopics(studentId));
@@ -17,12 +15,7 @@ export async function StudentAvatarDashboardContent({ studentId }: { studentId: 
   if (!isFeatureEnabled('gamification')) return null;
   const gamData = await getStudentGamificationData(studentId);
   if (!gamData) return <p className="py-6 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">Data avatar belum tersedia.</p>;
-  const level = calculateLevel(gamData.totalXp);
-  const title = getAdventurerTitle(level.currentLevel);
-  return <div className="space-y-3">
-    <div className="flex items-center justify-between gap-2"><span className="rounded-full border border-blue-400/30 bg-blue-500/10 px-2.5 py-1 text-[10px] font-black text-blue-700 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-300">Level {level.currentLevel}</span><span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{title.title}</span></div>
-    <StudentAvatarCard {...gamData} />
-  </div>;
+  return <StudentAvatarCard {...gamData} />;
 }
 
 export async function StudentNeedsQuizBannerContent({ studentId }: { studentId: string }) {
