@@ -14,6 +14,8 @@ const state = vi.hoisted(() => ({
   createClientCalls: [] as unknown[][],
 }));
 
+vi.mock('server-only', () => ({}));
+
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn((...args: unknown[]) => {
     state.createClientCalls.push(args);
