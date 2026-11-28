@@ -144,22 +144,26 @@ function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
   const anonKey = getSupabaseAnonKey();
   const serviceKey = getSupabaseServiceRoleKey();
 
-  const isServiceRole =
-    authToken === serviceKey ||
-    authToken.startsWith('sb_secret_') ||
-    authToken.startsWith('sbp_');
-  const keyToUse = isServiceRole ? serviceKey : anonKey;
+  const isAdminKey = authToken === serviceKey;
+  const isModernSecretKey = isAdminKey && authToken.startsWith('sb_secret_');
+  const keyToUse = isAdminKey ? serviceKey : anonKey;
+  const headers: Record<string, string> = { apikey: keyToUse };
+
+  // Modern opaque secret keys are sent as the apikey. Do not force them into
+  // Authorization: Bearer: unlike legacy service_role JWTs, they are not JWTs.
+  // supabase-js handles the API-key fallback for modern opaque keys.
+  if (!isModernSecretKey) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
 
   return createClient<Database>(url, keyToUse, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
+      detectSessionInUrl: false,
     },
     global: {
-      headers: {
-        apikey: keyToUse,
-        Authorization: `Bearer ${authToken}`,
-      },
+      headers,
       fetch: async (fetchUrl, options) => {
         const res = await fetch(fetchUrl, { ...options, cache: 'no-store' });
         if (res.status === 401 || res.status === 403) {
