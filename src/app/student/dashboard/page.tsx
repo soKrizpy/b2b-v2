@@ -25,11 +25,37 @@ export default async function StudentDashboardPage() {
   const studentName: string =
     user.user_metadata?.full_name?.split(" ")[0] ?? "Kamu";
 
-  // ── Core fetches (always run) ──────────────────────────────────────────────
-  const [meetings, allModules, completedTopics] = await Promise.all([
+  // ── Dashboard data: run independent Supabase reads concurrently ────────────
+  // Previously, optional sections and Town Square were fetched one after another
+  // after the core queries. Their network latency accumulated on every page load.
+  const [
+    meetings,
+    allModules,
+    completedTopics,
+    gamData,
+    certificates,
+    invoices,
+    townSquareMeeting,
+  ] = await Promise.all([
     getSessionsForStudent(user.id),
     getStudentModulesWithTopics(user.id),
     getStudentCompletedTopics(user.id),
+    isFeatureEnabled("gamification")
+      ? import("@/features/pet/lib/petQueries").then(({ getStudentGamificationData }) =>
+          getStudentGamificationData(user.id)
+        )
+      : Promise.resolve(null),
+    isFeatureEnabled("certificates")
+      ? import("@/features/certificates/queries").then(({ getStudentCertificates }) =>
+          getStudentCertificates(user.id)
+        )
+      : Promise.resolve([] as CertificateWithModule[]),
+    isFeatureEnabled("billing")
+      ? import("@/features/invoices/queries").then(({ getStudentInvoices }) =>
+          getStudentInvoices(user.id)
+        )
+      : Promise.resolve([] as InvoiceRow[]),
+    getUpcomingMeetingForStudent(user.id),
   ]);
 
   const upcoming = meetings.filter(
@@ -43,33 +69,6 @@ export default async function StudentDashboardPage() {
   const accessibleModules = allModules.filter(
     (m) => m.enrollmentStatus === 'active' || m.topics.length > 0
   );
-
-  // ── Extension fetches (flag-gated) ─────────────────────────────────────────
-
-  let gamData: StudentGamificationData | null = null;
-  if (isFeatureEnabled("gamification")) {
-    const { getStudentGamificationData } = await import("@/features/pet/lib/petQueries");
-    gamData = await getStudentGamificationData(user.id);
-  }
-
-  let certificates: CertificateWithModule[] = [];
-  if (isFeatureEnabled("certificates")) {
-    const { getStudentCertificates } = await import("@/features/certificates/queries");
-    certificates = await getStudentCertificates(user.id);
-  }
-
-  let invoices: InvoiceRow[] = [];
-  if (isFeatureEnabled("billing")) {
-    const { getStudentInvoices } = await import("@/features/invoices/queries");
-    invoices = await getStudentInvoices(user.id);
-  }
-
-  // TownSquare enriches sessions with avatar seats (gamification context).
-  // Still useful for the schedule pod even without gamification, but the
-  // avatar cosmetics are stripped when gamification is off.
-  let townSquareMeeting: TownSquareMeeting | null = null;
-  const { getUpcomingMeetingForStudent: getTownSquare } = await import("@/features/sessions/queries");
-  townSquareMeeting = await getTownSquare(user.id);
 
   // NEEDS_QUIZ topics — only relevant when quest map progression is enabled.
   const needsQuizTopics: Array<{ id: number; title: string }> = [];
