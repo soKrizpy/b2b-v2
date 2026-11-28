@@ -11,7 +11,6 @@ import { getStudentModulesWithTopics, getStudentCompletedTopics } from "@/featur
 import { isUpcoming } from "@/lib/formatDate";
 import { isFeatureEnabled } from "@/lib/featureConfig";
 import { StudentDashboardShell } from "@/features/dashboard/student/StudentDashboardShell";
-import type { StudentGamificationData } from "@/features/pet/lib/petQueries";
 import type { CertificateWithModule } from "@/features/certificates/queries";
 import type { InvoiceRow } from "@/types/database";
 
