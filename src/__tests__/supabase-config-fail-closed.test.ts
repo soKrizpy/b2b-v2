@@ -5,8 +5,8 @@ import {
   isSupabaseConfigured,
 } from '@/lib/supabase/mock';
 
-// This is a syntactically valid fixture only. It is not a real project key.
-const VALID_TEST_ANON_KEY = `eyJ${'x'.repeat(90)}.${'y'.repeat(24)}.${'z'.repeat(24)}`;
+// This is a synthetic legacy anon JWT fixture only, not a real project key.
+const VALID_TEST_ANON_KEY = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify({ role: 'anon' }))}.${'z'.repeat(48)}`;
 
 afterEach(() => {
   vi.unstubAllEnvs();
