@@ -10,7 +10,7 @@ const state = vi.hoisted(() => ({
   realClient: null as unknown as TestClient,
   mockClient: null as unknown as TestClient,
   mockMode: false,
-  serviceKey: 'service-role-test-key',
+  serviceKey: `sb_secret_${'a'.repeat(22)}_${'b'.repeat(8)}`,
   createClientCalls: [] as unknown[][],
 }));
 
@@ -24,18 +24,14 @@ vi.mock('@supabase/supabase-js', () => ({
 }));
 
 vi.mock('@/lib/supabase/mock', () => ({
+  isMockModeEnabled: vi.fn(() => state.mockMode),
   isSupabaseConfigured: vi.fn(() => true),
-  isValidServiceRoleJwt: vi.fn(() => true),
+  isValidSupabaseSecretKey: vi.fn((key: string) => Boolean(key)),
   getSupabaseUrl: vi.fn(() => 'https://example.supabase.co'),
-  getSupabaseAnonKey: vi.fn(() => 'public-anon-key'),
-  getSupabaseServiceRoleKey: vi.fn(() => state.serviceKey),
+  getSupabasePublishableKey: vi.fn(() => 'sb_publishable_test_key'),
+  getSupabaseSecretKey: vi.fn(() => state.serviceKey),
   markSupabaseKeyInvalid: vi.fn(),
   createMockSupabaseClient: vi.fn(() => state.mockClient),
-  getPreviewFallbackSession: vi.fn(() =>
-    state.mockMode ? { isMock: true } : null
-  ),
-  MOCK_SESSION_COOKIE: 'b2b_mock_user_id',
-  getMockStore: vi.fn(() => ({ users: [] })),
 }));
 
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
