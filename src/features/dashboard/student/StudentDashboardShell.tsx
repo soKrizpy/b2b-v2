@@ -44,13 +44,6 @@ interface Props {
   learningSummaryContent?: ReactNode;
   certificatesContent?: ReactNode;
   billingContent?: ReactNode;
-  // Temporary compatibility while page switches to streamed slots.
-  needsQuizTopics?: Array<{ id: number; title: string }>;
-  completedTopics?: unknown[];
-  allModules?: unknown[];
-  gamData?: unknown;
-  certificates?: unknown[];
-  invoices?: unknown[];
 }
 
 // ── Section Header Component ─────────────────────────────────────────────────
