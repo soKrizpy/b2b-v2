@@ -1,37 +1,49 @@
 // src/lib/supabase/admin.ts
-// Service-role / hybrid Supabase client for Server Components, Server Actions, and Route Handlers.
-// - When a valid service_role JWT is configured and no mock user cookie is active, queries real Supabase.
-// - When a real Supabase user is logged in (via sb-*-auth-token cookie) and service_role key is absent/invalid,
-//   forwards the user's authenticated JWT in Authorization header so RLS policies see auth.uid().
-// - When a built-in demo/mock user is logged in (b2b_mock_user_id cookie) or no real Supabase session/service_role
-//   is active, executes against the in-memory mock store so Admin, Teacher, and Student features work seamlessly.
-
 import 'server-only';
+// Server-only privileged client. Prefer the current Supabase secret key; use a
+// validated user JWT for RLS-scoped calls when no secret key is configured.
 
-import { cookies } from 'next/headers';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import {
+  isMockModeEnabled,
   isSupabaseConfigured,
-  isValidServiceRoleJwt,
+  isValidSupabaseSecretKey,
   getSupabaseUrl,
-  getSupabaseAnonKey,
-  getSupabaseServiceRoleKey,
+  getSupabasePublishableKey,
+  getSupabaseSecretKey,
   markSupabaseKeyInvalid,
   createMockSupabaseClient,
-  getPreviewFallbackSession,
-  MOCK_SESSION_COOKIE,
-  getMockStore,
 } from './mock';
 
 async function getRequestCookies(): Promise<
   Array<{ name: string; value: string }>
 > {
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    return document.cookie
+      .split(';')
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => {
+        const eqIdx = part.indexOf('=');
+        if (eqIdx < 0) return { name: part, value: '' };
+        return {
+          name: part.slice(0, eqIdx).trim(),
+          value: part.slice(eqIdx + 1).trim(),
+        };
+      });
+  }
+
   try {
+    const req = eval('require') as (id: string) => {
+      cookies: () => Promise<{
+        getAll: () => Array<{ name: string; value: string }>;
+      }>;
+    };
+    const { cookies } = req('next/headers');
     const cookieStore = await cookies();
     return cookieStore.getAll();
   } catch {
-    // This client may be constructed outside a request scope (e.g. build time).
     return [];
   }
 }
@@ -95,34 +107,31 @@ function extractSupabaseSessionToken(
 }
 
 async function resolveExecutionTarget(): Promise<
-  { mode: 'mock' } | { mode: 'real'; authToken: string }
+  | { mode: 'mock' }
+  | { mode: 'real'; authToken: string }
+  | { mode: 'error'; message: string }
 > {
+  if (isMockModeEnabled()) return { mode: 'mock' };
+
   const url = getSupabaseUrl();
-  if (!url.startsWith('http') || !isSupabaseConfigured()) {
-    return { mode: 'mock' };
+  if (!url.startsWith('https://') || !isSupabaseConfigured()) {
+    return {
+      mode: 'error',
+      message: 'Supabase belum dikonfigurasi dengan URL dan publishable key yang valid.',
+    };
   }
 
   let allCookies: Array<{ name: string; value: string }> = [];
   try {
     allCookies = await getRequestCookies();
-    const mockUserId = allCookies.find(
-      (c) => c.name === MOCK_SESSION_COOKIE
-    )?.value;
-    if (mockUserId && getMockStore().users.some((u) => u.id === mockUserId)) {
-      return { mode: 'mock' };
-    }
+    // Demo cookies are ignored unless NEXT_PUBLIC_USE_MOCK=true (handled above).
   } catch {
     // Called outside request scope (e.g. build time or unstable_cache)
   }
 
-  const fallback = getPreviewFallbackSession();
-  if (fallback?.isMock) {
-    return { mode: 'mock' };
-  }
-
-  const serviceKey = getSupabaseServiceRoleKey();
-  if (isValidServiceRoleJwt(serviceKey)) {
-    return { mode: 'real', authToken: serviceKey };
+  const secretKey = getSupabaseSecretKey();
+  if (isValidSupabaseSecretKey(secretKey)) {
+    return { mode: 'real', authToken: secretKey };
   }
 
   let userAccessToken: string | null = null;
@@ -136,22 +145,24 @@ async function resolveExecutionTarget(): Promise<
     return { mode: 'real', authToken: userAccessToken };
   }
 
-  return { mode: 'mock' };
+  return {
+    mode: 'error',
+    message: 'Tidak ada sesi Supabase terverifikasi atau secret key server yang tersedia.',
+  };
 }
 
 function buildRealClientWithToken(authToken: string): SupabaseClient<Database> {
   const url = getSupabaseUrl();
-  const anonKey = getSupabaseAnonKey();
-  const serviceKey = getSupabaseServiceRoleKey();
+  const publishableKey = getSupabasePublishableKey();
+  const secretKey = getSupabaseSecretKey();
 
-  const isAdminKey = authToken === serviceKey;
+  const isAdminKey = authToken === secretKey;
   const isModernSecretKey = isAdminKey && authToken.startsWith('sb_secret_');
-  const keyToUse = isAdminKey ? serviceKey : anonKey;
+  const keyToUse = isAdminKey ? secretKey : publishableKey;
   const headers: Record<string, string> = { apikey: keyToUse };
 
-  // Modern opaque secret keys are sent as the apikey. Do not force them into
-  // Authorization: Bearer: unlike legacy service_role JWTs, they are not JWTs.
-  // supabase-js handles the API-key fallback for modern opaque keys.
+  // Let supabase-js handle API-key fallback for modern opaque keys. Legacy JWT
+  // service_role keys and user access tokens still need their Bearer header.
   if (!isModernSecretKey) {
     headers.Authorization = `Bearer ${authToken}`;
   }
@@ -289,6 +300,9 @@ class SmartAdminQueryBuilder {
     if (target.mode === 'mock') {
       return this.replayOn(mockClient);
     }
+    if (target.mode === 'error') {
+      return { data: null, error: { message: target.message } };
+    }
 
     try {
       const realClient = buildRealClientWithToken(target.authToken);
@@ -325,6 +339,9 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
       if (target.mode === 'mock') {
         return mockClient.rpc(functionName, args);
       }
+      if (target.mode === 'error') {
+        return { data: null, error: { message: target.message } };
+      }
 
       try {
         const realClient = buildRealClientWithToken(
@@ -351,8 +368,11 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'mock') {
             return mockClient.auth.admin.listUsers();
           }
-          const serviceKey = getSupabaseServiceRoleKey();
-          if (isValidServiceRoleJwt(serviceKey)) {
+          if (target.mode === 'error') {
+            return { data: { users: [] }, error: { message: target.message } };
+          }
+          const serviceKey = getSupabaseSecretKey();
+          if (isValidSupabaseSecretKey(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
               return await real.auth.admin.listUsers(params);
@@ -378,8 +398,11 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'mock') {
             return mockClient.auth.admin.createUser(attrs);
           }
-          const serviceKey = getSupabaseServiceRoleKey();
-          if (isValidServiceRoleJwt(serviceKey)) {
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
+          }
+          const serviceKey = getSupabaseSecretKey();
+          if (isValidSupabaseSecretKey(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
               return await real.auth.admin.createUser(attrs);
@@ -407,8 +430,11 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
           if (target.mode === 'mock') {
             return mockClient.auth.admin.updateUserById(id, attrs);
           }
-          const serviceKey = getSupabaseServiceRoleKey();
-          if (isValidServiceRoleJwt(serviceKey)) {
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
+          }
+          const serviceKey = getSupabaseSecretKey();
+          if (isValidSupabaseSecretKey(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
               return await real.auth.admin.updateUserById(id, attrs);
@@ -427,8 +453,11 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
         async deleteUser(id: string) {
           const target = await resolveExecutionTarget();
           if (target.mode === 'mock') return mockClient.auth.admin.deleteUser(id);
-          const serviceKey = getSupabaseServiceRoleKey();
-          if (isValidServiceRoleJwt(serviceKey)) {
+          if (target.mode === 'error') {
+            return { data: { user: null }, error: { message: target.message } };
+          }
+          const serviceKey = getSupabaseSecretKey();
+          if (isValidSupabaseSecretKey(serviceKey)) {
             try {
               const real = buildRealClientWithToken(serviceKey);
               return await real.auth.admin.deleteUser(id);
