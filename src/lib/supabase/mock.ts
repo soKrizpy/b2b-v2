@@ -121,19 +121,17 @@ export function sanitizeEnvVal(raw: string | undefined): string {
   return clean;
 }
 
-export function isValidSupabaseKey(raw: string | undefined): boolean {
+function isValidSupabaseKey(raw: string | undefined): boolean {
   const k = sanitizeEnvVal(raw);
   if (!k) return false;
   if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
   // Standard Supabase JWT key (3 base64url segments starting with eyJ)
   if (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80)
     return true;
-  // New Supabase API keys (sb_publishable_... / sb_secret_...)
-  if (
-    (k.startsWith('sb_publishable_') || k.startsWith('sb_secret_')) &&
-    k.length > 20
-  )
+  // Current hosted Supabase API key format: 22 random chars + 8-char checksum.
+  if (/^sb_(?:publishable|secret)_[A-Za-z0-9_-]{22}_[A-Za-z0-9_-]{8}$/.test(k)) {
     return true;
+  }
   return false;
 }
 
@@ -145,20 +143,58 @@ export function getSupabaseUrl(): string {
   return '';
 }
 
-export function getSupabaseAnonKey(): string {
-  const envAnon = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-  if (isValidSupabaseKey(envAnon)) {
-    return envAnon;
+function legacyJwtHasRole(key: string, expectedRole: 'anon' | 'service_role'): boolean {
+  try {
+    const payload = key.split('.')[1];
+    if (!payload) return false;
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+    const decoded = atob(padded);
+    const claims = JSON.parse(decoded) as { role?: string };
+    return claims.role === expectedRole;
+  } catch {
+    return false;
   }
-  return '';
 }
 
+export function isValidSupabasePublishableKey(raw: string | undefined): boolean {
+  const key = sanitizeEnvVal(raw);
+  if (key.startsWith('sb_publishable_')) return isValidSupabaseKey(key);
+  return isValidSupabaseKey(key) && legacyJwtHasRole(key, 'anon');
+}
+
+/** Prefer the modern publishable key; accept only a legacy anon JWT as fallback. */
+export function getSupabasePublishableKey(): string {
+  const modernKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+  if (isValidSupabasePublishableKey(modernKey)) return modernKey;
+
+  const legacyKey = sanitizeEnvVal(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return isValidSupabasePublishableKey(legacyKey) ? legacyKey : '';
+}
+
+/** @deprecated Use getSupabasePublishableKey(). */
+export function getSupabaseAnonKey(): string {
+  return getSupabasePublishableKey();
+}
+
+export function isValidSupabaseSecretKey(raw: string | undefined): boolean {
+  const key = sanitizeEnvVal(raw);
+  if (key.startsWith('sb_secret_')) return isValidSupabaseKey(key);
+  return isValidSupabaseKey(key) && legacyJwtHasRole(key, 'service_role');
+}
+
+/** Prefer the modern server secret; accept only a legacy service_role JWT as fallback. */
+export function getSupabaseSecretKey(): string {
+  const modernKey = sanitizeEnvVal(process.env.SUPABASE_SECRET_KEY);
+  if (isValidSupabaseSecretKey(modernKey)) return modernKey;
+
+  const legacyKey = sanitizeEnvVal(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return isValidSupabaseSecretKey(legacyKey) ? legacyKey : DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+}
+
+/** @deprecated Use getSupabaseSecretKey(). */
 export function getSupabaseServiceRoleKey(): string {
-  const envService = sanitizeEnvVal(process.env.SUPABASE_SERVICE_ROLE_KEY);
-  if (isValidSupabaseKey(envService)) {
-    return envService;
-  }
-  return DEFAULT_SUPABASE_SERVICE_ROLE_KEY;
+  return getSupabaseSecretKey();
 }
 
 function createInitialMockStore(): MockStore {
@@ -509,30 +545,35 @@ export function getMockStore(): MockStore {
 }
 
 export function isMockModeEnabled(): boolean {
-  return process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+  // Demo mode is intentionally unavailable in production deployments.
+  return process.env.NODE_ENV !== 'production' &&
+    process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 }
 
 export function isSupabaseConfigured(): boolean {
   if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
-  const anon = getSupabaseAnonKey();
-  return Boolean(url.startsWith('http') && isValidSupabaseKey(anon));
+  const publishableKey = getSupabasePublishableKey();
+  const isHttpsUrl = url.startsWith('https://');
+  const isLocalHttpUrl =
+    process.env.NODE_ENV !== 'production' &&
+    /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(url);
+  return Boolean((isHttpsUrl || isLocalHttpUrl) && publishableKey);
 }
 
+/** @deprecated Use isValidSupabaseSecretKey(). */
 export function isValidServiceRoleJwt(raw?: string): boolean {
-  const k = sanitizeEnvVal(raw ?? getSupabaseServiceRoleKey());
-  if (!k) return false;
-  if (globalForMock.__b2bInvalidKeys?.has(k)) return false;
-  return (
-    (k.startsWith('eyJ') && k.split('.').length === 3 && k.length > 80) ||
-    (k.startsWith('sb_secret_') && k.length > 20)
-  );
+  return isValidSupabaseSecretKey(raw ?? getSupabaseSecretKey());
 }
 
 export function isSupabaseAdminConfigured(): boolean {
   if (isMockModeEnabled()) return false;
   const url = getSupabaseUrl();
-  return Boolean(url.startsWith('http') && isValidServiceRoleJwt());
+  const secureUrl = url.startsWith('https://');
+  const localUrl =
+    process.env.NODE_ENV !== 'production' &&
+    /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(url);
+  return Boolean((secureUrl || localUrl) && isValidSupabaseSecretKey(getSupabaseSecretKey()));
 }
 
 export function matchMockUserCredentials(
