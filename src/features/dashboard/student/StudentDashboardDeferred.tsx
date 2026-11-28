@@ -8,7 +8,9 @@ import { getStudentCertificates } from '@/features/certificates/queries';
 import { getStudentInvoices } from '@/features/invoices/queries';
 import { BillingNoticeModal } from '@/features/invoices/components/BillingNoticeModal';
 
-const getCachedModules = cache((studentId: string) => getStudentModulesWithTopics(studentId));
+const getCachedModules = cache((studentId: string) =>
+  getStudentModulesWithTopics(studentId, { includeChallengeCounts: false }),
+);
 const getCachedCompletedTopics = cache((studentId: string) => getStudentCompletedTopics(studentId));
 
 export async function StudentAvatarDashboardContent({ studentId }: { studentId: string }) {
