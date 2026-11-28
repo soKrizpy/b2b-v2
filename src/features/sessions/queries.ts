@@ -291,6 +291,72 @@ export async function getSessionsForStudent(
 }
 
 /**
+ * Lightweight student dashboard schedule.
+ * Fetch only the next five future sessions; use exact-count queries for the
+ * summary badges so the dashboard does not transfer the student's full history.
+ */
+export async function getStudentDashboardSessions(studentId: string): Promise<{
+  upcoming: Array<{
+    id: number;
+    title: string;
+    meeting_date: string;
+    is_completed: boolean;
+    session_count: number;
+    session_number: number;
+  }>;
+  upcomingCount: number;
+  pastCount: number;
+}> {
+  const db = createSupabaseAdminClient();
+  const now = new Date().toISOString();
+
+  const [upcomingResult, upcomingCountResult, pastCountResult] = await Promise.all([
+    db
+      .from('meetings')
+      .select('id, title, meeting_date, is_completed, session_count, session_number, meeting_students!inner(student_id)', { count: 'exact' })
+      .eq('meeting_students.student_id', studentId)
+      .eq('is_completed', false)
+      .gt('meeting_date', now)
+      .order('meeting_date', { ascending: true })
+      .limit(5),
+    db
+      .from('meetings')
+      .select('id, meeting_students!inner(student_id)', { count: 'exact', head: true })
+      .eq('meeting_students.student_id', studentId)
+      .eq('is_completed', false)
+      .gt('meeting_date', now),
+    db
+      .from('meetings')
+      .select('id, meeting_students!inner(student_id)', { count: 'exact', head: true })
+      .eq('meeting_students.student_id', studentId)
+      .or(`is_completed.eq.true,meeting_date.lte.${now}`),
+  ]);
+
+  if (upcomingResult.error) {
+    console.error('[getStudentDashboardSessions] upcoming', upcomingResult.error.message);
+  }
+  if (upcomingCountResult.error) {
+    console.error('[getStudentDashboardSessions] upcoming count', upcomingCountResult.error.message);
+  }
+  if (pastCountResult.error) {
+    console.error('[getStudentDashboardSessions] past count', pastCountResult.error.message);
+  }
+
+  return {
+    upcoming: (upcomingResult.data ?? []).map((meeting) => ({
+      id: meeting.id,
+      title: meeting.title,
+      meeting_date: meeting.meeting_date,
+      is_completed: meeting.is_completed,
+      session_count: meeting.session_count,
+      session_number: meeting.session_number,
+    })),
+    upcomingCount: upcomingCountResult.count ?? 0,
+    pastCount: pastCountResult.count ?? 0,
+  };
+}
+
+/**
  * Single meeting by ID with its student list.
  */
 export async function getSessionById(
